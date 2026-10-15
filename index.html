@@ -349,16 +349,11 @@
 
       <!-- Action Buttons & Quick WhatsApp -->
       <div class="flex items-center gap-3">
-        <!-- Settings Modal Opener -->
-        <button onclick="window.appEngine.openSettingsModal()" title="تخصيص بيانات الشركة والواتساب" class="p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-royal-gold border border-white/10 transition-colors text-sm">
-          <i class="fa-solid fa-sliders"></i>
-        </button>
-
-        <!-- LLM Agent Doc Button -->
-        <button onclick="window.appEngine.openLlmModal()" title="معلومات الذكاء الاصطناعي llms.txt" class="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-xs font-mono border border-white/10 transition-colors">
-          <i class="fa-solid fa-robot text-royal-gold"></i>
-          <span>llms.txt</span>
-        </button>
+        <!-- Direct Call Button -->
+        <a href="tel:+966567588261" class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-white/10 transition-colors">
+          <i class="fa-solid fa-phone text-royal-gold text-xs"></i>
+          <span dir="ltr">+966 56 758 8261</span>
+        </a>
 
         <a id="navBookBtn" href="#booking-section" class="gold-gradient-bg text-royal-emeraldDark font-bold px-4 sm:px-5 py-2.5 rounded-xl shadow-gold hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2 text-xs sm:text-sm">
           <i class="fa-solid fa-bolt"></i>
@@ -653,8 +648,8 @@
           </div>
         </div>
         <div class="p-4 rounded-2xl glass-card">
-          <div class="text-2xl sm:text-3xl font-black text-royal-gold font-mono">0 SAR</div>
-          <div class="text-xs sm:text-sm text-slate-300 mt-1 font-semibold" data-i18n="stat_no_hidden">لا رسوم خفية أو مواقف مطار</div>
+          <div class="text-2xl sm:text-3xl font-black text-royal-gold font-mono">100%</div>
+          <div class="text-xs sm:text-sm text-slate-300 mt-1 font-semibold" data-i18n="stat_no_hidden">شفافية تامة بدون رسوم خفية أو مواقف</div>
         </div>
       </div>
     </div>
@@ -679,7 +674,160 @@
 
       <!-- Fleet Grid Container -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="fleetGridContainer">
-        <!-- Rendered by JavaScript dynamically -->
+        <!-- Fleet Card 1: Economy Sedan -->
+        <div class="glass-card rounded-2xl p-6 relative flex flex-col justify-between border border-white/10 group">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[11px] font-bold bg-royal-gold/15 text-royal-gold px-2.5 py-1 rounded-full border border-royal-gold/30">الأفضل للأفراد والأزواج</span>
+              <div class="w-10 h-10 rounded-xl bg-slate-800 text-royal-gold flex items-center justify-center text-lg group-hover:bg-royal-gold group-hover:text-royal-emeraldDark transition-colors">
+                <i class="fa-solid fa-car-side"></i>
+              </div>
+            </div>
+            <h3 class="text-lg font-bold font-cairo text-white mb-2">سيدان اقتصادية (تويوتا كامري / سوناتا)</h3>
+            <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 py-3 border-y border-white/5 my-3">
+              <div class="flex items-center gap-2"><i class="fa-solid fa-users text-royal-gold"></i><span>تتسع لـ 3 ركاب</span></div>
+              <div class="flex items-center gap-2"><i class="fa-solid fa-suitcase-rolling text-royal-gold"></i><span>تتسع لـ 2 حقائب</span></div>
+            </div>
+            <ul class="space-y-2 text-xs text-slate-400 mb-6">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>تكييف فائق البرودة</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>ضيافة ماء زمزم بارد</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>سائق محترف خبير بالطرق</span></li>
+            </ul>
+          </div>
+          <div class="pt-4 border-t border-white/5 flex items-center justify-between gap-3">
+            <div>
+              <span class="text-[10px] text-slate-400 block">تبدأ من (مطار جدة)</span>
+              <span class="text-lg font-black text-royal-gold font-mono fleet-price-sedan">200 SAR</span>
+            </div>
+            <button onclick="window.appEngine.pickVehicleAndBook('sedan')" class="px-4 py-2.5 rounded-xl gold-gradient-bg text-royal-emeraldDark font-bold text-xs shadow-gold hover:opacity-95 transition-transform active:scale-95 flex items-center gap-1.5">
+              <i class="fa-solid fa-calendar-check"></i><span>احجز هذه السيارة</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Fleet Card 2: Family Comfort -->
+        <div class="glass-card rounded-2xl p-6 relative flex flex-col justify-between border border-white/10 group">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[11px] font-bold bg-royal-gold/15 text-royal-gold px-2.5 py-1 rounded-full border border-royal-gold/30">الأكثر طلباً للعائلات</span>
+              <div class="w-10 h-10 rounded-xl bg-slate-800 text-royal-gold flex items-center justify-center text-lg group-hover:bg-royal-gold group-hover:text-royal-emeraldDark transition-colors">
+                <i class="fa-solid fa-van-shuttle"></i>
+              </div>
+            </div>
+            <h3 class="text-lg font-bold font-cairo text-white mb-2">عائلية مريحة (هيونداي ستاريا / H1)</h3>
+            <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 py-3 border-y border-white/5 my-3">
+              <div class="flex items-center gap-2"><i class="fa-solid fa-users text-royal-gold"></i><span>تتسع لـ 7 ركاب</span></div>
+              <div class="flex items-center gap-2"><i class="fa-solid fa-suitcase-rolling text-royal-gold"></i><span>تتسع لـ 5 حقائب</span></div>
+            </div>
+            <ul class="space-y-2 text-xs text-slate-400 mb-6">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>مقاعد مريحة فسيحة</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>مساحة حقائب كبيرة</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>واي فاي وشواحن هواتف</span></li>
+            </ul>
+          </div>
+          <div class="pt-4 border-t border-white/5 flex items-center justify-between gap-3">
+            <div>
+              <span class="text-[10px] text-slate-400 block">تبدأ من (مطار جدة)</span>
+              <span class="text-lg font-black text-royal-gold font-mono fleet-price-staria">300 SAR</span>
+            </div>
+            <button onclick="window.appEngine.pickVehicleAndBook('staria')" class="px-4 py-2.5 rounded-xl gold-gradient-bg text-royal-emeraldDark font-bold text-xs shadow-gold hover:opacity-95 transition-transform active:scale-95 flex items-center gap-1.5">
+              <i class="fa-solid fa-calendar-check"></i><span>احجز هذه السيارة</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Fleet Card 3: VIP Luxury SUV -->
+        <div class="glass-card rounded-2xl p-6 relative flex flex-col justify-between border-2 border-royal-gold/40 shadow-gold group">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[11px] font-bold bg-royal-gold text-royal-emeraldDark px-2.5 py-1 rounded-full">فخامة رجال الأعمال والوجهاء</span>
+              <div class="w-10 h-10 rounded-xl bg-royal-gold text-royal-emeraldDark flex items-center justify-center text-lg">
+                <i class="fa-solid fa-truck-monster"></i>
+              </div>
+            </div>
+            <h3 class="text-lg font-bold font-cairo text-white mb-2">فخامة VIP (جمس يوكن XL حديث 2024)</h3>
+            <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 py-3 border-y border-white/5 my-3">
+              <div class="flex items-center gap-2"><i class="fa-solid fa-users text-royal-gold"></i><span>تتسع لـ 7 ركاب</span></div>
+              <div class="flex items-center gap-2"><i class="fa-solid fa-suitcase-rolling text-royal-gold"></i><span>تتسع لـ 6 حقائب</span></div>
+            </div>
+            <ul class="space-y-2 text-xs text-slate-400 mb-6">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>جلد فاخر وهدوء تام بالمقصورة</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>تتبع رحلات المطار واستقبال VIP</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>سائق خاص VIP بلغات متعددة</span></li>
+            </ul>
+          </div>
+          <div class="pt-4 border-t border-white/5 flex items-center justify-between gap-3">
+            <div>
+              <span class="text-[10px] text-slate-400 block">تبدأ من (مطار جدة)</span>
+              <span class="text-lg font-black text-royal-gold font-mono fleet-price-yukon">450 SAR</span>
+            </div>
+            <button onclick="window.appEngine.pickVehicleAndBook('yukon')" class="px-4 py-2.5 rounded-xl gold-gradient-bg text-royal-emeraldDark font-bold text-xs shadow-gold hover:opacity-95 transition-transform active:scale-95 flex items-center gap-1.5">
+              <i class="fa-solid fa-calendar-check"></i><span>احجز هذه السيارة</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Fleet Card 4: Family Minibus -->
+        <div class="glass-card rounded-2xl p-6 relative flex flex-col justify-between border border-white/10 group">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[11px] font-bold bg-royal-gold/15 text-royal-gold px-2.5 py-1 rounded-full border border-royal-gold/30">للعائلات الممتدة والمجموعات</span>
+              <div class="w-10 h-10 rounded-xl bg-slate-800 text-royal-gold flex items-center justify-center text-lg group-hover:bg-royal-gold group-hover:text-royal-emeraldDark transition-colors">
+                <i class="fa-solid fa-bus-simple"></i>
+              </div>
+            </div>
+            <h3 class="text-lg font-bold font-cairo text-white mb-2">ميني باص عائلي (تويوتا هايس سقف عالي)</h3>
+            <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 py-3 border-y border-white/5 my-3">
+              <div class="flex items-center gap-2"><i class="fa-solid fa-users text-royal-gold"></i><span>تتسع لـ 10 ركاب</span></div>
+              <div class="flex items-center gap-2"><i class="fa-solid fa-suitcase-rolling text-royal-gold"></i><span>تتسع لـ 10 حقائب</span></div>
+            </div>
+            <ul class="space-y-2 text-xs text-slate-400 mb-6">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>سقف عالي ومساحة واسعة وسهولة صعود</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>استيعاب 10 حقائب كبيرة براحة</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>مثالي للزيارات والمزارات الدينية</span></li>
+            </ul>
+          </div>
+          <div class="pt-4 border-t border-white/5 flex items-center justify-between gap-3">
+            <div>
+              <span class="text-[10px] text-slate-400 block">تبدأ من (مطار جدة)</span>
+              <span class="text-lg font-black text-royal-gold font-mono fleet-price-hiace">400 SAR</span>
+            </div>
+            <button onclick="window.appEngine.pickVehicleAndBook('hiace')" class="px-4 py-2.5 rounded-xl gold-gradient-bg text-royal-emeraldDark font-bold text-xs shadow-gold hover:opacity-95 transition-transform active:scale-95 flex items-center gap-1.5">
+              <i class="fa-solid fa-calendar-check"></i><span>احجز هذه السيارة</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Fleet Card 5: Coaster Bus -->
+        <div class="glass-card rounded-2xl p-6 relative flex flex-col justify-between border border-white/10 group md:col-span-2 lg:col-span-1">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[11px] font-bold bg-royal-gold/15 text-royal-gold px-2.5 py-1 rounded-full border border-royal-gold/30">للحملات والوفود الكبرى</span>
+              <div class="w-10 h-10 rounded-xl bg-slate-800 text-royal-gold flex items-center justify-center text-lg group-hover:bg-royal-gold group-hover:text-royal-emeraldDark transition-colors">
+                <i class="fa-solid fa-bus"></i>
+              </div>
+            </div>
+            <h3 class="text-lg font-bold font-cairo text-white mb-2">باص مجموعات وحملات (تويوتا كوستر VIP)</h3>
+            <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 py-3 border-y border-white/5 my-3">
+              <div class="flex items-center gap-2"><i class="fa-solid fa-users text-royal-gold"></i><span>تتسع لـ 20-30 راكب</span></div>
+              <div class="flex items-center gap-2"><i class="fa-solid fa-suitcase-rolling text-royal-gold"></i><span>تتسع لـ 15-25 حقيبة</span></div>
+            </div>
+            <ul class="space-y-2 text-xs text-slate-400 mb-6">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>مقاعد فندقية واسعة براحة تامة</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>نظام صوتي وتكييف مركزي متطور</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>مخصص لحملات ووفود العمرة</span></li>
+            </ul>
+          </div>
+          <div class="pt-4 border-t border-white/5 flex items-center justify-between gap-3">
+            <div>
+              <span class="text-[10px] text-slate-400 block">تبدأ من (مطار جدة)</span>
+              <span class="text-lg font-black text-royal-gold font-mono fleet-price-coaster">750 SAR</span>
+            </div>
+            <button onclick="window.appEngine.pickVehicleAndBook('coaster')" class="px-4 py-2.5 rounded-xl gold-gradient-bg text-royal-emeraldDark font-bold text-xs shadow-gold hover:opacity-95 transition-transform active:scale-95 flex items-center gap-1.5">
+              <i class="fa-solid fa-calendar-check"></i><span>احجز هذه السيارة</span>
+            </button>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -1024,7 +1172,7 @@
           إجابات مباشرة وواضحة عن حجز سيارات العمرة والتوصيل
         </h2>
         <p class="text-slate-400 text-xs sm:text-sm" data-i18n="faq_subtitle">
-          صيغت هذه الإجابات لتمنحك التفاصيل الدقيقة التي يبحث عنها ضيوف الرحمن عبر محركات البحث والذكاء الاصطناعي.
+          إجابات مباشرة وواضحة أعدها خبراؤنا للإجابة عن كافة استفساراتكم وضمان رحلة روحانية وعائلية هانئة ومريحة.
         </p>
       </div>
 
@@ -1228,11 +1376,11 @@
             </li>
             <li class="flex items-center gap-2">
               <i class="fa-solid fa-location-dot text-royal-gold"></i>
-              <span>أبراج مكة ووقف الملك عبدالعزيز، الحرم المكي</span>
+              <span>نقطة استقبال وتمركز: المنطقة المركزية وأبراج الحرم المكي</span>
             </li>
             <li class="flex items-center gap-2">
               <i class="fa-solid fa-location-dot text-royal-gold"></i>
-              <span>طريق الملك فهد، العليا، العاصمة الرياض</span>
+              <span>نقطة خدمة وتشغيل: صالات مطار الملك خالد وطرق الرياض الرئيسية</span>
             </li>
             <li class="flex items-center gap-2 pt-2">
               <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i>
@@ -1242,6 +1390,23 @@
         </div>
 
       </div>
+
+      
+        <!-- Legal & Compliance Links -->
+        <div class="border-t border-white/5 pt-4 mt-6 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
+          <div class="flex items-center gap-4 flex-wrap">
+            <a href="/terms.html" class="hover:text-royal-gold transition-colors">الشروط والأحكام</a>
+            <span>•</span>
+            <a href="/privacy.html" class="hover:text-royal-gold transition-colors">سياسة الخصوصية وحماية البيانات (PDPL)</a>
+            <span>•</span>
+            <a href="/cancellation.html" class="hover:text-royal-gold transition-colors">سياسة الإلغاء والاسترداد</a>
+            <span>•</span>
+            <a href="/admin.html" class="text-slate-500 hover:text-royal-gold transition-colors"><i class="fa-solid fa-lock text-[10px] me-1"></i>بوابة الإدارة</a>
+          </div>
+          <div class="text-[11px] text-slate-400">
+            مرخص من الهيئة العامة للنقل (TGA) • متوافق مع نظام حماية البيانات الشخصية السعودي
+          </div>
+        </div>
 
       <!-- Copyright & Developer LLM link -->
       <div class="pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-400">
@@ -1287,7 +1452,7 @@
         <div class="bg-slate-900/90 rounded-2xl p-4 border border-royal-gold/30 text-start space-y-2 text-xs">
           <div class="flex items-center justify-between text-slate-400">
             <span data-i18n="modal_ref">رقم الحجز المرجعي:</span>
-            <span class="font-mono text-royal-gold font-bold" id="modalBookingRef">RC-84920</span>
+            <span class="font-mono text-royal-gold font-bold" id="modalBookingRef" id="modalBookingRef">-</span>
           </div>
           <div class="flex items-center justify-between text-slate-200">
             <span data-i18n="modal_route">المسار:</span>
@@ -1591,7 +1756,7 @@
             reviews_subtitle: 'تجارب حقيقية موثقة لرحلات العمرة وزيارة المسجد النبوي الشريف',
             faq_pretitle: 'مركز المعرفة والأسئلة الشائعة',
             faq_title: 'إجابات مباشرة وواضحة عن حجز سيارات العمرة والتوصيل',
-            faq_subtitle: 'صيغت هذه الإجابات لتمنحك التفاصيل الدقيقة التي يبحث عنها ضيوف الرحمن عبر محركات البحث والذكاء الاصطناعي.',
+            faq_subtitle: 'إجابات مباشرة وواضحة أعدها خبراؤنا للإجابة عن كافة استفساراتكم وضمان رحلة روحانية وعائلية هانئة ومريحة.',
             cta_title: 'جاهز لرحلة عمرة مريحة وفاخرة بدون أي قلق؟',
             cta_subtitle: 'احجز سيارتك الآن في أقل من دقيقة والدفع عند الوصول إلى فندقك بمكة أو المدينة أو الرياض.',
             cta_wa_btn: 'محادثة واتساب فورية',
@@ -1686,7 +1851,7 @@
             reviews_subtitle: 'Authentic verified reviews from pilgrims and executive travelers worldwide',
             faq_pretitle: 'Knowledge Base & FAQs',
             faq_title: 'Direct, Accurate Answers for Umrah & Saudi Transfers',
-            faq_subtitle: 'Engineered to provide immediate answers for travelers, search engines, and AI search models.',
+            faq_subtitle: 'Direct, authentic answers prepared by our hospitality team for a peaceful, worry-free pilgrimage.',
             cta_title: 'Ready for a Serene, Worry-Free Umrah Journey?',
             cta_subtitle: 'Reserve your private VIP transfer in under 60 seconds with payment on arrival.',
             cta_wa_btn: 'Direct WhatsApp Chat',
@@ -1981,6 +2146,16 @@
       }
 
       // 11. WhatsApp Message Compiler and Dispatch
+      function saveBookingToDatabase(bookingData) {
+        const STORAGE_KEY = 'ROYAL_UMRAH_BOOKINGS';
+        let existing = [];
+        try {
+          existing = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        } catch(e) { existing = []; }
+        existing.unshift(bookingData);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+      }
+
       function submitBookingToWhatsApp() {
         const custNameInput = document.getElementById('custName');
         const custPhoneInput = document.getElementById('custPhone');
@@ -2016,7 +2191,28 @@
         const vehicleObj = APP_DATA.vehicles.find(function (v) { return v.id === state.selectedVehicleId; }) || APP_DATA.vehicles[2];
         const priceSar = routeObj.pricesSar[state.selectedVehicleId] || 0;
         const finalPriceDisplay = formatPrice(priceSar);
-        const refCode = 'RC-' + Math.floor(10000 + Math.random() * 90000);
+        const refCode = 'RC-' + new Date().getFullYear() + '-' + Math.floor(10000 + Math.random() * 90000);
+        state.bookingRef = refCode;
+
+        // Persist to real Database (shared with /admin.html)
+        saveBookingToDatabase({
+          id: refCode,
+          createdAt: new Date().toISOString().replace('T', ' ').substring(0, 16),
+          name: custName,
+          phone: custPhone,
+          route: state.lang === 'ar' ? routeObj.nameAr : routeObj.nameEn,
+          vehicle: state.lang === 'ar' ? vehicleObj.nameAr : vehicleObj.nameEn,
+          price: finalPriceDisplay,
+          date: dateVal,
+          time: timeVal,
+          flight: flightNoVal,
+          payment: payMethod,
+          status: 'جديد',
+          driverName: '',
+          driverPhone: '',
+          driverCar: '',
+          notes: amenitiesText
+        });
         state.bookingRef = refCode;
 
         // Build Amenities list

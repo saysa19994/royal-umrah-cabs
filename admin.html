@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة تحكم وإدارة الحجوزات والسائقين | رويال كاب</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #fff2be 0%, #d4af37 50%, #aa820a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-['Tajawal'] antialiased min-h-screen">
+
+  <!-- AUTHENTICATION OVERLAY (PIN: 1234) -->
+  <div id="loginOverlay" class="fixed inset-0 z-50 bg-slate-950 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-amber-500/30 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl space-y-6">
+      <div class="w-16 h-16 rounded-2xl bg-amber-400/10 text-amber-400 text-3xl flex items-center justify-center mx-auto border border-amber-400/30">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold font-['Cairo'] text-white">تسجيل الدخول للإدارة</h2>
+        <p class="text-xs text-slate-400 mt-1">أدخل رمز الدخول السريع (الافتراضي: <strong class="text-amber-400">1234</strong>)</p>
+      </div>
+      <div>
+        <input type="password" id="pinInput" placeholder="••••" maxlength="8" class="w-full text-center tracking-[0.5em] text-2xl font-mono bg-slate-950 border border-slate-700 rounded-xl py-3 text-amber-400 outline-none focus:border-amber-400">
+        <span id="pinError" class="text-xs text-red-400 mt-2 block hidden">رمز الدخول غير صحيح!</span>
+      </div>
+      <button onclick="checkPin()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-slate-950 font-bold py-3 rounded-xl transition-transform active:scale-95">
+        دخول لوحة التحكم
+      </button>
+      <a href="/" class="text-xs text-slate-400 hover:text-white block">العودة إلى واجهة الموقع ⬅️</a>
+    </div>
+  </div>
+
+  <!-- MAIN ADMIN INTERFACE -->
+  <div id="adminApp" class="hidden">
+    <!-- TOP BAR -->
+    <header class="bg-slate-900/90 border-b border-slate-800 sticky top-0 z-40 backdrop-blur-md px-4 sm:px-8 py-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-amber-400/15 text-amber-400 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-gauge-high"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg font-bold font-['Cairo'] text-white">إدارة حجوزات رويال كاب</h1>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-mono font-bold">LIVE ONLINE</span>
+          </div>
+          <p class="text-xs text-slate-400">متابعة الحجوزات، إسناد السائقين، والتحصيل</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="openNewBookingModal()" class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold px-3.5 py-2 rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition-transform active:scale-95">
+          <i class="fa-solid fa-plus"></i>
+          <span>حجز يدوي جديد</span>
+        </button>
+        <button onclick="exportToCsv()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2 rounded-xl text-xs sm:text-sm flex items-center gap-1.5 border border-slate-700">
+          <i class="fa-solid fa-file-excel text-emerald-400"></i>
+          <span class="hidden sm:inline">تصدير Excel</span>
+        </button>
+        <a href="/" target="_blank" class="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white text-xs" title="زيارة الموقع كزائر">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+        <button onclick="logout()" class="p-2 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500/30 text-xs" title="تسجيل الخروج">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN BODY CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-8">
+      
+      <!-- STATS KPI METRICS -->
+      <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
+          <span class="text-xs text-slate-400 block mb-1">إجمالي الحجوزات</span>
+          <span class="text-2xl font-black text-white font-mono" id="statTotal">0</span>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
+          <span class="text-xs text-amber-400 block mb-1">حجوزات جديدة / قيد الانتظار</span>
+          <span class="text-2xl font-black text-amber-400 font-mono" id="statPending">0</span>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
+          <span class="text-xs text-blue-400 block mb-1">تم إسناد سائق</span>
+          <span class="text-2xl font-black text-blue-400 font-mono" id="statAssigned">0</span>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
+          <span class="text-xs text-emerald-400 block mb-1">رحلات مكتملة</span>
+          <span class="text-2xl font-black text-emerald-400 font-mono" id="statCompleted">0</span>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 col-span-2 lg:col-span-1">
+          <span class="text-xs text-royal-gold block mb-1">إجمالي الإيرادات (SAR)</span>
+          <span class="text-2xl font-black text-royal-gold font-mono" id="statRevenue">0 SAR</span>
+        </div>
+      </div>
+
+      <!-- FILTER & SEARCH BAR -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-2 flex-1 min-w-[260px]">
+          <div class="relative w-full">
+            <i class="fa-solid fa-magnifying-glass absolute start-3.5 top-3.5 text-slate-500 text-xs"></i>
+            <input type="text" id="searchInput" oninput="renderBookingsTable()" placeholder="بحث برقم الحجز، اسم العميل، أو رقم الهاتف..." class="w-full bg-slate-950 border border-slate-700 rounded-xl ps-9 pe-4 py-2.5 text-xs sm:text-sm text-white outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Status Filter -->
+          <select id="statusFilter" onchange="renderBookingsTable()" class="bg-slate-950 border border-slate-700 text-xs sm:text-sm text-slate-200 rounded-xl px-3 py-2.5 outline-none focus:border-amber-400">
+            <option value="all">كافة الحالات</option>
+            <option value="جديد">جديد (New)</option>
+            <option value="مؤكد">مؤكد (Confirmed)</option>
+            <option value="تم إسناد سائق">تم إسناد سائق (Assigned)</option>
+            <option value="مكتمل">مكتمل (Completed)</option>
+            <option value="ملغي">ملغي (Cancelled)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- BOOKINGS DATA TABLE -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+        <div class="overflow-x-auto">
+          <table class="w-full text-start text-xs sm:text-sm">
+            <thead class="bg-slate-950 text-slate-400 font-bold border-b border-slate-800">
+              <tr>
+                <th class="py-3.5 px-4 text-start">رقم الحجز</th>
+                <th class="py-3.5 px-4 text-start">العميل والجوال</th>
+                <th class="py-3.5 px-4 text-start">المسار المطلوب</th>
+                <th class="py-3.5 px-4 text-start">السيارة والسعر</th>
+                <th class="py-3.5 px-4 text-start">التاريخ والوقت</th>
+                <th class="py-3.5 px-4 text-start">الدفع</th>
+                <th class="py-3.5 px-4 text-start">الحالة</th>
+                <th class="py-3.5 px-4 text-start">السائق المكلف</th>
+                <th class="py-3.5 px-4 text-center">إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="bookingsTbody" class="divide-y divide-slate-800 font-medium text-slate-200">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL: ASSIGN DRIVER & NOTIFY CUSTOMER -->
+  <div id="driverModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-amber-500/30 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-bold font-['Cairo'] text-white">إسناد سائق للرحلة</h3>
+        <button onclick="closeDriverModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <input type="hidden" id="driverBookingIndex">
+
+      <div>
+        <label class="block text-xs text-slate-400 mb-1">اسم الكابتن / السائق:</label>
+        <input type="text" id="driverNameInput" placeholder="مثال: كابتن محمد عثمان" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white outline-none focus:border-amber-400">
+      </div>
+
+      <div>
+        <label class="block text-xs text-slate-400 mb-1">رقم جوال الكابتن (مع الواتساب):</label>
+        <input type="tel" id="driverPhoneInput" placeholder="+9665XXXXXXXX" dir="ltr" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white outline-none focus:border-amber-400 font-mono">
+      </div>
+
+      <div>
+        <label class="block text-xs text-slate-400 mb-1">نوع ولون ورقم لوحة السيارة:</label>
+        <input type="text" id="driverCarInfoInput" placeholder="مثال: جمس يوكن أسود - لوحة أ ب ج 1234" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white outline-none focus:border-amber-400">
+      </div>
+
+      <div class="pt-4 flex flex-col gap-2">
+        <button onclick="saveDriverAssignment(true)" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2">
+          <i class="fa-brands fa-whatsapp text-base"></i>
+          <span>حفظ وإرسال بيانات الكابتن للعميل عبر واتساب</span>
+        </button>
+        <button onclick="saveDriverAssignment(false)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-2.5 rounded-xl text-xs">
+          حفظ فقط دون إرسال رسالة
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT ADMIN LOGIC -->
+  <script>
+    const STORAGE_KEY = 'ROYAL_UMRAH_BOOKINGS';
+
+    // Sample initial seed bookings if storage is empty
+    const DEFAULT_SEED_BOOKINGS = [
+      {
+        id: 'RC-2026-84920',
+        createdAt: '2026-10-15 18:30',
+        name: 'د. طارق رحمن',
+        phone: '+447911123456',
+        route: 'مطار الملك عبدالعزيز بجدة (KAIA) ⬅️ فندق مكة المكرمة',
+        vehicle: 'جمس يوكن VIP XL',
+        price: '450 SAR',
+        date: '2026-10-18',
+        time: '14:30',
+        flight: 'SV 302',
+        payment: 'دفع نقداً عند الوصول',
+        status: 'تم إسناد سائق',
+        driverName: 'كابتن عبدالله الشمري',
+        driverPhone: '+966501234567',
+        driverCar: 'جمس يوكن XL أسود - 7741 ر ح ل',
+        notes: 'كرسي أطفال + ضيافة زمزم'
+      },
+      {
+        id: 'RC-2026-92104',
+        createdAt: '2026-10-15 19:15',
+        name: 'م. أحمد الشناوي',
+        phone: '+201012345678',
+        route: 'مكة المكرمة ⬅️ المدينة المنورة (من الفندق إلى الفندق)',
+        vehicle: 'هيونداي ستاريا VIP (7 ركاب)',
+        price: '650 SAR',
+        date: '2026-10-20',
+        time: '09:00',
+        flight: '-',
+        payment: 'دفع إلكتروني (مدى)',
+        status: 'مؤكد',
+        driverName: '',
+        driverPhone: '',
+        driverCar: '',
+        notes: 'حقائب كثيرة (5 حقائب كبيرة)'
+      },
+      {
+        id: 'RC-2026-10492',
+        createdAt: '2026-10-15 20:45',
+        name: 'عبدالرحمن العتيبي',
+        phone: '+966551239876',
+        route: 'مطار الملك خالد الدولي بالرياض ⬅️ فنادق الرياض',
+        vehicle: 'سيدان كامري حديثة',
+        price: '180 SAR',
+        date: '2026-10-16',
+        time: '21:00',
+        flight: 'XY 240',
+        payment: 'دفع نقداً عند الوصول',
+        status: 'جديد',
+        driverName: '',
+        driverPhone: '',
+        driverCar: '',
+        notes: 'استقبال صالة 5'
+      }
+    ];
+
+    function getBookings() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_SEED_BOOKINGS));
+        return DEFAULT_SEED_BOOKINGS;
+      }
+      try {
+        return JSON.parse(stored);
+      } catch (e) {
+        return DEFAULT_SEED_BOOKINGS;
+      }
+    }
+
+    function saveBookings(bookings) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings));
+      renderBookingsTable();
+      updateKpis();
+    }
+
+    // PIN Authentication
+    function checkPin() {
+      const pin = document.getElementById('pinInput').value.trim();
+      if (pin === '1234') {
+        document.getElementById('loginOverlay').classList.add('hidden');
+        document.getElementById('adminApp').classList.remove('hidden');
+        sessionStorage.setItem('ROYAL_ADMIN_AUTH', 'true');
+        renderBookingsTable();
+        updateKpis();
+      } else {
+        document.getElementById('pinError').classList.remove('hidden');
+      }
+    }
+
+    function logout() {
+      sessionStorage.removeItem('ROYAL_ADMIN_AUTH');
+      document.getElementById('adminApp').classList.add('hidden');
+      document.getElementById('loginOverlay').classList.remove('hidden');
+      document.getElementById('pinInput').value = '';
+    }
+
+    // Auto-check session on load
+    window.addEventListener('DOMContentLoaded', () => {
+      if (sessionStorage.getItem('ROYAL_ADMIN_AUTH') === 'true') {
+        document.getElementById('loginOverlay').classList.add('hidden');
+        document.getElementById('adminApp').classList.remove('hidden');
+        renderBookingsTable();
+        updateKpis();
+      }
+      document.getElementById('pinInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') checkPin();
+      });
+    });
+
+    // KPI Metrics calculation
+    function updateKpis() {
+      const bookings = getBookings();
+      document.getElementById('statTotal').textContent = bookings.length;
+      document.getElementById('statPending').textContent = bookings.filter(b => b.status === 'جديد').length;
+      document.getElementById('statAssigned').textContent = bookings.filter(b => b.status === 'تم إسناد سائق').length;
+      document.getElementById('statCompleted').textContent = bookings.filter(b => b.status === 'مكتمل').length;
+
+      let totalRev = 0;
+      bookings.forEach(b => {
+        if (b.status !== 'ملغي') {
+          const num = parseInt(b.price.replace(/[^0-9]/g, '')) || 0;
+          totalRev += num;
+        }
+      });
+      document.getElementById('statRevenue').textContent = totalRev.toLocaleString() + ' SAR';
+    }
+
+    // Render Table
+    function renderBookingsTable() {
+      const bookings = getBookings();
+      const tbody = document.getElementById('bookingsTbody');
+      const search = document.getElementById('searchInput').value.trim().toLowerCase();
+      const statusFilter = document.getElementById('statusFilter').value;
+
+      const filtered = bookings.filter(b => {
+        const matchSearch = !search || 
+          b.id.toLowerCase().includes(search) || 
+          b.name.toLowerCase().includes(search) || 
+          b.phone.includes(search);
+        const matchStatus = statusFilter === 'all' || b.status === statusFilter;
+        return matchSearch && matchStatus;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="text-center py-8 text-slate-500">لا توجد حجوزات مطابقة للبحث أو الفلتر.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map((b, index) => {
+        let statusBadgeClass = 'bg-slate-800 text-slate-300';
+        if (b.status === 'جديد') statusBadgeClass = 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
+        if (b.status === 'مؤكد') statusBadgeClass = 'bg-blue-500/20 text-blue-300 border border-blue-500/30';
+        if (b.status === 'تم إسناد سائق') statusBadgeClass = 'bg-purple-500/20 text-purple-300 border border-purple-500/30';
+        if (b.status === 'مكتمل') statusBadgeClass = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        if (b.status === 'ملغي') statusBadgeClass = 'bg-red-500/20 text-red-400 border border-red-500/30';
+
+        return `
+          <tr class="hover:bg-slate-950/60 transition-colors">
+            <td class="py-3.5 px-4 font-mono font-bold text-amber-400">${b.id}</td>
+            <td class="py-3.5 px-4">
+              <div class="font-bold text-white">${b.name}</div>
+              <a href="https://wa.me/${b.phone.replace(/[^0-9]/g, '')}" target="_blank" class="text-xs text-emerald-400 font-mono hover:underline">${b.phone}</a>
+            </td>
+            <td class="py-3.5 px-4 text-xs max-w-xs truncate" title="${b.route}">${b.route}</td>
+            <td class="py-3.5 px-4">
+              <div class="text-xs text-slate-300">${b.vehicle}</div>
+              <div class="font-mono font-bold text-royal-gold text-xs">${b.price}</div>
+            </td>
+            <td class="py-3.5 px-4 text-xs font-mono">
+              <div>${b.date}</div>
+              <div class="text-slate-400">${b.time} ${b.flight !== '-' ? `(✈️ ${b.flight})` : ''}</div>
+            </td>
+            <td class="py-3.5 px-4 text-xs">
+              <span class="px-2 py-0.5 rounded ${b.payment.includes('إلكتروني') ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-300'}">
+                ${b.payment}
+              </span>
+            </td>
+            <td class="py-3.5 px-4">
+              <select onchange="updateBookingStatus(${index}, this.value)" class="text-xs font-bold rounded-lg px-2 py-1 outline-none ${statusBadgeClass} cursor-pointer">
+                <option value="جديد" ${b.status === 'جديد' ? 'selected' : ''}>جديد</option>
+                <option value="مؤكد" ${b.status === 'مؤكد' ? 'selected' : ''}>مؤكد</option>
+                <option value="تم إسناد سائق" ${b.status === 'تم إسناد سائق' ? 'selected' : ''}>تم إسناد سائق</option>
+                <option value="مكتمل" ${b.status === 'مكتمل' ? 'selected' : ''}>مكتمل</option>
+                <option value="ملغي" ${b.status === 'ملغي' ? 'selected' : ''}>ملغي</option>
+              </select>
+            </td>
+            <td class="py-3.5 px-4 text-xs">
+              ${b.driverName ? `
+                <div class="font-bold text-emerald-300">${b.driverName}</div>
+                <div class="text-[11px] text-slate-400 font-mono">${b.driverCar || ''}</div>
+              ` : `
+                <button onclick="openDriverModal(${index})" class="text-xs text-amber-400 hover:underline">
+                  + تعيين كابتن
+                </button>
+              `}
+            </td>
+            <td class="py-3.5 px-4 text-center">
+              <div class="flex items-center justify-center gap-2">
+                <button onclick="openDriverModal(${index})" title="إسناد / تعديل بيانات السائق" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">
+                  <i class="fa-solid fa-id-card text-xs"></i>
+                </button>
+                <button onclick="deleteBooking(${index})" title="حذف الحجز" class="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400">
+                  <i class="fa-solid fa-trash text-xs"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function updateBookingStatus(index, newStatus) {
+      const bookings = getBookings();
+      bookings[index].status = newStatus;
+      saveBookings(bookings);
+    }
+
+    function deleteBooking(index) {
+      if (confirm('هل أنت متأكد من حذف هذا الحجز نهائياً؟')) {
+        const bookings = getBookings();
+        bookings.splice(index, 1);
+        saveBookings(bookings);
+      }
+    }
+
+    // Driver Modal
+    function openDriverModal(index) {
+      const bookings = getBookings();
+      const b = bookings[index];
+      document.getElementById('driverBookingIndex').value = index;
+      document.getElementById('driverNameInput').value = b.driverName || '';
+      document.getElementById('driverPhoneInput').value = b.driverPhone || '';
+      document.getElementById('driverCarInfoInput').value = b.driverCar || '';
+      document.getElementById('driverModal').classList.remove('hidden');
+    }
+
+    function closeDriverModal() {
+      document.getElementById('driverModal').classList.add('hidden');
+    }
+
+    function saveDriverAssignment(sendWhatsapp) {
+      const index = parseInt(document.getElementById('driverBookingIndex').value);
+      const name = document.getElementById('driverNameInput').value.trim();
+      const phone = document.getElementById('driverPhoneInput').value.trim();
+      const car = document.getElementById('driverCarInfoInput').value.trim();
+
+      const bookings = getBookings();
+      const b = bookings[index];
+      b.driverName = name;
+      b.driverPhone = phone;
+      b.driverCar = car;
+      b.status = 'تم إسناد سائق';
+
+      saveBookings(bookings);
+      closeDriverModal();
+
+      if (sendWhatsapp && b.phone) {
+        const msg = 
+`السلام عليكم ورحمة الله وبركاته، أهلاً بك يا ${b.name} 👋
+يسر *رويال كاب* إشعاركم بأنه تم تخصيص وتعيين الكابتن لرحلتكم:
+
+🏷️ *رقم الحجز:* ${b.id}
+📍 *المسار:* ${b.route}
+📅 *التاريخ والوقت:* ${b.date} الساعة ${b.time}
+
+👨‍✈️ *بيانات الكابتن الخاص بكم:*
+- الاسم: ${name}
+- الجوال: ${phone}
+- السيارة: ${car}
+
+سيقوم الكابتن بالتواصل معكم وتأكيد نقطة الالتقاء واستقبالكم في الموعد بكل ترحاب. نتمنى لكم رحلة مباركة وسعيدة!`;
+        window.open(`https://wa.me/${b.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(msg)}`, '_blank');
+      }
+    }
+
+    // Export to Excel / CSV
+    function exportToCsv() {
+      const bookings = getBookings();
+      let csv = "\uFEFFرقم الحجز,العميل,الهاتف,المسار,السيارة,السعر,التاريخ,الوقت,الرحلة,الدفع,الحالة,السائق,جوال السائق\n";
+      bookings.forEach(b => {
+        csv += `"${b.id}","${b.name}","${b.phone}","${b.route}","${b.vehicle}","${b.price}","${b.date}","${b.time}","${b.flight}","${b.payment}","${b.status}","${b.driverName || ''}","${b.driverPhone || ''}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `Royal_Umrah_Bookings_${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>

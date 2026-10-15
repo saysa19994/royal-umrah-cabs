@@ -18,15 +18,33 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://royal-umrah-cabs.vercel.app/" />
   </url>
   <url>
+    <loc>https://royal-umrah-cabs.vercel.app/terms.html</loc>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://royal-umrah-cabs.vercel.app/privacy.html</loc>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://royal-umrah-cabs.vercel.app/cancellation.html</loc>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://royal-umrah-cabs.vercel.app/llms.txt</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://royal-umrah-cabs.vercel.app/llms-full.txt</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
 </urlset>
