@@ -1,9 +1,12 @@
 User-agent: *
 Allow: /
-Sitemap: https://royal-umrah-cabs.com/sitemap.xml
+Sitemap: https://royal-umrah-cabs.vercel.app/sitemap.xml
 
-# AI Bots & Intelligent Search Agents Explicit Permissions
+# LLM & AI Search Engine Crawlers (Explicit Full Access Permission)
 User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
 Allow: /
 
 User-agent: ChatGPT-User
@@ -18,8 +21,26 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: Claude-Web
+Allow: /
+
 User-agent: anthropic-ai
 Allow: /
 
+User-agent: Applebot-Extended
+Allow: /
+
 User-agent: cohere-ai
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
 Allow: /
