@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://royal-umrah-cabs.com/</loc>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://royal-umrah-cabs.com/?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://royal-umrah-cabs.com/?lang=ar&amp;country=sa" />
+    <xhtml:link rel="alternate" hreflang="ar-EG" href="https://royal-umrah-cabs.com/?lang=ar&amp;country=eg" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://royal-umrah-cabs.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://royal-umrah-cabs.com/?lang=en&amp;country=gb" />
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://royal-umrah-cabs.com/?lang=en&amp;country=us" />
+    <xhtml:link rel="alternate" hreflang="ur" href="https://royal-umrah-cabs.com/?lang=ur" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://royal-umrah-cabs.com/?lang=id" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://royal-umrah-cabs.com/?lang=fr" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://royal-umrah-cabs.com/" />
+  </url>
+  <url>
+    <loc>https://royal-umrah-cabs.com/llms.txt</loc>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>
