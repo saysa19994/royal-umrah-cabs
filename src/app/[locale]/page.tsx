@@ -3,7 +3,10 @@ import Link from 'next/link';
 import { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
-import { ShieldCheck, Clock, CheckCircle2, Headphones, ArrowRight, MessageCircle } from 'lucide-react';
+import { BookingCard } from '@/components/home/BookingCard';
+import { FleetSection } from '@/components/home/FleetSection';
+import { HomeSections } from '@/components/home/HomeSections';
+import { ShieldCheck, Clock, CheckCircle2, Headphones, ArrowRight } from 'lucide-react';
 
 interface HomePageProps {
   params: {
@@ -17,21 +20,21 @@ export default async function HomePage({ params: { locale } }: HomePageProps) {
 
   return (
     <div className="flex flex-col w-full">
-      {/* HERO SECTION */}
-      <section className="relative min-h-[600px] lg:min-h-[720px] flex items-center justify-center overflow-hidden bg-charcoal text-white pt-24 pb-20">
+      {/* 1. HERO SECTION */}
+      <section className="relative min-h-[580px] lg:min-h-[700px] flex items-center justify-center overflow-hidden bg-charcoal text-white pt-24 pb-32 md:pb-44">
         {/* BACKGROUND IMAGE & OVERLAYS */}
         <div className="absolute inset-0 z-0">
           <img
             src="/assets/images/yukon_exterior.jpg"
             alt={dict.hero.titlePart1}
-            className="w-full h-full object-cover object-[center_30%] opacity-40 scale-105 transition-transform duration-1000"
+            className="w-full h-full object-cover object-[center_28%] opacity-40 scale-105 transition-transform duration-1000"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/65 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/40 to-transparent rtl:bg-gradient-to-l" />
         </div>
 
         <div className="container mx-auto px-4 max-w-7xl relative z-10">
-          <div className="max-w-3xl flex flex-col gap-5 text-start">
+          <div className="max-w-3xl flex flex-col gap-4 text-start">
             {/* EYEBROW */}
             <div className="inline-flex items-center gap-2 text-xs md:text-sm font-bold uppercase tracking-[0.16em] text-gold">
               <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
@@ -39,7 +42,7 @@ export default async function HomePage({ params: { locale } }: HomePageProps) {
             </div>
 
             {/* H1 HEADLINE WITH GOLD ACCENT */}
-            <h1 className="font-display font-semibold text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.1] tracking-tight">
+            <h1 className="font-display font-semibold text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.08] tracking-tight">
               <span>{dict.hero.titlePart1}</span>{' '}
               <span className="text-gold italic font-display font-bold">
                 {dict.hero.titlePart2}
@@ -47,7 +50,7 @@ export default async function HomePage({ params: { locale } }: HomePageProps) {
             </h1>
 
             {/* SUBTITLE */}
-            <p className="text-base sm:text-lg text-white/80 leading-relaxed font-light max-w-2xl">
+            <p className="text-sm sm:text-base md:text-lg text-white/80 leading-relaxed font-light max-w-2xl">
               {dict.hero.description}
             </p>
 
@@ -68,8 +71,8 @@ export default async function HomePage({ params: { locale } }: HomePageProps) {
               </Link>
             </div>
 
-            {/* TRUST LINE */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-white/15 text-xs text-white/90">
+            {/* 2X2 TRUST LINE WITH ICONS */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-white/15 text-xs text-white/90">
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-gold shrink-0" />
                 <span>{dict.trust_strip.flightTracking}</span>
@@ -91,9 +94,12 @@ export default async function HomePage({ params: { locale } }: HomePageProps) {
         </div>
       </section>
 
-      {/* BEIGE TRUST BAND */}
-      <section className="bg-bg-alt border-y border-border py-6">
-        <div className="container mx-auto px-4 max-w-7xl flex flex-wrap items-center justify-between gap-6 text-sm text-ink">
+      {/* 2. OVERLAPPING BOOKING CARD */}
+      <BookingCard locale={locale} dict={dict} />
+
+      {/* 3. BEIGE TRUST STRIP */}
+      <section className="bg-bg-alt border-y border-border py-4 mt-8">
+        <div className="container mx-auto px-4 max-w-7xl flex flex-wrap items-center justify-between gap-4 text-xs md:text-sm text-ink">
           <a
             href={settings.google_reviews_link}
             target="_blank"
@@ -106,39 +112,21 @@ export default async function HomePage({ params: { locale } }: HomePageProps) {
           <span className="hidden md:inline text-border-strong">•</span>
           <div className="flex items-center gap-2">
             <span className="text-gold-dark font-bold">✓</span>
-            <span>{dict.trust_strip.freeCancellation}</span>
+            <span>{dict.trust_strip.flightTracking}</span>
           </div>
           <span className="hidden md:inline text-border-strong">•</span>
           <div className="flex items-center gap-2">
             <span className="text-gold-dark font-bold">✓</span>
-            <span>{dict.trust_strip.noHiddenFees}</span>
+            <span>{dict.trust_strip.payOnArrival}</span>
           </div>
         </div>
       </section>
 
-      {/* PHASE 1 ARCHITECTURE VERIFICATION BANNER */}
-      <section className="py-12 bg-bg">
-        <div className="container mx-auto px-4 max-w-4xl text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-4">
-            Phase 1 Foundation Complete
-          </div>
-          <h2 className="font-display font-bold text-3xl md:text-4xl text-ink mb-4">
-            Next.js App Router + Strict i18n + Supabase Architecture
-          </h2>
-          <p className="text-sm md:text-base text-ink-muted leading-relaxed max-w-2xl mx-auto mb-6">
-            Strict multilingual separation is active across <strong className="text-ink">/en</strong>, <strong className="text-ink">/ar</strong>, and <strong className="text-ink">/ms</strong>. The build pipeline validates all 141 translation keys, database schema &amp; seed data are ready, and header, footer, currency switcher, and floating WhatsApp are connected to live settings.
-          </p>
-          <div className="flex justify-center gap-3">
-            <Link
-              href={`/${locale}/booking`}
-              className="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-btn bg-gold text-ink font-bold text-sm shadow-xs hover:bg-gold-hover transition-colors"
-            >
-              <span>Explore Phase 2 Modules</span>
-              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* 4. FLEET CAROUSEL + 5. STEP INSIDE */}
+      <FleetSection locale={locale} dict={dict} />
+
+      {/* 6. 3 SIMPLE STEPS + 7. SERVICES + 8. WHY US + 9. REVIEWS + 10. FAQ + 11. SEO ARTICLE + 12. CTA BAND */}
+      <HomeSections locale={locale} dict={dict} settings={settings} />
     </div>
   );
 }
