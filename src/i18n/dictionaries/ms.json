@@ -1,0 +1,175 @@
+{
+  "meta": {
+    "brand": "Royal Umrah Cabs",
+    "brandSub": "Pengangkutan Mewah Jemaah Umrah",
+    "seoTitle": "Royal Umrah Cabs | Teksi & Pemandu Peribadi VIP Umrah Makkah, Madinah & Jeddah",
+    "seoDescription": "Perkhidmatan teksi persendirian dan pemandu VIP untuk jemaah Umrah di Makkah, Madinah, dan Lapangan Terbang Jeddah. Harga tetap telus, bayar selepas tiba, dan pemantauan penerbangan percuma."
+  },
+  "nav": {
+    "home": "Laman Utama",
+    "routes": "Laluan",
+    "services": "Perkhidmatan",
+    "fleet": "Armada Kereta",
+    "pricing": "Kadar Harga",
+    "compare": "Perbandingan",
+    "guides": "Panduan Umrah",
+    "about": "Tentang Kami",
+    "contact": "Hubungi Kami",
+    "bookNow": "Tempah Sekarang",
+    "trackBooking": "Kesan Tempahan",
+    "account": "Portal Rakan Agensi"
+  },
+  "trust_strip": {
+    "googleReviews": "Penilaian 4.9/5 di Google Reviews",
+    "flightTracking": "Pemantauan Penerbangan Percuma",
+    "payOnArrival": "Bayar Semasa Tiba (Tiada Bayaran Pendahuluan)",
+    "support247": "Sokongan WhatsApp 24 Jam Sehari",
+    "fixedPrices": "Jaminan Harga Tetap Tanpa Caj Tersembunyi",
+    "freeCancellation": "Pembatalan Percuma Sehingga 24 Jam",
+    "noHiddenFees": "Sifar Caj Tambahan"
+  },
+  "hero": {
+    "eyebrow": "Pengangkutan Eksklusif Umrah & Haji",
+    "titlePart1": "Pemandu Peribadi VIP Umrah &",
+    "titlePart2": "Pengangkutan Mewah Jemaah",
+    "description": "Rasai ketenangan ibadah dengan perkhidmatan teksi persendirian kami di Makkah, Madinah, Jeddah, dan Riyadh. Pemandu profesional berpengalaman, kadar tambang tetap terjamin, dan keselesaan penuh untuk tetamu Allah.",
+    "ctaBook": "Tempah Perjalanan Anda",
+    "ctaFleet": "Lihat Pilihan Kereta"
+  },
+  "booking_card": {
+    "title": "Kira Tambang & Tempah Serta-Merta",
+    "subtitle": "Harga tetap telus dalam Ringgit Malaysia (MYR) atau Riyal Saudi (SAR). Tiada bayaran deposit diperlukan.",
+    "pickupLabel": "Lokasi Pengambilan",
+    "dropoffLabel": "Destinasi",
+    "dateLabel": "Tarikh Perjalanan",
+    "timeLabel": "Masa Perjalanan",
+    "passengersLabel": "Bilangan Penumpang",
+    "vehicleLabel": "Pilihan Kenderaan",
+    "anyVehicle": "Pilih Kategori Kenderaan",
+    "buttonCalculate": "Kira Tambang & Tempah",
+    "buttonBookNow": "Pengesahan Segera",
+    "totalFare": "Jumlah Tambang Tetap (Termasuk Cukai)",
+    "payOnArrivalNotice": "Tiada bayaran pendahuluan · Bayar terus kepada pemandu semasa tiba secara tunai atau kad"
+  },
+  "steps": {
+    "sectionPill": "Mudah & Teratur",
+    "heading": "Perjalanan Anda Dalam",
+    "headingHighlight": "3 Langkah Mudah",
+    "subtitle": "Nikmati standard tertinggi pengangkutan ibadah Umrah. Direka khas demi keselesaan dan ketenangan ibadah anda.",
+    "step1Title": "Pilih Laluan & Masa",
+    "step1Desc": "Pilih tempat pengambilan, hotel destinasi, tarikh dan maklumat penerbangan anda untuk mendapatkan harga tetap serta-merta.",
+    "step2Title": "Pilih Kenderaan Selesa",
+    "step2Desc": "Pilih dari armada kereta moden kami: VIP GMC Yukon XL, Van Keluarga Hyundai Staria, Toyota Camry, atau HiAce.",
+    "step3Title": "Pengesahan Segera",
+    "step3Desc": "Terima baucar tempahan anda serta-merta melalui WhatsApp berserta pautan penjejakan pemandu. Bayar apabila selamat tiba.",
+    "ctaButton": "Tempah Perjalanan Sekarang",
+    "noPrepayNotice": "Tiada bayaran pendahuluan • Bayar apabila tiba"
+  },
+  "fleet": {
+    "sectionPill": "Pengalaman Ruang Dalaman",
+    "heading": "Lihat Ruang Dalaman Kenderaan Kami",
+    "subtitle": "Setiap perjalanan bermula dengan keselesaan. Terokai ruang kabin luas dan kapasiti bagasi armada kereta kami.",
+    "viewInterior": "Lihat Ruang Kabin Dalaman",
+    "viewExterior": "Lihat Bahagian Luar Kenderaan",
+    "seatsLabel": "Tempat Duduk",
+    "bagsLabel": "Beg Bagasi",
+    "detailsButton": "Maklumat Lanjut",
+    "bookNowButton": "Tempah Kereta Ini",
+    "amenityAc": "Penyaman Udara Dwi-Zon Sejuk",
+    "amenityZamzam": "Air Zamzam Sejuk Disediakan Percuma",
+    "amenityCharging": "Pengecas Telefon Pantas",
+    "amenityWifi": "Sambungan Wi-Fi Percuma"
+  },
+  "services": {
+    "sectionPill": "Perkhidmatan Utama Kami",
+    "heading": "Pengangkutan Persendirian Untuk",
+    "headingHighlight": "Perjalanan Suci Anda",
+    "subtitle": "Penyelesaian perjalanan terancang khas untuk jemaah Umrah dan keluarga antara lapangan terbang, Makkah dan Madinah.",
+    "intercityTitle": "Perjalanan Antara Bandar",
+    "intercityDesc": "Perjalanan lebuh raya yang tenang antara Makkah, Madinah dan Jeddah dengan perhentian solat dan rehat yang selesa.",
+    "airportTitle": "Pengambilan Lapangan Terbang",
+    "airportDesc": "Ketibaan dipantau di Lapangan Terbang Jeddah (KAIA) dan Madinah (MED) dengan sambutan papan nama peribadi.",
+    "ziyaratTitle": "Lawatan Ziarah Tempat Bersejarah",
+    "ziyaratDesc": "Kunjungi tempat-tempat bersejarah sirah Nabawi di Makkah dan Madinah bersama pemandu tempatan yang mesra dan berilmu.",
+    "viewDetails": "Lihat Butiran"
+  },
+  "why_us": {
+    "sectionPill": "Komitmen Kami",
+    "heading": "Mengapa Jemaah Memilih",
+    "headingHighlight": "Royal Umrah Cabs",
+    "subtitle": "Bagi kami, ini bukan sekadar perjalanan biasa, tetapi satu amanah mulia untuk melayani para Duyufurrahman (tetamu Allah).",
+    "pillar1Title": "Ketenangan Fikiran",
+    "pillar1Subtitle": "Ketenteraman & Keyakinan",
+    "pillar1Desc": "Fokus pada ibadah anda dan serahkan urusan jalan raya kepada kami. Pemandu berpengalaman dan kenderaan yang selamat.",
+    "pillar2Title": "Menepati Masa",
+    "pillar2Subtitle": "Disiplin Waktu yang Ketat",
+    "pillar2Desc": "Kami memantau jadual penerbangan anda secara langsung dan tiba awal, berserta masa menunggu percuma 60 minit di lapangan terbang.",
+    "pillar3Title": "Layanan Tetamu Allah",
+    "pillar3Subtitle": "Hospitaliti Mulia Tanah Suci",
+    "pillar3Desc": "Bantuan mengangkat bagasi, kabin kereta yang wangi dan bersih, serta bekalan air minuman sejuk sepanjang perjalanan.",
+    "comparisonTitle": "Perbandingan Pemandu Peribadi vs Teksi Biasa Jalanan"
+  },
+  "reviews": {
+    "sectionPill": "Ulasan & Testimoni Jemaah",
+    "heading": "Diyakini Oleh Jemaah",
+    "headingHighlight": "Dari Seluruh Dunia",
+    "subtitle": "Baca pengalaman sebenar para jemaah yang telah menggunakan khidmat pengangkutan kami.",
+    "googleRatingText": "Disahkan di Google Reviews",
+    "writeReviewButton": "Tulis Ulasan",
+    "readAllButton": "Baca Semua Ulasan di Google"
+  },
+  "faq": {
+    "sectionPill": "Jawapan Jelas",
+    "heading": "Soalan Lazim (FAQ)",
+    "subtitle": "Semua maklumat penting mengenai tambang, kaedah pembayaran, kelewatan penerbangan, dan perhentian Miqat.",
+    "q1": "Bolehkah saya membayar tunai atau kad semasa tiba?",
+    "a1": "Ya, sudah tentu. Kami tidak mengenakan sebarang bayaran pendahuluan atau kad kredit semasa tempahan. Anda boleh membayar pemandu apabila tiba di hotel dalam Ringgit Malaysia (MYR), Riyal Saudi (SAR), Dolar AS (USD), atau kad bank.",
+    "q2": "Bagaimana jika penerbangan kami ke Jeddah atau Madinah lewat?",
+    "a2": "Kami memantau masa penerbangan anda secara automatik menggunakan nombor penerbangan yang anda berikan. Masa pengambilan diselaraskan secara percuma tanpa sebarang caj tambahan.",
+    "q3": "Adakah harga yang dipaparkan untuk setiap penumpang atau untuk satu kereta?",
+    "a3": "Semua harga yang dipaparkan di Royal Umrah Cabs adalah untuk satu kenderaan persendirian penuh, merangkumi semua ahli keluarga anda mengikut kapasiti kenderaan.",
+    "q4": "Bolehkah kami singgah di Miqat untuk berniat Ihram?",
+    "a4": "Ya, bagi laluan di mana jemaah perlu berniat Ihram (contohnya dari Madinah ke Makkah melalui Masjid Miqat Bir Ali / Dhu al-Hulayfah), kami menyediakan perhentian khusus untuk mandi sunat dan berniat Ihram dengan tenang."
+  },
+  "cta_band": {
+    "heading": "Mulakan Perjalanan Ibadah Anda Dengan",
+    "headingHighlight": "Ketenangan Jiwa Sepenuhnya",
+    "subtitle": "Serahkan logistik perjalanan kepada kami. Tempah pemandu peribadi anda sekarang untuk menikmati layanan yang ikhlas dan mesra.",
+    "buttonPrimary": "Tempah Pemandu Umrah Anda",
+    "buttonWhatsApp": "Hubungi Melalui WhatsApp"
+  },
+  "footer": {
+    "desc": "Perkhidmatan teksi persendirian dan pemandu VIP Umrah menghubungkan Lapangan Terbang Jeddah (KAIA), Makkah, Madinah, dan Riyadh.",
+    "popularRoutes": "Laluan Popular",
+    "servicesFleet": "Perkhidmatan & Armada",
+    "company": "Syarikat & Polisi",
+    "pilgrimsFrom": "Jemaah Dari Seluruh Dunia",
+    "copyright": "© 2026 Royal Umrah Cabs. Hak cipta terpelihara.",
+    "privacy": "Dasar Privasi",
+    "terms": "Terma & Syarat",
+    "refunds": "Polisi Pembatalan & Pemulangan",
+    "whatsappBtn": "WhatsApp Kami",
+    "callBtn": "Panggilan Terus"
+  },
+  "floating": {
+    "whatsappTooltip": "Bual dengan bahagian operasi Umrah 24 Jam",
+    "backToTop": "Kembali ke atas"
+  },
+  "validation": {
+    "required": "Ruangan ini wajib diisi",
+    "invalidPhone": "Sila masukkan nombor telefon yang sah beserta kod negara",
+    "invalidDate": "Sila pilih tarikh masa hadapan yang sah",
+    "minPassengers": "Sekurang-kurangnya 1 penumpang diperlukan"
+  },
+  "booking_modal": {
+    "title": "Tempahan Anda Berjaya Diterima!",
+    "referenceLabel": "Nombor Rujukan Tempahan",
+    "routeLabel": "Laluan / Perkhidmatan",
+    "vehicleLabel": "Pilihan Kenderaan",
+    "datetimeLabel": "Tarikh & Masa Pengambilan",
+    "totalFareLabel": "Jumlah Tambang Tetap",
+    "messageSentNotice": "Tempahan anda telah direkodkan dalam sistem operasi kami. Pihak kami akan menghubungi anda melalui WhatsApp untuk memberikan butiran pemandu dan kenderaan.",
+    "closeBtn": "Tutup",
+    "confirmWhatsAppBtn": "Hantar Butiran ke WhatsApp"
+  }
+}

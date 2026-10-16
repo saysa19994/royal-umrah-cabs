@@ -1,0 +1,61 @@
+import { createClient } from './supabase/server';
+
+export interface SiteSettings {
+  whatsapp_number: string;
+  phone: string;
+  email: string;
+  address_cities: string[];
+  google_reviews_link: string;
+  google_reviews_rating: number;
+  google_reviews_count: number;
+  free_cancellation_hours: number;
+  currency_rates: Record<string, number>;
+}
+
+export const DEFAULT_SETTINGS: SiteSettings = {
+  whatsapp_number: process.env.NEXT_PUBLIC_DEFAULT_WHATSAPP || '966567588261',
+  phone: process.env.NEXT_PUBLIC_DEFAULT_PHONE || '+966567588261',
+  email: process.env.NEXT_PUBLIC_DEFAULT_EMAIL || 'info@royalumrahcabs.com',
+  address_cities: ['Makkah', 'Madinah', 'Jeddah', 'Riyadh'],
+  google_reviews_link: 'https://g.page/r/CTL7ETeAhDVpEAI/review',
+  google_reviews_rating: 4.9,
+  google_reviews_count: 12480,
+  free_cancellation_hours: 24,
+  currency_rates: {
+    SAR: 1.0,
+    USD: 0.266,
+    MYR: 1.18,
+    GBP: 0.21,
+    EUR: 0.25,
+    EGP: 13.1,
+  },
+};
+
+export async function getSiteSettings(): Promise<SiteSettings> {
+  try {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from('site_settings')
+      .select('*')
+      .eq('lock_id', true)
+      .single();
+
+    if (error || !data) {
+      return DEFAULT_SETTINGS;
+    }
+
+    return {
+      whatsapp_number: data.whatsapp_number || DEFAULT_SETTINGS.whatsapp_number,
+      phone: data.phone || DEFAULT_SETTINGS.phone,
+      email: data.email || DEFAULT_SETTINGS.email,
+      address_cities: data.address_cities || DEFAULT_SETTINGS.address_cities,
+      google_reviews_link: data.google_reviews_link || DEFAULT_SETTINGS.google_reviews_link,
+      google_reviews_rating: Number(data.google_reviews_rating) || DEFAULT_SETTINGS.google_reviews_rating,
+      google_reviews_count: Number(data.google_reviews_count) || DEFAULT_SETTINGS.google_reviews_count,
+      free_cancellation_hours: Number(data.free_cancellation_hours) || DEFAULT_SETTINGS.free_cancellation_hours,
+      currency_rates: data.currency_rates || DEFAULT_SETTINGS.currency_rates,
+    };
+  } catch {
+    return DEFAULT_SETTINGS;
+  }
+}

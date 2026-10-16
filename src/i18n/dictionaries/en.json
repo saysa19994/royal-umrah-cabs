@@ -1,0 +1,175 @@
+{
+  "meta": {
+    "brand": "Royal Umrah Cabs",
+    "brandSub": "Luxury Pilgrim Transport",
+    "seoTitle": "Royal Umrah Cabs | Private Umrah Chauffeur & Pilgrim Transport",
+    "seoDescription": "Private Umrah taxi and chauffeur transport in Makkah, Madinah, and Jeddah Airport (KAIA). Fixed transparent fares, pay upon arrival, automated flight tracking."
+  },
+  "nav": {
+    "home": "Home",
+    "routes": "Routes",
+    "services": "Services",
+    "fleet": "Fleet",
+    "pricing": "Pricing",
+    "compare": "Compare",
+    "guides": "Guides",
+    "about": "About",
+    "contact": "Contact",
+    "bookNow": "Book Now",
+    "trackBooking": "Track Booking",
+    "account": "Partner Portal"
+  },
+  "trust_strip": {
+    "googleReviews": "4.9/5 on Google Reviews",
+    "flightTracking": "Flight Tracking Included",
+    "payOnArrival": "Pay Upon Arrival (No Prepayment)",
+    "support247": "24/7 Dedicated Chauffeur Support",
+    "fixedPrices": "Guaranteed Fixed Prices",
+    "freeCancellation": "Free Cancellation (24h Notice)",
+    "noHiddenFees": "Zero Hidden Surcharges"
+  },
+  "hero": {
+    "eyebrow": "Private Umrah & Hajj Transport",
+    "titlePart1": "Premium Umrah Chauffeur &",
+    "titlePart2": "Luxury Pilgrim Transport",
+    "description": "Experience peace of mind with our dedicated private Umrah taxi service across Makkah, Madinah, Jeddah, and Riyadh. Professional chauffeurs, guaranteed fixed rates, and comfort tailored for the Guests of Allah.",
+    "ctaBook": "Book Your Journey",
+    "ctaFleet": "Explore Fleet"
+  },
+  "booking_card": {
+    "title": "Calculate Fare & Book Instantly",
+    "subtitle": "Fixed transparent pricing in your local currency. No upfront payment required.",
+    "pickupLabel": "Pickup Location",
+    "dropoffLabel": "Destination",
+    "dateLabel": "Pickup Date",
+    "timeLabel": "Pickup Time",
+    "passengersLabel": "Passengers",
+    "vehicleLabel": "Vehicle Preference",
+    "anyVehicle": "Select Vehicle Class",
+    "buttonCalculate": "Get Prices & Book",
+    "buttonBookNow": "Instant Confirmation",
+    "totalFare": "Total Fixed Fare (Taxes Included)",
+    "payOnArrivalNotice": "No deposit required · Pay driver upon arrival in cash or card"
+  },
+  "steps": {
+    "sectionPill": "Simple & Punctual",
+    "heading": "Your Journey in",
+    "headingHighlight": "3 Simple Steps",
+    "subtitle": "Experience the gold standard of private pilgrim transport. Designed for your spiritual focus and comfort.",
+    "step1Title": "Search & Schedule",
+    "step1Desc": "Select your pickup point, destination, date, and flight details. Our system calculates guaranteed fixed pricing.",
+    "step2Title": "Select Your Vehicle",
+    "step2Desc": "Choose from our modern private fleet: VIP GMC Yukon XL, Family Hyundai Staria, Toyota Camry, or Toyota HiAce.",
+    "step3Title": "Instant Confirmation",
+    "step3Desc": "Receive immediate booking confirmation via WhatsApp with live chauffeur tracking. Pay securely upon arrival.",
+    "ctaButton": "Book Your Ride Now",
+    "noPrepayNotice": "No prepayment required • Pay upon arrival"
+  },
+  "fleet": {
+    "sectionPill": "The Interior Experience",
+    "heading": "Step Inside Our Fleet",
+    "subtitle": "Every journey begins with comfort. Explore the interior cabins and spacious luggage room of our vehicles.",
+    "viewInterior": "Interior Cabin View",
+    "viewExterior": "Exterior Fleet View",
+    "seatsLabel": "Seats",
+    "bagsLabel": "Luggage Bags",
+    "detailsButton": "View Details",
+    "bookNowButton": "Book This Vehicle",
+    "amenityAc": "Dual-Zone Climate Control",
+    "amenityZamzam": "Chilled Zamzam Water Included",
+    "amenityCharging": "Fast Phone Charging",
+    "amenityWifi": "Complimentary WiFi"
+  },
+  "services": {
+    "sectionPill": "Our Core Services",
+    "heading": "Private Transport for",
+    "headingHighlight": "Your Sacred Journey",
+    "subtitle": "Tailored chauffeur solutions for pilgrims and families traveling between Jeddah, Makkah, and Madinah.",
+    "intercityTitle": "Intercity Transfers",
+    "intercityDesc": "Smooth highway transfers between Makkah, Madinah, and Jeddah with optional prayer and rest stops.",
+    "airportTitle": "Airport Chauffeur Service",
+    "airportDesc": "Flight-tracked terminal arrivals at Jeddah (KAIA) and Madinah (MED) with personal meet & greet.",
+    "ziyaratTitle": "Ziyarat Holy Sites Tours",
+    "ziyaratDesc": "Explore historic landmarks across Makkah and Madinah with respectful, knowledgeable local chauffeurs.",
+    "viewDetails": "View Details"
+  },
+  "why_us": {
+    "sectionPill": "Our Commitment",
+    "heading": "Why Pilgrims Rely On",
+    "headingHighlight": "Royal Umrah Cabs",
+    "subtitle": "We treat every trip not as an ordinary ride, but as an opportunity to serve the honored Guests of Allah with dignity and care.",
+    "pillar1Title": "Peace of Mind",
+    "pillar1Subtitle": "Serenity and Assurance",
+    "pillar1Desc": "Focus on your worship while we manage the road. Experienced chauffeurs, well-maintained vehicles, and complete safety.",
+    "pillar2Title": "Respecting Your Time",
+    "pillar2Subtitle": "Exact Punctuality",
+    "pillar2Desc": "We track your flight in real-time, arrive before schedule, and include 60 minutes of complimentary airport waiting.",
+    "pillar3Title": "Guest of Allah Hospitality",
+    "pillar3Subtitle": "Noble Arabian Hospitality",
+    "pillar3Desc": "Warm assistance with luggage, fragrant clean cabins, and chilled drinking water to ease your travels.",
+    "comparisonTitle": "Private Chauffeur vs Ordinary Street Taxis"
+  },
+  "reviews": {
+    "sectionPill": "Pilgrim Testimonials",
+    "heading": "Trusted by Pilgrims",
+    "headingHighlight": "From Around the World",
+    "subtitle": "Read genuine feedback from pilgrims who booked their transfers with us.",
+    "googleRatingText": "Verified on Google Reviews",
+    "writeReviewButton": "Write a Review",
+    "readAllButton": "Read All Reviews on Google"
+  },
+  "faq": {
+    "sectionPill": "Clear Answers",
+    "heading": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about our rates, payment, flight delays, and vehicle options.",
+    "q1": "Can I pay cash or card upon arrival?",
+    "a1": "Yes, absolutely. We do not require any prepayment or credit card upfront. You can pay your chauffeur upon arrival in Saudi Riyals (SAR), US Dollars (USD), Euros (EUR), or by local bank card.",
+    "q2": "What happens if our flight to Jeddah or Madinah is delayed?",
+    "a2": "We monitor all flights using the flight number you provide during booking. Your pickup time is automatically synchronized, and our 60-minute free waiting window begins only after your flight has officially touched down.",
+    "q3": "Are prices quoted per person or per vehicle?",
+    "a3": "All prices displayed on Royal Umrah Cabs are strictly private per vehicle, covering all passengers and their luggage up to the vehicle's capacity.",
+    "q4": "Can we stop at the Miqat for Ihram?",
+    "a4": "On routes where pilgrims need to assume Ihram (such as Madinah to Makkah via Masjid Dhu al-Hulayfah / Bir Ali), we gladly schedule an Ihram stop so you can perform your prayers without rushing."
+  },
+  "cta_band": {
+    "heading": "Start Your Spiritual Journey with",
+    "headingHighlight": "Complete Peace of Mind",
+    "subtitle": "Leave the highway logistics to us. Reserve your private chauffeur now and experience honest, dignified hospitality.",
+    "buttonPrimary": "Book Your Umrah Chauffeur",
+    "buttonWhatsApp": "Chat on WhatsApp"
+  },
+  "footer": {
+    "desc": "Private Umrah chauffeur and luxury pilgrim transport connecting Jeddah Airport (KAIA), Makkah, Madinah, and Riyadh.",
+    "popularRoutes": "Popular Routes",
+    "servicesFleet": "Services & Fleet",
+    "company": "Company",
+    "pilgrimsFrom": "Pilgrims From",
+    "copyright": "© 2026 Royal Umrah Cabs. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "refunds": "Cancellation & Refunds",
+    "whatsappBtn": "WhatsApp Us",
+    "callBtn": "Direct Phone Call"
+  },
+  "floating": {
+    "whatsappTooltip": "Chat with our Umrah Dispatch 24/7",
+    "backToTop": "Back to top"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidPhone": "Please enter a valid phone number with country code",
+    "invalidDate": "Please select a valid future date",
+    "minPassengers": "At least 1 passenger is required"
+  },
+  "booking_modal": {
+    "title": "Booking Received Successfully!",
+    "referenceLabel": "Booking Reference",
+    "routeLabel": "Route / Service",
+    "vehicleLabel": "Vehicle",
+    "datetimeLabel": "Pickup Date & Time",
+    "totalFareLabel": "Fixed Total Fare",
+    "messageSentNotice": "Your booking has been saved to our dispatch system. We will contact you on WhatsApp with your chauffeur and vehicle details.",
+    "closeBtn": "Close",
+    "confirmWhatsAppBtn": "Send Details via WhatsApp"
+  }
+}
