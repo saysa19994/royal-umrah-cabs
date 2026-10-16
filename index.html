@@ -2948,35 +2948,24 @@
         }
 
         // Build WhatsApp Message
-        const waMsg = 
-'السلام عليكم ورحمة الله وبركاته،
-' +
-'أود تأكيد تذكرة حجز سيارة VIP عبر موقع *' + APP_DATA.config.brandNameAr + '*:
-
-' +
-'🎫 *رقم التذكرة الإلكترونية:* ' + refCode + '
-' +
-'📍 *المسار:* ' + routeTitle + '
-' +
-'🚘 *السيارة:* ' + vehicleTitle + '
-' +
-'📅 *التاريخ:* ' + dateVal + ' | ' + timeVal + '
-' +
-'✈️ *رقم الرحلة الجوية:* ' + flightNoVal + '
-
-' +
-'👤 *اسم العميل:* ' + custName + '
-' +
-'📱 *رقم التواصل:* ' + custPhone + '
-' +
-'💳 *طريقة الدفع:* ' + payMethod + '
-' +
-'💰 *السعر الإجمالي الثابت:* ' + finalPriceDisplay + ' (شامل الضريبة والمواقف)
-' +
-'✨ *الخدمات الإضافية:* ' + amenitiesText + '
-
-' +
-'يرجى اعتماد الحجز وإرسال تفاصيل الكابتن المسؤول، شكراً لكم.';
+        const waMsg = [
+          'السلام عليكم ورحمة الله وبركاته،',
+          'أود تأكيد تذكرة حجز سيارة VIP عبر موقع *' + APP_DATA.config.brandNameAr + '*:',
+          '',
+          '🎫 *رقم التذكرة الإلكترونية:* ' + refCode,
+          '📍 *المسار:* ' + routeTitle,
+          '🚘 *السيارة:* ' + vehicleTitle,
+          '📅 *التاريخ:* ' + dateVal + ' | ' + timeVal,
+          '✈️ *رقم الرحلة الجوية:* ' + flightNoVal,
+          '',
+          '👤 *اسم العميل:* ' + custName,
+          '📱 *رقم التواصل:* ' + custPhone,
+          '💳 *طريقة الدفع:* ' + payMethod,
+          '💰 *السعر الإجمالي الثابت:* ' + finalPriceDisplay + ' (شامل الضريبة والمواقف)',
+          '✨ *الخدمات الإضافية:* ' + amenitiesText,
+          '',
+          'يرجى اعتماد الحجز وإرسال تفاصيل الكابتن المسؤول، شكراً لكم.'
+        ].join(String.fromCharCode(10));
 
         const waLink = 'https://wa.me/' + APP_DATA.config.whatsappPhone + '?text=' + encodeURIComponent(waMsg);
         document.getElementById('vouchWaBtn').href = waLink;
@@ -3037,6 +3026,75 @@
         calcHourlyPrice();
       }
 
+
+      // 20. Smart Simulator Functions
+      const simState = { adults: 4, kids: 1, bigBags: 4, handBags: 3, wheelchair: 1, zamzam: 4 };
+
+      function adjustSim(field, delta) {
+        if (simState[field] !== undefined) {
+          simState[field] = Math.max(0, simState[field] + delta);
+          const el = document.getElementById('sim' + field.charAt(0).toUpperCase() + field.slice(1));
+          if (el) el.textContent = simState[field];
+          evalSimRecommendation();
+        }
+      }
+
+      function evalSimRecommendation() {
+        const totalPax = simState.adults + simState.kids;
+        const totalBags = simState.bigBags + Math.ceil(simState.handBags / 2) + simState.wheelchair + simState.zamzam;
+        const titleEl = document.getElementById('simRecTitle');
+        const descEl = document.getElementById('simRecDesc');
+
+        let recCar = 'yukon';
+        let recName = 'جمس يوكن XL دينالي VIP أو شفروليه سوبربان';
+        let recText = 'تتسع لـ 7 ركاب براحة تامة، وتستوعب جميع الحقائب وكرتون ماء زمزم والكرسي المتحرك دون أي تضييق.';
+
+        if (totalPax <= 3 && totalBags <= 3 && simState.wheelchair === 0) {
+          recCar = 'sedan';
+          recName = 'سيدان حديثة (تويوتا كامري / سوناتا 2025)';
+          recText = 'خيار اقتصادي مثالي وسريع يتسع حتى 3 ركاب وحقيبتين كبيرتين.';
+        } else if (totalPax <= 7 && totalBags <= 5 && simState.wheelchair === 0) {
+          recCar = 'staria';
+          recName = 'عائلية فاخرة (هيونداي ستاريا VIP)';
+          recText = 'أفضل اختيار عائلي متوازن يتسع لـ 7 ركاب و 5 حقائب كبيرة براحة وهدوء.';
+        } else if (totalPax > 7 || totalBags > 8) {
+          recCar = 'hiace';
+          recName = 'ميني باص عائلي (تويوتا هايس سقف عالي VIP)';
+          recText = 'مثالي للعائلات الكبيرة والمجموعات، يتسع لـ 10 ركاب و 10 حقائب كبيرة والكرسي المتحرك بسهولة.';
+        }
+
+        if (titleEl) titleEl.textContent = recName;
+        if (descEl) descEl.textContent = recText;
+        state.simRecommendedCar = recCar;
+      }
+
+      function bookSimulatedCar() {
+        const carId = state.simRecommendedCar || 'yukon';
+        pickVehicleAndBook(carId);
+      }
+
+      function detectTerminalDemo() {
+        const input = document.getElementById('demoFlightInput')?.value.trim().toUpperCase() || '';
+        const titleEl = document.getElementById('termResultTitle');
+        const textEl = document.getElementById('termResultText');
+
+        if (!input) {
+          alert('يرجى كتابة رمز أو رقم الرحلة أولاً');
+          return;
+        }
+
+        if (input.startsWith('SV') || input.startsWith('F3')) {
+          titleEl.textContent = '✈️ الصالة 1 الجديدة بمطار الملك عبدالعزيز (Terminal 1)';
+          textEl.textContent = 'الاستقبال في بوابة الخروج رقم 4. الكابتن سينتظرك بلوحة باسمك مباشرة عند مخرج الحقائب.';
+        } else if (input.startsWith('MS') || input.startsWith('XY') || input.startsWith('EK')) {
+          titleEl.textContent = '✈️ الصالة 1 / الشمالية الدولية بمطار جدة';
+          textEl.textContent = 'تم ربط الرحلة بنظام المراقبة الحية. استقبال خاص وتوجيه مباشر للسيارة فور هبوط الطائرة.';
+        } else {
+          titleEl.textContent = '✈️ صالة الوصول الدولية الرئيسية';
+          textEl.textContent = 'تم تتبع رقم الرحلة بنجاح: انتظار مجاني 60 دقيقة من لحظة الهبوط الفعلي.';
+        }
+      }
+
       // Expose to window
       window.appEngine = {
         switchEngineMode: switchEngineMode,
@@ -3059,7 +3117,10 @@
         bookHourlyChauffeur: bookHourlyChauffeur,
         selectZiyaratTour: selectZiyaratTour,
         setCurrency: setCurrency,
-        changeLanguage: changeLanguage
+        changeLanguage: changeLanguage,
+        adjustSim: adjustSim,
+        bookSimulatedCar: bookSimulatedCar,
+        detectTerminalDemo: detectTerminalDemo
       };
 
       document.addEventListener('DOMContentLoaded', initApp);
