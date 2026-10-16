@@ -221,6 +221,16 @@ const html = `<!DOCTYPE html>
 
       <!-- Controls: WhatsApp hotline + Currency + 4 Languages -->
       <div class="flex items-center gap-2.5 text-[11px] md:text-xs ms-auto">
+        <a href="track-booking.html" class="hidden sm:flex items-center gap-1 text-emerald-300 hover:text-white font-bold">
+          <i class="fa-solid fa-location-dot text-[10px]"></i>
+          <span>تتبع الحجز</span>
+        </a>
+        <span class="hidden sm:inline-block w-px h-3 bg-slate-700"></span>
+        <a href="partner.html" class="hidden sm:flex items-center gap-1 text-royal-gold hover:text-amber-200 font-bold">
+          <i class="fa-solid fa-briefcase text-[10px]"></i>
+          <span>Partner Login</span>
+        </a>
+        <span class="hidden sm:inline-block w-px h-3 bg-slate-700"></span>
         <!-- Direct WhatsApp Callout -->
         <a id="topSupportWa" href="https://wa.me/966567588261?text=السلام%20عليكم،%20أريد%20الاستفسار%20عن%20توصيل%20VIP" target="_blank" class="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 transition-colors font-bold">
           <i class="fa-brands fa-whatsapp text-sm"></i>
@@ -303,6 +313,14 @@ const html = `<!DOCTYPE html>
         <a href="#faq" class="hover:text-royal-gold transition-colors flex items-center gap-1.5">
           <i class="fa-regular fa-circle-question text-royal-gold/80 text-xs"></i>
           <span data-i18n="nav_faq">الأسئلة الشائعة</span>
+        </a>
+        <a href="track-booking.html" class="hover:text-royal-gold transition-colors flex items-center gap-1.5 text-emerald-400 font-bold">
+          <i class="fa-solid fa-location-crosshairs text-xs"></i>
+          <span>تتبع الحجز</span>
+        </a>
+        <a href="partner.html" class="hover:text-royal-gold transition-colors flex items-center gap-1.5 text-royal-gold font-bold">
+          <i class="fa-solid fa-handshake text-xs"></i>
+          <span>وكلاء B2B</span>
         </a>
       </nav>
 

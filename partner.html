@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بوابة وكلاء السفر والشركاء B2B | رويال كاب</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            royal: { emerald: '#032c24', emeraldDark: '#021e18', gold: '#d4af37', dark: '#070b12', card: '#0f172a' }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-['Tajawal'] antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- PARTNER LOGIN OVERLAY -->
+  <div id="partnerLoginOverlay" class="fixed inset-0 z-50 bg-slate-950 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-royal-gold/40 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl space-y-6">
+      <div class="w-16 h-16 rounded-2xl bg-royal-gold/15 text-royal-gold text-3xl flex items-center justify-center mx-auto border border-royal-gold/30">
+        <i class="fa-solid fa-briefcase"></i>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold font-['Cairo'] text-white">تسجيل دخول وكلاء السفر B2B</h2>
+        <p class="text-xs text-slate-400 mt-1">الوصول لأسعار الجملة، تذاكر White-Label، وعمولات الحجوزات</p>
+      </div>
+      <div class="space-y-3">
+        <input type="text" id="agencyCodeInput" placeholder="رمز الوكالة (مثال: AG-LONDON)" class="w-full text-center text-sm font-mono bg-slate-950 border border-slate-700 rounded-xl py-3 text-white outline-none focus:border-royal-gold">
+        <input type="password" id="agencyPinInput" placeholder="كلمة المرور (تجريبي: 1234)" class="w-full text-center text-sm font-mono bg-slate-950 border border-slate-700 rounded-xl py-3 text-royal-gold outline-none focus:border-royal-gold">
+      </div>
+      <button onclick="loginPartner()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-600 hover:opacity-95 text-slate-950 font-bold py-3 rounded-xl transition-all shadow-lg text-sm">
+        دخول بوابة الشركاء
+      </button>
+      <div class="flex justify-between items-center text-xs text-slate-400 pt-2 border-t border-slate-800">
+        <a href="/" class="hover:text-white">الرئيسية ⬅️</a>
+        <a href="https://wa.me/966567588261?text=أريد%20تسجيل%20وكالة%20سفر%20جديدة%20B2B" target="_blank" class="text-emerald-400 hover:underline">طلب فتح حساب وكيل</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTNER PORTAL APP -->
+  <div id="partnerApp" class="hidden flex-1 flex flex-col">
+    <!-- Header -->
+    <header class="bg-slate-900 border-b border-slate-800 px-4 sm:px-8 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-royal-gold/20 text-royal-gold flex items-center justify-center text-lg">
+          <i class="fa-solid fa-handshake"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-bold font-['Cairo'] text-white">بوابة الشركاء B2B | رويال كاب</h1>
+            <span class="text-[10px] bg-royal-gold/20 text-royal-gold px-2 py-0.5 rounded font-mono font-bold">خصم الجملة 20%</span>
+          </div>
+          <span class="text-xs text-slate-400" id="agencyNameBadge">وكالة المعتمر الدولية (London, UK)</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="openBulkBookingModal()" class="px-4 py-2 rounded-xl gold-gradient-bg text-royal-emeraldDark font-bold text-xs flex items-center gap-1.5 shadow-sm">
+          <i class="fa-solid fa-file-arrow-up"></i>
+          <span>حجز وفد / حملة جماعية</span>
+        </button>
+        <button onclick="logoutPartner()" class="p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white text-xs">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-6 flex-1 w-full">
+      <!-- Ledger & Stats -->
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
+          <span class="text-xs text-slate-400 block mb-1">إجمالي مشاوير الوكالة</span>
+          <span class="text-2xl font-black text-white font-mono">48 مشوار</span>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
+          <span class="text-xs text-emerald-400 block mb-1">العمولة المكتسبة (Commission)</span>
+          <span class="text-2xl font-black text-emerald-400 font-mono">3,850 SAR</span>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
+          <span class="text-xs text-royal-gold block mb-1">مستوى الخصم المعتمد</span>
+          <span class="text-2xl font-black text-royal-gold font-mono">Tier 2 (Gold)</span>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
+          <span class="text-xs text-slate-400 block mb-1">رصيد الحساب المتاح</span>
+          <span class="text-2xl font-black text-white font-mono">12,400 SAR</span>
+        </div>
+      </div>
+
+      <!-- Quick Issue White-Label Voucher Tool -->
+      <div class="bg-slate-900 border border-royal-gold/40 rounded-2xl p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold text-white font-['Cairo'] flex items-center gap-2">
+            <i class="fa-solid fa-ticket text-royal-gold"></i>
+            <span>إصدار تذكرة فورية بشعار وكالتك (White-Label PDF Voucher)</span>
+          </h3>
+          <span class="text-xs text-emerald-400 font-semibold">تأكيد فوري خلال ثوانٍ</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <input type="text" id="partnerCustName" placeholder="اسم المعتمر / رئيس الفوج" class="bg-slate-950 border border-slate-700 text-xs rounded-xl p-3 text-white outline-none">
+          <input type="tel" id="partnerCustPhone" placeholder="رقم جوال المعتمر" class="bg-slate-950 border border-slate-700 text-xs rounded-xl p-3 text-white outline-none font-mono">
+          <select id="partnerRouteSelect" class="bg-slate-950 border border-slate-700 text-xs rounded-xl p-3 text-white outline-none">
+            <option value="جدة إلى مكة">مطار جدة ⬅️ فندق مكة (240 SAR سعر جملة)</option>
+            <option value="مكة إلى المدينة">فندق مكة ⬅️ فندق المدينة (550 SAR سعر جملة)</option>
+            <option value="مزارات مكة">مزارات مكة الكبرى 4 ساعات (200 SAR)</option>
+          </select>
+        </div>
+
+        <div class="flex justify-end">
+          <button onclick="issuePartnerVoucher()" class="px-6 py-3 rounded-xl gold-gradient-bg text-royal-emeraldDark font-bold text-xs shadow-gold hover:opacity-95 flex items-center gap-2">
+            <i class="fa-solid fa-file-pdf"></i>
+            <span>إصدار تذكرة الحجز الرسمية PDF</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Agency Bookings Table -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        <div class="p-4 border-b border-slate-800 flex justify-between items-center">
+          <h4 class="text-sm font-bold text-white">سجل حجوزات الوكالة</h4>
+          <span class="text-xs text-slate-400">تحديث تلقائي</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-start text-xs">
+            <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="py-3 px-4 text-start">رقم الحجز</th>
+                <th class="py-3 px-4 text-start">اسم المعتمر</th>
+                <th class="py-3 px-4 text-start">المسار</th>
+                <th class="py-3 px-4 text-start">السيارة</th>
+                <th class="py-3 px-4 text-start">سعر الجملة</th>
+                <th class="py-3 px-4 text-start">العمولة</th>
+                <th class="py-3 px-4 text-center">التذكرة</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-300 font-mono">
+              <tr class="hover:bg-slate-950/40">
+                <td class="py-3 px-4 text-royal-gold font-bold">#RUC-AG-9921</td>
+                <td class="py-3 px-4 font-sans font-bold text-white">د. طارق المنشاوي (فوج بريطانيا)</td>
+                <td class="py-3 px-4 font-sans">مطار جدة ⬅️ فيرمونت مكة</td>
+                <td class="py-3 px-4 font-sans">GMC Yukon XL</td>
+                <td class="py-3 px-4 text-emerald-400">380 SAR</td>
+                <td class="py-3 px-4 text-royal-gold">+70 SAR</td>
+                <td class="py-3 px-4 text-center">
+                  <button onclick="window.print()" class="text-xs text-royal-gold hover:underline"><i class="fa-solid fa-print"></i> طباعة</button>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-950/40">
+                <td class="py-3 px-4 text-royal-gold font-bold">#RUC-AG-9920</td>
+                <td class="py-3 px-4 font-sans font-bold text-white">عائلة الحاج إبراهيم نور</td>
+                <td class="py-3 px-4 font-sans">مكة المكرمة ⬅️ المدينة المنورة</td>
+                <td class="py-3 px-4 font-sans">Hyundai Staria VIP</td>
+                <td class="py-3 px-4 text-emerald-400">550 SAR</td>
+                <td class="py-3 px-4 text-royal-gold">+100 SAR</td>
+                <td class="py-3 px-4 text-center">
+                  <button onclick="window.print()" class="text-xs text-royal-gold hover:underline"><i class="fa-solid fa-print"></i> طباعة</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function loginPartner() {
+      const pin = document.getElementById('agencyPinInput').value;
+      if (pin === '1234') {
+        document.getElementById('partnerLoginOverlay').classList.add('hidden');
+        document.getElementById('partnerApp').classList.remove('hidden');
+        sessionStorage.setItem('PARTNER_AUTH', 'true');
+      } else {
+        alert('رمز التحقق أو كلمة المرور غير صحيحة');
+      }
+    }
+
+    function logoutPartner() {
+      sessionStorage.removeItem('PARTNER_AUTH');
+      location.reload();
+    }
+
+    if (sessionStorage.getItem('PARTNER_AUTH') === 'true') {
+      document.getElementById('partnerLoginOverlay').classList.add('hidden');
+      document.getElementById('partnerApp').classList.remove('hidden');
+    }
+
+    function issuePartnerVoucher() {
+      const name = document.getElementById('partnerCustName').value.trim();
+      const phone = document.getElementById('partnerCustPhone').value.trim();
+      if (!name || !phone) {
+        alert('يرجى إدخال اسم المعتمر ورقم الهاتف');
+        return;
+      }
+      alert('تم توليد تذكرة الحجز الرسمية للوكيل بنجاح وسيتم فتح نافذة الطباعة.');
+      window.print();
+    }
+
+    function openBulkBookingModal() {
+      alert('ميزة رفع جدول الحملات (Excel / CSV) متاحة للوكلاء المعتمدين - تواصل مع مسؤول العمليات لتفعيل الاستيراد المباشر.');
+    }
+  </script>
+</body>
+</html>
