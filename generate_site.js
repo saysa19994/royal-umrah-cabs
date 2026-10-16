@@ -1510,6 +1510,292 @@ const html = `<!DOCTYPE html>
     </div>
   </section>
 
+
+  <!-- COMPETITIVE ADVANTAGE 1: SMART CAPACITY & LUGGAGE SIMULATOR -->
+  <section id="simulator-section" class="py-16 bg-gradient-to-b from-royal-dark via-slate-950 to-royal-dark border-t border-royal-gold/20 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <div class="inline-flex items-center gap-1.5 text-royal-gold text-xs font-bold uppercase tracking-wider mb-2">
+          <i class="fa-solid fa-calculator text-xs"></i>
+          <span>حاسبة السعة وحقائب السفر الذكية (Zero Guesswork)</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-black font-cairo text-white mb-2">
+          محاكي الحقائب ومياه زمزم: لا تقلق أبداً من ضيق مساحة السيارة
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-400">
+          حدد عدد أفراد عائلتك وحقائبكم الكبيرة والصغيرة وسيقوم الذكاء الاصطناعي باقتراح السيارة الفارهة المناسبة تماماً لتجنب أي إحراج بالمطار.
+        </p>
+      </div>
+
+      <div class="glass-panel p-6 sm:p-8 rounded-3xl max-w-4xl mx-auto border border-royal-gold/30 shadow-2xl">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6 text-center">
+          <!-- Adults -->
+          <div class="bg-slate-900/90 p-3 rounded-2xl border border-white/10">
+            <label class="block text-[11px] text-slate-400 mb-1 font-bold">البالغين</label>
+            <div class="flex items-center justify-center gap-2">
+              <button onclick="window.appEngine.adjustSim('adults', -1)" class="w-7 h-7 rounded-lg bg-slate-800 text-royal-gold font-bold">-</button>
+              <span id="simAdults" class="font-mono font-black text-white text-base">4</span>
+              <button onclick="window.appEngine.adjustSim('adults', 1)" class="w-7 h-7 rounded-lg bg-slate-800 text-royal-gold font-bold">+</button>
+            </div>
+          </div>
+          <!-- Kids -->
+          <div class="bg-slate-900/90 p-3 rounded-2xl border border-white/10">
+            <label class="block text-[11px] text-slate-400 mb-1 font-bold">الأطفال</label>
+            <div class="flex items-center justify-center gap-2">
+              <button onclick="window.appEngine.adjustSim('kids', -1)" class="w-7 h-7 rounded-lg bg-slate-800 text-royal-gold font-bold">-</button>
+              <span id="simKids" class="font-mono font-black text-white text-base">1</span>
+              <button onclick="window.appEngine.adjustSim('kids', 1)" class="w-7 h-7 rounded-lg bg-slate-800 text-royal-gold font-bold">+</button>
+            </div>
+          </div>
+          <!-- Big Bags -->
+          <div class="bg-slate-900/90 p-3 rounded-2xl border border-white/10">
+            <label class="block text-[11px] text-slate-400 mb-1 font-bold">حقائب كبيرة</label>
+            <div class="flex items-center justify-center gap-2">
+              <button onclick="window.appEngine.adjustSim('bigBags', -1)" class="w-7 h-7 rounded-lg bg-slate-800 text-royal-gold font-bold">-</button>
+              <span id="simBigBags" class="font-mono font-black text-white text-base">4</span>
+              <button onclick="window.appEngine.adjustSim('bigBags', 1)" class="w-7 h-7 rounded-lg bg-slate-800 text-royal-gold font-bold">+</button>
+            </div>
+          </div>
+          <!-- Handbags -->
+          <div class="bg-slate-900/90 p-3 rounded-2xl border border-white/10">
+            <label class="block text-[11px] text-slate-400 mb-1 font-bold">حقائب يد</label>
+            <div class="flex items-center justify-center gap-2">
+              <button onclick="window.appEngine.adjustSim('handBags', -1)" class="w-7 h-7 rounded-lg bg-slate-800 text-royal-gold font-bold">-</button>
+              <span id="simHandBags" class="font-mono font-black text-white text-base">3</span>
+              <button onclick="window.appEngine.adjustSim('handBags', 1)" class="w-7 h-7 rounded-lg bg-slate-800 text-royal-gold font-bold">+</button>
+            </div>
+          </div>
+          <!-- Wheelchairs -->
+          <div class="bg-slate-900/90 p-3 rounded-2xl border border-white/10">
+            <label class="block text-[11px] text-slate-400 mb-1 font-bold">كرسي متحرك</label>
+            <div class="flex items-center justify-center gap-2">
+              <button onclick="window.appEngine.adjustSim('wheelchair', -1)" class="w-7 h-7 rounded-lg bg-slate-800 text-royal-gold font-bold">-</button>
+              <span id="simWheelchair" class="font-mono font-black text-white text-base">1</span>
+              <button onclick="window.appEngine.adjustSim('wheelchair', 1)" class="w-7 h-7 rounded-lg bg-slate-800 text-royal-gold font-bold">+</button>
+            </div>
+          </div>
+          <!-- Zamzam -->
+          <div class="bg-slate-900/90 p-3 rounded-2xl border border-white/10">
+            <label class="block text-[11px] text-slate-400 mb-1 font-bold">كرتون زمزم</label>
+            <div class="flex items-center justify-center gap-2">
+              <button onclick="window.appEngine.adjustSim('zamzam', -1)" class="w-7 h-7 rounded-lg bg-slate-800 text-royal-gold font-bold">-</button>
+              <span id="simZamzam" class="font-mono font-black text-white text-base">4</span>
+              <button onclick="window.appEngine.adjustSim('zamzam', 1)" class="w-7 h-7 rounded-lg bg-slate-800 text-royal-gold font-bold">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulator Result Recommendation Banner -->
+        <div id="simRecommendationBanner" class="p-4 sm:p-5 rounded-2xl bg-royal-emeraldDark/80 border border-royal-gold/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-royal-gold text-royal-emeraldDark flex items-center justify-center text-xl shrink-0 font-black">
+              <i class="fa-solid fa-car-side"></i>
+            </div>
+            <div>
+              <span class="text-xs text-royal-gold font-bold block">التوصية المثالية لرحلتك:</span>
+              <h4 id="simRecTitle" class="text-base font-bold text-white font-cairo">جمس يوكن XL دينالي VIP أو شفروليه سوبربان</h4>
+              <p id="simRecDesc" class="text-[11px] text-slate-300">تتسع لـ 7 ركاب براحة تامة، وتستوعب جميع الحقائب وكرتون ماء زمزم والكرسي المتحرك دون أي تضييق.</p>
+            </div>
+          </div>
+          <button onclick="window.appEngine.bookSimulatedCar()" class="gold-gradient-bg text-royal-emeraldDark font-bold px-6 py-3 rounded-xl shadow-gold hover:opacity-95 text-xs sm:text-sm whitespace-nowrap">
+            احجز هذه الفئة فوراً
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPETITIVE ADVANTAGE 2: TERMINAL AUTO-DETECTOR & AIRPORT RECEPTION GUIDE -->
+  <section class="py-16 bg-royal-dark border-t border-white/10 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-5 space-y-4">
+          <div class="inline-flex items-center gap-1.5 text-emerald-400 text-xs font-bold uppercase">
+            <i class="fa-solid fa-plane-departure text-xs"></i>
+            <span>كاشف الصالات الذكي (Smart Terminal Detector)</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black font-cairo text-white">
+            وداعاً لضياع الوقت بين صالات مطار جدة والمدينة
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            بمجرد إدخال رقم خط الطيران، يحدد نظامنا الصالة المحددة بدقة (الصالة 1، الصالة الشمالية القديمة، أو صالة الحج والعمرة) مع إرسال خريطة تفاعلية وموقع الكابتن عند بوابة الخروج.
+          </p>
+
+          <div class="p-3.5 rounded-xl bg-slate-900 border border-white/10 space-y-2 text-xs">
+            <div class="flex items-center justify-between text-slate-200">
+              <span class="font-bold">🇸🇦 الخطوط السعودية وفلاي أديل:</span>
+              <span class="text-royal-gold font-bold">الصالة 1 الجديدة (Terminal 1)</span>
+            </div>
+            <div class="flex items-center justify-between text-slate-200">
+              <span class="font-bold">🇪🇬 مصر للطيران، طيران ناس، الدولية:</span>
+              <span class="text-emerald-400 font-bold">الصالة 1 أو الشمالية حسب الجدولة</span>
+            </div>
+            <div class="flex items-center justify-between text-slate-200">
+              <span class="font-bold">🕋 رحلات مخصصة للحج والعمرة:</span>
+              <span class="text-amber-300 font-bold">مجمع صالات الحج والعمرة</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 glass-panel p-6 rounded-3xl border border-royal-gold/30">
+          <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-magnifying-glass-location text-royal-gold"></i>
+            <span>اختبر كاشف الصالات الذكي الآن:</span>
+          </h3>
+          <div class="flex flex-col sm:flex-row gap-3 mb-4">
+            <input type="text" id="demoFlightInput" placeholder="أدخل رمز الطيران (مثال: SV 302, MS 650, F3, XY)" class="flex-1 bg-slate-900 text-white rounded-xl px-4 py-3 border border-white/20 text-xs sm:text-sm outline-none font-mono">
+            <button onclick="window.appEngine.detectTerminalDemo()" class="gold-gradient-bg text-royal-emeraldDark font-bold px-6 py-3 rounded-xl shadow-gold text-xs sm:text-sm">
+              فحص الصالة
+            </button>
+          </div>
+          <div id="demoTerminalResult" class="p-4 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-xs text-slate-300 flex items-center gap-3">
+            <i class="fa-solid fa-circle-info text-royal-gold text-lg"></i>
+            <div>
+              <span class="font-bold text-white block" id="termResultTitle">جاهز للفحص التلقائي</span>
+              <span id="termResultText">اكتب رقم رحلتك أعلاه وسنعرض لك الصالة المعتمدة وبوابة الاستقبال وموقع الكابتن.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPETITIVE ADVANTAGE 3: MIQAT CUSTOMIZER & SPIRITUAL GUIDE -->
+  <section class="py-16 bg-gradient-to-b from-slate-950 via-royal-emeraldDark/30 to-royal-dark border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <div class="inline-flex items-center gap-1.5 text-royal-gold text-xs font-bold uppercase tracking-wider mb-2">
+          <i class="fa-solid fa-kaaba text-xs"></i>
+          <span>محطة الإحرام والمواقيت الشرعية (Spiritual Addon)</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-black font-cairo text-white mb-2">
+          توقف مجاني 30 دقيقة للإحرام من الميقات وصلاة ركعتين
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-400">
+          إذا كنت مسافراً من المدينة أو الطائف، نوفر لك توقفاً مريحاً ومجانياً في الميقات مع تزويدك بدليل العمرة الصوتي والمكتوب.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="glass-card p-5 rounded-2xl border border-white/10">
+          <span class="text-royal-gold font-bold text-xs block mb-1">ميقات أهل المدينة والمارين بها</span>
+          <h4 class="text-base font-bold text-white mb-2">مسجد ذو الحليفة (آبار علي)</h4>
+          <p class="text-xs text-slate-400 mb-4 leading-relaxed">توقف كامل للاغتسال ولبس الإحرام وعقد نية العمرة في أبعد المواقيت عن مكة، مع مرافق وخدمات فندقية.</p>
+          <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded border border-emerald-500/30 font-bold">✓ مشمول مجاناً في مسار المدينة</span>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl border border-white/10">
+          <span class="text-royal-gold font-bold text-xs block mb-1">ميقات القادمين من الطائف والرياض</span>
+          <h4 class="text-base font-bold text-white mb-2">ميقات قرن المنازل (السيل الكبير)</h4>
+          <p class="text-xs text-slate-400 mb-4 leading-relaxed">توقف مريح أعلى جبال الهدا للإحرام وصلاة ركعتي سنة الإحرام وتجديد النية قبل النزول إلى مكة المكرمة.</p>
+          <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded border border-emerald-500/30 font-bold">✓ مشمول مجاناً في مسار الطائف</span>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl border border-white/10">
+          <span class="text-royal-gold font-bold text-xs block mb-1">ميقات أهل مكة والمعتمرين مجدداً</span>
+          <h4 class="text-base font-bold text-white mb-2">مسجد السيدة عائشة (التنعيم)</h4>
+          <p class="text-xs text-slate-400 mb-4 leading-relaxed">توصيل خاص وسريع لمن يرغب في أداء عمرة ثانية عن والديه أو أقاربه مع انتظار السائق حتى الانتهاء.</p>
+          <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded border border-emerald-500/30 font-bold">✓ متاح ضمن باقة المزارات</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPETITIVE ADVANTAGE 4: B2B TRAVEL AGENT & PARTNER PORTAL -->
+  <section class="py-12 bg-slate-950 border-t border-royal-gold/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="text-start">
+        <span class="text-xs font-bold text-royal-gold uppercase tracking-wider block mb-1">بوابة الشركاء ووكلاء السفر الدوليين (B2B Partner Portal)</span>
+        <h3 class="text-xl sm:text-2xl font-black font-cairo text-white">هل أنت وكيل سفر أو قائد حملة عمرة بالخارج؟</h3>
+        <p class="text-xs sm:text-sm text-slate-400 mt-1">
+          احصل على تذاكر حجز فورية باسم شركتك (White-Label) مع عمولات حصرية وإدارة أسطول كامل لحجاجك ومعتمريك.
+        </p>
+      </div>
+      <div class="flex items-center gap-3 shrink-0">
+        <a href="https://wa.me/966567588261?text=مرحباً،%20أنا%20وكيل%20سفر%20وأريد%20الاشتراك%20في%20بوابة%20الشركاء%20B2B" target="_blank" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-white/20 transition-all flex items-center gap-2">
+          <i class="fa-solid fa-handshake text-royal-gold"></i>
+          <span>انضم كوكيل معتمد</span>
+        </a>
+        <a href="#booking-section" class="px-5 py-3 rounded-xl gold-gradient-bg text-royal-emeraldDark font-black text-xs shadow-gold hover:opacity-95 transition-all">
+          حجز فوري للضيوف
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPETITIVE ADVANTAGE 5: PROGRAMMATIC SEO DIRECTORY (INTERNATIONAL PILGRIMS & TOP HOTELS) -->
+  <section class="py-16 bg-royal-dark border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <div class="inline-flex items-center gap-1.5 text-royal-gold text-xs font-bold uppercase tracking-wider mb-2">
+          <i class="fa-solid fa-globe text-xs"></i>
+          <span>تغطية دولية وفندقية شاملة (Programmatic Directory)</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-black font-cairo text-white mb-2">
+          نخدم ضيوف الرحمن من جميع دول العالم لأرقى فنادق مكة والمدينة
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-400">
+          استقبال خاص لرحلات الطيران من بريطانيا، أمريكا، مصر، دول الخليج، باكستان، وإندونيسيا مع توصيل مباشر لباب برج الفندق.
+        </p>
+      </div>
+
+      <!-- Country Cards Pills -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+        <div class="glass-card p-3 rounded-xl text-center border border-white/10 hover:border-royal-gold transition-colors">
+          <span class="text-lg block mb-1">🇬🇧</span>
+          <span class="text-xs font-bold text-white block">معتمرو بريطانيا</span>
+          <span class="text-[10px] text-slate-400">الدفع بـ GBP (£)</span>
+        </div>
+        <div class="glass-card p-3 rounded-xl text-center border border-white/10 hover:border-royal-gold transition-colors">
+          <span class="text-lg block mb-1">🇺🇸</span>
+          <span class="text-xs font-bold text-white block">معتمرو أمريكا وكندا</span>
+          <span class="text-[10px] text-slate-400">الدفع بـ USD ($)</span>
+        </div>
+        <div class="glass-card p-3 rounded-xl text-center border border-white/10 hover:border-royal-gold transition-colors">
+          <span class="text-lg block mb-1">🇪🇬</span>
+          <span class="text-xs font-bold text-white block">معتمرو مصر</span>
+          <span class="text-[10px] text-slate-400">الدفع بـ EGP أو SAR</span>
+        </div>
+        <div class="glass-card p-3 rounded-xl text-center border border-white/10 hover:border-royal-gold transition-colors">
+          <span class="text-lg block mb-1">🇦🇪 🇰🇼 🇶🇦</span>
+          <span class="text-xs font-bold text-white block">ضيوف دول الخليج</span>
+          <span class="text-[10px] text-slate-400">أسطول يوكن XL وسوبربان</span>
+        </div>
+        <div class="glass-card p-3 rounded-xl text-center border border-white/10 hover:border-royal-gold transition-colors">
+          <span class="text-lg block mb-1">🇵🇰 🇮🇳</span>
+          <span class="text-xs font-bold text-white block">Pakistan &amp; India</span>
+          <span class="text-[10px] text-slate-400">اردو زبان میں رہنمائی</span>
+        </div>
+        <div class="glass-card p-3 rounded-xl text-center border border-white/10 hover:border-royal-gold transition-colors">
+          <span class="text-lg block mb-1">🇮🇩 🇲🇾</span>
+          <span class="text-xs font-bold text-white block">Indonesia &amp; Malaysia</span>
+          <span class="text-[10px] text-slate-400">Layanan Umrah VIP</span>
+        </div>
+      </div>
+
+      <!-- Hotel Direct Destinations Grid -->
+      <div class="p-6 rounded-2xl bg-slate-900/90 border border-white/10">
+        <h4 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-hotel text-royal-gold"></i>
+          <span>أشهر فنادق أبراج مكة والمركزية التي نصل إليها مباشرة:</span>
+        </h4>
+        <div class="flex flex-wrap gap-2 text-xs">
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-white/5">فندق فيرمونت برج الساعة مكة</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-white/5">سويس أوتيل المقام والقبلة</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-white/5">بولمان زمزم مكة</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-white/5">فنادق جبل عمر (هيلتون، كونراد، حياة ريجنسي)</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-white/5">رافلز قصر مكة</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-white/5">أوبروي المدينة المنورة</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-white/5">أنوار المدينة موفنبيك</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-white/5">دار التقوى ودار الإيمان</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
   <!-- WHY US / 6 ROYAL PILLARS -->
   <section id="why-us" class="py-16 md:py-24 bg-gradient-to-b from-royal-dark via-royal-emeraldDark/40 to-royal-dark border-t border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
