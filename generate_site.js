@@ -51,6 +51,7 @@ const html = `<!DOCTYPE html>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Tailwind CSS Play CDN with Config -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -1086,6 +1087,95 @@ const html = `<!DOCTYPE html>
           </div>
         </div>
 
+        <!-- Fleet Card: Chevrolet Suburban VIP -->
+        <div class="glass-card rounded-2xl p-5 relative flex flex-col justify-between border border-white/10 group">
+          <div>
+            <div class="relative rounded-xl overflow-hidden aspect-video mb-4 bg-slate-900 border border-white/10 group/img">
+              <img id="fleetImg_suburban" src="assets/images/yukon_exterior.jpg" alt="شفروليه سوبربان VIP للعمرة" class="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105 cursor-pointer" onclick="window.appEngine.openLightbox('fleetImg_suburban', 'شفروليه سوبربان VIP 2025')">
+              
+              <div class="absolute bottom-2 inset-x-2 flex items-center justify-between pointer-events-auto">
+                <div class="flex items-center gap-1 bg-black/70 backdrop-blur-md p-1 rounded-lg border border-white/20 text-[10px] text-white">
+                  <button type="button" onclick="window.appEngine.switchFleetPhoto('suburban', 'exterior')" id="btnPhoto_suburban_ext" class="px-2 py-0.5 rounded font-bold bg-royal-gold text-royal-emeraldDark">خارجي</button>
+                  <button type="button" onclick="window.appEngine.switchFleetPhoto('suburban', 'interior')" id="btnPhoto_suburban_int" class="px-2 py-0.5 rounded font-bold text-slate-300 hover:text-white">داخلي</button>
+                </div>
+                <button type="button" onclick="window.appEngine.openLightbox('fleetImg_suburban', 'شفروليه سوبربان VIP 2025')" class="w-7 h-7 rounded-lg bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-xs hover:text-royal-gold">
+                  <i class="fa-solid fa-expand"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] font-bold bg-royal-gold/15 text-royal-gold px-2.5 py-1 rounded-full border border-royal-gold/30">الأكثر رحابة للعائلات</span>
+              <span class="text-xs text-slate-400 font-semibold">VIP 2025</span>
+            </div>
+            <h3 class="text-base font-bold font-cairo text-white mb-2">فخامة عائلية (شفروليه سوبربان VIP 2025)</h3>
+            <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 py-2.5 border-y border-white/5 my-2">
+              <div class="flex items-center gap-1.5"><i class="fa-solid fa-users text-royal-gold"></i><span>7 ركاب</span></div>
+              <div class="flex items-center gap-1.5"><i class="fa-solid fa-suitcase-rolling text-royal-gold"></i><span>7 حقائب كبيرة</span></div>
+            </div>
+            <ul class="space-y-1.5 text-xs text-slate-400 mb-5">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>مساحة أمتعة عملاقة تناسب حقائب العمرة الكبيرة</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>عزل صوتي فائق وهدوء تام طوال الطريق</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>كرسي أطفال مجاني وضيافة ماء زمزم بارد</span></li>
+            </ul>
+          </div>
+          <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-3">
+            <div>
+              <span class="text-[10px] text-slate-400 block">تبدأ من (مطار جدة)</span>
+              <span class="text-lg font-black text-royal-gold font-mono fleet-price-suburban">420 SAR</span>
+            </div>
+            <button onclick="window.appEngine.pickVehicleAndBook('suburban')" class="px-4 py-2 rounded-xl gold-gradient-bg text-royal-emeraldDark font-bold text-xs shadow-gold hover:opacity-95">
+              احجز هذه السيارة
+            </button>
+          </div>
+        </div>
+
+        <!-- Fleet Card: Mercedes-Benz S-Class / BMW 7 Series -->
+        <div class="glass-card rounded-2xl p-5 relative flex flex-col justify-between border-2 border-royal-gold/60 shadow-gold group">
+          <div class="absolute -top-3 start-4 bg-royal-gold text-royal-emeraldDark text-[10px] font-black px-2.5 py-0.5 rounded-full">
+            رجال الأعمال والبروتوكول ⭐
+          </div>
+          <div>
+            <div class="relative rounded-xl overflow-hidden aspect-video mb-4 bg-slate-900 border border-white/10 group/img">
+              <img id="fleetImg_mercedes" src="assets/images/camry_exterior.jpg" alt="مرسيدس S-Class VIP بالرياض وجدة" class="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105 cursor-pointer" onclick="window.appEngine.openLightbox('fleetImg_mercedes', 'مرسيدس S-Class / BMW 7 Series')">
+              
+              <div class="absolute bottom-2 inset-x-2 flex items-center justify-between pointer-events-auto">
+                <div class="flex items-center gap-1 bg-black/70 backdrop-blur-md p-1 rounded-lg border border-white/20 text-[10px] text-white">
+                  <button type="button" onclick="window.appEngine.switchFleetPhoto('mercedes', 'exterior')" id="btnPhoto_mercedes_ext" class="px-2 py-0.5 rounded font-bold bg-royal-gold text-royal-emeraldDark">خارجي</button>
+                  <button type="button" onclick="window.appEngine.switchFleetPhoto('mercedes', 'interior')" id="btnPhoto_mercedes_int" class="px-2 py-0.5 rounded font-bold text-slate-300 hover:text-white">داخلي</button>
+                </div>
+                <button type="button" onclick="window.appEngine.openLightbox('fleetImg_mercedes', 'مرسيدس S-Class / BMW 7 Series')" class="w-7 h-7 rounded-lg bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-xs hover:text-royal-gold">
+                  <i class="fa-solid fa-expand"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] font-bold bg-royal-gold text-royal-emeraldDark px-2.5 py-1 rounded-full">رجال الأعمال بالرياض وجدة</span>
+              <span class="text-xs text-amber-300 font-semibold">2025-2026</span>
+            </div>
+            <h3 class="text-base font-bold font-cairo text-white mb-2">سيدان رجال الأعمال (Mercedes S-Class / BMW 7)</h3>
+            <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 py-2.5 border-y border-white/5 my-2">
+              <div class="flex items-center gap-1.5"><i class="fa-solid fa-users text-royal-gold"></i><span>3 ركاب</span></div>
+              <div class="flex items-center gap-1.5"><i class="fa-solid fa-suitcase-rolling text-royal-gold"></i><span>3 حقائب</span></div>
+            </div>
+            <ul class="space-y-1.5 text-xs text-slate-400 mb-5">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>مقاعد مساج فارهة وتبريد وشاشات VIP</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>استقبال رسمي ومرافق بروتوكولي لكبار الشخصيات</span></li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i><span>خدمة بالساعة وباليوم في الرياض وجدة</span></li>
+            </ul>
+          </div>
+          <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-3">
+            <div>
+              <span class="text-[10px] text-slate-400 block">تبدأ من (مطار الرياض / جدة)</span>
+              <span class="text-lg font-black text-royal-gold font-mono fleet-price-mercedes">900 SAR</span>
+            </div>
+            <button onclick="window.appEngine.pickVehicleAndBook('mercedes')" class="px-4 py-2 rounded-xl gold-gradient-bg text-royal-emeraldDark font-bold text-xs shadow-gold hover:opacity-95">
+              احجز هذه السيارة
+            </button>
+          </div>
+        </div>
+
         <!-- Fleet Card 5: Coaster Bus & Executive Sedan -->
         <div class="glass-card rounded-2xl p-5 relative flex flex-col justify-between border border-white/10 group md:col-span-2 lg:col-span-1">
           <div>
@@ -1649,6 +1739,18 @@ const html = `<!DOCTYPE html>
           <span class="font-mono font-black text-royal-gold text-base" id="vouchRef">#RUC-2026-00000</span>
         </div>
 
+        <!-- Elegant QR Code Section -->
+        <div class="p-3 bg-slate-950/80 rounded-2xl border border-royal-gold/30 flex items-center justify-between gap-4">
+          <div class="flex-1">
+            <span class="text-royal-gold font-bold text-xs block mb-0.5"><i class="fa-solid fa-qrcode me-1"></i> رمز التحقق الإلكتروني الذكي (QR Code)</span>
+            <p class="text-[10px] text-slate-400 leading-tight">امسح الرمز بكاميرا الجوال لعرض تذكرة الصعود الإلكترونية، والتحقق الفوري من حالة السائق والسيارة المعتمدة.</p>
+            <span class="inline-block mt-1 text-[9px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30">✓ مشفر وموثق رسمياً</span>
+          </div>
+          <div class="w-20 h-20 bg-white p-1.5 rounded-xl shadow-lg shrink-0 flex items-center justify-center">
+            <canvas id="voucherQrCanvas" class="w-full h-full"></canvas>
+          </div>
+        </div>
+
         <div class="grid grid-cols-2 gap-3 pb-2 border-b border-white/10">
           <div>
             <span class="text-slate-400 block text-[10px]">اسم العميل الكريم:</span>
@@ -1779,8 +1881,8 @@ const html = `<!DOCTYPE html>
         vehicles: [
           {
             id: 'sedan',
-            nameAr: 'سيدان اقتصادية (تويوتا كامري / سوناتا)',
-            nameEn: 'Economy Sedan (Toyota Camry / Sonata)',
+            nameAr: 'سيدان حديثة (تويوتا كامري / هيونداي سوناتا 2025-2026)',
+            nameEn: 'Modern Sedan (Toyota Camry / Hyundai Sonata 2025-2026)',
             passengers: 3,
             bags: 2,
             icon: 'fa-car-side',
@@ -1788,13 +1890,13 @@ const html = `<!DOCTYPE html>
             imgInt: 'assets/images/camry_interior.jpg',
             featuresAr: ['تكييف فائق البرودة', 'ضيافة ماء زمزم بارد', 'شواحن هواتف'],
             featuresEn: ['Chilled Climate AC', 'Chilled Zamzam Water', 'Phone Chargers'],
-            badgeAr: 'الأفضل للأفراد والأزواج',
-            badgeEn: 'Best for Couples & Solos'
+            badgeAr: 'اقتصادي - الأفضل للأفراد والأزواج',
+            badgeEn: 'Economy - Best for Couples & Solos'
           },
           {
             id: 'staria',
-            nameAr: 'عائلية مريحة (هيونداي ستاريا VIP / H1)',
-            nameEn: 'Family Comfort (Hyundai Staria VIP / H1)',
+            nameAr: 'عائلية فاخرة (هيونداي ستاريا VIP / H1)',
+            nameEn: 'Luxury Family (Hyundai Staria VIP / H1)',
             passengers: 7,
             bags: 5,
             icon: 'fa-van-shuttle',
@@ -1806,23 +1908,51 @@ const html = `<!DOCTYPE html>
             badgeEn: 'Most Popular for Families'
           },
           {
+            id: 'suburban',
+            nameAr: 'فخامة عائلية VIP (شفروليه سوبربان VIP 2025)',
+            nameEn: 'Family VIP Luxury (Chevrolet Suburban VIP 2025)',
+            passengers: 7,
+            bags: 7,
+            icon: 'fa-truck-monster',
+            imgExt: 'assets/images/yukon_exterior.jpg',
+            imgInt: 'assets/images/yukon_interior.jpg',
+            featuresAr: ['مساحة أمتعة عملاقة', 'هدوء فائق وعزل صوتي', 'ضيافة ماء زمزم وشواحن'],
+            featuresEn: ['Giant Luggage Space', 'Ultra Quiet & Insulated', 'Zamzam & Fast Chargers'],
+            badgeAr: 'الأكثر رحابة للعائلات الكبيرة',
+            badgeEn: 'Spacious Family VIP'
+          },
+          {
             id: 'yukon',
-            nameAr: 'فخامة VIP (جمس يوكن XL دينالي 2024)',
-            nameEn: 'VIP Luxury (GMC Yukon XL Denali 2024)',
+            nameAr: 'قمة الفخامة (جمس يوكن XL دينالي VIP 2025)',
+            nameEn: 'Peak Luxury (GMC Yukon XL Denali VIP 2025)',
             passengers: 7,
             bags: 6,
-            icon: 'fa-truck-monster',
+            icon: 'fa-crown',
             imgExt: 'assets/images/yukon_exterior.jpg',
             imgInt: 'assets/images/yukon_interior.jpg',
             featuresAr: ['جلد فاخر وهدوء تام', 'تتبع رحلات المطار مجاناً', 'سائق خاص VIP بزي سعودي'],
             featuresEn: ['Luxury Leather & Quiet Ride', 'Free Flight Tracking', 'VIP Saudi Chauffeur'],
-            badgeAr: 'فخامة رجال الأعمال والوجهاء',
+            badgeAr: 'فخامة VIP لرجال الأعمال والوجهاء',
             badgeEn: 'Executive & VIP Choice'
           },
           {
+            id: 'mercedes',
+            nameAr: 'سيدان رجال الأعمال بالرياض (مرسيدس S-Class / BMW 7)',
+            nameEn: 'Executive Sedan (Mercedes-Benz S-Class / BMW 7 Series)',
+            passengers: 3,
+            bags: 3,
+            icon: 'fa-gem',
+            imgExt: 'assets/images/camry_exterior.jpg',
+            imgInt: 'assets/images/camry_interior.jpg',
+            featuresAr: ['فخامة الملوك ورجال الأعمال', 'مقاعد مساج وتبريد', 'استقبال رسمي بروتوكولي'],
+            featuresEn: ['Royal & Executive Luxury', 'Massage & Ventilated Seats', 'Protocol Airport Reception'],
+            badgeAr: 'فخامة VIP لرجال الأعمال بالرياض',
+            badgeEn: 'VIP Executive Protocol'
+          },
+          {
             id: 'hiace',
-            nameAr: 'ميني باص عائلي (تويوتا هايس سقف عالي VIP)',
-            nameEn: 'Family Minibus (Toyota HiAce High Roof VIP)',
+            nameAr: 'باصات العائلات الكبيرة والمجموعات (تويوتا هايس سقف عالي VIP)',
+            nameEn: 'Large Family Minibus (Toyota HiAce High Roof VIP)',
             passengers: 10,
             bags: 10,
             icon: 'fa-bus-simple',
@@ -1830,20 +1960,20 @@ const html = `<!DOCTYPE html>
             imgInt: 'assets/images/hiace_interior.jpg',
             featuresAr: ['سقف عالي ومساحة واسعة', 'استيعاب 10 حقائب كبيرة', 'مثالي للزيارات والمزارات'],
             featuresEn: ['High Roof & Easy Access', 'Fits 10 Large Suitcases', 'Ideal for Ziyarah Tours'],
-            badgeAr: 'للعائلات الممتدة والمجموعات',
+            badgeAr: 'للعائلات الكبيرة والمجموعات',
             badgeEn: 'Great for Extended Families'
           },
           {
             id: 'coaster',
-            nameAr: 'باص مجموعات وحملات (تويوتا كوستر VIP)',
-            nameEn: 'Group Bus (Toyota Coaster VIP)',
+            nameAr: 'باص الحملات والوفود (تويوتا كوستر VIP)',
+            nameEn: 'Delegation Bus (Toyota Coaster VIP)',
             passengers: 20,
-            bags: 15,
+            bags: 18,
             icon: 'fa-bus',
             imgExt: 'assets/images/hiace_exterior.jpg',
             imgInt: 'assets/images/hiace_interior.jpg',
-            featuresAr: ['20 راكب براحة تامة', 'نظام صوتي وتكييف مركزي', 'مخصص لحملات الحج والعمرة'],
-            featuresEn: ['20 Passengers Comfort', 'Central AC & PA System', 'Umrah Group Specialists'],
+            featuresAr: ['20-30 راكب براحة تامة', 'نظام صوتي وتكييف مركزي', 'مخصص لحملات الحج والعمرة'],
+            featuresEn: ['20-30 Passengers Comfort', 'Central AC & PA System', 'Umrah Group Specialists'],
             badgeAr: 'للحملات والوفود الكبرى',
             badgeEn: 'Umrah Groups & Delegations'
           }
@@ -1852,47 +1982,47 @@ const html = `<!DOCTYPE html>
           jeddah_makkah: {
             nameAr: 'مطار الملك عبدالعزيز بجدة (KAIA) ⬅️ فندق مكة المكرمة',
             nameEn: 'Jeddah Airport (KAIA) ⬅️ Makkah Hotel',
-            pricesSar: { sedan: 200, staria: 300, yukon: 450, hiace: 400, coaster: 750 }
+            pricesSar: { sedan: 200, staria: 300, suburban: 420, yukon: 450, mercedes: 900, hiace: 400, coaster: 750 }
           },
           makkah_jeddah: {
             nameAr: 'فندق مكة المكرمة ⬅️ مطار الملك عبدالعزيز بجدة (KAIA)',
             nameEn: 'Makkah Hotel ⬅️ Jeddah Airport (KAIA)',
-            pricesSar: { sedan: 200, staria: 300, yukon: 450, hiace: 400, coaster: 750 }
+            pricesSar: { sedan: 200, staria: 300, suburban: 420, yukon: 450, mercedes: 900, hiace: 400, coaster: 750 }
           },
           makkah_madinah: {
             nameAr: 'مكة المكرمة ⬅️ المدينة المنورة (من الفندق إلى الفندق)',
             nameEn: 'Makkah ⬅️ Madinah (Door to Door)',
-            pricesSar: { sedan: 450, staria: 650, yukon: 950, hiace: 850, coaster: 1500 }
+            pricesSar: { sedan: 450, staria: 650, suburban: 900, yukon: 950, mercedes: 1800, hiace: 850, coaster: 1500 }
           },
           madinah_makkah: {
             nameAr: 'المدينة المنورة ⬅️ مكة المكرمة (من الفندق إلى الفندق)',
             nameEn: 'Madinah ⬅️ Makkah (Door to Door)',
-            pricesSar: { sedan: 450, staria: 650, yukon: 950, hiace: 850, coaster: 1500 }
+            pricesSar: { sedan: 450, staria: 650, suburban: 900, yukon: 950, mercedes: 1800, hiace: 850, coaster: 1500 }
           },
           madinah_airport_hotel: {
             nameAr: 'مطار الأمير محمد بن عبدالعزيز بالمدينة ⬅️ فنادق المدينة',
             nameEn: 'Madinah Airport ⬅️ Madinah Hotels',
-            pricesSar: { sedan: 150, staria: 220, yukon: 350, hiace: 300, coaster: 550 }
+            pricesSar: { sedan: 150, staria: 220, suburban: 320, yukon: 350, mercedes: 700, hiace: 300, coaster: 550 }
           },
           makkah_ziyarah: {
             nameAr: 'جولة مزارات مكة المكرمة (غار حراء، ثور، عرفات، منى)',
             nameEn: 'Makkah Holy Sites Ziyarah Tour (4 Hours)',
-            pricesSar: { sedan: 250, staria: 350, yukon: 550, hiace: 450, coaster: 850 }
+            pricesSar: { sedan: 250, staria: 350, suburban: 500, yukon: 550, mercedes: 1000, hiace: 450, coaster: 850 }
           },
           madinah_ziyarah: {
             nameAr: 'جولة مزارات المدينة المنورة (قباء، أحد، القبلتين)',
             nameEn: 'Madinah Holy Sites Ziyarah Tour (4 Hours)',
-            pricesSar: { sedan: 250, staria: 350, yukon: 550, hiace: 450, coaster: 850 }
+            pricesSar: { sedan: 250, staria: 350, suburban: 500, yukon: 550, mercedes: 1000, hiace: 450, coaster: 850 }
           },
           riyadh_airport_hotel: {
             nameAr: 'مطار الملك خالد الدولي بالرياض ⬅️ فنادق الرياض',
             nameEn: 'Riyadh Airport (KKIA) ⬅️ Riyadh Hotels',
-            pricesSar: { sedan: 180, staria: 280, yukon: 420, hiace: 380, coaster: 700 }
+            pricesSar: { sedan: 180, staria: 280, suburban: 390, yukon: 420, mercedes: 850, hiace: 380, coaster: 700 }
           },
           jeddah_taif: {
             nameAr: 'مطار جدة أو مكة ⬅️ رحلة الطائف وجبل الهدا',
             nameEn: 'Jeddah / Makkah ⬅️ Taif & Al-Hada Mountain Tour',
-            pricesSar: { sedan: 600, staria: 850, yukon: 1250, hiace: 1100, coaster: 2000 }
+            pricesSar: { sedan: 600, staria: 850, suburban: 1150, yukon: 1250, mercedes: 2200, hiace: 1100, coaster: 2000 }
           }
         },
         translations: {
@@ -2395,6 +2525,22 @@ const html = `<!DOCTYPE html>
         document.getElementById('vouchFlight').textContent = flightNoVal;
         document.getElementById('vouchPayment').textContent = payMethod;
         document.getElementById('vouchPrice').textContent = finalPriceDisplay;
+
+        // Generate Elegant QR Code
+        const qrCanvas = document.getElementById('voucherQrCanvas');
+        if (qrCanvas && window.QRCode) {
+          const qrPayload = 'https://royal-umrah-cabs.vercel.app/voucher/' + refCode + '?name=' + encodeURIComponent(custName) + '&route=' + encodeURIComponent(routeTitle);
+          QRCode.toCanvas(qrCanvas, qrPayload, {
+            width: 76,
+            margin: 0,
+            color: {
+              dark: '#032c24',
+              light: '#ffffff'
+            }
+          }, function (error) {
+            if (error) console.warn('QR Code generation error:', error);
+          });
+        }
 
         // Build WhatsApp Message
         const waMsg = 
