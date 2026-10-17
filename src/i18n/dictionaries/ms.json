@@ -49,7 +49,15 @@
     "buttonCalculate": "Kira Tambang & Tempah",
     "buttonBookNow": "Pengesahan Segera",
     "totalFare": "Jumlah Tambang Tetap (Termasuk Cukai)",
-    "payOnArrivalNotice": "Tiada bayaran pendahuluan · Bayar terus kepada pemandu semasa tiba secara tunai atau kad"
+    "payOnArrivalNotice": "Tiada bayaran pendahuluan · Bayar terus kepada pemandu semasa tiba secara tunai atau kad",
+    "luggageLabel": "Bilangan Bagasi",
+    "bookOnline": "Tempah Dalam Talian",
+    "continueWhatsApp": "Teruskan di WhatsApp",
+    "quoteNeeded": "Hubungi kami untuk sebut harga",
+    "microCancellation": "Pembatalan percuma (24 jam)",
+    "microPayArrival": "Bayar semasa tiba",
+    "microNoHidden": "Sifar caj tersembunyi",
+    "microAllTolls": "Termasuk tol lebuh raya"
   },
   "steps": {
     "sectionPill": "Mudah & Teratur",
@@ -78,7 +86,8 @@
     "amenityAc": "Penyaman Udara Dwi-Zon Sejuk",
     "amenityZamzam": "Air Zamzam Sejuk Disediakan Percuma",
     "amenityCharging": "Pengecas Telefon Pantas",
-    "amenityWifi": "Sambungan Wi-Fi Percuma"
+    "amenityComfort": "Tempat Duduk Selesa",
+    "amenityLuggage": "Ruang Bagasi Luas"
   },
   "services": {
     "sectionPill": "Perkhidmatan Utama Kami",
@@ -119,17 +128,33 @@
     "readAllButton": "Baca Semua Ulasan di Google"
   },
   "faq": {
-    "sectionPill": "Jawapan Jelas",
-    "heading": "Soalan Lazim (FAQ)",
-    "subtitle": "Semua maklumat penting mengenai tambang, kaedah pembayaran, kelewatan penerbangan, dan perhentian Miqat.",
+    "sectionPill": "Jawapan Telus",
+    "heading": "Soalan Lazim Jemaah",
+    "subtitle": "Segala maklumat mengenai kadar tambang, cara pembayaran, kelewatan penerbangan, dan pilihan kenderaan.",
     "q1": "Bolehkah saya membayar tunai atau kad semasa tiba?",
-    "a1": "Ya, sudah tentu. Kami tidak mengenakan sebarang bayaran pendahuluan atau kad kredit semasa tempahan. Anda boleh membayar pemandu apabila tiba di hotel dalam Ringgit Malaysia (MYR), Riyal Saudi (SAR), Dolar AS (USD), atau kad bank.",
-    "q2": "Bagaimana jika penerbangan kami ke Jeddah atau Madinah lewat?",
-    "a2": "Kami memantau masa penerbangan anda secara automatik menggunakan nombor penerbangan yang anda berikan. Masa pengambilan diselaraskan secara percuma tanpa sebarang caj tambahan.",
-    "q3": "Adakah harga yang dipaparkan untuk setiap penumpang atau untuk satu kereta?",
-    "a3": "Semua harga yang dipaparkan di Royal Umrah Cabs adalah untuk satu kenderaan persendirian penuh, merangkumi semua ahli keluarga anda mengikut kapasiti kenderaan.",
-    "q4": "Bolehkah kami singgah di Miqat untuk berniat Ihram?",
-    "a4": "Ya, bagi laluan di mana jemaah perlu berniat Ihram (contohnya dari Madinah ke Makkah melalui Masjid Miqat Bir Ali / Dhu al-Hulayfah), kami menyediakan perhentian khusus untuk mandi sunat dan berniat Ihram dengan tenang."
+    "a1": "Ya, sudah tentu. Kami tidak memerlukan sebarang bayaran pendahuluan atau kad kredit semasa tempahan. Anda boleh membayar terus kepada pemandu secara tunai SAR, USD, EUR, Ringgit Malaysia (MYR), atau kad bank.",
+    "q2": "Bagaimana jika penerbangan kami ke Jeddah atau Madinah tertangguh (delayed)?",
+    "a2": "Pihak operasi kami memantau penerbangan anda secara langsung. Waktu pengambilan anda diselaraskan secara automatik, dan masa menunggu percuma 60 minit hanya bermula selepas pesawat mendarat.",
+    "q3": "Bagaimana saya akan bertemu dengan pemandu di lapangan terbang?",
+    "a3": "Pemandu anda akan menunggu di dalam balai ketibaan dengan memegang papan tanda nama anda. Anda juga akan menerima nama, nombor telefon, dan nombor plat kenderaan di WhatsApp sebelum mendarat.",
+    "q4": "Berapa banyak bagasi yang boleh kami bawa?",
+    "a4": "Kapasiti bergantung pada kenderaan: sedan (Camry) memuatkan 3 beg besar, MPV (Staria) memuatkan 6 beg besar, SUV (Yukon) memuatkan 6 beg, dan van (HiAce) memuatkan 10 beg besar serta kotak air Zamzam.",
+    "q5": "Adakah kerusi keselamatan kanak-kanak disediakan?",
+    "a5": "Ya, kerusi keselamatan kanak-kanak disediakan atas permintaan tanpa caj tambahan. Sila nyatakan dalam ruangan nota tempahan anda.",
+    "q6": "Apakah polisi pembatalan dan bayaran balik anda?",
+    "a6": "Pembatalan percuma dibenarkan sehingga 24 jam sebelum masa pengambilan dijadualkan. Memandangkan tiada deposit diambil, anda tidak perlu menunggu proses pemulangan wang.",
+    "q7": "Bolehkah anda menyediakan kenderaan untuk keluarga besar atau rombongan?",
+    "a7": "Ya, kami memiliki van 11-tempat duduk Toyota HiAce dan bas 19-tempat duduk Toyota Coaster dengan penghawa dingin berkuasa dan ruang simpanan bagasi yang sangat luas.",
+    "q8": "Bagaimanakah urusan tempahan pada bulan Ramadan atau musim puncak?",
+    "a8": "Pada musim Ramadan dan waktu puncak Umrah, laluan lebuh raya dan sekatan jalan raya memerlukan perancangan teliti. Kami menasihatkan tempahan dibuat 48-72 jam awal. Harga tetap tidak akan berubah.",
+    "q9": "Apakah mata wang yang diterima oleh pemandu semasa ketibaan?",
+    "a9": "Pemandu menerima Riyal Saudi (SAR), Dolar AS (USD), Ringgit Malaysia (MYR), Euro (EUR), dan Pound British (GBP), atau kad debit/kredit Visa dan Mastercard.",
+    "q10": "Bolehkah kami singgah di Miqat untuk solat sunat ihram?",
+    "a10": "Ya, bagi laluan Madinah ke Makkah, pemandu kami akan singgah di Masjid Miqat Bir Ali (Dhu al-Hulayfah) dan memberi masa yang cukup untuk solat ihram dan berniat.",
+    "q11": "Adakah tol lebuh raya, tempat letak kereta lapangan terbang dan cukai sudah termasuk?",
+    "a11": "Ya, semua harga di Royal Umrah Cabs adalah menyeluruh (all-inclusive): tol lebuh raya, caj parkir terminal lapangan terbang, minyak, dan cukai adalah termasuk tanpa sebarang kos tersembunyi.",
+    "q12": "Adakah kenderaan dilengkapi penghawa dingin yang sejuk?",
+    "a12": "Ya, semua kenderaan kami adalah model terkini dengan sistem penghawa dingin dwi-zon depan dan belakang yang berkuasa tinggi untuk keselesaan optimum jemaah."
   },
   "cta_band": {
     "heading": "Mulakan Perjalanan Ibadah Anda Dengan",
@@ -288,5 +313,91 @@
     "badgeKLIA": "Khas Jemaah KLIA & Malaysia",
     "ctaBookVan": "Tempah Van Persendirian Sekarang",
     "faqTitle": "Soalan Lazim Jemaah Umrah Malaysia"
+  },
+  "popular_routes": {
+    "sectionPill": "Kadar Tambang Tetap",
+    "heading": "Laluan Popular Umrah &",
+    "headingHighlight": "Antara Bandar",
+    "subtitle": "Pengambilan terus di lapangan terbang dan perjalanan lebuh raya dengan semua tol dan pemantauan penerbangan disertakan.",
+    "tollsIncluded": "Termasuk tol lebuh raya",
+    "fromPrice": "Bermula",
+    "bookButton": "Tempah Laluan"
+  },
+  "services_list": {
+    "sectionPill": "Penyelesaian Khusus",
+    "heading": "Perkhidmatan Lengkap Demi",
+    "headingHighlight": "Ketenangan Ibadah",
+    "subtitle": "Setiap perkhidmatan disediakan bersama pemandu profesional, pemantauan penerbangan, dan harga tetap telus.",
+    "airportTitle": "Pemandu Lapangan Terbang",
+    "airportDesc": "Sambutan terus di balai ketibaan KAIA Jeddah (Terminal 1 & Utara) serta Lapangan Terbang Madinah.",
+    "airportPrice": "Bermula 150 SAR",
+    "intercityTitle": "Pemandu Antara Bandar",
+    "intercityDesc": "Perjalanan selesa merentasi lebuh raya antara Makkah, Madinah, dan Jeddah dengan perhentian rehat.",
+    "intercityPrice": "Bermula 450 SAR",
+    "hourlyTitle": "Pemandu Khas Mengikut Jam",
+    "hourlyDesc": "Kenderaan persendirian sedia berkhidmat untuk urusan membeli-belah, mesyuarat, atau ziarah keluarga.",
+    "hourlyPrice": "Bermula 400 SAR",
+    "ziyaratTitle": "Lawatan Ziarah Tapak Suci",
+    "ziyaratDesc": "Lawatan menyeluruh ke masjid bersejarah, medan perang Uhud, dan gua bersejarah di Makkah & Madinah.",
+    "ziyaratPrice": "Bermula 300 SAR",
+    "miqatTitle": "Pengangkutan Khas Niat Miqat",
+    "miqatDesc": "Perjalanan terus dengan singgah berniat di Masjid Miqat Bir Ali, Yalamlam, atau as-Sail al-Kabir.",
+    "miqatPrice": "Bermula 450 SAR",
+    "groupTitle": "Pengangkutan Rombongan & Keluarga",
+    "groupDesc": "Van 11-tempat duduk HiAce dan bas Coaster 19-tempat duduk dengan muatan bagasi yang luas.",
+    "groupPrice": "Bermula 650 SAR",
+    "bookNow": "Tempah Servis"
+  },
+  "miqat_ziyarat": {
+    "sectionPill": "Geografi Tanah Suci",
+    "heading": "Stesen Miqat &",
+    "headingHighlight": "Ziarah Tapak Bersejarah",
+    "subtitle": "Kami memastikan setiap perhentian ibadah anda teratur agar anda dapat berniat ihram dan menziarahi tempat bersejarah dengan tenang.",
+    "birAliTitle": "Masjid Miqat Bir Ali (Dhu al-Hulayfah)",
+    "birAliDesc": "Miqat bagi jemaah yang berangkat dari Madinah ke Makkah. Pemandu kami memperuntukkan masa yang mencukupi untuk solat sunat ihram dan berniat.",
+    "yalamlamTitle": "Miqat Yalamlam (as-Sa'diyyah)",
+    "yalamlamDesc": "Stesen Miqat bersejarah bagi jemaah yang datang dari Yaman dan laluan selatan Semenanjung Arab.",
+    "qarnTitle": "Miqat Qarn al-Manazil (as-Sail al-Kabir)",
+    "qarnDesc": "Miqat bagi jemaah dari Riyadh, negara Teluk (GCC), Taif, dan lebuh raya timur.",
+    "ziyaratMakkahTitle": "Lawatan Ziarah Makkah",
+    "ziyaratMakkahDesc": "Lawatan persendirian keluarga ke Gua Hira (Jabal Nur), Jabal Thawr, Mina, Muzdalifah, dan Jabal Rahmah di Arafah.",
+    "ziyaratMadinahTitle": "Lawatan Ziarah Madinah",
+    "ziyaratMadinahDesc": "Kunjungan penuh penghormatan ke Masjid Quba, Jabal Uhud, Makam Syuhada Uhud, dan Masjid Qiblatain."
+  },
+  "team_teaser": {
+    "sectionPill": "Kepimpinan & Khidmat Ikhlas",
+    "heading": "Dedikasi Menghormati",
+    "headingHighlight": "Tetamu Allah",
+    "story": "Royal Umrah Cabs ditubuhkan dengan matlamat yang murni: menghapuskan kegelisahan tawar-menawar dan ketidakpastian yang sering dihadapi jemaah selepas penerbangan antarabangsa yang jauh. Kami memegang prinsip bahawa melayani Dhuyufurrahman adalah amanah suci. Setiap kenderaan dipastikan bersih bertaraf hotel, tambang tetap dijamin, dan pemandu kami sentiasa menyambut anda dengan senyuman mesra.",
+    "name": "Ahmad Al-Harbi",
+    "role": "Ketua Operasi & Khidmat Lapangan",
+    "readMoreBtn": "Ketahui Misi & Prinsip Kami"
+  },
+  "guides_section": {
+    "sectionPill": "Panduan Jemaah",
+    "heading": "Panduan Penting &",
+    "headingHighlight": "Nasihat Perjalanan Umrah",
+    "subtitle": "Panduan disahkan mengenai ketibaan di terminal lapangan terbang, perbandingan kereta vs kereta api laju, dan pengurusan bagasi.",
+    "readGuide": "Baca Panduan Penuh",
+    "guide1Title": "Panduan Pengangkutan Umrah Jemaah Malaysia 2026",
+    "guide1Desc": "Panduan lengkap sewa van VIP Staria & HiAce untuk penerbangan terus dari KLIA ke Jeddah & Madinah.",
+    "guide1Date": "Dikemas kini: Okt 2026",
+    "guide2Title": "Panduan Ketibaan & Pertemuan Pemandu di KAIA Terminal 1 Jeddah",
+    "guide2Desc": "Langkah demi langkah: pengambilan bagasi, pintu keluar balai ketibaan antarabangsa, dan bertemu pemandu anda.",
+    "guide2Date": "Dikemas kini: Okt 2026",
+    "guide3Title": "Makkah ke Madinah: Pemandu Peribadi vs Kereta Api Laju Haramain vs Bas",
+    "guide3Desc": "Perbandingan jujur dari sudut muatan beg, masa, kemudahan terus dari pintu ke pintu untuk jemaah keluarga.",
+    "guide3Date": "Dikemas kini: Okt 2026"
+  },
+  "promo_bar": {
+    "text": "Kadar Tambang Umrah 2026 Kini Dibuka · Pembatalan Percuma Sehingga 24 Jam Sebelum Tiba",
+    "btn": "Tempah Sekarang"
+  },
+  "footer_extra": {
+    "team": "Pasukan Kami",
+    "safety": "Keselamatan & Standard",
+    "howItWorks": "Cara Tempahan",
+    "partners": "Rakan Agensi",
+    "cookiePolicy": "Polisi Kuki"
   }
 }

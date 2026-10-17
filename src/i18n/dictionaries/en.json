@@ -49,7 +49,15 @@
     "buttonCalculate": "Get Prices & Book",
     "buttonBookNow": "Instant Confirmation",
     "totalFare": "Total Fixed Fare (Taxes Included)",
-    "payOnArrivalNotice": "No deposit required · Pay driver upon arrival in cash or card"
+    "payOnArrivalNotice": "No deposit required · Pay driver upon arrival in cash or card",
+    "luggageLabel": "Luggage Bags",
+    "bookOnline": "Book Online",
+    "continueWhatsApp": "Continue on WhatsApp",
+    "quoteNeeded": "Contact us for a quote",
+    "microCancellation": "Free cancellation (24h)",
+    "microPayArrival": "Pay upon arrival",
+    "microNoHidden": "Zero hidden fees",
+    "microAllTolls": "All tolls included"
   },
   "steps": {
     "sectionPill": "Simple & Punctual",
@@ -78,7 +86,8 @@
     "amenityAc": "Dual-Zone Climate Control",
     "amenityZamzam": "Chilled Zamzam Water Included",
     "amenityCharging": "Fast Phone Charging",
-    "amenityWifi": "Complimentary WiFi"
+    "amenityComfort": "Comfortable Seating",
+    "amenityLuggage": "Generous Luggage Space"
   },
   "services": {
     "sectionPill": "Our Core Services",
@@ -123,13 +132,29 @@
     "heading": "Frequently Asked Questions",
     "subtitle": "Everything you need to know about our rates, payment, flight delays, and vehicle options.",
     "q1": "Can I pay cash or card upon arrival?",
-    "a1": "Yes, absolutely. We do not require any prepayment or credit card upfront. You can pay your chauffeur upon arrival in Saudi Riyals (SAR), US Dollars (USD), Euros (EUR), or by local bank card.",
+    "a1": "Yes, absolutely. We do not require any prepayment or credit card upfront. You can pay your chauffeur upon arrival in Saudi Riyals (SAR), US Dollars (USD), Euros (EUR), Malaysian Ringgit (MYR), or by local bank card.",
     "q2": "What happens if our flight to Jeddah or Madinah is delayed?",
     "a2": "We monitor all flights using the flight number you provide during booking. Your pickup time is automatically synchronized, and our 60-minute free waiting window begins only after your flight has officially touched down.",
-    "q3": "Are prices quoted per person or per vehicle?",
-    "a3": "All prices displayed on Royal Umrah Cabs are strictly private per vehicle, covering all passengers and their luggage up to the vehicle's capacity.",
-    "q4": "Can we stop at the Miqat for Ihram?",
-    "a4": "On routes where pilgrims need to assume Ihram (such as Madinah to Makkah via Masjid Dhu al-Hulayfah / Bir Ali), we gladly schedule an Ihram stop so you can perform your prayers without rushing."
+    "q3": "How will I find and meet my driver at the airport?",
+    "a3": "Your chauffeur will be waiting inside the arrival hall holding a clear name board with your name. You will also receive the chauffeur's name, phone number, and vehicle plate number on WhatsApp prior to your landing.",
+    "q4": "How much luggage can we bring?",
+    "a4": "Luggage capacity depends on the vehicle you select. A sedan (Camry) fits up to 3 large bags, a family MPV (Staria) fits up to 6 large bags, an SUV (Yukon XL) fits up to 6 bags, and a minibus (HiAce) fits up to 10 large bags plus Zamzam water boxes.",
+    "q5": "Are child safety booster seats available?",
+    "a5": "Yes, child booster seats are available upon request during booking. Simply indicate your requirement in the booking notes and our operations team will have it installed in your vehicle prior to pickup.",
+    "q6": "What is your cancellation and refund policy?",
+    "a6": "We offer free cancellation up to 24 hours prior to your scheduled pickup time. Because we do not take any upfront deposit, you do not have to wait for refund processing. If cancelled, your booking is simply released without penalty.",
+    "q7": "Can you accommodate large groups or extended families?",
+    "a7": "Yes, our fleet includes 11-seater Toyota HiAce minibuses and 19-seater Toyota Coaster coaches equipped with heavy-duty air conditioning and separate luggage compartments, ideal for large families and tour groups.",
+    "q8": "How do bookings work during Ramadan or peak seasons?",
+    "a8": "During Ramadan and peak Umrah periods, highway traffic and Haram boundary checkpoints require careful coordination. We advise reserving your chauffeur at least 48 to 72 hours in advance. Fares remain fixed once your reservation is confirmed.",
+    "q9": "Which currencies do drivers accept upon arrival?",
+    "a9": "Drivers accept Saudi Riyals (SAR) primarily, as well as US Dollars (USD), Malaysian Ringgit (MYR), Euros (EUR), and British Pounds (GBP). You can also pay using mada, Visa, or Mastercard.",
+    "q10": "Can we stop at the Miqat for Ihram prayers?",
+    "a10": "Yes, on routes between Madinah and Makkah, our chauffeurs gladly schedule a dedicated stop at Masjid Miqat Dhu al-Hulayfah (Bir Ali) so you can shower, pray two rak'ahs, and make your Umrah intention in full peace.",
+    "q11": "Are highway tolls, parking, and VAT included in the price?",
+    "a11": "Yes, every price displayed on Royal Umrah Cabs is completely all-inclusive: all highway tolls (Makkah-Madinah expressway), airport terminal parking fees, fuel, and taxes are included with zero surprises.",
+    "q12": "Are vehicles equipped with strong air conditioning?",
+    "a12": "Yes, every vehicle in our fleet is a late-model private vehicle equipped with dual-zone front and rear air conditioning, thoroughly tested to keep the cabin cool and comfortable even during peak summer temperatures."
   },
   "cta_band": {
     "heading": "Start Your Spiritual Journey with",
@@ -288,5 +313,91 @@
     "badgeKLIA": "KLIA Direct Pilgrims",
     "ctaBookVan": "Book Your Private Van Now",
     "faqTitle": "Common Questions from Malaysian Pilgrims"
+  },
+  "popular_routes": {
+    "sectionPill": "Guaranteed Fixed Fares",
+    "heading": "Popular Umrah &",
+    "headingHighlight": "Intercity Routes",
+    "subtitle": "Direct airport pickups and highway journeys with all expressway tolls and flight tracking included.",
+    "tollsIncluded": "All tolls included",
+    "fromPrice": "From",
+    "bookButton": "Book Route"
+  },
+  "services_list": {
+    "sectionPill": "Tailored Solutions",
+    "heading": "Comprehensive Transport for",
+    "headingHighlight": "The Sacred Journey",
+    "subtitle": "Every service is delivered with professional chauffeurs, flight tracking, and transparent fixed pricing.",
+    "airportTitle": "Airport Chauffeur Transfers",
+    "airportDesc": "Terminal meet & greet at KAIA Jeddah (Terminal 1 & North) and Madinah Airport (MED).",
+    "airportPrice": "From 150 SAR",
+    "intercityTitle": "Intercity Highway Chauffeur",
+    "intercityDesc": "Relaxing journeys between Makkah, Madinah, and Jeddah with rest and prayer stops.",
+    "intercityPrice": "From 450 SAR",
+    "hourlyTitle": "Hourly Dedicated Chauffeur",
+    "hourlyDesc": "Private vehicle and driver on standby for business, shopping, or family visits.",
+    "hourlyPrice": "From 400 SAR",
+    "ziyaratTitle": "Ziyarat Holy Sites Tours",
+    "ziyaratDesc": "Comprehensive tours to historic mosques, battlegrounds, and caves in Makkah & Madinah.",
+    "ziyaratPrice": "From 300 SAR",
+    "miqatTitle": "Dedicated Miqat Ihram Transfers",
+    "miqatDesc": "Direct transit with scheduled prayer stop at Masjid Miqat Bir Ali, Yalamlam, or as-Sail.",
+    "miqatPrice": "From 450 SAR",
+    "groupTitle": "Group & Family Transport",
+    "groupDesc": "11-seater HiAce and 19-seater Coaster buses with high-capacity luggage room.",
+    "groupPrice": "From 650 SAR",
+    "bookNow": "Book Service"
+  },
+  "miqat_ziyarat": {
+    "sectionPill": "Sacred Geography",
+    "heading": "Miqat Stations &",
+    "headingHighlight": "Holy Ziyarat Sites",
+    "subtitle": "We take care of every spiritual stop so you can assume Ihram and visit historical landmarks in complete serenity.",
+    "birAliTitle": "Masjid Miqat Bir Ali (Dhu al-Hulayfah)",
+    "birAliDesc": "The designated Miqat for those departing Madinah towards Makkah. Our chauffeurs schedule generous waiting time for shower, two rak'ahs prayer, and Niat.",
+    "yalamlamTitle": "Miqat Yalamlam (as-Sa'diyyah)",
+    "yalamlamDesc": "Historic Miqat for pilgrims coming from Yemen, southern coastal routes, and maritime arrivals.",
+    "qarnTitle": "Miqat Qarn al-Manazil (as-Sail al-Kabir)",
+    "qarnDesc": "The Miqat for pilgrims travelling from Riyadh, the GCC countries, Taif, and the eastern provinces.",
+    "ziyaratMakkahTitle": "Makkah Holy Ziyarat Tour",
+    "ziyaratMakkahDesc": "Private family tours to Ghar Hira (Jabal al-Noor), Mount Thawr, Mina, Muzdalifah, and Mount Arafat.",
+    "ziyaratMadinahTitle": "Madinah Holy Ziyarat Tour",
+    "ziyaratMadinahDesc": "Dignified visits to Masjid Quba, Mount Uhud, the Archers' Hill, and Masjid al-Qiblatayn."
+  },
+  "team_teaser": {
+    "sectionPill": "Leadership & Hospitality",
+    "heading": "Dedicated to Serving the",
+    "headingHighlight": "Guests of Allah",
+    "story": "Royal Umrah Cabs was founded with an honest calling: to eliminate the stress, overcharging, and uncertainty pilgrims often face after exhausting international flights. We believe serving the Guests of Allah is a sacred trust. Every vehicle in our fleet is maintained to hotel-grade cleanliness, every rate is fixed and fully transparent, and our chauffeurs receive you with genuine warmth and respect.",
+    "name": "Ahmad Al-Harbi",
+    "role": "Head of Dispatch & Ground Hospitality",
+    "readMoreBtn": "Learn More About Our Mission"
+  },
+  "guides_section": {
+    "sectionPill": "Pilgrim Insights",
+    "heading": "Essential Umrah Travel",
+    "headingHighlight": "Guides & Advice",
+    "subtitle": "Verified insights on airport terminal arrivals, high-speed rail vs private car travel, and luggage preparation.",
+    "readGuide": "Read Full Guide",
+    "guide1Title": "Malaysian Pilgrims Umrah Transport Guide 2026",
+    "guide1Desc": "Comprehensive guide to VIP Staria & HiAce van transfers from KLIA to Jeddah & Madinah.",
+    "guide1Date": "Updated: Oct 2026",
+    "guide2Title": "Jeddah Airport (KAIA) Terminal 1 Arrival & Meet Guide",
+    "guide2Desc": "Step-by-step terminal walkthrough: baggage retrieval, arrivals gate, and meeting your private chauffeur.",
+    "guide2Date": "Updated: Oct 2026",
+    "guide3Title": "Makkah to Madinah: Private Chauffeur vs Train vs Bus",
+    "guide3Desc": "Honest luggage, timing, door-to-door convenience, and family comfort comparison for 2026.",
+    "guide3Date": "Updated: Oct 2026"
+  },
+  "promo_bar": {
+    "text": "Fixed 2026 Umrah Fares Now Live · Free Cancellation Up to 24h Before Arrival",
+    "btn": "Book Online"
+  },
+  "footer_extra": {
+    "team": "Our Team",
+    "safety": "Safety & Standards",
+    "howItWorks": "How It Works",
+    "partners": "Agency Partners",
+    "cookiePolicy": "Cookie Policy"
   }
 }

@@ -4,7 +4,6 @@ import { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { BookingCard } from '@/components/home/BookingCard';
-import { FleetSection } from '@/components/home/FleetSection';
 import { HomeSections } from '@/components/home/HomeSections';
 import { ShieldCheck, Clock, CheckCircle2, Headphones, ArrowRight } from 'lucide-react';
 
@@ -122,10 +121,7 @@ export default async function HomePage({ params: { locale } }: HomePageProps) {
         </div>
       </section>
 
-      {/* 4. FLEET CAROUSEL + 5. STEP INSIDE */}
-      <FleetSection locale={locale} dict={dict} />
-
-      {/* 6. 3 SIMPLE STEPS + 7. SERVICES + 8. WHY US + 9. REVIEWS + 10. FAQ + 11. SEO ARTICLE + 12. CTA BAND */}
+      {/* 6 to 17: 3 SIMPLE STEPS, POPULAR ROUTES, FLEET, SERVICES, CABIN GALLERY, MIQAT/ZIYARAT, WHY US, REVIEWS, 12 FAQS, TEAM TEASER, GUIDES, DARK CTA BAND */}
       <HomeSections locale={locale} dict={dict} settings={settings} />
     </div>
   );

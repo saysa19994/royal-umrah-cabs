@@ -52,13 +52,31 @@ export function Header({ locale, dict }: HeaderProps) {
   ];
 
   return (
-    <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-surface/95 backdrop-blur-md shadow-xs border-b border-border py-3'
-          : 'bg-surface/85 backdrop-blur-sm border-b border-border/60 py-4'
-      }`}
-    >
+    <div className="sticky top-0 z-50">
+      {/* 1) OPTIONAL PROMO BAR */}
+      {dict.promo_bar && (
+        <div className="bg-[#141210] text-[#D9A031] text-xs py-2 px-4 border-b border-[#262B33] text-center font-medium">
+          <div className="container mx-auto flex items-center justify-center gap-2">
+            <span>{dict.promo_bar.text}</span>
+            <Link
+              href={`/${locale}/booking`}
+              className="text-white hover:text-gold-hover underline ml-1 font-bold inline-flex items-center gap-1"
+            >
+              <span>{dict.promo_bar.btn}</span>
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {/* 2) STICKY HEADER */}
+      <header
+        className={`w-full transition-all duration-300 ${
+          isScrolled
+            ? 'bg-surface/95 backdrop-blur-md shadow-xs border-b border-border py-3'
+            : 'bg-surface/90 backdrop-blur-sm border-b border-border/60 py-4'
+        }`}
+      >
       <div className="container mx-auto px-4 max-w-7xl flex items-center justify-between">
         {/* WORDMARK LOGO */}
         <Link href={`/${locale}`} className="flex items-center gap-3 group">
@@ -184,5 +202,6 @@ export function Header({ locale, dict }: HeaderProps) {
         </div>
       )}
     </header>
+    </div>
   );
 }

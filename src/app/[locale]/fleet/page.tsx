@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
-import { Users, Briefcase, Sparkles, Wifi, ArrowRight } from 'lucide-react';
+import { Users, Briefcase, Sparkles, ArrowRight } from 'lucide-react';
 
 interface FleetPageProps {
   params: {

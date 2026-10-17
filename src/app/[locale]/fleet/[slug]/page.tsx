@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
-import { Users, Briefcase, Check, ArrowRight, Sparkles, Wifi, ShieldCheck } from 'lucide-react';
+import { Users, Briefcase, Check, ArrowRight, Sparkles, ShieldCheck } from 'lucide-react';
 
 interface FleetDetailPageProps {
   params: {
@@ -94,6 +94,11 @@ const FLEET_MAP: Record<
     typicalUse: 'Large extended families, Umrah group packages, and travel agency groups.',
   },
 };
+
+export function generateStaticParams() {
+  const slugs = ['hyundai-staria', 'gmc-yukon-xl', 'toyota-camry', 'toyota-hiace'];
+  return slugs.map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({
   params: { locale, slug },

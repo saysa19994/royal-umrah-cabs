@@ -36,7 +36,7 @@ const ROUTE_DETAILS: Record<
       '60 minutes complimentary airport wait time after landing',
       'Automated flight delay synchronization',
       'Direct highway travel via modern expressways',
-      'Chilled bottled Zamzam water and high-speed Wi-Fi included',
+      'Chilled bottled water and climate-controlled cabin',
       'Cash or card payment upon arrival at your hotel',
     ],
     rates: [
@@ -86,7 +86,79 @@ const ROUTE_DETAILS: Record<
       { vehicle: 'Toyota HiAce VIP (10 Seats)', priceSAR: 650 },
     ],
   },
+  'makkah-to-jeddah-airport': {
+    title: 'Makkah Hotel to Jeddah Airport (KAIA) Taxi',
+    subtitle: 'Punctual Departure Chauffeur Ensuring Stress-Free Flight Check-in',
+    duration: '75 - 90 minutes',
+    distance: '95 km',
+    description:
+      'Conclude your pilgrimage smoothly. We arrive at your Makkah hotel lobby 15 minutes before the scheduled pickup time, load your luggage and Zamzam containers, and transport you safely to the departure terminal at King Abdulaziz International Airport.',
+    highlights: [
+      'Punctual hotel lobby pickup with luggage assistance',
+      'Careful handling of Zamzam water 5L canisters',
+      'Express highway travel to Terminal 1, North Terminal or Private Terminal',
+      'All toll fees and VAT fully included',
+    ],
+    rates: [
+      { vehicle: 'Toyota Camry Executive (4 Seats)', priceSAR: 200 },
+      { vehicle: 'Hyundai Staria VIP (7 Seats)', priceSAR: 260 },
+      { vehicle: 'GMC Yukon XL VIP (7 Seats)', priceSAR: 380 },
+      { vehicle: 'Toyota HiAce VIP (10 Seats)', priceSAR: 340 },
+    ],
+  },
+  'jeddah-to-madinah': {
+    title: 'Jeddah Airport / City to Madinah Direct Chauffeur',
+    subtitle: 'Smooth Intercity Highway Transfer to Madinah Al-Munawwarah',
+    duration: '4.0 - 4.5 hours',
+    distance: '410 km',
+    description:
+      'Direct private chauffeur from Jeddah King Abdulaziz Airport or your Jeddah residence straight to the gates of the Prophet’s Mosque in Madinah without the stress of train schedules or public shuttles.',
+    highlights: [
+      'Direct door-to-door highway travel',
+      'Flexible rest and meal stops according to your schedule',
+      'Spacious luggage capacity for all family members',
+      'Payment upon arrival at your Madinah hotel',
+    ],
+    rates: [
+      { vehicle: 'Toyota Camry Executive (4 Seats)', priceSAR: 680 },
+      { vehicle: 'Hyundai Staria VIP (7 Seats)', priceSAR: 750 },
+      { vehicle: 'GMC Yukon XL VIP (7 Seats)', priceSAR: 980 },
+      { vehicle: 'Toyota HiAce VIP (10 Seats)', priceSAR: 850 },
+    ],
+  },
+  'madinah-airport-to-hotel': {
+    title: 'Madinah Airport (MED) to Central Hotel Transfer',
+    subtitle: 'Warm Welcome at Prince Mohammad Bin Abdulaziz Airport',
+    duration: '25 - 35 minutes',
+    distance: '25 km',
+    description:
+      'Arrive in the city of the Prophet (peace be upon him) with ease. Our driver welcomes you directly outside arrivals with a name placard and drives you directly to your hotel in the Central Northern or Southern Haram zones.',
+    highlights: [
+      'Terminal greeting with personalized sign',
+      'Complimentary flight arrival monitoring',
+      'Luggage transfer directly to hotel lobby reception',
+      'Fixed low fare with zero hidden airport parking surcharges',
+    ],
+    rates: [
+      { vehicle: 'Toyota Camry Executive (4 Seats)', priceSAR: 150 },
+      { vehicle: 'Hyundai Staria VIP (7 Seats)', priceSAR: 190 },
+      { vehicle: 'GMC Yukon XL VIP (7 Seats)', priceSAR: 280 },
+      { vehicle: 'Toyota HiAce VIP (10 Seats)', priceSAR: 250 },
+    ],
+  },
 };
+
+export function generateStaticParams() {
+  const slugs = [
+    'jeddah-airport-to-makkah',
+    'makkah-to-madinah',
+    'madinah-to-makkah',
+    'makkah-to-jeddah-airport',
+    'jeddah-to-madinah',
+    'madinah-airport-to-hotel',
+  ];
+  return slugs.map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({
   params: { locale, slug },

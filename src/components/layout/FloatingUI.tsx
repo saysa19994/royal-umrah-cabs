@@ -65,7 +65,7 @@ export function FloatingUI({ locale, dict, whatsappNumber }: FloatingUIProps) {
       </aside>
 
       {/* MOBILE STICKY BOTTOM BAR */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-md border-t border-border p-3 flex items-center gap-3 shadow-lg">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-md border-t border-border p-3 flex items-center gap-3 shadow-lg">
         <a
           href={waUrl}
           target="_blank"

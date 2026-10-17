@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import { useCurrency } from '@/context/CurrencyContext';
-import { Users, Briefcase, ChevronLeft, ChevronRight, ArrowRight, ShieldCheck, Wifi, Sparkles } from 'lucide-react';
+import { Users, Briefcase, ChevronLeft, ChevronRight, ArrowRight, ShieldCheck, CheckCircle2, Sparkles } from 'lucide-react';
 
 interface FleetSectionProps {
   locale: Locale;
@@ -152,8 +152,8 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
                   <span>{dict.fleet.amenityZamzam}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Wifi className="w-4 h-4 text-gold-dark" />
-                  <span>{dict.fleet.amenityWifi}</span>
+                  <CheckCircle2 className="w-4 h-4 text-gold-dark" />
+                  <span>{dict.fleet.amenityLuggage}</span>
                 </div>
               </div>
 
