@@ -27,6 +27,35 @@ export function FloatingUI({ locale, dict, whatsappNumber }: FloatingUIProps) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleWhatsAppClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          page: typeof window !== 'undefined' ? window.location.pathname : '/',
+          language: locale,
+          source_utm: {
+            referrer: typeof document !== 'undefined' ? document.referrer : '',
+            url: typeof window !== 'undefined' ? window.location.href : '',
+            trigger: 'floating_button',
+          },
+        }),
+      });
+      const data = await res.json();
+      if (data?.whatsapp_url) {
+        window.open(data.whatsapp_url, '_blank');
+        return;
+      }
+    } catch (err) {
+      console.error('Lead error:', err);
+    }
+    const fallbackRef = 'RUC-' + Math.floor(10000 + Math.random() * 90000);
+    const fallbackMsg = encodeURIComponent(`${LOCALE_CONFIG[locale].whatsappGreeting} [Ref: ${fallbackRef}]`);
+    window.open(`https://wa.me/${whatsappNumber}?text=${fallbackMsg}`, '_blank');
+  };
+
   const greeting = encodeURIComponent(LOCALE_CONFIG[locale].whatsappGreeting);
   const waUrl = `https://wa.me/${whatsappNumber}?text=${greeting}`;
 
@@ -47,10 +76,9 @@ export function FloatingUI({ locale, dict, whatsappNumber }: FloatingUIProps) {
         )}
 
         {/* FLOATING WHATSAPP BUTTON (GREEN ONLY HERE AS REQUIRED) */}
-        <a
-          href={waUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          onClick={handleWhatsAppClick}
           aria-label={dict.floating.whatsappTooltip}
           className="w-14 h-14 rounded-full bg-whatsapp hover:bg-whatsapp-hover text-white shadow-lg flex items-center justify-center hover:scale-105 transition-all duration-200 group relative"
         >
@@ -61,19 +89,19 @@ export function FloatingUI({ locale, dict, whatsappNumber }: FloatingUIProps) {
           <span className="hidden sm:group-hover:block absolute right-16 rtl:right-auto rtl:left-16 whitespace-nowrap bg-charcoal text-white text-xs px-3 py-1.5 rounded-md shadow-md">
             {dict.floating.whatsappTooltip}
           </span>
-        </a>
+        </button>
       </aside>
 
       {/* MOBILE STICKY BOTTOM BAR */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-md border-t border-border p-3 flex items-center gap-3 shadow-lg">
-        <a
-          href={waUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          onClick={handleWhatsAppClick}
+          aria-label="WhatsApp Contact"
           className="flex items-center justify-center w-12 h-11 rounded-btn bg-whatsapp text-white shrink-0 shadow-xs"
         >
           <MessageCircle className="w-5 h-5" />
-        </a>
+        </button>
         <Link
           href={`/${locale}/booking`}
           className="flex-1 h-11 rounded-btn bg-gold text-ink font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs hover:bg-gold-hover transition-colors"

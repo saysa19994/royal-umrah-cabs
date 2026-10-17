@@ -7,15 +7,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticPages = [
     '',
+    '/booking',
     '/routes',
     '/fleet',
     '/services',
     '/pricing',
     '/about',
+    '/safety',
+    '/partners',
     '/contact',
     '/track-booking',
     '/manage-booking',
+    '/privacy',
+    '/terms',
+    '/cancellation',
+    '/cookies',
     '/guides/malaysia-umrah-transport',
+    '/guides/jeddah-airport-arrival-guide',
+    '/guides/makkah-to-madinah-transport-comparison',
   ];
 
   const dynamicRoutes = [
@@ -28,11 +37,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const dynamicVehicles = [
-    '/fleet/staria',
-    '/fleet/yukon',
-    '/fleet/camry',
-    '/fleet/hiace',
-    '/fleet/coaster',
+    '/fleet/hyundai-staria',
+    '/fleet/gmc-yukon-xl',
+    '/fleet/toyota-camry',
+    '/fleet/toyota-hiace',
   ];
 
   const allPaths = [...staticPages, ...dynamicRoutes, ...dynamicVehicles];
@@ -45,18 +53,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       const priority = isHome ? 1.0 : path.includes('/routes/') || path.includes('/guides/') ? 0.9 : 0.8;
       const changeFrequency = isHome ? 'daily' : 'weekly';
 
+      const languagesMap: Record<string, string> = {};
+      for (const l of LOCALES) {
+        languagesMap[l] = `${baseUrl}/${l}${path}`;
+      }
+      languagesMap['x-default'] = `${baseUrl}/en${path}`;
+
       sitemapEntries.push({
         url: `${baseUrl}/${locale}${path}`,
         lastModified: currentDate,
         changeFrequency: changeFrequency as any,
         priority,
         alternates: {
-          languages: {
-            en: `${baseUrl}/en${path}`,
-            ar: `${baseUrl}/ar${path}`,
-            ms: `${baseUrl}/ms${path}`,
-            'x-default': `${baseUrl}/en${path}`,
-          },
+          languages: languagesMap,
         },
       });
     }

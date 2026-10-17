@@ -4,6 +4,10 @@ export interface SiteSettings {
   whatsapp_number: string;
   phone: string;
   email: string;
+  owner_notification_email: string;
+  telegram_chat_id?: string;
+  lead_alert_minutes: number;
+  riyadh_enabled: boolean;
   address_cities: string[];
   google_reviews_link: string;
   google_reviews_rating: number;
@@ -16,6 +20,10 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   whatsapp_number: process.env.NEXT_PUBLIC_DEFAULT_WHATSAPP || '966567588261',
   phone: process.env.NEXT_PUBLIC_DEFAULT_PHONE || '+966567588261',
   email: process.env.NEXT_PUBLIC_DEFAULT_EMAIL || 'info@royalumrahcabs.com',
+  owner_notification_email: 'info@royalumrahcabs.com',
+  telegram_chat_id: '',
+  lead_alert_minutes: 15,
+  riyadh_enabled: false,
   address_cities: ['Makkah', 'Madinah', 'Jeddah', 'Riyadh'],
   google_reviews_link: 'https://g.page/r/CTL7ETeAhDVpEAI/review',
   google_reviews_rating: 4.9,
@@ -27,6 +35,9 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     MYR: 1.18,
     GBP: 0.21,
     EUR: 0.25,
+    IDR: 4350.0,
+    INR: 22.3,
+    PKR: 74.5,
     EGP: 13.1,
   },
 };
@@ -48,6 +59,10 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       whatsapp_number: data.whatsapp_number || DEFAULT_SETTINGS.whatsapp_number,
       phone: data.phone || DEFAULT_SETTINGS.phone,
       email: data.email || DEFAULT_SETTINGS.email,
+      owner_notification_email: data.owner_notification_email || DEFAULT_SETTINGS.owner_notification_email,
+      telegram_chat_id: data.telegram_chat_id || DEFAULT_SETTINGS.telegram_chat_id,
+      lead_alert_minutes: Number(data.lead_alert_minutes) || DEFAULT_SETTINGS.lead_alert_minutes,
+      riyadh_enabled: Boolean(data.riyadh_enabled),
       address_cities: data.address_cities || DEFAULT_SETTINGS.address_cities,
       google_reviews_link: data.google_reviews_link || DEFAULT_SETTINGS.google_reviews_link,
       google_reviews_rating: Number(data.google_reviews_rating) || DEFAULT_SETTINGS.google_reviews_rating,

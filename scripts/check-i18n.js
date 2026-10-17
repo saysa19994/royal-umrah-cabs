@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const locales = ['en', 'ar', 'ms'];
+const locales = ['en', 'ar', 'ms', 'fr', 'es', 'id', 'hi', 'de', 'ur'];
 const dictDir = path.join(__dirname, '..', 'src', 'i18n', 'dictionaries');
 
 function flattenKeys(obj, prefix = '') {

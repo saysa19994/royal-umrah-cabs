@@ -22,7 +22,7 @@ const BASE_RATES: Record<string, Record<string, number>> = {
   'jeddah-to-madinah': { camry: 680, staria: 750, yukon: 1050, hiace: 900, coaster: 1600 },
 };
 
-const ROUTE_LABELS: Record<string, { en: string; ar: string; ms: string }> = {
+const ROUTE_LABELS: Record<string, Partial<Record<Locale, string>>> = {
   'jeddah-airport-to-makkah': {
     en: 'Jeddah Airport (KAIA) → Makkah Hotel',
     ar: 'مطار جدة (KAIA) ← فندق مكة المكرمة',
@@ -90,43 +90,45 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
     router.push(`/${locale}/booking?${params.toString()}`);
   };
 
-  const handleWhatsApp = () => {
-    const routeText = ROUTE_LABELS[route]?.[locale] || route;
+  const handleWhatsApp = async () => {
+    const routeText = ROUTE_LABELS[route]?.[locale] || ROUTE_LABELS[route]?.en || route;
     const vehicleText = VEHICLE_NAMES[vehicle] || vehicle;
-    const priceText = baseSAR ? `${baseSAR} SAR` : 'Quote Requested';
 
-    let msg = '';
-    if (locale === 'ar') {
-      msg =
-        `السلام عليكم، أود حجز رحلة عمرة خاصة عبر رويال كاب للعمرة:\n` +
-        `*المسار:* ${routeText}\n` +
-        `*نوع السيارة:* ${vehicleText}\n` +
-        (date ? `*التاريخ:* ${date} (${time})\n` : '') +
-        `*عدد الركاب:* ${passengers} | *الحقائب:* ${luggage}\n` +
-        `*السعر الثابت:* ${priceText}\n\n` +
-        `يرجى تأكيد الحجز وإرسال بيانات السائق.`;
-    } else if (locale === 'ms') {
-      msg =
-        `Salam sejahtera, saya ingin menempah kenderaan Umrah persendirian:\n` +
-        `*Laluan:* ${routeText}\n` +
-        `*Kenderaan:* ${vehicleText}\n` +
-        (date ? `*Tarikh:* ${date} (${time})\n` : '') +
-        `*Bilangan Penumpang:* ${passengers} | *Bagasi:* ${luggage}\n` +
-        `*Kadar Tambang:* ${priceText}\n\n` +
-        `Sila sahkan tempahan saya. Terima kasih.`;
-    } else {
-      msg =
-        `Hello Royal Umrah Cabs dispatch,\n` +
-        `I would like to reserve a private transfer:\n` +
-        `*Route:* ${routeText}\n` +
-        `*Vehicle:* ${vehicleText}\n` +
-        (date ? `*Date & Time:* ${date} at ${time}\n` : '') +
-        `*Passengers:* ${passengers} | *Luggage Bags:* ${luggage}\n` +
-        `*Fixed Price:* ${priceText}\n\n` +
-        `Please confirm availability. Thank you!`;
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          page: window.location.pathname,
+          language: locale,
+          route_id: route,
+          route_title: routeText,
+          vehicle_id: vehicle,
+          vehicle_name: vehicleText,
+          pickup_date: date,
+          passengers,
+          luggage,
+          price_sar: baseSAR,
+          source_utm: {
+            referrer: typeof document !== 'undefined' ? document.referrer : '',
+            url: typeof window !== 'undefined' ? window.location.href : '',
+          },
+        }),
+      });
+
+      const data = await res.json();
+      if (data?.whatsapp_url) {
+        window.open(data.whatsapp_url, '_blank');
+        return;
+      }
+    } catch (err) {
+      console.error('Lead tracking error, continuing to WhatsApp:', err);
     }
 
-    window.open(`https://wa.me/966567588261?text=${encodeURIComponent(msg)}`, '_blank');
+    // Seamless fallback
+    const fallbackRef = 'RUC-' + Math.floor(10000 + Math.random() * 90000);
+    const fallbackMsg = `Assalamu Alaikum Royal Umrah Cabs [Ref: ${fallbackRef}]\nRoute: ${routeText}\nVehicle: ${vehicleText}\nDate: ${date || 'Flexible'}\nPassengers: ${passengers}\nFixed Price: ${baseSAR || 'Quote Needed'} SAR`;
+    window.open(`https://wa.me/966567588261?text=${encodeURIComponent(fallbackMsg)}`, '_blank');
   };
 
   return (
@@ -178,7 +180,7 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
                 >
                   {Object.keys(ROUTE_LABELS).map((key) => (
                     <option key={key} value={key}>
-                      {ROUTE_LABELS[key][locale] || ROUTE_LABELS[key].en}
+                      {ROUTE_LABELS[key]?.[locale] || ROUTE_LABELS[key]?.en || key}
                     </option>
                   ))}
                 </select>
