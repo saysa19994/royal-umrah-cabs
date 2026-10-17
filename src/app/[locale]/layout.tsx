@@ -127,7 +127,7 @@ export default async function LocaleLayout({
 
   return (
     <div lang={validLocale} dir={dir} className="min-h-screen flex flex-col">
-      <JsonLd locale={validLocale} dict={dict} />
+      <JsonLd locale={validLocale} dict={dict} settings={settings} />
       <CurrencyProvider defaultCurrency={defaultCurrency}>
         <Header locale={validLocale} dict={dict} />
         <main className="flex-1">{children}</main>
