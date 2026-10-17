@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
+import { getSiteSettings } from '@/lib/settings';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { MessageCircle, Phone, Mail, MapPin, Clock } from 'lucide-react';
 
@@ -21,8 +22,11 @@ export async function generateMetadata({
   };
 }
 
-export default function ContactPage({ params: { locale } }: ContactPageProps) {
+export default async function ContactPage({ params: { locale } }: ContactPageProps) {
   const dict = getDictionary(locale);
+  const settings = await getSiteSettings();
+
+  const formattedPhone = settings.phone ? `+${settings.phone.replace(/[^0-9]/g, '')}` : '+966567588261';
 
   return (
     <div className="py-16 md:py-24 bg-bg min-h-screen">
@@ -46,7 +50,7 @@ export default function ContactPage({ params: { locale } }: ContactPageProps) {
           <div className="space-y-6 text-start">
             {/* WhatsApp Direct */}
             <a
-              href="https://wa.me/966567588261"
+              href={`https://wa.me/${settings.whatsapp_number}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-surface rounded-2xl p-6 border border-border shadow-xs hover:border-emerald-500/60 transition-all flex items-start gap-4 group"
@@ -62,14 +66,14 @@ export default function ContactPage({ params: { locale } }: ContactPageProps) {
                   {dict.page_contact.whatsappDesc}
                 </p>
                 <span className="inline-block mt-2 text-xs font-mono font-bold text-emerald-600 dir-ltr">
-                  +966 56 758 8261
+                  +{settings.whatsapp_number}
                 </span>
               </div>
             </a>
 
             {/* Direct Phone Call */}
             <a
-              href="tel:+966567588261"
+              href={`tel:${formattedPhone}`}
               className="bg-surface rounded-2xl p-6 border border-border shadow-xs hover:border-gold-dark/60 transition-all flex items-start gap-4 group"
             >
               <div className="w-12 h-12 rounded-xl bg-gold-soft border border-gold-line text-gold-dark flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
@@ -83,14 +87,14 @@ export default function ContactPage({ params: { locale } }: ContactPageProps) {
                   {dict.page_contact.callDesc}
                 </p>
                 <span className="inline-block mt-2 text-xs font-mono font-bold text-gold-dark dir-ltr">
-                  +966 56 758 8261
+                  {formattedPhone}
                 </span>
               </div>
             </a>
 
             {/* Email Support */}
             <a
-              href="mailto:dispatch@royalumrahcabs.com"
+              href={`mailto:${settings.email}`}
               className="bg-surface rounded-2xl p-6 border border-border shadow-xs hover:border-gold-dark/60 transition-all flex items-start gap-4 group"
             >
               <div className="w-12 h-12 rounded-xl bg-gold-soft border border-gold-line text-gold-dark flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
@@ -104,7 +108,7 @@ export default function ContactPage({ params: { locale } }: ContactPageProps) {
                   {dict.page_contact.emailDesc}
                 </p>
                 <span className="inline-block mt-2 text-xs font-mono font-bold text-gold-dark">
-                  dispatch@royalumrahcabs.com
+                  {settings.email}
                 </span>
               </div>
             </a>
@@ -115,10 +119,10 @@ export default function ContactPage({ params: { locale } }: ContactPageProps) {
                 <MapPin className="w-4 h-4 text-gold-dark shrink-0" />
                 <span>
                   {locale === 'ar'
-                    ? 'المحطات التشغيلية: مطار جدة (KAIA)، مكة المكرمة، المدينة المنورة، الرياض'
+                    ? `المحطات التشغيلية: ${settings.address_cities?.join('، ') || 'مكة المكرمة، المدينة المنورة، جدة'}`
                     : locale === 'ms'
-                    ? 'Pusat Operasi: Lapangan Terbang Jeddah (KAIA), Makkah, Madinah, Riyadh'
-                    : 'Operational Hubs: Jeddah KAIA Airport, Makkah, Madinah, Riyadh'}
+                    ? `Pusat Operasi: ${settings.address_cities?.join(', ') || 'Makkah, Madinah, Jeddah'}`
+                    : `Operational Hubs: ${settings.address_cities?.join(', ') || 'Makkah, Madinah, Jeddah'}`}
                 </span>
               </div>
               <div className="flex items-center gap-2.5 text-xs text-ink-muted">
@@ -135,7 +139,7 @@ export default function ContactPage({ params: { locale } }: ContactPageProps) {
           </div>
 
           {/* Inquiry Form */}
-          <ContactForm locale={locale} dict={dict} />
+          <ContactForm locale={locale} dict={dict} whatsappNumber={settings.whatsapp_number} />
         </div>
       </div>
     </div>

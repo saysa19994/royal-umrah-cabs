@@ -11,6 +11,7 @@ export const BookingSchema = z.object({
   pickup_location: z.string().min(2, 'Pickup location is required'),
   dropoff_location: z.string().min(2, 'Dropoff location is required'),
   passengers_count: z.number().int().min(1).max(50).default(2),
+  luggage_count: z.number().int().min(0).max(50).default(2),
   flight_number: z.string().optional().nullable(),
   add_ons: z.object({
     child_seat: z.boolean().default(false),

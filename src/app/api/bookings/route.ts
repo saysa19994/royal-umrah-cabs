@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import { BookingSchema } from '@/types/booking';
 import { createClient } from '@/lib/supabase/server';
-import { CURRENCIES, CurrencyCode, LOCALE_CONFIG, Locale } from '@/i18n/config';
+import { CURRENCIES, CurrencyCode, Locale } from '@/i18n/config';
 import { getSiteSettings } from '@/lib/settings';
+import { resolveWhatsAppNumber } from '@/lib/whatsapp-routing';
 
 // Fallback pricing matrix in SAR
 const BASE_RATES: Record<string, Record<string, number>> = {
@@ -24,7 +25,6 @@ export async function POST(request: Request) {
 
     // 1. Calculate price based on booking type
     if (validated.booking_type === 'transfer' && validated.route_id) {
-      // Check database prices table
       try {
         const supabase = createClient();
         const { data } = await supabase
@@ -36,11 +36,11 @@ export async function POST(request: Request) {
 
         if (data && data.price_sar) {
           basePriceSAR = Number(data.price_sar);
-        } else if (BASE_RATES[validated.route_id] && BASE_RATES[validated.route_id][validated.vehicle_id]) {
+        } else if (BASE_RATES[validated.route_id]?.[validated.vehicle_id]) {
           basePriceSAR = BASE_RATES[validated.route_id][validated.vehicle_id];
         }
       } catch {
-        if (BASE_RATES[validated.route_id] && BASE_RATES[validated.route_id][validated.vehicle_id]) {
+        if (BASE_RATES[validated.route_id]?.[validated.vehicle_id]) {
           basePriceSAR = BASE_RATES[validated.route_id][validated.vehicle_id];
         }
       }
@@ -73,11 +73,11 @@ export async function POST(request: Request) {
 
     // 3. Convert to requested currency
     const currKey = (validated.currency || 'SAR') as CurrencyCode;
-    const currRate = (CURRENCIES[currKey]?.rateFromSAR) || 1.0;
+    const currRate = CURRENCIES[currKey]?.rateFromSAR || 1.0;
     const finalPriceCurrency = Math.round(finalPriceSAR * currRate);
 
-    // 4. Generate unique reference (e.g. RUC-7419)
-    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+    // 4. Generate unique reference (e.g. RUC-74198)
+    const randomSuffix = Math.floor(10000 + Math.random() * 90000);
     const reference = `RUC-${randomSuffix}`;
 
     const bookingPayload = {
@@ -92,6 +92,7 @@ export async function POST(request: Request) {
       pickup_location: validated.pickup_location,
       dropoff_location: validated.dropoff_location,
       passengers_count: validated.passengers_count,
+      luggage_count: validated.luggage_count || 1,
       flight_number: validated.flight_number || null,
       add_ons: validated.add_ons,
       special_notes: validated.special_notes || null,
@@ -118,32 +119,40 @@ export async function POST(request: Request) {
 
       if (data && !error) {
         bookingId = data.id;
+
+        // Audit log entry
+        await supabase.from('audit_log').insert({
+          entity_type: 'booking',
+          entity_id: data.id,
+          action: 'create',
+          new_values: { reference, customer_name: validated.customer_name, finalPriceSAR },
+          performed_by: 'customer_online',
+        });
       }
-    } catch {
-      // Continue even if Supabase keys are in demo mode
+    } catch (err) {
+      console.error('Error inserting booking in database:', err);
     }
 
-    // 6. Format pre-filled WhatsApp message in user's language
+    // 6. Assign WhatsApp operator dynamically based on routing rules
     const lang = (validated.language as Locale) || 'en';
-    const greeting = LOCALE_CONFIG[lang]?.whatsappGreeting || LOCALE_CONFIG.en.whatsappGreeting;
+    const assignedOperator = await resolveWhatsAppNumber(lang);
     const currSymbol = CURRENCIES[currKey]?.symbol || 'SAR';
-    
+
     const waLines = [
-      greeting,
-      `• Ref: ${reference}`,
+      `Assalamu Alaikum Royal Umrah Cabs [Ref: ${reference}]`,
       `• Name: ${validated.customer_name}`,
       `• Phone: ${validated.customer_phone}`,
       `• From: ${validated.pickup_location}`,
       `• To: ${validated.dropoff_location}`,
       `• Date & Time: ${validated.pickup_datetime}`,
       `• Vehicle: ${validated.vehicle_id.toUpperCase()}`,
-      `• Passengers: ${validated.passengers_count}`,
+      `• Passengers: ${validated.passengers_count} | Luggage: ${validated.luggage_count || 1}`,
       `• Fixed Fare: ${currSymbol}${finalPriceCurrency} (${finalPriceSAR} SAR)`,
-      'Please confirm driver dispatch. Jazakum Allah Khair.'
+      'Please confirm driver dispatch. Jazakum Allah Khair.',
     ];
 
     const waText = encodeURIComponent(waLines.join('\n'));
-    const whatsappUrl = `https://wa.me/${settings.whatsapp_number}?text=${waText}`;
+    const whatsappUrl = `https://wa.me/${assignedOperator.number}?text=${waText}`;
 
     return NextResponse.json({
       success: true,
@@ -157,6 +166,8 @@ export async function POST(request: Request) {
         dropoff_location: validated.dropoff_location,
         pickup_datetime: validated.pickup_datetime,
         vehicle_id: validated.vehicle_id,
+        passengers_count: validated.passengers_count,
+        luggage_count: validated.luggage_count || 1,
         whatsappUrl,
       },
     });

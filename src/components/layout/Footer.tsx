@@ -157,7 +157,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/about`} className="hover:text-gold-dark transition-colors">
+                <Link href={`/${locale}/team`} className="hover:text-gold-dark transition-colors">
                   Our Team &amp; Chauffeurs
                 </Link>
               </li>

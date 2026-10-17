@@ -8,30 +8,58 @@ import { Send, CheckCircle2, MessageCircle } from 'lucide-react';
 interface ContactFormProps {
   locale: Locale;
   dict: Dictionary;
+  whatsappNumber?: string;
 }
 
-export function ContactForm({ locale, dict }: ContactFormProps) {
+export function ContactForm({ locale, dict, whatsappNumber = '966567588261' }: ContactFormProps) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [activeWaUrl, setActiveWaUrl] = useState(`https://wa.me/${whatsappNumber}`);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !phone.trim()) return;
 
     // Build pre-filled WhatsApp message
-    const waText = encodeURIComponent(
-      `*New Inquiry - Royal Umrah Cabs*\n` +
+    const waText =
+      `*Inquiry - Royal Umrah Cabs*\n` +
       `*Name:* ${name}\n` +
       `*Phone:* ${phone}\n` +
       (email ? `*Email:* ${email}\n` : '') +
-      `*Details:* ${message || 'I would like to inquire about Umrah transport.'}`
-    );
+      `*Details:* ${message || 'I would like to inquire about Umrah chauffeur transfer.'}`;
 
-    // Open WhatsApp
-    window.open(`https://wa.me/966567588261?text=${waText}`, '_blank');
+    let waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(waText)}`;
+
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          page: typeof window !== 'undefined' ? window.location.pathname : '',
+          language: locale,
+          customer_name: name,
+          customer_phone: phone,
+          notes: message || 'Contact form inquiry',
+          source_utm: {
+            referrer: typeof document !== 'undefined' ? document.referrer : '',
+            url: typeof window !== 'undefined' ? window.location.href : '',
+          },
+        }),
+      });
+
+      const data = await res.json();
+      if (data?.whatsapp_url) {
+        waUrl = data.whatsapp_url;
+      }
+    } catch (err) {
+      console.error('Lead tracking error, continuing to WhatsApp:', err);
+    }
+
+    setActiveWaUrl(waUrl);
+    window.open(waUrl, '_blank');
     setSubmitted(true);
   };
 
@@ -62,13 +90,13 @@ export function ContactForm({ locale, dict }: ContactFormProps) {
               : 'If WhatsApp did not open automatically, click the button below:'}
           </p>
           <a
-            href="https://wa.me/966567588261"
+            href={activeWaUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white font-bold text-xs"
           >
             <MessageCircle className="w-4 h-4" />
-            <span>WhatsApp (+966 56 758 8261)</span>
+            <span>WhatsApp (+{whatsappNumber})</span>
           </a>
         </div>
       ) : (

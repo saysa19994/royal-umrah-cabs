@@ -11,6 +11,7 @@ import {
   Calendar,
   Clock,
   Users,
+  Luggage,
   Plane,
   CheckCircle2,
   AlertCircle,
@@ -28,6 +29,7 @@ interface BookingEngineProps {
   initialDate?: string;
   initialTime?: string;
   initialPassengers?: string;
+  initialLuggage?: string;
 }
 
 const VEHICLE_PRICING: Record<string, { name: string; seats: number; bags: number; multiplier: number }> = {
@@ -56,6 +58,7 @@ export function BookingEngine({
   initialDate = '',
   initialTime = '14:00',
   initialPassengers = '2',
+  initialLuggage = '2',
 }: BookingEngineProps) {
   const { currency, formatPrice } = useCurrency();
 
@@ -65,6 +68,7 @@ export function BookingEngine({
   const [pickupDate, setPickupDate] = useState(initialDate);
   const [pickupTime, setPickupTime] = useState(initialTime);
   const [passengers, setPassengers] = useState(Number(initialPassengers) || 2);
+  const [luggage, setLuggage] = useState(Number(initialLuggage) || 2);
   const [flightNumber, setFlightNumber] = useState('');
 
   // Customer details
@@ -130,6 +134,7 @@ export function BookingEngine({
       pickup_location: pickupLocation,
       dropoff_location: dropoffLocation,
       passengers_count: passengers,
+      luggage_count: luggage,
       flight_number: flightNumber || undefined,
       add_ons: addOns,
       special_notes: specialNotes || undefined,
@@ -187,6 +192,12 @@ export function BookingEngine({
           <div className="flex justify-between items-center">
             <span className="text-ink-muted">{dict.booking_modal.datetimeLabel}:</span>
             <span className="font-bold text-ink">{confirmedBooking.pickup_datetime}</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-ink-muted">{dict.booking_card.passengersLabel} &amp; {dict.booking_card.luggageLabel}:</span>
+            <span className="font-bold text-ink">
+              {confirmedBooking.passengers_count || 1} {dict.booking_card.passengersLabel} • {confirmedBooking.luggage_count || 1} {dict.booking_card.luggageLabel}
+            </span>
           </div>
           <div className="flex justify-between items-center pt-2 border-t border-border text-sm">
             <span className="font-bold text-ink">{dict.booking_modal.totalFareLabel}:</span>
@@ -332,6 +343,61 @@ export function BookingEngine({
                   className="w-full h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
                 />
                 <Plane className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+            </div>
+          </div>
+
+          {/* PASSENGERS & LUGGAGE STEPPERS */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+            <div>
+              <label className="block text-xs font-bold text-ink mb-1.5">{dict.booking_card.passengersLabel}</label>
+              <div className="flex items-center justify-between w-full h-12 rounded-btn border border-border-strong bg-surface px-3">
+                <button
+                  type="button"
+                  onClick={() => setPassengers(Math.max(1, passengers - 1))}
+                  aria-label="Decrease Passengers"
+                  className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
+                >
+                  −
+                </button>
+                <div className="flex items-center gap-1.5 text-xs font-bold text-ink">
+                  <Users className="w-3.5 h-3.5 text-gold-dark" />
+                  <span>{passengers}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setPassengers(Math.min(30, passengers + 1))}
+                  aria-label="Increase Passengers"
+                  className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-ink mb-1.5">{dict.booking_card.luggageLabel}</label>
+              <div className="flex items-center justify-between w-full h-12 rounded-btn border border-border-strong bg-surface px-3">
+                <button
+                  type="button"
+                  onClick={() => setLuggage(Math.max(0, luggage - 1))}
+                  aria-label="Decrease Luggage"
+                  className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
+                >
+                  −
+                </button>
+                <div className="flex items-center gap-1.5 text-xs font-bold text-ink">
+                  <Luggage className="w-3.5 h-3.5 text-gold-dark" />
+                  <span>{luggage}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setLuggage(Math.min(30, luggage + 1))}
+                  aria-label="Increase Luggage"
+                  className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
+                >
+                  +
+                </button>
               </div>
             </div>
           </div>

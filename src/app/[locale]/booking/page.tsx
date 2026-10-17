@@ -15,6 +15,7 @@ interface BookingPageProps {
     date?: string;
     time?: string;
     passengers?: string;
+    luggage?: string;
   };
 }
 
@@ -61,6 +62,7 @@ export default async function BookingPage({
           initialDate={searchParams.date}
           initialTime={searchParams.time}
           initialPassengers={searchParams.passengers}
+          initialLuggage={searchParams.luggage}
         />
       </div>
     </div>
