@@ -28,8 +28,8 @@ INSERT INTO public.site_settings (
     FALSE,
     ARRAY['Makkah', 'Madinah', 'Jeddah', 'Riyadh'],
     'https://g.page/r/CTL7ETeAhDVpEAI/review',
-    4.9,
-    12480,
+    0.0,
+    0,
     24,
     'fixed',
     '{
@@ -87,7 +87,10 @@ VALUES
 ('camry', 'Toyota Camry Executive', 'Executive Sedan', 4, 3, TRUE, 3,
  '{"exterior": "/assets/images/camry_exterior.jpg", "interior": "/assets/images/camry_interior.jpg"}'::jsonb,
  ARRAY['Air conditioning', 'Comfortable seating', 'Luggage space']),
-('hiace', 'Toyota HiAce VIP', 'Group Minibus', 11, 10, TRUE, 4,
+('hiace', 'Toyota HiAce VIP', 'Group Minibus', 10, 10, TRUE, 4,
+ '{"exterior": "/assets/images/hiace_exterior.jpg", "interior": "/assets/images/hiace_interior.jpg"}'::jsonb,
+ ARRAY['Air conditioning', 'Comfortable seating', 'Luggage space']),
+('coaster', 'Toyota Coaster VIP', 'Luxury Bus', 21, 20, TRUE, 5,
  '{"exterior": "/assets/images/hiace_exterior.jpg", "interior": "/assets/images/hiace_interior.jpg"}'::jsonb,
  ARRAY['Air conditioning', 'Comfortable seating', 'Luggage space'])
 ON CONFLICT (id) DO UPDATE SET
@@ -164,3 +167,72 @@ VALUES
 ('Abdulrahman Al-Subaie', 'Saudi Arabia', 5, 'تجربة راقية بكل المقاييس. السائق كان في الموعد تماماً، والسيارة يوكن نظيفة ومكيفة، وتوقفنا في ميقات آبار علي بكل هدوء. أسعار واضحة بدون أي مفاوضات.', 'Makkah Clock Tower → Madinah', 'ar', TRUE),
 ('Farhan & Saima Siddiqui', 'United Kingdom', 5, 'Flight from Heathrow was delayed by 40 minutes, but dispatch tracked our plane and our driver was waiting right at arrivals. Highly recommended for families.', 'Madinah Airport → The Oberoi', 'en', TRUE)
 ON CONFLICT DO NOTHING;
+
+-- 9. USER PROFILES (Initial Owner and Operator Friend)
+INSERT INTO public.user_profiles (email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled)
+VALUES
+('owner@royalumrahcabs.com', 'Executive Owner', 'owner', '966567588261', FALSE, TRUE),
+('operator@royalumrahcabs.com', 'Secondary Dispatcher', 'operator', '966505316971', FALSE, FALSE)
+ON CONFLICT (email) DO UPDATE SET
+    role = EXCLUDED.role,
+    assigned_whatsapp_number = EXCLUDED.assigned_whatsapp_number;
+
+-- 10. ROLE PERMISSIONS MATRIX (Granular Resource Access)
+INSERT INTO public.role_permissions (role, resource, can_view, can_create, can_edit, can_delete, can_publish, can_export)
+VALUES
+-- OWNER: Full Unrestricted Access
+('owner', 'bookings', TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+('owner', 'leads', TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+('owner', 'pricing', TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+('owner', 'fleet', TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+('owner', 'whatsapp', TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+('owner', 'settings', TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+('owner', 'users', TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+('owner', 'roles', TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+('owner', 'audit_log', TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+('owner', 'page_content', TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+
+-- ADMIN: Operational Management without deleting owner or roles
+('admin', 'bookings', TRUE, TRUE, TRUE, TRUE, FALSE, TRUE),
+('admin', 'leads', TRUE, TRUE, TRUE, TRUE, FALSE, TRUE),
+('admin', 'pricing', TRUE, TRUE, TRUE, FALSE, FALSE, TRUE),
+('admin', 'fleet', TRUE, TRUE, TRUE, FALSE, FALSE, TRUE),
+('admin', 'whatsapp', TRUE, TRUE, TRUE, FALSE, FALSE, TRUE),
+('admin', 'settings', TRUE, FALSE, TRUE, FALSE, FALSE, TRUE),
+('admin', 'users', TRUE, TRUE, TRUE, FALSE, FALSE, TRUE),
+('admin', 'roles', TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
+('admin', 'audit_log', TRUE, FALSE, FALSE, FALSE, FALSE, TRUE),
+('admin', 'page_content', TRUE, TRUE, TRUE, FALSE, TRUE, TRUE),
+
+-- OPERATOR: Scoped exclusively to assigned leads and bookings
+('operator', 'bookings', TRUE, FALSE, TRUE, FALSE, FALSE, FALSE),
+('operator', 'leads', TRUE, FALSE, TRUE, FALSE, FALSE, FALSE),
+('operator', 'pricing', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE),
+('operator', 'fleet', TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
+('operator', 'whatsapp', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE),
+('operator', 'settings', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE),
+('operator', 'users', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE),
+('operator', 'roles', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE),
+('operator', 'audit_log', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE),
+('operator', 'page_content', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE),
+
+-- DRIVER: Only assigned bookings
+('driver', 'bookings', TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
+('driver', 'leads', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE),
+
+-- CONTENT EDITOR: Marketing, Guides, and CMS
+('content_editor', 'page_content', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE),
+('content_editor', 'fleet', TRUE, FALSE, FALSE, FALSE, FALSE, FALSE),
+
+-- TRANSLATOR: Multilingual Content Review
+('translator', 'page_content', TRUE, FALSE, TRUE, FALSE, FALSE, FALSE),
+
+-- PARTNER: Own referral bookings
+('partner', 'bookings', TRUE, TRUE, FALSE, FALSE, FALSE, FALSE)
+ON CONFLICT (role, resource) DO UPDATE SET
+    can_view = EXCLUDED.can_view,
+    can_create = EXCLUDED.can_create,
+    can_edit = EXCLUDED.can_edit,
+    can_delete = EXCLUDED.can_delete,
+    can_publish = EXCLUDED.can_publish,
+    can_export = EXCLUDED.can_export;

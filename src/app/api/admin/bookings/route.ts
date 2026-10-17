@@ -78,6 +78,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const statusFilter = searchParams.get('status');
+    const whatsappFilter = searchParams.get('whatsapp_number');
 
     try {
       const supabase = createClient();
@@ -85,6 +86,9 @@ export async function GET(request: Request) {
 
       if (statusFilter && statusFilter !== 'all') {
         query = query.eq('status', statusFilter);
+      }
+      if (whatsappFilter) {
+        query = query.eq('driver_phone', whatsappFilter);
       }
 
       const { data, error } = await query;
@@ -99,6 +103,9 @@ export async function GET(request: Request) {
     if (statusFilter && statusFilter !== 'all') {
       filtered = memoryBookings.filter((b) => b.status === statusFilter);
     }
+    if (whatsappFilter) {
+      filtered = filtered.filter((b) => b.driver_phone === whatsappFilter);
+    }
 
     return NextResponse.json({ bookings: filtered });
   } catch (err: any) {
@@ -109,7 +116,7 @@ export async function GET(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();
-    const { id, reference, status, driver_name, driver_phone, vehicle_plate } = body;
+    const { id, reference, status, driver_name, driver_phone, vehicle_plate, updated_by } = body;
 
     try {
       const supabase = createClient();

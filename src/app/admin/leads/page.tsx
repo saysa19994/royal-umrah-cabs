@@ -51,10 +51,25 @@ export default function AdminLeadsPage() {
   const [savingNotes, setSavingNotes] = useState(false);
   const [convertingId, setConvertingId] = useState<string | null>(null);
 
+  const [currentUser, setCurrentUser] = useState<any>(null);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('ruc_admin_user');
+      if (stored) {
+        setCurrentUser(JSON.parse(stored));
+      }
+    } catch {}
+  }, []);
+
   const fetchLeads = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/leads?status=${statusFilter}`);
+      let url = `/api/admin/leads?status=${statusFilter}`;
+      if (currentUser?.role === 'operator' && currentUser?.assigned_whatsapp_number) {
+        url += `&whatsapp_number=${encodeURIComponent(currentUser.assigned_whatsapp_number)}`;
+      }
+      const res = await fetch(url);
       const data = await res.json();
       if (data.leads) {
         setLeads(data.leads);
@@ -68,7 +83,7 @@ export default function AdminLeadsPage() {
 
   useEffect(() => {
     fetchLeads();
-  }, [statusFilter]);
+  }, [statusFilter, currentUser]);
 
   const updateLeadStatus = async (id: string, newStatus: string) => {
     try {
@@ -172,6 +187,20 @@ export default function AdminLeadsPage() {
           <span>Refresh Leads</span>
         </button>
       </div>
+
+      {currentUser?.role === 'operator' && currentUser?.assigned_whatsapp_number && (
+        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>
+              <strong>Scoped Operator Channel:</strong> Showing only leads routed to your WhatsApp number (+{currentUser.assigned_whatsapp_number}).
+            </span>
+          </div>
+          <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-500/20 text-emerald-300">
+            Operator Access
+          </span>
+        </div>
+      )}
 
       {/* KPI METRIC CARDS */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

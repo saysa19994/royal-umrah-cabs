@@ -5,6 +5,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
+    const whatsappNumber = searchParams.get('whatsapp_number');
 
     const supabase = createClient();
     let query = supabase
@@ -14,6 +15,9 @@ export async function GET(request: Request) {
 
     if (status && status !== 'all') {
       query = query.eq('status', status);
+    }
+    if (whatsappNumber) {
+      query = query.eq('whatsapp_number', whatsappNumber);
     }
 
     const { data: leads, error } = await query;

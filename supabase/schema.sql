@@ -353,3 +353,62 @@ CREATE POLICY "Authenticated users can manage reviews" ON public.reviews FOR ALL
 -- 16. Page Content Policies
 CREATE POLICY "Public can view page content" ON public.page_content FOR SELECT USING (true);
 CREATE POLICY "Authenticated users can manage page content" ON public.page_content FOR ALL TO authenticated USING (true);
+
+-- ====================================================================
+-- PHASE 2: RBAC, USER PROFILES, 2FA, AND AUDIT LOG EXTENSIONS
+-- ====================================================================
+
+-- 17. USER PROFILES TABLE (Supabase auth extension with RBAC, 2FA, and Operator Scoping)
+CREATE TABLE IF NOT EXISTS public.user_profiles (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    auth_user_id UUID UNIQUE,
+    email TEXT UNIQUE NOT NULL,
+    name TEXT NOT NULL,
+    role TEXT NOT NULL DEFAULT 'operator', -- 'owner', 'admin', 'operator', 'driver', 'content_editor', 'translator', 'partner'
+    assigned_whatsapp_number TEXT, -- For operators (e.g. '966505316971')
+    is_suspended BOOLEAN NOT NULL DEFAULT FALSE,
+    totp_enabled BOOLEAN NOT NULL DEFAULT FALSE,
+    totp_secret TEXT,
+    last_login_at TIMESTAMPTZ,
+    last_login_ip TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+-- 18. ROLE PERMISSIONS MATRIX TABLE (Granular access control, owner editable)
+CREATE TABLE IF NOT EXISTS public.role_permissions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    role TEXT NOT NULL,
+    resource TEXT NOT NULL, -- 'bookings', 'leads', 'pricing', 'fleet', 'whatsapp', 'settings', 'users', 'roles', 'audit_log', 'page_content'
+    can_view BOOLEAN NOT NULL DEFAULT FALSE,
+    can_create BOOLEAN NOT NULL DEFAULT FALSE,
+    can_edit BOOLEAN NOT NULL DEFAULT FALSE,
+    can_delete BOOLEAN NOT NULL DEFAULT FALSE,
+    can_publish BOOLEAN NOT NULL DEFAULT FALSE,
+    can_export BOOLEAN NOT NULL DEFAULT FALSE,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+    CONSTRAINT unique_role_resource UNIQUE (role, resource)
+);
+
+-- 19. OWNERSHIP TRANSFER REQUESTS TABLE
+CREATE TABLE IF NOT EXISTS public.ownership_transfers (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    current_owner_email TEXT NOT NULL,
+    target_owner_email TEXT NOT NULL,
+    confirmation_token TEXT UNIQUE NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending', -- 'pending', 'confirmed', 'expired', 'cancelled'
+    expires_at TIMESTAMPTZ NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+ALTER TABLE public.user_profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.role_permissions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.ownership_transfers ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Authenticated users can read user_profiles" ON public.user_profiles FOR SELECT TO authenticated USING (true);
+CREATE POLICY "Owners and admins can manage user_profiles" ON public.user_profiles FOR ALL TO authenticated USING (true);
+
+CREATE POLICY "Authenticated users can read role_permissions" ON public.role_permissions FOR SELECT TO authenticated USING (true);
+CREATE POLICY "Owners can manage role_permissions" ON public.role_permissions FOR ALL TO authenticated USING (true);
+
+CREATE POLICY "Authenticated can manage ownership transfers" ON public.ownership_transfers FOR ALL TO authenticated USING (true);
