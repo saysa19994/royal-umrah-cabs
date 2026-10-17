@@ -25,9 +25,13 @@ export async function generateMetadata({
   params: { locale: Locale };
 }): Promise<Metadata> {
   const dict = getDictionary(locale);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
-    title: `${dict.nav.bookNow} | ${dict.meta.brand}`,
+    title: dict.nav.bookNow,
     description: dict.booking_card.subtitle,
+    alternates: {
+      canonical: `${baseUrl}/${locale}/booking`,
+    },
   };
 }
 
@@ -49,7 +53,7 @@ export default async function BookingPage({
             Reserve Your Private Chauffeur
           </h1>
           <p className="mt-2 text-ink-muted text-sm md:text-base max-w-xl mx-auto font-light">
-            Fixed prices calculated live with zero prepayment required. Pay your driver upon arrival.
+            Guaranteed fixed fares. Choose Online Card (Mada / Visa) or Pay Upon Arrival to your chauffeur.
           </p>
         </div>
 

@@ -15,9 +15,13 @@ export async function generateMetadata({
   params: { locale },
 }: AboutPageProps): Promise<Metadata> {
   const dict = getDictionary(locale);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
-    title: `${dict.page_about.title} | ${dict.meta.brand}`,
+    title: dict.page_about.title,
     description: dict.page_about.subtitle,
+    alternates: {
+      canonical: `${baseUrl}/${locale}/about`,
+    },
   };
 }
 

@@ -104,10 +104,14 @@ export async function generateMetadata({
   params: { locale, slug },
 }: FleetDetailPageProps): Promise<Metadata> {
   const dict = getDictionary(locale);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   const vehicle = FLEET_MAP[slug] || FLEET_MAP['hyundai-staria'];
   return {
-    title: `${vehicle.name} | ${dict.meta.brand}`,
+    title: vehicle.name,
     description: vehicle.desc.slice(0, 160),
+    alternates: {
+      canonical: `${baseUrl}/${locale}/fleet/${slug}`,
+    },
   };
 }
 

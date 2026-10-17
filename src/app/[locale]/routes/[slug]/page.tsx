@@ -164,10 +164,14 @@ export async function generateMetadata({
   params: { locale, slug },
 }: RouteDetailPageProps): Promise<Metadata> {
   const dict = getDictionary(locale);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   const route = ROUTE_DETAILS[slug] || ROUTE_DETAILS['jeddah-airport-to-makkah'];
   return {
-    title: `${route.title} | ${dict.meta.brand}`,
+    title: route.title,
     description: route.subtitle,
+    alternates: {
+      canonical: `${baseUrl}/${locale}/routes/${slug}`,
+    },
   };
 }
 

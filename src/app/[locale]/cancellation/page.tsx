@@ -15,9 +15,13 @@ export async function generateMetadata({
   params: { locale },
 }: LegalPageProps): Promise<Metadata> {
   const dict = getDictionary(locale);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
-    title: `${dict.footer.refunds} | ${dict.meta.brand}`,
+    title: dict.footer.refunds,
     description: 'Cancellation policy and refund terms for Royal Umrah Cabs passenger transport.',
+    alternates: {
+      canonical: `${baseUrl}/${locale}/cancellation`,
+    },
   };
 }
 

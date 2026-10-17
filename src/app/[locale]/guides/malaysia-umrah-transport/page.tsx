@@ -18,7 +18,7 @@ export async function generateMetadata({
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
 
   return {
-    title: `${dict.page_guide_malaysia.title} | ${dict.meta.brand}`,
+    title: dict.page_guide_malaysia.title,
     description: dict.page_guide_malaysia.subtitle,
     keywords: [
       'teksi umrah jeddah makkah',

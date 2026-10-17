@@ -13,9 +13,13 @@ export async function generateMetadata({
   params: { locale },
 }: LegalPageProps): Promise<Metadata> {
   const dict = getDictionary(locale);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
-    title: `${dict.footer_extra.cookiePolicy} | ${dict.meta.brand}`,
+    title: dict.footer_extra.cookiePolicy,
     description: 'Cookie policy and technical storage usage on Royal Umrah Cabs.',
+    alternates: {
+      canonical: `${baseUrl}/${locale}/cookies`,
+    },
   };
 }
 

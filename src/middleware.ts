@@ -30,7 +30,25 @@ function getPreferredLocale(request: NextRequest): string {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Ignore static assets, api routes, and system files
+  // 1. Explicit legacy redirects to completely eliminate old cached files
+  if (pathname === '/admin.html') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/admin/login';
+    const res = NextResponse.redirect(url, { status: 301 });
+    res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    res.headers.set('Clear-Site-Data', '"cache"');
+    return res;
+  }
+
+  if (pathname === '/index.html') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/';
+    const res = NextResponse.redirect(url, { status: 301 });
+    res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    return res;
+  }
+
+  // 2. Ignore static assets, api routes, and system files
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
@@ -39,12 +57,12 @@ export function middleware(request: NextRequest) {
     pathname === '/robots.txt' ||
     pathname === '/sitemap.xml' ||
     pathname === '/favicon.ico' ||
-    pathname.includes('.')
+    (pathname.includes('.') && !pathname.endsWith('.html'))
   ) {
     return NextResponse.next();
   }
 
-  // Check if pathname starts with a supported locale
+  // 3. Check if pathname starts with a supported locale
   const pathnameHasLocale = LOCALES.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
@@ -53,10 +71,14 @@ export function middleware(request: NextRequest) {
     const targetLocale = getPreferredLocale(request);
     const url = request.nextUrl.clone();
     url.pathname = `/${targetLocale}${pathname === '/' ? '' : pathname}`;
-    return NextResponse.redirect(url, { status: 301 });
+    const res = NextResponse.redirect(url, { status: 301 });
+    res.headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
+    return res;
   }
 
-  return NextResponse.next();
+  const response = NextResponse.next();
+  response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
+  return response;
 }
 
 export const config = {

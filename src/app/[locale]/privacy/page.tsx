@@ -14,9 +14,13 @@ export async function generateMetadata({
   params: { locale },
 }: LegalPageProps): Promise<Metadata> {
   const dict = getDictionary(locale);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
-    title: `${dict.footer.privacy} | ${dict.meta.brand}`,
+    title: dict.footer.privacy,
     description: 'Privacy policy for Royal Umrah Cabs passenger dispatch and booking operations.',
+    alternates: {
+      canonical: `${baseUrl}/${locale}/privacy`,
+    },
   };
 }
 

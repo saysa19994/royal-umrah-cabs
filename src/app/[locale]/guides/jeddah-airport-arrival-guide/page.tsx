@@ -15,9 +15,13 @@ export async function generateMetadata({
   params: { locale },
 }: GuidePageProps): Promise<Metadata> {
   const dict = getDictionary(locale);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
-    title: `${dict.guides_section.guide2Title} | ${dict.meta.brand}`,
+    title: dict.guides_section.guide2Title,
     description: dict.guides_section.guide2Desc,
+    alternates: {
+      canonical: `${baseUrl}/${locale}/guides/jeddah-airport-arrival-guide`,
+    },
   };
 }
 

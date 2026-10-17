@@ -97,6 +97,9 @@ export function BookingEngine({
     zamzam_water: true,
   });
 
+  // Payment Method
+  const [paymentMethod, setPaymentMethod] = useState<'pay_upon_arrival' | 'online_card' | 'bank_transfer'>('pay_upon_arrival');
+
   // State
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -150,6 +153,7 @@ export function BookingEngine({
       flight_number: flightNumber || undefined,
       add_ons: addOns,
       special_notes: specialNotes || undefined,
+      payment_method: paymentMethod,
       currency: currency,
       language: locale,
     };
@@ -547,6 +551,87 @@ export function BookingEngine({
                 />
                 <span>Chilled Zamzam Water</span>
               </label>
+            </div>
+          </div>
+
+          {/* STEP 4: PAYMENT OPTIONS */}
+          <div className="pt-6 border-t border-border">
+            <h3 className="font-display font-bold text-lg text-ink mb-1">
+              4. Payment Method / طريقة الدفع
+            </h3>
+            <p className="text-xs text-ink-muted mb-4 font-light">
+              Select your preferred payment arrangement. Transparent guaranteed fixed fares.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div
+                onClick={() => setPaymentMethod('pay_upon_arrival')}
+                className={`p-4 rounded-xl border cursor-pointer transition-all ${
+                  paymentMethod === 'pay_upon_arrival'
+                    ? 'border-gold bg-gold-soft/40 shadow-sm ring-1 ring-gold'
+                    : 'border-border bg-surface hover:border-border-strong'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold text-ink">Pay Upon Arrival</span>
+                  <input
+                    type="radio"
+                    name="booking_payment_method"
+                    checked={paymentMethod === 'pay_upon_arrival'}
+                    onChange={() => setPaymentMethod('pay_upon_arrival')}
+                    className="text-gold"
+                  />
+                </div>
+                <p className="text-[11px] text-ink-muted leading-relaxed">
+                  No prepayment required. Pay cash (SAR, USD, MYR) or card directly to your chauffeur upon reaching your destination.
+                </p>
+              </div>
+
+              <div
+                onClick={() => setPaymentMethod('online_card')}
+                className={`p-4 rounded-xl border cursor-pointer transition-all ${
+                  paymentMethod === 'online_card'
+                    ? 'border-gold bg-gold-soft/40 shadow-sm ring-1 ring-gold'
+                    : 'border-border bg-surface hover:border-border-strong'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold text-ink">Online Card / Mada</span>
+                  <input
+                    type="radio"
+                    name="booking_payment_method"
+                    checked={paymentMethod === 'online_card'}
+                    onChange={() => setPaymentMethod('online_card')}
+                    className="text-gold"
+                  />
+                </div>
+                <p className="text-[11px] text-ink-muted leading-relaxed">
+                  Secure digital payment link (Visa, Mastercard, Mada, Apple Pay) sent via WhatsApp / Email upon confirmation.
+                </p>
+              </div>
+
+              <div
+                onClick={() => setPaymentMethod('bank_transfer')}
+                className={`p-4 rounded-xl border cursor-pointer transition-all ${
+                  paymentMethod === 'bank_transfer'
+                    ? 'border-gold bg-gold-soft/40 shadow-sm ring-1 ring-gold'
+                    : 'border-border bg-surface hover:border-border-strong'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold text-ink">Saudi Bank Transfer</span>
+                  <input
+                    type="radio"
+                    name="booking_payment_method"
+                    checked={paymentMethod === 'bank_transfer'}
+                    onChange={() => setPaymentMethod('bank_transfer')}
+                    className="text-gold"
+                  />
+                </div>
+                <p className="text-[11px] text-ink-muted leading-relaxed">
+                  Direct transfer to verified Saudi corporate IBAN with instant official digital receipt.
+                </p>
+              </div>
             </div>
           </div>
         </div>

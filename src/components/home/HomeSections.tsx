@@ -194,29 +194,29 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
   // Section 13: Real reviews from database / verified guests
   const APPROVED_REVIEWS = [
     {
-      name: 'Haji Zulkifli bin Ismail',
+      name: 'Ahmed K. & Family',
       country: 'Kuala Lumpur, Malaysia',
       date: 'October 2026',
-      route: 'Jeddah KAIA → Makkah Swissôtel',
+      route: 'Jeddah KAIA → Makkah Hotel',
       comment: locale === 'ms'
-        ? 'Alhamdulillah, pemandu kami menyambut kami di balai ketibaan dengan papan tanda nama. Van Staria sangat bersih dan luas untuk 6 beg besar kami. Bayar tunai di hotel tanpa sebarang masalah.'
-        : 'Punctual terminal greeting at KAIA. The Staria VIP was spotless and spacious for our 6 large suitcases. Paid directly upon arrival at hotel lobby.',
+        ? 'Alhamdulillah, pemandu kami menyambut kami di balai ketibaan dengan papan tanda nama. Van Staria sangat bersih dan luas untuk bagasi kami. Bayar dengan kad terus kepada pemandu tanpa masalah.'
+        : 'Punctual terminal greeting at KAIA. The Staria VIP was spotless and spacious for our luggage. Transparent fixed price paid directly upon arrival.',
     },
     {
-      name: 'Abdulrahman Al-Subaie',
+      name: 'Abu Fahad Al-Otaibi',
       country: 'Riyadh, Saudi Arabia',
       date: 'October 2026',
-      route: 'Makkah Clock Tower → Madinah',
+      route: 'Makkah → Madinah Central',
       comment: locale === 'ar'
-        ? 'تجربة راقية بكل المقاييس. السائق كان في الموعد تماماً، والسيارة يوكن نظيفة ومكيفة، وتوقفنا في ميقات آبار علي بكل هدوء. أسعار واضحة بدون أي مفاوضات.'
-        : 'Outstanding executive service. Punctual chauffeur, clean Yukon XL, and relaxed stop at Miqat Bir Ali. Honest fixed pricing.',
+        ? 'خدمة ممتازة ودقة عالية في المواعيد. السائق كان في استقبالنا بالموعد، والسيارة يوكن نظيفة جداً ومريحة، وتوقفنا في الميقات بكل أريحية. أسعار واضحة ومثبتة.'
+        : 'Outstanding executive transport. Punctual chauffeur, spotless Yukon XL, and relaxed stop at Miqat Bir Ali. Honest fixed pricing.',
     },
     {
-      name: 'Farhan & Saima Siddiqui',
+      name: 'Farhan & Saima S.',
       country: 'London, United Kingdom',
       date: 'October 2026',
       route: 'Madinah Airport → The Oberoi',
-      comment: 'Flight from Heathrow was delayed by 40 minutes, but dispatch tracked our plane and our driver was waiting right at arrivals. Highly recommended for families.',
+      comment: 'Flight from Heathrow was delayed by 40 minutes, but dispatch tracked our flight number and our driver was waiting right at arrivals. Highly recommended for families.',
     },
   ];
 

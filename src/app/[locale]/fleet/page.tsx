@@ -15,9 +15,13 @@ export async function generateMetadata({
   params: { locale },
 }: FleetPageProps): Promise<Metadata> {
   const dict = getDictionary(locale);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
-    title: `${dict.nav.fleet} | ${dict.meta.brand}`,
-    description: 'Explore our luxury, modern private Umrah fleet: GMC Yukon XL, Hyundai Staria, Toyota Camry, and Toyota HiAce.',
+    title: dict.nav.fleet,
+    description: 'Explore our luxury modern private Umrah fleet: GMC Yukon XL, Hyundai Staria, Toyota Camry, and Toyota HiAce.',
+    alternates: {
+      canonical: `${baseUrl}/${locale}/fleet`,
+    },
   };
 }
 

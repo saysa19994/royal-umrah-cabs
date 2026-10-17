@@ -14,9 +14,13 @@ interface PartnersPageProps {
 
 export async function generateMetadata({ params: { locale } }: PartnersPageProps): Promise<Metadata> {
   const dict = getDictionary(locale);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
-    title: `Travel Agency & B2B Umrah Partnerships | ${dict.meta.brand}`,
+    title: 'Travel Agency & B2B Umrah Partnerships',
     description: 'Partner with Royal Umrah Cabs for reliable ground transport for your Umrah pilgrim groups across Jeddah, Makkah, and Madinah.',
+    alternates: {
+      canonical: `${baseUrl}/${locale}/partners`,
+    },
   };
 }
 
