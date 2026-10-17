@@ -235,5 +235,43 @@
     "formMessage": "Your Message or Journey Details",
     "formSubmit": "Send Inquiry via WhatsApp",
     "formSuccess": "Thank you! Your message has been prepared for dispatch."
+  },
+  "page_track": {
+    "title": "Track Your Booking",
+    "subtitle": "Check the live status of your private Umrah chauffeur reservation and driver assignment in real time.",
+    "refLabel": "Booking Reference",
+    "refPlaceholder": "e.g. RUC-8421",
+    "phoneLabel": "Phone Number Used in Booking",
+    "phonePlaceholder": "e.g. +966 or +60...",
+    "btnSearch": "Track Reservation",
+    "notFound": "No booking found matching this reference and phone number. Please verify your details or contact WhatsApp dispatch.",
+    "statusNew": "Pending Confirmation",
+    "statusConfirmed": "Booking Confirmed",
+    "statusAssigned": "Chauffeur Assigned",
+    "statusEnRoute": "Chauffeur En Route",
+    "statusCompleted": "Completed",
+    "statusCancelled": "Cancelled",
+    "driverDetails": "Your Assigned Chauffeur",
+    "driverName": "Chauffeur Name",
+    "driverPhone": "Chauffeur Mobile",
+    "vehiclePlate": "Vehicle Plate / Model",
+    "callDriver": "Call Driver",
+    "whatsappDriver": "WhatsApp Driver",
+    "journeySummary": "Journey Summary",
+    "route": "Route",
+    "pickupTime": "Pickup Date & Time",
+    "flightNumber": "Flight Number",
+    "totalFare": "Fixed Total Fare",
+    "manageBookingBtn": "Manage or Cancel Booking"
+  },
+  "page_manage": {
+    "title": "Manage Your Reservation",
+    "subtitle": "Modify your schedule, update flight details, or cancel your booking according to our 24-hour free cancellation policy.",
+    "cancelPolicyNotice": "Free cancellation is permitted up to 24 hours prior to scheduled pickup time.",
+    "cancelBtn": "Cancel This Booking",
+    "cancelSuccess": "Your booking has been cancelled successfully.",
+    "cancelLateNotice": "Your pickup is scheduled in less than 24 hours. Please contact our 24/7 WhatsApp dispatch directly for emergency schedule adjustments.",
+    "contactDispatch": "Contact WhatsApp Dispatch",
+    "backToTrack": "Back to Booking Tracking"
   }
 }

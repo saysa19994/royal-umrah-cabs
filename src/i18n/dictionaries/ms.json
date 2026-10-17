@@ -235,5 +235,43 @@
     "formMessage": "Maklumat Perjalanan atau Mesej Anda",
     "formSubmit": "Hantar Pertanyaan Melalui WhatsApp",
     "formSuccess": "Terima kasih! Mesej anda telah disediakan untuk dihantar kepada pasukan operasi kami."
+  },
+  "page_track": {
+    "title": "Kesan Tempahan Anda",
+    "subtitle": "Semak status terkini tempahan pemandu peribadi Umrah anda dan maklumat pemandu yang ditugaskan secara langsung.",
+    "refLabel": "Nombor Rujukan Tempahan",
+    "refPlaceholder": "Contoh: RUC-8421",
+    "phoneLabel": "Nombor Telefon Semasa Tempahan",
+    "phonePlaceholder": "Contoh: +60... atau +966...",
+    "btnSearch": "Kesan Status Tempahan",
+    "notFound": "Tiada tempahan ditemui dengan nombor rujukan dan nombor telefon ini. Sila semak semula atau hubungi WhatsApp kami.",
+    "statusNew": "Menunggu Pengesahan",
+    "statusConfirmed": "Tempahan Disahkan",
+    "statusAssigned": "Pemandu Telah Ditugaskan",
+    "statusEnRoute": "Pemandu Dalam Perjalanan",
+    "statusCompleted": "Selesai",
+    "statusCancelled": "Dibatalkan",
+    "driverDetails": "Maklumat Pemandu Anda",
+    "driverName": "Nama Pemandu",
+    "driverPhone": "Telefon Pemandu",
+    "vehiclePlate": "Nombor Plat & Model",
+    "callDriver": "Hubungi Pemandu",
+    "whatsappDriver": "WhatsApp Pemandu",
+    "journeySummary": "Ringkasan Perjalanan",
+    "route": "Laluan",
+    "pickupTime": "Tarikh & Masa Pengambilan",
+    "flightNumber": "Nombor Penerbangan",
+    "totalFare": "Jumlah Tambang Tetap",
+    "manageBookingBtn": "Urus atau Batal Tempahan"
+  },
+  "page_manage": {
+    "title": "Urus Tempahan Anda",
+    "subtitle": "Kemas kini maklumat penerbangan atau batalkan tempahan anda mengikut polisi pembatalan percuma 24 jam kami.",
+    "cancelPolicyNotice": "Pembatalan percuma dibenarkan sepenuhnya sehingga 24 jam sebelum masa pengambilan dijadualkan.",
+    "cancelBtn": "Batalkan Tempahan Ini",
+    "cancelSuccess": "Tempahan anda telah berjaya dibatalkan.",
+    "cancelLateNotice": "Masa perjalanan anda kurang daripada 24 jam. Sila hubungi pusat operasi WhatsApp kami 24/7 untuk bantuan segera.",
+    "contactDispatch": "Hubungi WhatsApp Operasi",
+    "backToTrack": "Kembali ke Kesan Tempahan"
   }
 }
