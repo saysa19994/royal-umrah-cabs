@@ -540,11 +540,14 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       <section className="py-16 md:py-24 bg-bg-alt/40 border-t border-border text-start">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center max-w-3xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
+              <span>{dict.cabin_gallery.sectionPill}</span>
+            </div>
             <h3 className="font-display font-semibold text-3xl md:text-4xl text-ink">
-              Step Inside the Cabin
+              {dict.cabin_gallery.heading}
             </h3>
             <p className="mt-2 text-xs md:text-sm text-ink-muted font-light">
-              High-resolution panoramic interiors designed for peaceful worship and relaxation.
+              {dict.cabin_gallery.subtitle}
             </p>
           </div>
 
@@ -572,6 +575,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                   <Link
                     href={`/${locale}/fleet/${car.slug}`}
                     className="w-9 h-9 rounded-full bg-gold text-ink flex items-center justify-center hover:bg-gold-hover hover:text-white transition-colors shadow-xs"
+                    title={dict.cabin_gallery.viewCabin}
                   >
                     <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                   </Link>
@@ -604,7 +608,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             {/* Bir Ali */}
             <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs">
               <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
-                Madinah Miqat
+                {dict.miqat_ziyarat.birAliCat}
               </span>
               <h3 className="font-display font-bold text-lg text-ink mb-2">
                 {dict.miqat_ziyarat.birAliTitle}
@@ -617,7 +621,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             {/* Yalamlam */}
             <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs">
               <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
-                Southern / Coastal Miqat
+                {dict.miqat_ziyarat.yalamlamCat}
               </span>
               <h3 className="font-display font-bold text-lg text-ink mb-2">
                 {dict.miqat_ziyarat.yalamlamTitle}
@@ -630,7 +634,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             {/* Qarn al-Manazil */}
             <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs">
               <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
-                Eastern / Riyadh Miqat
+                {dict.miqat_ziyarat.qarnCat}
               </span>
               <h3 className="font-display font-bold text-lg text-ink mb-2">
                 {dict.miqat_ziyarat.qarnTitle}
@@ -643,7 +647,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             {/* Ziyarat Makkah */}
             <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs md:col-span-2 lg:col-span-1">
               <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
-                Makkah Historical
+                {dict.miqat_ziyarat.ziyaratMakkahCat}
               </span>
               <h3 className="font-display font-bold text-lg text-ink mb-2">
                 {dict.miqat_ziyarat.ziyaratMakkahTitle}
@@ -656,7 +660,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             {/* Ziyarat Madinah */}
             <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs md:col-span-2">
               <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
-                Madinah Sacred Landmarks
+                {dict.miqat_ziyarat.ziyaratMadinahCat}
               </span>
               <h3 className="font-display font-bold text-lg text-ink mb-2">
                 {dict.miqat_ziyarat.ziyaratMadinahTitle}
