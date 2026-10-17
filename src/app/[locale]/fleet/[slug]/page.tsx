@@ -36,7 +36,7 @@ const FLEET_MAP: Record<
     intImg: '/assets/images/staria_interior.jpg',
     desc: 'The Hyundai Staria VIP sets a new standard for modern pilgrim family transport in Saudi Arabia. With its expansive panoramic windows, captain chair layout, and serene ride quality, families can rest peacefully during the 4.5-hour transfer between Makkah and Madinah.',
     features: [
-      'Dual-zone automated climate control with ceiling vents',
+      'High-efficiency climate control with dedicated ceiling vents',
       'Individual reclining executive seats with armrests',
       'Complimentary chilled Zamzam water bottles on all trips',
       'USB-C rapid charging ports at every row',

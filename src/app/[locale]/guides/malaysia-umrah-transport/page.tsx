@@ -189,7 +189,7 @@ export default function MalaysiaGuidePage({ params: { locale } }: MalaysiaGuideP
             <p className="text-xs text-ink-muted mb-4 font-light">
               {locale === 'ms'
                 ? 'Van eksekutif moden dengan penghawa dingin berkuasa tinggi, kerusi kapten boleh laras, dan ruang luas untuk 6 bagasi besar jemaah.'
-                : 'Executive modern MPV with captain reclining seats, dual-zone AC, and room for up to 6 large suitcases.'}
+                : 'Executive modern MPV with captain reclining seats, powerful rear AC, and room for up to 6 large suitcases.'}
             </p>
             <Link
               href={`/${locale}/booking?vehicle=staria`}

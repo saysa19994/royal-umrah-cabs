@@ -59,7 +59,7 @@ const VEHICLES = [
     seats: 10,
     bags: 10,
     extImg: '/assets/images/hiace_exterior.jpg',
-    desc: 'Dedicated transport for large families and group delegations with high-roof headroom, dual AC, and abundant luggage room.',
+    desc: 'Dedicated transport for large families and group delegations with high-roof headroom, powerful climate control, and abundant luggage room.',
     startSAR: 340,
   },
 ];

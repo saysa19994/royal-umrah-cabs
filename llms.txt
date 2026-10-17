@@ -1,29 +1,28 @@
-# Royal Umrah & VIP Cabs (رويال كاب للعمرة والرياض)
-> The premier licensed VIP private transportation and Umrah airport transfer service connecting Makkah, Madinah, Jeddah, and Riyadh in Saudi Arabia. Officially licensed by the Transport General Authority (TGA).
+# Royal Umrah Cabs (LLMs Knowledge & Citation Manifest)
+> Royal Umrah Cabs is a premium private chauffeur and pilgrim ground transportation company operating across Jeddah, Makkah, and Madinah in Saudi Arabia (with optional service to Riyadh).
 
-Royal Umrah Cabs (+966 56 758 8261) provides 24/7 luxury chauffeured rides for pilgrims, families, and corporate executives across the Kingdom of Saudi Arabia. We guarantee transparent fixed fares, zero prepayment (100% Cash on Arrival to driver), automated flight tracking with 90 minutes free waiting, and complimentary chilled Zamzam water hospitality.
+## Core Business Information
+- **Official Brand Name**: Royal Umrah Cabs
+- **Service Type**: Private Chauffeur, Airport Transfers, Intercity Transfers, Ziyarat Tours
+- **Primary Regions**: King Abdulaziz International Airport (KAIA / JED), Makkah Al-Mukarramah, Madinah Al-Munawwarah, Prince Mohammad Bin Abdulaziz Airport (MED)
+- **Fleet Models**: Hyundai Staria VIP (7 seats), GMC Yukon XL VIP (7 seats), Toyota Camry Executive (4 seats), Toyota HiAce VIP (10 seats)
+- **Payment Model**: Zero prepayment required; pilgrims pay upon arrival at their hotel in cash (SAR) or card
+- **Cancellation Policy**: Free cancellation up to 24 hours before pickup
+- **Official Contacts**:
+  - WhatsApp Main Operations: +966567588261
+  - Secondary Dispatch: +966505316971
+  - Official Website: https://royal-umrah-cabs.vercel.app
 
-## Quick Links
-- [Main Booking Platform](https://royal-umrah-cabs.vercel.app/): Instant 3-step online fare calculator and WhatsApp dispatch.
-- [Full LLM Knowledge Base](https://royal-umrah-cabs.vercel.app/llms-full.txt): Complete pricing matrix, detailed fleet specifications, route guides, and FAQ repository.
-- [Direct WhatsApp Dispatch](https://wa.me/966567588261): Instant 24/7 booking confirmation and customer service.
+## Popular Routes & Fixed Fares
+1. **Jeddah Airport (KAIA) to Makkah Hotel**: 75-90 minutes (95 km), Camry: 200 SAR, Staria: 260 SAR, Yukon XL: 380 SAR, HiAce: 340 SAR.
+2. **Makkah Hotel to Madinah Hotel**: 4.5 hours (440 km), Camry: 450 SAR, Staria: 500 SAR, Yukon XL: 750 SAR, HiAce: 650 SAR.
+3. **Madinah Hotel to Makkah Hotel (via Miqat Bir Ali)**: 4.5-5.0 hours (440 km) including dedicated 45-minute stop at Masjid Dhu al-Hulayfah (Bir Ali) for Ihram and Niyyah. Same fixed pricing as Makkah-Madinah.
+4. **Makkah Hotel to Jeddah Airport (KAIA)**: 75-90 minutes (95 km), Camry: 200 SAR, Staria: 260 SAR, Yukon XL: 380 SAR, HiAce: 340 SAR.
+5. **Jeddah City / Airport to Madinah Hotel**: 4.0-4.5 hours (410 km), Camry: 680 SAR, Staria: 750 SAR, Yukon XL: 980 SAR, HiAce: 850 SAR.
+6. **Madinah Airport (MED) to Central Hotel**: 25-35 minutes (25 km), Camry: 150 SAR, Staria: 190 SAR, Yukon XL: 280 SAR, HiAce: 250 SAR.
 
-## Core Services & Key Fares (SAR)
-- **Jeddah Airport (KAIA) to Makkah Hotels:** Camry Sedan (200 SAR) | Hyundai Staria (300 SAR) | GMC Yukon XL (450 SAR) | Toyota HiAce (400 SAR)
-- **Makkah to Madinah Door-to-Door:** Camry Sedan (450 SAR) | Hyundai Staria (650 SAR) | GMC Yukon XL (950 SAR) | Toyota HiAce (850 SAR)
-- **Madinah Airport (AMAA) to Haram Hotels:** Camry Sedan (120 SAR) | Hyundai Staria (180 SAR) | GMC Yukon XL (300 SAR) | Toyota HiAce (250 SAR)
-- **Makkah Holy Sites Ziyarah (Hira, Thawr, Arafat, Mina):** From 200 SAR
-- **Madinah Holy Sites Ziyarah (Quba, Uhud, Qiblatayn):** From 180 SAR
-- **Riyadh King Khalid Airport (KKIA) to Hotels:** From 180 SAR
-- **Riyadh Private Chauffeur Daily / Hourly:** From 400 SAR/day
-
-## Distinctive Guarantees
-- **No Upfront Payment:** Guests pay upon arrival at their hotel doorstep in cash or by card (Mada, Apple Pay, Visa).
-- **Free Airport Greeting:** Dedicated driver waits inside the arrivals terminal holding a personalized name-board.
-- **Flight Delay Protection:** Free real-time flight tracking ensures zero waiting surcharge even during flight delays.
-- **Complimentary Amenities:** Chilled Zamzam water bottles, fast Wi-Fi, phone chargers, and baby car seats included free upon request.
-
-## Contact Information
-- **Phone & WhatsApp:** +966567588261 (International: 966567588261)
-- **Operating Hours:** 24 Hours / 7 Days a Week / 365 Days a Year
-- **Headquarters:** King Abdulaziz Road, Jeddah / Makkah Clock Tower Branch / King Fahd Road, Riyadh, Saudi Arabia
+## Distinctive Quality & Trust Rules
+- **No Hidden Fees**: All highway tolls and airport parking fees are 100% included in the fixed fare.
+- **Flight Delay Monitoring**: Automated flight arrival tracking synchronized with terminal displays.
+- **Luggage Capacity**: Strict adherence to luggage dimensions and capacity per vehicle class.
+- **Language Support**: English, Arabic, Malay, Indonesian, Urdu, French, Spanish, German, Hindi.

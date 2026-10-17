@@ -3,10 +3,10 @@ import { createClient } from '@/lib/supabase/server';
 
 let memoryFleet = [
   { id: 'staria', name: 'Hyundai Staria VIP', category: 'Family Van', seats: 7, bags: 6, is_active: true },
-  { id: 'yukon', name: 'GMC Yukon XL', category: 'Luxury VIP SUV', seats: 7, bags: 6, is_active: true },
+  { id: 'yukon', name: 'GMC Yukon XL', category: 'Luxury VIP SUV', seats: 7, bags: 8, is_active: true },
   { id: 'camry', name: 'Toyota Camry Sedan', category: 'Standard Sedan', seats: 4, bags: 3, is_active: true },
-  { id: 'hiace', name: 'Toyota HiAce Minibus', category: 'Group Minibus', seats: 11, bags: 10, is_active: true },
-  { id: 'coaster', name: 'Toyota Coaster VIP', category: 'Luxury Bus', seats: 19, bags: 18, is_active: true },
+  { id: 'hiace', name: 'Toyota HiAce Minibus', category: 'Group Minibus', seats: 10, bags: 10, is_active: true },
+  { id: 'coaster', name: 'Toyota Coaster VIP', category: 'Luxury Bus', seats: 21, bags: 20, is_active: true },
 ];
 
 export async function GET() {

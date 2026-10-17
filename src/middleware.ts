@@ -1,6 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { LOCALES, DEFAULT_LOCALE } from './i18n/config';
 
+function getPreferredLocale(request: NextRequest): string {
+  const acceptLanguage = request.headers.get('accept-language');
+  if (!acceptLanguage) return DEFAULT_LOCALE;
+
+  const languages = acceptLanguage
+    .split(',')
+    .map((item) => {
+      const [lang, qPart] = item.trim().split(';');
+      const q = qPart && qPart.startsWith('q=') ? parseFloat(qPart.slice(2)) : 1.0;
+      return { lang: lang.trim().toLowerCase(), q: isNaN(q) ? 1.0 : q };
+    })
+    .sort((a, b) => b.q - a.q);
+
+  for (const { lang } of languages) {
+    const primary = lang.split('-')[0];
+    if ((LOCALES as readonly string[]).includes(primary)) {
+      return primary;
+    }
+    if (primary === 'in' && (LOCALES as readonly string[]).includes('id')) {
+      return 'id';
+    }
+  }
+
+  return DEFAULT_LOCALE;
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -24,10 +50,10 @@ export function middleware(request: NextRequest) {
   );
 
   if (!pathnameHasLocale) {
-    // If accessing root, redirect to default locale (/en)
+    const targetLocale = getPreferredLocale(request);
     const url = request.nextUrl.clone();
-    url.pathname = `/${DEFAULT_LOCALE}${pathname === '/' ? '' : pathname}`;
-    return NextResponse.redirect(url);
+    url.pathname = `/${targetLocale}${pathname === '/' ? '' : pathname}`;
+    return NextResponse.redirect(url, { status: 301 });
   }
 
   return NextResponse.next();

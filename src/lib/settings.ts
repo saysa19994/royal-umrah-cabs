@@ -13,6 +13,7 @@ export interface SiteSettings {
   google_reviews_rating: number;
   google_reviews_count: number;
   free_cancellation_hours: number;
+  founder_enabled?: boolean;
   currency_rates: Record<string, number>;
 }
 
@@ -26,9 +27,10 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   riyadh_enabled: false,
   address_cities: ['Makkah', 'Madinah', 'Jeddah', 'Riyadh'],
   google_reviews_link: 'https://g.page/r/CTL7ETeAhDVpEAI/review',
-  google_reviews_rating: 4.9,
-  google_reviews_count: 12480,
+  google_reviews_rating: 0,
+  google_reviews_count: 0,
   free_cancellation_hours: 24,
+  founder_enabled: false,
   currency_rates: {
     SAR: 1.0,
     USD: 0.266,
@@ -68,6 +70,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       google_reviews_rating: Number(data.google_reviews_rating) || DEFAULT_SETTINGS.google_reviews_rating,
       google_reviews_count: Number(data.google_reviews_count) || DEFAULT_SETTINGS.google_reviews_count,
       free_cancellation_hours: Number(data.free_cancellation_hours) || DEFAULT_SETTINGS.free_cancellation_hours,
+      founder_enabled: Boolean(data.founder_enabled),
       currency_rates: data.currency_rates || DEFAULT_SETTINGS.currency_rates,
     };
   } catch {

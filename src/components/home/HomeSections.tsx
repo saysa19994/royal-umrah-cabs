@@ -131,7 +131,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       slug: 'toyota-hiace',
       name: 'Toyota HiAce VIP',
       category: locale === 'ar' ? 'ميني باص عائلي' : locale === 'ms' ? 'Van Rombongan VIP' : 'Group Minibus',
-      seats: 11,
+      seats: 10,
       bags: 10,
       basePriceSAR: 340,
       extImg: '/assets/images/hiace_exterior.jpg',
@@ -841,47 +841,49 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       {/* ============================================================== */}
       {/* 15) TEAM / ABOUT TEASER */}
       {/* ============================================================== */}
-      <section className="py-16 md:py-24 bg-bg border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <div className="bg-surface rounded-2xl p-8 md:p-12 border border-gold-line/60 shadow-xs">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-              <div className="md:col-span-4 text-center">
-                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gold-soft border-2 border-gold-line mx-auto flex items-center justify-center text-5xl text-gold-dark mb-4 shadow-sm">
-                  🕋
+      {settings?.founder_enabled && (
+        <section className="py-16 md:py-24 bg-bg border-t border-border text-start">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <div className="bg-surface rounded-2xl p-8 md:p-12 border border-gold-line/60 shadow-xs">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <div className="md:col-span-4 text-center">
+                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gold-soft border-2 border-gold-line mx-auto flex items-center justify-center text-5xl text-gold-dark mb-4 shadow-sm">
+                    🕋
+                  </div>
+                  <h4 className="font-display font-bold text-xl text-ink">
+                    {dict.team_teaser.name}
+                  </h4>
+                  <p className="text-xs text-ink-muted font-light mt-0.5">
+                    {dict.team_teaser.role}
+                  </p>
                 </div>
-                <h4 className="font-display font-bold text-xl text-ink">
-                  {dict.team_teaser.name}
-                </h4>
-                <p className="text-xs text-ink-muted font-light mt-0.5">
-                  {dict.team_teaser.role}
-                </p>
-              </div>
 
-              <div className="md:col-span-8 space-y-4">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-soft text-xs font-bold text-gold-dark uppercase tracking-widest">
-                  <span>{dict.team_teaser.sectionPill}</span>
-                </div>
-                <h3 className="font-display font-bold text-2xl md:text-3xl text-ink">
-                  {dict.team_teaser.heading}{' '}
-                  <span className="text-gold-dark italic">{dict.team_teaser.headingHighlight}</span>
-                </h3>
-                <p className="text-xs md:text-sm text-ink-light leading-relaxed font-light">
-                  {dict.team_teaser.story}
-                </p>
-                <div className="pt-2">
-                  <Link
-                    href={`/${locale}/about`}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline"
-                  >
-                    <span>{dict.team_teaser.readMoreBtn}</span>
-                    <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-                  </Link>
+                <div className="md:col-span-8 space-y-4">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-soft text-xs font-bold text-gold-dark uppercase tracking-widest">
+                    <span>{dict.team_teaser.sectionPill}</span>
+                  </div>
+                  <h3 className="font-display font-bold text-2xl md:text-3xl text-ink">
+                    {dict.team_teaser.heading}{' '}
+                    <span className="text-gold-dark italic">{dict.team_teaser.headingHighlight}</span>
+                  </h3>
+                  <p className="text-xs md:text-sm text-ink-light leading-relaxed font-light">
+                    {dict.team_teaser.story}
+                  </p>
+                  <div className="pt-2">
+                    <Link
+                      href={`/${locale}/about`}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline"
+                    >
+                      <span>{dict.team_teaser.readMoreBtn}</span>
+                      <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ============================================================== */}
       {/* 16) GUIDES (3 LATEST POSTS WITH UPDATE DATES) */}

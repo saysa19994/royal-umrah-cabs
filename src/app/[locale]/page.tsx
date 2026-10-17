@@ -105,7 +105,9 @@ export default async function HomePage({ params: { locale } }: HomePageProps) {
             rel="noopener noreferrer"
             className="flex items-center gap-2 font-semibold hover:text-gold-dark transition-colors"
           >
-            <span className="text-gold font-bold text-base">★★★★★</span>
+            {settings.google_reviews_rating > 0 && settings.google_reviews_count > 0 && (
+              <span className="text-gold font-bold text-base">★ {settings.google_reviews_rating.toFixed(1)}</span>
+            )}
             <span>{dict.trust_strip.googleReviews}</span>
           </a>
           <span className="hidden md:inline text-border-strong">•</span>

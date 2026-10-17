@@ -49,15 +49,14 @@ export async function POST(request: Request) {
           message: 'Booking cancelled successfully',
         });
       }
-    } catch (e) {
-      console.warn('Supabase cancel fallback:', e);
+      return NextResponse.json(
+        { error: 'Booking not found', message: 'No active booking found with this reference number. Please check your reference or contact dispatch via WhatsApp.' },
+        { status: 404 }
+      );
+    } catch (e: any) {
+      console.warn('Supabase cancel error:', e);
+      return NextResponse.json({ error: e.message || 'Database error' }, { status: 500 });
     }
-
-    // Fallback confirmation for demo bookings
-    return NextResponse.json({
-      success: true,
-      message: 'Booking cancelled successfully',
-    });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Internal server error' }, { status: 500 });
   }

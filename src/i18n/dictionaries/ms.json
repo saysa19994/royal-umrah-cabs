@@ -83,7 +83,7 @@
     "bagsLabel": "Beg Bagasi",
     "detailsButton": "Maklumat Lanjut",
     "bookNowButton": "Tempah Kereta Ini",
-    "amenityAc": "Penyaman Udara Dwi-Zon Sejuk",
+    "amenityAc": "Penyaman Udara Berkecekapan Tinggi",
     "amenityZamzam": "Air Zamzam Sejuk Disediakan Percuma",
     "amenityCharging": "Pengecas Telefon Pantas",
     "amenityComfort": "Tempat Duduk Selesa",
@@ -100,7 +100,8 @@
     "airportDesc": "Ketibaan dipantau di Lapangan Terbang Jeddah (KAIA) dan Madinah (MED) dengan sambutan papan nama peribadi.",
     "ziyaratTitle": "Lawatan Ziarah Tempat Bersejarah",
     "ziyaratDesc": "Kunjungi tempat-tempat bersejarah sirah Nabawi di Makkah dan Madinah bersama pemandu tempatan yang mesra dan berilmu.",
-    "viewDetails": "Lihat Butiran"
+    "viewDetails": "Lihat Butiran",
+    "groupDesc": "Bas Toyota HiAce (10 tempat duduk) dan Coaster VIP (21 tempat duduk) untuk rombongan keluarga besar dan agensi Umrah."
   },
   "why_us": {
     "sectionPill": "Komitmen Kami",
@@ -138,7 +139,7 @@
     "q3": "Bagaimana saya akan bertemu dengan pemandu di lapangan terbang?",
     "a3": "Pemandu anda akan menunggu di dalam balai ketibaan dengan memegang papan tanda nama anda. Anda juga akan menerima nama, nombor telefon, dan nombor plat kenderaan di WhatsApp sebelum mendarat.",
     "q4": "Berapa banyak bagasi yang boleh kami bawa?",
-    "a4": "Kapasiti bergantung pada kenderaan: sedan (Camry) memuatkan 3 beg besar, MPV (Staria) memuatkan 6 beg besar, SUV (Yukon) memuatkan 6 beg, dan van (HiAce) memuatkan 10 beg besar serta kotak air Zamzam.",
+    "a4": "Kapasiti bagasi bergantung pada kenderaan pilihan anda. Sedan (Camry) muat sehingga 3 beg besar, MPV keluarga (Staria) sehingga 6 beg besar, SUV (Yukon XL) sehingga 8 beg besar, dan van (HiAce) sehingga 10 beg besar serta kotak air Zamzam.",
     "q5": "Adakah kerusi keselamatan kanak-kanak disediakan?",
     "a5": "Ya, kerusi keselamatan kanak-kanak disediakan atas permintaan tanpa caj tambahan. Sila nyatakan dalam ruangan nota tempahan anda.",
     "q6": "Apakah polisi pembatalan dan bayaran balik anda?",
@@ -154,7 +155,7 @@
     "q11": "Adakah tol lebuh raya, tempat letak kereta lapangan terbang dan cukai sudah termasuk?",
     "a11": "Ya, semua harga di Royal Umrah Cabs adalah menyeluruh (all-inclusive): tol lebuh raya, caj parkir terminal lapangan terbang, minyak, dan cukai adalah termasuk tanpa sebarang kos tersembunyi.",
     "q12": "Adakah kenderaan dilengkapi penghawa dingin yang sejuk?",
-    "a12": "Ya, semua kenderaan kami adalah model terkini dengan sistem penghawa dingin dwi-zon depan dan belakang yang berkuasa tinggi untuk keselesaan optimum jemaah."
+    "a12": "Ya, semua kenderaan kami adalah model terkini dengan sistem penghawa dingin hadapan dan belakang berprestasi tinggi yang diuji rapi untuk memastikan keselesaan maksimum sepanjang perjalanan."
   },
   "cta_band": {
     "heading": "Mulakan Perjalanan Ibadah Anda Dengan",
@@ -369,8 +370,8 @@
     "heading": "Dedikasi Menghormati",
     "headingHighlight": "Tetamu Allah",
     "story": "Royal Umrah Cabs ditubuhkan dengan matlamat yang murni: menghapuskan kegelisahan tawar-menawar dan ketidakpastian yang sering dihadapi jemaah selepas penerbangan antarabangsa yang jauh. Kami memegang prinsip bahawa melayani Dhuyufurrahman adalah amanah suci. Setiap kenderaan dipastikan bersih bertaraf hotel, tambang tetap dijamin, dan pemandu kami sentiasa menyambut anda dengan senyuman mesra.",
-    "name": "Ahmad Al-Harbi",
-    "role": "Ketua Operasi & Khidmat Lapangan",
+    "name": "Pasukan Perkhidmatan Tetamu",
+    "role": "Khidmat Chauffeur Royal Umrah",
     "readMoreBtn": "Ketahui Misi & Prinsip Kami"
   },
   "guides_section": {

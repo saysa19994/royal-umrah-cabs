@@ -83,7 +83,7 @@
     "bagsLabel": "Luggage Bags",
     "detailsButton": "View Details",
     "bookNowButton": "Book This Vehicle",
-    "amenityAc": "Dual-Zone Climate Control",
+    "amenityAc": "Klimaanlage",
     "amenityZamzam": "Chilled Zamzam Water Included",
     "amenityCharging": "Fast Phone Charging",
     "amenityComfort": "Comfortable Seating",
@@ -100,7 +100,8 @@
     "airportDesc": "Flight-tracked terminal arrivals at Jeddah (KAIA) and Madinah (MED) with personal meet & greet.",
     "ziyaratTitle": "Ziyarat Holy Sites Tours",
     "ziyaratDesc": "Explore historic landmarks across Makkah and Madinah with respectful, knowledgeable local chauffeurs.",
-    "viewDetails": "View Details"
+    "viewDetails": "View Details",
+    "groupDesc": "10-Sitzer HiAce und 21-Sitzer Coaster-Busse für große Familiendelegationen und Umrah-Reisegruppen."
   },
   "why_us": {
     "sectionPill": "Our Commitment",
@@ -138,7 +139,7 @@
     "q3": "How will I find and meet my driver at the airport?",
     "a3": "Your chauffeur will be waiting inside the arrival hall holding a clear name board with your name. You will also receive the chauffeur's name, phone number, and vehicle plate number on WhatsApp prior to your landing.",
     "q4": "How much luggage can we bring?",
-    "a4": "Luggage capacity depends on the vehicle you select. A sedan (Camry) fits up to 3 large bags, a family MPV (Staria) fits up to 6 large bags, an SUV (Yukon XL) fits up to 6 bags, and a minibus (HiAce) fits up to 10 large bags plus Zamzam water boxes.",
+    "a4": "Die Gepäckkapazität hängt vom gewählten Fahrzeug ab. Eine Limousine (Camry) fasst bis zu 3 große Koffer, ein MPV (Staria) bis zu 6 große Koffer, ein SUV (Yukon XL) bis zu 8 Koffer und ein Minibus (HiAce) bis zu 10 große Koffer plus Zamzam-Wasserboxen.",
     "q5": "Are child safety booster seats available?",
     "a5": "Yes, child booster seats are available upon request during booking. Simply indicate your requirement in the booking notes and our operations team will have it installed in your vehicle prior to pickup.",
     "q6": "What is your cancellation and refund policy?",
@@ -154,7 +155,7 @@
     "q11": "Are highway tolls, parking, and VAT included in the price?",
     "a11": "Yes, every price displayed on Royal Umrah Cabs is completely all-inclusive: all highway tolls (Makkah-Madinah expressway), airport terminal parking fees, fuel, and taxes are included with zero surprises.",
     "q12": "Are vehicles equipped with strong air conditioning?",
-    "a12": "Yes, every vehicle in our fleet is a late-model private vehicle equipped with dual-zone front and rear air conditioning, thoroughly tested to keep the cabin cool and comfortable even during peak summer temperatures."
+    "a12": "Ja, jedes Fahrzeug in unserer Flotte ist ein neueres Modell mit leistungsstarker Front- und Heckklimaanlage, die auch bei sommerlicher Hitze für kühlen Komfort sorgt."
   },
   "cta_band": {
     "heading": "Start Your Spiritual Journey with",
@@ -369,8 +370,8 @@
     "heading": "Dedicated to Serving the",
     "headingHighlight": "Guests of Allah",
     "story": "Royal Umrah Cabs was founded with an honest calling: to eliminate the stress, overcharging, and uncertainty pilgrims often face after exhausting international flights. We believe serving the Guests of Allah is a sacred trust. Every vehicle in our fleet is maintained to hotel-grade cleanliness, every rate is fixed and fully transparent, and our chauffeurs receive you with genuine warmth and respect.",
-    "name": "Ahmad Al-Harbi",
-    "role": "Head of Dispatch & Ground Hospitality",
+    "name": "Gästebetreuung & Fahrdienst-Team",
+    "role": "Royal Umrah Chauffeur Service",
     "readMoreBtn": "Learn More About Our Mission"
   },
   "guides_section": {
