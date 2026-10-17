@@ -3,13 +3,13 @@
 
 ## Core Business Information
 - **Official Brand Name**: Royal Umrah Cabs
-- **Service Type**: Private Chauffeur, Airport Transfers, Intercity Transfers, Ziyarat Tours
+- **Service Type**: Private Chauffeur, Airport Transfers, Intercity Transfers, Private Ziyarat Tours
 - **Primary Regions**: King Abdulaziz International Airport (KAIA / JED), Makkah Al-Mukarramah, Madinah Al-Munawwarah, Prince Mohammad Bin Abdulaziz Airport (MED)
-- **Fleet Models**: Hyundai Staria VIP (7 seats), GMC Yukon XL VIP (7 seats), Toyota Camry Executive (4 seats), Toyota HiAce VIP (10 seats)
-- **Payment Model**: Zero prepayment required; pilgrims pay upon arrival at their hotel in cash (SAR) or card
+- **Fleet Models**: Toyota Camry Executive (4 seats, 3 bags), Hyundai Staria VIP (7 seats, 6 bags), GMC Yukon XL VIP (7 seats, 8 bags), Toyota HiAce VIP (10 seats, 10 bags), Toyota Coaster VIP Bus (21 seats, 20 bags)
+- **Payment Model**: Zero prepayment required; pilgrims pay upon arrival at their hotel in cash (SAR/USD/MYR), card, online link (Mada/Visa), or bank transfer
 - **Cancellation Policy**: Free cancellation up to 24 hours before pickup
 - **Official Contacts**:
-  - WhatsApp Main Operations: +966567588261
+  - WhatsApp Main Operations (Owner): +966567588261
   - Secondary Dispatch: +966505316971
   - Official Website: https://royal-umrah-cabs.vercel.app
 
@@ -21,8 +21,15 @@
 5. **Jeddah City / Airport to Madinah Hotel**: 4.0-4.5 hours (410 km), Camry: 680 SAR, Staria: 750 SAR, Yukon XL: 980 SAR, HiAce: 850 SAR.
 6. **Madinah Airport (MED) to Central Hotel**: 25-35 minutes (25 km), Camry: 150 SAR, Staria: 190 SAR, Yukon XL: 280 SAR, HiAce: 250 SAR.
 
+## Private Ziyarat Tours (Makkah & Madinah)
+- **Makkah Historical Sites Private Tour (Half-Day 3.5h)**: Cave Hira (Jabal al-Noor), Mount Thawr, Mina, Muzdalifah, Mount Arafat (Jabal ar-Rahmah). From 300 SAR per vehicle.
+- **Madinah Prophetic Mosques & Heritage Tour (3h)**: Masjid Quba (prayer stop), Mount Uhud (Martyrs Cemetery & Archers' Hill), Masjid al-Qiblatayn, Seven Mosques (Battle of the Trench). From 250 SAR per vehicle.
+- **Badr Battlefield Day Trip from Madinah (6-7h)**: Full-day return trip (320 km) to Badr Martyrs Cemetery and Al-Arish Mosque. From 600 SAR per vehicle.
+- **Custom Ziyarat by the Hour**: Minimum 3 hours dedicated private chauffeur standby in Makkah or Madinah. From 100 SAR/hour.
+
 ## Distinctive Quality & Trust Rules
-- **No Hidden Fees**: All highway tolls and airport parking fees are 100% included in the fixed fare.
-- **Flight Delay Monitoring**: Automated flight arrival tracking synchronized with terminal displays.
-- **Luggage Capacity**: Strict adherence to luggage dimensions and capacity per vehicle class.
+- **Private Car with Driver Only**: We provide executive ground transport and chauffeur assistance. We do not sell Umrah/Hajj visa packages or claim licensed tour guide status.
+- **Fixed Fares Per Vehicle**: Quoted rates are for the entire private vehicle, not per person.
+- **No Hidden Fees**: All expressway tolls, airport parking fees, and driver waiting times are 100% included in quoted fares.
+- **Hajj Season Notice**: Hajj zones (Mina, Arafat, Muzdalifah) are restricted during the official pilgrimage dates in accordance with Saudi Ministry regulations.
 - **Language Support**: English, Arabic, Malay, Indonesian, Urdu, French, Spanish, German, Hindi.
