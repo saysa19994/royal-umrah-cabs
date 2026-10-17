@@ -7,6 +7,7 @@ import { CurrencyProvider } from '@/context/CurrencyContext';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingUI } from '@/components/layout/FloatingUI';
+import { JsonLd } from '@/components/seo/JsonLd';
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -23,16 +24,45 @@ export async function generateMetadata({
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
 
   return {
+    metadataBase: new URL(baseUrl),
     title: {
       default: dict.meta.seoTitle,
       template: `%s | ${dict.meta.brand}`,
     },
     description: dict.meta.seoDescription,
+    keywords: [
+      'Royal Umrah Cabs',
+      'Umrah taxi Jeddah to Makkah',
+      'teksi umrah jeddah makkah',
+      'pemandu umrah persendirian',
+      'sewa kereta makkah madinah',
+      'van staria umrah',
+      'توصيل معتمرين مطار جدة مكة',
+      'سائق خاص مكة والمدينة',
+      'Jeddah airport to Makkah taxi fare',
+      'Madinah to Makkah taxi Bir Ali',
+      'GMC Yukon XL Umrah VIP',
+    ],
+    authors: [{ name: 'Royal Umrah Cabs Dispatch Team' }],
+    creator: 'Royal Umrah Cabs',
+    publisher: 'Royal Umrah Cabs',
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
     alternates: {
       canonical: `${baseUrl}/${validLocale}`,
       languages: {
         en: `${baseUrl}/en`,
         ar: `${baseUrl}/ar`,
+        ms: `${baseUrl}/ms`,
         'ms-MY': `${baseUrl}/ms`,
         'x-default': `${baseUrl}/en`,
       },
@@ -41,9 +71,24 @@ export async function generateMetadata({
       title: dict.meta.seoTitle,
       description: dict.meta.seoDescription,
       locale: validLocale === 'ar' ? 'ar_SA' : validLocale === 'ms' ? 'ms_MY' : 'en_US',
+      alternateLocale: validLocale === 'en' ? ['ar_SA', 'ms_MY'] : validLocale === 'ar' ? ['en_US', 'ms_MY'] : ['en_US', 'ar_SA'],
       url: `${baseUrl}/${validLocale}`,
       siteName: dict.meta.brand,
+      images: [
+        {
+          url: `${baseUrl}/assets/images/staria_exterior.jpg`,
+          width: 1200,
+          height: 630,
+          alt: `${dict.meta.brand} - VIP Pilgrim Transport`,
+        },
+      ],
       type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: dict.meta.seoTitle,
+      description: dict.meta.seoDescription,
+      images: [`${baseUrl}/assets/images/staria_exterior.jpg`],
     },
   };
 }
@@ -67,6 +112,7 @@ export default async function LocaleLayout({
 
   return (
     <div lang={validLocale} dir={dir} className="min-h-screen flex flex-col">
+      <JsonLd locale={validLocale} dict={dict} />
       <CurrencyProvider defaultCurrency={defaultCurrency}>
         <Header locale={validLocale} dict={dict} />
         <main className="flex-1">{children}</main>

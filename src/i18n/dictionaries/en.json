@@ -273,5 +273,20 @@
     "cancelLateNotice": "Your pickup is scheduled in less than 24 hours. Please contact our 24/7 WhatsApp dispatch directly for emergency schedule adjustments.",
     "contactDispatch": "Contact WhatsApp Dispatch",
     "backToTrack": "Back to Booking Tracking"
+  },
+  "page_guide_malaysia": {
+    "title": "Malaysian Pilgrims Umrah Transport Guide 2026",
+    "subtitle": "Complete guide to private taxi and VIP van transfers between Jeddah, Makkah, and Madinah for Malaysian pilgrims and families.",
+    "section1Title": "Arriving from Kuala Lumpur (KLIA) at Jeddah or Madinah",
+    "section1Desc": "Whether arriving on Saudia, Malaysia Airlines, Batik Air, or connecting via Emirates/Qatar, arriving at King Abdulaziz International Airport (KAIA Terminal 1) after an 8 to 9-hour flight requires seamless private transport. Skip the crowded buses and street taxi queues with a private Hyundai Staria VIP or Toyota HiAce waiting with your family name.",
+    "section2Title": "Madinah to Makkah with Guaranteed Miqat Bir Ali Stop",
+    "section2Desc": "For pilgrims starting their journey in Madinah Al-Munawwarah, our chauffeurs provide a dedicated stop at Masjid Miqat Dhu al-Hulayfah (Bir Ali). You will have ample time to prepare, perform two rak'ahs for Ihram, and make your intention (Niat Umrah) without feeling rushed.",
+    "section3Title": "Luggage Space for Malaysian Pilgrims & Zamzam Water",
+    "section3Desc": "Malaysian pilgrims frequently travel with large hard suitcases and require space for official 5-liter Zamzam water boxes on their return journey. Our Hyundai Staria VIP accommodates up to 6 large bags, while our Toyota HiAce minibus carries up to 10 bags with absolute ease.",
+    "section4Title": "Fixed Pricing in Ringgit Malaysia (MYR) · Pay Upon Arrival",
+    "section4Desc": "Transparent fixed rates with zero hidden charges. No deposit or credit card required. You pay your chauffeur upon arrival in Saudi Riyals (SAR), Malaysian Ringgit (MYR), or card.",
+    "badgeKLIA": "KLIA Direct Pilgrims",
+    "ctaBookVan": "Book Your Private Van Now",
+    "faqTitle": "Common Questions from Malaysian Pilgrims"
   }
 }

@@ -273,5 +273,20 @@
     "cancelLateNotice": "Masa perjalanan anda kurang daripada 24 jam. Sila hubungi pusat operasi WhatsApp kami 24/7 untuk bantuan segera.",
     "contactDispatch": "Hubungi WhatsApp Operasi",
     "backToTrack": "Kembali ke Kesan Tempahan"
+  },
+  "page_guide_malaysia": {
+    "title": "Panduan Pengangkutan Umrah Jemaah Malaysia 2026",
+    "subtitle": "Panduan lengkap perkhidmatan teksi persendirian dan van VIP antara Jeddah, Makkah, dan Madinah khas untuk jemaah dan keluarga dari Malaysia.",
+    "section1Title": "Ketibaan dari KLIA ke Lapangan Terbang Jeddah atau Madinah",
+    "section1Desc": "Bagi jemaah yang terbang terus bersama Saudia, Malaysia Airlines, Batik Air, mahupun penerbangan transit, mendarat di Lapangan Terbang King Abdulaziz Jeddah (KAIA Terminal 1) selepas penerbangan 8 hingga 9 jam memerlukan pengangkutan yang pantas dan selesa. Elakkan berebut bas agensi atau tawar-menawar teksi jalanan—pemandu peribadi kami sedia menanti di balai ketibaan dengan papan tanda nama anda.",
+    "section2Title": "Perjalanan Madinah ke Makkah & Singgah Miqat Bir Ali",
+    "section2Desc": "Bagi jemaah yang memulakan ziarah di Madinah Al-Munawwarah, pemandu kami menyediakan perhentian khas di Masjid Miqat Dhu al-Hulayfah (Bir Ali). Anda diberikan masa mencukupi untuk memperbaharui wuduk, solat sunat ihram dua rakaat, dan melafazkan niat ihram Umrah dengan tenang tanpa perlu tergesa-gesa.",
+    "section3Title": "Ruang Bagasi Khas untuk Jemaah Malaysia & Air Zamzam",
+    "section3Desc": "Jemaah Malaysia lazimnya membawa beg pakaian bersaiz besar serta kotak air Zamzam 5 liter semasa penerbangan pulang. Van Hyundai Staria VIP kami mampu memuatkan sehingga 6 beg besar, manakala van Toyota HiAce mampu membawa sehingga 10 beg besar dan kotak Zamzam dengan amat selesa.",
+    "section4Title": "Harga Tetap Telus Dalam Ringgit (MYR) · Bayar Semasa Tiba",
+    "section4Desc": "Kadar tambang tetap terjamin tanpa sebarang caj tersembunyi. Tiada deposit atau kad kredit diperlukan semasa menempah. Anda hanya membayar terus kepada pemandu semasa tiba di hotel secara tunai SAR, Ringgit Malaysia, atau kad.",
+    "badgeKLIA": "Khas Jemaah KLIA & Malaysia",
+    "ctaBookVan": "Tempah Van Persendirian Sekarang",
+    "faqTitle": "Soalan Lazim Jemaah Umrah Malaysia"
   }
 }
