@@ -78,6 +78,21 @@ export async function resolveWhatsAppNumber(locale: string): Promise<WhatsAppNum
         return langMatch || mainNumber;
       }
 
+      case 'by_working_hours': {
+        // Calculate current hour in Saudi Arabia (Asia/Riyadh, UTC+3)
+        const ksaHour = parseInt(
+          new Intl.DateTimeFormat('en-US', {
+            hour: 'numeric',
+            hour12: false,
+            timeZone: 'Asia/Riyadh',
+          }).format(new Date()),
+          10
+        );
+        // Daytime (07:00 to 22:00 KSA) -> Main Operator; Night (22:00 to 07:00 KSA) -> Secondary Dispatch
+        const isDayShift = ksaHour >= 7 && ksaHour < 22;
+        return isDayShift ? mainNumber : secondaryNumber;
+      }
+
       case 'round_robin': {
         // Simple alternating based on minute / random for lightweight stateless distribution
         const isAlternate = Math.floor(Date.now() / 60000) % 2 === 0;
@@ -169,6 +184,39 @@ export function formatWhatsAppLeadMessage(payload: LeadCreationPayload): string 
     if (payload.passengers) msg += `👥 Passagers: ${payload.passengers}\n`;
     if (payload.price_sar) msg += `💰 Tarif estimé: SAR ${payload.price_sar}\n`;
     msg += `Merci de confirmer la réservation. Cordialement.`;
+    return msg;
+  }
+
+  if (lang === 'es') {
+    let msg = `Hola Royal Umrah Cabs [Ref: ${ref}]\nQuisiera consultar sobre un traslado privado VIP para la Umrah:\n`;
+    if (payload.route_title) msg += `📍 Ruta: ${payload.route_title}\n`;
+    if (payload.vehicle_name) msg += `🚗 Vehículo: ${payload.vehicle_name}\n`;
+    if (payload.pickup_date) msg += `📅 Fecha: ${payload.pickup_date}\n`;
+    if (payload.passengers) msg += `👥 Pasajeros: ${payload.passengers}\n`;
+    if (payload.price_sar) msg += `💰 Precio fijo: SAR ${payload.price_sar}\n`;
+    msg += `Por favor confirme disponibilidad y detalles del conductor. Gracias.`;
+    return msg;
+  }
+
+  if (lang === 'de') {
+    let msg = `Guten Tag Royal Umrah Cabs [Ref: ${ref}]\nIch möchte einen privaten VIP-Umrah-Transfer anfragen:\n`;
+    if (payload.route_title) msg += `📍 Route: ${payload.route_title}\n`;
+    if (payload.vehicle_name) msg += `🚗 Fahrzeug: ${payload.vehicle_name}\n`;
+    if (payload.pickup_date) msg += `📅 Datum: ${payload.pickup_date}\n`;
+    if (payload.passengers) msg += `👥 Fahrgäste: ${payload.passengers}\n`;
+    if (payload.price_sar) msg += `💰 Festpreis: SAR ${payload.price_sar}\n`;
+    msg += `Bitte bestätigen Sie die Verfügbarkeit und Fahrerdetails. Vielen Dank.`;
+    return msg;
+  }
+
+  if (lang === 'hi') {
+    let msg = `नमस्ते Royal Umrah Cabs [रेफरेंस: ${ref}]\nमैं उमराह के लिए प्राइवेट वीआईपी कैब ट्रांसफर बुक करना चाहता हूँ:\n`;
+    if (payload.route_title) msg += `📍 रूट: ${payload.route_title}\n`;
+    if (payload.vehicle_name) msg += `🚗 गाड़ी: ${payload.vehicle_name}\n`;
+    if (payload.pickup_date) msg += `📅 तारीख: ${payload.pickup_date}\n`;
+    if (payload.passengers) msg += `👥 यात्री: ${payload.passengers}\n`;
+    if (payload.price_sar) msg += `💰 निश्चित किराया: SAR ${payload.price_sar}\n`;
+    msg += `कृपया बुकिंग और ड्राइवर विवरण की पुष्टि करें। धन्यवाद।`;
     return msg;
   }
 

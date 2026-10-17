@@ -71,6 +71,18 @@ export function BookingEngine({
   const [luggage, setLuggage] = useState(Number(initialLuggage) || 2);
   const [flightNumber, setFlightNumber] = useState('');
 
+  const maxVehicleSeats = VEHICLE_PRICING[vehicleId]?.seats || 7;
+  const maxVehicleBags = VEHICLE_PRICING[vehicleId]?.bags || 6;
+
+  const handleSelectVehicle = (id: string) => {
+    setVehicleId(id);
+    const spec = VEHICLE_PRICING[id];
+    if (spec) {
+      if (passengers > spec.seats) setPassengers(spec.seats);
+      if (luggage > spec.bags) setLuggage(spec.bags);
+    }
+  };
+
   // Customer details
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -366,7 +378,7 @@ export function BookingEngine({
                 </div>
                 <button
                   type="button"
-                  onClick={() => setPassengers(Math.min(30, passengers + 1))}
+                  onClick={() => setPassengers(Math.min(maxVehicleSeats, passengers + 1))}
                   aria-label="Increase Passengers"
                   className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
                 >
@@ -392,7 +404,7 @@ export function BookingEngine({
                 </div>
                 <button
                   type="button"
-                  onClick={() => setLuggage(Math.min(30, luggage + 1))}
+                  onClick={() => setLuggage(Math.min(maxVehicleBags, luggage + 1))}
                   aria-label="Increase Luggage"
                   className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
                 >
@@ -415,7 +427,7 @@ export function BookingEngine({
               return (
                 <div
                   key={vId}
-                  onClick={() => setVehicleId(vId)}
+                  onClick={() => handleSelectVehicle(vId)}
                   className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
                     isSelected
                       ? 'border-gold bg-gold-soft/30 shadow-xs'
@@ -428,7 +440,7 @@ export function BookingEngine({
                       <input
                         type="radio"
                         checked={isSelected}
-                        onChange={() => setVehicleId(vId)}
+                        onChange={() => handleSelectVehicle(vId)}
                         className="text-gold"
                       />
                     </div>

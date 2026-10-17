@@ -55,12 +55,12 @@ const ROUTE_LABELS: Record<string, Partial<Record<Locale, string>>> = {
   },
 };
 
-const VEHICLE_NAMES: Record<string, string> = {
-  staria: 'Hyundai Staria VIP (Up to 7 Seats)',
-  yukon: 'GMC Yukon XL VIP (Up to 7 Seats)',
-  camry: 'Toyota Camry Sedan (Up to 4 Seats)',
-  hiace: 'Toyota HiAce Minibus (Up to 11 Seats)',
-  coaster: 'Toyota Coaster Coach (Up to 19 Seats)',
+const VEHICLE_SPECS: Record<string, { name: string; seats: number; bags: number }> = {
+  staria: { name: 'Hyundai Staria VIP (Up to 7 Seats • 6 Bags)', seats: 7, bags: 6 },
+  yukon: { name: 'GMC Yukon XL VIP (Up to 7 Seats • 8 Bags)', seats: 7, bags: 8 },
+  camry: { name: 'Toyota Camry Sedan (Up to 4 Seats • 3 Bags)', seats: 4, bags: 3 },
+  hiace: { name: 'Toyota HiAce Minibus (Up to 10 Seats • 10 Bags)', seats: 10, bags: 10 },
+  coaster: { name: 'Toyota Coaster VIP Coach (Up to 21 Seats • 20 Bags)', seats: 21, bags: 20 },
 };
 
 export function BookingCard({ locale, dict }: BookingCardProps) {
@@ -73,6 +73,18 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
   const [passengers, setPassengers] = useState(3);
   const [luggage, setLuggage] = useState(3);
   const [vehicle, setVehicle] = useState('staria');
+
+  const maxSeats = VEHICLE_SPECS[vehicle]?.seats || 7;
+  const maxBags = VEHICLE_SPECS[vehicle]?.bags || 6;
+
+  const handleVehicleChange = (newVehicle: string) => {
+    setVehicle(newVehicle);
+    const spec = VEHICLE_SPECS[newVehicle];
+    if (spec) {
+      if (passengers > spec.seats) setPassengers(spec.seats);
+      if (luggage > spec.bags) setLuggage(spec.bags);
+    }
+  };
 
   // Calculate live price
   const baseSAR = BASE_RATES[route]?.[vehicle];
@@ -92,7 +104,7 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
 
   const handleWhatsApp = async () => {
     const routeText = ROUTE_LABELS[route]?.[locale] || ROUTE_LABELS[route]?.en || route;
-    const vehicleText = VEHICLE_NAMES[vehicle] || vehicle;
+    const vehicleText = VEHICLE_SPECS[vehicle]?.name || vehicle;
 
     try {
       const res = await fetch('/api/leads', {
@@ -243,7 +255,7 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
                 </div>
                 <button
                   type="button"
-                  onClick={() => setPassengers(Math.min(25, passengers + 1))}
+                  onClick={() => setPassengers(Math.min(maxSeats, passengers + 1))}
                   aria-label="Increase Passengers"
                   className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
                 >
@@ -272,7 +284,7 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
                 </div>
                 <button
                   type="button"
-                  onClick={() => setLuggage(Math.min(25, luggage + 1))}
+                  onClick={() => setLuggage(Math.min(maxBags, luggage + 1))}
                   aria-label="Increase Luggage"
                   className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
                 >
@@ -289,14 +301,14 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
               <div className="relative">
                 <select
                   value={vehicle}
-                  onChange={(e) => setVehicle(e.target.value)}
+                  onChange={(e) => handleVehicleChange(e.target.value)}
                   className="w-full h-12 pl-10 pr-4 rtl:pr-10 rtl:pl-4 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold hover:border-gold-dark focus:outline-none focus:ring-1 focus:ring-gold-dark appearance-none cursor-pointer"
                 >
                   <option value="staria">Hyundai Staria VIP (Up to 7 Seats • 6 Bags)</option>
-                  <option value="yukon">GMC Yukon XL VIP (Up to 7 Seats • Luxury SUV)</option>
+                  <option value="yukon">GMC Yukon XL VIP (Up to 7 Seats • 8 Bags)</option>
                   <option value="camry">Toyota Camry Sedan (Up to 4 Seats • 3 Bags)</option>
-                  <option value="hiace">Toyota HiAce Minibus (Up to 11 Seats • 10 Bags)</option>
-                  <option value="coaster">Toyota Coaster VIP Coach (Up to 19 Seats • 18 Bags)</option>
+                  <option value="hiace">Toyota HiAce Minibus (Up to 10 Seats • 10 Bags)</option>
+                  <option value="coaster">Toyota Coaster VIP Coach (Up to 21 Seats • 20 Bags)</option>
                 </select>
                 <Car className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>

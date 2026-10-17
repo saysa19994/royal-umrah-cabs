@@ -167,6 +167,12 @@ export default function AdminLeadsPage() {
   const confirmedLeadsCount = leads.filter((l) => l.status === 'confirmed').length;
   const totalValueSAR = leads.reduce((acc, l) => acc + (Number(l.price_sar) || 0), 0);
 
+  const now = Date.now();
+  const unattendedLeads = leads.filter(
+    (l) => l.status === 'new' && (now - new Date(l.created_at).getTime()) > 15 * 60 * 1000
+  );
+  const unattendedLeadsCount = unattendedLeads.length;
+
   return (
     <div className="space-y-6 text-start">
       {/* Top Header */}
@@ -187,6 +193,23 @@ export default function AdminLeadsPage() {
           <span>Refresh Leads</span>
         </button>
       </div>
+
+      {unattendedLeadsCount > 0 && (
+        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/40 text-rose-300 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping flex-shrink-0" />
+            <span>
+              <strong>Attention Required:</strong> {unattendedLeadsCount} pilgrim inquiry has been waiting for over 15 minutes without a response!
+            </span>
+          </div>
+          <button
+            onClick={() => setStatusFilter('new')}
+            className="px-3 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 font-bold text-xs flex-shrink-0"
+          >
+            Filter New Leads ({unattendedLeadsCount})
+          </button>
+        </div>
+      )}
 
       {currentUser?.role === 'operator' && currentUser?.assigned_whatsapp_number && (
         <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center justify-between">
@@ -215,9 +238,16 @@ export default function AdminLeadsPage() {
         </div>
 
         <div className="bg-[#14171C] p-5 rounded-2xl border border-[#262B33]">
-          <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider block mb-1">
-            New / Unanswered
-          </span>
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">
+              New / Unanswered
+            </span>
+            {unattendedLeadsCount > 0 && (
+              <span className="text-[10px] font-bold text-rose-400 bg-rose-500/20 px-1.5 py-0.5 rounded animate-pulse">
+                {unattendedLeadsCount} &gt;15m
+              </span>
+            )}
+          </div>
           <div className="flex items-baseline gap-2">
             <span className="font-display text-2xl font-bold text-amber-400">{newLeadsCount}</span>
             <span className="text-xs text-[#6C7584]">require reply</span>
@@ -308,10 +338,25 @@ export default function AdminLeadsPage() {
               ) : (
                 filteredLeads.map((lead) => {
                   const cleanPhone = (lead.customer_phone || lead.whatsapp_number || '').replace(/[^0-9]/g, '');
+                  const isUnattended =
+                    lead.status === 'new' &&
+                    now - new Date(lead.created_at).getTime() > 15 * 60 * 1000;
                   return (
-                    <tr key={lead.id} className="hover:bg-[#1A1F26] transition-colors">
+                    <tr
+                      key={lead.id}
+                      className={`hover:bg-[#1A1F26] transition-colors ${
+                        isUnattended ? 'bg-rose-500/5' : ''
+                      }`}
+                    >
                       <td className="py-3.5 px-4 font-mono font-bold text-[#D9A031]">
-                        {lead.reference}
+                        <div className="flex flex-col gap-1">
+                          <span>{lead.reference}</span>
+                          {isUnattended && (
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 animate-pulse w-fit font-sans">
+                              ⚠️ &gt;15m Unattended
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td className="py-3.5 px-4">
                         <div className="font-semibold text-[#FAF9F6]">
