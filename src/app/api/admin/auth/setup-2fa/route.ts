@@ -14,7 +14,7 @@ import { rateLimit, getClientIp } from '@/lib/rate-limit';
 export async function POST(request: Request) {
   try {
     const clientIp = getClientIp(request);
-    const authResult = await requireRole(request, ['owner', 'admin', 'operator']);
+    const authResult = await requireRole(request, ['owner', 'admin', 'operator'], { allowEnrollmentFlow: true });
     if (authResult.errorResponse) {
       return authResult.errorResponse;
     }
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   try {
     const clientIp = getClientIp(request);
-    const authResult = await requireRole(request, ['owner', 'admin', 'operator']);
+    const authResult = await requireRole(request, ['owner', 'admin', 'operator'], { allowEnrollmentFlow: true });
     if (authResult.errorResponse) {
       return authResult.errorResponse;
     }

@@ -6,14 +6,18 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { ShieldCheck, Award, HeartHandshake, CheckCircle2, ArrowRight, UserCheck, Star } from 'lucide-react';
 
 interface TeamPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: TeamPageProps): Promise<Metadata> {
+export async function generateMetadata(props: TeamPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   const title =
@@ -38,7 +42,13 @@ export async function generateMetadata({
   };
 }
 
-export default function TeamPage({ params: { locale } }: TeamPageProps) {
+export default async function TeamPage(props: TeamPageProps) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
 
   const teamMembers = [

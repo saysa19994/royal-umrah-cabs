@@ -6,14 +6,18 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { Plane, Navigation, Landmark, Clock, Users, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 
 interface ServicesPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: ServicesPageProps): Promise<Metadata> {
+export async function generateMetadata(props: ServicesPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
@@ -25,7 +29,13 @@ export async function generateMetadata({
   };
 }
 
-export default function ServicesPage({ params: { locale } }: ServicesPageProps) {
+export default async function ServicesPage(props: ServicesPageProps) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
 
   const servicesList = [

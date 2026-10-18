@@ -1,9 +1,14 @@
 import { NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
-import { rateLimit, getClientIp } from '@/lib/rate-limit';
+import { rateLimit, getClientIp, checkRequiredEnv } from '@/lib/rate-limit';
 
 export async function POST(request: Request) {
   try {
+    const envCheck = checkRequiredEnv();
+    if (!envCheck.ok && envCheck.response) {
+      return envCheck.response;
+    }
+
     const clientIp = getClientIp(request);
 
     // 1. Rate limiting: 10 queries per minute per IP

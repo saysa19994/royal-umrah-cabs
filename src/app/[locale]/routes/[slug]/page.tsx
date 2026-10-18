@@ -7,10 +7,10 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { MapPin, Clock, ShieldCheck, Check, ArrowRight } from 'lucide-react';
 
 interface RouteDetailPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
     slug: string;
-  };
+  }>;
 }
 
 const ROUTE_DETAILS: Record<
@@ -160,9 +160,14 @@ export function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({
-  params: { locale, slug },
-}: RouteDetailPageProps): Promise<Metadata> {
+export async function generateMetadata(props: RouteDetailPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale,
+    slug
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   const route = ROUTE_DETAILS[slug] || ROUTE_DETAILS['jeddah-airport-to-makkah'];
@@ -175,7 +180,14 @@ export async function generateMetadata({
   };
 }
 
-export default function RouteDetailPage({ params: { locale, slug } }: RouteDetailPageProps) {
+export default async function RouteDetailPage(props: RouteDetailPageProps) {
+  const params = await props.params;
+
+  const {
+    locale,
+    slug
+  } = params;
+
   const dict = getDictionary(locale);
   const route = ROUTE_DETAILS[slug];
 

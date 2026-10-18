@@ -1,3 +1,5 @@
+import { NextResponse } from 'next/server';
+
 /**
  * Shared In-Memory & Distributed Rate Limiter
  * Provides rate limiting by IP and by Account/Identifier.
@@ -34,7 +36,6 @@ class InMemoryRateLimiter {
     return { success: true, limit, remaining: limit - record.count, reset: record.resetAt };
   }
 
-  // Periodic cleanup
   cleanup() {
     const now = Date.now();
     this.store.forEach((v, k) => {
@@ -47,15 +48,45 @@ class InMemoryRateLimiter {
 
 const memoryStore = new InMemoryRateLimiter();
 
-// Clean memory every 5 minutes
 if (typeof setInterval !== 'undefined') {
   setInterval(() => memoryStore.cleanup(), 5 * 60 * 1000);
 }
 
 /**
+ * Asserts required environment variables in production.
+ * If critical infrastructure secrets are missing in production, returns a 503 Service Unavailable response.
+ */
+export function checkRequiredEnv(): { ok: boolean; response?: NextResponse } {
+  if (process.env.NODE_ENV === 'production') {
+    const missing: string[] = [];
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY.includes('placeholder')) {
+      missing.push('SUPABASE_SERVICE_ROLE_KEY');
+    }
+    if (!process.env.TURNSTILE_SECRET_KEY || process.env.TURNSTILE_SECRET_KEY.includes('placeholder')) {
+      missing.push('TURNSTILE_SECRET_KEY');
+    }
+    if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+      missing.push('UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN');
+    }
+
+    if (missing.length > 0) {
+      console.error(`[SECURITY CRITICAL FAIL-CLOSED] Missing required production environment variables: ${missing.join(', ')}`);
+      return {
+        ok: false,
+        response: NextResponse.json(
+          { error: 'Service temporarily unavailable due to server security requirements. Please try again shortly.' },
+          { status: 503 }
+        ),
+      };
+    }
+  }
+  return { ok: true };
+}
+
+/**
  * Shared rate limiting function.
  * If UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are set, uses Upstash REST API;
- * otherwise uses in-memory sliding store.
+ * otherwise uses in-memory sliding store in non-production.
  */
 export async function rateLimit(
   identifier: string,
@@ -93,7 +124,7 @@ export async function rateLimit(
         };
       }
     } catch (e) {
-      console.warn('Upstash rate limit fallback to memory store:', e);
+      console.warn('Upstash rate limit error, falling back to memory store:', e);
     }
   }
 
@@ -101,14 +132,28 @@ export async function rateLimit(
 }
 
 /**
- * Helper to extract client IP from Next.js request headers
+ * Platform-safe client IP extractor.
+ * Uses x-vercel-forwarded-for or x-real-ip before falling back to x-forwarded-for,
+ * preventing spoofing via client-injected headers on Vercel/proxies.
  */
 export function getClientIp(request: Request): string {
+  // 1. Vercel edge trusted client header
+  const vercelIp = request.headers.get('x-vercel-forwarded-for');
+  if (vercelIp) {
+    return vercelIp.split(',')[0].trim();
+  }
+
+  // 2. Direct upstream proxy real-ip header
+  const realIp = request.headers.get('x-real-ip');
+  if (realIp) {
+    return realIp.trim();
+  }
+
+  // 3. Fallback to standard x-forwarded-for
   const forwarded = request.headers.get('x-forwarded-for');
   if (forwarded) {
     return forwarded.split(',')[0].trim();
   }
-  const realIp = request.headers.get('x-real-ip');
-  if (realIp) return realIp.trim();
+
   return '127.0.0.1';
 }

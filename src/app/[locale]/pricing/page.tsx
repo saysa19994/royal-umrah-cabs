@@ -5,14 +5,18 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { PricingTable } from '@/components/pricing/PricingTable';
 
 interface PricingPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: PricingPageProps): Promise<Metadata> {
+export async function generateMetadata(props: PricingPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
@@ -24,7 +28,13 @@ export async function generateMetadata({
   };
 }
 
-export default function PricingPage({ params: { locale } }: PricingPageProps) {
+export default async function PricingPage(props: PricingPageProps) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
 
   return (

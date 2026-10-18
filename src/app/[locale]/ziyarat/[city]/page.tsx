@@ -8,10 +8,10 @@ import { ZIYARAT_SITES, ZIYARAT_TOURS, ZIYARAT_GUIDES } from '@/data/ziyarat';
 import { MapPin, Clock, ArrowRight, Car, Compass, MessageCircle, ShieldCheck } from 'lucide-react';
 
 interface CityHubPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
     city: string;
-  };
+  }>;
 }
 
 export function generateStaticParams() {
@@ -21,9 +21,14 @@ export function generateStaticParams() {
   ];
 }
 
-export async function generateMetadata({
-  params: { locale, city },
-}: CityHubPageProps): Promise<Metadata> {
+export async function generateMetadata(props: CityHubPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale,
+    city
+  } = params;
+
   if (city !== 'makkah' && city !== 'madinah') return {};
   const isAr = locale === 'ar';
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
@@ -50,7 +55,14 @@ export async function generateMetadata({
   };
 }
 
-export default function CityHubPage({ params: { locale, city } }: CityHubPageProps) {
+export default async function CityHubPage(props: CityHubPageProps) {
+  const params = await props.params;
+
+  const {
+    locale,
+    city
+  } = params;
+
   if (city !== 'makkah' && city !== 'madinah') {
     notFound();
   }

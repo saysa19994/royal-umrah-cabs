@@ -7,10 +7,10 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { Users, Briefcase, Check, ArrowRight, Sparkles, ShieldCheck } from 'lucide-react';
 
 interface FleetDetailPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
     slug: string;
-  };
+  }>;
 }
 
 const FLEET_MAP: Record<
@@ -100,9 +100,14 @@ export function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({
-  params: { locale, slug },
-}: FleetDetailPageProps): Promise<Metadata> {
+export async function generateMetadata(props: FleetDetailPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale,
+    slug
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   const vehicle = FLEET_MAP[slug] || FLEET_MAP['hyundai-staria'];
@@ -115,7 +120,14 @@ export async function generateMetadata({
   };
 }
 
-export default function FleetDetailPage({ params: { locale, slug } }: FleetDetailPageProps) {
+export default async function FleetDetailPage(props: FleetDetailPageProps) {
+  const params = await props.params;
+
+  const {
+    locale,
+    slug
+  } = params;
+
   const dict = getDictionary(locale);
   const v = FLEET_MAP[slug];
 

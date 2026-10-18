@@ -1,9 +1,14 @@
 import { NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
-import { rateLimit, getClientIp } from '@/lib/rate-limit';
+import { rateLimit, getClientIp, checkRequiredEnv } from '@/lib/rate-limit';
 
 export async function POST(request: Request) {
   try {
+    const envCheck = checkRequiredEnv();
+    if (!envCheck.ok && envCheck.response) {
+      return envCheck.response;
+    }
+
     const clientIp = getClientIp(request);
 
     // Rate limiting: 5 cancellations per 15 minutes per IP

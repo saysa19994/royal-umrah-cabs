@@ -7,10 +7,10 @@ import { ZIYARAT_GUIDES } from '@/data/ziyarat';
 import { Clock, Calendar, ArrowRight, Car, Compass, MessageCircle, ShieldCheck } from 'lucide-react';
 
 interface GuideDetailPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
     slug: string;
-  };
+  }>;
 }
 
 export function generateStaticParams() {
@@ -19,9 +19,14 @@ export function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({
-  params: { locale, slug },
-}: GuideDetailPageProps): Promise<Metadata> {
+export async function generateMetadata(props: GuideDetailPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale,
+    slug
+  } = params;
+
   const g = ZIYARAT_GUIDES[slug];
   if (!g) return {};
   const isAr = locale === 'ar';
@@ -36,7 +41,14 @@ export async function generateMetadata({
   };
 }
 
-export default function GuideDetailPage({ params: { locale, slug } }: GuideDetailPageProps) {
+export default async function GuideDetailPage(props: GuideDetailPageProps) {
+  const params = await props.params;
+
+  const {
+    locale,
+    slug
+  } = params;
+
   const g = ZIYARAT_GUIDES[slug];
   if (!g) {
     notFound();

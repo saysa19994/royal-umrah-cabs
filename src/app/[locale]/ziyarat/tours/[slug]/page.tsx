@@ -8,10 +8,10 @@ import { ZiyaratTourJsonLd } from '@/components/seo/ZiyaratJsonLd';
 import { Clock, ShieldCheck, Check, X, ArrowRight, Car, Users, Luggage, MessageCircle } from 'lucide-react';
 
 interface TourDetailPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
     slug: string;
-  };
+  }>;
 }
 
 export function generateStaticParams() {
@@ -20,9 +20,14 @@ export function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({
-  params: { locale, slug },
-}: TourDetailPageProps): Promise<Metadata> {
+export async function generateMetadata(props: TourDetailPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale,
+    slug
+  } = params;
+
   const t = ZIYARAT_TOURS[slug];
   if (!t) return {};
   const isAr = locale === 'ar';
@@ -37,7 +42,14 @@ export async function generateMetadata({
   };
 }
 
-export default function TourDetailPage({ params: { locale, slug } }: TourDetailPageProps) {
+export default async function TourDetailPage(props: TourDetailPageProps) {
+  const params = await props.params;
+
+  const {
+    locale,
+    slug
+  } = params;
+
   const t = ZIYARAT_TOURS[slug];
   if (!t) {
     notFound();

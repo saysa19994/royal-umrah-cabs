@@ -6,14 +6,18 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { Car, Train, Bus, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 
 interface GuidePageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: GuidePageProps): Promise<Metadata> {
+export async function generateMetadata(props: GuidePageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
@@ -25,7 +29,13 @@ export async function generateMetadata({
   };
 }
 
-export default function MakkahMadinahComparisonGuidePage({ params: { locale } }: GuidePageProps) {
+export default async function MakkahMadinahComparisonGuidePage(props: GuidePageProps) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
 
   return (

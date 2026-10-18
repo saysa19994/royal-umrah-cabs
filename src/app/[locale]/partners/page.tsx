@@ -7,12 +7,18 @@ import { Building2, Handshake, Users, ArrowRight, MessageCircle, FileText, Check
 import { getSiteSettings } from '@/lib/settings';
 
 interface PartnersPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 }
 
-export async function generateMetadata({ params: { locale } }: PartnersPageProps): Promise<Metadata> {
+export async function generateMetadata(props: PartnersPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
@@ -24,7 +30,13 @@ export async function generateMetadata({ params: { locale } }: PartnersPageProps
   };
 }
 
-export default async function PartnersPage({ params: { locale } }: PartnersPageProps) {
+export default async function PartnersPage(props: PartnersPageProps) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const settings = await getSiteSettings();
 

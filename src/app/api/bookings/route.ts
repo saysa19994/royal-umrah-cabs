@@ -5,14 +5,20 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { CURRENCIES, CurrencyCode, Locale } from '@/i18n/config';
 import { resolveWhatsAppNumber } from '@/lib/whatsapp-routing';
 import { calculateServerPrice } from '@/lib/pricing-server';
-import { rateLimit, getClientIp } from '@/lib/rate-limit';
+import { rateLimit, getClientIp, checkRequiredEnv } from '@/lib/rate-limit';
 import { verifyTurnstileToken } from '@/lib/turnstile';
 
 export async function POST(request: Request) {
   try {
+    // 1. Fail-closed check: required environment secrets in production
+    const envCheck = checkRequiredEnv();
+    if (!envCheck.ok && envCheck.response) {
+      return envCheck.response;
+    }
+
     const clientIp = getClientIp(request);
 
-    // 1. Rate Limiting: 5 booking submissions per 10 minutes per IP
+    // 2. Rate Limiting: 5 booking submissions per 10 minutes per IP
     const rl = await rateLimit(`booking_sub:${clientIp}`, 5, 600);
     if (!rl.success) {
       return NextResponse.json(
@@ -23,7 +29,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    // 2. Anti-bot verification (Cloudflare Turnstile)
+    // 3. Anti-bot verification (Cloudflare Turnstile)
     const turnstileToken = body['cf-turnstile-response'] || body.turnstile_token;
     const turnstileCheck = await verifyTurnstileToken(turnstileToken, clientIp);
     if (!turnstileCheck.success) {
@@ -33,10 +39,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // 3. Schema validation
+    // 4. Schema validation
     const validated = BookingSchema.parse(body);
 
-    // 4. Compute price strictly server-side from database (fail closed if invalid)
+    // 5. Compute price strictly server-side from database (fail closed if invalid)
     let pricingResult;
     try {
       pricingResult = await calculateServerPrice({
@@ -44,6 +50,7 @@ export async function POST(request: Request) {
         routeId: validated.route_id,
         vehicleId: validated.vehicle_id,
         currency: validated.currency,
+        durationHours: validated.duration_hours || undefined,
       });
     } catch (calcErr: any) {
       console.error('Database pricing computation error:', calcErr);

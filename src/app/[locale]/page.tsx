@@ -8,12 +8,18 @@ import { HomeSections } from '@/components/home/HomeSections';
 import { ShieldCheck, Clock, CheckCircle2, Headphones, ArrowRight } from 'lucide-react';
 
 interface HomePageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 }
 
-export default async function HomePage({ params: { locale } }: HomePageProps) {
+export default async function HomePage(props: HomePageProps) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const settings = await getSiteSettings();
 

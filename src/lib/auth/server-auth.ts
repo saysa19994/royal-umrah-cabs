@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
-import { Role, UserProfile } from '@/types/auth';
+import { Role } from '@/types/auth';
 
 export interface AuthenticatedStaff {
   id: string;
@@ -12,19 +12,24 @@ export interface AuthenticatedStaff {
   assigned_whatsapp_number?: string | null;
   is_suspended: boolean;
   totp_enabled: boolean;
-  aal?: string;
+  aal: 'aal1' | 'aal2';
 }
 
 /**
  * Server-side role requirement helper for API Route Handlers.
- * Verifies Supabase Auth session from httpOnly cookies, loads profile with service-role client,
- * and asserts that the user is active and possesses one of the allowed roles.
+ * Verifies Supabase Auth session from httpOnly cookies, loads profile with service-role client strictly via auth_user_id.
  *
- * For owner and admin roles, strictly enforces AAL2 (Supabase MFA / TOTP).
+ * Security Hardening Round 2:
+ * 1. For 'owner' and 'admin', ALWAYS requires AAL2 (Supabase MFA / TOTP), regardless of profile.totp_enabled.
+ * 2. Checks authenticator assurance level strictly via supabase.auth.mfa.getAuthenticatorAssuranceLevel()
+ *    (removes reliance on client-controllable app_metadata.aal).
+ * 3. Enforces forced TOTP enrollment: if owner/admin has not enrolled TOTP yet, returns 403 with code 'MFA_ENROLLMENT_REQUIRED',
+ *    allowing only the setup-2fa enrollment endpoint.
  */
 export async function requireRole(
   request: Request,
-  allowedRoles: Role[] = ['owner', 'admin', 'operator']
+  allowedRoles: Role[] = ['owner', 'admin', 'operator'],
+  options: { allowEnrollmentFlow?: boolean } = {}
 ): Promise<{ user: AuthenticatedStaff; errorResponse?: never } | { user?: never; errorResponse: NextResponse }> {
   try {
     const supabase = createClient();
@@ -40,15 +45,33 @@ export async function requireRole(
     }
 
     const authUser = authData.user;
-    const userEmail = (authUser.email || '').trim().toLowerCase();
 
-    // Fetch user profile using secure service-role client
+    // Fetch user profile using secure service-role client STRICTLY by auth_user_id
     const serviceClient = createServiceClient();
-    const { data: profile, error: profileError } = await serviceClient
+    let { data: profile, error: profileError } = await serviceClient
       .from('user_profiles')
       .select('id, auth_user_id, email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled')
-      .or(`auth_user_id.eq.${authUser.id},email.eq.${userEmail}`)
+      .eq('auth_user_id', authUser.id)
       .maybeSingle();
+
+    // Auto-link auth_user_id on first authenticated session if initially invited by email
+    if (!profile) {
+      const userEmail = (authUser.email || '').trim().toLowerCase();
+      const { data: unlinked } = await serviceClient
+        .from('user_profiles')
+        .select('id, auth_user_id, email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled')
+        .eq('email', userEmail)
+        .is('auth_user_id', null)
+        .maybeSingle();
+
+      if (unlinked) {
+        await serviceClient
+          .from('user_profiles')
+          .update({ auth_user_id: authUser.id, updated_at: new Date().toISOString() })
+          .eq('id', unlinked.id);
+        profile = { ...unlinked, auth_user_id: authUser.id };
+      }
+    }
 
     if (profileError || !profile) {
       return {
@@ -78,22 +101,39 @@ export async function requireRole(
       };
     }
 
-    // Check AAL (Authenticator Assurance Level) for owner and admin
-    // Supabase MFA stores current level in user.app_metadata.aal or user.aal
-    const currentAal = (authUser.app_metadata?.aal as string) || (authUser as any).aal || 'aal1';
-    if ((userRole === 'owner' || userRole === 'admin') && profile.totp_enabled) {
-      // In Supabase MFA, verified TOTP sets AAL to aal2
-      if (currentAal !== 'aal2') {
-        // Check if there is an active verified factor in session
-        const { data: factors } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-        if (factors?.currentLevel !== 'aal2') {
+    // Check Authenticator Assurance Level (AAL) directly from Supabase MFA API (NO app_metadata fallback)
+    const { data: aalData, error: aalError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    const currentAal: 'aal1' | 'aal2' = (aalData?.currentLevel === 'aal2') ? 'aal2' : 'aal1';
+    const nextAal = aalData?.nextLevel || 'aal1';
+
+    // For owner and admin: ALWAYS REQUIRE AAL2, regardless of profile.totp_enabled
+    if (userRole === 'owner' || userRole === 'admin') {
+      // If user has not enrolled TOTP factors yet
+      if (nextAal !== 'aal2' && !profile.totp_enabled) {
+        if (!options.allowEnrollmentFlow) {
           return {
             errorResponse: NextResponse.json(
-              { error: 'MFA Required: Authenticator Assurance Level 2 (AAL2) required for this action' },
+              {
+                error: 'MFA Enrollment Required: Owner and Admin accounts must complete 2FA setup before accessing portal resources.',
+                code: 'MFA_ENROLLMENT_REQUIRED',
+                require2faEnrollment: true,
+              },
               { status: 403 }
             ),
           };
         }
+      } else if (currentAal !== 'aal2') {
+        // Enrolled but not yet challenged/verified in this session
+        return {
+          errorResponse: NextResponse.json(
+            {
+              error: 'MFA Verification Required: High-privilege actions require Authenticator Assurance Level 2 (AAL2).',
+              code: 'MFA_VERIFICATION_REQUIRED',
+              require2fa: true,
+            },
+            { status: 403 }
+          ),
+        };
       }
     }
 

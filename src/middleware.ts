@@ -48,12 +48,22 @@ export function middleware(request: NextRequest) {
     return res;
   }
 
+  // Pass x-pathname for admin routes so layouts can perform server-side path-aware auth redirection
+  if (pathname.startsWith('/admin')) {
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set('x-pathname', pathname);
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
+  }
+
   // 2. Ignore static assets, api routes, and system files
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
     pathname.startsWith('/assets') ||
-    pathname.startsWith('/admin') ||
     pathname === '/robots.txt' ||
     pathname === '/sitemap.xml' ||
     pathname.startsWith('/sitemap') ||

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
-import { rateLimit, getClientIp } from '@/lib/rate-limit';
+import { rateLimit, getClientIp, checkRequiredEnv } from '@/lib/rate-limit';
 import { UserProfile, Role } from '@/types/auth';
 
 export async function POST(request: Request) {
@@ -17,6 +17,12 @@ export async function POST(request: Request) {
         { error: 'Email and password are required' },
         { status: 400 }
       );
+    }
+
+    // Fail-closed check for required production secrets
+    const envCheck = checkRequiredEnv();
+    if (!envCheck.ok && envCheck.response) {
+      return envCheck.response;
     }
 
     // Rate limiting: checked both per IP and per (IP + Account)
@@ -54,13 +60,34 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. Fetch extended staff profile using service-role client (cannot be bypassed)
+    // 2. Fetch extended staff profile strictly by auth_user_id (service-role client)
     const serviceClient = createServiceClient();
-    const { data: profileData, error: profileError } = await serviceClient
+    let { data: profileData, error: profileError } = await serviceClient
       .from('user_profiles')
       .select('id, auth_user_id, email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled, created_at')
-      .or(`auth_user_id.eq.${authData.user.id},email.eq.${cleanEmail}`)
+      .eq('auth_user_id', authData.user.id)
       .maybeSingle();
+
+    if (!profileData) {
+      // Auto-link on first login if unlinked
+      const { data: unlinked } = await serviceClient
+        .from('user_profiles')
+        .select('id, auth_user_id, email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled, created_at')
+        .eq('email', cleanEmail)
+        .is('auth_user_id', null)
+        .maybeSingle();
+
+      if (unlinked) {
+        await serviceClient
+          .from('user_profiles')
+          .update({
+            auth_user_id: authData.user.id,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', unlinked.id);
+        profileData = { ...unlinked, auth_user_id: authData.user.id };
+      }
+    }
 
     if (profileError || !profileData) {
       // Sign out auth session if no profile exists
@@ -107,13 +134,17 @@ export async function POST(request: Request) {
       // Check if user has enrolled TOTP factors in Supabase MFA
       const { data: factors } = await supabase.auth.mfa.listFactors();
       const totpFactor = factors?.totp?.find((f) => f.status === 'verified');
+      const isEnrolled = Boolean(totpFactor);
 
       return NextResponse.json({
         require2fa: true,
+        isEnrolled,
         factorId: totpFactor?.id || null,
         email: userProfile.email,
         role: userProfile.role,
-        message: 'Two-Factor Authentication required. Enter the 6-digit code from your authenticator app.',
+        message: isEnrolled
+          ? 'Two-Factor Authentication required. Enter the 6-digit code from your authenticator app.'
+          : 'Mandatory Two-Factor Authentication enrollment required on first login.',
       });
     }
 

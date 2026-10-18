@@ -7,14 +7,18 @@ import { ContactForm } from '@/components/contact/ContactForm';
 import { MessageCircle, Phone, Mail, MapPin, Clock } from 'lucide-react';
 
 interface ContactPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: ContactPageProps): Promise<Metadata> {
+export async function generateMetadata(props: ContactPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
@@ -26,7 +30,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function ContactPage({ params: { locale } }: ContactPageProps) {
+export default async function ContactPage(props: ContactPageProps) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const settings = await getSiteSettings();
 

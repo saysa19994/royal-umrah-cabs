@@ -107,7 +107,11 @@ VALUES
 ('madinah-to-makkah', 'Madinah', 'Makkah', 'MED', 'MAK', 270, 440, TRUE, TRUE, 3),
 ('makkah-to-jeddah-airport', 'Makkah', 'Jeddah Airport (KAIA)', 'MAK', 'JED', 75, 95, FALSE, TRUE, 4),
 ('jeddah-to-madinah', 'Jeddah', 'Madinah', 'JED', 'MED', 250, 410, TRUE, TRUE, 5),
-('madinah-airport-to-hotel', 'Madinah Airport (MED)', 'Madinah Central Hotel', 'MED', 'MED', 30, 25, FALSE, TRUE, 6)
+('madinah-airport-to-hotel', 'Madinah Airport (MED)', 'Madinah Central Hotel', 'MED', 'MED', 30, 25, FALSE, TRUE, 6),
+('hourly-standard', 'Hourly Chauffeur Service', 'City Flexible', 'HRL', 'HRL', 240, 100, FALSE, TRUE, 7),
+('hourly-4h', 'Hourly Rental (4 Hours Block)', 'City Flexible', 'HRL', 'HRL', 240, 100, FALSE, TRUE, 8),
+('ziyarat-tour', 'Historic Ziyarat Tour', 'Holy Sites', 'ZIY', 'ZIY', 240, 80, FALSE, TRUE, 9),
+('group-coaster', 'Group VIP Bus Transport', 'Intercity / Custom', 'GRP', 'GRP', 300, 200, FALSE, TRUE, 10)
 ON CONFLICT (id) DO UPDATE SET
     origin_city = EXCLUDED.origin_city,
     destination_city = EXCLUDED.destination_city;
@@ -149,7 +153,30 @@ VALUES
 ('madinah-airport-to-hotel', 'camry', 150.00),
 ('madinah-airport-to-hotel', 'staria', 190.00),
 ('madinah-airport-to-hotel', 'yukon', 280.00),
-('madinah-airport-to-hotel', 'hiace', 250.00)
+('madinah-airport-to-hotel', 'hiace', 250.00),
+
+-- Hourly Rentals (4 Hours standard base block)
+('hourly-standard', 'camry', 350.00),
+('hourly-standard', 'staria', 400.00),
+('hourly-standard', 'yukon', 600.00),
+('hourly-standard', 'hiace', 500.00),
+('hourly-standard', 'coaster', 800.00),
+('hourly-4h', 'camry', 350.00),
+('hourly-4h', 'staria', 400.00),
+('hourly-4h', 'yukon', 600.00),
+('hourly-4h', 'hiace', 500.00),
+('hourly-4h', 'coaster', 800.00),
+
+-- Ziyarat Tours (Holy Sites)
+('ziyarat-tour', 'camry', 250.00),
+('ziyarat-tour', 'staria', 300.00),
+('ziyarat-tour', 'yukon', 450.00),
+('ziyarat-tour', 'hiace', 400.00),
+('ziyarat-tour', 'coaster', 650.00),
+
+-- Group Bus / Coaster Transport
+('group-coaster', 'coaster', 800.00),
+('group-coaster', 'hiace', 600.00)
 ON CONFLICT (route_id, vehicle_id) DO UPDATE SET
     price_sar = EXCLUDED.price_sar;
 

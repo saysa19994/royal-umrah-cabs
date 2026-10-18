@@ -7,14 +7,18 @@ import { ZIYARAT_SITES, ZIYARAT_TOURS, ZIYARAT_GUIDES } from '@/data/ziyarat';
 import { MapPin, Clock, ShieldCheck, Check, ArrowRight, MessageCircle, Star, Compass, Car } from 'lucide-react';
 
 interface ZiyaratHubPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: ZiyaratHubPageProps): Promise<Metadata> {
+export async function generateMetadata(props: ZiyaratHubPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const isAr = locale === 'ar';
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
@@ -30,7 +34,13 @@ export async function generateMetadata({
   };
 }
 
-export default function ZiyaratHubPage({ params: { locale } }: ZiyaratHubPageProps) {
+export default async function ZiyaratHubPage(props: ZiyaratHubPageProps) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const isAr = locale === 'ar';
   const sitesList = Object.values(ZIYARAT_SITES);

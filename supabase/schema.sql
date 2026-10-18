@@ -314,6 +314,7 @@ CREATE OR REPLACE FUNCTION public.is_staff_role(allowed_roles TEXT[])
 RETURNS BOOLEAN
 LANGUAGE sql
 SECURITY DEFINER
+SET search_path = public
 STABLE
 AS $$
   SELECT EXISTS (
@@ -330,6 +331,7 @@ CREATE OR REPLACE FUNCTION public.is_staff()
 RETURNS BOOLEAN
 LANGUAGE sql
 SECURITY DEFINER
+SET search_path = public
 STABLE
 AS $$
   SELECT EXISTS (
@@ -439,9 +441,38 @@ CREATE POLICY "Staff manage page_content" ON public.page_content
 CREATE POLICY "Staff view own profile" ON public.user_profiles
     FOR SELECT TO authenticated
     USING (auth_user_id = auth.uid());
-CREATE POLICY "Owner/Admin manage all user_profiles" ON public.user_profiles
-    FOR ALL TO authenticated
+
+CREATE POLICY "Owner/Admin view all profiles" ON public.user_profiles
+    FOR SELECT TO authenticated
     USING (public.is_staff_role(ARRAY['owner', 'admin']));
+
+-- ONLY owner can insert profiles
+CREATE POLICY "Owner insert user_profiles" ON public.user_profiles
+    FOR INSERT TO authenticated
+    WITH CHECK (public.is_staff_role(ARRAY['owner']));
+
+-- ONLY owner can delete profiles
+CREATE POLICY "Owner delete user_profiles" ON public.user_profiles
+    FOR DELETE TO authenticated
+    USING (public.is_staff_role(ARRAY['owner']));
+
+-- Owner can update any profile to any role
+CREATE POLICY "Owner update user_profiles" ON public.user_profiles
+    FOR UPDATE TO authenticated
+    USING (public.is_staff_role(ARRAY['owner']))
+    WITH CHECK (public.is_staff_role(ARRAY['owner']));
+
+-- Admins may edit only operator/driver/editor profiles (cannot self-promote or touch owner/admin)
+CREATE POLICY "Admin update non-executive profiles" ON public.user_profiles
+    FOR UPDATE TO authenticated
+    USING (
+      public.is_staff_role(ARRAY['admin'])
+      AND role NOT IN ('owner', 'admin')
+    )
+    WITH CHECK (
+      public.is_staff_role(ARRAY['admin'])
+      AND role NOT IN ('owner', 'admin')
+    );
 
 -- drivers:
 CREATE POLICY "Staff view drivers" ON public.drivers
@@ -547,3 +578,63 @@ CREATE POLICY "Owner manage role_permissions" ON public.role_permissions
 CREATE POLICY "Owner manage ownership_transfers" ON public.ownership_transfers
     FOR ALL TO authenticated
     USING (public.is_staff_role(ARRAY['owner']));
+
+-- ====================================================================
+-- 3. TAMPER-PROOF TRIGGERS FOR OPERATORS
+-- Restricts operator updates on bookings/leads to status and notes only.
+-- Operators CANNOT tamper with prices, vehicles, routes, or assigned drivers.
+-- ====================================================================
+
+CREATE OR REPLACE FUNCTION public.trg_restrict_operator_booking_update()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  -- If caller is an operator and NOT an owner or admin
+  IF public.is_staff_role(ARRAY['operator']) AND NOT public.is_staff_role(ARRAY['owner', 'admin']) THEN
+    IF NEW.final_price_sar IS DISTINCT FROM OLD.final_price_sar OR
+       NEW.base_price_sar IS DISTINCT FROM OLD.base_price_sar OR
+       NEW.driver_phone IS DISTINCT FROM OLD.driver_phone OR
+       NEW.driver_id IS DISTINCT FROM OLD.driver_id OR
+       NEW.vehicle_id IS DISTINCT FROM OLD.vehicle_id OR
+       NEW.route_id IS DISTINCT FROM OLD.route_id OR
+       NEW.reference IS DISTINCT FROM OLD.reference THEN
+      RAISE EXCEPTION 'Restricted: Operators may only update status and operational notes on bookings.';
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_restrict_operator_booking_update ON public.bookings;
+CREATE TRIGGER trg_restrict_operator_booking_update
+BEFORE UPDATE ON public.bookings
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_restrict_operator_booking_update();
+
+CREATE OR REPLACE FUNCTION public.trg_restrict_operator_lead_update()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  IF public.is_staff_role(ARRAY['operator']) AND NOT public.is_staff_role(ARRAY['owner', 'admin']) THEN
+    IF NEW.price_sar IS DISTINCT FROM OLD.price_sar OR
+       NEW.whatsapp_number IS DISTINCT FROM OLD.whatsapp_number OR
+       NEW.ref_code IS DISTINCT FROM OLD.ref_code THEN
+      RAISE EXCEPTION 'Restricted: Operators may only update status on leads.';
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_restrict_operator_lead_update ON public.leads;
+CREATE TRIGGER trg_restrict_operator_lead_update
+BEFORE UPDATE ON public.leads
+FOR EACH ROW
+EXECUTE FUNCTION public.trg_restrict_operator_lead_update();
+

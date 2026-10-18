@@ -6,14 +6,18 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { MapPin, Clock, ArrowRight, ShieldCheck } from 'lucide-react';
 
 interface RoutesPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: RoutesPageProps): Promise<Metadata> {
+export async function generateMetadata(props: RoutesPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
@@ -76,7 +80,13 @@ const ALL_ROUTES = [
   },
 ];
 
-export default function RoutesPage({ params: { locale } }: RoutesPageProps) {
+export default async function RoutesPage(props: RoutesPageProps) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
 
   return (

@@ -7,10 +7,10 @@ import { PILGRIM_COUNTRIES } from '@/data/pilgrims';
 import { Plane, MapPin, Clock, ShieldCheck, Check, ArrowRight, Car, Users, Luggage, MessageCircle, CreditCard, HelpCircle } from 'lucide-react';
 
 interface PilgrimCountryPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
     country: string;
-  };
+  }>;
 }
 
 export function generateStaticParams() {
@@ -19,9 +19,14 @@ export function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({
-  params: { locale, country },
-}: PilgrimCountryPageProps): Promise<Metadata> {
+export async function generateMetadata(props: PilgrimCountryPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale,
+    country
+  } = params;
+
   const c = PILGRIM_COUNTRIES[country];
   if (!c) return {};
   if (country === 'greece' && locale !== 'en') {
@@ -40,7 +45,14 @@ export async function generateMetadata({
   };
 }
 
-export default function PilgrimCountryPage({ params: { locale, country } }: PilgrimCountryPageProps) {
+export default async function PilgrimCountryPage(props: PilgrimCountryPageProps) {
+  const params = await props.params;
+
+  const {
+    locale,
+    country
+  } = params;
+
   const c = PILGRIM_COUNTRIES[country];
   if (!c || (country === 'greece' && locale !== 'en')) {
     notFound();

@@ -158,10 +158,21 @@ LIMIT 25;
 يجب التأكد من وجود المتغيرات التالية في ملف `.env.local` ولوحة تحكم Vercel:
 
 ```env
-# Supabase Configuration
+# Supabase Configuration (Required)
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+# Anti-Bot Protection (Cloudflare Turnstile - Required in Production)
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=your-turnstile-site-key
+TURNSTILE_SECRET_KEY=your-turnstile-secret-key
+
+# Rate Limiting Store (Upstash Redis - Required for fail-closed protection in Production)
+UPSTASH_REDIS_REST_URL=https://your-upstash-redis-instance.upstash.io
+UPSTASH_REDIS_REST_TOKEN=your-upstash-redis-rest-token
+
+# Transactional Email Dispatcher (Resend - Optional / Recommended for ownership transfer emails)
+RESEND_API_KEY=your-resend-api-key
 
 # Production Domain & App Metadata
 NEXT_PUBLIC_SITE_URL=https://royal-umrah-cabs.vercel.app

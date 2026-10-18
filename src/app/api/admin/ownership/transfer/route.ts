@@ -4,6 +4,7 @@ import { requireRole } from '@/lib/auth/server-auth';
 import { logAuditEvent } from '@/lib/audit';
 import { createServiceClient } from '@/lib/supabase/service';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
+import { sendOwnershipTransferEmail } from '@/lib/email';
 
 export async function POST(request: Request) {
   try {
@@ -81,9 +82,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Failed to initiate ownership transfer' }, { status: 500 });
     }
 
-    // NEVER return confirmation token in the API response.
-    // In production, this token is dispatched to the current owner's verified notification email.
-    console.info(`[SECURITY AUDIT] Ownership transfer initiated. Confirmation token dispatched to owner email (${currentOwner.email}).`);
+    // NEVER return confirmation token in the API response or print to stdout.
+    // Dispatched securely via transactional email to current owner.
+    await sendOwnershipTransferEmail({
+      to: currentOwner.email,
+      targetEmail: cleanTarget,
+      confirmationToken: token,
+      expiresAt,
+    });
 
     await logAuditEvent({
       userEmail: currentOwner.email,

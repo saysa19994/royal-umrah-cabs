@@ -8,23 +8,13 @@ import { Role } from '@/types/auth';
 export async function POST(request: Request) {
   try {
     const clientIp = getClientIp(request);
-    const { email, code, factorId } = await request.json();
-    const cleanEmail = (email || '').trim().toLowerCase();
+    const { code, factorId } = await request.json();
     const cleanCode = (code || '').trim();
 
-    if (!cleanEmail || !cleanCode) {
+    if (!cleanCode) {
       return NextResponse.json(
-        { error: 'Email and 6-digit code are required.' },
+        { error: '6-digit code is required.' },
         { status: 400 }
-      );
-    }
-
-    // Rate limiting: 5 attempts per 5 minutes per IP + email
-    const rl = await rateLimit(`2fa:${clientIp}:${cleanEmail}`, 5, 300);
-    if (!rl.success) {
-      return NextResponse.json(
-        { error: 'Too many failed 2FA verification attempts. Please wait.' },
-        { status: 429 }
       );
     }
 
@@ -38,11 +28,23 @@ export async function POST(request: Request) {
       );
     }
 
+    // Always use authenticated session email, NEVER trust request body
+    const sessionEmail = (authData.user.email || '').trim().toLowerCase();
+
+    // Rate limiting: 5 attempts per 5 minutes per IP + authenticated session email
+    const rl = await rateLimit(`2fa:${clientIp}:${sessionEmail}`, 5, 300);
+    if (!rl.success) {
+      return NextResponse.json(
+        { error: 'Too many failed 2FA verification attempts. Please wait.' },
+        { status: 429 }
+      );
+    }
+
     const serviceClient = createServiceClient();
     const { data: profile } = await serviceClient
       .from('user_profiles')
       .select('id, name, role, totp_enabled')
-      .eq('email', cleanEmail)
+      .eq('auth_user_id', authData.user.id)
       .maybeSingle();
 
     const userRole: Role = (profile?.role as Role) || 'admin';
@@ -78,7 +80,7 @@ export async function POST(request: Request) {
 
     if (!mfaSuccess) {
       await logAuditEvent({
-        userEmail: cleanEmail,
+        userEmail: sessionEmail,
         userRole,
         action: '2fa_failed',
         resource: 'auth',
@@ -95,7 +97,7 @@ export async function POST(request: Request) {
 
     // Log success
     await logAuditEvent({
-      userEmail: cleanEmail,
+      userEmail: sessionEmail,
       userRole,
       action: '2fa_verified_login',
       resource: 'auth',
@@ -107,7 +109,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       user: {
-        email: cleanEmail,
+        email: sessionEmail,
         name: userName,
         role: userRole,
         totp_verified: true,

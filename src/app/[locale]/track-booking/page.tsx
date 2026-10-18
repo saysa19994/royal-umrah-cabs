@@ -5,14 +5,18 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { TrackBookingEngine } from '@/components/booking/TrackBookingEngine';
 
 interface TrackBookingPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: TrackBookingPageProps): Promise<Metadata> {
+export async function generateMetadata(props: TrackBookingPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
@@ -24,7 +28,13 @@ export async function generateMetadata({
   };
 }
 
-export default function TrackBookingPage({ params: { locale } }: TrackBookingPageProps) {
+export default async function TrackBookingPage(props: TrackBookingPageProps) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
 
   return (

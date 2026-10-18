@@ -6,14 +6,18 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { ShieldCheck, HeartHandshake, Clock, Sparkles, Award, ArrowRight } from 'lucide-react';
 
 interface AboutPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: AboutPageProps): Promise<Metadata> {
+export async function generateMetadata(props: AboutPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
@@ -25,7 +29,13 @@ export async function generateMetadata({
   };
 }
 
-export default function AboutPage({ params: { locale } }: AboutPageProps) {
+export default async function AboutPage(props: AboutPageProps) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
 
   const pillars = [

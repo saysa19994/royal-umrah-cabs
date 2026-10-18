@@ -8,11 +8,11 @@ import { ZiyaratSiteJsonLd } from '@/components/seo/ZiyaratJsonLd';
 import { MapPin, Clock, ShieldCheck, Check, ArrowRight, Car, Compass, AlertCircle, MessageCircle } from 'lucide-react';
 
 interface SiteDetailPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
     city: string;
     site: string;
-  };
+  }>;
 }
 
 export function generateStaticParams() {
@@ -22,9 +22,15 @@ export function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({
-  params: { locale, city, site },
-}: SiteDetailPageProps): Promise<Metadata> {
+export async function generateMetadata(props: SiteDetailPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale,
+    city,
+    site
+  } = params;
+
   const s = ZIYARAT_SITES[site];
   if (!s || s.city !== city) return {};
   const isAr = locale === 'ar';
@@ -39,7 +45,15 @@ export async function generateMetadata({
   };
 }
 
-export default function SiteDetailPage({ params: { locale, city, site } }: SiteDetailPageProps) {
+export default async function SiteDetailPage(props: SiteDetailPageProps) {
+  const params = await props.params;
+
+  const {
+    locale,
+    city,
+    site
+  } = params;
+
   const s = ZIYARAT_SITES[site];
   if (!s || s.city !== city) {
     notFound();

@@ -1,13 +1,13 @@
 /** @type {import('next').NextConfig} */
 
-// Strict Content Security Policy definition
+// Strict Content Security Policy definition with analytics allowlist
 const cspHeader = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com;
+  script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://www.googletagmanager.com https://static.cloudflareinsights.com;
   style-src 'self' 'unsafe-inline';
-  img-src 'self' data: blob: https://royal-umrah-cabs.vercel.app;
+  img-src 'self' data: blob: https://royal-umrah-cabs.vercel.app https://www.google-analytics.com https://www.googletagmanager.com;
   font-src 'self' data:;
-  connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com;
+  connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com https://www.google-analytics.com https://analytics.google.com https://*.cloudflareinsights.com;
   frame-src 'self' https://challenges.cloudflare.com;
   object-src 'none';
   base-uri 'self';
@@ -19,7 +19,7 @@ const cspHeader = `
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    formats: ['image/avif', 'image/webp'],
+    formats: ['image/webp'],
     remotePatterns: [
       {
         protocol: 'https',

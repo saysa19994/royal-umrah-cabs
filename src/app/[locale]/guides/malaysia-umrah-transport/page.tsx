@@ -6,14 +6,18 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { Plane, Compass, Luggage, DollarSign, CheckCircle2, ArrowRight, MessageCircle, HelpCircle } from 'lucide-react';
 
 interface MalaysiaGuideProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: MalaysiaGuideProps): Promise<Metadata> {
+export async function generateMetadata(props: MalaysiaGuideProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
 
@@ -55,7 +59,13 @@ export async function generateMetadata({
   };
 }
 
-export default function MalaysiaGuidePage({ params: { locale } }: MalaysiaGuideProps) {
+export default async function MalaysiaGuidePage(props: MalaysiaGuideProps) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
 
   const guideFaqs = [

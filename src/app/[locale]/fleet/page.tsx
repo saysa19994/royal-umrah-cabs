@@ -6,14 +6,18 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { Users, Briefcase, Sparkles, ArrowRight } from 'lucide-react';
 
 interface FleetPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: FleetPageProps): Promise<Metadata> {
+export async function generateMetadata(props: FleetPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
@@ -68,7 +72,13 @@ const VEHICLES = [
   },
 ];
 
-export default function FleetPage({ params: { locale } }: FleetPageProps) {
+export default async function FleetPage(props: FleetPageProps) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
 
   return (

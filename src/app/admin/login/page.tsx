@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Shield, Lock, Mail, ArrowRight, KeyRound, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { Shield, Lock, Mail, ArrowRight, KeyRound, CheckCircle2, AlertTriangle, QrCode } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -11,11 +11,15 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // 2FA TOTP Step
-  const [step, setStep] = useState<'credentials' | 'totp'>('credentials');
+  // Auth Steps: 'credentials' | 'totp' | 'enroll'
+  const [step, setStep] = useState<'credentials' | 'totp' | 'enroll'>('credentials');
   const [totpCode, setTotpCode] = useState('');
   const [tempUserEmail, setTempUserEmail] = useState('');
   const [tempUserRole, setTempUserRole] = useState('');
+
+  // Forced First-Time TOTP Enrollment
+  const [enrollFactorId, setEnrollFactorId] = useState('');
+  const [enrollSecret, setEnrollSecret] = useState('');
 
   const handleCredentialsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +42,23 @@ export default function AdminLoginPage() {
       if (data.require2fa) {
         setTempUserEmail(data.email);
         setTempUserRole(data.role);
-        setStep('totp');
+
+        if (data.isEnrolled === false) {
+          // Trigger first-time enrollment
+          const enrollRes = await fetch('/api/admin/auth/setup-2fa', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+          });
+          const enrollData = await enrollRes.json();
+          if (!enrollRes.ok) {
+            throw new Error(enrollData.error || 'Failed to initiate 2FA setup');
+          }
+          setEnrollFactorId(enrollData.factorId);
+          setEnrollSecret(enrollData.secret);
+          setStep('enroll');
+        } else {
+          setStep('totp');
+        }
       } else if (data.success && data.user) {
         router.push('/admin');
         router.refresh();
@@ -59,7 +79,7 @@ export default function AdminLoginPage() {
       const res = await fetch('/api/admin/auth/verify-2fa', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: tempUserEmail, code: totpCode }),
+        body: JSON.stringify({ code: totpCode }),
       });
 
       const data = await res.json();
@@ -74,6 +94,33 @@ export default function AdminLoginPage() {
       }
     } catch (err: any) {
       setError(err.message || 'Verification failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEnrollSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch('/api/admin/auth/setup-2fa', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ factorId: enrollFactorId, code: totpCode }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to confirm 2FA setup');
+      }
+
+      router.push('/admin');
+      router.refresh();
+    } catch (err: any) {
+      setError(err.message || 'Setup verification failed');
     } finally {
       setLoading(false);
     }
@@ -101,7 +148,7 @@ export default function AdminLoginPage() {
           </div>
         )}
 
-        {step === 'credentials' ? (
+        {step === 'credentials' && (
           <form onSubmit={handleCredentialsSubmit} className="space-y-4 text-start">
             <div>
               <label className="block text-xs font-semibold text-[#A0A6B2] mb-1.5">
@@ -152,7 +199,9 @@ export default function AdminLoginPage() {
               )}
             </button>
           </form>
-        ) : (
+        )}
+
+        {step === 'totp' && (
           <form onSubmit={handleTotpSubmit} className="space-y-4 text-start">
             <div className="p-3 rounded-xl bg-[#20252D] border border-[#2B323D] mb-4 text-center">
               <span className="text-xs text-[#A0A6B2] block">Authenticating:</span>
@@ -204,10 +253,76 @@ export default function AdminLoginPage() {
               onClick={() => {
                 setStep('credentials');
                 setError(null);
+                setTotpCode('');
               }}
               className="w-full text-center text-xs text-[#A0A6B2] hover:text-[#FAF9F6] transition-colors pt-2"
             >
               Back to email login
+            </button>
+          </form>
+        )}
+
+        {step === 'enroll' && (
+          <form onSubmit={handleEnrollSubmit} className="space-y-4 text-start">
+            <div className="p-3.5 rounded-xl bg-[#20252D] border border-[#2B323D] mb-4">
+              <div className="flex items-center gap-2 mb-2 text-[#D9A031]">
+                <QrCode className="w-4 h-4 shrink-0" />
+                <span className="text-xs font-bold uppercase tracking-wider">Mandatory 2FA Setup</span>
+              </div>
+              <p className="text-[11px] text-[#A0A6B2] leading-relaxed mb-3">
+                Executive accounts require mandatory Two-Factor Authentication. Add this secret key to your authenticator app (e.g. Google Authenticator):
+              </p>
+              <div className="p-2.5 rounded-lg bg-[#0D0F12] border border-[#262B33] text-center">
+                <span className="text-xs font-mono font-bold text-[#D9A031] tracking-wider select-all break-all">
+                  {enrollSecret}
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1.5">
+                Enter 6-Digit Confirmation Code
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  required
+                  maxLength={6}
+                  autoFocus
+                  placeholder="6-digit code"
+                  value={totpCode}
+                  onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, ''))}
+                  className="w-full h-12 pl-10 pr-3 text-center tracking-[0.3em] font-mono text-base font-bold rounded-xl border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] focus:ring-1 focus:ring-[#D9A031] outline-none transition-all"
+                />
+                <KeyRound className="w-4 h-4 text-[#D9A031] absolute left-3.5 top-4" />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading || totpCode.length !== 6}
+              className="w-full h-11 mt-2 rounded-xl bg-[#D9A031] text-[#14171C] font-bold text-xs uppercase tracking-wider hover:bg-[#B8821F] hover:text-white transition-all flex items-center justify-center gap-2 disabled:opacity-50 shadow-lg shadow-[#D9A031]/10"
+            >
+              {loading ? (
+                <span>Confirming Enrollment...</span>
+              ) : (
+                <>
+                  <span>Activate 2FA &amp; Enter Portal</span>
+                  <CheckCircle2 className="w-4 h-4" />
+                </>
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setStep('credentials');
+                setError(null);
+                setTotpCode('');
+              }}
+              className="w-full text-center text-xs text-[#A0A6B2] hover:text-[#FAF9F6] transition-colors pt-2"
+            >
+              Cancel
             </button>
           </form>
         )}

@@ -6,24 +6,30 @@ import { getSiteSettings } from '@/lib/settings';
 import { BookingEngine } from '@/components/booking/BookingEngine';
 
 interface BookingPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
-  };
-  searchParams: {
+  }>;
+  searchParams: Promise<{
     route?: string;
     vehicle?: string;
     date?: string;
     time?: string;
     passengers?: string;
     luggage?: string;
-  };
+  }>;
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: Locale };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: Locale }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
@@ -35,10 +41,14 @@ export async function generateMetadata({
   };
 }
 
-export default async function BookingPage({
-  params: { locale },
-  searchParams,
-}: BookingPageProps) {
+export default async function BookingPage(props: BookingPageProps) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const dict = getDictionary(locale);
   const settings = await getSiteSettings();
 

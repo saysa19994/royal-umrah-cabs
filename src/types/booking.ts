@@ -13,6 +13,7 @@ export const BookingSchema = z.object({
   passengers_count: z.number().int().min(1).max(50).default(2),
   luggage_count: z.number().int().min(0).max(50).default(2),
   flight_number: z.string().optional().nullable(),
+  duration_hours: z.number().int().min(2, 'Duration must be at least 2 hours').max(24, 'Duration cannot exceed 24 hours').optional().nullable(),
   add_ons: z.object({
     child_seat: z.boolean().default(false),
     flight_tracking: z.boolean().default(true),

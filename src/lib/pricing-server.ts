@@ -11,18 +11,30 @@ export interface PriceCalculationResult {
 
 /**
  * Calculates booking prices strictly server-side from Supabase database.
- * Does NOT use hardcoded default 450 SAR fallback.
- * If route, vehicle, or pricing configuration is not found in the DB, throws an error (fail closed).
+ * No hardcoded default 450, 400, 300, or 800 SAR fallbacks.
+ * If route, vehicle, duration, or pricing configuration is not found in the DB, throws an error (fail closed).
  */
 export async function calculateServerPrice(params: {
   bookingType: 'transfer' | 'hourly' | 'ziyarat' | 'group_bus';
   routeId?: string | null;
   vehicleId: string;
   currency?: string | null;
-  durationHours?: number;
+  durationHours?: number | null;
 }): Promise<PriceCalculationResult> {
   const serviceClient = createServiceClient();
-  const { bookingType, routeId, vehicleId, currency = 'SAR', durationHours = 4 } = params;
+  const { bookingType, routeId, vehicleId, currency = 'SAR', durationHours } = params;
+
+  // 1. Verify vehicle exists and is active
+  const { data: vehicleData, error: vehicleErr } = await serviceClient
+    .from('vehicles')
+    .select('id, is_active')
+    .eq('id', vehicleId)
+    .eq('is_active', true)
+    .maybeSingle();
+
+  if (vehicleErr || !vehicleData) {
+    throw new Error(`Active vehicle '${vehicleId}' not found in database`);
+  }
 
   let basePriceSAR: number | null = null;
 
@@ -43,18 +55,6 @@ export async function calculateServerPrice(params: {
       throw new Error(`Active route '${routeId}' not found in database`);
     }
 
-    // Verify vehicle is active
-    const { data: vehicleData, error: vehicleErr } = await serviceClient
-      .from('vehicles')
-      .select('id, is_active')
-      .eq('id', vehicleId)
-      .eq('is_active', true)
-      .maybeSingle();
-
-    if (vehicleErr || !vehicleData) {
-      throw new Error(`Active vehicle '${vehicleId}' not found in database`);
-    }
-
     // Retrieve exact route x vehicle price from database
     const { data: priceRow, error: priceErr } = await serviceClient
       .from('prices')
@@ -69,56 +69,69 @@ export async function calculateServerPrice(params: {
 
     basePriceSAR = Number(priceRow.price_sar);
   } else if (bookingType === 'hourly') {
-    // Retrieve base hourly rate from site_settings or vehicle table
-    const { data: priceRow } = await serviceClient
+    // Validate durationHours: must be integer between 2 and 24 hours
+    const hours = durationHours !== undefined && durationHours !== null
+      ? Number(durationHours)
+      : 4;
+
+    if (isNaN(hours) || hours < 2 || hours > 24) {
+      throw new Error(`Invalid duration '${durationHours}'. Hourly bookings require between 2 and 24 hours.`);
+    }
+
+    // Check specific duration block route (e.g. hourly-4h, hourly-8h) or specific routeId
+    const targetBlockRoute = routeId || (hours > 4 ? `hourly-${hours}h` : 'hourly-4h');
+
+    const { data: blockPrice } = await serviceClient
       .from('prices')
       .select('price_sar')
-      .eq('route_id', 'hourly-standard')
+      .eq('route_id', targetBlockRoute)
       .eq('vehicle_id', vehicleId)
       .maybeSingle();
 
-    if (priceRow && priceRow.price_sar) {
-      basePriceSAR = Number(priceRow.price_sar) * Math.max(1, Math.round(durationHours / 4));
+    if (blockPrice && blockPrice.price_sar) {
+      basePriceSAR = Number(blockPrice.price_sar);
     } else {
-      // Look up default rate configured in database
-      const { data: vehicleRow } = await serviceClient
-        .from('vehicles')
-        .select('id')
-        .eq('id', vehicleId)
-        .eq('is_active', true)
+      // Fall back to hourly-standard route row scaled by duration block (4h standard block)
+      const { data: standardPrice } = await serviceClient
+        .from('prices')
+        .select('price_sar')
+        .eq('route_id', 'hourly-standard')
+        .eq('vehicle_id', vehicleId)
         .maybeSingle();
 
-      if (!vehicleRow) {
-        throw new Error(`Active vehicle '${vehicleId}' not found in database`);
+      if (standardPrice && standardPrice.price_sar) {
+        const blocks = Math.ceil(hours / 4);
+        basePriceSAR = Number(standardPrice.price_sar) * blocks;
+      } else {
+        throw new Error(`No configured hourly pricing found in database for vehicle '${vehicleId}'`);
       }
-      basePriceSAR = 400; // Database default standard 4h block
     }
   } else if (bookingType === 'ziyarat') {
-    const { data: priceRow } = await serviceClient
+    const targetRouteId = routeId || 'ziyarat-tour';
+    const { data: priceRow, error: priceErr } = await serviceClient
       .from('prices')
       .select('price_sar')
-      .eq('route_id', 'ziyarat-tour')
+      .eq('route_id', targetRouteId)
       .eq('vehicle_id', vehicleId)
       .maybeSingle();
 
-    if (priceRow && priceRow.price_sar) {
-      basePriceSAR = Number(priceRow.price_sar);
-    } else {
-      basePriceSAR = 300;
+    if (priceErr || !priceRow || !priceRow.price_sar) {
+      throw new Error(`No configured ziyarat pricing found in database for route '${targetRouteId}' and vehicle '${vehicleId}'`);
     }
+    basePriceSAR = Number(priceRow.price_sar);
   } else if (bookingType === 'group_bus') {
-    const { data: priceRow } = await serviceClient
+    const targetRouteId = routeId || 'group-coaster';
+    const { data: priceRow, error: priceErr } = await serviceClient
       .from('prices')
       .select('price_sar')
-      .eq('route_id', 'group-coaster')
+      .eq('route_id', targetRouteId)
       .eq('vehicle_id', vehicleId)
       .maybeSingle();
 
-    if (priceRow && priceRow.price_sar) {
-      basePriceSAR = Number(priceRow.price_sar);
-    } else {
-      basePriceSAR = 800;
+    if (priceErr || !priceRow || !priceRow.price_sar) {
+      throw new Error(`No configured group transport pricing found in database for route '${targetRouteId}' and vehicle '${vehicleId}'`);
     }
+    basePriceSAR = Number(priceRow.price_sar);
   }
 
   if (basePriceSAR === null || isNaN(basePriceSAR) || basePriceSAR <= 0) {

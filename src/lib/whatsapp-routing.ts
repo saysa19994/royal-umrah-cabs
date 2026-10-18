@@ -1,4 +1,5 @@
 import { createClient } from './supabase/server';
+import { createServiceClient } from './supabase/service';
 import { Locale, LOCALE_CONFIG } from '@/i18n/config';
 
 export interface WhatsAppNumberRecord {
@@ -109,20 +110,20 @@ export async function resolveWhatsAppNumber(locale: string): Promise<WhatsAppNum
 }
 
 export interface LeadCreationPayload {
-  ref_code?: string;
-  page?: string;
-  language?: string;
-  route_id?: string;
-  route_title?: string;
-  vehicle_id?: string;
-  vehicle_name?: string;
-  pickup_date?: string;
-  passengers?: number;
-  luggage?: number;
-  price_sar?: number;
-  customer_name?: string;
-  customer_phone?: string;
-  source_utm?: Record<string, string>;
+  ref_code?: string | null;
+  page?: string | null;
+  language?: string | null;
+  route_id?: string | null;
+  route_title?: string | null;
+  vehicle_id?: string | null;
+  vehicle_name?: string | null;
+  pickup_date?: string | null;
+  passengers?: number | null;
+  luggage?: number | null;
+  price_sar?: number | null;
+  customer_name?: string | null;
+  customer_phone?: string | null;
+  source_utm?: Record<string, string> | null;
 }
 
 /**
@@ -249,7 +250,7 @@ export async function logLeadAndGenerateWhatsAppUrl(payload: LeadCreationPayload
   const whatsapp_url = `https://wa.me/${assignedNumber.number}?text=${encodedMsg}`;
 
   try {
-    const supabase = createClient();
+    const supabase = createServiceClient();
     await supabase.from('leads').insert({
       ref_code,
       whatsapp_number_id: assignedNumber.id.includes('default') ? null : assignedNumber.id,
