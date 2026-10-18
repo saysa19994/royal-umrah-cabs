@@ -97,6 +97,20 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
     for (const l of LOCALES) {
       languagesMap[l] = `${baseUrl}/${l}${path}`;
     }
+    languagesMap['en-GB'] = `${baseUrl}/en${path}`;
+    languagesMap['en-US'] = `${baseUrl}/en${path}`;
+    languagesMap['en-CA'] = `${baseUrl}/en${path}`;
+    languagesMap['en-IN'] = `${baseUrl}/en${path}`;
+    languagesMap['en-PK'] = `${baseUrl}/en${path}`;
+    languagesMap['fr-FR'] = `${baseUrl}/fr${path}`;
+    languagesMap['fr-CA'] = `${baseUrl}/fr${path}`;
+    languagesMap['es-ES'] = `${baseUrl}/es${path}`;
+    languagesMap['de-DE'] = `${baseUrl}/de${path}`;
+    languagesMap['id-ID'] = `${baseUrl}/id${path}`;
+    languagesMap['ms-MY'] = `${baseUrl}/ms${path}`;
+    languagesMap['hi-IN'] = `${baseUrl}/hi${path}`;
+    languagesMap['ur-PK'] = `${baseUrl}/ur${path}`;
+    languagesMap['ar-SA'] = `${baseUrl}/ar${path}`;
     languagesMap['x-default'] = `${baseUrl}/en${path}`;
 
     return {
