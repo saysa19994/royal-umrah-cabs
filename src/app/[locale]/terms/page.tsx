@@ -45,7 +45,7 @@ export default function TermsPage({ params: { locale } }: LegalPageProps) {
           <section className="space-y-2">
             <h2 className="font-display text-xl font-bold text-ink">1. Nature of Service</h2>
             <p>
-              Royal Umrah Cabs provides private chauffeur transport services between Jeddah Airport (KAIA), Makkah Al-Mukarramah, Madinah Al-Munawwarah, and Riyadh. Every reservation is for a private vehicle dedicated exclusively to the booking passenger and their party.
+              Royal Umrah Cabs provides private chauffeur transport services between Jeddah Airport (KAIA), Makkah Al-Mukarramah, and Madinah Al-Munawwarah. Every reservation is for a private vehicle dedicated exclusively to the booking passenger and their party.
             </p>
           </section>
 

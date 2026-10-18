@@ -1,11 +1,16 @@
 import { MetadataRoute } from 'next';
-import { LOCALES } from '@/i18n/config';
+import { LOCALES, Locale } from '@/i18n/config';
 import { ZIYARAT_SITES, ZIYARAT_TOURS, ZIYARAT_GUIDES } from '@/data/ziyarat';
 import { PILGRIM_COUNTRIES } from '@/data/pilgrims';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export async function generateSitemaps() {
+  return LOCALES.map((locale) => ({ id: locale }));
+}
+
+export default async function sitemap({ id }: { id: string }): Promise<MetadataRoute.Sitemap> {
+  const locale = (id as Locale) || 'en';
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
-  const currentDate = new Date().toISOString().split('T')[0];
+  const lastmod = '2026-10-18';
 
   const staticPages = [
     '',
@@ -64,10 +69,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     (g) => `/ziyarat/guides/${g.slug}`
   );
 
-  // Dynamic Country Landing Pages
-  const pilgrimCountryPaths = Object.values(PILGRIM_COUNTRIES).map(
-    (c) => `/pilgrims/${c.slug}`
-  );
+  // Dynamic Country Landing Pages (strictly exclude noindex pages like greece, and draft/unverified markets)
+  const pilgrimCountryPaths = Object.values(PILGRIM_COUNTRIES)
+    .filter((c) => !c.noindex)
+    .map((c) => `/pilgrims/${c.slug}`);
 
   const allPaths = [
     ...staticPages,
@@ -79,35 +84,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...pilgrimCountryPaths,
   ];
 
-  const sitemapEntries: MetadataRoute.Sitemap = [];
+  return allPaths.map((path) => {
+    const isHome = path === '';
+    const priority = isHome
+      ? 1.0
+      : path.startsWith('/ziyarat') || path.startsWith('/pilgrims') || path.includes('/routes/')
+      ? 0.9
+      : 0.8;
+    const changeFrequency = isHome ? 'daily' : 'weekly';
 
-  for (const path of allPaths) {
-    for (const locale of LOCALES) {
-      const isHome = path === '';
-      const priority = isHome
-        ? 1.0
-        : path.startsWith('/ziyarat') || path.startsWith('/pilgrims') || path.includes('/routes/')
-        ? 0.9
-        : 0.8;
-      const changeFrequency = isHome ? 'daily' : 'weekly';
-
-      const languagesMap: Record<string, string> = {};
-      for (const l of LOCALES) {
-        languagesMap[l] = `${baseUrl}/${l}${path}`;
-      }
-      languagesMap['x-default'] = `${baseUrl}/en${path}`;
-
-      sitemapEntries.push({
-        url: `${baseUrl}/${locale}${path}`,
-        lastModified: currentDate,
-        changeFrequency: changeFrequency as any,
-        priority,
-        alternates: {
-          languages: languagesMap,
-        },
-      });
+    const languagesMap: Record<string, string> = {};
+    for (const l of LOCALES) {
+      languagesMap[l] = `${baseUrl}/${l}${path}`;
     }
-  }
+    languagesMap['x-default'] = `${baseUrl}/en${path}`;
 
-  return sitemapEntries;
+    return {
+      url: `${baseUrl}/${locale}${path}`,
+      lastModified: lastmod,
+      changeFrequency: changeFrequency as any,
+      priority,
+      alternates: {
+        languages: languagesMap,
+      },
+    };
+  });
 }

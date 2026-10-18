@@ -24,6 +24,9 @@ export async function generateMetadata({
 }: PilgrimCountryPageProps): Promise<Metadata> {
   const c = PILGRIM_COUNTRIES[country];
   if (!c) return {};
+  if (country === 'greece' && locale !== 'en') {
+    return { robots: { index: false, follow: false } };
+  }
   const isMatchLocale = locale === c.primaryLanguage;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
 
@@ -33,12 +36,13 @@ export async function generateMetadata({
     alternates: {
       canonical: `${baseUrl}/${locale}/pilgrims/${country}`,
     },
+    ...(c.noindex ? { robots: { index: false, follow: true } } : {}),
   };
 }
 
 export default function PilgrimCountryPage({ params: { locale, country } }: PilgrimCountryPageProps) {
   const c = PILGRIM_COUNTRIES[country];
-  if (!c) {
+  if (!c || (country === 'greece' && locale !== 'en')) {
     notFound();
   }
 

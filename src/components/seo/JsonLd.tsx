@@ -81,10 +81,6 @@ export function JsonLd({ locale, dict, settings }: JsonLdProps) {
           longitude: 39.1728,
         },
       },
-      {
-        '@type': 'City',
-        name: 'Riyadh',
-      },
     ],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',

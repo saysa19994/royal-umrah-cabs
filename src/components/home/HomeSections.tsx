@@ -204,7 +204,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
     },
     {
       name: 'Abu Fahad Al-Otaibi',
-      country: 'Riyadh, Saudi Arabia',
+      country: 'Al-Khobar, Saudi Arabia',
       date: 'October 2026',
       route: 'Makkah → Madinah Central',
       comment: locale === 'ar'
