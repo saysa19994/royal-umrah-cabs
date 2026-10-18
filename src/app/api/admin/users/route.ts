@@ -1,63 +1,45 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { requireRole } from '@/lib/auth/server-auth';
+import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
+import { getClientIp } from '@/lib/rate-limit';
 import { UserProfile, Role } from '@/types/auth';
 
-let memoryUsers: UserProfile[] = [
-  {
-    id: 'usr-owner-1',
-    email: 'owner@royalumrahcabs.com',
-    name: 'Executive Owner',
-    role: 'owner',
-    assigned_whatsapp_number: '966567588261',
-    is_suspended: false,
-    totp_enabled: true,
-    last_login_at: new Date(Date.now() - 3600000).toISOString(),
-    created_at: '2026-10-01T00:00:00.000Z',
-  },
-  {
-    id: 'usr-operator-1',
-    email: 'operator@royalumrahcabs.com',
-    name: 'Secondary Dispatcher (Friend)',
-    role: 'operator',
-    assigned_whatsapp_number: '966505316971',
-    is_suspended: false,
-    totp_enabled: false,
-    last_login_at: new Date(Date.now() - 7200000).toISOString(),
-    created_at: '2026-10-05T00:00:00.000Z',
-  },
-  {
-    id: 'usr-admin-1',
-    email: 'admin@royalumrahcabs.com',
-    name: 'Operations Manager',
-    role: 'admin',
-    assigned_whatsapp_number: '966567588261',
-    is_suspended: false,
-    totp_enabled: true,
-    last_login_at: null,
-    created_at: '2026-10-06T00:00:00.000Z',
-  },
-];
-
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    try {
-      const supabase = createClient();
-      const { data, error } = await supabase.from('user_profiles').select('*').order('created_at');
-      if (!error && data && data.length > 0) {
-        return NextResponse.json({ users: data });
-      }
-    } catch (e) {
-      console.warn('Supabase users fallback:', e);
+    const authResult = await requireRole(request, ['owner', 'admin']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
     }
-    return NextResponse.json({ users: memoryUsers });
+
+    const serviceClient = createServiceClient();
+    // NEVER expose totp_secret
+    const { data, error } = await serviceClient
+      .from('user_profiles')
+      .select('id, auth_user_id, email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled, last_login_at, created_at')
+      .order('created_at');
+
+    if (error) {
+      console.error('Supabase users error:', error);
+      return NextResponse.json({ error: 'Failed to retrieve users from database' }, { status: 500 });
+    }
+
+    return NextResponse.json({ users: data || [] });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error('Admin users GET error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
+    const clientIp = getClientIp(request);
+    const authResult = await requireRole(request, ['owner', 'admin']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
+    }
+
+    const { user: currentUser } = authResult;
     const body = await request.json();
     const { name, email, role, assigned_whatsapp_number } = body;
     const cleanEmail = (email || '').trim().toLowerCase();
@@ -67,57 +49,87 @@ export async function POST(request: Request) {
     }
 
     if (role === 'owner') {
-      return NextResponse.json({ error: 'Direct creation of secondary owner is forbidden. Use ownership transfer.' }, { status: 403 });
+      return NextResponse.json(
+        { error: 'Direct creation of secondary owner is forbidden. Use ownership transfer.' },
+        { status: 403 }
+      );
     }
 
-    const newUser: UserProfile = {
-      id: `usr-${Date.now()}`,
+    // Only owner can create admin accounts
+    if (role === 'admin' && currentUser.role !== 'owner') {
+      return NextResponse.json(
+        { error: 'Forbidden: Only the owner can appoint admin roles.' },
+        { status: 403 }
+      );
+    }
+
+    const serviceClient = createServiceClient();
+    const newUser = {
       email: cleanEmail,
       name: name.trim(),
       role: role as Role,
       assigned_whatsapp_number: assigned_whatsapp_number || null,
       is_suspended: false,
       totp_enabled: false,
-      last_login_at: null,
-      created_at: new Date().toISOString(),
     };
 
-    try {
-      const supabase = createClient();
-      await supabase.from('user_profiles').insert(newUser);
-    } catch (e) {
-      console.warn('DB insert fallback:', e);
+    const { data, error } = await serviceClient
+      .from('user_profiles')
+      .insert(newUser)
+      .select('id, email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled, created_at')
+      .single();
+
+    if (error || !data) {
+      console.error('Failed to create user in database:', error);
+      return NextResponse.json({ error: 'Failed to create user profile in database' }, { status: 500 });
     }
 
-    memoryUsers.push(newUser);
-
     await logAuditEvent({
-      userEmail: 'owner@royalumrahcabs.com',
-      userRole: 'owner',
+      userEmail: currentUser.email,
+      userRole: currentUser.role,
       action: 'user_invited',
       resource: 'users',
-      resourceId: newUser.id,
-      newValues: { name: newUser.name, email: newUser.email, role: newUser.role, scope: newUser.assigned_whatsapp_number },
+      resourceId: data.id,
+      newValues: { name: data.name, email: data.email, role: data.role, scope: data.assigned_whatsapp_number },
+      ip: clientIp,
     });
 
-    return NextResponse.json({ success: true, user: newUser });
+    return NextResponse.json({ success: true, user: data });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error('Admin users POST error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function PUT(request: Request) {
   try {
+    const clientIp = getClientIp(request);
+    const authResult = await requireRole(request, ['owner', 'admin']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
+    }
+
+    const { user: currentUser } = authResult;
     const body = await request.json();
     const { id, role, assigned_whatsapp_number, is_suspended } = body;
 
-    const user = memoryUsers.find((u) => u.id === id);
-    if (!user) {
+    if (!id) {
+      return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+    }
+
+    const serviceClient = createServiceClient();
+    const { data: targetUser, error: findError } = await serviceClient
+      .from('user_profiles')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (findError || !targetUser) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     // STRICT OWNER PROTECTION:
-    if (user.role === 'owner') {
+    if (targetUser.role === 'owner') {
       if (is_suspended === true) {
         return NextResponse.json({ error: 'Violation: The Owner cannot be suspended or locked out.' }, { status: 403 });
       }
@@ -126,42 +138,60 @@ export async function PUT(request: Request) {
       }
     }
 
-    const oldValues = { role: user.role, is_suspended: user.is_suspended, scope: user.assigned_whatsapp_number };
+    // Non-owners cannot promote someone to admin or modify admins
+    if (currentUser.role !== 'owner' && (targetUser.role === 'admin' || role === 'admin')) {
+      return NextResponse.json(
+        { error: 'Forbidden: Only the owner can modify administrator accounts.' },
+        { status: 403 }
+      );
+    }
 
-    if (role) user.role = role as Role;
-    if (assigned_whatsapp_number !== undefined) user.assigned_whatsapp_number = assigned_whatsapp_number;
-    if (is_suspended !== undefined) user.is_suspended = Boolean(is_suspended);
+    const updates: Record<string, any> = {
+      updated_at: new Date().toISOString(),
+    };
+    if (role) updates.role = role as Role;
+    if (assigned_whatsapp_number !== undefined) updates.assigned_whatsapp_number = assigned_whatsapp_number;
+    if (is_suspended !== undefined) updates.is_suspended = Boolean(is_suspended);
 
-    try {
-      const supabase = createClient();
-      await supabase.from('user_profiles').update({
-        role: user.role,
-        assigned_whatsapp_number: user.assigned_whatsapp_number,
-        is_suspended: user.is_suspended,
-        updated_at: new Date().toISOString(),
-      }).eq('id', id);
-    } catch (e) {
-      console.warn('DB update fallback:', e);
+    const { data: updated, error: updateErr } = await serviceClient
+      .from('user_profiles')
+      .update(updates)
+      .eq('id', id)
+      .select('id, email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled, updated_at')
+      .single();
+
+    if (updateErr || !updated) {
+      console.error('Failed to update user profile:', updateErr);
+      return NextResponse.json({ error: 'Failed to update user in database' }, { status: 500 });
     }
 
     await logAuditEvent({
-      userEmail: 'owner@royalumrahcabs.com',
-      userRole: 'owner',
+      userEmail: currentUser.email,
+      userRole: currentUser.role,
       action: 'user_updated',
       resource: 'users',
-      resourceId: user.id,
-      oldValues,
-      newValues: { role: user.role, is_suspended: user.is_suspended, scope: user.assigned_whatsapp_number },
+      resourceId: id,
+      oldValues: { role: targetUser.role, is_suspended: targetUser.is_suspended, scope: targetUser.assigned_whatsapp_number },
+      newValues: updates,
+      ip: clientIp,
     });
 
-    return NextResponse.json({ success: true, user });
+    return NextResponse.json({ success: true, user: updated });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error('Admin users PUT error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function DELETE(request: Request) {
   try {
+    const clientIp = getClientIp(request);
+    const authResult = await requireRole(request, ['owner']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
+    }
+
+    const { user: currentUser } = authResult;
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
@@ -169,37 +199,45 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
     }
 
-    const targetUser = memoryUsers.find((u) => u.id === id);
-    if (!targetUser) {
+    const serviceClient = createServiceClient();
+    const { data: targetUser, error: findError } = await serviceClient
+      .from('user_profiles')
+      .select('id, email, role')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (findError || !targetUser) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // STRICT PROTECTION: Owner CANNOT be deleted
     if (targetUser.role === 'owner') {
       return NextResponse.json({ error: 'Violation: The system Owner cannot be deleted under any circumstances.' }, { status: 403 });
     }
 
-    memoryUsers = memoryUsers.filter((u) => u.id !== id);
+    const { error: delError } = await serviceClient
+      .from('user_profiles')
+      .delete()
+      .eq('id', id);
 
-    try {
-      const supabase = createClient();
-      await supabase.from('user_profiles').delete().eq('id', id);
-    } catch (e) {
-      console.warn('DB delete fallback:', e);
+    if (delError) {
+      console.error('Failed to delete user profile:', delError);
+      return NextResponse.json({ error: 'Failed to delete user from database' }, { status: 500 });
     }
 
     await logAuditEvent({
-      userEmail: 'owner@royalumrahcabs.com',
-      userRole: 'owner',
+      userEmail: currentUser.email,
+      userRole: currentUser.role,
       action: 'user_revoked',
       resource: 'users',
       resourceId: id,
       oldValues: { email: targetUser.email, role: targetUser.role },
       newValues: null,
+      ip: clientIp,
     });
 
     return NextResponse.json({ success: true, message: 'User access revoked successfully' });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error('Admin users DELETE error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

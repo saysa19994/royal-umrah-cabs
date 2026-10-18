@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
+import { requireRole } from '@/lib/auth/server-auth';
 import { getAuditLogs } from '@/lib/audit';
 
 export async function GET(request: Request) {
   try {
+    const authResult = await requireRole(request, ['owner', 'admin']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
+    }
+
     const { searchParams } = new URL(request.url);
     const userEmail = searchParams.get('user') || undefined;
     const action = searchParams.get('action') || undefined;
@@ -45,6 +51,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ logs });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error('Audit log GET error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

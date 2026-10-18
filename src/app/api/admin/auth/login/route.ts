@@ -1,46 +1,16 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 import { UserProfile, Role } from '@/types/auth';
-
-// In-memory rate limiting and login lockout map
-interface AttemptTracker {
-  attempts: number;
-  lockoutUntil: number;
-}
-const loginAttempts: Map<string, AttemptTracker> = new Map();
-
-// Default initial profiles
-const DEFAULT_PROFILES: UserProfile[] = [
-  {
-    id: 'usr-owner-1',
-    email: 'owner@royalumrahcabs.com',
-    name: 'Executive Owner',
-    role: 'owner',
-    assigned_whatsapp_number: '966567588261',
-    is_suspended: false,
-    totp_enabled: true,
-    last_login_at: new Date().toISOString(),
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: 'usr-operator-1',
-    email: 'operator@royalumrahcabs.com',
-    name: 'Secondary Dispatcher (Friend)',
-    role: 'operator',
-    assigned_whatsapp_number: '966505316971',
-    is_suspended: false,
-    totp_enabled: false,
-    last_login_at: null,
-    created_at: new Date().toISOString(),
-  },
-];
 
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    const clientIp = getClientIp(request);
+    const body = await request.json();
+    const { email, password } = body;
     const cleanEmail = (email || '').trim().toLowerCase();
-    const clientIp = request.headers.get('x-forwarded-for') || '127.0.0.1';
 
     if (!cleanEmail || !password) {
       return NextResponse.json(
@@ -49,66 +19,32 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check rate limit / lockout
-    const tracker = loginAttempts.get(cleanEmail) || { attempts: 0, lockoutUntil: 0 };
-    if (tracker.lockoutUntil > Date.now()) {
-      const waitMin = Math.ceil((tracker.lockoutUntil - Date.now()) / 60000);
+    // Rate limiting: checked both per IP and per (IP + Account)
+    const ipRate = await rateLimit(`login_ip:${clientIp}`, 10, 60); // 10 per minute per IP
+    const accountRate = await rateLimit(`login_acc:${clientIp}:${cleanEmail}`, 5, 300); // 5 attempts per 5 min
+
+    if (!ipRate.success || !accountRate.success) {
       return NextResponse.json(
-        { error: `Account temporarily locked due to excessive failed attempts. Try again in ${waitMin} minutes.` },
+        { error: 'Too many login attempts. Please wait before trying again.' },
         { status: 429 }
       );
     }
 
-    let authenticated = false;
-    let userProfile: UserProfile | null = null;
+    // 1. Supabase Auth via cookie-based server client
+    const supabase = createClient();
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email: cleanEmail,
+      password,
+    });
 
-    // 1. Attempt Supabase Auth
-    try {
-      const supabase = createClient();
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-        email: cleanEmail,
-        password,
-      });
-
-      if (!authError && authData?.user) {
-        authenticated = true;
-        // Fetch extended profile
-        const { data: profileData } = await supabase
-          .from('user_profiles')
-          .select('*')
-          .eq('email', cleanEmail)
-          .maybeSingle();
-
-        if (profileData) {
-          userProfile = profileData as UserProfile;
-        }
-      }
-    } catch (e) {
-      console.warn('Supabase auth attempt notice:', e);
-    }
-
-    // 2. Check profile fallback if Supabase DB is offline or in local setup
-    if (!userProfile) {
-      userProfile = DEFAULT_PROFILES.find((p) => p.email === cleanEmail) || null;
-      if (userProfile && password.length >= 8) {
-        authenticated = true;
-      }
-    }
-
-    if (!authenticated || !userProfile) {
-      tracker.attempts += 1;
-      if (tracker.attempts >= 5) {
-        tracker.lockoutUntil = Date.now() + 15 * 60 * 1000; // 15 min lock
-      }
-      loginAttempts.set(cleanEmail, tracker);
-
+    if (authError || !authData?.user) {
       await logAuditEvent({
         userEmail: cleanEmail,
         userRole: 'operator',
         action: 'login_failed',
         resource: 'auth',
         oldValues: null,
-        newValues: { reason: 'Invalid credentials', attempts: tracker.attempts },
+        newValues: { reason: 'Invalid email or password' },
         ip: clientIp,
       });
 
@@ -118,8 +54,28 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if account is suspended
+    // 2. Fetch extended staff profile using service-role client (cannot be bypassed)
+    const serviceClient = createServiceClient();
+    const { data: profileData, error: profileError } = await serviceClient
+      .from('user_profiles')
+      .select('id, auth_user_id, email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled, created_at')
+      .or(`auth_user_id.eq.${authData.user.id},email.eq.${cleanEmail}`)
+      .maybeSingle();
+
+    if (profileError || !profileData) {
+      // Sign out auth session if no profile exists
+      await supabase.auth.signOut();
+      return NextResponse.json(
+        { error: 'Access denied: No administrative profile found for this account.' },
+        { status: 403 }
+      );
+    }
+
+    const userProfile = profileData as UserProfile;
+
+    // 3. Check account suspension
     if (userProfile.is_suspended) {
+      await supabase.auth.signOut();
       await logAuditEvent({
         userEmail: cleanEmail,
         userRole: userProfile.role,
@@ -130,25 +86,38 @@ export async function POST(request: Request) {
         ip: clientIp,
       });
       return NextResponse.json(
-        { error: 'This account has been suspended. Please contact the owner.' },
+        { error: 'This account has been suspended. Please contact the executive owner.' },
         { status: 403 }
       );
     }
 
-    // Reset failed attempts on success
-    loginAttempts.delete(cleanEmail);
+    // 4. Update last_login
+    await serviceClient
+      .from('user_profiles')
+      .update({
+        last_login_at: new Date().toISOString(),
+        last_login_ip: clientIp,
+        auth_user_id: authData.user.id,
+      })
+      .eq('id', userProfile.id);
 
-    // 3. Check 2FA requirement for owner and admin
-    if (userProfile.role === 'owner' || userProfile.role === 'admin' || userProfile.totp_enabled) {
+    // 5. Enforce 2FA MFA TOTP for Owner and Admin, or any account with totp_enabled
+    const isOwnerOrAdmin = userProfile.role === 'owner' || userProfile.role === 'admin';
+    if (isOwnerOrAdmin || userProfile.totp_enabled) {
+      // Check if user has enrolled TOTP factors in Supabase MFA
+      const { data: factors } = await supabase.auth.mfa.listFactors();
+      const totpFactor = factors?.totp?.find((f) => f.status === 'verified');
+
       return NextResponse.json({
         require2fa: true,
+        factorId: totpFactor?.id || null,
         email: userProfile.email,
         role: userProfile.role,
         message: 'Two-Factor Authentication required. Enter the 6-digit code from your authenticator app.',
       });
     }
 
-    // Login complete for scoped operators / drivers
+    // Scoped operator login complete
     await logAuditEvent({
       userEmail: cleanEmail,
       userRole: userProfile.role,
@@ -170,6 +139,10 @@ export async function POST(request: Request) {
       },
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Internal server error' }, { status: 500 });
+    console.error('Login error:', err);
+    return NextResponse.json(
+      { error: 'An unexpected authentication error occurred' },
+      { status: 500 }
+    );
   }
 }

@@ -1,64 +1,80 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { requireRole } from '@/lib/auth/server-auth';
+import { createServiceClient } from '@/lib/supabase/service';
+import { logAuditEvent } from '@/lib/audit';
+import { getClientIp } from '@/lib/rate-limit';
 
-let memoryFleet = [
-  { id: 'staria', name: 'Hyundai Staria VIP', category: 'Family Van', seats: 7, bags: 6, is_active: true },
-  { id: 'yukon', name: 'GMC Yukon XL', category: 'Luxury VIP SUV', seats: 7, bags: 8, is_active: true },
-  { id: 'camry', name: 'Toyota Camry Sedan', category: 'Standard Sedan', seats: 4, bags: 3, is_active: true },
-  { id: 'hiace', name: 'Toyota HiAce Minibus', category: 'Group Minibus', seats: 10, bags: 10, is_active: true },
-  { id: 'coaster', name: 'Toyota Coaster VIP', category: 'Luxury Bus', seats: 21, bags: 20, is_active: true },
-];
-
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    try {
-      const supabase = createClient();
-      const { data, error } = await supabase.from('vehicles').select('*').order('display_order');
-      if (!error && data && data.length > 0) {
-        return NextResponse.json({ fleet: data });
-      }
-    } catch (e) {
-      console.warn('Fleet DB fallback:', e);
+    const authResult = await requireRole(request, ['owner', 'admin']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
     }
-    return NextResponse.json({ fleet: memoryFleet });
+
+    const serviceClient = createServiceClient();
+    const { data, error } = await serviceClient
+      .from('vehicles')
+      .select('*')
+      .order('display_order');
+
+    if (error) {
+      console.error('Fleet DB error:', error);
+      return NextResponse.json({ error: 'Failed to retrieve fleet from database' }, { status: 500 });
+    }
+
+    return NextResponse.json({ fleet: data || [] });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error('Fleet GET error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function PATCH(request: Request) {
   try {
+    const clientIp = getClientIp(request);
+    const authResult = await requireRole(request, ['owner', 'admin']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
+    }
+
+    const { user: currentUser } = authResult;
     const { id, is_active, seats, bags } = await request.json();
 
     if (!id) {
       return NextResponse.json({ error: 'Vehicle ID required' }, { status: 400 });
     }
 
-    try {
-      const supabase = createClient();
-      const updates: any = {};
-      if (is_active !== undefined) updates.is_active = is_active;
-      if (seats !== undefined) updates.seats = seats;
-      if (bags !== undefined) updates.bags = bags;
+    const serviceClient = createServiceClient();
+    const updates: any = { updated_at: new Date().toISOString() };
+    if (is_active !== undefined) updates.is_active = is_active;
+    if (seats !== undefined) updates.seats = seats;
+    if (bags !== undefined) updates.bags = bags;
 
-      const { data, error } = await supabase.from('vehicles').update(updates).eq('id', id).select().single();
-      if (!error && data) {
-        return NextResponse.json({ success: true, vehicle: data });
-      }
-    } catch (e) {
-      console.warn('Fleet update DB fallback:', e);
+    const { data, error } = await serviceClient
+      .from('vehicles')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error || !data) {
+      console.error('Fleet update DB error:', error);
+      return NextResponse.json({ error: 'Failed to update vehicle in database' }, { status: 500 });
     }
 
-    const idx = memoryFleet.findIndex((v) => v.id === id);
-    if (idx !== -1) {
-      if (is_active !== undefined) memoryFleet[idx].is_active = is_active;
-      if (seats !== undefined) memoryFleet[idx].seats = seats;
-      if (bags !== undefined) memoryFleet[idx].bags = bags;
-      return NextResponse.json({ success: true, vehicle: memoryFleet[idx] });
-    }
+    await logAuditEvent({
+      userEmail: currentUser.email,
+      userRole: currentUser.role,
+      action: 'vehicle_updated',
+      resource: 'fleet',
+      resourceId: id,
+      newValues: updates,
+      ip: clientIp,
+    });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, vehicle: data });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error('Fleet PATCH error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

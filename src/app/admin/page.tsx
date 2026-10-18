@@ -58,22 +58,10 @@ export default function AdminDashboardPage() {
 
   const [currentUser, setCurrentUser] = useState<any>(null);
 
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem('ruc_admin_user');
-      if (stored) {
-        setCurrentUser(JSON.parse(stored));
-      }
-    } catch {}
-  }, []);
-
   const fetchBookings = async () => {
     setLoading(true);
     try {
-      let url = `/api/admin/bookings?status=${statusFilter}`;
-      if (currentUser?.role === 'operator' && currentUser?.assigned_whatsapp_number) {
-        url += `&whatsapp_number=${encodeURIComponent(currentUser.assigned_whatsapp_number)}`;
-      }
+      const url = `/api/admin/bookings?status=${statusFilter}`;
       const res = await fetch(url);
       const data = await res.json();
       if (data.bookings) {
@@ -88,7 +76,7 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     fetchBookings();
-  }, [statusFilter, currentUser]);
+  }, [statusFilter]);
 
   const updateStatus = async (id: string, newStatus: string) => {
     try {

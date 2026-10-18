@@ -1,34 +1,49 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { FALLBACK_WHATSAPP_NUMBERS } from '@/lib/whatsapp-routing';
+import { requireRole } from '@/lib/auth/server-auth';
+import { createServiceClient } from '@/lib/supabase/service';
+import { logAuditEvent } from '@/lib/audit';
+import { getClientIp } from '@/lib/rate-limit';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const supabase = createClient();
-    const { data, error } = await supabase
+    const authResult = await requireRole(request, ['owner', 'admin']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
+    }
+
+    const serviceClient = createServiceClient();
+    const { data, error } = await serviceClient
       .from('whatsapp_numbers')
       .select('*')
       .order('priority', { ascending: true });
 
-    if (error || !data || data.length === 0) {
-      return NextResponse.json({ success: true, numbers: FALLBACK_WHATSAPP_NUMBERS });
+    if (error) {
+      console.error('Error fetching whatsapp_numbers:', error);
+      return NextResponse.json({ success: false, error: 'Database error' }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true, numbers: data });
+    return NextResponse.json({ success: true, numbers: data || [] });
   } catch (err: any) {
-    return NextResponse.json({ success: true, numbers: FALLBACK_WHATSAPP_NUMBERS });
+    console.error('Admin whatsapp GET error:', err);
+    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function PATCH(request: Request) {
   try {
+    const clientIp = getClientIp(request);
+    const authResult = await requireRole(request, ['owner', 'admin']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
+    }
+
+    const { user: currentUser } = authResult;
     const body = await request.json();
     const { id, is_active, label, number, routing_rule, priority, assigned_languages } = body;
 
-    const supabase = createClient();
+    const serviceClient = createServiceClient();
 
     if (id) {
-      // Update individual record
       const updates: Record<string, any> = {
         updated_at: new Date().toISOString(),
       };
@@ -39,44 +54,47 @@ export async function PATCH(request: Request) {
       if (priority !== undefined) updates.priority = priority;
       if (assigned_languages !== undefined) updates.assigned_languages = assigned_languages;
 
-      const { data, error } = await supabase
+      const { data, error } = await serviceClient
         .from('whatsapp_numbers')
         .update(updates)
         .eq('id', id)
         .select()
         .single();
 
-      if (error) {
+      if (error || !data) {
         console.error('Error updating whatsapp_number:', error);
-        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+        return NextResponse.json({ success: false, error: 'Failed to update number' }, { status: 500 });
       }
 
-      await supabase.from('audit_log').insert({
-        entity_type: 'whatsapp_number',
-        entity_id: id,
-        action: 'update',
-        new_values: updates,
-        performed_by: 'admin_user',
+      await logAuditEvent({
+        userEmail: currentUser.email,
+        userRole: currentUser.role,
+        action: 'whatsapp_number_update',
+        resource: 'whatsapp',
+        resourceId: id,
+        newValues: updates,
+        ip: clientIp,
       });
 
       return NextResponse.json({ success: true, updated: data });
     } else if (routing_rule) {
-      // Update routing rule globally across all active records
-      const { error } = await supabase
+      const { error } = await serviceClient
         .from('whatsapp_numbers')
         .update({ routing_rule, updated_at: new Date().toISOString() })
         .neq('id', '00000000-0000-0000-0000-000000000000');
 
       if (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+        return NextResponse.json({ success: false, error: 'Failed to update routing rule' }, { status: 500 });
       }
 
-      await supabase.from('audit_log').insert({
-        entity_type: 'whatsapp_routing',
-        entity_id: 'global',
-        action: 'rule_change',
-        new_values: { routing_rule },
-        performed_by: 'admin_user',
+      await logAuditEvent({
+        userEmail: currentUser.email,
+        userRole: currentUser.role,
+        action: 'whatsapp_rule_change',
+        resource: 'whatsapp',
+        resourceId: 'global',
+        newValues: { routing_rule },
+        ip: clientIp,
       });
 
       return NextResponse.json({ success: true, message: `Routing rule updated to ${routing_rule}` });
@@ -84,12 +102,20 @@ export async function PATCH(request: Request) {
 
     return NextResponse.json({ success: false, error: 'Missing parameters' }, { status: 400 });
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    console.error('Admin whatsapp PATCH error:', err);
+    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
+    const clientIp = getClientIp(request);
+    const authResult = await requireRole(request, ['owner', 'admin']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
+    }
+
+    const { user: currentUser } = authResult;
     const body = await request.json();
     const { label, number, priority = 3, routing_rule = 'main_with_fallback', assigned_languages = ['en'] } = body;
 
@@ -98,9 +124,9 @@ export async function POST(request: Request) {
     }
 
     const cleanNumber = number.replace(/[^0-9]/g, '');
-    const supabase = createClient();
+    const serviceClient = createServiceClient();
 
-    const { data, error } = await supabase
+    const { data, error } = await serviceClient
       .from('whatsapp_numbers')
       .insert({
         label,
@@ -113,20 +139,23 @@ export async function POST(request: Request) {
       .select()
       .single();
 
-    if (error) {
-      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    if (error || !data) {
+      return NextResponse.json({ success: false, error: 'Failed to create WhatsApp number' }, { status: 500 });
     }
 
-    await supabase.from('audit_log').insert({
-      entity_type: 'whatsapp_number',
-      entity_id: data.id,
-      action: 'create',
-      new_values: { label, number: cleanNumber },
-      performed_by: 'admin_user',
+    await logAuditEvent({
+      userEmail: currentUser.email,
+      userRole: currentUser.role,
+      action: 'whatsapp_number_created',
+      resource: 'whatsapp',
+      resourceId: data.id,
+      newValues: { label, number: cleanNumber },
+      ip: clientIp,
     });
 
     return NextResponse.json({ success: true, created: data });
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    console.error('Admin whatsapp POST error:', err);
+    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }

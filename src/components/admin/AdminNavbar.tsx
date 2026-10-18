@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
@@ -18,37 +18,18 @@ import {
   UserCheck,
 } from 'lucide-react';
 import { UserProfile } from '@/types/auth';
+import { createClient } from '@/lib/supabase/client';
 
-export function AdminNavbar() {
+export function AdminNavbar({ initialUser }: { initialUser?: UserProfile | null }) {
   const pathname = usePathname();
   const router = useRouter();
-  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(initialUser || null);
 
-  useEffect(() => {
+  const handleLogout = async () => {
     try {
-      const stored = localStorage.getItem('ruc_admin_user');
-      if (stored) {
-        setCurrentUser(JSON.parse(stored));
-      } else {
-        // Default to owner view if directly opened in local admin
-        setCurrentUser({
-          id: 'usr-owner-1',
-          email: 'owner@royalumrahcabs.com',
-          name: 'Executive Owner',
-          role: 'owner',
-          is_suspended: false,
-          totp_enabled: true,
-          created_at: new Date().toISOString(),
-        });
-      }
-    } catch {
-      // fallback
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('ruc_admin_authenticated');
-    localStorage.removeItem('ruc_admin_user');
+      const supabase = createClient();
+      await supabase.auth.signOut();
+    } catch {}
     router.push('/admin/login');
   };
 

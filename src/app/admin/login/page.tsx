@@ -40,9 +40,8 @@ export default function AdminLoginPage() {
         setTempUserRole(data.role);
         setStep('totp');
       } else if (data.success && data.user) {
-        localStorage.setItem('ruc_admin_authenticated', 'true');
-        localStorage.setItem('ruc_admin_user', JSON.stringify(data.user));
         router.push('/admin');
+        router.refresh();
       }
     } catch (err: any) {
       setError(err.message || 'Invalid credentials.');
@@ -70,9 +69,8 @@ export default function AdminLoginPage() {
       }
 
       if (data.success && data.user) {
-        localStorage.setItem('ruc_admin_authenticated', 'true');
-        localStorage.setItem('ruc_admin_user', JSON.stringify(data.user));
         router.push('/admin');
+        router.refresh();
       }
     } catch (err: any) {
       setError(err.message || 'Verification failed');

@@ -47,7 +47,6 @@ export default function TeamPage({ params: { locale } }: TeamPageProps) {
       role: locale === 'ar' ? 'كبير سائقي مسار جدة - مكة' : 'Senior Highway Chauffeur (Jeddah — Makkah)',
       experience: locale === 'ar' ? '12 عاماً من الخبرة' : '12+ Years Experience',
       languages: 'Arabic, English',
-      rating: '4.98 / 5.0',
       desc:
         locale === 'ar'
           ? 'خبير بطرق مكة المكرمة والفنادق المحيطة بالحرم الشريف، معروف بالهدوء والحرص البالغ على راحة العائلات.'
@@ -60,7 +59,6 @@ export default function TeamPage({ params: { locale } }: TeamPageProps) {
       role: locale === 'ar' ? 'قائد رحلات مكة - المدينة والميقات' : 'Intercity Lead Chauffeur (Makkah — Madinah)',
       experience: locale === 'ar' ? '9 أعوام من الخبرة' : '9+ Years Experience',
       languages: 'Arabic, English, Malay (Basic)',
-      rating: '4.96 / 5.0',
       desc:
         locale === 'ar'
           ? 'يرافق المعتمرين في طريق الهجرة وميقات ذي الحليفة (مسجد بئر علي) مع التوقف المناسب في استراحات الطريق النظيفة.'
@@ -73,7 +71,6 @@ export default function TeamPage({ params: { locale } }: TeamPageProps) {
       role: locale === 'ar' ? 'كابتن جولات الزيارات الميدانية' : 'Ziyarat & Historical Sites Specialist',
       experience: locale === 'ar' ? '8 أعوام من الخبرة' : '8+ Years Experience',
       languages: 'English, Urdu, Arabic',
-      rating: '4.95 / 5.0',
       desc:
         locale === 'ar'
           ? 'معرفة عميقة بمعالم مكة التاريخية ومواقع السيرة النبوية بالمدينة المنورة ومسجد قباء وجبل أحد.'
@@ -86,7 +83,6 @@ export default function TeamPage({ params: { locale } }: TeamPageProps) {
       role: locale === 'ar' ? 'كابتن أسطول كبار الشخصيات GMC' : 'VIP Executive Fleet Chauffeur',
       experience: locale === 'ar' ? '10 أعوام من الخبرة' : '10+ Years Experience',
       languages: 'Arabic, English',
-      rating: '5.0 / 5.0',
       desc:
         locale === 'ar'
           ? 'متخصص في خدمة كبار الشخصيات والعائلات الكبيرة عبر أسطول الجمس والستاريا الفاخر مع مراعاة كامل الخصوصية.'
@@ -168,8 +164,8 @@ export default function TeamPage({ params: { locale } }: TeamPageProps) {
                     </p>
                   </div>
                   <div className="flex items-center gap-1 bg-gold-soft border border-gold-line px-2.5 py-1 rounded-full text-xs font-bold text-ink shrink-0">
-                    <Star className="w-3.5 h-3.5 text-gold-dark fill-gold-dark" />
-                    <span>{member.rating}</span>
+                    <ShieldCheck className="w-3.5 h-3.5 text-gold-dark" />
+                    <span>{locale === 'ar' ? 'سائق معتمد' : locale === 'ms' ? 'Disahkan' : 'Verified'}</span>
                   </div>
                 </div>
 

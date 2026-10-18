@@ -30,7 +30,7 @@ function getPreferredLocale(request: NextRequest): string {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // 1. Explicit legacy redirects to completely eliminate old cached files
+  // 1. Explicit legacy redirects to eliminate old cached HTML files
   if (pathname === '/admin.html') {
     const url = request.nextUrl.clone();
     url.pathname = '/admin/login';
@@ -72,8 +72,9 @@ export function middleware(request: NextRequest) {
     const targetLocale = getPreferredLocale(request);
     const url = request.nextUrl.clone();
     url.pathname = `/${targetLocale}${pathname === '/' ? '' : pathname}`;
-    const res = NextResponse.redirect(url, { status: 301 });
-    res.headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
+    // Use 307 temporary redirect for locale detection to avoid cache poisoning / sticky redirects
+    const res = NextResponse.redirect(url, { status: 307 });
+    res.headers.set('Cache-Control', 'private, no-cache, no-store, max-age=0, must-revalidate');
     return res;
   }
 

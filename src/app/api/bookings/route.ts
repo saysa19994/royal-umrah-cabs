@@ -1,84 +1,86 @@
 import { NextResponse } from 'next/server';
+import crypto from 'crypto';
 import { BookingSchema } from '@/types/booking';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/service';
 import { CURRENCIES, CurrencyCode, Locale } from '@/i18n/config';
-import { getSiteSettings } from '@/lib/settings';
 import { resolveWhatsAppNumber } from '@/lib/whatsapp-routing';
-
-// Fallback pricing matrix in SAR
-const BASE_RATES: Record<string, Record<string, number>> = {
-  'jeddah-airport-to-makkah': { camry: 200, staria: 260, yukon: 380, hiace: 340, coaster: 650 },
-  'makkah-to-jeddah-airport': { camry: 200, staria: 260, yukon: 380, hiace: 340, coaster: 650 },
-  'makkah-to-madinah': { camry: 450, staria: 500, yukon: 750, hiace: 650, coaster: 1200 },
-  'madinah-to-makkah': { camry: 450, staria: 500, yukon: 750, hiace: 650, coaster: 1200 },
-  'madinah-airport-to-hotel': { camry: 150, staria: 200, yukon: 300, hiace: 270, coaster: 550 },
-  'jeddah-to-madinah': { camry: 680, staria: 750, yukon: 1050, hiace: 950, coaster: 1600 },
-};
+import { calculateServerPrice } from '@/lib/pricing-server';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
+import { verifyTurnstileToken } from '@/lib/turnstile';
 
 export async function POST(request: Request) {
   try {
+    const clientIp = getClientIp(request);
+
+    // 1. Rate Limiting: 5 booking submissions per 10 minutes per IP
+    const rl = await rateLimit(`booking_sub:${clientIp}`, 5, 600);
+    if (!rl.success) {
+      return NextResponse.json(
+        { success: false, error: 'Too many booking requests. Please wait a few minutes before trying again.' },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
+
+    // 2. Anti-bot verification (Cloudflare Turnstile)
+    const turnstileToken = body['cf-turnstile-response'] || body.turnstile_token;
+    const turnstileCheck = await verifyTurnstileToken(turnstileToken, clientIp);
+    if (!turnstileCheck.success) {
+      return NextResponse.json(
+        { success: false, error: turnstileCheck.error || 'Bot verification failed.' },
+        { status: 400 }
+      );
+    }
+
+    // 3. Schema validation
     const validated = BookingSchema.parse(body);
 
-    const settings = await getSiteSettings();
-    let basePriceSAR = 450;
-
-    // 1. Calculate price based on booking type
-    if (validated.booking_type === 'transfer' && validated.route_id) {
-      try {
-        const supabase = createClient();
-        const { data } = await supabase
-          .from('prices')
-          .select('price_sar')
-          .eq('route_id', validated.route_id)
-          .eq('vehicle_id', validated.vehicle_id)
-          .single();
-
-        if (data && data.price_sar) {
-          basePriceSAR = Number(data.price_sar);
-        } else if (BASE_RATES[validated.route_id]?.[validated.vehicle_id]) {
-          basePriceSAR = BASE_RATES[validated.route_id][validated.vehicle_id];
-        }
-      } catch {
-        if (BASE_RATES[validated.route_id]?.[validated.vehicle_id]) {
-          basePriceSAR = BASE_RATES[validated.route_id][validated.vehicle_id];
-        }
-      }
-    } else if (validated.booking_type === 'hourly') {
-      basePriceSAR = 400; // default 4 hours
-    } else if (validated.booking_type === 'ziyarat') {
-      basePriceSAR = 300; // standard holy sites
-    } else if (validated.booking_type === 'group_bus') {
-      basePriceSAR = 800; // coaster / bus
-    }
-
-    // 2. Check active seasonal multiplier
-    let multiplier = 1.0;
+    // 4. Compute price strictly server-side from database (fail closed if invalid)
+    let pricingResult;
     try {
-      const supabase = createClient();
-      const { data } = await supabase
-        .from('seasonal_multipliers')
-        .select('multiplier')
-        .eq('is_active', true)
-        .single();
-
-      if (data && data.multiplier) {
-        multiplier = Number(data.multiplier);
-      }
-    } catch {
-      multiplier = 1.0;
+      pricingResult = await calculateServerPrice({
+        bookingType: validated.booking_type,
+        routeId: validated.route_id,
+        vehicleId: validated.vehicle_id,
+        currency: validated.currency,
+      });
+    } catch (calcErr: any) {
+      console.error('Database pricing computation error:', calcErr);
+      return NextResponse.json(
+        { success: false, error: 'Unable to calculate price for the requested itinerary. Please contact dispatch via WhatsApp.' },
+        { status: 400 }
+      );
     }
 
-    const finalPriceSAR = Math.round(basePriceSAR * multiplier);
+    const { basePriceSAR, multiplier, finalPriceSAR, currency: currKey, finalPriceCurrency } = pricingResult;
 
-    // 3. Convert to requested currency
-    const currKey = (validated.currency || 'SAR') as CurrencyCode;
-    const currRate = CURRENCIES[currKey]?.rateFromSAR || 1.0;
-    const finalPriceCurrency = Math.round(finalPriceSAR * currRate);
+    // 5. Generate cryptographically secure booking reference (10+ characters with unique retry)
+    const serviceClient = createServiceClient();
+    let reference = '';
+    let isUnique = false;
+    let attempts = 0;
 
-    // 4. Generate unique reference (e.g. RUC-74198)
-    const randomSuffix = Math.floor(10000 + Math.random() * 90000);
-    const reference = `RUC-${randomSuffix}`;
+    while (!isUnique && attempts < 5) {
+      attempts++;
+      const randToken = crypto.randomBytes(5).toString('hex').toUpperCase(); // 10 hex chars
+      const candidateRef = `RUC-${randToken}`; // e.g. RUC-A7B8C9D0E1 (14 chars)
+
+      const { data: existing } = await serviceClient
+        .from('bookings')
+        .select('id')
+        .eq('reference', candidateRef)
+        .maybeSingle();
+
+      if (!existing) {
+        reference = candidateRef;
+        isUnique = true;
+      }
+    }
+
+    if (!reference) {
+      reference = `RUC-${crypto.randomBytes(6).toString('hex').toUpperCase()}`;
+    }
 
     const bookingPayload = {
       reference,
@@ -107,33 +109,34 @@ export async function POST(request: Request) {
       language: validated.language || 'en',
     };
 
-    // 5. Persist to Supabase
-    let bookingId = `temp-${Date.now()}`;
-    try {
-      const supabase = createClient();
-      const { data, error } = await supabase
-        .from('bookings')
-        .insert([bookingPayload])
-        .select('id, reference')
-        .single();
+    // 6. Persist to database using service-role client - FAIL CLOSED ON FAILURE
+    const { data: insertedBooking, error: insertError } = await serviceClient
+      .from('bookings')
+      .insert([bookingPayload])
+      .select('id, reference')
+      .single();
 
-      if (data && !error) {
-        bookingId = data.id;
-
-        // Audit log entry
-        await supabase.from('audit_log').insert({
-          entity_type: 'booking',
-          entity_id: data.id,
-          action: 'create',
-          new_values: { reference, customer_name: validated.customer_name, finalPriceSAR },
-          performed_by: 'customer_online',
-        });
-      }
-    } catch (err) {
-      console.error('Error inserting booking in database:', err);
+    if (insertError || !insertedBooking) {
+      console.error('Database insert failed for booking:', insertError);
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Could not record your reservation in the database. Please try again or book directly via WhatsApp.',
+        },
+        { status: 500 }
+      );
     }
 
-    // 6. Assign WhatsApp operator dynamically based on routing rules
+    // Audit log
+    await serviceClient.from('audit_log').insert({
+      entity_type: 'booking',
+      entity_id: insertedBooking.id,
+      action: 'create',
+      new_values: { reference, customer_name: validated.customer_name, finalPriceSAR },
+      performed_by: 'customer_online',
+    });
+
+    // 7. Resolve WhatsApp operator routing
     const lang = (validated.language as Locale) || 'en';
     const assignedOperator = await resolveWhatsAppNumber(lang);
     const currSymbol = CURRENCIES[currKey]?.symbol || 'SAR';
@@ -157,7 +160,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       booking: {
-        id: bookingId,
+        id: insertedBooking.id,
         reference,
         finalPriceSAR,
         currency: currKey,
@@ -176,7 +179,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        error: error?.errors ? error.errors[0]?.message : 'Invalid booking submission',
+        error: error?.errors ? error.errors[0]?.message : 'Invalid booking submission data',
       },
       { status: 400 }
     );

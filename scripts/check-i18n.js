@@ -4,6 +4,23 @@ const path = require('path');
 const locales = ['en', 'ar', 'ms', 'fr', 'es', 'id', 'hi', 'de', 'ur'];
 const dictDir = path.join(__dirname, '..', 'src', 'i18n', 'dictionaries');
 
+// Allowed identical keys across languages (brand names, proper nouns, international acronyms)
+const ALLOWED_IDENTICAL_KEYS = new Set([
+  'meta.brand',
+  'meta.brandSub',
+  'fleet.stariaName',
+  'fleet.yukonName',
+  'fleet.camryName',
+  'fleet.hiaceName',
+  'fleet.coasterName',
+  'routes.jeddahAirportMakkah',
+  'routes.makkahMadinah',
+  'routes.makkahJeddahAirport',
+  'routes.madinahMakkah',
+  'routes.madinahAirportHotel',
+  'routes.jeddahMadinah',
+]);
+
 function flattenKeys(obj, prefix = '') {
   let keys = [];
   for (const k of Object.keys(obj)) {
@@ -21,7 +38,7 @@ function getValueByPath(obj, pathStr) {
   return pathStr.split('.').reduce((acc, part) => acc && acc[part], obj);
 }
 
-console.log('--- STARTING STRICT i18n VALIDATION ---');
+console.log('--- STARTING STRICT i18n VALIDATION & INTEGRITY CHECK ---');
 
 const masterPath = path.join(dictDir, 'en.json');
 if (!fs.existsSync(masterPath)) {
@@ -53,46 +70,57 @@ for (const loc of locales) {
     continue;
   }
 
-  const targetKeys = flattenKeys(targetDict);
   const missingKeys = [];
   const emptyKeys = [];
+  const untranslatedKeys = [];
 
   for (const key of masterKeys) {
-    const val = getValueByPath(targetDict, key);
-    if (val === undefined) {
+    const masterVal = getValueByPath(masterDict, key);
+    const targetVal = getValueByPath(targetDict, key);
+
+    if (targetVal === undefined) {
       missingKeys.push(key);
-    } else if (typeof val === 'string' && val.trim() === '') {
+    } else if (typeof targetVal === 'string' && targetVal.trim() === '') {
       emptyKeys.push(key);
+    } else if (
+      typeof masterVal === 'string' &&
+      typeof targetVal === 'string' &&
+      masterVal.trim().length > 3 &&
+      targetVal.trim() === masterVal.trim() &&
+      !ALLOWED_IDENTICAL_KEYS.has(key)
+    ) {
+      // Disallow untranslated English placeholder strings in non-English dictionaries
+      untranslatedKeys.push(key);
     }
   }
 
   if (missingKeys.length > 0) {
     console.error(`\n❌ [FAIL] Missing ${missingKeys.length} keys in "${loc}.json":`);
-    missingKeys.forEach(k => console.error(`   - ${k}`));
+    missingKeys.slice(0, 15).forEach(k => console.error(`   - ${k}`));
     hasError = true;
   }
 
   if (emptyKeys.length > 0) {
     console.error(`\n❌ [FAIL] Empty string in ${emptyKeys.length} keys in "${loc}.json":`);
-    emptyKeys.forEach(k => console.error(`   - ${k}`));
+    emptyKeys.slice(0, 15).forEach(k => console.error(`   - ${k}`));
     hasError = true;
   }
 
-  const extraKeys = targetKeys.filter(k => !masterKeys.includes(k));
-  if (extraKeys.length > 0) {
-    console.warn(`\n⚠️ [WARN] Found ${extraKeys.length} extra keys in "${loc}.json" not in en.json:`);
-    extraKeys.forEach(k => console.warn(`   + ${k}`));
+  if (untranslatedKeys.length > 0) {
+    console.error(`\n❌ [FAIL] Found ${untranslatedKeys.length} untranslated English values in "${loc}.json":`);
+    untranslatedKeys.slice(0, 15).forEach(k => console.error(`   - ${k}`));
+    hasError = true;
   }
 
-  if (missingKeys.length === 0 && emptyKeys.length === 0) {
-    console.log(`✓ [PASS] Locale "${loc}" has all ${masterKeys.length} keys populated.`);
+  if (missingKeys.length === 0 && emptyKeys.length === 0 && untranslatedKeys.length === 0) {
+    console.log(`✓ [PASS] Locale "${loc}" is 100% translated and verified (${masterKeys.length} keys).`);
   }
 }
 
 if (hasError) {
-  console.error('\n❌ i18n VALIDATION FAILED! Build aborted to prevent missing translations.\n');
+  console.error('\n❌ i18n VALIDATION FAILED! Untranslated English or missing keys detected.\n');
   process.exit(1);
 } else {
-  console.log('\n✅ ALL i18n TRANSLATION KEYS ARE 100% COMPLETE AND SYNCHRONIZED!\n');
+  console.log('\n✅ ALL i18n TRANSLATION KEYS ARE FULLY LOCALIZED AND VERIFIED!\n');
   process.exit(0);
 }

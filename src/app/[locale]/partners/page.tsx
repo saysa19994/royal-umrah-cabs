@@ -41,7 +41,7 @@ export default async function PartnersPage({ params: { locale } }: PartnersPageP
             Partner with Royal Umrah Cabs
           </h1>
           <p className="mt-4 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-            We partner with licensed Umrah agencies and international tour operators worldwide to deliver dependable VIP pilgrim transport across Jeddah, Makkah, and Madinah.
+            We partner with travel agencies, group organizers, and international tour operators worldwide to deliver dependable VIP pilgrim transport across Jeddah, Makkah, and Madinah.
           </p>
         </div>
 

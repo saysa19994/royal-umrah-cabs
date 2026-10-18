@@ -1,29 +1,42 @@
 import { NextResponse } from 'next/server';
-import { getRolePermissions, DEFAULT_PERMISSIONS_MATRIX } from '@/lib/auth/rbac';
+import { requireRole } from '@/lib/auth/server-auth';
+import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
-import { createClient } from '@/lib/supabase/server';
+import { getClientIp } from '@/lib/rate-limit';
 import { RolePermission } from '@/types/auth';
 
-let dynamicPermissions: RolePermission[] = [...DEFAULT_PERMISSIONS_MATRIX];
-
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    try {
-      const dbPermissions = await getRolePermissions();
-      if (dbPermissions && dbPermissions.length > 0) {
-        return NextResponse.json({ permissions: dbPermissions });
-      }
-    } catch (e) {
-      console.warn('Roles GET fallback:', e);
+    const authResult = await requireRole(request, ['owner', 'admin']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
     }
-    return NextResponse.json({ permissions: dynamicPermissions });
+
+    const serviceClient = createServiceClient();
+    const { data, error } = await serviceClient.from('role_permissions').select('*');
+
+    if (error) {
+      console.error('Roles GET error:', error);
+      return NextResponse.json({ error: 'Failed to retrieve permissions from database' }, { status: 500 });
+    }
+
+    return NextResponse.json({ permissions: data || [] });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error('Roles GET error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function PUT(request: Request) {
   try {
+    const clientIp = getClientIp(request);
+    // Strictly require OWNER session for updating permissions matrix
+    const authResult = await requireRole(request, ['owner']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
+    }
+
+    const { user: currentUser } = authResult;
     const body = await request.json();
     const { role, resource, can_view, can_create, can_edit, can_delete, can_publish, can_export } = body;
 
@@ -32,10 +45,12 @@ export async function PUT(request: Request) {
     }
 
     if (role === 'owner') {
-      return NextResponse.json({ error: 'Owner permissions are permanently full-access and cannot be restricted.' }, { status: 403 });
+      return NextResponse.json(
+        { error: 'Owner permissions are permanently full-access and cannot be restricted.' },
+        { status: 403 }
+      );
     }
 
-    const idx = dynamicPermissions.findIndex((p) => p.role === role && p.resource === resource);
     const updated: RolePermission = {
       role,
       resource,
@@ -47,30 +62,37 @@ export async function PUT(request: Request) {
       can_export: Boolean(can_export),
     };
 
-    if (idx >= 0) {
-      dynamicPermissions[idx] = updated;
-    } else {
-      dynamicPermissions.push(updated);
-    }
+    const serviceClient = createServiceClient();
+    const { data, error } = await serviceClient
+      .from('role_permissions')
+      .upsert(
+        {
+          ...updated,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'role,resource' }
+      )
+      .select()
+      .single();
 
-    try {
-      const supabase = createClient();
-      await supabase.from('role_permissions').upsert(updated, { onConflict: 'role,resource' });
-    } catch (e) {
-      console.warn('DB role upsert fallback:', e);
+    if (error || !data) {
+      console.error('Role upsert error:', error);
+      return NextResponse.json({ error: 'Failed to update role permissions in database' }, { status: 500 });
     }
 
     await logAuditEvent({
-      userEmail: 'owner@royalumrahcabs.com',
-      userRole: 'owner',
+      userEmail: currentUser.email,
+      userRole: currentUser.role,
       action: 'permission_matrix_updated',
       resource: 'roles',
       resourceId: `${role}:${resource}`,
       newValues: updated,
+      ip: clientIp,
     });
 
-    return NextResponse.json({ success: true, permission: updated });
+    return NextResponse.json({ success: true, permission: data });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error('Roles PUT error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

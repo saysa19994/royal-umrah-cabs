@@ -1,18 +1,43 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { DEFAULT_SETTINGS, getSiteSettings } from '@/lib/settings';
+import { requireRole } from '@/lib/auth/server-auth';
+import { createServiceClient } from '@/lib/supabase/service';
+import { logAuditEvent } from '@/lib/audit';
+import { getClientIp } from '@/lib/rate-limit';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const settings = await getSiteSettings();
-    return NextResponse.json({ success: true, settings });
+    const authResult = await requireRole(request, ['owner', 'admin']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
+    }
+
+    const serviceClient = createServiceClient();
+    const { data, error } = await serviceClient
+      .from('site_settings')
+      .select('*')
+      .eq('lock_id', true)
+      .maybeSingle();
+
+    if (error || !data) {
+      return NextResponse.json({ error: 'Failed to retrieve settings from database' }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true, settings: data });
   } catch (err: any) {
-    return NextResponse.json({ success: true, settings: DEFAULT_SETTINGS });
+    console.error('Settings GET error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
+    const clientIp = getClientIp(request);
+    const authResult = await requireRole(request, ['owner', 'admin']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
+    }
+
+    const { user: currentUser } = authResult;
     const body = await request.json();
     const {
       phone,
@@ -27,8 +52,7 @@ export async function POST(request: Request) {
       currency_rates,
     } = body;
 
-    const supabase = createClient();
-
+    const serviceClient = createServiceClient();
     const updates: Record<string, any> = {
       updated_at: new Date().toISOString(),
     };
@@ -44,30 +68,31 @@ export async function POST(request: Request) {
     if (free_cancellation_hours !== undefined) updates.free_cancellation_hours = Number(free_cancellation_hours);
     if (currency_rates !== undefined) updates.currency_rates = currency_rates;
 
-    const { data, error } = await supabase
+    const { data, error } = await serviceClient
       .from('site_settings')
       .update(updates)
       .eq('lock_id', true)
       .select()
       .single();
 
-    if (error) {
+    if (error || !data) {
       console.error('Error updating site_settings:', error);
-      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+      return NextResponse.json({ success: false, error: 'Failed to update settings in database' }, { status: 500 });
     }
 
-    // Log in audit log
-    await supabase.from('audit_log').insert({
-      entity_type: 'site_settings',
-      entity_id: 'lock_id',
-      action: 'update',
-      new_values: updates,
-      performed_by: 'admin_user',
+    await logAuditEvent({
+      userEmail: currentUser.email,
+      userRole: currentUser.role,
+      action: 'settings_update',
+      resource: 'settings',
+      resourceId: 'lock_id',
+      newValues: updates,
+      ip: clientIp,
     });
 
     return NextResponse.json({ success: true, settings: data });
   } catch (err: any) {
     console.error('Settings update error:', err);
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }
