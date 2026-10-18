@@ -55,7 +55,17 @@ export async function requireRole(
       .maybeSingle();
 
     // Auto-link auth_user_id on first authenticated session if initially invited by email
+    // ONLY permitted if authUser.email_confirmed_at is present to prevent account pre-takeover
     if (!profile) {
+      if (!authUser.email_confirmed_at) {
+        return {
+          errorResponse: NextResponse.json(
+            { error: 'Forbidden: Email address must be confirmed before profile linking' },
+            { status: 403 }
+          ),
+        };
+      }
+
       const userEmail = (authUser.email || '').trim().toLowerCase();
       const { data: unlinked } = await serviceClient
         .from('user_profiles')

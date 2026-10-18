@@ -19,6 +19,7 @@ import {
   ShieldCheck,
   Sparkles,
 } from 'lucide-react';
+import { TurnstileWidget } from '@/components/common/TurnstileWidget';
 
 interface BookingEngineProps {
   locale: Locale;
@@ -102,6 +103,7 @@ export function BookingEngine({
 
   // State
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [confirmedBooking, setConfirmedBooking] = useState<any | null>(null);
 
@@ -156,6 +158,7 @@ export function BookingEngine({
       payment_method: paymentMethod,
       currency: currency,
       language: locale,
+      'cf-turnstile-response': turnstileToken,
     };
 
     try {
@@ -644,8 +647,17 @@ export function BookingEngine({
           </div>
         )}
 
+        {/* BOT PROTECTION */}
+        <div className="py-2 border-t border-border">
+          <TurnstileWidget
+            locale={locale}
+            onSuccess={(token) => setTurnstileToken(token)}
+            onExpire={() => setTurnstileToken('')}
+          />
+        </div>
+
         {/* SUBMISSION BAR */}
-        <div className="pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="pt-4 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <span className="text-xs text-ink-muted block">{dict.booking_card.totalFare}</span>
             <div className="flex items-baseline gap-2">
@@ -661,7 +673,7 @@ export function BookingEngine({
           <div className="flex items-center gap-3 w-full sm:w-auto">
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !turnstileToken}
               className="w-full sm:w-auto h-12 px-10 rounded-btn bg-gold hover:bg-gold-hover hover:text-white text-ink text-sm font-bold uppercase tracking-wider transition-all shadow-gold disabled:opacity-50"
             >
               {isSubmitting ? 'Confirming...' : dict.booking_card.buttonBookNow}

@@ -64,7 +64,30 @@ export async function POST(request: Request) {
     }
 
     const serviceClient = createServiceClient();
+
+    // 1. Send staff invitation via Supabase Auth Admin API
+    let authUserId: string | null = null;
+    try {
+      const { data: inviteData, error: inviteError } = await serviceClient.auth.admin.inviteUserByEmail(
+        cleanEmail,
+        {
+          data: {
+            name: name.trim(),
+            role,
+          },
+        }
+      );
+      if (inviteError) {
+        console.warn('inviteUserByEmail warning:', inviteError.message);
+      } else if (inviteData?.user) {
+        authUserId = inviteData.user.id;
+      }
+    } catch (inviteErr) {
+      console.warn('inviteUserByEmail call failed:', inviteErr);
+    }
+
     const newUser = {
+      auth_user_id: authUserId,
       email: cleanEmail,
       name: name.trim(),
       role: role as Role,
@@ -76,7 +99,7 @@ export async function POST(request: Request) {
     const { data, error } = await serviceClient
       .from('user_profiles')
       .insert(newUser)
-      .select('id, email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled, created_at')
+      .select('id, auth_user_id, email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled, created_at')
       .single();
 
     if (error || !data) {

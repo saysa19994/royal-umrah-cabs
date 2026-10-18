@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Locale, LOCALE_CONFIG } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import { MessageCircle, ArrowUp, CalendarDays } from 'lucide-react';
+import { TurnstileWidget } from '@/components/common/TurnstileWidget';
 
 interface FloatingUIProps {
   locale: Locale;
@@ -14,6 +15,7 @@ interface FloatingUIProps {
 
 export function FloatingUI({ locale, dict, whatsappNumber }: FloatingUIProps) {
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +38,7 @@ export function FloatingUI({ locale, dict, whatsappNumber }: FloatingUIProps) {
         body: JSON.stringify({
           page: typeof window !== 'undefined' ? window.location.pathname : '/',
           language: locale,
+          'cf-turnstile-response': turnstileToken || undefined,
           source_utm: {
             referrer: typeof document !== 'undefined' ? document.referrer : '',
             url: typeof window !== 'undefined' ? window.location.href : '',
@@ -109,6 +112,15 @@ export function FloatingUI({ locale, dict, whatsappNumber }: FloatingUIProps) {
           <CalendarDays className="w-4 h-4" />
           <span>{dict.nav.bookNow}</span>
         </Link>
+      </div>
+
+      {/* BACKGROUND TURNSTILE VERIFICATION */}
+      <div className="hidden" aria-hidden="true">
+        <TurnstileWidget
+          locale={locale}
+          onSuccess={(t) => setTurnstileToken(t)}
+          onExpire={() => setTurnstileToken('')}
+        />
       </div>
     </>
   );

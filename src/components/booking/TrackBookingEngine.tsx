@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import { Search, MapPin, Calendar, Clock, Plane, User, Phone, Car, MessageCircle, AlertCircle, CheckCircle2, ShieldCheck, ArrowRight } from 'lucide-react';
+import { TurnstileWidget, TurnstileWidgetRef } from '@/components/common/TurnstileWidget';
 
 interface TrackBookingEngineProps {
   locale: Locale;
@@ -42,37 +43,48 @@ export function TrackBookingEngine({ locale, dict }: TrackBookingEngineProps) {
   const [loading, setLoading] = useState(false);
   const [booking, setBooking] = useState<TrackedBooking | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileWidgetRef>(null);
 
   const fetchBooking = async (refVal: string, phoneVal: string) => {
-    if (!refVal && !phoneVal) return;
+    if (!refVal || !phoneVal || !turnstileToken) {
+      setError(
+        locale === 'ar'
+          ? 'يرجى إدخال رقم الحجز ورقم الهاتف واجتياز التحقق الأمني.'
+          : 'Please enter booking reference, phone number, and complete security verification.'
+      );
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
       const res = await fetch('/api/bookings/track', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reference: refVal, phone: phoneVal }),
+        body: JSON.stringify({
+          reference: refVal,
+          phone: phoneVal,
+          'cf-turnstile-response': turnstileToken,
+        }),
       });
       const data = await res.json();
       if (!res.ok || !data.booking) {
-        setError(dict.page_track.notFound);
+        setError(data.error || dict.page_track.notFound);
         setBooking(null);
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
       } else {
         setBooking(data.booking);
       }
     } catch {
       setError(dict.page_track.notFound);
       setBooking(null);
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (initialRef) {
-      fetchBooking(initialRef, '');
-    }
-  }, [initialRef]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -135,10 +147,20 @@ export function TrackBookingEngine({ locale, dict }: TrackBookingEngineProps) {
             </div>
           </div>
 
+          <div className="py-2">
+            <TurnstileWidget
+              ref={turnstileRef}
+              locale={locale}
+              onVerify={(token) => setTurnstileToken(token)}
+              onExpire={() => setTurnstileToken(null)}
+              onError={() => setTurnstileToken(null)}
+            />
+          </div>
+
           <button
             type="submit"
-            disabled={loading}
-            className="w-full h-12 rounded-xl bg-gold-dark hover:bg-gold-hover text-surface font-bold text-sm flex items-center justify-center gap-2 transition-colors shadow-sm disabled:opacity-50"
+            disabled={loading || !turnstileToken || !reference.trim() || !phone.trim()}
+            className="w-full h-12 rounded-xl bg-gold-dark hover:bg-gold-hover text-surface font-bold text-sm flex items-center justify-center gap-2 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {loading ? (
               <span className="w-5 h-5 border-2 border-surface border-t-transparent rounded-full animate-spin" />

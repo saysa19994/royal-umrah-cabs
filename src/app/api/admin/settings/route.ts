@@ -22,7 +22,14 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Failed to retrieve settings from database' }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true, settings: data });
+    return NextResponse.json({
+      success: true,
+      settings: data,
+      system_status: {
+        resend_configured: Boolean(process.env.RESEND_API_KEY && !process.env.RESEND_API_KEY.includes('placeholder')),
+        resend_from: process.env.RESEND_FROM || 'Royal Umrah Cabs Security <security@royalumrahcabs.com>',
+      },
+    });
   } catch (err: any) {
     console.error('Settings GET error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

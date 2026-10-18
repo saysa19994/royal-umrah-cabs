@@ -21,6 +21,7 @@ export async function sendOwnershipTransferEmail(
 
   if (resendApiKey) {
     try {
+      const fromAddress = process.env.RESEND_FROM || 'Royal Umrah Cabs Security <security@royalumrahcabs.com>';
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
@@ -28,7 +29,7 @@ export async function sendOwnershipTransferEmail(
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'Royal Umrah Cabs Security <security@royalumrahcabs.com>',
+          from: fromAddress,
           to: [to],
           subject: '🚨 CRITICAL: Royal Umrah Cabs Ownership Transfer Confirmation Required',
           html: `

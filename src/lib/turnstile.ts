@@ -1,24 +1,29 @@
 /**
  * Cloudflare Turnstile token verification helper.
  * Validates the cf-turnstile-response token submitted with public forms.
- * Fails closed in production if token is missing or invalid.
+ * Rejects any request missing a token, and uses Cloudflare test secret key in development.
  */
+
+const DEV_TEST_SECRET = '1x0000000000000000000000000000000AA';
+
 export async function verifyTurnstileToken(
   token: string | null | undefined,
   remoteIp?: string
 ): Promise<{ success: boolean; error?: string }> {
-  const secretKey = process.env.TURNSTILE_SECRET_KEY;
-
-  // If Turnstile is not configured in local development, permit request
-  if (!secretKey || secretKey.includes('placeholder')) {
-    if (process.env.NODE_ENV === 'production') {
-      console.warn('TURNSTILE_SECRET_KEY is not set in production');
-    }
-    return { success: true };
-  }
-
+  // Always strictly fail if token is missing
   if (!token) {
     return { success: false, error: 'Anti-bot verification required (missing Turnstile token)' };
+  }
+
+  const secretKey =
+    process.env.TURNSTILE_SECRET_KEY && !process.env.TURNSTILE_SECRET_KEY.includes('placeholder')
+      ? process.env.TURNSTILE_SECRET_KEY
+      : process.env.NODE_ENV !== 'production'
+      ? DEV_TEST_SECRET
+      : null;
+
+  if (!secretKey) {
+    return { success: false, error: 'Anti-bot verification configuration missing on server' };
   }
 
   try {

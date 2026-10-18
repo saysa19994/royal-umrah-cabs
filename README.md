@@ -173,6 +173,7 @@ UPSTASH_REDIS_REST_TOKEN=your-upstash-redis-rest-token
 
 # Transactional Email Dispatcher (Resend - Optional / Recommended for ownership transfer emails)
 RESEND_API_KEY=your-resend-api-key
+RESEND_FROM="Royal Umrah Cabs Security <security@royalumrahcabs.com>"
 
 # Production Domain & App Metadata
 NEXT_PUBLIC_SITE_URL=https://royal-umrah-cabs.vercel.app
@@ -184,7 +185,23 @@ NEXT_PUBLIC_WHATSAPP_OPERATOR=966505316971
 
 ---
 
-## 8. أوامر البناء والنشر / Build & Deployment Commands
+## 8. إغلاق التسجيل المفتوح في Supabase / Disabling Open Signups
+
+لضمان عدم تمكن أي طرف خارجي أو حساب عام من التسجيل، يجب إيقاف التسجيل المفتوح في مشروع Supabase:
+
+1. ادخل إلى لوحة تحكم مشروعك في [Supabase Dashboard](https://supabase.com/dashboard).
+2. انتقل إلى قائمة **Authentication** من الشريط الجانبي، ثم اختر **Providers** -> **Email**.
+3. قم بتعطيل الخيار:
+   - **`Allow new users to sign up` (إلغاء التفعيل / Set to OFF)**.
+4. اضغط **Save**.
+5. وبذلك:
+   - يُمنع إنشاء أي حساب عبر واجهات التسجيل العامة (`signUp`).
+   - تنحصر إضافة أعضاء الفريق حصراً في دعوة الإدارة عبر لوحة التحكم من خلال دالة الخادم الآمنة `serviceClient.auth.admin.inviteUserByEmail`.
+   - يتطلب تفعيل أي حساب إداري أن يكون البريد الإلكتروني مؤكداً (`email_confirmed_at IS NOT NULL`).
+
+---
+
+## 9. أوامر البناء والنشر / Build & Deployment Commands
 
 ```bash
 # 1. تثبيت الحزم / Install dependencies

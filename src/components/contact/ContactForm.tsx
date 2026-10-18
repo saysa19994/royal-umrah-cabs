@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import { Send, CheckCircle2, MessageCircle } from 'lucide-react';
+import { TurnstileWidget, TurnstileWidgetRef } from '@/components/common/TurnstileWidget';
 
 interface ContactFormProps {
   locale: Locale;
@@ -17,11 +18,16 @@ export function ContactForm({ locale, dict, whatsappNumber = '966567588261' }: C
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileWidgetRef>(null);
   const [activeWaUrl, setActiveWaUrl] = useState(`https://wa.me/${whatsappNumber}`);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !phone.trim()) return;
+    if (!name.trim() || !phone.trim() || !turnstileToken) return;
+
+    setIsSubmitting(true);
 
     // Build pre-filled WhatsApp message
     const waText =
@@ -43,6 +49,7 @@ export function ContactForm({ locale, dict, whatsappNumber = '966567588261' }: C
           customer_name: name,
           customer_phone: phone,
           notes: message || 'Contact form inquiry',
+          'cf-turnstile-response': turnstileToken,
           source_utm: {
             referrer: typeof document !== 'undefined' ? document.referrer : '',
             url: typeof window !== 'undefined' ? window.location.href : '',
@@ -56,6 +63,8 @@ export function ContactForm({ locale, dict, whatsappNumber = '966567588261' }: C
       }
     } catch (err) {
       console.error('Lead tracking error, continuing to WhatsApp:', err);
+    } finally {
+      setIsSubmitting(false);
     }
 
     setActiveWaUrl(waUrl);
@@ -161,13 +170,48 @@ export function ContactForm({ locale, dict, whatsappNumber = '966567588261' }: C
             />
           </div>
 
+          <div className="py-2">
+            <TurnstileWidget
+              ref={turnstileRef}
+              locale={locale}
+              onVerify={(token) => setTurnstileToken(token)}
+              onExpire={() => setTurnstileToken(null)}
+              onError={() => setTurnstileToken(null)}
+            />
+          </div>
+
           <button
             type="submit"
-            className="w-full h-12 rounded-xl bg-gold-dark hover:bg-gold-hover text-surface font-bold text-sm flex items-center justify-center gap-2 transition-colors shadow-sm"
+            disabled={!turnstileToken || isSubmitting}
+            className="w-full h-12 rounded-xl bg-gold-dark hover:bg-gold-hover text-surface font-bold text-sm flex items-center justify-center gap-2 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
-            <Send className="w-4 h-4 rtl:rotate-180" />
-            <span>{dict.page_contact.formSubmit}</span>
+            {isSubmitting ? (
+              <span className="w-5 h-5 border-2 border-surface border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <>
+                <Send className="w-4 h-4 rtl:rotate-180" />
+                <span>{dict.page_contact.formSubmit}</span>
+              </>
+            )}
           </button>
+
+          <div className="pt-2 text-center">
+            <a
+              href={`https://wa.me/${whatsappNumber}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-600 hover:text-emerald-700"
+            >
+              <MessageCircle className="w-3.5 h-3.5" />
+              <span>
+                {locale === 'ar'
+                  ? 'أو تواصل معنا مباشرة عبر واتساب'
+                  : locale === 'ms'
+                  ? 'Atau hubungi kami terus di WhatsApp'
+                  : 'Or chat directly with us on WhatsApp'}
+              </span>
+            </a>
+          </div>
         </form>
       )}
     </div>

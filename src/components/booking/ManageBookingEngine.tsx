@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
-import { AlertCircle, CheckCircle2, MessageCircle, ArrowLeft, ShieldCheck, XCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle2, MessageCircle, ArrowLeft, ShieldCheck, XCircle, Search } from 'lucide-react';
+import { TurnstileWidget, TurnstileWidgetRef } from '@/components/common/TurnstileWidget';
 
 interface ManageBookingEngineProps {
   locale: Locale;
@@ -17,61 +18,90 @@ export function ManageBookingEngine({ locale, dict }: ManageBookingEngineProps) 
   const initialRef = searchParams.get('ref') || '';
 
   const [reference, setReference] = useState(initialRef);
+  const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
   const [cancelling, setCancelling] = useState(false);
   const [booking, setBooking] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [cancelled, setCancelled] = useState(false);
 
-  useEffect(() => {
-    if (initialRef) {
-      fetchBooking(initialRef);
-    }
-  }, [initialRef]);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileWidgetRef>(null);
 
-  const fetchBooking = async (refVal: string) => {
-    if (!refVal) return;
+  const fetchBooking = async (refVal: string, phoneVal: string) => {
+    if (!refVal || !phoneVal || !turnstileToken) {
+      setError(
+        locale === 'ar'
+          ? 'يرجى إدخال رقم الحجز ورقم الهاتف وإكمال التحقق الأمني.'
+          : 'Please enter booking reference, phone number, and complete security verification.'
+      );
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
       const res = await fetch('/api/bookings/track', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reference: refVal }),
+        body: JSON.stringify({
+          reference: refVal,
+          phone: phoneVal,
+          'cf-turnstile-response': turnstileToken,
+        }),
       });
       const data = await res.json();
       if (!res.ok || !data.booking) {
-        setError(dict.page_track.notFound);
+        setError(data.error || dict.page_track.notFound);
         setBooking(null);
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
       } else {
         setBooking(data.booking);
       }
     } catch {
       setError(dict.page_track.notFound);
       setBooking(null);
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = async () => {
-    if (!booking) return;
+    if (!booking || !phone || !turnstileToken) {
+      setError(
+        locale === 'ar'
+          ? 'يرجى إكمال التحقق الأمني لتأكيد الإلغاء.'
+          : 'Please complete security verification to confirm cancellation.'
+      );
+      return;
+    }
     setCancelling(true);
+    setError(null);
     try {
       const res = await fetch('/api/bookings/cancel', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reference: booking.reference }),
+        body: JSON.stringify({
+          reference: booking.reference,
+          phone,
+          'cf-turnstile-response': turnstileToken,
+        }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
         setCancelled(true);
         setBooking({ ...booking, status: 'cancelled' });
       } else {
-        setError(data.message || 'Could not cancel booking.');
+        setError(data.error || data.message || 'Could not cancel booking.');
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
       }
     } catch {
       setError('An error occurred while cancelling.');
+      turnstileRef.current?.reset();
+      setTurnstileToken(null);
     } finally {
       setCancelling(false);
     }
@@ -85,27 +115,59 @@ export function ManageBookingEngine({ locale, dict }: ManageBookingEngineProps) 
   return (
     <div className="space-y-6 max-w-2xl mx-auto text-start">
       {/* Search if not provided */}
-      {!initialRef && !booking && (
-        <div className="bg-surface rounded-2xl p-6 border border-border">
-          <label className="block text-xs font-bold text-ink mb-1.5">
-            {dict.page_track.refLabel}
-          </label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={reference}
-              onChange={(e) => setReference(e.target.value)}
-              placeholder="e.g. RUC-7821"
-              className="flex-1 h-11 px-3.5 text-xs font-mono uppercase font-bold rounded-lg border border-border bg-surface text-ink"
-            />
-            <button
-              onClick={() => fetchBooking(reference)}
-              disabled={loading}
-              className="px-6 h-11 rounded-lg bg-gold-dark hover:bg-gold-hover text-surface font-bold text-xs"
-            >
-              Search
-            </button>
+      {!booking && (
+        <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-ink mb-1.5">
+                {dict.page_track.refLabel}
+              </label>
+              <input
+                type="text"
+                value={reference}
+                onChange={(e) => setReference(e.target.value)}
+                placeholder="e.g. RUC-7821"
+                className="w-full h-11 px-3.5 text-xs font-mono uppercase font-bold rounded-lg border border-border bg-surface text-ink focus:ring-1 focus:ring-gold-dark"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-ink mb-1.5">
+                {dict.page_track.phoneLabel}
+              </label>
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder={dict.page_track.phonePlaceholder}
+                className="w-full h-11 px-3.5 text-xs rounded-lg border border-border bg-surface text-ink focus:ring-1 focus:ring-gold-dark"
+              />
+            </div>
           </div>
+
+          <div className="py-2">
+            <TurnstileWidget
+              ref={turnstileRef}
+              locale={locale}
+              onVerify={(token) => setTurnstileToken(token)}
+              onExpire={() => setTurnstileToken(null)}
+              onError={() => setTurnstileToken(null)}
+            />
+          </div>
+
+          <button
+            onClick={() => fetchBooking(reference, phone)}
+            disabled={loading || !turnstileToken || !reference.trim() || !phone.trim()}
+            className="w-full h-11 rounded-xl bg-gold-dark hover:bg-gold-hover text-surface font-bold text-xs flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-sm"
+          >
+            {loading ? (
+              <span className="w-4 h-4 border-2 border-surface border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <>
+                <Search className="w-4 h-4" />
+                <span>{dict.page_track.btnSearch || 'Find Booking'}</span>
+              </>
+            )}
+          </button>
         </div>
       )}
 
@@ -154,15 +216,19 @@ export function ManageBookingEngine({ locale, dict }: ManageBookingEngineProps) 
             <div className="pt-4 border-t border-border space-y-4">
               {isMoreThan24Hours ? (
                 <div className="space-y-3">
-                  <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>{dict.page_manage.cancelPolicyNotice}</span>
+                  <div className="py-2">
+                    <TurnstileWidget
+                      locale={locale}
+                      onVerify={(token) => setTurnstileToken(token)}
+                      onExpire={() => setTurnstileToken(null)}
+                      onError={() => setTurnstileToken(null)}
+                    />
                   </div>
                   <button
                     type="button"
                     onClick={handleCancel}
-                    disabled={cancelling}
-                    className="w-full h-11 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+                    disabled={cancelling || !turnstileToken}
+                    className="w-full h-11 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     {cancelling ? (
                       <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />

@@ -6,6 +6,7 @@ import { Locale, CURRENCIES, CurrencyCode } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import { useCurrency } from '@/context/CurrencyContext';
 import { MapPin, Calendar, Clock, Users, Luggage, Car, Check, ArrowRight, MessageCircle } from 'lucide-react';
+import { TurnstileWidget } from '@/components/common/TurnstileWidget';
 
 interface BookingCardProps {
   locale: Locale;
@@ -73,6 +74,7 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
   const [passengers, setPassengers] = useState(3);
   const [luggage, setLuggage] = useState(3);
   const [vehicle, setVehicle] = useState('staria');
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
 
   const maxSeats = VEHICLE_SPECS[vehicle]?.seats || 7;
   const maxBags = VEHICLE_SPECS[vehicle]?.bags || 6;
@@ -121,6 +123,7 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
           passengers,
           luggage,
           price_sar: baseSAR,
+          'cf-turnstile-response': turnstileToken,
           source_utm: {
             referrer: typeof document !== 'undefined' ? document.referrer : '',
             url: typeof window !== 'undefined' ? window.location.href : '',
@@ -314,6 +317,13 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
               </div>
             </div>
           </div>
+
+          {/* BOT PROTECTION */}
+          <TurnstileWidget
+            locale={locale}
+            onSuccess={(t) => setTurnstileToken(t)}
+            onExpire={() => setTurnstileToken('')}
+          />
 
           {/* DYNAMIC PRICE DISPLAY & DUAL BUTTONS */}
           <div className="bg-surface-muted rounded-xl p-4 border border-border mt-3 flex flex-col md:flex-row items-center justify-between gap-4">

@@ -69,7 +69,15 @@ export async function POST(request: Request) {
       .maybeSingle();
 
     if (!profileData) {
-      // Auto-link on first login if unlinked
+      // Auto-link on first login if unlinked ONLY when email is confirmed
+      if (!authData.user.email_confirmed_at) {
+        await supabase.auth.signOut();
+        return NextResponse.json(
+          { error: 'Access denied: Email address must be confirmed before profile linking.' },
+          { status: 403 }
+        );
+      }
+
       const { data: unlinked } = await serviceClient
         .from('user_profiles')
         .select('id, auth_user_id, email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled, created_at')

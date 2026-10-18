@@ -1,18 +1,20 @@
 import { NextResponse } from 'next/server';
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
 
 /**
- * Shared In-Memory & Distributed Rate Limiter
- * Provides rate limiting by IP and by Account/Identifier.
- * Prevents account locking purely by email (uses IP + account combination).
+ * Shared In-Memory & Distributed Sliding-Window Rate Limiter
+ *
+ * Implements sliding-window rate limiting so that:
+ * 1. Expiration is NOT extended or refreshed on every incoming request.
+ * 2. Sliding window prevents traffic spikes at window boundaries.
+ * 3. Keeps per-IP and per-account rate limit keys distinct.
+ * 4. Never locks an account purely by email; requires IP + Account combo.
  */
 
-interface RateLimitRecord {
-  count: number;
-  resetAt: number;
-}
-
-class InMemoryRateLimiter {
-  private store: Map<string, RateLimitRecord> = new Map();
+class InMemorySlidingWindowLimiter {
+  // Store map of key -> array of request timestamps in milliseconds
+  private store: Map<string, number[]> = new Map();
 
   async check(
     key: string,
@@ -20,36 +22,91 @@ class InMemoryRateLimiter {
     windowMs: number
   ): Promise<{ success: boolean; limit: number; remaining: number; reset: number }> {
     const now = Date.now();
-    const record = this.store.get(key);
+    const windowStart = now - windowMs;
 
-    if (!record || record.resetAt <= now) {
-      this.store.set(key, { count: 1, resetAt: now + windowMs });
-      return { success: true, limit, remaining: limit - 1, reset: now + windowMs };
+    let timestamps = this.store.get(key) || [];
+    // Discard any timestamps outside the current sliding window
+    timestamps = timestamps.filter((t) => t > windowStart);
+
+    if (timestamps.length >= limit) {
+      const oldestInWindow = timestamps[0] || now;
+      const reset = oldestInWindow + windowMs;
+      this.store.set(key, timestamps);
+      return { success: false, limit, remaining: 0, reset };
     }
 
-    if (record.count >= limit) {
-      return { success: false, limit, remaining: 0, reset: record.resetAt };
-    }
+    timestamps.push(now);
+    this.store.set(key, timestamps);
+    const reset = timestamps[0] + windowMs;
 
-    record.count += 1;
-    this.store.set(key, record);
-    return { success: true, limit, remaining: limit - record.count, reset: record.resetAt };
+    return {
+      success: true,
+      limit,
+      remaining: Math.max(0, limit - timestamps.length),
+      reset,
+    };
   }
 
   cleanup() {
     const now = Date.now();
-    this.store.forEach((v, k) => {
-      if (v.resetAt <= now) {
-        this.store.delete(k);
+    const maxWindow = 30 * 60 * 1000; // 30 minutes max retention
+    for (const [key, timestamps] of this.store.entries()) {
+      const valid = timestamps.filter((t) => t > now - maxWindow);
+      if (valid.length === 0) {
+        this.store.delete(key);
+      } else {
+        this.store.set(key, valid);
       }
-    });
+    }
+  }
+
+  reset() {
+    this.store.clear();
   }
 }
 
-const memoryStore = new InMemoryRateLimiter();
+export const memoryStore = new InMemorySlidingWindowLimiter();
 
 if (typeof setInterval !== 'undefined') {
   setInterval(() => memoryStore.cleanup(), 5 * 60 * 1000);
+}
+
+// Cache Ratelimit instances per (limit, windowSeconds) to reuse connections
+const upstashLimiters = new Map<string, Ratelimit>();
+
+function getUpstashSlidingLimiter(limit: number, windowSeconds: number): Ratelimit | null {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (!url || !token) {
+    return null;
+  }
+
+  const cacheKey = `${limit}:${windowSeconds}`;
+  let limiter = upstashLimiters.get(cacheKey);
+
+  if (!limiter) {
+    try {
+      const redis = new Redis({
+        url,
+        token,
+      });
+
+      limiter = new Ratelimit({
+        redis,
+        limiter: Ratelimit.slidingWindow(limit, `${windowSeconds} s`),
+        analytics: false,
+        prefix: 'ruc_ratelimit',
+      });
+
+      upstashLimiters.set(cacheKey, limiter);
+    } catch (err) {
+      console.warn('Failed to initialize Upstash sliding window rate limiter:', err);
+      return null;
+    }
+  }
+
+  return limiter;
 }
 
 /**
@@ -84,47 +141,28 @@ export function checkRequiredEnv(): { ok: boolean; response?: NextResponse } {
 }
 
 /**
- * Shared rate limiting function.
- * If UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are set, uses Upstash REST API;
- * otherwise uses in-memory sliding store in non-production.
+ * Sliding-window rate limiting helper.
+ * Uses Upstash Redis slidingWindow if credentials are provided;
+ * otherwise uses the local in-memory sliding window limiter.
  */
 export async function rateLimit(
   identifier: string,
   limit: number = 10,
   windowSeconds: number = 60
 ): Promise<{ success: boolean; limit: number; remaining: number; reset: number }> {
-  const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
-  const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const upstashLimiter = getUpstashSlidingLimiter(limit, windowSeconds);
 
-  if (upstashUrl && upstashToken) {
+  if (upstashLimiter) {
     try {
-      const key = `rate_limit:${identifier}`;
-      const url = `${upstashUrl}/pipeline`;
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${upstashToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify([
-          ['INCR', key],
-          ['EXPIRE', key, windowSeconds],
-        ]),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        const currentCount = data[0]?.result || 1;
-        const success = currentCount <= limit;
-        return {
-          success,
-          limit,
-          remaining: Math.max(0, limit - currentCount),
-          reset: Date.now() + windowSeconds * 1000,
-        };
-      }
+      const result = await upstashLimiter.limit(identifier);
+      return {
+        success: result.success,
+        limit: result.limit,
+        remaining: result.remaining,
+        reset: result.reset,
+      };
     } catch (e) {
-      console.warn('Upstash rate limit error, falling back to memory store:', e);
+      console.warn('Upstash rate limit error, falling back to in-memory sliding window:', e);
     }
   }
 

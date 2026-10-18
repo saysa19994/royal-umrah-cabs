@@ -7,12 +7,14 @@
     "build": "npm run check-i18n && next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --test scripts/test-pricing.mjs",
+    "test": "node --test scripts/test-pricing.mjs scripts/test-rate-limit.mjs scripts/test-turnstile-protection.mjs",
     "check-i18n": "node scripts/check-i18n.js"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.1",
     "@supabase/supabase-js": "^2.45.4",
+    "@upstash/ratelimit": "^2.2.0",
+    "@upstash/redis": "^1.39.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.453.0",
     "next": "^15.5.28",

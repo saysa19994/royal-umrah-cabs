@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { rateLimit, getClientIp, checkRequiredEnv } from '@/lib/rate-limit';
+import { verifyTurnstileToken } from '@/lib/turnstile';
 
 export async function POST(request: Request) {
   try {
@@ -20,7 +21,19 @@ export async function POST(request: Request) {
       );
     }
 
-    const { reference, phone } = await request.json();
+    const body = await request.json();
+
+    // Anti-bot verification (Cloudflare Turnstile)
+    const turnstileToken = body['cf-turnstile-response'] || body.turnstile_token;
+    const turnstileCheck = await verifyTurnstileToken(turnstileToken, clientIp);
+    if (!turnstileCheck.success) {
+      return NextResponse.json(
+        { error: turnstileCheck.error || 'Anti-bot verification failed.' },
+        { status: 400 }
+      );
+    }
+
+    const { reference, phone } = body;
 
     if (!reference || !phone) {
       return NextResponse.json(
