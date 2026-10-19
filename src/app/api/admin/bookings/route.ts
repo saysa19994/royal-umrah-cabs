@@ -1,8 +1,19 @@
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 import { requireRole } from '@/lib/auth/server-auth';
+import { hasPermission } from '@/lib/auth/rbac';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
 import { getClientIp } from '@/lib/rate-limit';
+
+const BookingStatusEnum = z.enum([
+  'new',
+  'confirmed',
+  'driver_assigned',
+  'en_route',
+  'completed',
+  'cancelled',
+]);
 
 export async function GET(request: Request) {
   try {
@@ -13,6 +24,9 @@ export async function GET(request: Request) {
     }
 
     const { user: currentUser } = authResult;
+    if (!(await hasPermission(currentUser.role, 'bookings', 'view'))) {
+      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to view bookings' }, { status: 403 });
+    }
     const { searchParams } = new URL(request.url);
     const statusFilter = searchParams.get('status');
 
@@ -61,8 +75,11 @@ export async function PATCH(request: Request) {
     }
 
     const { user: currentUser } = authResult;
+    if (!(await hasPermission(currentUser.role, 'bookings', 'edit'))) {
+      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to edit bookings' }, { status: 403 });
+    }
     const body = await request.json();
-    const { id, reference, status, driver_name, driver_phone, vehicle_plate } = body;
+    const { id, reference, status, special_notes, driver_name, driver_phone, vehicle_plate } = body;
 
     if (!id && !reference) {
       return NextResponse.json(
@@ -71,10 +88,30 @@ export async function PATCH(request: Request) {
       );
     }
 
+    if (status !== undefined) {
+      const parsedStatus = BookingStatusEnum.safeParse(status);
+      if (!parsedStatus.success) {
+        return NextResponse.json(
+          { error: 'Invalid booking status provided. Allowed: new, confirmed, driver_assigned, en_route, completed, cancelled' },
+          { status: 400 }
+        );
+      }
+    }
+
     const serviceClient = createServiceClient();
 
-    // If operator, verify that the booking belongs to their assigned WhatsApp scope
+    // If operator, verify that the booking belongs to their assigned WhatsApp scope and restrict fields
     if (currentUser.role === 'operator') {
+      const disallowedKeys = Object.keys(body).filter(
+        (key) => !['id', 'reference', 'status', 'special_notes'].includes(key)
+      );
+      if (disallowedKeys.length > 0) {
+        return NextResponse.json(
+          { error: `Forbidden: Operators are permitted to update status and special_notes only (disallowed: ${disallowedKeys.join(', ')})` },
+          { status: 403 }
+        );
+      }
+
       let checkQuery = serviceClient.from('bookings').select('id, driver_phone');
       if (id) checkQuery = checkQuery.eq('id', id);
       else if (reference) checkQuery = checkQuery.eq('reference', reference);
@@ -93,10 +130,14 @@ export async function PATCH(request: Request) {
     }
 
     const updateData: any = {};
-    if (status) updateData.status = status;
-    if (driver_name !== undefined) updateData.driver_name = driver_name;
-    if (driver_phone !== undefined) updateData.driver_phone = driver_phone;
-    if (vehicle_plate !== undefined) updateData.vehicle_plate = vehicle_plate;
+    if (status !== undefined) updateData.status = status;
+    if (special_notes !== undefined) updateData.special_notes = special_notes;
+
+    if (currentUser.role !== 'operator') {
+      if (driver_name !== undefined) updateData.driver_name = driver_name;
+      if (driver_phone !== undefined) updateData.driver_phone = driver_phone;
+      if (vehicle_plate !== undefined) updateData.vehicle_plate = vehicle_plate;
+    }
     updateData.updated_at = new Date().toISOString();
 
     let query = serviceClient.from('bookings').update(updateData);

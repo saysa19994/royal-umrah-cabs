@@ -1,10 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { BookingCard } from '@/components/home/BookingCard';
 import { HomeSections } from '@/components/home/HomeSections';
+import { HomepageFaqJsonLd } from '@/components/seo/JsonLd';
 import { ShieldCheck, Clock, CheckCircle2, Headphones, ArrowRight } from 'lucide-react';
 
 interface HomePageProps {
@@ -25,14 +27,18 @@ export default async function HomePage(props: HomePageProps) {
 
   return (
     <div className="flex flex-col w-full">
+      <HomepageFaqJsonLd dict={dict} />
       {/* 1. HERO SECTION */}
       <section className="relative min-h-[580px] lg:min-h-[700px] flex items-center justify-center overflow-hidden bg-charcoal text-white pt-24 pb-32 md:pb-44">
         {/* BACKGROUND IMAGE & OVERLAYS */}
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src="/assets/images/yukon_exterior.jpg"
             alt={dict.hero.titlePart1}
-            className="w-full h-full object-cover object-[center_28%] opacity-40 scale-105 transition-transform duration-1000"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[center_28%] opacity-40 scale-105 transition-transform duration-1000"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/65 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/40 to-transparent rtl:bg-gradient-to-l" />

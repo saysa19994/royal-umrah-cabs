@@ -58,6 +58,8 @@ export function ManageBookingEngine({ locale, dict }: ManageBookingEngineProps) 
         setTurnstileToken(null);
       } else {
         setBooking(data.booking);
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
       }
     } catch {
       setError(dict.page_track.notFound);

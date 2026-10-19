@@ -73,8 +73,9 @@ export default async function AdminLayout({
     return <>{children}</>;
   }
 
-  // 3. For owner and admin: ALWAYS require AAL2 MFA before granting access to portal pages
-  if (profile.role === 'owner' || profile.role === 'admin') {
+  // 3. For owner, admin, or ANY staff account with totp_enabled: ALWAYS require AAL2 MFA before granting access to portal pages
+  const requiresMfa = profile.role === 'owner' || profile.role === 'admin' || profile.totp_enabled === true;
+  if (requiresMfa) {
     const { data: aalData } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
     if (aalData?.currentLevel !== 'aal2') {
       if (!isLoginPage) {
@@ -87,6 +88,25 @@ export default async function AdminLayout({
   // 4. Authenticated users with completed MFA visiting login page get redirected to portal
   if (isLoginPage) {
     redirect('/admin');
+  }
+
+  // 5. Block operator and other non-admin roles from restricted management pages
+  if (profile.role !== 'owner' && profile.role !== 'admin') {
+    const restrictedPaths = [
+      '/admin/pricing',
+      '/admin/fleet',
+      '/admin/whatsapp',
+      '/admin/users',
+      '/admin/roles',
+      '/admin/audit-log',
+      '/admin/settings',
+    ];
+    const isAccessingRestricted = restrictedPaths.some((p) =>
+      currentPath === p || currentPath.startsWith(`${p}/`)
+    );
+    if (isAccessingRestricted) {
+      redirect('/admin');
+    }
   }
 
   return (

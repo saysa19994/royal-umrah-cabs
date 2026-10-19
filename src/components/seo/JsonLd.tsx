@@ -7,9 +7,10 @@ interface JsonLdProps {
   locale: Locale;
   dict: Dictionary;
   settings?: SiteSettings;
+  includeFaq?: boolean;
 }
 
-export function JsonLd({ locale, dict, settings }: JsonLdProps) {
+export function JsonLd({ locale, dict, settings, includeFaq = false }: JsonLdProps) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
 
   // 1. TaxiService / LocalBusiness Schema
@@ -198,14 +199,53 @@ export function JsonLd({ locale, dict, settings }: JsonLdProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+      {includeFaq && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
     </>
+  );
+}
+
+export function HomepageFaqJsonLd({ dict }: { dict: Dictionary }) {
+  const faqList = [
+    { q: dict.faq.q1, a: dict.faq.a1 },
+    { q: dict.faq.q2, a: dict.faq.a2 },
+    { q: dict.faq.q3, a: dict.faq.a3 },
+    { q: dict.faq.q4, a: dict.faq.a4 },
+    { q: dict.faq.q5, a: dict.faq.a5 },
+    { q: dict.faq.q6, a: dict.faq.a6 },
+    { q: dict.faq.q7, a: dict.faq.a7 },
+    { q: dict.faq.q8, a: dict.faq.a8 },
+    { q: dict.faq.q9, a: dict.faq.a9 },
+    { q: dict.faq.q10, a: dict.faq.a10 },
+    { q: dict.faq.q11, a: dict.faq.a11 },
+    { q: dict.faq.q12, a: dict.faq.a12 },
+  ].filter((item) => Boolean(item.q && item.a));
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqList.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.a,
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+    />
   );
 }

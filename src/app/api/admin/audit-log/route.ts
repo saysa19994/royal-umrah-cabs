@@ -2,6 +2,16 @@ import { NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth/server-auth';
 import { getAuditLogs } from '@/lib/audit';
 
+function sanitizeCsvCell(value: unknown): string {
+  if (value === null || value === undefined) return '""';
+  let str = typeof value === 'object' ? JSON.stringify(value) : String(value);
+  // Neutralize CSV formula injection (=, +, -, @, \t, \r)
+  if (/^[=+\-@\t\r]/.test(str)) {
+    str = `'${str}`;
+  }
+  return `"${str.replace(/"/g, '""')}"`;
+}
+
 export async function GET(request: Request) {
   try {
     const authResult = await requireRole(request, ['owner', 'admin']);
@@ -29,14 +39,14 @@ export async function GET(request: Request) {
     if (format === 'csv') {
       const headers = ['Timestamp (UTC)', 'User Email', 'Role', 'Action', 'Resource', 'Resource ID', 'Details', 'IP Address'];
       const rows = logs.map((l) => [
-        `"${l.created_at}"`,
-        `"${l.user_email}"`,
-        `"${l.user_role}"`,
-        `"${l.action}"`,
-        `"${l.resource}"`,
-        `"${l.resource_id || ''}"`,
-        `"${JSON.stringify(l.new_values || l.old_values || '').replace(/"/g, '""')}"`,
-        `"${l.ip_address || ''}"`,
+        sanitizeCsvCell(l.created_at),
+        sanitizeCsvCell(l.user_email),
+        sanitizeCsvCell(l.user_role),
+        sanitizeCsvCell(l.action),
+        sanitizeCsvCell(l.resource),
+        sanitizeCsvCell(l.resource_id || ''),
+        sanitizeCsvCell(l.new_values || l.old_values || ''),
+        sanitizeCsvCell(l.ip_address || ''),
       ]);
 
       const csvContent = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');

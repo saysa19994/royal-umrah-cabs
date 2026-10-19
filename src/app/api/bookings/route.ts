@@ -52,6 +52,7 @@ export async function POST(request: Request) {
         vehicleId: validated.vehicle_id,
         currency: validated.currency,
         durationHours: validated.duration_hours || undefined,
+        pickupDatetime: validated.pickup_datetime,
       });
     } catch (calcErr: any) {
       console.error('Database pricing computation error:', calcErr);

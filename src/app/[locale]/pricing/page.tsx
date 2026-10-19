@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { PricingTable } from '@/components/pricing/PricingTable';
 
@@ -18,13 +18,10 @@ export async function generateMetadata(props: PricingPageProps): Promise<Metadat
   } = params;
 
   const dict = getDictionary(locale);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
     title: dict.page_pricing.title,
     description: dict.page_pricing.subtitle,
-    alternates: {
-      canonical: `${baseUrl}/${locale}/pricing`,
-    },
+    alternates: getLocalizedAlternates(locale, '/pricing'),
   };
 }
 

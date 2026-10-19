@@ -88,9 +88,7 @@ export function middleware(request: NextRequest) {
     return res;
   }
 
-  const response = NextResponse.next();
-  response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
-  return response;
+  return NextResponse.next();
 }
 
 export const config = {

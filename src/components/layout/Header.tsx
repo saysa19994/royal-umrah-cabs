@@ -114,7 +114,7 @@ export function Header({ locale, dict }: HeaderProps) {
               value={currency}
               onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
               aria-label="Currency Selector"
-              className="h-9 px-2.5 pr-6 text-xs font-semibold rounded-btn border border-border-strong bg-surface text-ink cursor-pointer hover:border-gold-dark focus:outline-none focus:ring-1 focus:ring-gold-dark appearance-none"
+              className="h-9 px-2.5 pr-6 rtl:pr-2.5 rtl:pl-6 text-xs font-semibold rounded-btn border border-border-strong bg-surface text-ink cursor-pointer hover:border-gold-dark focus:outline-none focus:ring-1 focus:ring-gold-dark appearance-none"
             >
               {Object.keys(CURRENCIES).map((c) => (
                 <option key={c} value={c}>
@@ -122,7 +122,7 @@ export function Header({ locale, dict }: HeaderProps) {
                 </option>
               ))}
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-muted">
+            <div className="pointer-events-none absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 flex items-center px-1.5 text-muted">
               <span className="text-[10px]">▼</span>
             </div>
           </div>
@@ -133,7 +133,7 @@ export function Header({ locale, dict }: HeaderProps) {
               value={locale}
               onChange={(e) => handleLanguageChange(e.target.value as Locale)}
               aria-label="Language Selector"
-              className="h-9 px-2.5 pr-7 text-xs font-semibold rounded-btn border border-border-strong bg-surface text-ink cursor-pointer hover:border-gold-dark focus:outline-none focus:ring-1 focus:ring-gold-dark appearance-none flex items-center"
+              className="h-9 px-2.5 pr-7 rtl:pr-2.5 rtl:pl-7 text-xs font-semibold rounded-btn border border-border-strong bg-surface text-ink cursor-pointer hover:border-gold-dark focus:outline-none focus:ring-1 focus:ring-gold-dark appearance-none flex items-center"
             >
               {LOCALES.map((l) => (
                 <option key={l} value={l}>
@@ -141,7 +141,7 @@ export function Header({ locale, dict }: HeaderProps) {
                 </option>
               ))}
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted">
+            <div className="pointer-events-none absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 flex items-center px-2 text-muted">
               <Globe className="w-3.5 h-3.5 text-gold-dark" />
             </div>
           </div>

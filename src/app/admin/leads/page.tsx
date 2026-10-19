@@ -21,7 +21,8 @@ import {
 
 interface LeadRecord {
   id: string;
-  reference: string;
+  ref_code: string;
+  reference?: string;
   whatsapp_number: string;
   page: string;
   language: string;
@@ -126,7 +127,7 @@ export default function AdminLeadsPage() {
   };
 
   const handleConvertToBooking = async (lead: LeadRecord) => {
-    if (!confirm(`Convert lead ${lead.reference} into an official confirmed booking?`)) return;
+    if (!confirm(`Convert lead ${lead.ref_code || lead.reference} into an official confirmed booking?`)) return;
     setConvertingId(lead.id);
     try {
       const res = await fetch('/api/admin/leads/convert', {
@@ -153,8 +154,9 @@ export default function AdminLeadsPage() {
   const filteredLeads = leads.filter((l) => {
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
+    const leadRef = l.ref_code || l.reference || '';
     return (
-      l.reference?.toLowerCase().includes(q) ||
+      leadRef.toLowerCase().includes(q) ||
       l.customer_name?.toLowerCase().includes(q) ||
       l.customer_phone?.includes(q) ||
       l.route_id?.toLowerCase().includes(q) ||
@@ -350,7 +352,7 @@ export default function AdminLeadsPage() {
                     >
                       <td className="py-3.5 px-4 font-mono font-bold text-[#D9A031]">
                         <div className="flex flex-col gap-1">
-                          <span>{lead.reference}</span>
+                          <span>{lead.ref_code || lead.reference}</span>
                           {isUnattended && (
                             <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 animate-pulse w-fit font-sans">
                               ⚠️ &gt;15m Unattended
@@ -425,7 +427,7 @@ export default function AdminLeadsPage() {
                           {cleanPhone && (
                             <a
                               href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(
-                                `Assalamu Alaikum ${lead.customer_name || 'Pilgrim'}, this is Royal Umrah Cabs dispatch regarding Ref [${lead.reference}].`
+                                `Assalamu Alaikum ${lead.customer_name || 'Pilgrim'}, this is Royal Umrah Cabs dispatch regarding Ref [${lead.ref_code || lead.reference}].`
                               )}`}
                               target="_blank"
                               rel="noopener noreferrer"
@@ -476,7 +478,7 @@ export default function AdminLeadsPage() {
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-[#14171C] border border-[#262B33] rounded-2xl p-6 max-w-md w-full shadow-2xl text-start">
             <h3 className="font-display font-bold text-lg text-[#FAF9F6] mb-1">
-              Lead Notes: {selectedLead.reference}
+              Lead Notes: {selectedLead.ref_code || selectedLead.reference}
             </h3>
             <p className="text-xs text-[#A0A6B2] mb-4">
               Add internal operational notes, pilgrim requests, or follow-up status.

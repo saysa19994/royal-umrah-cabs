@@ -20,9 +20,10 @@ export async function calculateServerPrice(params: {
   vehicleId: string;
   currency?: string | null;
   durationHours?: number | null;
+  pickupDatetime?: string | null;
 }): Promise<PriceCalculationResult> {
   const serviceClient = createServiceClient();
-  const { bookingType, routeId, vehicleId, currency = 'SAR', durationHours } = params;
+  const { bookingType, routeId, vehicleId, currency = 'SAR', durationHours, pickupDatetime } = params;
 
   // 1. Verify vehicle exists and is active
   const { data: vehicleData, error: vehicleErr } = await serviceClient
@@ -138,16 +139,25 @@ export async function calculateServerPrice(params: {
     throw new Error('Price could not be computed from database records');
   }
 
-  // Retrieve active seasonal multiplier from DB
+  // Retrieve active seasonal multiplier from DB matching pickup date
   let multiplier = 1.0;
-  const { data: seasonData } = await serviceClient
+  let seasonQuery = serviceClient
     .from('seasonal_multipliers')
-    .select('multiplier')
+    .select('multiplier, start_date, end_date')
     .eq('is_active', true)
-    .maybeSingle();
+    .order('multiplier', { ascending: false });
 
-  if (seasonData?.multiplier) {
-    multiplier = Number(seasonData.multiplier);
+  const pickupDate = pickupDatetime ? pickupDatetime.slice(0, 10) : new Date().toISOString().slice(0, 10);
+  if (pickupDate && /^\d{4}-\d{2}-\d{2}$/.test(pickupDate)) {
+    seasonQuery = seasonQuery
+      .lte('start_date', pickupDate)
+      .gte('end_date', pickupDate);
+  }
+
+  const { data: matchingSeasons, error: seasonErr } = await seasonQuery.limit(1);
+
+  if (!seasonErr && matchingSeasons && matchingSeasons.length > 0 && matchingSeasons[0].multiplier) {
+    multiplier = Number(matchingSeasons[0].multiplier);
   }
 
   const finalPriceSAR = Math.round(basePriceSAR * multiplier);

@@ -61,13 +61,21 @@ export async function POST(request: Request) {
       .from('bookings')
       .select(`
         reference,
+        customer_name,
         customer_phone,
         pickup_datetime,
         pickup_location,
         dropoff_location,
+        passengers_count,
+        flight_number,
         vehicle_id,
         status,
         final_price_sar,
+        final_price_currency,
+        currency_charged,
+        driver_name,
+        driver_phone,
+        vehicle_plate,
         driver_id,
         drivers (
           name,
@@ -97,25 +105,40 @@ export async function POST(request: Request) {
 
     // 5. Driver details only exposed when actively assigned/en route
     const isDriverActive = booking.status === 'driver_assigned' || booking.status === 'en_route';
-    const driverInfo = isDriverActive && booking.drivers
-      ? {
-          name: (booking.drivers as any).name,
-          phone: (booking.drivers as any).phone,
-          vehiclePlate: (booking.drivers as any).vehicle_plate,
-          vehicleModel: (booking.drivers as any).vehicle_model,
-        }
-      : null;
+    let driverInfo = null;
+    if (isDriverActive) {
+      if (booking.drivers) {
+        driverInfo = {
+          name: (booking.drivers as any).name || booking.driver_name || 'Assigned Chauffeur',
+          phone: (booking.drivers as any).phone || booking.driver_phone || '',
+          vehicle_plate: (booking.drivers as any).vehicle_plate || booking.vehicle_plate || '',
+          vehicle_model: (booking.drivers as any).vehicle_model || '',
+        };
+      } else if (booking.driver_name || booking.driver_phone) {
+        driverInfo = {
+          name: booking.driver_name || 'Assigned Chauffeur',
+          phone: booking.driver_phone || '',
+          vehicle_plate: booking.vehicle_plate || '',
+          vehicle_model: '',
+        };
+      }
+    }
 
-    // 6. Return ONLY minimal, safe public fields
+    // 6. Return comprehensive, safe public fields matching TrackBookingEngine
     return NextResponse.json({
       booking: {
         reference: booking.reference,
+        customerName: booking.customer_name || 'Pilgrim Passenger',
         pickupDatetime: booking.pickup_datetime,
         pickupLocation: booking.pickup_location,
         dropoffLocation: booking.dropoff_location,
+        passengersCount: booking.passengers_count || 1,
+        flightNumber: booking.flight_number || null,
         vehicleId: booking.vehicle_id,
         status: booking.status,
         finalPriceSAR: booking.final_price_sar,
+        finalPriceCurrency: booking.final_price_currency || booking.final_price_sar,
+        currencyCharged: booking.currency_charged || 'SAR',
         driver: driverInfo,
       },
     });

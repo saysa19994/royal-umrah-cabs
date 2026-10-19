@@ -131,3 +131,19 @@ export const PAGE_SLUGS: Record<string, Partial<Record<Locale, string>>> = {
   cancellationRefund: { en: 'cancellation', ar: 'cancellation', ms: 'pembatalan', id: 'pembatalan', fr: 'annulation', es: 'cancelacion', de: 'stornierung', ur: 'cancellation', hi: 'cancellation' },
   partners: { en: 'partners', ar: 'partners', ms: 'rakan-kongsi', id: 'mitra', fr: 'partenaires', es: 'socios', de: 'partner', ur: 'partners', hi: 'partners' },
 };
+
+export function getLocalizedAlternates(locale: Locale, path: string = '') {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const cleanPath = path ? (path.startsWith('/') ? path : `/${path}`) : '';
+
+  const languages: Record<string, string> = {};
+  for (const l of LOCALES) {
+    languages[l] = `${baseUrl}/${l}${cleanPath}`;
+  }
+  languages['x-default'] = `${baseUrl}/en${cleanPath}`;
+
+  return {
+    canonical: `${baseUrl}/${locale}${cleanPath}`,
+    languages,
+  };
+}

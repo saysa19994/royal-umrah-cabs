@@ -37,8 +37,8 @@ const DEFAULT_ROWS: RouteRow[] = [
   { id: 'makkah-to-jeddah-airport', title: 'Makkah Hotel → Jeddah Airport (KAIA)', camry: 200, staria: 260, yukon: 380, hiace: 340, coaster: 650 },
   { id: 'makkah-to-madinah', title: 'Makkah → Madinah Al-Munawwarah', camry: 450, staria: 500, yukon: 750, hiace: 650, coaster: 1200 },
   { id: 'madinah-to-makkah', title: 'Madinah → Makkah (With Miqat Bir Ali Stop)', camry: 450, staria: 500, yukon: 750, hiace: 650, coaster: 1200 },
-  { id: 'madinah-airport-to-hotel', title: 'Madinah Airport (MED) → Central Hotel', camry: 150, staria: 200, yukon: 300, hiace: 270, coaster: 550 },
-  { id: 'jeddah-to-madinah', title: 'Jeddah City / Airport → Madinah Hotel', camry: 680, staria: 750, yukon: 1050, hiace: 900, coaster: 1600 },
+  { id: 'madinah-airport-to-hotel', title: 'Madinah Airport (MED) → Central Hotel', camry: 150, staria: 190, yukon: 280, hiace: 250, coaster: 550 },
+  { id: 'jeddah-to-madinah', title: 'Jeddah City / Airport → Madinah Hotel', camry: 680, staria: 750, yukon: 980, hiace: 850, coaster: 1600 },
 ];
 
 export default function AdminPricingPage() {
@@ -67,8 +67,31 @@ export default function AdminPricingPage() {
     }
   };
 
+  const fetchPrices = async () => {
+    try {
+      const res = await fetch('/api/admin/pricing');
+      const data = await res.json();
+      if (res.ok && data.prices && Array.isArray(data.prices) && data.prices.length > 0) {
+        setRows((prevRows) => {
+          return prevRows.map((row) => {
+            const updatedRow = { ...row };
+            for (const p of data.prices) {
+              if (p.route_id === row.id && p.vehicle_id in updatedRow) {
+                (updatedRow as any)[p.vehicle_id] = p.price_sar;
+              }
+            }
+            return updatedRow;
+          });
+        });
+      }
+    } catch (e) {
+      console.error('Error fetching prices from DB:', e);
+    }
+  };
+
   useEffect(() => {
     fetchSeasons();
+    fetchPrices();
   }, []);
 
   const handleChange = (routeId: string, vehicle: keyof Omit<RouteRow, 'id' | 'title'>, value: string) => {
@@ -84,7 +107,7 @@ export default function AdminPricingPage() {
     try {
       const vehicles: (keyof Omit<RouteRow, 'id' | 'title'>)[] = ['camry', 'staria', 'yukon', 'hiace', 'coaster'];
       for (const v of vehicles) {
-        await fetch('/api/admin/pricing', {
+        const res = await fetch('/api/admin/pricing', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -93,6 +116,9 @@ export default function AdminPricingPage() {
             price_sar: route[v],
           }),
         });
+        if (!res.ok) {
+          throw new Error(`Failed to save price for ${v} on route ${route.id}`);
+        }
       }
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);

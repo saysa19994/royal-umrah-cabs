@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth/server-auth';
+import { hasPermission } from '@/lib/auth/rbac';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
 import { getClientIp } from '@/lib/rate-limit';
@@ -12,6 +13,9 @@ export async function GET(request: Request) {
     }
 
     const { user: currentUser } = authResult;
+    if (!(await hasPermission(currentUser.role, 'leads', 'view'))) {
+      return NextResponse.json({ success: false, error: 'Forbidden: Insufficient permissions to view leads' }, { status: 403 });
+    }
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
 
@@ -58,6 +62,9 @@ export async function PATCH(request: Request) {
     }
 
     const { user: currentUser } = authResult;
+    if (!(await hasPermission(currentUser.role, 'leads', 'edit'))) {
+      return NextResponse.json({ success: false, error: 'Forbidden: Insufficient permissions to edit leads' }, { status: 403 });
+    }
     const body = await request.json();
     const { id, status, notes, assigned_operator_id } = body;
 
@@ -78,11 +85,17 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ success: false, error: 'Lead not found' }, { status: 404 });
     }
 
-    // Operator scope verification
+    // Operator scope verification & field restrictions
     if (currentUser.role === 'operator') {
       if (currentLead.whatsapp_number !== currentUser.assigned_whatsapp_number) {
         return NextResponse.json(
           { success: false, error: 'Forbidden: Cannot modify leads outside your assigned scope' },
+          { status: 403 }
+        );
+      }
+      if (assigned_operator_id !== undefined) {
+        return NextResponse.json(
+          { success: false, error: 'Forbidden: Operators cannot reassign leads' },
           { status: 403 }
         );
       }

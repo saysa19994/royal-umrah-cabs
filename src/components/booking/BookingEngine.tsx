@@ -68,11 +68,21 @@ export function BookingEngine({
   const [bookingType, setBookingType] = useState<'transfer' | 'hourly' | 'ziyarat' | 'group_bus'>('transfer');
   const [routeId, setRouteId] = useState(initialRoute);
   const [vehicleId, setVehicleId] = useState(initialVehicle);
+  const [durationHours, setDurationHours] = useState<number>(4);
+  const [customPickupLocation, setCustomPickupLocation] = useState('Makkah Hotel / Location');
+  const [customDropoffLocation, setCustomDropoffLocation] = useState('Holy Sites / City Tour');
   const [pickupDate, setPickupDate] = useState(initialDate);
   const [pickupTime, setPickupTime] = useState(initialTime);
   const [passengers, setPassengers] = useState(Number(initialPassengers) || 2);
   const [luggage, setLuggage] = useState(Number(initialLuggage) || 2);
   const [flightNumber, setFlightNumber] = useState('');
+
+  const handleBookingTypeChange = (type: 'transfer' | 'hourly' | 'ziyarat' | 'group_bus') => {
+    setBookingType(type);
+    if (type === 'group_bus' && vehicleId !== 'hiace' && vehicleId !== 'coaster') {
+      setVehicleId('coaster');
+    }
+  };
 
   const maxVehicleSeats = VEHICLE_SPECS[vehicleId]?.seats || 7;
   const maxVehicleBags = VEHICLE_SPECS[vehicleId]?.bags || 6;
@@ -115,6 +125,7 @@ export function BookingEngine({
       bookingType,
       routeId: bookingType === 'transfer' ? routeId : null,
       vehicleId,
+      durationHours: bookingType === 'hourly' ? durationHours : undefined,
     });
     return calculated || 200;
   };
@@ -129,11 +140,11 @@ export function BookingEngine({
     const pickupLocation =
       bookingType === 'transfer'
         ? ROUTES[routeId]?.label.split('→')[0].trim() || 'Jeddah Airport (KAIA)'
-        : 'Makkah Hotel';
+        : (customPickupLocation || 'Makkah Hotel');
     const dropoffLocation =
       bookingType === 'transfer'
         ? ROUTES[routeId]?.label.split('→')[1]?.trim() || 'Makkah Hotel'
-        : 'Holy Sites / City Tour';
+        : (customDropoffLocation || 'Holy Sites / City Tour');
 
     const payload = {
       booking_type: bookingType,
@@ -148,6 +159,7 @@ export function BookingEngine({
       passengers_count: passengers,
       luggage_count: luggage,
       flight_number: flightNumber || undefined,
+      duration_hours: bookingType === 'hourly' ? durationHours : undefined,
       add_ons: addOns,
       special_notes: specialNotes || undefined,
       payment_method: paymentMethod,
@@ -280,7 +292,7 @@ export function BookingEngine({
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-bg-alt p-1.5 rounded-xl border border-border mb-8">
         <button
           type="button"
-          onClick={() => setBookingType('transfer')}
+          onClick={() => handleBookingTypeChange('transfer')}
           className={`py-2.5 px-3 rounded-lg text-xs font-bold transition-all ${
             bookingType === 'transfer' ? 'bg-gold text-ink shadow-xs' : 'text-ink-muted hover:text-ink'
           }`}
@@ -289,7 +301,7 @@ export function BookingEngine({
         </button>
         <button
           type="button"
-          onClick={() => setBookingType('hourly')}
+          onClick={() => handleBookingTypeChange('hourly')}
           className={`py-2.5 px-3 rounded-lg text-xs font-bold transition-all ${
             bookingType === 'hourly' ? 'bg-gold text-ink shadow-xs' : 'text-ink-muted hover:text-ink'
           }`}
@@ -298,7 +310,7 @@ export function BookingEngine({
         </button>
         <button
           type="button"
-          onClick={() => setBookingType('ziyarat')}
+          onClick={() => handleBookingTypeChange('ziyarat')}
           className={`py-2.5 px-3 rounded-lg text-xs font-bold transition-all ${
             bookingType === 'ziyarat' ? 'bg-gold text-ink shadow-xs' : 'text-ink-muted hover:text-ink'
           }`}
@@ -307,7 +319,7 @@ export function BookingEngine({
         </button>
         <button
           type="button"
-          onClick={() => setBookingType('group_bus')}
+          onClick={() => handleBookingTypeChange('group_bus')}
           className={`py-2.5 px-3 rounded-lg text-xs font-bold transition-all ${
             bookingType === 'group_bus' ? 'bg-gold text-ink shadow-xs' : 'text-ink-muted hover:text-ink'
           }`}
@@ -339,6 +351,124 @@ export function BookingEngine({
                   ))}
                 </select>
                 <MapPin className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+            </div>
+          )}
+
+          {bookingType === 'hourly' && (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-ink mb-1.5">Chauffeur Service Duration</label>
+                <div className="relative">
+                  <select
+                    value={durationHours}
+                    onChange={(e) => setDurationHours(Number(e.target.value))}
+                    className="w-full h-12 pl-10 pr-4 rtl:pr-10 rtl:pl-4 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-gold-dark appearance-none cursor-pointer"
+                  >
+                    {[2, 4, 6, 8, 10, 12, 16, 24].map((hr) => (
+                      <option key={hr} value={hr}>
+                        {hr} Hours Chauffeur Service
+                      </option>
+                    ))}
+                  </select>
+                  <Clock className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-ink mb-1.5">Pickup Address / Hotel</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Hotel / Pickup location in Makkah/Madinah"
+                  value={customPickupLocation}
+                  onChange={(e) => setCustomPickupLocation(e.target.value)}
+                  className="w-full h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-ink mb-1.5">Primary Destination / Area</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Makkah Local Tour / Business"
+                  value={customDropoffLocation}
+                  onChange={(e) => setCustomDropoffLocation(e.target.value)}
+                  className="w-full h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                />
+              </div>
+            </div>
+          )}
+
+          {bookingType === 'ziyarat' && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-ink mb-1.5">Select Ziyarat Package</label>
+                <div className="relative">
+                  <select
+                    value={customDropoffLocation}
+                    onChange={(e) => {
+                      setCustomDropoffLocation(e.target.value);
+                      if (e.target.value.includes('Madinah')) {
+                        setCustomPickupLocation('Madinah Hotel');
+                      } else {
+                        setCustomPickupLocation('Makkah Hotel');
+                      }
+                    }}
+                    className="w-full h-12 pl-10 pr-4 rtl:pr-10 rtl:pl-4 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-gold-dark appearance-none cursor-pointer"
+                  >
+                    <option value="Makkah Holy Sites Ziyarat (Arafat, Mina, Muzdalifah, Jabal al-Noor)">
+                      Makkah Holy Sites (Arafat, Mina, Muzdalifah, Jabal al-Noor)
+                    </option>
+                    <option value="Madinah Holy Sites Ziyarat (Quba, Qiblatain, Uhud, Khandaq)">
+                      Madinah Holy Sites (Quba, Qiblatain, Uhud, Khandaq)
+                    </option>
+                    <option value="Taif Full-Day Mountain Ziyarat & Historic Mosques">
+                      Taif Mountain Tour & Historic Mosques
+                    </option>
+                    <option value="Badr Battlefield & Historic Martyrs Ziyarat">
+                      Badr Historic Battlefield & Martyrs
+                    </option>
+                  </select>
+                  <MapPin className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-ink mb-1.5">Pickup Hotel / Address</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Jabal Omar Hotel, Makkah"
+                  value={customPickupLocation}
+                  onChange={(e) => setCustomPickupLocation(e.target.value)}
+                  className="w-full h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                />
+              </div>
+            </div>
+          )}
+
+          {bookingType === 'group_bus' && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-ink mb-1.5">Pickup Location (Hotel/Airport)</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. King Abdulaziz Airport Terminal 1"
+                  value={customPickupLocation}
+                  onChange={(e) => setCustomPickupLocation(e.target.value)}
+                  className="w-full h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-ink mb-1.5">Drop-off Destination</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Makkah Clock Tower Hotel"
+                  value={customDropoffLocation}
+                  onChange={(e) => setCustomDropoffLocation(e.target.value)}
+                  className="w-full h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                />
               </div>
             </div>
           )}
@@ -450,13 +580,16 @@ export function BookingEngine({
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {Object.entries(VEHICLE_SPECS).map(([vId, vData]) => {
+            {Object.entries(VEHICLE_SPECS)
+              .filter(([vId]) => (bookingType === 'group_bus' ? vId === 'hiace' || vId === 'coaster' : true))
+              .map(([vId, vData]) => {
               const isSelected = vehicleId === vId;
               const vehicleEstimatedFare =
                 getEstimatedBasePriceSAR({
                   bookingType,
                   routeId: bookingType === 'transfer' ? routeId : null,
                   vehicleId: vId,
+                  durationHours: bookingType === 'hourly' ? durationHours : undefined,
                 }) || 200;
               return (
                 <div

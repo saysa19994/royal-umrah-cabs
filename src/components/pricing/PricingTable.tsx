@@ -64,9 +64,9 @@ const ROUTE_PRICES: RoutePriceItem[] = [
     id: 'madinah-airport-to-hotel',
     title: 'Madinah Airport (MED) → Central Hotel',
     camry: 150,
-    staria: 200,
-    yukon: 300,
-    hiace: 270,
+    staria: 190,
+    yukon: 280,
+    hiace: 250,
     coaster: 550,
   },
   {
@@ -74,8 +74,8 @@ const ROUTE_PRICES: RoutePriceItem[] = [
     title: 'Jeddah City / Airport → Madinah Hotel',
     camry: 680,
     staria: 750,
-    yukon: 1050,
-    hiace: 900,
+    yukon: 980,
+    hiace: 850,
     coaster: 1600,
   },
 ];

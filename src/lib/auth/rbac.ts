@@ -1,5 +1,5 @@
 import { Role, Resource, Action, RolePermission, UserProfile } from '@/types/auth';
-import { createClient } from '../supabase/server';
+import { createServiceClient } from '../supabase/service';
 
 export const DEFAULT_PERMISSIONS_MATRIX: RolePermission[] = [
   // OWNER: Unrestricted Super-Admin Access
@@ -65,7 +65,7 @@ let memoryPermissions = [...DEFAULT_PERMISSIONS_MATRIX];
 
 export async function getRolePermissions(): Promise<RolePermission[]> {
   try {
-    const supabase = createClient();
+    const supabase = createServiceClient();
     const { data, error } = await supabase.from('role_permissions').select('*');
     if (!error && data && data.length > 0) {
       return data as RolePermission[];

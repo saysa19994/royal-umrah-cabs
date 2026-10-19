@@ -1,4 +1,4 @@
-import { createClient } from './supabase/server';
+import { createServiceClient } from './supabase/service';
 import { AuditLogEntry, Role } from '@/types/auth';
 
 interface LogAuditParams {
@@ -46,14 +46,19 @@ export async function logAuditEvent(params: LogAuditParams): Promise<void> {
   };
 
   try {
-    const supabase = createClient();
+    const supabase = createServiceClient();
+    const enrichedNewValues = {
+      ...(params.newValues || {}),
+      _user_role: params.userRole,
+    };
     const { error } = await supabase.from('audit_log').insert({
       entity_type: params.resource,
       entity_id: params.resourceId || 'global',
       action: params.action,
       old_values: params.oldValues || null,
-      new_values: params.newValues || null,
+      new_values: enrichedNewValues,
       performed_by: params.userEmail,
+      ip_address: params.ip || null,
     });
 
     if (error) {
@@ -78,7 +83,7 @@ export async function getAuditLogs(filters?: {
   limit?: number;
 }): Promise<AuditLogEntry[]> {
   try {
-    const supabase = createClient();
+    const supabase = createServiceClient();
     let query = supabase.from('audit_log').select('*').order('created_at', { ascending: false });
 
     if (filters?.resource) {
@@ -105,13 +110,13 @@ export async function getAuditLogs(filters?: {
       return data.map((d: any) => ({
         id: d.id,
         user_email: d.performed_by || 'system',
-        user_role: (d.performed_by === 'owner@royalumrahcabs.com' ? 'owner' : 'admin') as Role,
+        user_role: (d.new_values?._user_role || (d.performed_by === 'owner@royalumrahcabs.com' ? 'owner' : 'admin')) as Role,
         action: d.action,
         resource: d.entity_type,
         resource_id: d.entity_id,
         old_values: d.old_values,
         new_values: d.new_values,
-        ip_address: null,
+        ip_address: d.ip_address || null,
         created_at: d.created_at,
       }));
     }

@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
@@ -169,11 +170,11 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
 
         {/* IMAGE SHOWCASE */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <div className="rounded-2xl overflow-hidden aspect-[16/10] bg-surface border border-border shadow-xs">
-            <img src={v.extImg} alt={`${v.name} exterior`} className="w-full h-full object-cover" />
+          <div className="relative rounded-2xl overflow-hidden aspect-[16/10] bg-surface border border-border shadow-xs">
+            <Image src={v.extImg} alt={`${v.name} exterior`} fill sizes="(max-width: 768px) 100vw, 50vw" priority className="object-cover" />
           </div>
-          <div className="rounded-2xl overflow-hidden aspect-[16/10] bg-surface border border-border shadow-xs">
-            <img src={v.intImg} alt={`${v.name} interior cabin`} className="w-full h-full object-cover" />
+          <div className="relative rounded-2xl overflow-hidden aspect-[16/10] bg-surface border border-border shadow-xs">
+            <Image src={v.intImg} alt={`${v.name} interior cabin`} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
           </div>
         </div>
 

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import { useCurrency } from '@/context/CurrencyContext';
@@ -98,9 +99,11 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* CAR PHOTO WITH ARROWS */}
             <div className="lg:col-span-7 relative flex items-center justify-center min-h-[260px] sm:min-h-[340px] bg-bg-alt/40 rounded-xl p-4 overflow-hidden">
-              <img
+              <Image
                 src={currentCar.extImg}
                 alt={currentCar.name}
+                width={600}
+                height={350}
                 className="w-full h-auto max-h-[300px] object-contain drop-shadow-md hover:scale-105 transition-transform duration-500"
               />
 
@@ -203,10 +206,12 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
                 key={car.id}
                 className="relative rounded-3xl overflow-hidden aspect-[16/10] group shadow-sm border border-border"
               >
-                <img
+                <Image
                   src={car.intImg}
                   alt={`${car.name} interior cabin`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 {/* DARK GRADIENT */}
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent" />

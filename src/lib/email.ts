@@ -11,6 +11,15 @@ interface SendOwnershipTransferEmailParams {
   expiresAt: string;
 }
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 export async function sendOwnershipTransferEmail(
   params: SendOwnershipTransferEmailParams
 ): Promise<{ success: boolean; error?: string }> {
@@ -39,7 +48,7 @@ export async function sendOwnershipTransferEmail(
                 A request has been initiated to transfer primary ownership of <strong>Royal Umrah Cabs</strong> to:
               </p>
               <div style="font-size: 15px; font-weight: bold; color: #FAF9F6; background: #14171C; border: 1px solid #2B323D; padding: 12px 16px; border-radius: 8px; margin: 16px 0;">
-                ${targetEmail}
+                ${escapeHtml(targetEmail)}
               </div>
               <p style="font-size: 14px; line-height: 1.6; color: #A0A6B2;">
                 To authorize and execute this irreversible operation, enter the following confirmation token in your executive settings panel:
@@ -67,7 +76,15 @@ export async function sendOwnershipTransferEmail(
     }
   }
 
-  // Fallback: If RESEND_API_KEY is not yet populated, note dispatch without leaking token
-  console.info(`[SECURITY EVENT] Ownership transfer confirmation dispatched securely to verified owner: ${to}. Token omitted from logs.`);
+  // In production, missing RESEND_API_KEY must fail-closed
+  if (process.env.NODE_ENV === 'production') {
+    return {
+      success: false,
+      error: 'Transactional email service is not configured (missing RESEND_API_KEY in production).',
+    };
+  }
+
+  // Development Fallback: note dispatch without leaking token
+  console.info(`[DEV SECURITY EVENT] Ownership transfer confirmation dispatched securely to verified owner: ${to}. Token omitted from logs.`);
   return { success: true };
 }

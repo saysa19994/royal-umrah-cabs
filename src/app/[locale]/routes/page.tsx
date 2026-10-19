@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { MapPin, Clock, ArrowRight, ShieldCheck } from 'lucide-react';
 
@@ -19,13 +19,10 @@ export async function generateMetadata(props: RoutesPageProps): Promise<Metadata
   } = params;
 
   const dict = getDictionary(locale);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
     title: dict.nav.routes,
     description: 'Explore all private Umrah and intercity transfer routes between Jeddah, Makkah, and Madinah with fixed transparent pricing.',
-    alternates: {
-      canonical: `${baseUrl}/${locale}/routes`,
-    },
+    alternates: getLocalizedAlternates(locale, '/routes'),
   };
 }
 

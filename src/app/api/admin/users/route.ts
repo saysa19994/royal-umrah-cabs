@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth/server-auth';
+import { hasPermission } from '@/lib/auth/rbac';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
 import { getClientIp } from '@/lib/rate-limit';
@@ -10,6 +11,11 @@ export async function GET(request: Request) {
     const authResult = await requireRole(request, ['owner', 'admin']);
     if (authResult.errorResponse) {
       return authResult.errorResponse;
+    }
+
+    const { user: currentUser } = authResult;
+    if (!(await hasPermission(currentUser.role, 'users', 'view'))) {
+      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to view users' }, { status: 403 });
     }
 
     const serviceClient = createServiceClient();
@@ -40,6 +46,9 @@ export async function POST(request: Request) {
     }
 
     const { user: currentUser } = authResult;
+    if (!(await hasPermission(currentUser.role, 'users', 'create'))) {
+      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to create users' }, { status: 403 });
+    }
     const body = await request.json();
     const { name, email, role, assigned_whatsapp_number } = body;
     const cleanEmail = (email || '').trim().toLowerCase();
@@ -133,6 +142,9 @@ export async function PUT(request: Request) {
     }
 
     const { user: currentUser } = authResult;
+    if (!(await hasPermission(currentUser.role, 'users', 'edit'))) {
+      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to edit users' }, { status: 403 });
+    }
     const body = await request.json();
     const { id, role, assigned_whatsapp_number, is_suspended } = body;
 
@@ -215,6 +227,10 @@ export async function DELETE(request: Request) {
     }
 
     const { user: currentUser } = authResult;
+    if (!(await hasPermission(currentUser.role, 'users', 'delete'))) {
+      return NextResponse.json({ error: 'Forbidden: Insufficient permissions to delete users' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
@@ -225,7 +241,7 @@ export async function DELETE(request: Request) {
     const serviceClient = createServiceClient();
     const { data: targetUser, error: findError } = await serviceClient
       .from('user_profiles')
-      .select('id, email, role')
+      .select('id, auth_user_id, email, role')
       .eq('id', id)
       .maybeSingle();
 
@@ -237,6 +253,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Violation: The system Owner cannot be deleted under any circumstances.' }, { status: 403 });
     }
 
+    // Delete user profile from database
     const { error: delError } = await serviceClient
       .from('user_profiles')
       .delete()
@@ -245,6 +262,15 @@ export async function DELETE(request: Request) {
     if (delError) {
       console.error('Failed to delete user profile:', delError);
       return NextResponse.json({ error: 'Failed to delete user from database' }, { status: 500 });
+    }
+
+    // Terminate Supabase Auth account & active sessions immediately
+    if (targetUser.auth_user_id) {
+      try {
+        await serviceClient.auth.admin.deleteUser(targetUser.auth_user_id);
+      } catch (authDelErr) {
+        console.warn('Failed to delete user from Supabase Auth:', authDelErr);
+      }
     }
 
     await logAuditEvent({

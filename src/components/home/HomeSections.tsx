@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import type { SiteSettings } from '@/lib/settings';
@@ -415,9 +416,11 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               >
                 <div>
                   <div className="relative aspect-[16/10] bg-bg-alt/50 p-4 flex items-center justify-center">
-                    <img
+                    <Image
                       src={car.extImg}
                       alt={car.name}
+                      width={400}
+                      height={250}
                       className="w-full h-full object-contain hover:scale-105 transition-transform duration-500"
                     />
                   </div>
@@ -557,10 +560,12 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 key={car.id}
                 className="relative rounded-3xl overflow-hidden aspect-[16/10] group shadow-sm border border-border"
               >
-                <img
+                <Image
                   src={car.intImg}
                   alt={`${car.name} interior`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#141210]/90 via-[#141210]/30 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4 bg-surface/90 backdrop-blur-md rounded-2xl p-4 border border-white/20 text-start shadow-md flex items-center justify-between">

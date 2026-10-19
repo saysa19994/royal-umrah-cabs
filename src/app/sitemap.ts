@@ -30,6 +30,7 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
     '/terms',
     '/cancellation',
     '/cookies',
+    '/guides',
     '/guides/malaysia-umrah-transport',
     '/guides/jeddah-airport-arrival-guide',
     '/guides/makkah-to-madinah-transport-comparison',

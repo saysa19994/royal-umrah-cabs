@@ -47,7 +47,7 @@ export default function AdminUsersPage() {
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [targetEmail, setTargetEmail] = useState('');
   const [transferToken, setTransferToken] = useState('');
-  const [generatedToken, setGeneratedToken] = useState<string | null>(null);
+  const [transferInitiated, setTransferInitiated] = useState(false);
   const [processingTransfer, setProcessingTransfer] = useState(false);
 
   const fetchUsers = async () => {
@@ -163,8 +163,8 @@ export default function AdminUsersPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
 
-      setGeneratedToken(data.transfer.confirmation_token);
-      setSuccess('Confirmation token generated. Copy this token and confirm to finalize transfer.');
+      setTransferInitiated(true);
+      setSuccess('Ownership transfer initiated. A confidential confirmation token has been sent to your verified owner email inbox. Check your email and enter the token below.');
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -188,7 +188,7 @@ export default function AdminUsersPage() {
 
       setSuccess(data.message);
       setShowTransferModal(false);
-      setGeneratedToken(null);
+      setTransferInitiated(false);
       setTransferToken('');
       fetchUsers();
     } catch (err: any) {
@@ -480,7 +480,7 @@ export default function AdminUsersPage() {
               This two-step confirmation transfers the immutable Owner role to a new verified email. The previous owner will be demoted to Admin. There must be at least one owner at all times.
             </p>
 
-            {!generatedToken ? (
+            {!transferInitiated ? (
               <form onSubmit={handleInitiateTransfer} className="space-y-4 text-start">
                 <div>
                   <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
@@ -509,30 +509,30 @@ export default function AdminUsersPage() {
                     disabled={processingTransfer}
                     className="px-5 py-2 rounded-xl bg-amber-500 text-black font-bold text-xs uppercase tracking-wider hover:bg-amber-400 transition-all disabled:opacity-50"
                   >
-                    {processingTransfer ? 'Generating...' : 'Initiate Transfer'}
+                    {processingTransfer ? 'Initiating...' : 'Send Confirmation Email'}
                   </button>
                 </div>
               </form>
             ) : (
               <form onSubmit={handleConfirmTransfer} className="space-y-4 text-start">
                 <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200">
-                  <span className="text-xs font-bold block mb-1">Confirmation Token Generated:</span>
-                  <div className="font-mono text-sm bg-black/40 p-2 rounded border border-amber-500/30 select-all break-all text-amber-300">
-                    {generatedToken}
-                  </div>
+                  <span className="text-xs font-bold block mb-1">Check Your Owner Email Inbox:</span>
+                  <p className="text-xs text-amber-300 leading-relaxed">
+                    A secure 64-character confirmation token was sent to your owner email address. Please copy the token from your email and paste it below to authorize this irreversible transfer.
+                  </p>
                   <p className="text-[10px] mt-1.5 opacity-80">
-                    Valid for 24 hours. Enter this token below to finalize the permanent transfer.
+                    The token is valid for 24 hours. Never share this token with anyone.
                   </p>
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
-                    Enter Confirmation Token
+                    Enter Confirmation Token (from Email)
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="Paste token here"
+                    placeholder="Paste 64-character token from email"
                     value={transferToken}
                     onChange={(e) => setTransferToken(e.target.value)}
                     className="w-full h-11 px-3 text-xs rounded-xl border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none font-mono"
@@ -543,7 +543,7 @@ export default function AdminUsersPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      setGeneratedToken(null);
+                      setTransferInitiated(false);
                       setShowTransferModal(false);
                     }}
                     className="px-4 py-2 text-xs font-bold text-[#A0A6B2] hover:text-[#FAF9F6]"

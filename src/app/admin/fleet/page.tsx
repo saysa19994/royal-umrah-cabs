@@ -25,6 +25,21 @@ export default function AdminFleetPage() {
   const [savingId, setSavingId] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  useEffect(() => {
+    async function loadFleet() {
+      try {
+        const res = await fetch('/api/admin/fleet');
+        const data = await res.json();
+        if (res.ok && data.fleet && Array.isArray(data.fleet) && data.fleet.length > 0) {
+          setFleet(data.fleet);
+        }
+      } catch (err) {
+        console.warn('Failed to fetch fleet from DB, keeping default:', err);
+      }
+    }
+    loadFleet();
+  }, []);
+
   const toggleActive = (id: string) => {
     setFleet((prev) =>
       prev.map((v) => (v.id === id ? { ...v, is_active: !v.is_active } : v))
@@ -42,11 +57,15 @@ export default function AdminFleetPage() {
     setSavingId(veh.id);
     setSuccess(false);
     try {
-      await fetch('/api/admin/fleet', {
+      const res = await fetch('/api/admin/fleet', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(veh),
       });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to update fleet record');
+      }
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (e) {

@@ -84,12 +84,24 @@ export async function POST(request: Request) {
 
     // NEVER return confirmation token in the API response or print to stdout.
     // Dispatched securely via transactional email to current owner.
-    await sendOwnershipTransferEmail({
+    const emailRes = await sendOwnershipTransferEmail({
       to: currentOwner.email,
       targetEmail: cleanTarget,
       confirmationToken: token,
       expiresAt,
     });
+
+    if (!emailRes.success) {
+      await serviceClient
+        .from('ownership_transfers')
+        .update({ status: 'failed' })
+        .eq('id', record.id);
+
+      return NextResponse.json(
+        { error: `Ownership transfer email dispatch failed: ${emailRes.error || 'Email service unavailable'}. Please verify configuration.` },
+        { status: 503 }
+      );
+    }
 
     await logAuditEvent({
       userEmail: currentOwner.email,

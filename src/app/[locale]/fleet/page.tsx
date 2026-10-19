@@ -1,7 +1,8 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Locale } from '@/i18n/config';
+import Image from 'next/image';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { Users, Briefcase, Sparkles, ArrowRight } from 'lucide-react';
 
@@ -19,13 +20,10 @@ export async function generateMetadata(props: FleetPageProps): Promise<Metadata>
   } = params;
 
   const dict = getDictionary(locale);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
   return {
     title: dict.nav.fleet,
     description: 'Explore our luxury modern private Umrah fleet: GMC Yukon XL, Hyundai Staria, Toyota Camry, and Toyota HiAce.',
-    alternates: {
-      canonical: `${baseUrl}/${locale}/fleet`,
-    },
+    alternates: getLocalizedAlternates(locale, '/fleet'),
   };
 }
 
@@ -104,9 +102,11 @@ export default async function FleetPage(props: FleetPageProps) {
             >
               <div>
                 <div className="relative h-60 bg-bg-alt/30 p-4 flex items-center justify-center overflow-hidden">
-                  <img
+                  <Image
                     src={v.extImg}
                     alt={v.name}
+                    width={450}
+                    height={240}
                     className="w-full h-full object-contain hover:scale-105 transition-transform duration-500 drop-shadow-sm"
                   />
                   <span className="absolute top-4 left-4 rtl:left-auto rtl:right-4 bg-gold-soft text-gold-dark text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-gold-line">

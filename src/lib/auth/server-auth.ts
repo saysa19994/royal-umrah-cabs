@@ -116,10 +116,11 @@ export async function requireRole(
     const currentAal: 'aal1' | 'aal2' = (aalData?.currentLevel === 'aal2') ? 'aal2' : 'aal1';
     const nextAal = aalData?.nextLevel || 'aal1';
 
-    // For owner and admin: ALWAYS REQUIRE AAL2, regardless of profile.totp_enabled
-    if (userRole === 'owner' || userRole === 'admin') {
-      // If user has not enrolled TOTP factors yet
-      if (nextAal !== 'aal2' && !profile.totp_enabled) {
+    // For owner, admin, or any account with totp_enabled: require AAL2 MFA
+    const requiresMfa = userRole === 'owner' || userRole === 'admin' || profile.totp_enabled === true;
+    if (requiresMfa) {
+      // If owner/admin has not enrolled TOTP factors yet
+      if ((userRole === 'owner' || userRole === 'admin') && nextAal !== 'aal2' && !profile.totp_enabled) {
         if (!options.allowEnrollmentFlow) {
           return {
             errorResponse: NextResponse.json(
@@ -137,7 +138,7 @@ export async function requireRole(
         return {
           errorResponse: NextResponse.json(
             {
-              error: 'MFA Verification Required: High-privilege actions require Authenticator Assurance Level 2 (AAL2).',
+              error: 'MFA Verification Required: Access requires Authenticator Assurance Level 2 (AAL2).',
               code: 'MFA_VERIFICATION_REQUIRED',
               require2fa: true,
             },
