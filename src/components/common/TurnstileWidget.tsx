@@ -42,7 +42,7 @@ interface TurnstileWidgetProps {
 const DEV_TEST_SITE_KEY = '1x00000000000000000000AA';
 
 export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetProps>(
-  ({ onSuccess, onVerify, onExpire, onError, locale = 'en', theme = 'dark', className = '' }, ref) => {
+  ({ onSuccess, onVerify, onExpire, onError, locale = 'en', theme = 'auto', className = '' }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const widgetIdRef = useRef<string | null>(null);
     const [statusMessage, setStatusMessage] = useState<string | null>(null);

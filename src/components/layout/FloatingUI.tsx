@@ -64,60 +64,64 @@ export function FloatingUI({ locale, dict, whatsappNumber }: FloatingUIProps) {
     window.open(`https://wa.me/${whatsappNumber}?text=${fallbackMsg}`, '_blank');
   };
 
-  const greeting = encodeURIComponent(LOCALE_CONFIG[locale].whatsappGreeting);
-  const waUrl = `https://wa.me/${whatsappNumber}?text=${greeting}`;
-
   return (
     <>
-      {/* FLOATING ACTION BUTTONS (BOTTOM RIGHT/LEFT ACCORDING TO DIR) */}
-      <aside aria-label="Quick Actions" className="fixed bottom-20 sm:bottom-6 right-4 rtl:right-auto rtl:left-4 z-40 flex flex-col items-center gap-3">
+      {/* FLOATING ACTION BUTTONS (DESKTOP & TABLET: BOTTOM-RIGHT/LEFT ACCORDING TO DIR) */}
+      <aside
+        aria-label="Quick Actions"
+        className="fixed bottom-20 md:bottom-6 right-4 rtl:right-auto rtl:left-4 z-40 flex flex-col items-center gap-3 pointer-events-auto"
+      >
         {/* BACK TO TOP BUTTON */}
         {showBackToTop && (
           <button
             type="button"
             onClick={scrollToTop}
             aria-label={dict.floating.backToTop}
-            className="w-11 h-11 rounded-full bg-surface border-2 border-gold-dark text-ink shadow-md flex items-center justify-center hover:bg-gold-soft transition-all duration-200"
+            className="w-11 h-11 rounded-full bg-surface border-2 border-gold-dark text-ink shadow-md flex items-center justify-center hover:bg-gold-soft transition-all duration-200 focus-visible:ring-2 focus-visible:ring-gold"
           >
             <ArrowUp className="w-5 h-5 text-gold-dark" />
           </button>
         )}
 
-        {/* FLOATING WHATSAPP BUTTON (GREEN ONLY HERE AS REQUIRED) */}
+        {/* FLOATING WHATSAPP BUTTON (DESKTOP) */}
         <button
           type="button"
           onClick={handleWhatsAppClick}
           aria-label={dict.floating.whatsappTooltip}
-          className="w-14 h-14 rounded-full bg-whatsapp hover:bg-whatsapp-hover text-white shadow-lg flex items-center justify-center hover:scale-105 transition-all duration-200 group relative"
+          className="hidden md:flex w-14 h-14 rounded-full bg-whatsapp hover:bg-whatsapp-hover text-white shadow-lg items-center justify-center hover:scale-105 transition-all duration-200 group relative focus-visible:ring-2 focus-visible:ring-whatsapp"
         >
           <MessageCircle className="w-7 h-7" />
           <span className="sr-only">{dict.floating.whatsappTooltip}</span>
 
           {/* TOOLTIP ON HOVER (DESKTOP) */}
-          <span className="hidden sm:group-hover:block absolute right-16 rtl:right-auto rtl:left-16 whitespace-nowrap bg-charcoal text-white text-xs px-3 py-1.5 rounded-md shadow-md">
+          <span className="hidden group-hover:block absolute right-16 rtl:right-auto rtl:left-16 whitespace-nowrap bg-charcoal text-white text-xs px-3 py-1.5 rounded-md shadow-md">
             {dict.floating.whatsappTooltip}
           </span>
         </button>
       </aside>
 
-      {/* MOBILE STICKY BOTTOM BAR */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-md border-t border-border p-3 flex items-center gap-3 shadow-lg">
+      {/* MOBILE STICKY BOTTOM BAR (ACCOUNTS FOR SAFE-AREA INSET) */}
+      <nav
+        aria-label="Mobile Quick Booking"
+        style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+        className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-md border-t border-border px-4 pt-3 flex items-center gap-3 shadow-lg"
+      >
         <button
           type="button"
           onClick={handleWhatsAppClick}
           aria-label="WhatsApp Contact"
-          className="flex items-center justify-center w-12 h-11 rounded-btn bg-whatsapp text-white shrink-0 shadow-xs"
+          className="flex items-center justify-center min-w-[48px] w-12 min-h-[48px] h-12 rounded-btn bg-whatsapp text-white shrink-0 shadow-xs focus-visible:ring-2 focus-visible:ring-whatsapp active:scale-95 transition-transform"
         >
-          <MessageCircle className="w-5 h-5" />
+          <MessageCircle className="w-6 h-6" />
         </button>
         <Link
           href={`/${locale}/booking`}
-          className="flex-1 h-11 rounded-btn bg-gold text-ink font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs hover:bg-gold-hover transition-colors"
+          className="flex-1 min-h-[48px] h-12 rounded-btn bg-gold text-ink font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs hover:bg-gold-hover transition-colors focus-visible:ring-2 focus-visible:ring-gold active:scale-95"
         >
           <CalendarDays className="w-4 h-4" />
           <span>{dict.nav.bookNow}</span>
         </Link>
-      </div>
+      </nav>
 
       {/* BACKGROUND TURNSTILE VERIFICATION */}
       <div className="hidden" aria-hidden="true">

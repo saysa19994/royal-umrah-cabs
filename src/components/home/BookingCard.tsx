@@ -71,9 +71,13 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
   const [vehicle, setVehicle] = useState('staria');
   const [turnstileToken, setTurnstileToken] = useState<string>('');
   const [waPopupUrl, setWaPopupUrl] = useState<string | null>(null);
+  const [isSubmittingWa, setIsSubmittingWa] = useState(false);
 
   const maxSeats = VEHICLE_SPECS[vehicle]?.seats || 7;
   const maxBags = VEHICLE_SPECS[vehicle]?.bags || 6;
+
+  // Set min date to today's date in YYYY-MM-DD
+  const minDate = new Date().toISOString().split('T')[0];
 
   const handleVehicleChange = (newVehicle: string) => {
     setVehicle(newVehicle);
@@ -115,7 +119,10 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
   };
 
   const handleWhatsApp = async () => {
+    if (isSubmittingWa) return;
+    setIsSubmittingWa(true);
     setWaPopupUrl(null);
+
     trackEvent({
       event: 'whatsapp_handoff_initiated',
       source: 'booking_card',
@@ -153,6 +160,8 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
       }
     } catch (err) {
       console.error('Lead tracking error, continuing to WhatsApp:', err);
+    } finally {
+      setIsSubmittingWa(false);
     }
 
     if (!targetUrl) {
@@ -170,27 +179,32 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
   };
 
   return (
-    <div className="relative z-30 px-4 -mt-16 sm:-mt-24 md:-mt-32 max-w-6xl mx-auto w-full">
-      <div className="bg-surface rounded-2xl shadow-xl border border-border p-6 md:p-8">
+    <section
+      id="booking-calculator"
+      aria-label={dict.booking_card.title}
+      className="relative z-30 px-3 sm:px-4 -mt-14 sm:-mt-24 md:-mt-32 max-w-6xl mx-auto w-full scroll-mt-24"
+    >
+      <div className="bg-surface rounded-2xl shadow-lg border border-border p-4 sm:p-6 md:p-8 transition-shadow">
         {/* Card Header & Currency Switcher */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-border text-start">
           <div>
-            <h2 className="font-display font-bold text-2xl md:text-3xl text-ink">
+            <h2 className="font-display font-bold text-xl sm:text-2xl md:text-3xl text-ink">
               {dict.booking_card.title}
             </h2>
-            <p className="text-xs md:text-sm text-ink-muted mt-0.5 font-light">
+            <p className="text-xs sm:text-sm text-ink-muted mt-0.5 font-light">
               {dict.booking_card.subtitle}
             </p>
           </div>
 
           {/* Quick Currency Selector */}
-          <div className="flex items-center gap-1.5 self-end sm:self-auto bg-surface-muted p-1 rounded-lg border border-border">
+          <div className="flex items-center gap-1 self-end sm:self-auto bg-bg-alt p-1 rounded-lg border border-border">
             {(Object.keys(CURRENCIES) as CurrencyCode[]).map((c) => (
               <button
                 key={c}
                 type="button"
                 onClick={() => setCurrency(c)}
-                className={`px-2 py-0.5 text-xs font-bold rounded transition-all ${
+                aria-label={`Switch currency to ${c}`}
+                className={`min-h-[32px] px-2.5 py-1 text-xs font-bold rounded transition-all focus-visible:ring-1 focus-visible:ring-gold ${
                   currency === c
                     ? 'bg-gold-dark text-white shadow-xs'
                     : 'text-ink-muted hover:text-ink'
@@ -207,14 +221,15 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
             {/* FROM & TO (ROUTE) */}
             <div className="lg:col-span-3">
-              <label className="block text-xs font-bold text-ink mb-1.5 text-start">
-                {dict.booking_card.pickupLabel} ↔ {dict.booking_card.dropoffLabel}
+              <label htmlFor="card-route-select" className="block text-xs font-bold text-ink mb-1.5 text-start">
+                {dict.booking_card.pickupLabel} ↔ {dict.booking_card.dropoffLabel} <span className="text-gold-dark">*</span>
               </label>
               <div className="relative">
                 <select
+                  id="card-route-select"
                   value={route}
                   onChange={(e) => setRoute(e.target.value)}
-                  className="w-full h-12 pl-10 pr-4 rtl:pr-10 rtl:pl-4 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold hover:border-gold-dark focus:outline-none focus:ring-1 focus:ring-gold-dark appearance-none cursor-pointer"
+                  className="w-full min-h-[48px] h-12 pl-10 pr-8 rtl:pr-10 rtl:pl-8 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold hover:border-gold-dark focus:outline-none focus:ring-2 focus:ring-gold appearance-none cursor-pointer"
                 >
                   {Object.keys(ROUTE_LABELS).map((key) => (
                     <option key={key} value={key}>
@@ -223,20 +238,23 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
                   ))}
                 </select>
                 <MapPin className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <span className="pointer-events-none absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 text-[10px] text-ink-muted">▼</span>
               </div>
             </div>
 
             {/* DATE */}
             <div>
-              <label className="block text-xs font-bold text-ink mb-1.5 text-start">
+              <label htmlFor="card-date-input" className="block text-xs font-bold text-ink mb-1.5 text-start">
                 {dict.booking_card.dateLabel}
               </label>
               <div className="relative">
                 <input
+                  id="card-date-input"
                   type="date"
+                  min={minDate}
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium hover:border-gold-dark focus:outline-none focus:ring-1 focus:ring-gold-dark cursor-pointer"
+                  className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium hover:border-gold-dark focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
                 />
                 <Calendar className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
@@ -244,15 +262,16 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
 
             {/* TIME */}
             <div>
-              <label className="block text-xs font-bold text-ink mb-1.5 text-start">
+              <label htmlFor="card-time-input" className="block text-xs font-bold text-ink mb-1.5 text-start">
                 {dict.booking_card.timeLabel}
               </label>
               <div className="relative">
                 <input
+                  id="card-time-input"
                   type="time"
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
-                  className="w-full h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium hover:border-gold-dark focus:outline-none focus:ring-1 focus:ring-gold-dark cursor-pointer"
+                  className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium hover:border-gold-dark focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
                 />
                 <Clock className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
@@ -266,24 +285,24 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
               <label className="block text-xs font-bold text-ink mb-1.5 text-start">
                 {dict.booking_card.passengersLabel}
               </label>
-              <div className="flex items-center justify-between w-full h-12 rounded-btn border border-border-strong bg-surface px-3">
+              <div className="flex items-center justify-between w-full min-h-[48px] h-12 rounded-btn border border-border-strong bg-surface px-2">
                 <button
                   type="button"
                   onClick={() => setPassengers(Math.max(1, passengers - 1))}
                   aria-label="Decrease Passengers"
-                  className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
+                  className="min-w-[44px] min-h-[44px] rounded flex items-center justify-center text-ink hover:text-gold-dark hover:bg-bg-alt font-bold text-xl focus-visible:ring-1 focus-visible:ring-gold"
                 >
                   −
                 </button>
                 <div className="flex items-center gap-1.5 text-xs font-bold text-ink">
-                  <Users className="w-3.5 h-3.5 text-gold-dark" />
+                  <Users className="w-4 h-4 text-gold-dark" />
                   <span>{passengers}</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setPassengers(Math.min(maxSeats, passengers + 1))}
                   aria-label="Increase Passengers"
-                  className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
+                  className="min-w-[44px] min-h-[44px] rounded flex items-center justify-center text-ink hover:text-gold-dark hover:bg-bg-alt font-bold text-xl focus-visible:ring-1 focus-visible:ring-gold"
                 >
                   +
                 </button>
@@ -295,24 +314,24 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
               <label className="block text-xs font-bold text-ink mb-1.5 text-start">
                 {dict.booking_card.luggageLabel}
               </label>
-              <div className="flex items-center justify-between w-full h-12 rounded-btn border border-border-strong bg-surface px-3">
+              <div className="flex items-center justify-between w-full min-h-[48px] h-12 rounded-btn border border-border-strong bg-surface px-2">
                 <button
                   type="button"
                   onClick={() => setLuggage(Math.max(0, luggage - 1))}
                   aria-label="Decrease Luggage"
-                  className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
+                  className="min-w-[44px] min-h-[44px] rounded flex items-center justify-center text-ink hover:text-gold-dark hover:bg-bg-alt font-bold text-xl focus-visible:ring-1 focus-visible:ring-gold"
                 >
                   −
                 </button>
                 <div className="flex items-center gap-1.5 text-xs font-bold text-ink">
-                  <Luggage className="w-3.5 h-3.5 text-gold-dark" />
+                  <Luggage className="w-4 h-4 text-gold-dark" />
                   <span>{luggage}</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setLuggage(Math.min(maxBags, luggage + 1))}
                   aria-label="Increase Luggage"
-                  className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
+                  className="min-w-[44px] min-h-[44px] rounded flex items-center justify-center text-ink hover:text-gold-dark hover:bg-bg-alt font-bold text-xl focus-visible:ring-1 focus-visible:ring-gold"
                 >
                   +
                 </button>
@@ -321,14 +340,15 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
 
             {/* VEHICLE CLASS SELECTOR */}
             <div className="sm:col-span-2 lg:col-span-3">
-              <label className="block text-xs font-bold text-ink mb-1.5 text-start">
+              <label htmlFor="card-vehicle-select" className="block text-xs font-bold text-ink mb-1.5 text-start">
                 {dict.booking_card.vehicleLabel}
               </label>
               <div className="relative">
                 <select
+                  id="card-vehicle-select"
                   value={vehicle}
                   onChange={(e) => handleVehicleChange(e.target.value)}
-                  className="w-full h-12 pl-10 pr-4 rtl:pr-10 rtl:pl-4 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold hover:border-gold-dark focus:outline-none focus:ring-1 focus:ring-gold-dark appearance-none cursor-pointer"
+                  className="w-full min-h-[48px] h-12 pl-10 pr-8 rtl:pr-10 rtl:pl-8 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold hover:border-gold-dark focus:outline-none focus:ring-2 focus:ring-gold appearance-none cursor-pointer"
                 >
                   <option value="staria">Hyundai Staria VIP (Up to 7 Seats • 6 Bags)</option>
                   <option value="yukon">GMC Yukon XL VIP (Up to 7 Seats • 8 Bags)</option>
@@ -337,6 +357,7 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
                   <option value="coaster">Toyota Coaster VIP Coach (Up to 21 Seats • 20 Bags)</option>
                 </select>
                 <Car className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <span className="pointer-events-none absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 text-[10px] text-ink-muted">▼</span>
               </div>
             </div>
           </div>
@@ -349,14 +370,14 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
           />
 
           {/* DYNAMIC PRICE DISPLAY & DUAL BUTTONS */}
-          <div className="bg-surface-muted rounded-xl p-4 border border-border mt-3 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="bg-bg-alt rounded-xl p-4 sm:p-5 border border-border mt-3 flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-center md:text-start">
               <span className="text-xs text-ink-muted block mb-0.5">
                 {dict.booking_card.totalFare}
               </span>
               {baseSAR ? (
                 <div className="flex items-baseline gap-2 justify-center md:justify-start">
-                  <span className="font-display text-3xl font-bold text-gold-dark">
+                  <span className="font-display text-3xl sm:text-4xl font-bold text-gold-dark">
                     {formatPrice(baseSAR)}
                   </span>
                   {currency !== 'SAR' && (
@@ -376,7 +397,7 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
               {/* BUTTON 1: BOOK ONLINE */}
               <button
                 type="submit"
-                className="w-full sm:w-auto h-12 px-7 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all flex items-center justify-center gap-2 shadow-sm shrink-0"
+                className="w-full sm:w-auto min-h-[48px] h-12 px-7 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all flex items-center justify-center gap-2 shadow-xs shrink-0 focus-visible:ring-2 focus-visible:ring-gold"
               >
                 <span>{dict.booking_card.bookOnline}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180" />
@@ -386,10 +407,11 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
               <button
                 type="button"
                 onClick={handleWhatsApp}
-                className="w-full sm:w-auto h-12 px-6 rounded-btn bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors shrink-0 shadow-sm"
+                disabled={isSubmittingWa}
+                className="w-full sm:w-auto min-h-[48px] h-12 px-6 rounded-btn bg-whatsapp hover:bg-whatsapp-hover text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors shrink-0 shadow-xs focus-visible:ring-2 focus-visible:ring-whatsapp disabled:opacity-60"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>{dict.booking_card.continueWhatsApp}</span>
+                <span>{isSubmittingWa ? '...' : dict.booking_card.continueWhatsApp}</span>
               </button>
             </div>
           </div>
@@ -401,7 +423,7 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
                 <MessageCircle className="w-5 h-5 text-emerald-600 shrink-0" />
                 <span>
                   {locale === 'ar'
-                    ? 'تم تسجيل طلبك! إذا لم تفتح نافذة واتساب تلقائياً، اضغط هنا للمتابعة:'
+                    ? 'تم تجهيز طلبك! إذا لم تفتح نافذة واتساب تلقائياً، اضغط هنا للمتابعة:'
                     : locale === 'ms'
                     ? 'Permintaan anda telah didaftarkan! Jika WhatsApp tidak dibuka secara automatik, sila klik di sini:'
                     : 'Your inquiry is ready! If WhatsApp was blocked by your browser, tap to continue:'}
@@ -411,7 +433,7 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
                 href={waPopupUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-lg bg-emerald-600 text-white font-bold text-xs shrink-0 hover:bg-emerald-700 transition-colors shadow-sm"
+                className="min-h-[44px] px-5 py-2.5 rounded-lg bg-emerald-600 text-white font-bold text-xs shrink-0 hover:bg-emerald-700 transition-colors shadow-xs flex items-center justify-center"
               >
                 {locale === 'ar' ? 'فتح محادثة واتساب' : locale === 'ms' ? 'Buka WhatsApp' : 'Open WhatsApp Chat'}
               </a>
@@ -421,24 +443,24 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
           {/* MICRO TRUST STRIP (4 ITEMS) */}
           <div className="pt-3 border-t border-border flex flex-wrap items-center justify-between gap-y-2 gap-x-4 text-xs text-ink-muted">
             <span className="flex items-center gap-1.5 font-medium">
-              <Check className="w-3.5 h-3.5 text-gold-dark" />
+              <Check className="w-3.5 h-3.5 text-gold-dark shrink-0" />
               <span>{dict.booking_card.microCancellation}</span>
             </span>
             <span className="flex items-center gap-1.5 font-medium">
-              <Check className="w-3.5 h-3.5 text-gold-dark" />
+              <Check className="w-3.5 h-3.5 text-gold-dark shrink-0" />
               <span>{dict.booking_card.microPayArrival}</span>
             </span>
             <span className="flex items-center gap-1.5 font-medium">
-              <Check className="w-3.5 h-3.5 text-gold-dark" />
+              <Check className="w-3.5 h-3.5 text-gold-dark shrink-0" />
               <span>{dict.booking_card.microNoHidden}</span>
             </span>
             <span className="flex items-center gap-1.5 font-medium">
-              <Check className="w-3.5 h-3.5 text-gold-dark" />
+              <Check className="w-3.5 h-3.5 text-gold-dark shrink-0" />
               <span>{dict.booking_card.microAllTolls}</span>
             </span>
           </div>
         </form>
       </div>
-    </div>
+    </section>
   );
 }

@@ -3,29 +3,42 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #FDFCFA;
-  --color-bg-alt: #F3EEE6;
+  --color-bg: #FDFBF7;
+  --color-bg-alt: #F7F3EB;
   --color-surface: #FFFFFF;
-  --color-border: #E8E1D5;
-  --color-border-strong: #D5C9B5;
-  --color-ink: #1A1A1A;
-  --color-body: #3A3835;
-  --color-gold: #D9A031;
-  --color-gold-dark: #B8821F;
-  --color-charcoal: #141210;
+  --color-border: #E2DCD2;
+  --color-border-strong: #D5CDBF;
+  --color-ink: #211F1B;
+  --color-ink-muted: #706B62;
+  --color-body: #35322D;
+  --color-gold: #D8B16A;
+  --color-gold-dark: #B3893C;
+  --color-charcoal: #171513;
   --color-whatsapp: #25D366;
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
     background-color: var(--color-bg);
     color: var(--color-body);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
     color: var(--color-ink);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
+  }
+
+  /* Accessible focus indicators for keyboard navigation */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
   }
 
   /* Arabic & Urdu RTL Typography refinements */

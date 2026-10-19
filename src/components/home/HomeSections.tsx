@@ -26,10 +26,6 @@ import {
   MessageCircle,
   Star,
   ExternalLink,
-  ChevronRight,
-  PhoneCall,
-  User,
-  BookOpen,
 } from 'lucide-react';
 
 interface HomeSectionsProps {
@@ -46,7 +42,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  // Section 7: Popular Routes (6 routes)
+  // Section 7: Popular Routes (6 verified routes)
   const POPULAR_ROUTES = [
     {
       id: 'jeddah-airport-to-makkah',
@@ -92,7 +88,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
     },
   ];
 
-  // Section 8: Fleet with ONLY DB features (Air conditioning, Comfortable seating, Luggage space) - NO Wi-Fi!
+  // Section 8: Fleet with ONLY DB features (Air conditioning, Comfortable seating, Luggage space)
   const FLEET_CARS = [
     {
       id: 'staria',
@@ -242,7 +238,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       {/* ============================================================== */}
       {/* 6) "3 SIMPLE STEPS" SECTION */}
       {/* ============================================================== */}
-      <section id="how-it-works" className="py-16 md:py-24 bg-bg-alt/40 border-t border-border text-start">
+      <section id="how-it-works" className="py-16 md:py-24 bg-bg-alt/50 border-t border-border text-start">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center max-w-3xl mx-auto mb-14">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
@@ -265,7 +261,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             />
 
             {/* STEP 1 */}
-            <div className="relative z-10 bg-surface rounded-2xl p-8 border border-border text-center shadow-xs flex flex-col items-center">
+            <div className="relative z-10 bg-surface rounded-2xl p-7 md:p-8 border border-border text-center shadow-xs flex flex-col items-center">
               <div className="w-16 h-16 rounded-2xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-6 relative">
                 <Calendar className="w-7 h-7" />
                 <span className="absolute -top-2.5 -right-2.5 w-7 h-7 rounded-full bg-gold text-ink font-bold text-xs flex items-center justify-center border-2 border-surface shadow-xs">
@@ -281,7 +277,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             </div>
 
             {/* STEP 2 */}
-            <div className="relative z-10 bg-surface rounded-2xl p-8 border border-border text-center shadow-xs flex flex-col items-center">
+            <div className="relative z-10 bg-surface rounded-2xl p-7 md:p-8 border border-border text-center shadow-xs flex flex-col items-center">
               <div className="w-16 h-16 rounded-2xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-6 relative">
                 <Car className="w-7 h-7" />
                 <span className="absolute -top-2.5 -right-2.5 w-7 h-7 rounded-full bg-gold text-ink font-bold text-xs flex items-center justify-center border-2 border-surface shadow-xs">
@@ -297,7 +293,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             </div>
 
             {/* STEP 3 */}
-            <div className="relative z-10 bg-surface rounded-2xl p-8 border border-border text-center shadow-xs flex flex-col items-center">
+            <div className="relative z-10 bg-surface rounded-2xl p-7 md:p-8 border border-border text-center shadow-xs flex flex-col items-center">
               <div className="w-16 h-16 rounded-2xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-6 relative">
                 <CheckCircle2 className="w-7 h-7" />
                 <span className="absolute -top-2.5 -right-2.5 w-7 h-7 rounded-full bg-gold text-ink font-bold text-xs flex items-center justify-center border-2 border-surface shadow-xs">
@@ -316,7 +312,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
           <div className="mt-12 text-center">
             <Link
               href={`/${locale}/booking`}
-              className="inline-flex items-center justify-center gap-2 h-12 px-8 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-gold"
+              className="inline-flex items-center justify-center gap-2 min-h-[48px] h-12 px-8 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-gold focus-visible:ring-2 focus-visible:ring-gold"
             >
               <span>{dict.steps.ctaButton}</span>
               <ArrowRight className="w-4 h-4 rtl:rotate-180" />
@@ -379,7 +375,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
 
                   <Link
                     href={`/${locale}/booking?route=${route.id}`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs"
+                    className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs focus-visible:ring-2 focus-visible:ring-gold"
                   >
                     <span>{dict.popular_routes.bookButton}</span>
                     <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
@@ -392,9 +388,9 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       </section>
 
       {/* ============================================================== */}
-      {/* 8) FLEET (CARDS WITH ONLY DB FEATURES - NO WI-FI!) */}
+      {/* 8) FLEET (CARDS WITH ONLY VERIFIED DB FEATURES) */}
       {/* ============================================================== */}
-      <section id="fleet" className="py-16 md:py-24 bg-bg-alt/30 border-t border-border text-start">
+      <section id="fleet" className="py-16 md:py-24 bg-bg-alt/40 border-t border-border text-start">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center max-w-3xl mx-auto mb-14">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
@@ -427,33 +423,38 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                     />
                   </div>
                   <div className="p-5">
-                    <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
-                      {car.category}
-                    </span>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block">
+                        {car.category}
+                      </span>
+                      <span className="text-xs font-bold text-ink">
+                        {formatPrice(car.basePriceSAR)}
+                      </span>
+                    </div>
                     <h3 className="font-display font-bold text-lg text-ink mb-3">
                       {car.name}
                     </h3>
 
                     {/* ONLY SPECIFIED DB FEATURES: Air conditioning, Comfortable seating, Luggage space */}
-                    <div className="space-y-2 py-3 border-y border-border text-xs text-ink-light">
+                    <div className="space-y-2 py-3 border-y border-border text-xs text-ink-muted">
                       <div className="flex items-center gap-2">
-                        <Users className="w-3.5 h-3.5 text-gold-dark" />
+                        <Users className="w-3.5 h-3.5 text-gold-dark shrink-0" />
                         <span>{car.seats} {dict.fleet.seatsLabel}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Briefcase className="w-3.5 h-3.5 text-gold-dark" />
+                        <Briefcase className="w-3.5 h-3.5 text-gold-dark shrink-0" />
                         <span>{car.bags} {dict.fleet.bagsLabel}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-gold-dark" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-gold-dark shrink-0" />
                         <span>{dict.fleet.amenityAc}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-gold-dark" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-gold-dark shrink-0" />
                         <span>{dict.fleet.amenityComfort}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-gold-dark" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-gold-dark shrink-0" />
                         <span>{dict.fleet.amenityLuggage}</span>
                       </div>
                     </div>
@@ -463,13 +464,13 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 <div className="p-5 pt-0 flex items-center gap-2">
                   <Link
                     href={`/${locale}/fleet/${car.slug}`}
-                    className="flex-1 h-10 rounded-btn border border-border text-ink text-xs font-bold uppercase tracking-wider hover:border-gold-dark hover:bg-bg-alt transition-colors flex items-center justify-center"
+                    className="flex-1 min-h-[44px] rounded-btn border border-border text-ink text-xs font-bold uppercase tracking-wider hover:border-gold-dark hover:bg-bg-alt transition-colors flex items-center justify-center focus-visible:ring-1 focus-visible:ring-gold"
                   >
                     {dict.fleet.detailsButton}
                   </Link>
                   <Link
                     href={`/${locale}/booking?vehicle=${car.id}`}
-                    className="flex-1 h-10 rounded-btn bg-gold text-ink text-xs font-bold uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-colors flex items-center justify-center shadow-xs"
+                    className="flex-1 min-h-[44px] rounded-btn bg-gold text-ink text-xs font-bold uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-colors flex items-center justify-center shadow-xs focus-visible:ring-1 focus-visible:ring-gold"
                   >
                     {dict.fleet.bookNowButton}
                   </Link>
@@ -511,7 +512,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                       <div className="w-12 h-12 rounded-xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark">
                         <Icon className="w-6 h-6" />
                       </div>
-                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-surface-muted text-gold-dark border border-gold-line">
+                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-bg-alt text-gold-dark border border-gold-line">
                         {srv.fromRate}
                       </span>
                     </div>
@@ -526,7 +527,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                   <div className="pt-4 border-t border-border">
                     <Link
                       href={srv.link}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:text-gold-hover transition-colors"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:text-gold-hover transition-colors min-h-[44px]"
                     >
                       <span>{dict.services_list.bookNow}</span>
                       <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
@@ -570,7 +571,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                   loading="lazy"
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#141210]/90 via-[#141210]/30 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4 bg-surface/90 backdrop-blur-md rounded-2xl p-4 border border-white/20 text-start shadow-md flex items-center justify-between">
                   <div>
                     <h4 className="font-display font-bold text-base md:text-lg text-ink">
@@ -582,8 +583,9 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                   </div>
                   <Link
                     href={`/${locale}/fleet/${car.slug}`}
-                    className="w-9 h-9 rounded-full bg-gold text-ink flex items-center justify-center hover:bg-gold-hover hover:text-white transition-colors shadow-xs"
+                    className="w-10 h-10 rounded-full bg-gold text-ink flex items-center justify-center hover:bg-gold-hover hover:text-white transition-colors shadow-xs shrink-0"
                     title={dict.cabin_gallery.viewCabin}
+                    aria-label={`View ${car.name} cabin details`}
                   >
                     <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                   </Link>
@@ -684,7 +686,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       {/* ============================================================== */}
       {/* 12) WHY CHOOSE US (BORDERED CARDS) */}
       {/* ============================================================== */}
-      <section className="py-16 md:py-24 bg-bg-alt/30 border-t border-border text-start">
+      <section className="py-16 md:py-24 bg-bg-alt/40 border-t border-border text-start">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center max-w-3xl mx-auto mb-14">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
@@ -769,8 +771,8 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                       <Star key={i} className="w-4 h-4 fill-gold text-gold" />
                     ))}
                   </div>
-                  <p className="text-xs md:text-sm text-ink-light leading-relaxed font-light italic mb-4">
-                    "{rev.comment}"
+                  <p className="text-xs md:text-sm text-body leading-relaxed font-light italic mb-4">
+                    &quot;{rev.comment}&quot;
                   </p>
                 </div>
                 <div className="pt-4 border-t border-border">
@@ -789,7 +791,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               href={settings.google_reviews_link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-btn border border-border text-ink font-bold text-xs hover:border-gold-dark transition-colors shadow-xs"
+              className="inline-flex items-center gap-2 min-h-[44px] px-6 py-2.5 rounded-btn border border-border text-ink font-bold text-xs hover:border-gold-dark transition-colors shadow-xs focus-visible:ring-2 focus-visible:ring-gold"
             >
               <span>{dict.reviews.readAllButton}</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -798,7 +800,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               href={settings.google_reviews_link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs"
+              className="inline-flex items-center gap-2 min-h-[44px] px-6 py-2.5 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs focus-visible:ring-2 focus-visible:ring-gold"
             >
               <span>{dict.reviews.writeReviewButton}</span>
             </a>
@@ -809,7 +811,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       {/* ============================================================== */}
       {/* 14) FAQ ACCORDION (12 QUESTIONS) */}
       {/* ============================================================== */}
-      <section className="py-16 md:py-24 bg-bg-alt/30 border-t border-border text-start">
+      <section id="faq" className="py-16 md:py-24 bg-bg-alt/40 border-t border-border text-start">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
@@ -824,28 +826,41 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
           </div>
 
           <div className="space-y-3.5">
-            {ALL_FAQS.map((faq, index) => (
-              <div
-                key={index}
-                className="bg-surface rounded-2xl border border-border overflow-hidden shadow-xs transition-colors"
-              >
-                <button
-                  type="button"
-                  onClick={() => toggleFaq(index)}
-                  className="w-full p-5 text-start flex items-center justify-between gap-4 font-display font-bold text-base md:text-lg text-ink hover:text-gold-dark transition-colors"
+            {ALL_FAQS.map((faq, index) => {
+              const isOpen = openFaq === index;
+              const faqId = `faq-item-${index}`;
+              const answerId = `faq-answer-${index}`;
+              return (
+                <div
+                  key={index}
+                  className="bg-surface rounded-2xl border border-border overflow-hidden shadow-xs transition-colors"
                 >
-                  <span>{faq.q}</span>
-                  <span className="w-8 h-8 rounded-full bg-surface-muted flex items-center justify-center shrink-0 text-gold-dark">
-                    {openFaq === index ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                  </span>
-                </button>
-                {openFaq === index && (
-                  <div className="px-5 pb-5 text-xs md:text-sm text-ink-muted font-light leading-relaxed border-t border-border/50 pt-3">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            ))}
+                  <button
+                    type="button"
+                    id={faqId}
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                    onClick={() => toggleFaq(index)}
+                    className="w-full min-h-[56px] p-5 text-start flex items-center justify-between gap-4 font-display font-bold text-base md:text-lg text-ink hover:text-gold-dark transition-colors focus-visible:ring-2 focus-visible:ring-gold"
+                  >
+                    <span>{faq.q}</span>
+                    <span className="w-8 h-8 rounded-full bg-bg-alt flex items-center justify-center shrink-0 text-gold-dark">
+                      {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                    </span>
+                  </button>
+                  {isOpen && (
+                    <div
+                      id={answerId}
+                      role="region"
+                      aria-labelledby={faqId}
+                      className="px-5 pb-5 text-xs md:text-sm text-ink-muted font-light leading-relaxed border-t border-border/50 pt-3"
+                    >
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -859,7 +874,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             <div className="bg-surface rounded-2xl p-8 md:p-12 border border-gold-line/60 shadow-xs">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
                 <div className="md:col-span-4 text-center">
-                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gold-soft border-2 border-gold-line mx-auto flex items-center justify-center text-5xl text-gold-dark mb-4 shadow-sm">
+                  <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-gold-soft border-2 border-gold-line mx-auto flex items-center justify-center text-4xl sm:text-5xl text-gold-dark mb-4 shadow-sm">
                     🕋
                   </div>
                   <h4 className="font-display font-bold text-xl text-ink">
@@ -878,13 +893,13 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                     {dict.team_teaser.heading}{' '}
                     <span className="text-gold-dark italic">{dict.team_teaser.headingHighlight}</span>
                   </h3>
-                  <p className="text-xs md:text-sm text-ink-light leading-relaxed font-light">
+                  <p className="text-xs md:text-sm text-body leading-relaxed font-light">
                     {dict.team_teaser.story}
                   </p>
                   <div className="pt-2">
                     <Link
                       href={`/${locale}/about`}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline min-h-[44px]"
                     >
                       <span>{dict.team_teaser.readMoreBtn}</span>
                       <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
@@ -900,7 +915,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       {/* ============================================================== */}
       {/* 16) GUIDES (3 LATEST POSTS WITH UPDATE DATES) */}
       {/* ============================================================== */}
-      <section className="py-16 md:py-24 bg-bg-alt/30 border-t border-border text-start">
+      <section className="py-16 md:py-24 bg-bg-alt/40 border-t border-border text-start">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center max-w-3xl mx-auto mb-14">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
@@ -932,7 +947,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               <div className="pt-4 border-t border-border">
                 <Link
                   href={`/${locale}/guides/malaysia-umrah-transport`}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline min-h-[44px]"
                 >
                   <span>{dict.guides_section.readGuide}</span>
                   <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
@@ -956,7 +971,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               <div className="pt-4 border-t border-border">
                 <Link
                   href={`/${locale}/guides/jeddah-airport-arrival-guide`}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline min-h-[44px]"
                 >
                   <span>{dict.guides_section.readGuide}</span>
                   <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
@@ -980,7 +995,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               <div className="pt-4 border-t border-border">
                 <Link
                   href={`/${locale}/guides/makkah-to-madinah-transport-comparison`}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline min-h-[44px]"
                 >
                   <span>{dict.guides_section.readGuide}</span>
                   <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
@@ -992,17 +1007,17 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       </section>
 
       {/* ============================================================== */}
-      {/* 17) DARK CTA BAND (#141210) */}
+      {/* 17) DARK CTA BAND (CHARCOAL #171513) */}
       {/* ============================================================== */}
-      <section className="py-16 md:py-20 bg-[#141210] text-[#FAF9F6] border-t border-[#262B33] text-start">
+      <section className="py-16 md:py-20 bg-charcoal text-white border-t border-charcoal-border text-start">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-start">
             <div className="space-y-3 max-w-xl">
-              <h2 className="font-display font-bold text-3xl md:text-4xl text-[#FAF9F6] tracking-tight">
+              <h2 className="font-display font-bold text-3xl md:text-4xl text-white tracking-tight">
                 {dict.cta_band.heading}{' '}
-                <span className="text-[#D9A031] italic">{dict.cta_band.headingHighlight}</span>
+                <span className="text-gold italic">{dict.cta_band.headingHighlight}</span>
               </h2>
-              <p className="text-xs md:text-sm text-[#A0A6B2] font-light leading-relaxed">
+              <p className="text-xs md:text-sm text-white/80 font-light leading-relaxed">
                 {dict.cta_band.subtitle}
               </p>
             </div>
@@ -1010,7 +1025,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
               <Link
                 href={`/${locale}/booking`}
-                className="w-full sm:w-auto h-12 px-8 rounded-btn bg-[#D9A031] hover:bg-[#B8821F] text-[#141210] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md shrink-0"
+                className="w-full sm:w-auto min-h-[48px] h-12 px-8 rounded-btn bg-gold hover:bg-gold-hover hover:text-white text-ink font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md shrink-0 focus-visible:ring-2 focus-visible:ring-gold"
               >
                 <span>{dict.cta_band.buttonPrimary}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180" />
@@ -1019,7 +1034,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 href={`https://wa.me/${settings.whatsapp_number}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto h-12 px-6 rounded-btn border border-[#262B33] hover:border-[#D9A031]/60 text-[#FAF9F6] font-bold text-xs flex items-center justify-center gap-2 transition-colors shrink-0"
+                className="w-full sm:w-auto min-h-[48px] h-12 px-6 rounded-btn border border-charcoal-border hover:border-gold text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors shrink-0 focus-visible:ring-2 focus-visible:ring-gold"
               >
                 <MessageCircle className="w-4 h-4 text-emerald-400" />
                 <span>{dict.cta_band.buttonWhatsApp}</span>

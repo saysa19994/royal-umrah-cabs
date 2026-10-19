@@ -17,7 +17,6 @@ import {
   AlertCircle,
   MessageCircle,
   ShieldCheck,
-  Sparkles,
 } from 'lucide-react';
 import { TurnstileWidget } from '@/components/common/TurnstileWidget';
 import { getEstimatedBasePriceSAR } from '@/lib/pricing-constants';
@@ -77,6 +76,8 @@ export function BookingEngine({
   const [luggage, setLuggage] = useState(Number(initialLuggage) || 2);
   const [flightNumber, setFlightNumber] = useState('');
 
+  const minDate = new Date().toISOString().split('T')[0];
+
   const handleBookingTypeChange = (type: 'transfer' | 'hourly' | 'ziyarat' | 'group_bus') => {
     setBookingType(type);
     if (type === 'group_bus' && vehicleId !== 'hiace' && vehicleId !== 'coaster') {
@@ -134,6 +135,8 @@ export function BookingEngine({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
+
     setIsSubmitting(true);
     setErrorMessage(null);
 
@@ -210,11 +213,11 @@ export function BookingEngine({
   // IF CONFIRMED, RENDER CONFIRMATION VIEW
   if (confirmedBooking) {
     return (
-      <div className="bg-surface rounded-2xl border border-border p-8 md:p-12 shadow-sm text-center max-w-2xl mx-auto">
+      <div className="bg-surface rounded-2xl border border-border p-6 sm:p-8 md:p-12 shadow-sm text-center max-w-2xl mx-auto">
         <div className="w-16 h-16 rounded-full bg-gold-soft border border-gold-line text-gold-dark flex items-center justify-center mx-auto mb-4">
           <CheckCircle2 className="w-9 h-9" />
         </div>
-        <h2 className="font-display font-bold text-3xl text-ink">
+        <h2 className="font-display font-bold text-2xl sm:text-3xl text-ink">
           {dict.booking_modal.title}
         </h2>
         <p className="text-xs text-ink-muted mt-1 uppercase tracking-widest font-semibold">
@@ -223,7 +226,7 @@ export function BookingEngine({
         </p>
 
         {/* BOOKING DETAILS CARD */}
-        <div className="bg-bg-alt/70 rounded-xl p-5 border border-border my-6 text-start text-xs space-y-2.5">
+        <div className="bg-bg-alt/70 rounded-xl p-4 sm:p-5 border border-border my-6 text-start text-xs space-y-2.5">
           <div className="flex justify-between items-center">
             <span className="text-ink-muted">{dict.booking_modal.routeLabel}:</span>
             <span className="font-bold text-ink">
@@ -246,7 +249,7 @@ export function BookingEngine({
           </div>
           <div className="flex justify-between items-center pt-2 border-t border-border text-sm">
             <span className="font-bold text-ink">{dict.booking_modal.totalFareLabel}:</span>
-            <span className="font-display font-extrabold text-gold-dark text-lg">
+            <span className="font-display font-extrabold text-gold-dark text-lg sm:text-xl">
               {formatPrice(confirmedBooking.finalPriceSAR)}
             </span>
           </div>
@@ -268,7 +271,7 @@ export function BookingEngine({
                 booking_reference: confirmedBooking.reference,
               });
             }}
-            className="h-12 px-8 rounded-btn bg-whatsapp hover:bg-whatsapp-hover text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-colors"
+            className="min-h-[48px] h-12 px-8 rounded-btn bg-whatsapp hover:bg-whatsapp-hover text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-whatsapp"
           >
             <MessageCircle className="w-4 h-4" />
             <span>{dict.booking_modal.confirmWhatsAppBtn}</span>
@@ -276,7 +279,7 @@ export function BookingEngine({
           <button
             type="button"
             onClick={() => setConfirmedBooking(null)}
-            className="h-12 px-6 rounded-btn border border-border-strong text-ink text-xs font-semibold hover:bg-bg-alt transition-colors"
+            className="min-h-[48px] h-12 px-6 rounded-btn border border-border-strong text-ink text-xs font-semibold hover:bg-bg-alt transition-colors focus-visible:ring-2 focus-visible:ring-gold"
           >
             {dict.booking_modal.closeBtn}
           </button>
@@ -287,13 +290,13 @@ export function BookingEngine({
 
   // RENDER INTERACTIVE BOOKING FORM
   return (
-    <div className="bg-surface rounded-2xl border border-border p-6 md:p-10 shadow-sm">
+    <div className="bg-surface rounded-2xl border border-border p-4 sm:p-6 md:p-10 shadow-sm">
       {/* 4 TABS */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-bg-alt p-1.5 rounded-xl border border-border mb-8">
         <button
           type="button"
           onClick={() => handleBookingTypeChange('transfer')}
-          className={`py-2.5 px-3 rounded-lg text-xs font-bold transition-all ${
+          className={`min-h-[44px] py-2.5 px-3 rounded-lg text-xs font-bold transition-all focus-visible:ring-2 focus-visible:ring-gold ${
             bookingType === 'transfer' ? 'bg-gold text-ink shadow-xs' : 'text-ink-muted hover:text-ink'
           }`}
         >
@@ -302,7 +305,7 @@ export function BookingEngine({
         <button
           type="button"
           onClick={() => handleBookingTypeChange('hourly')}
-          className={`py-2.5 px-3 rounded-lg text-xs font-bold transition-all ${
+          className={`min-h-[44px] py-2.5 px-3 rounded-lg text-xs font-bold transition-all focus-visible:ring-2 focus-visible:ring-gold ${
             bookingType === 'hourly' ? 'bg-gold text-ink shadow-xs' : 'text-ink-muted hover:text-ink'
           }`}
         >
@@ -311,7 +314,7 @@ export function BookingEngine({
         <button
           type="button"
           onClick={() => handleBookingTypeChange('ziyarat')}
-          className={`py-2.5 px-3 rounded-lg text-xs font-bold transition-all ${
+          className={`min-h-[44px] py-2.5 px-3 rounded-lg text-xs font-bold transition-all focus-visible:ring-2 focus-visible:ring-gold ${
             bookingType === 'ziyarat' ? 'bg-gold text-ink shadow-xs' : 'text-ink-muted hover:text-ink'
           }`}
         >
@@ -320,7 +323,7 @@ export function BookingEngine({
         <button
           type="button"
           onClick={() => handleBookingTypeChange('group_bus')}
-          className={`py-2.5 px-3 rounded-lg text-xs font-bold transition-all ${
+          className={`min-h-[44px] py-2.5 px-3 rounded-lg text-xs font-bold transition-all focus-visible:ring-2 focus-visible:ring-gold ${
             bookingType === 'group_bus' ? 'bg-gold text-ink shadow-xs' : 'text-ink-muted hover:text-ink'
           }`}
         >
@@ -337,12 +340,15 @@ export function BookingEngine({
 
           {bookingType === 'transfer' && (
             <div>
-              <label className="block text-xs font-bold text-ink mb-1.5">Select Route</label>
+              <label htmlFor="engine-route-select" className="block text-xs font-bold text-ink mb-1.5">
+                Select Route <span className="text-gold-dark">*</span>
+              </label>
               <div className="relative">
                 <select
+                  id="engine-route-select"
                   value={routeId}
                   onChange={(e) => setRouteId(e.target.value)}
-                  className="w-full h-12 pl-10 pr-4 rtl:pr-10 rtl:pl-4 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-gold-dark appearance-none cursor-pointer"
+                  className="w-full min-h-[48px] h-12 pl-10 pr-8 rtl:pr-10 rtl:pl-8 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold appearance-none cursor-pointer"
                 >
                   {Object.entries(ROUTES).map(([key, item]) => (
                     <option key={key} value={key}>
@@ -351,6 +357,7 @@ export function BookingEngine({
                   ))}
                 </select>
                 <MapPin className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <span className="pointer-events-none absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 text-[10px] text-ink-muted">▼</span>
               </div>
             </div>
           )}
@@ -358,12 +365,13 @@ export function BookingEngine({
           {bookingType === 'hourly' && (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-bold text-ink mb-1.5">Chauffeur Service Duration</label>
+                <label htmlFor="duration-select" className="block text-xs font-bold text-ink mb-1.5">Chauffeur Service Duration</label>
                 <div className="relative">
                   <select
+                    id="duration-select"
                     value={durationHours}
                     onChange={(e) => setDurationHours(Number(e.target.value))}
-                    className="w-full h-12 pl-10 pr-4 rtl:pr-10 rtl:pl-4 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-gold-dark appearance-none cursor-pointer"
+                    className="w-full min-h-[48px] h-12 pl-10 pr-8 rtl:pr-10 rtl:pl-8 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold appearance-none cursor-pointer"
                   >
                     {[2, 4, 6, 8, 10, 12, 16, 24].map((hr) => (
                       <option key={hr} value={hr}>
@@ -372,28 +380,29 @@ export function BookingEngine({
                     ))}
                   </select>
                   <Clock className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <span className="pointer-events-none absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 text-[10px] text-ink-muted">▼</span>
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-bold text-ink mb-1.5">Pickup Address / Hotel</label>
+                <label className="block text-xs font-bold text-ink mb-1.5">Pickup Address / Hotel <span className="text-gold-dark">*</span></label>
                 <input
                   type="text"
                   required
                   placeholder="Hotel / Pickup location in Makkah/Madinah"
                   value={customPickupLocation}
                   onChange={(e) => setCustomPickupLocation(e.target.value)}
-                  className="w-full h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                  className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-ink mb-1.5">Primary Destination / Area</label>
+                <label className="block text-xs font-bold text-ink mb-1.5">Primary Destination / Area <span className="text-gold-dark">*</span></label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Makkah Local Tour / Business"
                   value={customDropoffLocation}
                   onChange={(e) => setCustomDropoffLocation(e.target.value)}
-                  className="w-full h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                  className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
                 />
               </div>
             </div>
@@ -402,9 +411,10 @@ export function BookingEngine({
           {bookingType === 'ziyarat' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-ink mb-1.5">Select Ziyarat Package</label>
+                <label htmlFor="ziyarat-pkg-select" className="block text-xs font-bold text-ink mb-1.5">Select Ziyarat Package</label>
                 <div className="relative">
                   <select
+                    id="ziyarat-pkg-select"
                     value={customDropoffLocation}
                     onChange={(e) => {
                       setCustomDropoffLocation(e.target.value);
@@ -414,7 +424,7 @@ export function BookingEngine({
                         setCustomPickupLocation('Makkah Hotel');
                       }
                     }}
-                    className="w-full h-12 pl-10 pr-4 rtl:pr-10 rtl:pl-4 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-gold-dark appearance-none cursor-pointer"
+                    className="w-full min-h-[48px] h-12 pl-10 pr-8 rtl:pr-10 rtl:pl-8 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold appearance-none cursor-pointer"
                   >
                     <option value="Makkah Holy Sites Ziyarat (Arafat, Mina, Muzdalifah, Jabal al-Noor)">
                       Makkah Holy Sites (Arafat, Mina, Muzdalifah, Jabal al-Noor)
@@ -430,17 +440,18 @@ export function BookingEngine({
                     </option>
                   </select>
                   <MapPin className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <span className="pointer-events-none absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2 text-[10px] text-ink-muted">▼</span>
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-bold text-ink mb-1.5">Pickup Hotel / Address</label>
+                <label className="block text-xs font-bold text-ink mb-1.5">Pickup Hotel / Address <span className="text-gold-dark">*</span></label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Jabal Omar Hotel, Makkah"
                   value={customPickupLocation}
                   onChange={(e) => setCustomPickupLocation(e.target.value)}
-                  className="w-full h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                  className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
                 />
               </div>
             </div>
@@ -449,25 +460,25 @@ export function BookingEngine({
           {bookingType === 'group_bus' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-ink mb-1.5">Pickup Location (Hotel/Airport)</label>
+                <label className="block text-xs font-bold text-ink mb-1.5">Pickup Location (Hotel/Airport) <span className="text-gold-dark">*</span></label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. King Abdulaziz Airport Terminal 1"
                   value={customPickupLocation}
                   onChange={(e) => setCustomPickupLocation(e.target.value)}
-                  className="w-full h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                  className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-ink mb-1.5">Drop-off Destination</label>
+                <label className="block text-xs font-bold text-ink mb-1.5">Drop-off Destination <span className="text-gold-dark">*</span></label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Makkah Clock Tower Hotel"
                   value={customDropoffLocation}
                   onChange={(e) => setCustomDropoffLocation(e.target.value)}
-                  className="w-full h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                  className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
                 />
               </div>
             </div>
@@ -475,42 +486,50 @@ export function BookingEngine({
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-bold text-ink mb-1.5">{dict.booking_card.dateLabel}</label>
+              <label htmlFor="pickup-date-input" className="block text-xs font-bold text-ink mb-1.5">
+                {dict.booking_card.dateLabel} <span className="text-gold-dark">*</span>
+              </label>
               <div className="relative">
                 <input
+                  id="pickup-date-input"
                   type="date"
                   required
+                  min={minDate}
                   value={pickupDate}
                   onChange={(e) => setPickupDate(e.target.value)}
-                  className="w-full h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark cursor-pointer"
+                  className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
                 />
                 <Calendar className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-ink mb-1.5">{dict.booking_card.timeLabel}</label>
+              <label htmlFor="pickup-time-input" className="block text-xs font-bold text-ink mb-1.5">
+                {dict.booking_card.timeLabel} <span className="text-gold-dark">*</span>
+              </label>
               <div className="relative">
                 <input
+                  id="pickup-time-input"
                   type="time"
                   required
                   value={pickupTime}
                   onChange={(e) => setPickupTime(e.target.value)}
-                  className="w-full h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark cursor-pointer"
+                  className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
                 />
                 <Clock className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-ink mb-1.5">Flight Number (Optional)</label>
+              <label htmlFor="flight-no-input" className="block text-xs font-bold text-ink mb-1.5">Flight Number (Optional)</label>
               <div className="relative">
                 <input
+                  id="flight-no-input"
                   type="text"
                   placeholder="e.g. SV 124 or MH 150"
                   value={flightNumber}
                   onChange={(e) => setFlightNumber(e.target.value)}
-                  className="w-full h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                  className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
                 />
                 <Plane className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
@@ -521,24 +540,24 @@ export function BookingEngine({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
             <div>
               <label className="block text-xs font-bold text-ink mb-1.5">{dict.booking_card.passengersLabel}</label>
-              <div className="flex items-center justify-between w-full h-12 rounded-btn border border-border-strong bg-surface px-3">
+              <div className="flex items-center justify-between w-full min-h-[48px] h-12 rounded-btn border border-border-strong bg-surface px-2">
                 <button
                   type="button"
                   onClick={() => setPassengers(Math.max(1, passengers - 1))}
                   aria-label="Decrease Passengers"
-                  className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
+                  className="min-w-[44px] min-h-[44px] rounded flex items-center justify-center text-ink hover:text-gold-dark hover:bg-bg-alt font-bold text-xl focus-visible:ring-1 focus-visible:ring-gold"
                 >
                   −
                 </button>
                 <div className="flex items-center gap-1.5 text-xs font-bold text-ink">
-                  <Users className="w-3.5 h-3.5 text-gold-dark" />
+                  <Users className="w-4 h-4 text-gold-dark" />
                   <span>{passengers}</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setPassengers(Math.min(maxVehicleSeats, passengers + 1))}
                   aria-label="Increase Passengers"
-                  className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
+                  className="min-w-[44px] min-h-[44px] rounded flex items-center justify-center text-ink hover:text-gold-dark hover:bg-bg-alt font-bold text-xl focus-visible:ring-1 focus-visible:ring-gold"
                 >
                   +
                 </button>
@@ -547,24 +566,24 @@ export function BookingEngine({
 
             <div>
               <label className="block text-xs font-bold text-ink mb-1.5">{dict.booking_card.luggageLabel}</label>
-              <div className="flex items-center justify-between w-full h-12 rounded-btn border border-border-strong bg-surface px-3">
+              <div className="flex items-center justify-between w-full min-h-[48px] h-12 rounded-btn border border-border-strong bg-surface px-2">
                 <button
                   type="button"
                   onClick={() => setLuggage(Math.max(0, luggage - 1))}
                   aria-label="Decrease Luggage"
-                  className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
+                  className="min-w-[44px] min-h-[44px] rounded flex items-center justify-center text-ink hover:text-gold-dark hover:bg-bg-alt font-bold text-xl focus-visible:ring-1 focus-visible:ring-gold"
                 >
                   −
                 </button>
                 <div className="flex items-center gap-1.5 text-xs font-bold text-ink">
-                  <Luggage className="w-3.5 h-3.5 text-gold-dark" />
+                  <Luggage className="w-4 h-4 text-gold-dark" />
                   <span>{luggage}</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setLuggage(Math.min(maxVehicleBags, luggage + 1))}
                   aria-label="Increase Luggage"
-                  className="w-8 h-8 rounded flex items-center justify-center text-ink-muted hover:text-gold-dark hover:bg-bg-alt font-bold text-lg"
+                  className="min-w-[44px] min-h-[44px] rounded flex items-center justify-center text-ink hover:text-gold-dark hover:bg-bg-alt font-bold text-xl focus-visible:ring-1 focus-visible:ring-gold"
                 >
                   +
                 </button>
@@ -597,7 +616,7 @@ export function BookingEngine({
                   onClick={() => handleSelectVehicle(vId)}
                   className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
                     isSelected
-                      ? 'border-gold bg-gold-soft/30 shadow-xs'
+                      ? 'border-gold bg-gold-soft/40 shadow-xs ring-1 ring-gold'
                       : 'border-border bg-surface hover:border-gold-line'
                   }`}
                 >
@@ -609,6 +628,7 @@ export function BookingEngine({
                         checked={isSelected}
                         onChange={() => handleSelectVehicle(vId)}
                         className="text-gold"
+                        aria-label={vData.name}
                       />
                     </div>
                     <div className="text-xs text-ink-muted space-y-1">
@@ -636,37 +656,48 @@ export function BookingEngine({
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-bold text-ink mb-1.5">Lead Pilgrim Full Name *</label>
+              <label htmlFor="customer-name-input" className="block text-xs font-bold text-ink mb-1.5">
+                Lead Pilgrim Full Name <span className="text-gold-dark">*</span>
+              </label>
               <input
+                id="customer-name-input"
                 type="text"
                 required
                 placeholder="e.g. Haji Ahmad"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
-                className="w-full h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-ink mb-1.5">WhatsApp / Phone (with Country Code) *</label>
+              <label htmlFor="customer-phone-input" className="block text-xs font-bold text-ink mb-1.5">
+                WhatsApp / Phone (with Country Code) <span className="text-gold-dark">*</span>
+              </label>
               <input
+                id="customer-phone-input"
                 type="tel"
+                inputMode="tel"
                 required
                 placeholder="+60 12 345 6789 or +966..."
                 value={customerPhone}
                 onChange={(e) => setCustomerPhone(e.target.value)}
-                className="w-full h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
               />
+              <span className="text-[11px] text-ink-muted mt-1 block">
+                Include country code (e.g. +966 for KSA, +60 for Malaysia)
+              </span>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-ink mb-1.5">Email Address (Optional)</label>
+              <label htmlFor="customer-email-input" className="block text-xs font-bold text-ink mb-1.5">Email Address (Optional)</label>
               <input
+                id="customer-email-input"
                 type="email"
                 placeholder="ahmad@example.com"
                 value={customerEmail}
                 onChange={(e) => setCustomerEmail(e.target.value)}
-                className="w-full h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-1 focus:ring-gold-dark"
+                className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
               />
             </div>
           </div>
@@ -675,7 +706,7 @@ export function BookingEngine({
           <div className="pt-2">
             <label className="block text-xs font-bold text-ink mb-2">Trip Preferences &amp; Add-ons</label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <label className="flex items-center gap-2 p-3 rounded-btn bg-bg-alt/60 border border-border cursor-pointer">
+              <label className="flex items-center gap-2 p-3 min-h-[48px] rounded-btn bg-bg-alt/60 border border-border cursor-pointer">
                 <input
                   type="checkbox"
                   checked={addOns.child_seat}
@@ -685,7 +716,7 @@ export function BookingEngine({
                 <span>Child Safety Seat (Complimentary)</span>
               </label>
 
-              <label className="flex items-center gap-2 p-3 rounded-btn bg-bg-alt/60 border border-border cursor-pointer">
+              <label className="flex items-center gap-2 p-3 min-h-[48px] rounded-btn bg-bg-alt/60 border border-border cursor-pointer">
                 <input
                   type="checkbox"
                   checked={addOns.flight_tracking}
@@ -695,7 +726,7 @@ export function BookingEngine({
                 <span>Free Flight Delay Tracking</span>
               </label>
 
-              <label className="flex items-center gap-2 p-3 rounded-btn bg-bg-alt/60 border border-border cursor-pointer">
+              <label className="flex items-center gap-2 p-3 min-h-[48px] rounded-btn bg-bg-alt/60 border border-border cursor-pointer">
                 <input
                   type="checkbox"
                   checked={addOns.malay_driver}
@@ -705,7 +736,7 @@ export function BookingEngine({
                 <span>Malay/English Chauffeur</span>
               </label>
 
-              <label className="flex items-center gap-2 p-3 rounded-btn bg-bg-alt/60 border border-border cursor-pointer">
+              <label className="flex items-center gap-2 p-3 min-h-[48px] rounded-btn bg-bg-alt/60 border border-border cursor-pointer">
                 <input
                   type="checkbox"
                   checked={addOns.zamzam_water}
@@ -834,7 +865,7 @@ export function BookingEngine({
             <button
               type="submit"
               disabled={isSubmitting || !turnstileToken}
-              className="w-full sm:w-auto h-12 px-10 rounded-btn bg-gold hover:bg-gold-hover hover:text-white text-ink text-sm font-bold uppercase tracking-wider transition-all shadow-gold disabled:opacity-50"
+              className="w-full sm:w-auto min-h-[48px] h-12 px-10 rounded-btn bg-gold hover:bg-gold-hover hover:text-white text-ink text-sm font-bold uppercase tracking-wider transition-all shadow-gold disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-gold"
             >
               {isSubmitting ? 'Confirming...' : dict.booking_card.buttonBookNow}
             </button>

@@ -7,7 +7,7 @@ import { getSiteSettings } from '@/lib/settings';
 import { BookingCard } from '@/components/home/BookingCard';
 import { HomeSections } from '@/components/home/HomeSections';
 import { HomepageFaqJsonLd } from '@/components/seo/JsonLd';
-import { ShieldCheck, Clock, CheckCircle2, Headphones, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Clock, CheckCircle2, Headphones, ArrowRight, MessageCircle, Calculator } from 'lucide-react';
 
 interface HomePageProps {
   params: Promise<{
@@ -26,10 +26,10 @@ export default async function HomePage(props: HomePageProps) {
   const settings = await getSiteSettings();
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full overflow-x-hidden">
       <HomepageFaqJsonLd dict={dict} />
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-[580px] lg:min-h-[700px] flex items-center justify-center overflow-hidden bg-charcoal text-white pt-24 pb-32 md:pb-44">
+      <section className="relative min-h-[560px] sm:min-h-[620px] lg:min-h-[720px] flex items-center justify-center overflow-hidden bg-charcoal text-white pt-20 sm:pt-24 pb-28 sm:pb-36 md:pb-44">
         {/* BACKGROUND IMAGE & OVERLAYS */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -38,10 +38,10 @@ export default async function HomePage(props: HomePageProps) {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[center_28%] opacity-40 scale-105 transition-transform duration-1000"
+            className="object-cover object-[center_28%] opacity-35 scale-105 transition-transform duration-1000"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/65 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/40 to-transparent rtl:bg-gradient-to-l" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/70 to-charcoal/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/95 via-charcoal/50 to-transparent rtl:bg-gradient-to-l" />
         </div>
 
         <div className="container mx-auto px-4 max-w-7xl relative z-10">
@@ -53,7 +53,7 @@ export default async function HomePage(props: HomePageProps) {
             </div>
 
             {/* H1 HEADLINE WITH GOLD ACCENT */}
-            <h1 className="font-display font-semibold text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.08] tracking-tight">
+            <h1 className="font-display font-semibold text-3xl sm:text-5xl lg:text-6xl text-white leading-[1.12] sm:leading-[1.08] tracking-tight">
               <span>{dict.hero.titlePart1}</span>{' '}
               <span className="text-gold italic font-display font-bold">
                 {dict.hero.titlePart2}
@@ -61,29 +61,33 @@ export default async function HomePage(props: HomePageProps) {
             </h1>
 
             {/* SUBTITLE */}
-            <p className="text-sm sm:text-base md:text-lg text-white/80 leading-relaxed font-light max-w-2xl">
+            <p className="text-sm sm:text-base md:text-lg text-white/85 leading-relaxed font-light max-w-2xl">
               {dict.hero.description}
             </p>
 
             {/* CTAS */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <Link
-                href={`/${locale}/booking`}
-                className="inline-flex items-center justify-center gap-2 h-12 px-8 rounded-btn bg-gold text-ink font-bold text-sm uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-gold"
+              <a
+                href="#booking-calculator"
+                className="inline-flex items-center justify-center gap-2 min-h-[48px] h-12 px-7 rounded-btn bg-gold text-ink font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-gold focus-visible:ring-2 focus-visible:ring-gold"
               >
-                <span>{dict.hero.ctaBook}</span>
+                <Calculator className="w-4 h-4" />
+                <span>{dict.booking_card.buttonCalculate || 'Calculate Your Fare'}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-              </Link>
-              <Link
-                href={`/${locale}/fleet`}
-                className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-btn border border-white/30 text-white font-semibold text-sm hover:bg-white/10 transition-colors"
+              </a>
+              <a
+                href={`https://wa.me/${settings.whatsapp_number}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 min-h-[48px] h-12 px-6 rounded-btn border border-white/30 text-white font-semibold text-xs sm:text-sm hover:bg-white/10 hover:border-gold transition-colors focus-visible:ring-2 focus-visible:ring-gold"
               >
-                <span>{dict.hero.ctaFleet}</span>
-              </Link>
+                <MessageCircle className="w-4 h-4 text-emerald-400" />
+                <span>{locale === 'ar' ? 'محادثة واتساب' : locale === 'ms' ? 'Hubungi WhatsApp' : 'Chat on WhatsApp'}</span>
+              </a>
             </div>
 
             {/* 2X2 TRUST LINE WITH ICONS */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-white/15 text-xs text-white/90">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-4 border-t border-white/15 text-xs text-white/90">
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-gold shrink-0" />
                 <span>{dict.trust_strip.flightTracking}</span>
@@ -131,6 +135,11 @@ export default async function HomePage(props: HomePageProps) {
           <div className="flex items-center gap-2">
             <span className="text-gold-dark font-bold">✓</span>
             <span>{dict.trust_strip.payOnArrival}</span>
+          </div>
+          <span className="hidden md:inline text-border-strong">•</span>
+          <div className="flex items-center gap-2">
+            <span className="text-gold-dark font-bold">✓</span>
+            <span>{dict.trust_strip.freeCancellation}</span>
           </div>
         </div>
       </section>
