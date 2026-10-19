@@ -50,6 +50,11 @@ All service and infrastructure accounts **MUST** be registered and owned exclusi
 | **Translator (المترجم)** | ترجمة وتعديل القواميس اللغوية في اللغات الـ 9. | صلاحية حصرية على محتوى اللغات فقط. |
 | **Partner (وكيل السفر)** | إنشاء حجوزات المجموعات ومتابعة عمولاته. | وصول مخصص لبوابة الوكلاء والأسعار الخاصة بالشركاء. |
 
+> 🔒 **ملاحظة أمنية أساسية للمطورين والمدققين / Critical Security Architecture Note:**  
+> تضمن سياسات أمان صفوف قاعدة البيانات (PostgreSQL RLS) حماية الاستعلامات المباشرة الصادرة من المتصفح والعملاء الخارجيين. ومع ذلك، نظراً لأن خادم التطبيق (Next.js API Routes) يستخدم مفتاح الخدمة الداخلي (`SUPABASE_SERVICE_ROLE_KEY`) الذي يتجاوز سياسات الـ RLS تلقائياً، فإن **الفحص البرمجي الصارم على مستوى الـ API (عبر Zod Schemas ودوال `requireRole` و `calculateServerPrice`) هو خط الدفاع الحقيقي والسيادي ضد محاولات تصعيد الصلاحيات والتلاعب بالأسعار أو البيانات.**
+> 
+> *In Supabase architecture, service-role keys bypass RLS by design. Therefore, application-level guards (strict Zod parsing, RBAC validation via requireRole, and server-side price computation) are the authoritative perimeter protecting data integrity and access control.*
+
 ---
 
 ## 3. نظام توجيه الواتساب وتتبع الطلبات / WhatsApp Routing & Lead Tracking
@@ -201,7 +206,28 @@ NEXT_PUBLIC_WHATSAPP_OPERATOR=966505316971
 
 ---
 
-## 9. أوامر البناء والنشر / Build & Deployment Commands
+## 9. قائمة التحقق لتفعيل المصادقة الثنائية (2FA / TOTP) / First-Time 2FA Setup Checklist
+
+تفرض المنصة سياسة أمان إلزامية (Zero-Trust MFA) على حسابات **المالك (Owner)** و**المدير (Admin)** تمنع الوصول للوحة التحكم دون إكمال ربط تطبيق المصادقة (Google Authenticator أو 1Password):
+
+### خطوات التفعيل للمرة الأولى / Setup Checklist:
+1. **تسجيل الدخول الأولي:**  
+   - توجه إلى الرابط المحمي `/admin/login`.
+   - أدخل البريد الإلكتروني وكلمة المرور المسندة إليك.
+2. **التحويل التلقائي لخطوة التفعيل (Forced Enrollment):**  
+   - سيتعرف النظام تلقائياً على أن الحساب يمتلك صلاحية `owner` أو `admin` ولم يقم بربط الـ 2FA بعد (`isEnrolled: false`).
+   - تُعرض شاشة التفعيل الفوري مع الرمز السري ومفتاح الـ URI الخاص بالمصادقة الثنائية.
+3. **مسح الرمز عبر تطبيق المصادقة:**  
+   - افتح تطبيق Google Authenticator أو ما شابهه في هاتفك وامسح الرمز أو أدخل المفتاح السري يدوياً.
+4. **تأكيد الرمز المكون من 6 أرقام:**  
+   - أدخل رمز التحقق اللحظي في الخانة المخصصة واضغط "تأكيد وتفعيل".
+   - يتم تفعيل العامل في Supabase MFA ورفع مستوى الجلسة تلقائياً إلى المستوى الثاني المعزول (`AAL2`).
+5. **تسجيل الدخول في المرات القادمة:**  
+   - في كل جلسة جديدة، يُطلب الرمز السري من التطبيق للوصول للوحة التحكم أو واجهات برمجة التطبيقات المحمية (`requireRole`).
+
+---
+
+## 10. أوامر البناء والنشر / Build & Deployment Commands
 
 ```bash
 # 1. تثبيت الحزم / Install dependencies

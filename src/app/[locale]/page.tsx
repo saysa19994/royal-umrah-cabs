@@ -33,7 +33,7 @@ export default async function HomePage(props: HomePageProps) {
         {/* BACKGROUND IMAGE & OVERLAYS */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/images/yukon_exterior.jpg"
+            src="/assets/images/yukon_exterior.webp"
             alt={dict.hero.titlePart1}
             fill
             priority

@@ -43,6 +43,38 @@ export async function POST(request: Request) {
     // 4. Schema validation
     const validated = BookingSchema.parse(body);
 
+    // Interpret pickup time as Asia/Riyadh (+03:00) and enforce >= 1 hour lead time
+    let pickupISO: string;
+    const rawDatetime = validated.pickup_datetime.trim();
+    if (!rawDatetime.includes('+') && !rawDatetime.endsWith('Z')) {
+      const formatted = rawDatetime.includes('T') ? rawDatetime : rawDatetime.replace(' ', 'T');
+      const parts = formatted.split('T');
+      const timePart = parts[1] && parts[1].length === 5 ? `${parts[1]}:00` : (parts[1] || '00:00:00');
+      pickupISO = `${parts[0]}T${timePart}+03:00`;
+    } else {
+      pickupISO = new Date(rawDatetime).toISOString();
+    }
+
+    const pickupTimestamp = new Date(pickupISO).getTime();
+    if (isNaN(pickupTimestamp)) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid pickup date and time format' },
+        { status: 400 }
+      );
+    }
+
+    const nowTimestamp = Date.now();
+    const minLeadTimeMs = 60 * 60 * 1000; // 1 hour in ms
+    if (pickupTimestamp < nowTimestamp + minLeadTimeMs) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Pickup time must be scheduled at least 1 hour in advance (Asia/Riyadh time). Past dates are strictly not allowed.',
+        },
+        { status: 400 }
+      );
+    }
+
     // 5. Compute price strictly server-side from database (fail closed if invalid)
     let pricingResult;
     try {
@@ -52,12 +84,14 @@ export async function POST(request: Request) {
         vehicleId: validated.vehicle_id,
         currency: validated.currency,
         durationHours: validated.duration_hours || undefined,
-        pickupDatetime: validated.pickup_datetime,
+        pickupDatetime: pickupISO,
+        passengersCount: validated.passengers_count,
+        luggageCount: validated.luggage_count,
       });
     } catch (calcErr: any) {
       console.error('Database pricing computation error:', calcErr);
       return NextResponse.json(
-        { success: false, error: 'Unable to calculate price for the requested itinerary. Please contact dispatch via WhatsApp.' },
+        { success: false, error: calcErr.message || 'Unable to calculate price for the requested itinerary. Please contact dispatch via WhatsApp.' },
         { status: 400 }
       );
     }
@@ -91,6 +125,11 @@ export async function POST(request: Request) {
       reference = `RUC-${crypto.randomBytes(6).toString('hex').toUpperCase()}`;
     }
 
+    // Resolve WhatsApp operator routing before saving booking so operator is associated
+    const lang = (validated.language as Locale) || 'en';
+    const assignedOperator = await resolveWhatsAppNumber(lang);
+    const currSymbol = CURRENCIES[currKey]?.symbol || 'SAR';
+
     const bookingPayload = {
       reference,
       booking_type: validated.booking_type,
@@ -99,7 +138,7 @@ export async function POST(request: Request) {
       customer_name: validated.customer_name,
       customer_phone: normalizePhoneNumber(validated.customer_phone),
       customer_email: validated.customer_email || null,
-      pickup_datetime: validated.pickup_datetime,
+      pickup_datetime: pickupISO,
       pickup_location: validated.pickup_location,
       dropoff_location: validated.dropoff_location,
       passengers_count: validated.passengers_count,
@@ -116,6 +155,7 @@ export async function POST(request: Request) {
       payment_status: 'pending',
       status: 'new',
       language: validated.language || 'en',
+      whatsapp_number: assignedOperator.number,
     };
 
     // 6. Persist to database using service-role client - FAIL CLOSED ON FAILURE
@@ -145,18 +185,13 @@ export async function POST(request: Request) {
       performed_by: 'customer_online',
     });
 
-    // 7. Resolve WhatsApp operator routing
-    const lang = (validated.language as Locale) || 'en';
-    const assignedOperator = await resolveWhatsAppNumber(lang);
-    const currSymbol = CURRENCIES[currKey]?.symbol || 'SAR';
-
     const waLines = [
       `Assalamu Alaikum Royal Umrah Cabs [Ref: ${reference}]`,
       `• Name: ${validated.customer_name}`,
       `• Phone: ${validated.customer_phone}`,
       `• From: ${validated.pickup_location}`,
       `• To: ${validated.dropoff_location}`,
-      `• Date & Time: ${validated.pickup_datetime}`,
+      `• Date & Time: ${pickupISO.replace('T', ' ').slice(0, 16)} (KSA Time)`,
       `• Vehicle: ${validated.vehicle_id.toUpperCase()}`,
       `• Passengers: ${validated.passengers_count} | Luggage: ${validated.luggage_count || 1}`,
       `• Fixed Fare: ${currSymbol}${finalPriceCurrency} (${finalPriceSAR} SAR)`,
@@ -176,7 +211,7 @@ export async function POST(request: Request) {
         finalPriceCurrency,
         pickup_location: validated.pickup_location,
         dropoff_location: validated.dropoff_location,
-        pickup_datetime: validated.pickup_datetime,
+        pickup_datetime: pickupISO,
         vehicle_id: validated.vehicle_id,
         passengers_count: validated.passengers_count,
         luggage_count: validated.luggage_count || 1,
@@ -185,12 +220,21 @@ export async function POST(request: Request) {
     });
   } catch (error: any) {
     console.error('Booking submission error:', error);
+    if (error?.name === 'ZodError' || error?.errors) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: error.errors?.[0]?.message || 'Invalid booking submission data',
+        },
+        { status: 400 }
+      );
+    }
     return NextResponse.json(
       {
         success: false,
-        error: error?.errors ? error.errors[0]?.message : 'Invalid booking submission data',
+        error: 'An internal server error occurred while processing your booking.',
       },
-      { status: 400 }
+      { status: 500 }
     );
   }
 }

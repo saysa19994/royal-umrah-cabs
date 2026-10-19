@@ -7,7 +7,7 @@
     "build": "npm run check-i18n && next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --test scripts/test-pricing.mjs scripts/test-rate-limit.mjs scripts/test-turnstile-protection.mjs scripts/test-phone-security.mjs",
+    "test": "node --test scripts/test-pricing.mjs scripts/test-rate-limit.mjs scripts/test-turnstile-protection.mjs scripts/test-phone-security.mjs scripts/test-rbac-hardening.mjs scripts/test-lead-conversion.mjs scripts/test-admin-hardening.mjs scripts/test-totp-enforcement.mjs",
     "check-i18n": "node scripts/check-i18n.js"
   },
   "dependencies": {

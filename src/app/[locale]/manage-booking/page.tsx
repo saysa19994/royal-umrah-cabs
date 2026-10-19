@@ -22,6 +22,10 @@ export async function generateMetadata(props: ManageBookingPageProps): Promise<M
   return {
     title: dict.page_manage.title,
     description: dict.page_manage.subtitle,
+    robots: {
+      index: false,
+      follow: false,
+    },
     alternates: {
       canonical: `${baseUrl}/${locale}/manage-booking`,
     },

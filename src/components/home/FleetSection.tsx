@@ -22,8 +22,8 @@ const VEHICLES = [
     seats: 7,
     bags: 6,
     basePriceSAR: 260,
-    extImg: '/assets/images/staria_exterior.jpg',
-    intImg: '/assets/images/staria_interior.jpg',
+    extImg: '/assets/images/staria_exterior.webp',
+    intImg: '/assets/images/staria_interior.webp',
     tagline: 'Space that breathes with you',
   },
   {
@@ -34,8 +34,8 @@ const VEHICLES = [
     seats: 7,
     bags: 8,
     basePriceSAR: 380,
-    extImg: '/assets/images/yukon_exterior.jpg',
-    intImg: '/assets/images/yukon_interior.jpg',
+    extImg: '/assets/images/yukon_exterior.webp',
+    intImg: '/assets/images/yukon_interior.webp',
     tagline: 'Where the journey slows down',
   },
   {
@@ -46,8 +46,8 @@ const VEHICLES = [
     seats: 4,
     bags: 3,
     basePriceSAR: 200,
-    extImg: '/assets/images/camry_exterior.jpg',
-    intImg: '/assets/images/camry_interior.jpg',
+    extImg: '/assets/images/camry_exterior.webp',
+    intImg: '/assets/images/camry_interior.webp',
     tagline: 'Quiet comfort for couples & solo travelers',
   },
   {
@@ -58,8 +58,8 @@ const VEHICLES = [
     seats: 10,
     bags: 10,
     basePriceSAR: 340,
-    extImg: '/assets/images/hiace_exterior.jpg',
-    intImg: '/assets/images/hiace_interior.jpg',
+    extImg: '/assets/images/hiace_exterior.webp',
+    intImg: '/assets/images/hiace_interior.webp',
     tagline: 'Together in comfort for large families',
   },
 ];
@@ -104,6 +104,8 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
                 alt={currentCar.name}
                 width={600}
                 height={350}
+                sizes="(max-width: 768px) 100vw, 600px"
+                loading="lazy"
                 className="w-full h-auto max-h-[300px] object-contain drop-shadow-md hover:scale-105 transition-transform duration-500"
               />
 
@@ -211,6 +213,7 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
                   alt={`${car.name} interior cabin`}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
+                  loading="lazy"
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 {/* DARK GRADIENT */}

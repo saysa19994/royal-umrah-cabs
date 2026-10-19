@@ -4,7 +4,44 @@ import { hasPermission } from '@/lib/auth/rbac';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
 import { getClientIp } from '@/lib/rate-limit';
-import { UserProfile, Role } from '@/types/auth';
+import { z } from 'zod';
+
+const ALLOWED_STAFF_ROLES = [
+  'operator',
+  'driver',
+  'content_editor',
+  'translator',
+  'partner',
+  'admin',
+] as const;
+
+const CreateUserSchema = z.object({
+  name: z.string().trim().min(1, 'Name is required').max(100),
+  email: z.string().trim().email('Invalid email address').max(200),
+  role: z.enum(ALLOWED_STAFF_ROLES, {
+    errorMap: () => ({ message: 'Invalid role. Role must be operator, driver, content_editor, translator, partner, or admin' }),
+  }),
+  assigned_whatsapp_number: z
+    .string()
+    .trim()
+    .regex(/^\d{8,15}$/, 'Assigned WhatsApp number must contain 8 to 15 digits only')
+    .nullable()
+    .optional(),
+});
+
+const UpdateUserSchema = z.object({
+  id: z.string().min(1, 'User ID is required'),
+  role: z.enum(ALLOWED_STAFF_ROLES, {
+    errorMap: () => ({ message: 'Invalid role. Role must be operator, driver, content_editor, translator, partner, or admin' }),
+  }).optional(),
+  assigned_whatsapp_number: z
+    .string()
+    .trim()
+    .regex(/^\d{8,15}$/, 'Assigned WhatsApp number must contain 8 to 15 digits only')
+    .nullable()
+    .optional(),
+  is_suspended: z.boolean().optional(),
+});
 
 export async function GET(request: Request) {
   try {
@@ -50,19 +87,24 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Forbidden: Insufficient permissions to create users' }, { status: 403 });
     }
     const body = await request.json();
-    const { name, email, role, assigned_whatsapp_number } = body;
-    const cleanEmail = (email || '').trim().toLowerCase();
 
-    if (!name || !cleanEmail || !role) {
-      return NextResponse.json({ error: 'Name, email, and role are required' }, { status: 400 });
-    }
-
-    if (role === 'owner') {
+    if ((body.role as any) === 'owner') {
       return NextResponse.json(
-        { error: 'Direct creation of secondary owner is forbidden. Use ownership transfer.' },
-        { status: 403 }
+        { error: 'Direct creation of owner is forbidden. Ownership changes happen only through /api/admin/ownership/transfer.' },
+        { status: 400 }
       );
     }
+
+    const parseResult = CreateUserSchema.safeParse(body);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        { error: parseResult.error.errors[0]?.message || 'Invalid user data' },
+        { status: 400 }
+      );
+    }
+
+    const { name, email, role, assigned_whatsapp_number } = parseResult.data;
+    const cleanEmail = email.toLowerCase();
 
     // Only owner can create admin accounts
     if (role === 'admin' && currentUser.role !== 'owner') {
@@ -99,7 +141,7 @@ export async function POST(request: Request) {
       auth_user_id: authUserId,
       email: cleanEmail,
       name: name.trim(),
-      role: role as Role,
+      role,
       assigned_whatsapp_number: assigned_whatsapp_number || null,
       is_suspended: false,
       totp_enabled: false,
@@ -146,11 +188,23 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: 'Forbidden: Insufficient permissions to edit users' }, { status: 403 });
     }
     const body = await request.json();
-    const { id, role, assigned_whatsapp_number, is_suspended } = body;
 
-    if (!id) {
-      return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+    if ((body.role as any) === 'owner') {
+      return NextResponse.json(
+        { error: 'Direct role update to owner is forbidden. Ownership changes happen only through /api/admin/ownership/transfer.' },
+        { status: 400 }
+      );
     }
+
+    const parseResult = UpdateUserSchema.safeParse(body);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        { error: parseResult.error.errors[0]?.message || 'Invalid user data' },
+        { status: 400 }
+      );
+    }
+
+    const { id, role, assigned_whatsapp_number, is_suspended } = parseResult.data;
 
     const serviceClient = createServiceClient();
     const { data: targetUser, error: findError } = await serviceClient
@@ -168,7 +222,7 @@ export async function PUT(request: Request) {
       if (is_suspended === true) {
         return NextResponse.json({ error: 'Violation: The Owner cannot be suspended or locked out.' }, { status: 403 });
       }
-      if (role && role !== 'owner') {
+      if (role) {
         return NextResponse.json({ error: 'Violation: The Owner cannot be demoted. Use ownership transfer flow.' }, { status: 403 });
       }
     }
@@ -184,7 +238,7 @@ export async function PUT(request: Request) {
     const updates: Record<string, any> = {
       updated_at: new Date().toISOString(),
     };
-    if (role) updates.role = role as Role;
+    if (role) updates.role = role;
     if (assigned_whatsapp_number !== undefined) updates.assigned_whatsapp_number = assigned_whatsapp_number;
     if (is_suspended !== undefined) updates.is_suspended = Boolean(is_suspended);
 

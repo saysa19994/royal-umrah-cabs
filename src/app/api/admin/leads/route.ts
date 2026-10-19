@@ -18,11 +18,13 @@ export async function GET(request: Request) {
     }
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
+    const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '50', 10), 1), 100);
+    const offset = Math.max(parseInt(searchParams.get('offset') || '0', 10), 0);
 
     const serviceClient = createServiceClient();
     let query = serviceClient
       .from('leads')
-      .select('*')
+      .select('*', { count: 'exact' })
       .order('created_at', { ascending: false });
 
     if (status && status !== 'all') {
@@ -32,12 +34,14 @@ export async function GET(request: Request) {
     // Scoped operator filter: strictly restrict to assigned WhatsApp number on server
     if (currentUser.role === 'operator') {
       if (!currentUser.assigned_whatsapp_number) {
-        return NextResponse.json({ success: true, leads: [] });
+        return NextResponse.json({ success: true, leads: [], total: 0, limit, offset });
       }
       query = query.eq('whatsapp_number', currentUser.assigned_whatsapp_number);
     }
 
-    const { data: leads, error } = await query;
+    query = query.range(offset, offset + limit - 1);
+
+    const { data: leads, count, error } = await query;
     if (error) {
       console.error('Error fetching leads:', error);
       return NextResponse.json(
@@ -46,7 +50,7 @@ export async function GET(request: Request) {
       );
     }
 
-    return NextResponse.json({ success: true, leads: leads || [] });
+    return NextResponse.json({ success: true, leads: leads || [], total: count ?? (leads?.length || 0), limit, offset });
   } catch (error: any) {
     console.error('Leads GET exception:', error);
     return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });

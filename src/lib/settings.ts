@@ -61,10 +61,10 @@ const fetchSettingsCached = unstable_cache(
     try {
       const supabase = getStaticSupabaseClient();
       const { data, error } = await supabase
-        .from('site_settings')
+        .from('public_site_settings')
         .select('*')
-        .eq('lock_id', true)
-        .single();
+        .limit(1)
+        .maybeSingle();
 
       if (error || !data) {
         return DEFAULT_SETTINGS;

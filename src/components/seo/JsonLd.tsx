@@ -25,14 +25,14 @@ export function JsonLd({ locale, dict, settings, includeFaq = false }: JsonLdPro
       'Teksi Umrah VIP Jeddah Makkah',
     ],
     url: `${baseUrl}/${locale}`,
-    logo: `${baseUrl}/assets/images/staria_exterior.jpg`,
-    image: `${baseUrl}/assets/images/staria_exterior.jpg`,
+    logo: `${baseUrl}/logo.png`,
+    image: `${baseUrl}/assets/images/og-image.jpg`,
     description: dict.meta.seoDescription,
     telephone: settings?.phone || '+966567588261',
-    email: settings?.email || 'dispatch@royalumrahcabs.com',
+    email: settings?.email || 'info@royalumrahcabs.com',
     priceRange: '$$',
     currenciesAccepted: 'SAR, USD, EUR, GBP, MYR, IDR, INR, PKR, EGP',
-    paymentAccepted: 'Cash, Credit Card, Debit Card',
+    paymentAccepted: 'Cash, Pay Upon Arrival, Bank Transfer',
     geo: {
       '@type': 'GeoCoordinates',
       latitude: 21.4225,
@@ -83,42 +83,6 @@ export function JsonLd({ locale, dict, settings, includeFaq = false }: JsonLdPro
         },
       },
     ],
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Private Umrah Chauffeur Services',
-      itemListElement: [
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Jeddah Airport (KAIA) to Makkah Hotel Taxi',
-            description: 'Private airport transfer with flight tracking and 60 minutes complimentary waiting.',
-          },
-          price: '200',
-          priceCurrency: 'SAR',
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Makkah to Madinah VIP Chauffeur Transfer',
-            description: 'Highway transfer via Hijrah Expressway with optional prayer and rest stops.',
-          },
-          price: '450',
-          priceCurrency: 'SAR',
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Madinah to Makkah with Miqat Bir Ali Stop',
-            description: 'Blessed transfer including dedicated stop at Masjid Miqat Bir Ali for Ihram.',
-          },
-          price: '450',
-          priceCurrency: 'SAR',
-        },
-      ],
-    },
   };
 
   // Only include aggregateRating if real verified reviews exist in site_settings
@@ -193,21 +157,25 @@ export function JsonLd({ locale, dict, settings, includeFaq = false }: JsonLdPro
     ],
   };
 
+  function safeJsonLd(data: unknown): string {
+    return JSON.stringify(data).replace(/</g, '\\u003c');
+  }
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(businessSchema) }}
       />
       {includeFaq && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(faqSchema) }}
         />
       )}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
       />
     </>
   );
@@ -245,7 +213,9 @@ export function HomepageFaqJsonLd({ dict }: { dict: Dictionary }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c'),
+      }}
     />
   );
 }

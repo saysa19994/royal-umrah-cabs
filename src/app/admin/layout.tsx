@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { AdminNavbar } from '@/components/admin/AdminNavbar';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
+import { manrope } from '@/app/fonts';
 
 export const metadata = {
   title: 'Admin Operations Portal | Royal Umrah Cabs',
@@ -12,6 +13,16 @@ export const metadata = {
     follow: false,
   },
 };
+
+function AdminShell({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" dir="ltr" className={manrope.variable}>
+      <body className="min-h-screen flex flex-col font-sans bg-[#0D0F12] text-[#FAF9F6] antialiased">
+        {children}
+      </body>
+    </html>
+  );
+}
 
 export default async function AdminLayout({
   children,
@@ -30,7 +41,7 @@ export default async function AdminLayout({
     if (!isLoginPage) {
       redirect('/admin/login');
     }
-    return <>{children}</>;
+    return <AdminShell>{children}</AdminShell>;
   }
 
   // 2. Fetch staff profile strictly by auth_user_id (NO .or() queries)
@@ -47,7 +58,7 @@ export default async function AdminLayout({
       if (!isLoginPage) {
         redirect('/admin/login?error=unconfirmed_email');
       }
-      return <>{children}</>;
+      return <AdminShell>{children}</AdminShell>;
     }
 
     const { data: unlinked } = await serviceClient
@@ -70,7 +81,7 @@ export default async function AdminLayout({
     if (!isLoginPage) {
       redirect('/admin/login?error=unauthorized');
     }
-    return <>{children}</>;
+    return <AdminShell>{children}</AdminShell>;
   }
 
   // 3. For owner, admin, or ANY staff account with totp_enabled: ALWAYS require AAL2 MFA before granting access to portal pages
@@ -81,7 +92,7 @@ export default async function AdminLayout({
       if (!isLoginPage) {
         redirect('/admin/login?mfa=required');
       }
-      return <>{children}</>;
+      return <AdminShell>{children}</AdminShell>;
     }
   }
 
@@ -110,14 +121,16 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0F12] text-[#F3EEE6] flex flex-col font-sans">
-      <AdminNavbar initialUser={profile} />
-      <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
-        {children}
-      </main>
-      <footer className="border-t border-[#262B33] py-4 px-6 text-center text-xs text-[#6C7584]">
-        <span>Royal Umrah Cabs Operations Portal • Protected with RBAC &amp; Mandatory TOTP</span>
-      </footer>
-    </div>
+    <AdminShell>
+      <div className="min-h-screen bg-[#0D0F12] text-[#F3EEE6] flex flex-col font-sans">
+        <AdminNavbar initialUser={profile} />
+        <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
+          {children}
+        </main>
+        <footer className="border-t border-[#262B33] py-4 px-6 text-center text-xs text-[#6C7584]">
+          <span>Royal Umrah Cabs Operations Portal • Protected with RBAC &amp; Mandatory TOTP</span>
+        </footer>
+      </div>
+    </AdminShell>
   );
 }

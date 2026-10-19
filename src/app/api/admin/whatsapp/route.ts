@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
+import { revalidatePath } from 'next/cache';
 import { requireRole } from '@/lib/auth/server-auth';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
@@ -29,18 +31,49 @@ export async function GET(request: Request) {
   }
 }
 
+const WhatsAppCreateSchema = z.object({
+  label: z.string().trim().min(2).max(100),
+  number: z.string().regex(/^\+?[0-9]{8,15}$/, 'Must be 8-15 digits'),
+  priority: z.number().int().min(1).max(10).default(3),
+  routing_rule: z.enum(['all_to_main', 'round_robin', 'by_language', 'by_working_hours', 'main_with_fallback']).default('main_with_fallback'),
+  assigned_languages: z.array(z.string().max(10)).default(['en']),
+});
+
+const WhatsAppPatchSchema = z.object({
+  id: z.string().uuid().optional(),
+  is_active: z.boolean().optional(),
+  label: z.string().trim().min(2).max(100).optional(),
+  number: z.string().regex(/^\+?[0-9]{8,15}$/, 'Must be 8-15 digits').optional(),
+  routing_rule: z.enum(['all_to_main', 'round_robin', 'by_language', 'by_working_hours', 'main_with_fallback']).optional(),
+  priority: z.number().int().min(1).max(10).optional(),
+  assigned_languages: z.array(z.string().max(10)).optional(),
+});
+
 export async function PATCH(request: Request) {
   try {
     const clientIp = getClientIp(request);
-    const authResult = await requireRole(request, ['owner', 'admin']);
+    // Owner-only guard for modifying operational WhatsApp configuration
+    const authResult = await requireRole(request, ['owner']);
     if (authResult.errorResponse) {
       return authResult.errorResponse;
     }
 
     const { user: currentUser } = authResult;
     const body = await request.json();
-    const { id, is_active, label, number, routing_rule, priority, assigned_languages } = body;
+    const parseResult = WhatsAppPatchSchema.safeParse(body);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Validation failed',
+          details: parseResult.error.flatten().fieldErrors,
+        },
+        { status: 400 }
+      );
+    }
 
+    const validated = parseResult.data;
+    const { id, is_active, label, number, routing_rule, priority, assigned_languages } = validated;
     const serviceClient = createServiceClient();
 
     if (id) {
@@ -49,7 +82,7 @@ export async function PATCH(request: Request) {
       };
       if (is_active !== undefined) updates.is_active = is_active;
       if (label !== undefined) updates.label = label;
-      if (number !== undefined) updates.number = number;
+      if (number !== undefined) updates.number = number.replace(/[^0-9]/g, '');
       if (routing_rule !== undefined) updates.routing_rule = routing_rule;
       if (priority !== undefined) updates.priority = priority;
       if (assigned_languages !== undefined) updates.assigned_languages = assigned_languages;
@@ -76,6 +109,12 @@ export async function PATCH(request: Request) {
         ip: clientIp,
       });
 
+      try {
+        revalidatePath('/', 'layout');
+      } catch (revalErr) {
+        console.warn('Revalidation notice:', revalErr);
+      }
+
       return NextResponse.json({ success: true, updated: data });
     } else if (routing_rule) {
       const { error } = await serviceClient
@@ -97,6 +136,12 @@ export async function PATCH(request: Request) {
         ip: clientIp,
       });
 
+      try {
+        revalidatePath('/', 'layout');
+      } catch (revalErr) {
+        console.warn('Revalidation notice:', revalErr);
+      }
+
       return NextResponse.json({ success: true, message: `Routing rule updated to ${routing_rule}` });
     }
 
@@ -110,19 +155,27 @@ export async function PATCH(request: Request) {
 export async function POST(request: Request) {
   try {
     const clientIp = getClientIp(request);
-    const authResult = await requireRole(request, ['owner', 'admin']);
+    // Owner-only guard for creating operational WhatsApp numbers
+    const authResult = await requireRole(request, ['owner']);
     if (authResult.errorResponse) {
       return authResult.errorResponse;
     }
 
     const { user: currentUser } = authResult;
     const body = await request.json();
-    const { label, number, priority = 3, routing_rule = 'main_with_fallback', assigned_languages = ['en'] } = body;
-
-    if (!label || !number) {
-      return NextResponse.json({ success: false, error: 'label and number are required' }, { status: 400 });
+    const parseResult = WhatsAppCreateSchema.safeParse(body);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Validation failed',
+          details: parseResult.error.flatten().fieldErrors,
+        },
+        { status: 400 }
+      );
     }
 
+    const { label, number, priority, routing_rule, assigned_languages } = parseResult.data;
     const cleanNumber = number.replace(/[^0-9]/g, '');
     const serviceClient = createServiceClient();
 
@@ -152,6 +205,12 @@ export async function POST(request: Request) {
       newValues: { label, number: cleanNumber },
       ip: clientIp,
     });
+
+    try {
+      revalidatePath('/', 'layout');
+    } catch (revalErr) {
+      console.warn('Revalidation notice:', revalErr);
+    }
 
     return NextResponse.json({ success: true, created: data });
   } catch (err: any) {

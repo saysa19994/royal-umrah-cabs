@@ -61,8 +61,16 @@ export async function POST(request: Request) {
       );
     }
 
-    // Generate high-entropy 32-byte cryptographically secure token
-    const token = crypto.randomBytes(32).toString('hex').toUpperCase();
+    // Invalidate any older pending transfers for this owner
+    await serviceClient
+      .from('ownership_transfers')
+      .update({ status: 'cancelled', updated_at: new Date().toISOString() })
+      .eq('current_owner_email', currentOwner.email)
+      .eq('status', 'pending');
+
+    // Generate high-entropy 32-byte cryptographically secure token and store SHA-256 hash
+    const rawToken = crypto.randomBytes(32).toString('hex').toUpperCase();
+    const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
 
     const { data: record, error: insertError } = await serviceClient
@@ -70,7 +78,7 @@ export async function POST(request: Request) {
       .insert({
         current_owner_email: currentOwner.email,
         target_owner_email: cleanTarget,
-        confirmation_token: token,
+        confirmation_token: tokenHash,
         status: 'pending',
         expires_at: expiresAt,
       })
@@ -87,7 +95,7 @@ export async function POST(request: Request) {
     const emailRes = await sendOwnershipTransferEmail({
       to: currentOwner.email,
       targetEmail: cleanTarget,
-      confirmationToken: token,
+      confirmationToken: rawToken,
       expiresAt,
     });
 
@@ -147,10 +155,13 @@ export async function PUT(request: Request) {
     }
 
     const serviceClient = createServiceClient();
+    const tokenHash = crypto.createHash('sha256').update(cleanToken).digest('hex');
+
+    // Query pending transfer by hashed token (or clean token for backwards compatibility)
     const { data: transfer, error: findError } = await serviceClient
       .from('ownership_transfers')
       .select('*')
-      .eq('confirmation_token', cleanToken)
+      .or(`confirmation_token.eq.${tokenHash},confirmation_token.eq.${cleanToken}`)
       .eq('status', 'pending')
       .maybeSingle();
 
@@ -176,7 +187,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: 'Transfer token has expired.' }, { status: 400 });
     }
 
-    // Execute transfer in database:
+    // Execute transfer in database with atomic rollback protection:
     // 1. Promote target to 'owner'
     const { error: promoErr } = await serviceClient
       .from('user_profiles')
@@ -189,10 +200,24 @@ export async function PUT(request: Request) {
     }
 
     // 2. Demote current owner to 'admin'
-    await serviceClient
+    const { error: demoteErr } = await serviceClient
       .from('user_profiles')
       .update({ role: 'admin', updated_at: new Date().toISOString() })
       .eq('email', transfer.current_owner_email);
+
+    if (demoteErr) {
+      console.error('Failed to demote old owner, rolling back new owner promotion:', demoteErr);
+      // Atomic Rollback: revert target to admin so we do not end up with dual owners or partial state
+      await serviceClient
+        .from('user_profiles')
+        .update({ role: 'admin', updated_at: new Date().toISOString() })
+        .eq('email', transfer.target_owner_email);
+
+      return NextResponse.json(
+        { error: 'Failed to complete ownership transfer. Role changes were safely rolled back.' },
+        { status: 500 }
+      );
+    }
 
     // 3. Mark transfer confirmed
     await serviceClient

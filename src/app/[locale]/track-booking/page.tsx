@@ -22,6 +22,10 @@ export async function generateMetadata(props: TrackBookingPageProps): Promise<Me
   return {
     title: dict.page_track.title,
     description: dict.page_track.subtitle,
+    robots: {
+      index: false,
+      follow: false,
+    },
     alternates: {
       canonical: `${baseUrl}/${locale}/track-booking`,
     },

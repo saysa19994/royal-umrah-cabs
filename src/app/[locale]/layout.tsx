@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { LOCALES, Locale, LOCALE_CONFIG } from '@/i18n/config';
+import { LOCALES, Locale, LOCALE_CONFIG, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { CurrencyProvider } from '@/context/CurrencyContext';
@@ -8,6 +8,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingUI } from '@/components/layout/FloatingUI';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { cormorant, manrope, amiri, tajawal } from '@/app/fonts';
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -50,45 +51,40 @@ export async function generateMetadata(
         'max-snippet': -1,
       },
     },
-    alternates: {
-      canonical: `${baseUrl}/${validLocale}`,
-      languages: {
-        en: `${baseUrl}/en`,
-        ar: `${baseUrl}/ar`,
-        ms: `${baseUrl}/ms`,
-        fr: `${baseUrl}/fr`,
-        es: `${baseUrl}/es`,
-        id: `${baseUrl}/id`,
-        hi: `${baseUrl}/hi`,
-        de: `${baseUrl}/de`,
-        ur: `${baseUrl}/ur`,
-        'en-GB': `${baseUrl}/en`,
-        'en-US': `${baseUrl}/en`,
-        'en-CA': `${baseUrl}/en`,
-        'en-IN': `${baseUrl}/en`,
-        'en-PK': `${baseUrl}/en`,
-        'fr-FR': `${baseUrl}/fr`,
-        'fr-CA': `${baseUrl}/fr`,
-        'es-ES': `${baseUrl}/es`,
-        'de-DE': `${baseUrl}/de`,
-        'id-ID': `${baseUrl}/id`,
-        'ms-MY': `${baseUrl}/ms`,
-        'hi-IN': `${baseUrl}/hi`,
-        'ur-PK': `${baseUrl}/ur`,
-        'ar-SA': `${baseUrl}/ar`,
-        'x-default': `${baseUrl}/en`,
-      },
-    },
+    alternates: getLocalizedAlternates(validLocale),
     openGraph: {
       title: dict.meta.seoTitle,
       description: dict.meta.seoDescription,
-      locale: validLocale === 'ar' ? 'ar_SA' : validLocale === 'ms' ? 'ms_MY' : 'en_US',
-      alternateLocale: validLocale === 'en' ? ['ar_SA', 'ms_MY'] : validLocale === 'ar' ? ['en_US', 'ms_MY'] : ['en_US', 'ar_SA'],
+      locale: {
+        en: 'en_US',
+        ar: 'ar_SA',
+        ms: 'ms_MY',
+        id: 'id_ID',
+        fr: 'fr_FR',
+        es: 'es_ES',
+        de: 'de_DE',
+        hi: 'hi_IN',
+        ur: 'ur_PK',
+      }[validLocale] || 'en_US',
+      alternateLocale: LOCALES.filter((l) => l !== validLocale).map(
+        (l) =>
+          ({
+            en: 'en_US',
+            ar: 'ar_SA',
+            ms: 'ms_MY',
+            id: 'id_ID',
+            fr: 'fr_FR',
+            es: 'es_ES',
+            de: 'de_DE',
+            hi: 'hi_IN',
+            ur: 'ur_PK',
+          }[l] || 'en_US')
+      ),
       url: `${baseUrl}/${validLocale}`,
       siteName: dict.meta.brand,
       images: [
         {
-          url: `${baseUrl}/assets/images/staria_exterior.jpg`,
+          url: `${baseUrl}/assets/images/og-image.jpg`,
           width: 1200,
           height: 630,
           alt: `${dict.meta.brand} - VIP Pilgrim Transport`,
@@ -100,7 +96,7 @@ export async function generateMetadata(
       card: 'summary_large_image',
       title: dict.meta.seoTitle,
       description: dict.meta.seoDescription,
-      images: [`${baseUrl}/assets/images/staria_exterior.jpg`],
+      images: [`${baseUrl}/assets/images/og-image.jpg`],
     },
   };
 }
@@ -132,18 +128,24 @@ export default async function LocaleLayout(
   const defaultCurrency = LOCALE_CONFIG[validLocale].defaultCurrency;
 
   return (
-    <div lang={validLocale} dir={dir} className="min-h-screen flex flex-col">
-      <JsonLd locale={validLocale} dict={dict} settings={settings} />
-      <CurrencyProvider defaultCurrency={defaultCurrency}>
-        <Header locale={validLocale} dict={dict} />
-        <main className="flex-1">{children}</main>
-        <Footer locale={validLocale} dict={dict} settings={settings} />
-        <FloatingUI
-          locale={validLocale}
-          dict={dict}
-          whatsappNumber={settings.whatsapp_number}
-        />
-      </CurrencyProvider>
-    </div>
+    <html
+      lang={validLocale}
+      dir={dir}
+      className={`${cormorant.variable} ${manrope.variable} ${amiri.variable} ${tajawal.variable}`}
+    >
+      <body className="min-h-screen flex flex-col font-sans bg-bg text-body antialiased selection:bg-gold-soft selection:text-ink">
+        <JsonLd locale={validLocale} dict={dict} settings={settings} />
+        <CurrencyProvider defaultCurrency={defaultCurrency}>
+          <Header locale={validLocale} dict={dict} />
+          <main className="flex-1">{children}</main>
+          <Footer locale={validLocale} dict={dict} settings={settings} />
+          <FloatingUI
+            locale={validLocale}
+            dict={dict}
+            whatsappNumber={settings.whatsapp_number}
+          />
+        </CurrencyProvider>
+      </body>
+    </html>
   );
 }

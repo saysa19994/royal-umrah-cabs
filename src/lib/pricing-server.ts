@@ -21,20 +21,54 @@ export async function calculateServerPrice(params: {
   currency?: string | null;
   durationHours?: number | null;
   pickupDatetime?: string | null;
+  passengersCount?: number | null;
+  luggageCount?: number | null;
 }): Promise<PriceCalculationResult> {
   const serviceClient = createServiceClient();
-  const { bookingType, routeId, vehicleId, currency = 'SAR', durationHours, pickupDatetime } = params;
+  const {
+    bookingType,
+    routeId,
+    vehicleId,
+    currency = 'SAR',
+    durationHours,
+    pickupDatetime,
+    passengersCount,
+    luggageCount,
+  } = params;
 
-  // 1. Verify vehicle exists and is active
+  // 1. Verify currency is strictly a supported currency
+  const currKey = (currency || 'SAR') as CurrencyCode;
+  const currencyConfig = CURRENCIES[currKey];
+  if (!currencyConfig) {
+    throw new Error(`Unsupported currency '${currKey}'. Supported currencies: ${Object.keys(CURRENCIES).join(', ')}`);
+  }
+
+  // 2. Verify vehicle exists and is active, and read seats/bags limits
   const { data: vehicleData, error: vehicleErr } = await serviceClient
     .from('vehicles')
-    .select('id, is_active')
+    .select('id, is_active, seats, bags')
     .eq('id', vehicleId)
     .eq('is_active', true)
     .maybeSingle();
 
   if (vehicleErr || !vehicleData) {
     throw new Error(`Active vehicle '${vehicleId}' not found in database`);
+  }
+
+  // Reject bookings where passengers_count exceeds vehicle seats
+  if (passengersCount !== undefined && passengersCount !== null) {
+    const seatsLimit = vehicleData.seats ?? 4;
+    if (passengersCount > seatsLimit) {
+      throw new Error(`Passenger count (${passengersCount}) exceeds vehicle '${vehicleId}' capacity of ${seatsLimit} seats`);
+    }
+  }
+
+  // Reject bookings where luggage_count exceeds vehicle bags
+  if (luggageCount !== undefined && luggageCount !== null) {
+    const bagsLimit = vehicleData.bags ?? 3;
+    if (luggageCount > bagsLimit) {
+      throw new Error(`Luggage count (${luggageCount}) exceeds vehicle '${vehicleId}' capacity of ${bagsLimit} bags`);
+    }
   }
 
   let basePriceSAR: number | null = null;
@@ -79,8 +113,8 @@ export async function calculateServerPrice(params: {
       throw new Error(`Invalid duration '${durationHours}'. Hourly bookings require between 2 and 24 hours.`);
     }
 
-    // Check specific duration block route (e.g. hourly-4h, hourly-8h) or specific routeId
-    const targetBlockRoute = routeId || (hours > 4 ? `hourly-${hours}h` : 'hourly-4h');
+    // Ignore client route_id entirely for hourly: derive from duration only
+    const targetBlockRoute = hours > 4 ? `hourly-${hours}h` : 'hourly-4h';
 
     const { data: blockPrice } = await serviceClient
       .from('prices')
@@ -108,7 +142,8 @@ export async function calculateServerPrice(params: {
       }
     }
   } else if (bookingType === 'ziyarat') {
-    const targetRouteId = routeId || 'ziyarat-tour';
+    // Ignore client route_id entirely for ziyarat: derive from booking type
+    const targetRouteId = 'ziyarat-tour';
     const { data: priceRow, error: priceErr } = await serviceClient
       .from('prices')
       .select('price_sar')
@@ -121,7 +156,8 @@ export async function calculateServerPrice(params: {
     }
     basePriceSAR = Number(priceRow.price_sar);
   } else if (bookingType === 'group_bus') {
-    const targetRouteId = routeId || 'group-coaster';
+    // Ignore client route_id entirely for group_bus: derive from booking type
+    const targetRouteId = 'group-coaster';
     const { data: priceRow, error: priceErr } = await serviceClient
       .from('prices')
       .select('price_sar')
@@ -162,8 +198,7 @@ export async function calculateServerPrice(params: {
 
   const finalPriceSAR = Math.round(basePriceSAR * multiplier);
 
-  const currKey = (currency || 'SAR') as CurrencyCode;
-  const currRate = CURRENCIES[currKey]?.rateFromSAR || 1.0;
+  const currRate = currencyConfig.rateFromSAR;
   const finalPriceCurrency = Math.round(finalPriceSAR * currRate);
 
   return {

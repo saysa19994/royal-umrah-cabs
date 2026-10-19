@@ -1,6 +1,8 @@
+import crypto from 'crypto';
 import { createClient } from './supabase/server';
 import { createServiceClient } from './supabase/service';
 import { Locale, LOCALE_CONFIG } from '@/i18n/config';
+import { calculateServerPrice } from './pricing-server';
 
 export interface WhatsAppNumberRecord {
   id: string;
@@ -34,15 +36,11 @@ export const FALLBACK_WHATSAPP_NUMBERS: WhatsAppNumberRecord[] = [
 ];
 
 /**
- * Generate a unique reference code like RUC-48213
+ * Generate a cryptographically secure unique reference code like RUC-A1B2C3D4 (>= 8 chars)
  */
 export function generateLeadRefCode(): string {
-  const chars = '0123456789';
-  let randomNum = '';
-  for (let i = 0; i < 5; i++) {
-    randomNum += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return `RUC-${randomNum}`;
+  const hex = crypto.randomBytes(4).toString('hex').toUpperCase();
+  return `RUC-${hex}`;
 }
 
 /**
@@ -123,6 +121,7 @@ export interface LeadCreationPayload {
   price_sar?: number | null;
   customer_name?: string | null;
   customer_phone?: string | null;
+  notes?: string | null;
   source_utm?: Record<string, string> | null;
 }
 
@@ -242,31 +241,78 @@ export async function logLeadAndGenerateWhatsAppUrl(payload: LeadCreationPayload
   whatsapp_url: string;
   message: string;
 }> {
-  const ref_code = payload.ref_code || generateLeadRefCode();
   const lang = payload.language || 'en';
   const assignedNumber = await resolveWhatsAppNumber(lang);
-  const message = formatWhatsAppLeadMessage({ ...payload, ref_code });
+
+  // Compute displayed price server-side from route_id + vehicle_id using DB prices + seasonal multiplier
+  let computedPriceSAR: number | null = null;
+  if (payload.route_id && payload.vehicle_id) {
+    try {
+      const calcResult = await calculateServerPrice({
+        bookingType: 'transfer',
+        routeId: payload.route_id,
+        vehicleId: payload.vehicle_id,
+        pickupDatetime: payload.pickup_date ? `${payload.pickup_date}T12:00:00Z` : null,
+        passengersCount: payload.passengers,
+        luggageCount: payload.luggage,
+      });
+      computedPriceSAR = calcResult.finalPriceSAR;
+    } catch {
+      // Omit price if uncomputable (invalid route/vehicle or missing config)
+      computedPriceSAR = null;
+    }
+  }
+
+  let ref_code = payload.ref_code || generateLeadRefCode();
+  const message = formatWhatsAppLeadMessage({
+    ...payload,
+    ref_code,
+    price_sar: computedPriceSAR,
+  });
   const encodedMsg = encodeURIComponent(message);
   const whatsapp_url = `https://wa.me/${assignedNumber.number}?text=${encodedMsg}`;
 
   try {
     const supabase = createServiceClient();
-    await supabase.from('leads').insert({
-      ref_code,
-      whatsapp_number_id: assignedNumber.id.includes('default') ? null : assignedNumber.id,
-      whatsapp_number: assignedNumber.number,
-      page: payload.page || '/',
-      language: lang,
-      route_id: payload.route_id || null,
-      vehicle_id: payload.vehicle_id || null,
-      pickup_date: payload.pickup_date || null,
-      passengers: payload.passengers || 1,
-      price_sar: payload.price_sar || null,
-      customer_name: payload.customer_name || null,
-      customer_phone: payload.customer_phone || null,
-      source_utm: payload.source_utm || {},
-      status: 'new',
-    });
+    let inserted = false;
+    let lastError: any = null;
+
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const { error } = await supabase.from('leads').insert({
+        ref_code,
+        whatsapp_number_id: assignedNumber.id.includes('default') ? null : assignedNumber.id,
+        whatsapp_number: assignedNumber.number,
+        page: payload.page || '/',
+        language: lang,
+        route_id: payload.route_id || null,
+        vehicle_id: payload.vehicle_id || null,
+        pickup_date: payload.pickup_date && /^\d{4}-\d{2}-\d{2}$/.test(payload.pickup_date) ? payload.pickup_date : null,
+        passengers: payload.passengers || 1,
+        price_sar: computedPriceSAR,
+        customer_name: payload.customer_name || null,
+        customer_phone: payload.customer_phone || null,
+        notes: payload.notes || null,
+        source_utm: payload.source_utm || {},
+        status: 'new',
+      });
+
+      if (!error) {
+        inserted = true;
+        break;
+      }
+
+      lastError = error;
+      // Retry with new ref_code if unique constraint on ref_code violated
+      if (error.code === '23505' || error.message?.includes('ref_code')) {
+        ref_code = generateLeadRefCode();
+        continue;
+      }
+      break;
+    }
+
+    if (!inserted && lastError) {
+      console.error('Failed to log lead in Supabase:', lastError);
+    }
   } catch (err) {
     console.error('Failed to log lead in Supabase:', err);
   }

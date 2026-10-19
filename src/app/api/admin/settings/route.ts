@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
+import { revalidateTag, revalidatePath } from 'next/cache';
 import { requireRole } from '@/lib/auth/server-auth';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
@@ -36,44 +38,66 @@ export async function GET(request: Request) {
   }
 }
 
+const SettingsUpdateSchema = z.object({
+  phone: z.string().max(50).optional(),
+  email: z.string().email().max(100).optional(),
+  whatsapp_number: z.string().regex(/^\+?[0-9]{8,15}$/, 'Must be 8-15 digits').optional(),
+  riyadh_enabled: z.boolean().optional(),
+  address_cities: z.array(z.string().max(50)).optional(),
+  google_reviews_link: z.string().url().max(255).optional().or(z.literal('')),
+  google_reviews_rating: z.number().min(0).max(5).optional(),
+  google_reviews_count: z.number().int().min(0).optional(),
+  free_cancellation_hours: z.number().int().min(0).max(168).optional(),
+  currency_rates: z.record(z.string(), z.number().positive()).optional(),
+  owner_notification_email: z.string().email().max(100).optional(),
+  telegram_chat_id: z.string().max(100).optional(),
+  lead_alert_minutes: z.number().int().min(1).max(1440).optional(),
+  founder_enabled: z.boolean().optional(),
+});
+
 export async function POST(request: Request) {
   try {
     const clientIp = getClientIp(request);
-    const authResult = await requireRole(request, ['owner', 'admin']);
+    // Owner-only guard for modifying production settings
+    const authResult = await requireRole(request, ['owner']);
     if (authResult.errorResponse) {
       return authResult.errorResponse;
     }
 
     const { user: currentUser } = authResult;
     const body = await request.json();
-    const {
-      phone,
-      email,
-      whatsapp_number,
-      riyadh_enabled,
-      address_cities,
-      google_reviews_link,
-      google_reviews_rating,
-      google_reviews_count,
-      free_cancellation_hours,
-      currency_rates,
-    } = body;
+    const parseResult = SettingsUpdateSchema.safeParse(body);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Validation failed',
+          details: parseResult.error.flatten().fieldErrors,
+        },
+        { status: 400 }
+      );
+    }
 
+    const validated = parseResult.data;
     const serviceClient = createServiceClient();
     const updates: Record<string, any> = {
       updated_at: new Date().toISOString(),
     };
 
-    if (phone !== undefined) updates.phone = phone;
-    if (email !== undefined) updates.email = email;
-    if (whatsapp_number !== undefined) updates.whatsapp_number = whatsapp_number.replace(/[^0-9]/g, '');
-    if (riyadh_enabled !== undefined) updates.riyadh_enabled = Boolean(riyadh_enabled);
-    if (address_cities !== undefined) updates.address_cities = address_cities;
-    if (google_reviews_link !== undefined) updates.google_reviews_link = google_reviews_link;
-    if (google_reviews_rating !== undefined) updates.google_reviews_rating = Number(google_reviews_rating);
-    if (google_reviews_count !== undefined) updates.google_reviews_count = Number(google_reviews_count);
-    if (free_cancellation_hours !== undefined) updates.free_cancellation_hours = Number(free_cancellation_hours);
-    if (currency_rates !== undefined) updates.currency_rates = currency_rates;
+    if (validated.phone !== undefined) updates.phone = validated.phone;
+    if (validated.email !== undefined) updates.email = validated.email;
+    if (validated.whatsapp_number !== undefined) updates.whatsapp_number = validated.whatsapp_number.replace(/[^0-9]/g, '');
+    if (validated.riyadh_enabled !== undefined) updates.riyadh_enabled = validated.riyadh_enabled;
+    if (validated.address_cities !== undefined) updates.address_cities = validated.address_cities;
+    if (validated.google_reviews_link !== undefined) updates.google_reviews_link = validated.google_reviews_link;
+    if (validated.google_reviews_rating !== undefined) updates.google_reviews_rating = validated.google_reviews_rating;
+    if (validated.google_reviews_count !== undefined) updates.google_reviews_count = validated.google_reviews_count;
+    if (validated.free_cancellation_hours !== undefined) updates.free_cancellation_hours = validated.free_cancellation_hours;
+    if (validated.currency_rates !== undefined) updates.currency_rates = validated.currency_rates;
+    if (validated.owner_notification_email !== undefined) updates.owner_notification_email = validated.owner_notification_email;
+    if (validated.telegram_chat_id !== undefined) updates.telegram_chat_id = validated.telegram_chat_id;
+    if (validated.lead_alert_minutes !== undefined) updates.lead_alert_minutes = validated.lead_alert_minutes;
+    if (validated.founder_enabled !== undefined) updates.founder_enabled = validated.founder_enabled;
 
     const { data, error } = await serviceClient
       .from('site_settings')
@@ -96,6 +120,14 @@ export async function POST(request: Request) {
       newValues: updates,
       ip: clientIp,
     });
+
+    // Revalidate cache tags and layouts
+    try {
+      revalidateTag('site_settings');
+      revalidatePath('/', 'layout');
+    } catch (revalErr) {
+      console.warn('Cache revalidation notice:', revalErr);
+    }
 
     return NextResponse.json({ success: true, settings: data });
   } catch (err: any) {

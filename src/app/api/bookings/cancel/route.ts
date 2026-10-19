@@ -3,6 +3,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { rateLimit, getClientIp, checkRequiredEnv } from '@/lib/rate-limit';
 import { verifyTurnstileToken } from '@/lib/turnstile';
 import { normalizePhoneNumber, verifyPhoneMatch } from '@/lib/phone';
+import { getSiteSettings } from '@/lib/settings';
 
 export async function POST(request: Request) {
   try {
@@ -91,14 +92,17 @@ export async function POST(request: Request) {
       );
     }
 
+    const settings = await getSiteSettings();
+    const freeCancelHours = settings.free_cancellation_hours || 24;
+
     const pickupTime = new Date(data.pickup_datetime).getTime();
     const now = Date.now();
     const diffHours = (pickupTime - now) / (1000 * 60 * 60);
 
-    if (diffHours < 24) {
+    if (diffHours < freeCancelHours) {
       return NextResponse.json(
         {
-          error: 'Pickup is scheduled in less than 24 hours. Please contact dispatch via WhatsApp for late cancellation assistance.',
+          error: `Pickup is scheduled in less than ${freeCancelHours} hours. Please contact dispatch via WhatsApp for late cancellation assistance.`,
           allowed: false,
         },
         { status: 400 }

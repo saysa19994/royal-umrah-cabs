@@ -9,7 +9,6 @@ export const dynamic = 'force-dynamic';
 // Whitelist-only schema with strict rejection of unknown properties
 const LeadInputSchema = z
   .object({
-    ref_code: z.string().max(32).optional(),
     page: z.string().max(255).optional(),
     language: z.enum(['en', 'ar', 'ms', 'fr', 'es', 'id', 'hi', 'de', 'ur']).default('en'),
     route_id: z.string().max(100).optional().nullable(),
@@ -19,13 +18,13 @@ const LeadInputSchema = z
     pickup_date: z.string().max(50).optional().nullable(),
     passengers: z.number().int().min(1).max(100).optional(),
     luggage: z.number().int().min(0).max(100).optional(),
-    price_sar: z.number().positive().max(100000).optional().nullable(),
     customer_name: z.string().max(150).optional().nullable(),
     customer_phone: z
       .string()
       .regex(/^\+?[0-9\s\-()]{7,25}$/, 'Invalid telephone number format')
       .optional()
       .nullable(),
+    notes: z.string().max(1000).optional().nullable(),
     source_utm: z.record(z.string().max(100), z.string().max(255)).optional(),
     'cf-turnstile-response': z.string().max(2048).optional(),
     turnstile_token: z.string().max(2048).optional(),

@@ -120,7 +120,7 @@ export const ZIYARAT_SITES: Record<string, ZiyaratSite> = {
     carInstructionsAr: 'يقوم سائقك الخاص بنقلك مباشرة من بهو فندقك بمكة إلى نقطة الوقوف المخصصة في سفح الجبل، وينتظرك في سيارة مكيفة أو يلتقي بك عند نقطة التجمع فور نزولك بالتنسيق عبر الواتساب.',
     lat: 21.4578,
     lng: 39.8592,
-    image: '/assets/images/staria_exterior.jpg',
+    image: '/assets/images/staria_exterior.webp',
     faqsEn: [
       {
         q: 'Is there a cable car (teleferik) to Cave Hira?',
@@ -191,7 +191,7 @@ export const ZIYARAT_SITES: Record<string, ZiyaratSite> = {
     carInstructionsAr: 'يقوم السائق بالتوجه إلى ساحة المشاهدة جنوب مكة، ويوقف السيارة في مكان آمن ومظلل لتتمكنوا من تأمل المعلم والتقاط الصور بكل هدوء.',
     lat: 21.3775,
     lng: 39.8503,
-    image: '/assets/images/yukon_exterior.jpg',
+    image: '/assets/images/yukon_exterior.webp',
     faqsEn: [
       {
         q: 'Do your drivers climb the mountain with passengers?',
@@ -252,7 +252,7 @@ export const ZIYARAT_SITES: Record<string, ZiyaratSite> = {
     carInstructionsAr: 'يسلك السائق طريق الملك عبد العزيز أو شبكة الأنفاق، ويتوقف بمحاذاة ساحة الجمرات لالتقاط الصور التذكارية قبل التوجه لمزدلفة.',
     lat: 21.4133,
     lng: 39.8933,
-    image: '/assets/images/camry_exterior.jpg',
+    image: '/assets/images/camry_exterior.webp',
     faqsEn: [
       {
         q: 'Is vehicle access to Mina permitted throughout the year?',
@@ -305,7 +305,7 @@ export const ZIYARAT_SITES: Record<string, ZiyaratSite> = {
     carInstructionsAr: 'تقف السيارة الخاصة في المواقف الممهدة أمام جبل الرحمة مباشرة، وينتظر السائق العائلة مع مياه مبردة وجاهزية تامة.',
     lat: 21.3548,
     lng: 39.9841,
-    image: '/assets/images/staria_interior.jpg',
+    image: '/assets/images/staria_interior.webp',
     faqsEn: [
       {
         q: 'Can our car drive directly to Mount Arafat anytime?',
@@ -360,7 +360,7 @@ export const ZIYARAT_SITES: Record<string, ZiyaratSite> = {
     carInstructionsAr: 'يقوم سائقك بإنزالكم مباشرة عند بوابة ساحات قباء، وينتظركم في المواقف المخصصة ليعود لاستقبالكم فور انتهائكم من الصلاة.',
     lat: 24.4394,
     lng: 39.6172,
-    image: '/assets/images/camry_interior.jpg',
+    image: '/assets/images/camry_interior.webp',
     faqsEn: [
       {
         q: 'Is it better to walk via Quba Avenue (Mamshey) or take a private car?',
@@ -415,7 +415,7 @@ export const ZIYARAT_SITES: Record<string, ZiyaratSite> = {
     carInstructionsAr: 'تقف السيارة في مواقف ساحة مسجد سيد الشهداء المظللة، وينتظر السائق العائلة بسيارة مكيفة ومياه زمزم مبردة.',
     lat: 24.5033,
     lng: 39.6122,
-    image: '/assets/images/hiace_exterior.jpg',
+    image: '/assets/images/hiace_exterior.webp',
     faqsEn: [
       {
         q: 'Are visitors allowed inside the Martyrs Cemetery?',
@@ -468,7 +468,7 @@ export const ZIYARAT_SITES: Record<string, ZiyaratSite> = {
     carInstructionsAr: 'يقوم السائق بإيقاف السيارة في المواقف المخصصة أمام المسجد وينتظركم حتى الانتهاء.',
     lat: 24.4841,
     lng: 39.5786,
-    image: '/assets/images/staria_vip_ext_1792090367437.jpg',
+    image: '/assets/images/staria_exterior.webp',
     faqsEn: [
       {
         q: 'Does Masjid al-Qiblatayn still have two mihrabs?',
@@ -521,7 +521,7 @@ export const ZIYARAT_SITES: Record<string, ZiyaratSite> = {
     carInstructionsAr: 'يقف السائق في مواقف ساحة الخندق المركزية الجديدة لتسهيل تجول العائلة والعودة بكل يسر.',
     lat: 24.4758,
     lng: 39.5986,
-    image: '/assets/images/camry_vip_ext_1792090442144.jpg',
+    image: '/assets/images/camry_exterior.webp',
     faqsEn: [
       {
         q: 'Are all seven historical mosques still preserved?',

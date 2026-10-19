@@ -34,7 +34,7 @@ const VEHICLES = [
     category: 'Family Van',
     seats: 7,
     bags: 6,
-    extImg: '/assets/images/staria_exterior.jpg',
+    extImg: '/assets/images/staria_exterior.webp',
     desc: 'Spacious futuristic cabin with individual reclining captain chairs, powerful climate control, and ample luggage space for the entire family.',
     startSAR: 260,
   },
@@ -44,7 +44,7 @@ const VEHICLES = [
     category: 'VIP SUV',
     seats: 7,
     bags: 8,
-    extImg: '/assets/images/yukon_exterior.jpg',
+    extImg: '/assets/images/yukon_exterior.webp',
     desc: 'The epitome of prestige and road serenity. Premium acoustic insulation, luxurious leather seats, and generous boot space for heavy luggage.',
     startSAR: 380,
   },
@@ -54,7 +54,7 @@ const VEHICLES = [
     category: 'Executive Sedan',
     seats: 4,
     bags: 3,
-    extImg: '/assets/images/camry_exterior.jpg',
+    extImg: '/assets/images/camry_exterior.webp',
     desc: 'Smooth, whisper-quiet sedan ideal for couples or solo pilgrims seeking a dependable and economical private transfer.',
     startSAR: 200,
   },
@@ -64,7 +64,7 @@ const VEHICLES = [
     category: 'Mini Bus',
     seats: 10,
     bags: 10,
-    extImg: '/assets/images/hiace_exterior.jpg',
+    extImg: '/assets/images/hiace_exterior.webp',
     desc: 'Dedicated transport for large families and group delegations with high-roof headroom, powerful climate control, and abundant luggage room.',
     startSAR: 340,
   },
@@ -107,6 +107,8 @@ export default async function FleetPage(props: FleetPageProps) {
                     alt={v.name}
                     width={450}
                     height={240}
+                    sizes="(max-width: 768px) 100vw, 450px"
+                    loading="lazy"
                     className="w-full h-full object-contain hover:scale-105 transition-transform duration-500 drop-shadow-sm"
                   />
                   <span className="absolute top-4 left-4 rtl:left-auto rtl:right-4 bg-gold-soft text-gold-dark text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-gold-line">

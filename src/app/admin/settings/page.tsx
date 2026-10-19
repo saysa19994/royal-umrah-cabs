@@ -268,7 +268,7 @@ export default function AdminSettingsPage() {
               </label>
               <input
                 type="number"
-                value={settings.google_reviews_count || 12480}
+                value={settings.google_reviews_count ?? 0}
                 onChange={(e) => setSettings({ ...settings, google_reviews_count: Number(e.target.value) })}
                 className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono"
               />

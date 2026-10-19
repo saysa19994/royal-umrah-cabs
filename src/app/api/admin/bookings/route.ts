@@ -29,11 +29,13 @@ export async function GET(request: Request) {
     }
     const { searchParams } = new URL(request.url);
     const statusFilter = searchParams.get('status');
+    const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '50', 10), 1), 100);
+    const offset = Math.max(parseInt(searchParams.get('offset') || '0', 10), 0);
 
     const serviceClient = createServiceClient();
     let query = serviceClient
       .from('bookings')
-      .select('*')
+      .select('*', { count: 'exact' })
       .order('created_at', { ascending: false });
 
     if (statusFilter && statusFilter !== 'all') {
@@ -44,12 +46,14 @@ export async function GET(request: Request) {
     // If the caller is an operator, strictly restrict queries to their assigned WhatsApp number
     if (currentUser.role === 'operator') {
       if (!currentUser.assigned_whatsapp_number) {
-        return NextResponse.json({ bookings: [] });
+        return NextResponse.json({ bookings: [], total: 0, limit, offset });
       }
-      query = query.eq('driver_phone', currentUser.assigned_whatsapp_number);
+      query = query.eq('whatsapp_number', currentUser.assigned_whatsapp_number);
     }
 
-    const { data, error } = await query;
+    query = query.range(offset, offset + limit - 1);
+
+    const { data, count, error } = await query;
     if (error) {
       console.error('Failed to query bookings from database:', error);
       return NextResponse.json(
@@ -58,7 +62,7 @@ export async function GET(request: Request) {
       );
     }
 
-    return NextResponse.json({ bookings: data || [] });
+    return NextResponse.json({ bookings: data || [], total: count ?? (data?.length || 0), limit, offset });
   } catch (err: any) {
     console.error('Admin bookings GET error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

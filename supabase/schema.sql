@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS public.site_settings (
     riyadh_enabled BOOLEAN NOT NULL DEFAULT FALSE,
     address_cities TEXT[] NOT NULL DEFAULT ARRAY['Makkah', 'Madinah', 'Jeddah'],
     google_reviews_link TEXT NOT NULL DEFAULT 'https://g.page/r/CTL7ETeAhDVpEAI/review',
-    google_reviews_rating NUMERIC(2,1) NOT NULL DEFAULT 4.9,
-    google_reviews_count INTEGER NOT NULL DEFAULT 12480,
+    google_reviews_rating NUMERIC(2,1) NOT NULL DEFAULT 0.0,
+    google_reviews_count INTEGER NOT NULL DEFAULT 0,
     free_cancellation_hours INTEGER NOT NULL DEFAULT 24,
     currency_rates_source TEXT NOT NULL DEFAULT 'fixed',
     currency_rates JSONB NOT NULL DEFAULT '{

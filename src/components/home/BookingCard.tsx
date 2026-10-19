@@ -139,7 +139,6 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
           pickup_date: date,
           passengers,
           luggage,
-          price_sar: baseSAR,
           'cf-turnstile-response': turnstileToken,
           source_utm: {
             referrer: typeof document !== 'undefined' ? document.referrer : '',

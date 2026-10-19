@@ -42,19 +42,46 @@ export async function POST(request: Request) {
     }
 
     const numPrice = Number(price_sar);
-    if (isNaN(numPrice) || numPrice <= 0) {
-      return NextResponse.json({ error: 'Invalid price value' }, { status: 400 });
+    if (isNaN(numPrice) || numPrice < 1 || numPrice > 100000) {
+      return NextResponse.json({ error: 'Price must be between 1 and 100,000 SAR' }, { status: 400 });
     }
+    const roundedPrice = Math.round(numPrice * 100) / 100;
 
     const serviceClient = createServiceClient();
+
+    // Verify route exists
+    const { data: routeData, error: routeErr } = await serviceClient
+      .from('routes')
+      .select('id')
+      .eq('id', route_id)
+      .maybeSingle();
+
+    if (routeErr || !routeData) {
+      return NextResponse.json({ error: `Route '${route_id}' does not exist` }, { status: 400 });
+    }
+
+    // Verify vehicle exists
+    const { data: vehicleData, error: vehicleErr } = await serviceClient
+      .from('vehicles')
+      .select('id')
+      .eq('id', vehicle_id)
+      .maybeSingle();
+
+    if (vehicleErr || !vehicleData) {
+      return NextResponse.json({ error: `Vehicle '${vehicle_id}' does not exist` }, { status: 400 });
+    }
+
     const { data, error } = await serviceClient
       .from('prices')
-      .upsert({
-        route_id,
-        vehicle_id,
-        price_sar: numPrice,
-        updated_at: new Date().toISOString(),
-      })
+      .upsert(
+        {
+          route_id,
+          vehicle_id,
+          price_sar: roundedPrice,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'route_id,vehicle_id' }
+      )
       .select()
       .single();
 
