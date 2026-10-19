@@ -47,7 +47,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
 
 function getStaticSupabaseClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key';
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || 'placeholder-anon-key';
   return createSupabaseClient(supabaseUrl, supabaseKey, {
     auth: {
       persistSession: false,
