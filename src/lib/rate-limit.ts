@@ -148,8 +148,9 @@ export function checkRequiredEnv(): { ok: boolean; response?: NextResponse } {
 export async function rateLimit(
   identifier: string,
   limit: number = 10,
-  windowSeconds: number = 60
-): Promise<{ success: boolean; limit: number; remaining: number; reset: number }> {
+  windowSeconds: number = 60,
+  options: { failClosed?: boolean } = {}
+): Promise<{ success: boolean; limit: number; remaining: number; reset: number; serviceError?: boolean }> {
   const upstashLimiter = getUpstashSlidingLimiter(limit, windowSeconds);
 
   if (upstashLimiter) {
@@ -162,8 +163,26 @@ export async function rateLimit(
         reset: result.reset,
       };
     } catch (e) {
-      console.warn('Upstash rate limit error, falling back to in-memory sliding window:', e);
+      console.warn('Upstash rate limit error:', e);
+      if (process.env.NODE_ENV === 'production' && options.failClosed) {
+        // Enforce fail-closed for sensitive operations: do not silently downgrade to process-local
+        return {
+          success: false,
+          limit,
+          remaining: 0,
+          reset: Date.now() + windowSeconds * 1000,
+          serviceError: true,
+        };
+      }
     }
+  } else if (process.env.NODE_ENV === 'production' && options.failClosed) {
+    return {
+      success: false,
+      limit,
+      remaining: 0,
+      reset: Date.now() + windowSeconds * 1000,
+      serviceError: true,
+    };
   }
 
   return memoryStore.check(identifier, limit, windowSeconds * 1000);

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { rateLimit, getClientIp, checkRequiredEnv } from '@/lib/rate-limit';
 import { verifyTurnstileToken } from '@/lib/turnstile';
+import { normalizePhoneNumber, verifyPhoneMatch } from '@/lib/phone';
 
 export async function POST(request: Request) {
   try {
@@ -43,7 +44,14 @@ export async function POST(request: Request) {
     }
 
     const cleanRef = reference.trim().toUpperCase();
-    const cleanPhone = phone.replace(/[^0-9]/g, '');
+    const cleanPhone = normalizePhoneNumber(phone);
+
+    if (cleanPhone.length < 8) {
+      return NextResponse.json(
+        { error: 'Please enter a valid telephone number with country code.' },
+        { status: 400 }
+      );
+    }
 
     const serviceClient = createServiceClient();
     const { data, error } = await serviceClient
@@ -57,24 +65,29 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Database error' }, { status: 500 });
     }
 
-    if (!data) {
+    // Generic error to prevent enumeration of booking references or phone numbers
+    if (!data || !verifyPhoneMatch(phone, data.customer_phone)) {
       return NextResponse.json(
-        { error: 'Booking not found', message: 'No active booking found with this reference number.' },
+        { error: 'No reservation found matching the provided reference and telephone number.' },
         { status: 404 }
       );
     }
 
-    // Verify phone match
-    const dbPhoneDigits = (data.customer_phone || '').replace(/[^0-9]/g, '');
-    const phoneMatches =
-      dbPhoneDigits === cleanPhone ||
-      dbPhoneDigits.endsWith(cleanPhone) ||
-      cleanPhone.endsWith(dbPhoneDigits);
+    // Idempotency: If already cancelled, return success without re-updating
+    if (data.status === 'cancelled') {
+      return NextResponse.json({
+        success: true,
+        message: 'This booking has already been cancelled.',
+      });
+    }
 
-    if (!phoneMatches) {
+    // State transition guard: cannot cancel completed or en-route rides online
+    if (data.status === 'completed' || data.status === 'en_route') {
       return NextResponse.json(
-        { error: 'Verification failed', message: 'The phone number provided does not match this booking record.' },
-        { status: 403 }
+        {
+          error: 'This booking is already in progress or completed and cannot be cancelled online. Please contact dispatch via WhatsApp.',
+        },
+        { status: 400 }
       );
     }
 
@@ -85,9 +98,8 @@ export async function POST(request: Request) {
     if (diffHours < 24) {
       return NextResponse.json(
         {
-          error: 'Late cancellation',
+          error: 'Pickup is scheduled in less than 24 hours. Please contact dispatch via WhatsApp for late cancellation assistance.',
           allowed: false,
-          message: 'Pickup is scheduled in less than 24 hours. Please contact dispatch via WhatsApp for assistance.',
         },
         { status: 400 }
       );
@@ -101,6 +113,15 @@ export async function POST(request: Request) {
     if (updateError) {
       throw updateError;
     }
+
+    // Audit log
+    await serviceClient.from('audit_log').insert({
+      entity_type: 'booking',
+      entity_id: data.id,
+      action: 'cancel',
+      new_values: { status: 'cancelled', cancelled_by: 'customer_online' },
+      performed_by: 'customer_online',
+    });
 
     return NextResponse.json({
       success: true,

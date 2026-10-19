@@ -7,6 +7,7 @@ import { resolveWhatsAppNumber } from '@/lib/whatsapp-routing';
 import { calculateServerPrice } from '@/lib/pricing-server';
 import { rateLimit, getClientIp, checkRequiredEnv } from '@/lib/rate-limit';
 import { verifyTurnstileToken } from '@/lib/turnstile';
+import { normalizePhoneNumber } from '@/lib/phone';
 
 export async function POST(request: Request) {
   try {
@@ -95,7 +96,7 @@ export async function POST(request: Request) {
       route_id: validated.route_id || null,
       vehicle_id: validated.vehicle_id,
       customer_name: validated.customer_name,
-      customer_phone: validated.customer_phone,
+      customer_phone: normalizePhoneNumber(validated.customer_phone),
       customer_email: validated.customer_email || null,
       pickup_datetime: validated.pickup_datetime,
       pickup_location: validated.pickup_location,
@@ -110,7 +111,7 @@ export async function POST(request: Request) {
       final_price_sar: finalPriceSAR,
       currency_charged: currKey,
       final_price_currency: finalPriceCurrency,
-      payment_method: 'cash_arrival',
+      payment_method: validated.payment_method || 'pay_upon_arrival',
       payment_status: 'pending',
       status: 'new',
       language: validated.language || 'en',

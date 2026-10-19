@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { rateLimit, getClientIp, checkRequiredEnv } from '@/lib/rate-limit';
 import { verifyTurnstileToken } from '@/lib/turnstile';
+import { normalizePhoneNumber, verifyPhoneMatch } from '@/lib/phone';
 
 export async function POST(request: Request) {
   try {
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
 
     const { reference, phone } = body;
 
-    // 2. REQUIRE BOTH reference AND phone
+    // 3. Require BOTH reference AND phone
     if (!reference || !phone) {
       return NextResponse.json(
         { error: 'Both booking reference and telephone number are strictly required for security.' },
@@ -44,8 +45,7 @@ export async function POST(request: Request) {
     }
 
     const cleanRef = reference.trim().toUpperCase();
-    // Normalize phone: extract only digits
-    const cleanPhone = phone.replace(/[^0-9]/g, '');
+    const cleanPhone = normalizePhoneNumber(phone);
 
     if (cleanPhone.length < 8) {
       return NextResponse.json(
@@ -56,8 +56,7 @@ export async function POST(request: Request) {
 
     const serviceClient = createServiceClient();
 
-    // 3. Exact match on reference AND phone (NO ilike wildcards)
-    // We check either the normalized phone with leading '+' or without
+    // 4. Exact match on reference (NO ilike wildcards)
     const { data: booking, error } = await serviceClient
       .from('bookings')
       .select(`
@@ -88,28 +87,26 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!booking) {
+    // Generic response if booking not found OR phone does NOT match exactly
+    if (!booking || !verifyPhoneMatch(phone, booking.customer_phone)) {
       return NextResponse.json(
         { error: 'No reservation found matching the provided reference and phone number.' },
         { status: 404 }
       );
     }
 
-    // Verify phone number exact match against normalized customer phone
-    const dbPhoneDigits = (booking.customer_phone || '').replace(/[^0-9]/g, '');
-    const phoneMatches =
-      dbPhoneDigits === cleanPhone ||
-      dbPhoneDigits.endsWith(cleanPhone) ||
-      cleanPhone.endsWith(dbPhoneDigits);
+    // 5. Driver details only exposed when actively assigned/en route
+    const isDriverActive = booking.status === 'driver_assigned' || booking.status === 'en_route';
+    const driverInfo = isDriverActive && booking.drivers
+      ? {
+          name: (booking.drivers as any).name,
+          phone: (booking.drivers as any).phone,
+          vehiclePlate: (booking.drivers as any).vehicle_plate,
+          vehicleModel: (booking.drivers as any).vehicle_model,
+        }
+      : null;
 
-    if (!phoneMatches) {
-      return NextResponse.json(
-        { error: 'No reservation found matching the provided reference and phone number.' },
-        { status: 404 }
-      );
-    }
-
-    // 4. Return ONLY minimal, safe public fields (no customer email, notes, internal IDs, or payment details)
+    // 6. Return ONLY minimal, safe public fields
     return NextResponse.json({
       booking: {
         reference: booking.reference,
@@ -119,14 +116,7 @@ export async function POST(request: Request) {
         vehicleId: booking.vehicle_id,
         status: booking.status,
         finalPriceSAR: booking.final_price_sar,
-        driver: booking.drivers
-          ? {
-              name: (booking.drivers as any).name,
-              phone: (booking.drivers as any).phone,
-              vehiclePlate: (booking.drivers as any).vehicle_plate,
-              vehicleModel: (booking.drivers as any).vehicle_model,
-            }
-          : null,
+        driver: driverInfo,
       },
     });
   } catch (err: any) {

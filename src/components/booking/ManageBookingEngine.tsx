@@ -7,6 +7,7 @@ import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import { AlertCircle, CheckCircle2, MessageCircle, ArrowLeft, ShieldCheck, XCircle, Search } from 'lucide-react';
 import { TurnstileWidget, TurnstileWidgetRef } from '@/components/common/TurnstileWidget';
+import { trackEvent } from '@/lib/analytics';
 
 interface ManageBookingEngineProps {
   locale: Locale;
@@ -91,6 +92,11 @@ export function ManageBookingEngine({ locale, dict }: ManageBookingEngineProps) 
       });
       const data = await res.json();
       if (res.ok && data.success) {
+        trackEvent({
+          event: 'booking_cancelled',
+          booking_reference: booking.reference,
+          reason: 'customer_portal_cancellation',
+        });
         setCancelled(true);
         setBooking({ ...booking, status: 'cancelled' });
       } else {

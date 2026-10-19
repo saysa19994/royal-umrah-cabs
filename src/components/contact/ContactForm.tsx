@@ -5,6 +5,7 @@ import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import { Send, CheckCircle2, MessageCircle } from 'lucide-react';
 import { TurnstileWidget, TurnstileWidgetRef } from '@/components/common/TurnstileWidget';
+import { trackEvent } from '@/lib/analytics';
 
 interface ContactFormProps {
   locale: Locale;
@@ -25,9 +26,24 @@ export function ContactForm({ locale, dict, whatsappNumber = '966567588261' }: C
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !phone.trim() || !turnstileToken) return;
+    if (!name.trim() || !phone.trim() || !turnstileToken) {
+      trackEvent({
+        event: 'booking_form_validation_failed',
+        form: 'contact_form',
+        failed_fields: [
+          ...(!name.trim() ? ['name'] : []),
+          ...(!phone.trim() ? ['phone'] : []),
+          ...(!turnstileToken ? ['turnstile'] : []),
+        ],
+      });
+      return;
+    }
 
     setIsSubmitting(true);
+    trackEvent({
+      event: 'whatsapp_handoff_initiated',
+      source: 'contact_form',
+    });
 
     // Build pre-filled WhatsApp message
     const waText =
@@ -61,6 +77,11 @@ export function ContactForm({ locale, dict, whatsappNumber = '966567588261' }: C
       if (data?.whatsapp_url) {
         waUrl = data.whatsapp_url;
       }
+      trackEvent({
+        event: 'booking_request_saved',
+        service_type: 'inquiry',
+        is_lead_only: true,
+      });
     } catch (err) {
       console.error('Lead tracking error, continuing to WhatsApp:', err);
     } finally {

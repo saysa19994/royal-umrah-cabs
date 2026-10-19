@@ -7,21 +7,16 @@ import type { Dictionary } from '@/i18n/get-dictionary';
 import { useCurrency } from '@/context/CurrencyContext';
 import { MapPin, Calendar, Clock, Users, Luggage, Car, Check, ArrowRight, MessageCircle } from 'lucide-react';
 import { TurnstileWidget } from '@/components/common/TurnstileWidget';
+import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
+import { trackEvent } from '@/lib/analytics';
 
 interface BookingCardProps {
   locale: Locale;
   dict: Dictionary;
 }
 
-// Database rate matrix in SAR
-const BASE_RATES: Record<string, Record<string, number>> = {
-  'jeddah-airport-to-makkah': { camry: 200, staria: 260, yukon: 380, hiace: 340, coaster: 650 },
-  'makkah-to-jeddah-airport': { camry: 200, staria: 260, yukon: 380, hiace: 340, coaster: 650 },
-  'makkah-to-madinah': { camry: 450, staria: 500, yukon: 750, hiace: 650, coaster: 1200 },
-  'madinah-to-makkah': { camry: 450, staria: 500, yukon: 750, hiace: 650, coaster: 1200 },
-  'madinah-airport-to-hotel': { camry: 150, staria: 200, yukon: 300, hiace: 270, coaster: 550 },
-  'jeddah-to-madinah': { camry: 680, staria: 750, yukon: 1050, hiace: 900, coaster: 1600 },
-};
+// Database-backed rate matrix in SAR (guaranteed 100% parity with Supabase prices)
+const BASE_RATES: Record<string, Record<string, number>> = AUTHORITATIVE_TRANSFER_RATES;
 
 const ROUTE_LABELS: Record<string, Partial<Record<Locale, string>>> = {
   'jeddah-airport-to-makkah': {
@@ -75,6 +70,7 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
   const [luggage, setLuggage] = useState(3);
   const [vehicle, setVehicle] = useState('staria');
   const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const [waPopupUrl, setWaPopupUrl] = useState<string | null>(null);
 
   const maxSeats = VEHICLE_SPECS[vehicle]?.seats || 7;
   const maxBags = VEHICLE_SPECS[vehicle]?.bags || 6;
@@ -93,6 +89,20 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
 
   const handleBookOnline = (e: React.FormEvent) => {
     e.preventDefault();
+    trackEvent({
+      event: 'route_selected',
+      service_type: 'airport_transfer',
+      route,
+      vehicle_id: vehicle,
+    });
+    trackEvent({
+      event: 'quote_calculated',
+      service_type: 'airport_transfer',
+      route,
+      vehicle_id: vehicle,
+      price_sar: baseSAR || 0,
+      currency,
+    });
     const params = new URLSearchParams({
       route,
       date,
@@ -105,15 +115,22 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
   };
 
   const handleWhatsApp = async () => {
+    setWaPopupUrl(null);
+    trackEvent({
+      event: 'whatsapp_handoff_initiated',
+      source: 'booking_card',
+    });
     const routeText = ROUTE_LABELS[route]?.[locale] || ROUTE_LABELS[route]?.en || route;
     const vehicleText = VEHICLE_SPECS[vehicle]?.name || vehicle;
+
+    let targetUrl = '';
 
     try {
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          page: window.location.pathname,
+          page: typeof window !== 'undefined' ? window.location.pathname : '/',
           language: locale,
           route_id: route,
           route_title: routeText,
@@ -133,17 +150,24 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
 
       const data = await res.json();
       if (data?.whatsapp_url) {
-        window.open(data.whatsapp_url, '_blank');
-        return;
+        targetUrl = data.whatsapp_url;
       }
     } catch (err) {
       console.error('Lead tracking error, continuing to WhatsApp:', err);
     }
 
-    // Seamless fallback
-    const fallbackRef = 'RUC-' + Math.floor(10000 + Math.random() * 90000);
-    const fallbackMsg = `Assalamu Alaikum Royal Umrah Cabs [Ref: ${fallbackRef}]\nRoute: ${routeText}\nVehicle: ${vehicleText}\nDate: ${date || 'Flexible'}\nPassengers: ${passengers}\nFixed Price: ${baseSAR || 'Quote Needed'} SAR`;
-    window.open(`https://wa.me/966567588261?text=${encodeURIComponent(fallbackMsg)}`, '_blank');
+    if (!targetUrl) {
+      // Seamless client-side fallback
+      const fallbackRef = 'RUC-' + Math.floor(10000 + Math.random() * 90000);
+      const fallbackMsg = `Assalamu Alaikum Royal Umrah Cabs [Ref: ${fallbackRef}]\nRoute: ${routeText}\nVehicle: ${vehicleText}\nDate: ${date || 'Flexible'}\nPassengers: ${passengers}\nFixed Price: ${baseSAR || 'Quote Needed'} SAR`;
+      targetUrl = `https://wa.me/966567588261?text=${encodeURIComponent(fallbackMsg)}`;
+    }
+
+    const popup = window.open(targetUrl, '_blank');
+    if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+      // Browser blocked popup window; display interactive button immediately
+      setWaPopupUrl(targetUrl);
+    }
   };
 
   return (
@@ -370,6 +394,30 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
               </button>
             </div>
           </div>
+
+          {/* POPUP BLOCKER RECOVERY BANNER */}
+          {waPopupUrl && (
+            <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs flex flex-col sm:flex-row items-center justify-between gap-3 text-start animate-fadeIn">
+              <div className="flex items-center gap-2">
+                <MessageCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+                <span>
+                  {locale === 'ar'
+                    ? 'تم تسجيل طلبك! إذا لم تفتح نافذة واتساب تلقائياً، اضغط هنا للمتابعة:'
+                    : locale === 'ms'
+                    ? 'Permintaan anda telah didaftarkan! Jika WhatsApp tidak dibuka secara automatik, sila klik di sini:'
+                    : 'Your inquiry is ready! If WhatsApp was blocked by your browser, tap to continue:'}
+                </span>
+              </div>
+              <a
+                href={waPopupUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-lg bg-emerald-600 text-white font-bold text-xs shrink-0 hover:bg-emerald-700 transition-colors shadow-sm"
+              >
+                {locale === 'ar' ? 'فتح محادثة واتساب' : locale === 'ms' ? 'Buka WhatsApp' : 'Open WhatsApp Chat'}
+              </a>
+            </div>
+          )}
 
           {/* MICRO TRUST STRIP (4 ITEMS) */}
           <div className="pt-3 border-t border-border flex flex-wrap items-center justify-between gap-y-2 gap-x-4 text-xs text-ink-muted">

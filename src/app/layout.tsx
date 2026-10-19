@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className={`${cormorant.variable} ${manrope.variable} ${amiri.variable} ${tajawal.variable}`}>
+    <html lang="en" dir="ltr" className={`${cormorant.variable} ${manrope.variable} ${amiri.variable} ${tajawal.variable}`}>
       <body className="min-h-screen flex flex-col font-sans bg-bg text-body antialiased selection:bg-gold-soft selection:text-ink">
         {children}
       </body>

@@ -6,6 +6,7 @@ import { Locale, LOCALE_CONFIG } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import { MessageCircle, ArrowUp, CalendarDays } from 'lucide-react';
 import { TurnstileWidget } from '@/components/common/TurnstileWidget';
+import { trackEvent } from '@/lib/analytics';
 
 interface FloatingUIProps {
   locale: Locale;
@@ -31,6 +32,10 @@ export function FloatingUI({ locale, dict, whatsappNumber }: FloatingUIProps) {
 
   const handleWhatsAppClick = async (e: React.MouseEvent) => {
     e.preventDefault();
+    trackEvent({
+      event: 'whatsapp_handoff_initiated',
+      source: 'floating_ui',
+    });
     try {
       const res = await fetch('/api/leads', {
         method: 'POST',

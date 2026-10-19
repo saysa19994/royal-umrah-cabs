@@ -26,6 +26,7 @@ export const BookingSchema = z.object({
     zamzam_water: true,
   }),
   special_notes: z.string().optional().nullable(),
+  payment_method: z.enum(['pay_upon_arrival', 'online_card', 'bank_transfer']).default('pay_upon_arrival'),
   currency: z.string().default('SAR'),
   language: z.string().default('en'),
 });
@@ -40,7 +41,6 @@ export interface BookingRecord extends BookingInput {
   final_price_sar: number;
   currency_charged: string;
   final_price_currency: number;
-  payment_method: string;
   payment_status: string;
   status: string;
   created_at: string;

@@ -31,12 +31,18 @@ export async function POST(request: Request) {
     // Always use authenticated session email, NEVER trust request body
     const sessionEmail = (authData.user.email || '').trim().toLowerCase();
 
-    // Rate limiting: 5 attempts per 5 minutes per IP + authenticated session email
-    const rl = await rateLimit(`2fa:${clientIp}:${sessionEmail}`, 5, 300);
+    // Rate limiting: 5 attempts per 5 minutes per IP + authenticated session email with failClosed
+    const rl = await rateLimit(`2fa:${clientIp}:${sessionEmail}`, 5, 300, { failClosed: true });
     if (!rl.success) {
+      const retryAfterSeconds = Math.max(1, Math.ceil((rl.reset - Date.now()) / 1000));
       return NextResponse.json(
         { error: 'Too many failed 2FA verification attempts. Please wait.' },
-        { status: 429 }
+        {
+          status: 429,
+          headers: {
+            'Retry-After': retryAfterSeconds.toString(),
+          },
+        }
       );
     }
 

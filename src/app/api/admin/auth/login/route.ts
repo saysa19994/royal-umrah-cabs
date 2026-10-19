@@ -25,14 +25,21 @@ export async function POST(request: Request) {
       return envCheck.response;
     }
 
-    // Rate limiting: checked both per IP and per (IP + Account)
-    const ipRate = await rateLimit(`login_ip:${clientIp}`, 10, 60); // 10 per minute per IP
-    const accountRate = await rateLimit(`login_acc:${clientIp}:${cleanEmail}`, 5, 300); // 5 attempts per 5 min
+    // Rate limiting: checked both per IP and per (IP + Account) with failClosed policy
+    const ipRate = await rateLimit(`login_ip:${clientIp}`, 10, 60, { failClosed: true }); // 10 per minute per IP
+    const accountRate = await rateLimit(`login_acc:${clientIp}:${cleanEmail}`, 5, 300, { failClosed: true }); // 5 attempts per 5 min
 
     if (!ipRate.success || !accountRate.success) {
+      const resetTime = Math.max(ipRate.reset, accountRate.reset);
+      const retryAfterSeconds = Math.max(1, Math.ceil((resetTime - Date.now()) / 1000));
       return NextResponse.json(
         { error: 'Too many login attempts. Please wait before trying again.' },
-        { status: 429 }
+        {
+          status: 429,
+          headers: {
+            'Retry-After': retryAfterSeconds.toString(),
+          },
+        }
       );
     }
 

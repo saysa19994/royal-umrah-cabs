@@ -20,6 +20,8 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { TurnstileWidget } from '@/components/common/TurnstileWidget';
+import { getEstimatedBasePriceSAR } from '@/lib/pricing-constants';
+import { trackEvent } from '@/lib/analytics';
 
 interface BookingEngineProps {
   locale: Locale;
@@ -33,12 +35,12 @@ interface BookingEngineProps {
   initialLuggage?: string;
 }
 
-const VEHICLE_PRICING: Record<string, { name: string; seats: number; bags: number; multiplier: number }> = {
-  camry: { name: 'Toyota Camry Executive', seats: 4, bags: 3, multiplier: 1.0 },
-  staria: { name: 'Hyundai Staria VIP', seats: 7, bags: 6, multiplier: 1.25 },
-  yukon: { name: 'GMC Yukon XL VIP', seats: 7, bags: 8, multiplier: 1.85 },
-  hiace: { name: 'Toyota HiAce VIP', seats: 10, bags: 10, multiplier: 1.6 },
-  coaster: { name: 'Toyota Coaster Coach', seats: 21, bags: 20, multiplier: 3.0 },
+const VEHICLE_SPECS: Record<string, { name: string; seats: number; bags: number }> = {
+  camry: { name: 'Toyota Camry Executive', seats: 4, bags: 3 },
+  staria: { name: 'Hyundai Staria VIP', seats: 7, bags: 6 },
+  yukon: { name: 'GMC Yukon XL VIP', seats: 7, bags: 8 },
+  hiace: { name: 'Toyota HiAce VIP', seats: 10, bags: 10 },
+  coaster: { name: 'Toyota Coaster Coach', seats: 21, bags: 20 },
 };
 
 const ROUTES: Record<string, { label: string; baseSAR: number }> = {
@@ -72,12 +74,12 @@ export function BookingEngine({
   const [luggage, setLuggage] = useState(Number(initialLuggage) || 2);
   const [flightNumber, setFlightNumber] = useState('');
 
-  const maxVehicleSeats = VEHICLE_PRICING[vehicleId]?.seats || 7;
-  const maxVehicleBags = VEHICLE_PRICING[vehicleId]?.bags || 6;
+  const maxVehicleSeats = VEHICLE_SPECS[vehicleId]?.seats || 7;
+  const maxVehicleBags = VEHICLE_SPECS[vehicleId]?.bags || 6;
 
   const handleSelectVehicle = (id: string) => {
     setVehicleId(id);
-    const spec = VEHICLE_PRICING[id];
+    const spec = VEHICLE_SPECS[id];
     if (spec) {
       if (passengers > spec.seats) setPassengers(spec.seats);
       if (luggage > spec.bags) setLuggage(spec.bags);
@@ -107,21 +109,14 @@ export function BookingEngine({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [confirmedBooking, setConfirmedBooking] = useState<any | null>(null);
 
-  // Price calculation
+  // Price calculation strictly synced with database
   const calculateCurrentPriceSAR = () => {
-    let base = 200;
-    if (bookingType === 'transfer') {
-      base = ROUTES[routeId]?.baseSAR || 200;
-    } else if (bookingType === 'hourly') {
-      base = 400;
-    } else if (bookingType === 'ziyarat') {
-      base = 300;
-    } else if (bookingType === 'group_bus') {
-      base = 800;
-    }
-
-    const mult = VEHICLE_PRICING[vehicleId]?.multiplier || 1.25;
-    return Math.round(base * mult);
+    const calculated = getEstimatedBasePriceSAR({
+      bookingType,
+      routeId: bookingType === 'transfer' ? routeId : null,
+      vehicleId,
+    });
+    return calculated || 200;
   };
 
   const currentPriceSAR = calculateCurrentPriceSAR();
@@ -170,8 +165,27 @@ export function BookingEngine({
 
       const data = await res.json();
       if (!res.ok || !data.success) {
+        trackEvent({
+          event: 'booking_form_validation_failed',
+          form: 'booking_engine',
+          failed_fields: [data.error || 'submission_failed'],
+        });
         throw new Error(data.error || 'Failed to submit booking');
       }
+
+      trackEvent({
+        event: 'booking_request_saved',
+        booking_reference: data.booking?.reference,
+        service_type: bookingType,
+        payment_method: paymentMethod,
+      });
+      trackEvent({
+        event: 'booking_confirmed',
+        booking_reference: data.booking?.reference || '',
+        service_type: bookingType,
+        payment_method: paymentMethod,
+        total_sar: data.booking?.finalPriceSAR || currentPriceSAR,
+      });
 
       setConfirmedBooking(data.booking);
     } catch (err: any) {
@@ -235,6 +249,13 @@ export function BookingEngine({
             href={confirmedBooking.whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => {
+              trackEvent({
+                event: 'whatsapp_handoff_initiated',
+                source: 'booking_engine',
+                booking_reference: confirmedBooking.reference,
+              });
+            }}
             className="h-12 px-8 rounded-btn bg-whatsapp hover:bg-whatsapp-hover text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-colors"
           >
             <MessageCircle className="w-4 h-4" />
@@ -428,9 +449,15 @@ export function BookingEngine({
             2. Choose Your Vehicle
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {Object.entries(VEHICLE_PRICING).map(([vId, vData]) => {
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {Object.entries(VEHICLE_SPECS).map(([vId, vData]) => {
               const isSelected = vehicleId === vId;
+              const vehicleEstimatedFare =
+                getEstimatedBasePriceSAR({
+                  bookingType,
+                  routeId: bookingType === 'transfer' ? routeId : null,
+                  vehicleId: vId,
+                }) || 200;
               return (
                 <div
                   key={vId}
@@ -459,7 +486,7 @@ export function BookingEngine({
                   <div className="mt-4 pt-2 border-t border-border flex items-baseline justify-between">
                     <span className="text-[11px] text-ink-muted">Estimated Fare:</span>
                     <span className="font-display font-bold text-base text-ink">
-                      {formatPrice(Math.round((ROUTES[routeId]?.baseSAR || 200) * vData.multiplier))}
+                      {formatPrice(vehicleEstimatedFare)}
                     </span>
                   </div>
                 </div>
@@ -522,7 +549,7 @@ export function BookingEngine({
                   onChange={(e) => setAddOns({ ...addOns, child_seat: e.target.checked })}
                   className="rounded text-gold"
                 />
-                <span>Child Safety Seat</span>
+                <span>Child Safety Seat (Complimentary)</span>
               </label>
 
               <label className="flex items-center gap-2 p-3 rounded-btn bg-bg-alt/60 border border-border cursor-pointer">

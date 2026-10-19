@@ -124,36 +124,42 @@ VALUES
 ('jeddah-airport-to-makkah', 'staria', 260.00),
 ('jeddah-airport-to-makkah', 'yukon', 380.00),
 ('jeddah-airport-to-makkah', 'hiace', 340.00),
+('jeddah-airport-to-makkah', 'coaster', 650.00),
 
 -- Makkah to Madinah
 ('makkah-to-madinah', 'camry', 450.00),
 ('makkah-to-madinah', 'staria', 500.00),
 ('makkah-to-madinah', 'yukon', 750.00),
 ('makkah-to-madinah', 'hiace', 650.00),
+('makkah-to-madinah', 'coaster', 1200.00),
 
 -- Madinah to Makkah (With Miqat stop)
 ('madinah-to-makkah', 'camry', 450.00),
 ('madinah-to-makkah', 'staria', 500.00),
 ('madinah-to-makkah', 'yukon', 750.00),
 ('madinah-to-makkah', 'hiace', 650.00),
+('madinah-to-makkah', 'coaster', 1200.00),
 
 -- Makkah to Jeddah Airport
 ('makkah-to-jeddah-airport', 'camry', 200.00),
 ('makkah-to-jeddah-airport', 'staria', 260.00),
 ('makkah-to-jeddah-airport', 'yukon', 380.00),
 ('makkah-to-jeddah-airport', 'hiace', 340.00),
+('makkah-to-jeddah-airport', 'coaster', 650.00),
 
 -- Jeddah to Madinah
 ('jeddah-to-madinah', 'camry', 680.00),
 ('jeddah-to-madinah', 'staria', 750.00),
 ('jeddah-to-madinah', 'yukon', 980.00),
 ('jeddah-to-madinah', 'hiace', 850.00),
+('jeddah-to-madinah', 'coaster', 1600.00),
 
 -- Madinah Airport to Hotel
 ('madinah-airport-to-hotel', 'camry', 150.00),
 ('madinah-airport-to-hotel', 'staria', 190.00),
 ('madinah-airport-to-hotel', 'yukon', 280.00),
 ('madinah-airport-to-hotel', 'hiace', 250.00),
+('madinah-airport-to-hotel', 'coaster', 550.00),
 
 -- Hourly Rentals (4 Hours standard base block)
 ('hourly-standard', 'camry', 350.00),
