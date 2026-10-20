@@ -26,6 +26,9 @@ import {
   MessageCircle,
   Star,
   ExternalLink,
+  Sparkles,
+  Layers,
+  Fuel,
 } from 'lucide-react';
 
 interface HomeSectionsProps {
@@ -36,13 +39,14 @@ interface HomeSectionsProps {
 
 export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [routeTab, setRouteTab] = useState<'transfers' | 'packages'>('transfers');
   const { formatPrice } = useCurrency();
 
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  // Section 7: Popular Routes (6 verified routes)
+  // Section 7A: Popular Direct Routes (6 verified routes)
   const POPULAR_ROUTES = [
     {
       id: 'jeddah-airport-to-makkah',
@@ -88,7 +92,84 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
     },
   ];
 
-  // Section 8: Fleet with ONLY DB features (Air conditioning, Comfortable seating, Luggage space)
+  // Section 7B: Complete Multi-Segment Umrah Packages (Derived from authoritative rate matrix)
+  const UMRAH_PACKAGES = [
+    {
+      id: 'full-umrah-grand',
+      title:
+        locale === 'ar'
+          ? 'باقة العمرة الشاملة (3 رحلات كاملة)'
+          : locale === 'ms'
+          ? 'Pakej Lengkap Umrah (3 Perjalanan Penuh)'
+          : 'Complete Umrah Pilgrimage Journey (3 Legs)',
+      subtitle:
+        locale === 'ar'
+          ? 'جدة ← مكة المكرمة ← المدينة المنورة (مع الميقات) ← مطار المدينة'
+          : locale === 'ms'
+          ? 'Jeddah → Hotel Makkah → Madinah (Singgah Miqat) → Lapangan Terbang'
+          : 'Jeddah Airport → Makkah Hotel → Madinah (Miqat Stop) → Airport Return',
+      legs: [
+        locale === 'ar' ? '1. مطار جدة إلى فندق مكة' : '1. Jeddah Airport to Makkah Hotel',
+        locale === 'ar' ? '2. فندق مكة إلى المدينة المنورة (مع التوقف بميقات آبار علي)' : '2. Makkah to Madinah (Stop at Miqat Bir Ali)',
+        locale === 'ar' ? '3. فندق المدينة إلى مطار المدينة المنورة' : '3. Madinah Hotel to Madinah Airport (MED)',
+      ],
+      camryPriceSAR: 800,
+      stariaPriceSAR: 1040,
+      yukonPriceSAR: 1500,
+      bookingRouteId: 'jeddah-airport-to-makkah',
+      badge: locale === 'ar' ? 'الأكثر طلباً للعائلات' : locale === 'ms' ? 'Paling Popular' : 'Most Popular for Families',
+    },
+    {
+      id: 'makkah-express-roundtrip',
+      title:
+        locale === 'ar'
+          ? 'باقة مكة المكرمة ذهاب وعودة (رحلتان)'
+          : locale === 'ms'
+          ? 'Pakej Makkah Pergi & Balik (2 Perjalanan)'
+          : 'Makkah Umrah Express Roundtrip (2 Legs)',
+      subtitle:
+        locale === 'ar'
+          ? 'مطار جدة (KAIA) ↔ فنادق الحرم المكي الشريف'
+          : locale === 'ms'
+          ? 'Lapangan Terbang Jeddah (KAIA) ↔ Hotel Makkah'
+          : 'Jeddah Airport (KAIA) ↔ Makkah Hotel Return Transfer',
+      legs: [
+        locale === 'ar' ? '1. استقبال مطار جدة مع لوحة الاسم إلى فندق مكة' : '1. Jeddah Airport terminal greeting with nameboard to Makkah Hotel',
+        locale === 'ar' ? '2. نقل العودة من فندق مكة إلى مطار جدة في موعد الرحلة' : '2. Scheduled departure pickup from Makkah Hotel to Jeddah Airport',
+      ],
+      camryPriceSAR: 400,
+      stariaPriceSAR: 520,
+      yukonPriceSAR: 760,
+      bookingRouteId: 'jeddah-airport-to-makkah',
+      badge: locale === 'ar' ? 'توفير وراحة بال' : locale === 'ms' ? 'Lengkap & Mudah' : 'Guaranteed Timing',
+    },
+    {
+      id: 'holy-cities-ziyarat',
+      title:
+        locale === 'ar'
+          ? 'باقة المزارات الدينية المزدوجة (مكة والمدينة)'
+          : locale === 'ms'
+          ? 'Pakej Ziarah Dua Kota Suci (Makkah & Madinah)'
+          : 'Two Holy Cities Ziyarat Tour Package',
+      subtitle:
+        locale === 'ar'
+          ? 'جولة مزارات مكة (جبل النور، غار ثور، عرفات) + جولة مزارات المدينة (قباء، أحد)'
+          : locale === 'ms'
+          ? 'Ziarah Makkah (Gua Hira, Arafah) + Ziarah Madinah (Quba, Uhud)'
+          : 'Makkah Holy Sites (Jabal al-Noor, Arafat) + Madinah Holy Sites (Quba, Uhud)',
+      legs: [
+        locale === 'ar' ? '1. جولة مزارات مكة المكرمة بسيارة خاصة وسائق ينتظركم' : '1. Half-day private Makkah historical landmarks tour with waiting chauffeur',
+        locale === 'ar' ? '2. جولة مزارات المدينة المنورة (مسجد قباء، شهداء أحد، القبلتين)' : '2. Half-day private Madinah historical sites tour (Quba, Uhud, Qiblatain)',
+      ],
+      camryPriceSAR: 500,
+      stariaPriceSAR: 650,
+      yukonPriceSAR: 950,
+      bookingRouteId: 'makkah-to-madinah',
+      badge: locale === 'ar' ? 'سائق ينتظركم طوال الجولة' : locale === 'ms' ? 'Pemandu Menunggu Anda' : 'Chauffeur Waits',
+    },
+  ];
+
+  // Section 8: Fleet with verified DB features
   const FLEET_CARS = [
     {
       id: 'staria',
@@ -322,11 +403,11 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       </section>
 
       {/* ============================================================== */}
-      {/* 7) POPULAR ROUTES (6 CARDS WITH STARTING PRICES & BOOK BTN) */}
+      {/* 7) POPULAR ROUTES & COMPLETE UMRAH PACKAGES (WITH TABS) */}
       {/* ============================================================== */}
       <section id="routes" className="py-16 md:py-24 bg-bg border-t border-border text-start">
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="text-center max-w-3xl mx-auto mb-10">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
               <span>{dict.popular_routes.sectionPill}</span>
             </div>
@@ -337,52 +418,208 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
               {dict.popular_routes.subtitle}
             </p>
+
+            {/* SEGMENTED CONTROL: DIRECT TRANSFERS VS COMPLETE UMRAH PACKAGES */}
+            <div className="inline-flex items-center p-1.5 rounded-xl bg-bg-alt border border-border mt-6">
+              <button
+                type="button"
+                onClick={() => setRouteTab('transfers')}
+                className={`min-h-[44px] px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-gold ${
+                  routeTab === 'transfers'
+                    ? 'bg-gold text-ink shadow-xs'
+                    : 'text-ink-muted hover:text-ink'
+                }`}
+              >
+                <Navigation className="w-3.5 h-3.5" />
+                <span>{locale === 'ar' ? 'الرحلات الفردية المباشرة' : locale === 'ms' ? 'Perjalanan Terus' : 'Direct City & Airport Transfers'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setRouteTab('packages')}
+                className={`min-h-[44px] px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-gold ${
+                  routeTab === 'packages'
+                    ? 'bg-gold text-ink shadow-xs'
+                    : 'text-ink-muted hover:text-ink'
+                }`}
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>{locale === 'ar' ? 'باقات العمرة الشاملة' : locale === 'ms' ? 'Pakej Lengkap Umrah' : 'Complete Umrah Packages'}</span>
+              </button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {POPULAR_ROUTES.map((route) => (
-              <div
-                key={route.id}
-                className="bg-surface rounded-2xl p-6 border border-border shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between text-xs text-ink-muted mb-3 pb-3 border-b border-border">
-                    <span className="flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-gold-dark" />
-                      <span>{route.duration}</span>
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Navigation className="w-3.5 h-3.5 text-gold-dark" />
-                      <span>{route.distance}</span>
-                    </span>
-                    <span className="text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded text-[11px]">
-                      {dict.popular_routes.tollsIncluded}
-                    </span>
-                  </div>
-
-                  <h3 className="font-display font-bold text-lg text-ink mb-4 min-h-[3rem]">
-                    {route.title}
-                  </h3>
-                </div>
-
-                <div className="pt-4 border-t border-border flex items-center justify-between">
+          {/* TAB 1: DIRECT POINT-TO-POINT TRANSFERS */}
+          {routeTab === 'transfers' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto animate-fadeIn">
+              {POPULAR_ROUTES.map((route) => (
+                <div
+                  key={route.id}
+                  className="bg-surface rounded-2xl p-6 border border-border shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
+                >
                   <div>
-                    <span className="text-[11px] text-ink-muted block">{dict.popular_routes.fromPrice}</span>
-                    <span className="text-xl font-display font-bold text-gold-dark">
-                      {formatPrice(route.basePriceSAR)}
-                    </span>
+                    <div className="flex items-center justify-between text-xs text-ink-muted mb-3 pb-3 border-b border-border">
+                      <span className="flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 text-gold-dark" />
+                        <span>{route.duration}</span>
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <Navigation className="w-3.5 h-3.5 text-gold-dark" />
+                        <span>{route.distance}</span>
+                      </span>
+                      <span className="text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded text-[11px]">
+                        {dict.popular_routes.tollsIncluded}
+                      </span>
+                    </div>
+
+                    <h3 className="font-display font-bold text-lg text-ink mb-4 min-h-[3rem]">
+                      {route.title}
+                    </h3>
                   </div>
 
-                  <Link
-                    href={`/${locale}/booking?route=${route.id}`}
-                    className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs focus-visible:ring-2 focus-visible:ring-gold"
-                  >
-                    <span>{dict.popular_routes.bookButton}</span>
-                    <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-                  </Link>
+                  <div className="pt-4 border-t border-border flex items-center justify-between">
+                    <div>
+                      <span className="text-[11px] text-ink-muted block">{dict.popular_routes.fromPrice}</span>
+                      <span className="text-xl font-display font-bold text-gold-dark">
+                        {formatPrice(route.basePriceSAR)}
+                      </span>
+                    </div>
+
+                    <Link
+                      href={`/${locale}/booking?route=${route.id}`}
+                      className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs focus-visible:ring-2 focus-visible:ring-gold"
+                    >
+                      <span>{dict.popular_routes.bookButton}</span>
+                      <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
+                    </Link>
+                  </div>
                 </div>
+              ))}
+            </div>
+          )}
+
+          {/* TAB 2: COMPLETE MULTI-SEGMENT UMRAH PACKAGES */}
+          {routeTab === 'packages' && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto animate-fadeIn">
+              {UMRAH_PACKAGES.map((pkg) => (
+                <div
+                  key={pkg.id}
+                  className="bg-surface rounded-2xl p-6 sm:p-7 border-2 border-gold-line/70 shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 rtl:right-auto rtl:left-0 bg-gold-dark text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-xl rtl:rounded-bl-none rtl:rounded-br-xl shadow-xs">
+                    {pkg.badge}
+                  </div>
+
+                  <div>
+                    <h3 className="font-display font-bold text-xl text-ink mb-1.5 pt-2">
+                      {pkg.title}
+                    </h3>
+                    <p className="text-xs text-ink-muted leading-relaxed font-light mb-4">
+                      {pkg.subtitle}
+                    </p>
+
+                    <div className="space-y-2 py-3 border-y border-border text-xs text-ink">
+                      {pkg.legs.map((leg, i) => (
+                        <div key={i} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                          <span className="font-medium text-[11px] leading-snug">{leg}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="pt-5 border-t border-border mt-4">
+                    <div className="flex items-baseline justify-between mb-3">
+                      <div>
+                        <span className="text-[11px] text-ink-muted block">
+                          {locale === 'ar' ? 'سعر الباقة الشاملة تبدأ من:' : locale === 'ms' ? 'Harga Pakej Bermula Dari:' : 'All-Inclusive Package From:'}
+                        </span>
+                        <span className="text-2xl font-display font-bold text-gold-dark">
+                          {formatPrice(pkg.camryPriceSAR)}
+                        </span>
+                      </div>
+                      <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md">
+                        {locale === 'ar' ? 'بدون عربون' : 'Zero Deposit'}
+                      </span>
+                    </div>
+
+                    <Link
+                      href={`/${locale}/booking?route=${pkg.bookingRouteId}&package=${pkg.id}`}
+                      className="w-full inline-flex items-center justify-center gap-2 min-h-[46px] px-4 py-2.5 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs focus-visible:ring-2 focus-visible:ring-gold"
+                    >
+                      <span>{locale === 'ar' ? 'حجز الباقة الكاملة' : locale === 'ms' ? 'Tempah Pakej Penuh' : 'Book Full Package'}</span>
+                      <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 7.5) "WHAT'S INCLUDED" ALL-INCLUSIVE PILGRIM GUARANTEE STRIP */}
+      {/* ============================================================== */}
+      <section className="py-14 bg-surface border-t border-border text-start">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>{locale === 'ar' ? 'معايير الخدمة الشاملة' : 'All-Inclusive Standards'}</span>
+            </div>
+            <h3 className="font-display font-bold text-2xl sm:text-3xl text-ink">
+              {locale === 'ar' ? 'ما يشمله كل مشوار معنا بدون أي رسوم خفية' : 'What is Included in Every Journey With Zero Hidden Costs'}
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
+            <div className="bg-bg-alt/50 p-4 rounded-xl border border-border text-center flex flex-col items-center">
+              <div className="w-10 h-10 rounded-lg bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-2.5">
+                <Car className="w-5 h-5" />
               </div>
-            ))}
+              <h4 className="font-bold text-xs text-ink mb-1">{locale === 'ar' ? 'سيارة خاصة 100%' : '100% Private Ride'}</h4>
+              <p className="text-[11px] text-ink-muted leading-tight font-light">{locale === 'ar' ? 'خاصة بعائلتك فقط' : 'Never shared with strangers'}</p>
+            </div>
+
+            <div className="bg-bg-alt/50 p-4 rounded-xl border border-border text-center flex flex-col items-center">
+              <div className="w-10 h-10 rounded-lg bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-2.5">
+                <Plane className="w-5 h-5" />
+              </div>
+              <h4 className="font-bold text-xs text-ink mb-1">{locale === 'ar' ? 'متابعة الرحلات الجوية' : 'Flight Delay Tracking'}</h4>
+              <p className="text-[11px] text-ink-muted leading-tight font-light">{locale === 'ar' ? 'نعدل موعدنا تلقائياً' : 'Adjusted to live landing time'}</p>
+            </div>
+
+            <div className="bg-bg-alt/50 p-4 rounded-xl border border-border text-center flex flex-col items-center">
+              <div className="w-10 h-10 rounded-lg bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-2.5">
+                <Clock className="w-5 h-5" />
+              </div>
+              <h4 className="font-bold text-xs text-ink mb-1">{locale === 'ar' ? 'انتظار مجاني 90 دقيقة' : '90-Min Airport Wait'}</h4>
+              <p className="text-[11px] text-ink-muted leading-tight font-light">{locale === 'ar' ? 'لإنهاء الجوازات والحقائب' : 'Generous immigration buffer'}</p>
+            </div>
+
+            <div className="bg-bg-alt/50 p-4 rounded-xl border border-border text-center flex flex-col items-center">
+              <div className="w-10 h-10 rounded-lg bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-2.5">
+                <Fuel className="w-5 h-5" />
+              </div>
+              <h4 className="font-bold text-xs text-ink mb-1">{locale === 'ar' ? 'رسوم الطرق والوقود' : 'Highway Tolls Included'}</h4>
+              <p className="text-[11px] text-ink-muted leading-tight font-light">{locale === 'ar' ? 'شامل رسوم طريق مكة السريع' : 'All expressways & fuel paid'}</p>
+            </div>
+
+            <div className="bg-bg-alt/50 p-4 rounded-xl border border-border text-center flex flex-col items-center">
+              <div className="w-10 h-10 rounded-lg bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-2.5">
+                <Compass className="w-5 h-5" />
+              </div>
+              <h4 className="font-bold text-xs text-ink mb-1">{locale === 'ar' ? 'توقف مجاني بالميقات' : 'Free Miqat Stop'}</h4>
+              <p className="text-[11px] text-ink-muted leading-tight font-light">{locale === 'ar' ? 'للإحرام وصلاة النية' : 'Bir Ali stop for Ihram & Niyyah'}</p>
+            </div>
+
+            <div className="bg-bg-alt/50 p-4 rounded-xl border border-border text-center flex flex-col items-center">
+              <div className="w-10 h-10 rounded-lg bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-2.5">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <h4 className="font-bold text-xs text-ink mb-1">{locale === 'ar' ? 'الدفع عند الوصول' : 'Pay Upon Arrival'}</h4>
+              <p className="text-[11px] text-ink-muted leading-tight font-light">{locale === 'ar' ? 'نقداً أو بالبطاقة للسائق' : 'Zero upfront deposit required'}</p>
+            </div>
           </div>
         </div>
       </section>
