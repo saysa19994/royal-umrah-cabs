@@ -219,6 +219,46 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
           </div>
         </div>
 
+        {/* QUICK ROUTE SHORTCUT PILLS (Instant Pricing from Screenshot 1 & 2) */}
+        <div className="flex flex-wrap items-center gap-2 mb-4 pb-3 border-b border-border/60 text-start">
+          <span className="text-[11px] font-bold text-ink-muted uppercase tracking-wider">
+            {locale === 'ar' ? 'المسارات الأكثر طلباً:' : 'Popular Routes:'}
+          </span>
+          <button
+            type="button"
+            onClick={() => setRoute('jeddah-airport-to-makkah')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              route === 'jeddah-airport-to-makkah'
+                ? 'bg-gold text-ink font-bold shadow-xs'
+                : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
+            }`}
+          >
+            {locale === 'ar' ? 'مطار جدة ← مكة (200 ر.س)' : 'Jeddah KAIA → Makkah (200 SAR)'}
+          </button>
+          <button
+            type="button"
+            onClick={() => setRoute('makkah-to-madinah')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              route === 'makkah-to-madinah'
+                ? 'bg-gold text-ink font-bold shadow-xs'
+                : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
+            }`}
+          >
+            {locale === 'ar' ? 'مكة ← المدينة (450 ر.س)' : 'Makkah → Madinah (450 SAR)'}
+          </button>
+          <button
+            type="button"
+            onClick={() => setRoute('madinah-airport-to-hotel')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              route === 'madinah-airport-to-hotel'
+                ? 'bg-gold text-ink font-bold shadow-xs'
+                : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
+            }`}
+          >
+            {locale === 'ar' ? 'مطار المدينة ← الفندق (150 ر.س)' : 'Madinah Airport (150 SAR)'}
+          </button>
+        </div>
+
         <form onSubmit={handleBookOnline} className="space-y-4">
           {/* FIRST ROW: ROUTE, DATE, TIME */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
