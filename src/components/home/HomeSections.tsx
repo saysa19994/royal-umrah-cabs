@@ -40,6 +40,7 @@ interface HomeSectionsProps {
 export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [routeTab, setRouteTab] = useState<'transfers' | 'packages'>('transfers');
+  const [fleetView, setFleetView] = useState<Record<string, 'ext' | 'int'>>({});
   const { formatPrice } = useCurrency();
 
   const toggleFaq = (index: number) => {
@@ -648,10 +649,28 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 className="bg-surface rounded-2xl border border-border shadow-xs hover:shadow-md transition-all overflow-hidden flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative aspect-[16/10] bg-bg-alt/50 p-4 flex items-center justify-center">
+                  <div className="relative aspect-[16/10] bg-bg-alt/50 p-4 flex items-center justify-center overflow-hidden">
+                    {/* Step Inside Interior / Exterior Toggle */}
+                    <div className="absolute top-2.5 left-2.5 rtl:left-auto rtl:right-2.5 z-10 flex items-center bg-charcoal/85 backdrop-blur-sm p-0.5 rounded-lg border border-gold/30 text-[10px]">
+                      <button
+                        type="button"
+                        onClick={() => setFleetView((prev) => ({ ...prev, [car.id]: 'ext' }))}
+                        className={`px-2 py-0.5 rounded font-medium transition-colors ${(fleetView[car.id] || 'ext') === 'ext' ? 'bg-gold text-ink font-bold shadow-xs' : 'text-white/80 hover:text-white'}`}
+                      >
+                        {locale === 'ar' ? 'الخارج' : 'Exterior'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setFleetView((prev) => ({ ...prev, [car.id]: 'int' }))}
+                        className={`px-2 py-0.5 rounded font-medium transition-colors ${fleetView[car.id] === 'int' ? 'bg-gold text-ink font-bold shadow-xs' : 'text-white/80 hover:text-white'}`}
+                      >
+                        {locale === 'ar' ? 'المقصورة VIP' : 'Inside VIP'}
+                      </button>
+                    </div>
+
                     <Image
-                      src={car.extImg}
-                      alt={car.name}
+                      src={fleetView[car.id] === 'int' ? car.intImg : car.extImg}
+                      alt={`${car.name} ${fleetView[car.id] === 'int' ? 'Interior' : 'Exterior'}`}
                       width={400}
                       height={250}
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"

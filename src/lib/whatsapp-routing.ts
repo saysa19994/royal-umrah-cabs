@@ -36,11 +36,14 @@ export const FALLBACK_WHATSAPP_NUMBERS: WhatsAppNumberRecord[] = [
 ];
 
 /**
- * Generate a cryptographically secure unique reference code like RUC-A1B2C3D4 (>= 8 chars)
+ * Generate a cryptographically secure unique reference code
+ * For 966567588261 -> REF-A-XXXX
+ * For 966505316971 -> REF-B-XXXX
  */
-export function generateLeadRefCode(): string {
+export function generateLeadRefCode(targetNumber?: string | null): string {
   const hex = crypto.randomBytes(4).toString('hex').toUpperCase();
-  return `RUC-${hex}`;
+  const prefix = targetNumber === '966505316971' ? 'REF-B' : 'REF-A';
+  return `${prefix}-${hex}`;
 }
 
 /**
@@ -263,7 +266,7 @@ export async function logLeadAndGenerateWhatsAppUrl(payload: LeadCreationPayload
     }
   }
 
-  let ref_code = payload.ref_code || generateLeadRefCode();
+  let ref_code = payload.ref_code || generateLeadRefCode(assignedNumber.number);
   const message = formatWhatsAppLeadMessage({
     ...payload,
     ref_code,
@@ -304,7 +307,7 @@ export async function logLeadAndGenerateWhatsAppUrl(payload: LeadCreationPayload
       lastError = error;
       // Retry with new ref_code if unique constraint on ref_code violated
       if (error.code === '23505' || error.message?.includes('ref_code')) {
-        ref_code = generateLeadRefCode();
+        ref_code = generateLeadRefCode(assignedNumber.number);
         continue;
       }
       break;

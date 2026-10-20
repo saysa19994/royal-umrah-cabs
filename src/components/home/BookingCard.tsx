@@ -165,10 +165,13 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
     }
 
     if (!targetUrl) {
-      // Seamless client-side fallback
-      const fallbackRef = 'RUC-' + Math.floor(10000 + Math.random() * 90000);
-      const fallbackMsg = `Assalamu Alaikum Royal Umrah Cabs [Ref: ${fallbackRef}]\nRoute: ${routeText}\nVehicle: ${vehicleText}\nDate: ${date || 'Flexible'}\nPassengers: ${passengers}\nFixed Price: ${baseSAR || 'Quote Needed'} SAR`;
-      targetUrl = `https://wa.me/966567588261?text=${encodeURIComponent(fallbackMsg)}`;
+      // Seamless client-side fallback with alternating numbers and REF-A / REF-B
+      const isNumB = Math.random() > 0.5;
+      const targetPhone = isNumB ? '966505316971' : '966567588261';
+      const refPrefix = isNumB ? 'REF-B' : 'REF-A';
+      const fallbackRef = `${refPrefix}-` + Math.floor(10000 + Math.random() * 90000);
+      const fallbackMsg = `Assalamu Alaikum Royal Umrah Cabs [${fallbackRef}]\nRoute: ${routeText}\nVehicle: ${vehicleText}\nDate: ${date || 'Flexible'}\nPassengers: ${passengers}\nFixed Price: ${baseSAR || 'Quote Needed'} SAR`;
+      targetUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(fallbackMsg)}`;
     }
 
     const popup = window.open(targetUrl, '_blank');

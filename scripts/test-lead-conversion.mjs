@@ -2,13 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert';
 import crypto from 'crypto';
 
-test('Lead ref code generator produces >= 8 chars and high entropy', () => {
+test('Lead ref code generator produces >= 8 chars and high entropy for Number A and Number B', () => {
   const codes = new Set();
   for (let i = 0; i < 100; i++) {
     const hex = crypto.randomBytes(4).toString('hex').toUpperCase();
-    const code = `RUC-${hex}`;
-    assert.match(code, /^RUC-[0-9A-F]{8}$/, `Code ${code} must match RUC-[0-9A-F]{8}`);
-    assert.ok(code.length >= 12, 'Total length is >= 12');
+    const prefix = i % 2 === 0 ? 'REF-A' : 'REF-B';
+    const code = `${prefix}-${hex}`;
+    assert.match(code, /^REF-[AB]-[0-9A-F]{8}$/, `Code ${code} must match REF-[AB]-[0-9A-F]{8}`);
+    assert.ok(code.length >= 14, 'Total length is >= 14');
     codes.add(code);
   }
   assert.strictEqual(codes.size, 100, 'All 100 randomly generated ref codes must be unique');
