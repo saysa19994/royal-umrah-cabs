@@ -4,8 +4,17 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
-import { ZIYARAT_GUIDES } from '@/data/ziyarat';
-import { BookOpen, Compass, Calendar, ArrowRight, ShieldCheck, MapPin, Plane, Car, Train, Users, Luggage, CheckCircle2 } from 'lucide-react';
+import { COMPREHENSIVE_GUIDES } from '@/data/comprehensive-guides';
+import {
+  BookOpen,
+  Compass,
+  ArrowRight,
+  Plane,
+  Car,
+  Train,
+  Clock,
+  Sparkles,
+} from 'lucide-react';
 
 interface GuidesPageProps {
   params: Promise<{
@@ -16,7 +25,6 @@ interface GuidesPageProps {
 export async function generateMetadata(props: GuidesPageProps): Promise<Metadata> {
   const params = await props.params;
   const { locale } = params;
-  const dict = getDictionary(locale);
 
   const title =
     locale === 'ar'
@@ -31,11 +39,11 @@ export async function generateMetadata(props: GuidesPageProps): Promise<Metadata
 
   const description =
     locale === 'ar'
-      ? 'مجموعة شاملة من الأدلة الإرشادية لضيوف الرحمن: الاستقبال في مطار جدة، المقارنة بين وسائل السفر، والتخطيط لمزارات مكة والمدينة.'
-      : 'Comprehensive guides for Umrah pilgrims: Jeddah airport arrivals, Haramain train vs private chauffeur comparison, and holy sites ziyarat planning.';
+      ? 'مجموعة شاملة من 12 دليلاً استرشادياً لضيوف الرحمن: الاستقبال في مطارات جدة والمدينة، المقارنة بين وسائل السفر، واختيار السيارة المناسبة.'
+      : 'Comprehensive library of 12 verified travel guides for Umrah pilgrims: airport arrivals, train vs taxi comparisons, vehicle selection, and sacred ziyarat tours.';
 
   return {
-    title,
+    title: `${title} | Royal Umrah Cabs`,
     description,
     alternates: getLocalizedAlternates(locale, '/guides'),
   };
@@ -53,10 +61,10 @@ export default async function GuidesIndexPage(props: GuidesPageProps) {
       title: locale === 'ar' ? 'أدلة المطارات (Airport Guides)' : 'Airport Guides',
       desc:
         locale === 'ar'
-          ? 'الوصول من مطار جدة، الاستقبال بالاسم، وأمتعة السفر.'
-          : 'Jeddah KAIA arrivals, terminal meeting points, luggage handling.',
+          ? 'الوصول من مطار جدة والمدينة، الاستقبال بالاسم، وأمتعة السفر.'
+          : 'Jeddah KAIA and Madinah arrivals, terminal meeting points, luggage handling.',
       img: '/assets/images/yukon_exterior.webp',
-      link: `/${locale}/guides/jeddah-airport-arrival-guide`,
+      link: `/${locale}/guides/jeddah-airport-arrival-pickup-guide`,
       cta: locale === 'ar' ? 'عرض دليل المطار' : 'Read Airport Guide',
       icon: Plane,
     },
@@ -68,7 +76,7 @@ export default async function GuidesIndexPage(props: GuidesPageProps) {
           ? 'مقارنة التكلفة الإجمالية والراحة والتوقف بالميقات للرحلات بين المدن.'
           : 'Total family cost, transit time, and Miqat stopover comparison.',
       img: '/assets/images/staria_exterior.webp',
-      link: `/${locale}/guides/makkah-to-madinah-transport-comparison`,
+      link: `/${locale}/guides/jeddah-airport-to-makkah-taxi-vs-train`,
       cta: locale === 'ar' ? 'مقارنة خيارات السفر' : 'Compare Transport',
       icon: Train,
     },
@@ -80,8 +88,8 @@ export default async function GuidesIndexPage(props: GuidesPageProps) {
           ? 'اختيار السيارة المناسبة حسب عدد الركاب والحقائب والميزانية.'
           : 'Choosing the right vehicle by passenger and luggage capacity.',
       img: '/assets/images/hiace_exterior.webp',
-      link: `/${locale}/fleet`,
-      cta: locale === 'ar' ? 'استعراض سيارات الأسطول' : 'View Fleet Guide',
+      link: `/${locale}/guides/how-to-choose-the-right-vehicle-for-umrah-group`,
+      cta: locale === 'ar' ? 'استعراض دليل الأسطول' : 'View Fleet Guide',
       icon: Car,
     },
     {
@@ -92,61 +100,9 @@ export default async function GuidesIndexPage(props: GuidesPageProps) {
           ? 'أماكن الزيارة الإسلامية في مكة والمدينة والمدة المناسبة للجولة.'
           : 'Sacred historical sites in Makkah & Madinah with chauffeur waiting.',
       img: '/assets/images/camry_exterior.webp',
-      link: `/${locale}/ziyarat`,
+      link: `/${locale}/guides/makkah-ziyarat-places-routes-transport`,
       cta: locale === 'ar' ? 'استعراض جولات المزارات' : 'Explore Ziyarat',
       icon: Compass,
-    },
-  ];
-
-  // Specific In-Depth Guides List (Matching Screenshot 13)
-  const DETAILED_GUIDES = [
-    {
-      slug: 'jeddah-airport-arrival-guide',
-      title:
-        locale === 'ar'
-          ? '1. دليل الوصول من مطار جدة (KAIA) إلى فنادق مكة المكرمة'
-          : '1. Jeddah Airport (KAIA) to Makkah Hotel Arrival Guide',
-      desc:
-        locale === 'ar'
-          ? 'خطوات الخروج من صالة 1 الدولية، استلام شرائح الاتصال، واستقبال سائقك الخاص بلوحة الاسم.'
-          : 'Terminal 1 international arrivals walkthrough, SIM cards, luggage carousel, and private chauffeur meeting.',
-      category: locale === 'ar' ? 'إرشادات المطارات' : 'Airport Guide',
-      readTime: '5 min read',
-      date: 'October 2026',
-      routeId: 'jeddah-airport-to-makkah',
-      href: `/${locale}/guides/jeddah-airport-arrival-guide`,
-    },
-    {
-      slug: 'makkah-to-madinah-transport-comparison',
-      title:
-        locale === 'ar'
-          ? '2. مقارنة السفر بين مكة والمدينة: السيارة الخاصة أم قطار الحرمين؟'
-          : '2. Makkah to Madinah: Private Chauffeur vs Haramain Train',
-      desc:
-        locale === 'ar'
-          ? 'تحليل التكلفة الحقيقية للعائلات متضمنة تاكسي المحطات ووزن الأمتعة والتوقف بميقات آبار علي.'
-          : 'Total family cost, station transfers, luggage restrictions on train, and direct hotel-to-hotel convenience.',
-      category: locale === 'ar' ? 'مقارنة وسائل النقل' : 'Transit Comparison',
-      readTime: '6 min read',
-      date: 'October 2026',
-      routeId: 'makkah-to-madinah',
-      href: `/${locale}/guides/makkah-to-madinah-transport-comparison`,
-    },
-    {
-      slug: 'malaysia-umrah-transport',
-      title:
-        locale === 'ar'
-          ? '3. دليل نقل المعتمرين والعائلات القادمة من ماليزيا وجنوب شرق آسيا'
-          : '3. Umrah Transport Guide for Malaysian & Southeast Asian Pilgrims',
-      desc:
-        locale === 'ar'
-          ? 'إرشادات فانات ستاريا وهايس العائلية للأفواج الكبيرة مع إدارة الحقائب المتعددة.'
-          : 'Staria VIP & HiAce vans for family groups arriving from KLIA/Southeast Asia with extensive baggage.',
-      category: locale === 'ar' ? 'فانات عائلية' : 'VIP Family Van',
-      readTime: '7 min read',
-      date: 'October 2026',
-      routeId: 'jeddah-airport-to-makkah',
-      href: `/${locale}/guides/malaysia-umrah-transport`,
     },
   ];
 
@@ -166,7 +122,7 @@ export default async function GuidesIndexPage(props: GuidesPageProps) {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
             <BookOpen className="w-3.5 h-3.5" />
-            <span>{locale === 'ar' ? 'دليل المسافر المعتمد' : 'Royal Umrah Pilgrim Guides'}</span>
+            <span>{locale === 'ar' ? 'مكتبة أدلة العمرة المعتمدة' : 'Official Umrah Guides Library'}</span>
           </div>
           <h1 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
             {locale === 'ar' ? 'أدلة إرشادات السفر والتنقل' : 'Umrah Travel & Transport'}{' '}
@@ -176,16 +132,22 @@ export default async function GuidesIndexPage(props: GuidesPageProps) {
           </h1>
           <p className="mt-3 text-ink-muted text-base leading-relaxed font-light">
             {locale === 'ar'
-              ? 'إرشادات دقيقة وعملية تساعدك على اختيار وسيلة النقل الأنسب، وفهم المسافات والأسعار وخطوات الاستقبال في المطارات.'
-              : 'Actionable guidance on airport arrival procedures, transport comparisons, luggage advice, and holy sites tours.'}
+              ? '12 دليلاً متخصصاً يساعدك على اتخاذ قرار النقل الأنسب: خطوات الاستقبال في المطار، مقارنة القطار بالسيارة الخاصة، واختيار السيارة المناسبة لعائلتك.'
+              : '12 authoritative guides to assist your Umrah journey: airport arrivals, transit comparisons, vehicle sizing, and holy sites tours.'}
           </p>
         </div>
 
         {/* 4 CORE CATEGORY PILLARS (Matching Screenshot 12) */}
         <div className="mb-20">
-          <h2 className="font-display font-bold text-2xl text-ink mb-6 pb-2 border-b border-border text-start">
-            {locale === 'ar' ? 'أقسام أدلة السفر الرئيسية' : 'Main Guide Categories'}
-          </h2>
+          <div className="flex items-center justify-between mb-6 pb-2 border-b border-border">
+            <h2 className="font-display font-bold text-2xl text-ink text-start">
+              {locale === 'ar' ? 'أقسام أدلة السفر الرئيسية' : 'Main Guide Categories'}
+            </h2>
+            <span className="text-xs text-gold-dark font-semibold">
+              {locale === 'ar' ? '4 محاور رئيسية' : '4 Core Pillars'}
+            </span>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {GUIDE_CATEGORIES.map((cat) => {
               const IconComp = cat.icon;
@@ -234,37 +196,46 @@ export default async function GuidesIndexPage(props: GuidesPageProps) {
           </div>
         </div>
 
-        {/* DETAILED GUIDES WITH DIRECT BOOKING INTEGRATION */}
+        {/* 12 DETAILED GUIDES (Matching Screenshot 13) */}
         <div className="mb-20 text-start">
-          <h2 className="font-display font-bold text-2xl text-ink mb-6 pb-2 border-b border-border">
-            {locale === 'ar' ? 'مقالات وأدلة المقارنة التفصيلية' : 'Detailed In-Depth Travel Guides'}
-          </h2>
+          <div className="flex items-center justify-between mb-6 pb-2 border-b border-border">
+            <h2 className="font-display font-bold text-2xl text-ink">
+              {locale === 'ar' ? 'جميع أدلة السفر الـ 12 المتخصصة' : 'Complete 12 Umrah Guides'}
+            </h2>
+            <div className="flex items-center gap-1.5 text-xs text-ink-muted">
+              <Sparkles className="w-3.5 h-3.5 text-gold-dark" />
+              <span>{locale === 'ar' ? 'محدثة لعام 2026' : 'Updated 2026'}</span>
+            </div>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {DETAILED_GUIDES.map((guide) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {COMPREHENSIVE_GUIDES.map((guide, idx) => (
               <div
                 key={guide.slug}
-                className="bg-surface rounded-2xl p-6 border border-border shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
+                className="bg-surface rounded-2xl p-6 border border-border shadow-xs hover:shadow-md transition-all flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-[10px] font-bold text-gold-dark uppercase tracking-wider bg-gold-soft px-2.5 py-0.5 rounded-full border border-gold-line">
-                      {guide.category}
+                      {guide.categoryLabel[locale] || guide.categoryLabel.en}
                     </span>
-                    <span className="text-xs text-ink-muted font-light">{guide.readTime}</span>
+                    <span className="inline-flex items-center gap-1 text-xs text-ink-muted font-light">
+                      <Clock className="w-3 h-3" />
+                      {guide.readTime}
+                    </span>
                   </div>
 
-                  <h3 className="font-display font-bold text-lg text-ink mb-2 leading-snug">
-                    {guide.title}
+                  <h3 className="font-display font-bold text-base md:text-lg text-ink mb-2 leading-snug group-hover:text-gold-dark transition-colors">
+                    {idx + 1}. {guide.title[locale] || guide.title.en}
                   </h3>
-                  <p className="text-xs text-ink-muted leading-relaxed font-light mb-4">
-                    {guide.desc}
+                  <p className="text-xs text-ink-muted leading-relaxed font-light mb-4 line-clamp-3">
+                    {guide.subtitle[locale] || guide.subtitle.en}
                   </p>
                 </div>
 
                 <div className="pt-4 border-t border-border flex items-center justify-between gap-2">
                   <Link
-                    href={guide.href}
+                    href={`/${locale}/guides/${guide.slug}`}
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline min-h-[44px]"
                   >
                     <span>{locale === 'ar' ? 'قراءة الدليل' : 'Read Guide'}</span>
@@ -283,7 +254,7 @@ export default async function GuidesIndexPage(props: GuidesPageProps) {
           </div>
         </div>
 
-        {/* CTA SECTION */}
+        {/* CTA BANNER */}
         <div className="bg-charcoal text-white rounded-3xl p-8 sm:p-12 text-center border border-charcoal-border">
           <h2 className="font-display font-bold text-2xl sm:text-3xl text-gold mb-3">
             {locale === 'ar' ? 'هل تحتاج إلى استشارة خاصة لرحلة عائلتك؟' : 'Need Tailored Advice for Your Family Trip?'}
