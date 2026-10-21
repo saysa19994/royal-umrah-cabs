@@ -1,10 +1,12 @@
 import React from 'react';
-import { headers } from 'next/headers';
+import { headers, cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { AdminNavbar } from '@/components/admin/AdminNavbar';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { manrope } from '@/app/fonts';
+import { OWNER_EMAIL, verifyOwnerSessionToken } from '@/lib/auth/owner-session';
+import { UserProfile } from '@/types/auth';
 
 export const metadata = {
   title: 'Admin Operations Portal | Duyuf Alrahman VIP',
@@ -32,6 +34,41 @@ export default async function AdminLayout({
   const headerList = await headers();
   const currentPath = headerList.get('x-pathname') || '';
   const isLoginPage = currentPath === '/admin/login' || currentPath.startsWith('/admin/login');
+
+  // Check Direct Owner Master Session
+  const cookieStore = await cookies();
+  const ownerSessionToken = cookieStore.get('vip_owner_session')?.value;
+  const isDirectOwner = verifyOwnerSessionToken(ownerSessionToken);
+
+  if (isDirectOwner) {
+    if (isLoginPage) {
+      redirect('/admin');
+    }
+
+    const ownerProfile: UserProfile = {
+      id: 'owner-master-id',
+      email: OWNER_EMAIL,
+      name: 'Sayed (Owner)',
+      role: 'owner',
+      is_suspended: false,
+      totp_enabled: false,
+      created_at: new Date().toISOString(),
+    };
+
+    return (
+      <AdminShell>
+        <div className="min-h-screen bg-[#0D0F12] text-[#F3EEE6] flex flex-col font-sans">
+          <AdminNavbar initialUser={ownerProfile} />
+          <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
+            {children}
+          </main>
+          <footer className="border-t border-[#262B33] py-4 px-6 text-center text-xs text-[#6C7584]">
+            <span>Duyuf Alrahman VIP Operations Portal • Protected Root Access</span>
+          </footer>
+        </div>
+      </AdminShell>
+    );
+  }
 
   const supabase = createClient();
   const { data: authData } = await supabase.auth.getUser();

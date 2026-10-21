@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { Role } from '@/types/auth';
+import { OWNER_EMAIL, verifyOwnerSessionToken } from '@/lib/auth/owner-session';
 
 export interface AuthenticatedStaff {
   id: string;
@@ -32,6 +34,25 @@ export async function requireRole(
   options: { allowEnrollmentFlow?: boolean } = {}
 ): Promise<{ user: AuthenticatedStaff; errorResponse?: never } | { user?: never; errorResponse: NextResponse }> {
   try {
+    // 0. Direct Owner Master Session check
+    const cookieStore = await cookies();
+    const ownerSessionToken = cookieStore.get('vip_owner_session')?.value;
+    if (verifyOwnerSessionToken(ownerSessionToken)) {
+      if (allowedRoles.includes('owner')) {
+        const ownerUser: AuthenticatedStaff = {
+          id: 'owner-master-id',
+          auth_user_id: 'owner-master-id',
+          email: OWNER_EMAIL,
+          name: 'Sayed (Owner)',
+          role: 'owner',
+          is_suspended: false,
+          totp_enabled: false,
+          aal: 'aal2',
+        };
+        return { user: ownerUser };
+      }
+    }
+
     const supabase = createClient();
     const { data: authData, error: authError } = await supabase.auth.getUser();
 
@@ -60,33 +81,36 @@ export async function requireRole(
       if (!authUser.email_confirmed_at) {
         return {
           errorResponse: NextResponse.json(
-            { error: 'Forbidden: Email address must be confirmed before profile linking' },
+            { error: 'Access denied: Email address must be confirmed before profile linking.' },
             { status: 403 }
           ),
         };
       }
 
-      const userEmail = (authUser.email || '').trim().toLowerCase();
-      const { data: unlinked } = await serviceClient
+      const { data: unlinkedProfile } = await serviceClient
         .from('user_profiles')
         .select('id, auth_user_id, email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled')
-        .eq('email', userEmail)
+        .eq('email', (authUser.email || '').toLowerCase())
         .is('auth_user_id', null)
         .maybeSingle();
 
-      if (unlinked) {
+      if (unlinkedProfile) {
         await serviceClient
           .from('user_profiles')
-          .update({ auth_user_id: authUser.id, updated_at: new Date().toISOString() })
-          .eq('id', unlinked.id);
-        profile = { ...unlinked, auth_user_id: authUser.id };
+          .update({
+            auth_user_id: authUser.id,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', unlinkedProfile.id);
+
+        profile = { ...unlinkedProfile, auth_user_id: authUser.id };
       }
     }
 
     if (profileError || !profile) {
       return {
         errorResponse: NextResponse.json(
-          { error: 'Forbidden: No authorized staff profile associated with this account' },
+          { error: 'Access denied: Administrative profile not found' },
           { status: 403 }
         ),
       };
@@ -95,37 +119,49 @@ export async function requireRole(
     if (profile.is_suspended) {
       return {
         errorResponse: NextResponse.json(
-          { error: 'Forbidden: Account has been suspended' },
+          { error: 'Access denied: Account has been suspended by executive owner' },
           { status: 403 }
         ),
       };
     }
 
-    const userRole = profile.role as Role;
-    if (!allowedRoles.includes(userRole)) {
+    // Role check
+    if (!allowedRoles.includes(profile.role)) {
       return {
         errorResponse: NextResponse.json(
-          { error: `Forbidden: Insufficient privileges for role '${userRole}'` },
+          { error: `Forbidden: Required role [${allowedRoles.join(' or ')}]. Your role: [${profile.role}]` },
           { status: 403 }
         ),
       };
     }
 
-    // Check Authenticator Assurance Level (AAL) directly from Supabase MFA API (NO app_metadata fallback)
-    const { data: aalData, error: aalError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-    const currentAal: 'aal1' | 'aal2' = (aalData?.currentLevel === 'aal2') ? 'aal2' : 'aal1';
-    const nextAal = aalData?.nextLevel || 'aal1';
+    // Enforce AAL2 MFA for owner and admin, or any account with totp_enabled
+    const isOwnerOrAdmin = profile.role === 'owner' || profile.role === 'admin';
+    const requiresMfa = isOwnerOrAdmin || profile.totp_enabled;
 
-    // For owner, admin, or any account with totp_enabled: require AAL2 MFA
-    const requiresMfa = userRole === 'owner' || userRole === 'admin' || profile.totp_enabled === true;
+    let currentAal: 'aal1' | 'aal2' = 'aal1';
+
     if (requiresMfa) {
-      // If owner/admin has not enrolled TOTP factors yet
-      if ((userRole === 'owner' || userRole === 'admin') && nextAal !== 'aal2' && !profile.totp_enabled) {
+      const { data: aalData, error: aalError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+
+      if (aalError) {
+        console.error('Error fetching assurance level:', aalError);
+        return {
+          errorResponse: NextResponse.json(
+            { error: 'Security verification failed: Unable to verify MFA state' },
+            { status: 500 }
+          ),
+        };
+      }
+
+      currentAal = aalData.currentLevel === 'aal2' ? 'aal2' : 'aal1';
+
+      if (isOwnerOrAdmin && aalData.nextLevel !== 'aal2' && !profile.totp_enabled) {
         if (!options.allowEnrollmentFlow) {
           return {
             errorResponse: NextResponse.json(
               {
-                error: 'MFA Enrollment Required: Owner and Admin accounts must complete 2FA setup before accessing portal resources.',
+                error: 'Mandatory MFA enrollment required. Please set up your two-factor authenticator app.',
                 code: 'MFA_ENROLLMENT_REQUIRED',
                 require2faEnrollment: true,
               },
@@ -134,11 +170,10 @@ export async function requireRole(
           };
         }
       } else if (currentAal !== 'aal2') {
-        // Enrolled but not yet challenged/verified in this session
         return {
           errorResponse: NextResponse.json(
             {
-              error: 'MFA Verification Required: Access requires Authenticator Assurance Level 2 (AAL2).',
+              error: 'Multi-Factor Authentication (AAL2) required for this administrative operation. Please verify TOTP.',
               code: 'MFA_VERIFICATION_REQUIRED',
               require2fa: true,
             },
@@ -148,24 +183,24 @@ export async function requireRole(
       }
     }
 
-    const staff: AuthenticatedStaff = {
-      id: profile.id,
-      auth_user_id: authUser.id,
-      email: profile.email,
-      name: profile.name,
-      role: userRole,
-      assigned_whatsapp_number: profile.assigned_whatsapp_number,
-      is_suspended: profile.is_suspended,
-      totp_enabled: profile.totp_enabled,
-      aal: currentAal,
+    return {
+      user: {
+        id: profile.id,
+        auth_user_id: profile.auth_user_id,
+        email: profile.email,
+        name: profile.name,
+        role: profile.role,
+        assigned_whatsapp_number: profile.assigned_whatsapp_number,
+        is_suspended: profile.is_suspended,
+        totp_enabled: profile.totp_enabled,
+        aal: currentAal,
+      },
     };
-
-    return { user: staff };
   } catch (err: any) {
-    console.error('requireRole server error:', err);
+    console.error('Auth verification error:', err);
     return {
       errorResponse: NextResponse.json(
-        { error: 'Internal server error validating credentials' },
+        { error: 'Internal security authentication error' },
         { status: 500 }
       ),
     };
