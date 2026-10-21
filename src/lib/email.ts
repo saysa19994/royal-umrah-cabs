@@ -25,7 +25,7 @@ export async function sendOwnershipTransferEmail(
 ): Promise<{ success: boolean; error?: string }> {
   const { to, targetEmail, confirmationToken, expiresAt } = params;
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   const resendApiKey = process.env.RESEND_API_KEY;
 
   if (resendApiKey) {

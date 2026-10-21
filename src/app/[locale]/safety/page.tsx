@@ -19,7 +19,7 @@ export async function generateMetadata(props: SafetyPageProps): Promise<Metadata
   } = params;
 
   const dict = getDictionary(locale);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   return {
     title: 'Safety Standards & Chauffeur Protocol',
     description: 'Learn about our rigorous safety standards, vehicle inspections, hygiene protocols, and vetted chauffeurs for your sacred Umrah journey.',

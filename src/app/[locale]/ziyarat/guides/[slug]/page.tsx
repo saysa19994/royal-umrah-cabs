@@ -30,7 +30,7 @@ export async function generateMetadata(props: GuideDetailPageProps): Promise<Met
   const g = ZIYARAT_GUIDES[slug];
   if (!g) return {};
   const isAr = locale === 'ar';
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
   return {
     title: isAr ? g.titleAr : g.titleEn,
@@ -55,7 +55,7 @@ export default async function GuideDetailPage(props: GuideDetailPageProps) {
   }
 
   const isAr = locale === 'ar';
-  const currentUrl = `https://royal-umrah-cabs.vercel.app/${locale}/ziyarat/guides/${slug}`;
+  const currentUrl = `https://duyufalrahmanvip.com/${locale}/ziyarat/guides/${slug}`;
 
   const articleSchema = {
     '@context': 'https://schema.org',
@@ -73,7 +73,7 @@ export default async function GuideDetailPage(props: GuideDetailPageProps) {
       name: 'Royal Umrah Cabs',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://royal-umrah-cabs.vercel.app/logo.png',
+        url: 'https://duyufalrahmanvip.com/logo.png',
       },
     },
   };

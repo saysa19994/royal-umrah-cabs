@@ -33,7 +33,7 @@ export async function generateMetadata(props: PilgrimCountryPageProps): Promise<
     return { robots: { index: false, follow: false } };
   }
   const isMatchLocale = locale === c.primaryLanguage;
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
   return {
     title: isMatchLocale ? c.titleNative : c.titleEn,
@@ -60,7 +60,7 @@ export default async function PilgrimCountryPage(props: PilgrimCountryPageProps)
 
   const isMatchLocale = locale === c.primaryLanguage;
   const isAr = locale === 'ar';
-  const currentUrl = `https://royal-umrah-cabs.vercel.app/${locale}/pilgrims/${country}`;
+  const currentUrl = `https://duyufalrahmanvip.com/${locale}/pilgrims/${country}`;
 
   const schema = {
     '@context': 'https://schema.org',
@@ -71,7 +71,7 @@ export default async function PilgrimCountryPage(props: PilgrimCountryPageProps)
       '@type': 'LocalBusiness',
       name: 'Royal Umrah Cabs',
       telephone: '+966567588261',
-      url: 'https://royal-umrah-cabs.vercel.app',
+      url: 'https://duyufalrahmanvip.com',
       areaServed: [
         { '@type': 'Country', name: c.nameEn },
         { '@type': 'City', name: 'Jeddah' },

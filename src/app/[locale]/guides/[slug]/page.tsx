@@ -83,19 +83,19 @@ export default async function GuideDetailPage(props: GuideSlugPageProps) {
         '@type': 'ListItem',
         position: 1,
         name: dict.nav.home || 'Home',
-        item: `https://royal-umrah-cabs.vercel.app/${locale}`,
+        item: `https://duyufalrahmanvip.com/${locale}`,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: dict.nav.guides || 'Guides',
-        item: `https://royal-umrah-cabs.vercel.app/${locale}/guides`,
+        item: `https://duyufalrahmanvip.com/${locale}/guides`,
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: guide.title[locale] || guide.title.en,
-        item: `https://royal-umrah-cabs.vercel.app/${locale}/guides/${slug}`,
+        item: `https://duyufalrahmanvip.com/${locale}/guides/${slug}`,
       },
     ],
   };

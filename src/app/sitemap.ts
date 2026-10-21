@@ -9,7 +9,7 @@ export async function generateSitemaps() {
 
 export default async function sitemap({ id }: { id: string }): Promise<MetadataRoute.Sitemap> {
   const locale = (id as Locale) || 'en';
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   const lastmod = new Date().toISOString().slice(0, 10);
 
   const staticPages = [

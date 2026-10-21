@@ -133,7 +133,7 @@ export const PAGE_SLUGS: Record<string, Partial<Record<Locale, string>>> = {
 };
 
 export function getLocalizedAlternates(locale: Locale, path: string = '') {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   const cleanPath = path ? (path.startsWith('/') ? path : `/${path}`) : '';
 
   const languages: Record<string, string> = {};

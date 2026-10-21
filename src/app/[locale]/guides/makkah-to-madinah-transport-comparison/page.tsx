@@ -19,7 +19,7 @@ export async function generateMetadata(props: GuidePageProps): Promise<Metadata>
   } = params;
 
   const dict = getDictionary(locale);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   return {
     title: dict.guides_section.guide3Title,
     description: dict.guides_section.guide3Desc,

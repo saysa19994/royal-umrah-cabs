@@ -20,7 +20,7 @@ export async function generateMetadata(props: ZiyaratHubPageProps): Promise<Meta
   } = params;
 
   const isAr = locale === 'ar';
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   return {
     title: isAr
       ? 'جولات مزارات مكة والمدينة بسيارة خاصة وسائق'

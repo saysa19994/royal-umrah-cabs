@@ -34,7 +34,7 @@ export async function generateMetadata(props: SiteDetailPageProps): Promise<Meta
   const s = ZIYARAT_SITES[site];
   if (!s || s.city !== city) return {};
   const isAr = locale === 'ar';
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
   return {
     title: isAr ? s.titleAr : s.titleEn,
@@ -62,7 +62,7 @@ export default async function SiteDetailPage(props: SiteDetailPageProps) {
   const isAr = locale === 'ar';
   const isMakkah = city === 'makkah';
   const relatedToursList = s.relatedTours.map((slug) => ZIYARAT_TOURS[slug]).filter(Boolean);
-  const currentUrl = `https://royal-umrah-cabs.vercel.app/${locale}/ziyarat/${city}/${site}`;
+  const currentUrl = `https://duyufalrahmanvip.com/${locale}/ziyarat/${city}/${site}`;
 
   return (
     <div className="py-12 md:py-20 bg-bg min-h-screen text-start">

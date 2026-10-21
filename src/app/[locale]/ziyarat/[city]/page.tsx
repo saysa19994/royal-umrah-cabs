@@ -31,7 +31,7 @@ export async function generateMetadata(props: CityHubPageProps): Promise<Metadat
 
   if (city !== 'makkah' && city !== 'madinah') return {};
   const isAr = locale === 'ar';
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   const isMakkah = city === 'makkah';
 
   const title = isMakkah

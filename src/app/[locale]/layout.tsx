@@ -28,7 +28,7 @@ export async function generateMetadata(
   if (!LOCALES.includes(locale as Locale)) return {};
   const validLocale = locale as Locale;
   const dict = getDictionary(validLocale);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
   return {
     metadataBase: new URL(baseUrl),

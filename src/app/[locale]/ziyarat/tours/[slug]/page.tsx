@@ -31,7 +31,7 @@ export async function generateMetadata(props: TourDetailPageProps): Promise<Meta
   const t = ZIYARAT_TOURS[slug];
   if (!t) return {};
   const isAr = locale === 'ar';
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
   return {
     title: isAr ? t.titleAr : t.titleEn,
@@ -58,7 +58,7 @@ export default async function TourDetailPage(props: TourDetailPageProps) {
   const isAr = locale === 'ar';
   const isMakkah = t.city === 'makkah';
   const itinerary = isAr ? t.itineraryAr : t.itineraryEn;
-  const currentUrl = `https://royal-umrah-cabs.vercel.app/${locale}/ziyarat/tours/${slug}`;
+  const currentUrl = `https://duyufalrahmanvip.com/${locale}/ziyarat/tours/${slug}`;
 
   const vehicles = [
     { id: 'camry', name: 'Toyota Camry Executive', seats: 4, bags: 3, price: t.basePriceSAR.camry },

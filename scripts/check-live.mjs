@@ -1,5 +1,5 @@
 async function main() {
-  const res = await fetch('https://royal-umrah-cabs.vercel.app/ar?nocache=' + Date.now(), {
+  const res = await fetch('https://duyufalrahmanvip.com/ar?nocache=' + Date.now(), {
     headers: { 'Cache-Control': 'no-cache' }
   });
   console.log('Status:', res.status);

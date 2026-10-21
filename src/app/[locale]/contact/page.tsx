@@ -20,7 +20,7 @@ export async function generateMetadata(props: ContactPageProps): Promise<Metadat
   } = params;
 
   const dict = getDictionary(locale);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   return {
     title: dict.page_contact.title,
     description: dict.page_contact.subtitle,

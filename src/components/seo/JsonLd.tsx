@@ -11,7 +11,7 @@ interface JsonLdProps {
 }
 
 export function JsonLd({ locale, dict, settings, includeFaq = false }: JsonLdProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://royal-umrah-cabs.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
   // 1. TaxiService / LocalBusiness Schema
   const businessSchema: Record<string, any> = {

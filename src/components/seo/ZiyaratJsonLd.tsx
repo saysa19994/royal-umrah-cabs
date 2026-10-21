@@ -34,7 +34,7 @@ export function ZiyaratSiteJsonLd({ site, locale, url }: ZiyaratSiteSchemaProps)
       '@type': 'LocalBusiness',
       name: 'Royal Umrah Cabs',
       telephone: '+966567588261',
-      url: 'https://royal-umrah-cabs.vercel.app',
+      url: 'https://duyufalrahmanvip.com',
       areaServed: [
         { '@type': 'City', name: 'Makkah' },
         { '@type': 'City', name: 'Madinah' },
@@ -63,19 +63,19 @@ export function ZiyaratSiteJsonLd({ site, locale, url }: ZiyaratSiteSchemaProps)
         '@type': 'ListItem',
         position: 1,
         name: isArabic ? 'الرئيسية' : 'Home',
-        item: `https://royal-umrah-cabs.vercel.app/${locale}`,
+        item: `https://duyufalrahmanvip.com/${locale}`,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: isArabic ? 'المزارات والمعالم التاريخية' : 'Ziyarat Holy Sites',
-        item: `https://royal-umrah-cabs.vercel.app/${locale}/ziyarat`,
+        item: `https://duyufalrahmanvip.com/${locale}/ziyarat`,
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: site.city === 'makkah' ? (isArabic ? 'مكة المكرمة' : 'Makkah') : (isArabic ? 'المدينة المنورة' : 'Madinah'),
-        item: `https://royal-umrah-cabs.vercel.app/${locale}/ziyarat/${site.city}`,
+        item: `https://duyufalrahmanvip.com/${locale}/ziyarat/${site.city}`,
       },
       {
         '@type': 'ListItem',
@@ -144,7 +144,7 @@ export function ZiyaratTourJsonLd({ tour, locale, url }: ZiyaratTourSchemaProps)
       '@type': 'LocalBusiness',
       name: 'Royal Umrah Cabs',
       telephone: '+966567588261',
-      url: 'https://royal-umrah-cabs.vercel.app',
+      url: 'https://duyufalrahmanvip.com',
       areaServed: [
         { '@type': 'City', name: 'Makkah' },
         { '@type': 'City', name: 'Madinah' },
