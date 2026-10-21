@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard,
@@ -46,6 +47,7 @@ export function AdminNavbar({ initialUser }: { initialUser?: UserProfile | null 
     { href: '/admin/roles', label: 'Roles Matrix', icon: Shield, show: isOwner },
     { href: '/admin/audit-log', label: 'Audit Log', icon: History, show: !isOperator },
     { href: '/admin/settings', label: 'Settings', icon: Settings, show: !isOperator },
+    { href: '/admin/account', label: 'Owner Account', icon: ShieldCheck, show: isOwner },
   ];
 
   return (
@@ -53,11 +55,11 @@ export function AdminNavbar({ initialUser }: { initialUser?: UserProfile | null 
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Link href="/admin" className="flex items-center gap-2.5">
-            <span className="w-8 h-8 rounded-lg bg-[#D9A031]/20 border border-[#D9A031]/40 flex items-center justify-center text-base">
-              🕋
+            <span className="w-8 h-8 rounded-lg bg-[#D9A031]/20 border border-[#D9A031]/40 flex items-center justify-center p-1 overflow-hidden">
+              <Image src="/icon-192.png" alt="Duyuf Alrahman VIP" width={24} height={24} className="rounded-md" />
             </span>
             <span className="font-display font-bold text-lg tracking-wider text-[#FAF9F6]">
-              ROYAL UMRAH <span className="text-[#D9A031]">DISPATCH</span>
+              DUYUF ALRAHMAN <span className="text-[#D9A031]">VIP</span>
             </span>
           </Link>
 

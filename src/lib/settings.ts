@@ -17,7 +17,7 @@ export interface SiteSettings {
   free_cancellation_hours: number;
   founder_enabled?: boolean;
   currency_rates: Record<string, number>;
-  // Phase 1.5 & 1.6 Feature Flags (Default False)
+  // Feature Flags (Controlled from /admin/settings)
   flight_tracking_enabled: boolean;
   complimentary_water: boolean;
   zamzam_water: boolean;
@@ -28,6 +28,8 @@ export interface SiteSettings {
   bank_transfer_payment_enabled: boolean;
   coaster_enabled: boolean;
   airport_waiting_minutes: number;
+  promo_banner_enabled: boolean;
+  promo_banner_text: string;
 }
 
 export const DEFAULT_SETTINGS: SiteSettings = {
@@ -66,6 +68,8 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   bank_transfer_payment_enabled: false,
   coaster_enabled: false,
   airport_waiting_minutes: 60,
+  promo_banner_enabled: true,
+  promo_banner_text: 'Fixed 2026 Umrah Season Rates Available • Free Cancellation up to 24h Before Arrival',
 };
 
 function getStaticSupabaseClient() {
@@ -119,6 +123,8 @@ const fetchSettingsCached = unstable_cache(
         bank_transfer_payment_enabled: Boolean(data.bank_transfer_payment_enabled),
         coaster_enabled: Boolean(data.coaster_enabled),
         airport_waiting_minutes: Number(data.airport_waiting_minutes) || DEFAULT_SETTINGS.airport_waiting_minutes,
+        promo_banner_enabled: data.promo_banner_enabled !== undefined ? Boolean(data.promo_banner_enabled) : DEFAULT_SETTINGS.promo_banner_enabled,
+        promo_banner_text: data.promo_banner_text || DEFAULT_SETTINGS.promo_banner_text,
       };
     } catch {
       return DEFAULT_SETTINGS;

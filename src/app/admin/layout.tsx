@@ -101,7 +101,14 @@ export default async function AdminLayout({
     redirect('/admin');
   }
 
-  // 5. Block operator and other non-admin roles from restricted management pages
+  // 5. Block non-owners from /admin/account root management page
+  if (profile.role !== 'owner') {
+    if (currentPath === '/admin/account' || currentPath.startsWith('/admin/account/')) {
+      redirect('/admin');
+    }
+  }
+
+  // 6. Block operator and other non-admin roles from restricted management pages
   if (profile.role !== 'owner' && profile.role !== 'admin') {
     const restrictedPaths = [
       '/admin/pricing',
@@ -124,7 +131,7 @@ export default async function AdminLayout({
     <AdminShell>
       <div className="min-h-screen bg-[#0D0F12] text-[#F3EEE6] flex flex-col font-sans">
         <AdminNavbar initialUser={profile} />
-                {/* TURNSTILE CONFIGURATION WARNING IN PRODUCTION */}
+        {/* TURNSTILE CONFIGURATION WARNING IN PRODUCTION */}
         {process.env.NODE_ENV === 'production' && (!process.env.TURNSTILE_SECRET_KEY || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || process.env.TURNSTILE_SECRET_KEY.includes('placeholder')) && (
           <div className="bg-amber-950/80 border-b border-amber-600/50 px-4 py-3 text-amber-200 text-xs text-center flex items-center justify-center gap-2">
             <span>⚠️ <strong>Security Notice:</strong> Cloudflare Turnstile keys (NEXT_PUBLIC_TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY) are missing or set to placeholder. Public booking and tracking APIs are in fail-closed 503 mode until valid production keys are configured.</span>
