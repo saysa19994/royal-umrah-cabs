@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
-import { rateLimit, getClientIp, checkRequiredEnv } from '@/lib/rate-limit';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 import { UserProfile, Role } from '@/types/auth';
 
 export async function POST(request: Request) {
@@ -19,15 +19,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // Fail-closed check for required production secrets
-    const envCheck = checkRequiredEnv();
-    if (!envCheck.ok && envCheck.response) {
-      return envCheck.response;
-    }
-
-    // Rate limiting: checked both per IP and per (IP + Account) with failClosed policy
-    const ipRate = await rateLimit(`login_ip:${clientIp}`, 10, 60, { failClosed: true }); // 10 per minute per IP
-    const accountRate = await rateLimit(`login_acc:${clientIp}:${cleanEmail}`, 5, 300, { failClosed: true }); // 5 attempts per 5 min
+    // Rate limiting: checked both per IP and per (IP + Account) with in-memory / redis limiter
+    const ipRate = await rateLimit(`login_ip:${clientIp}`, 10, 60); // 10 per minute per IP
+    const accountRate = await rateLimit(`login_acc:${clientIp}:${cleanEmail}`, 5, 300); // 5 attempts per 5 min
 
     if (!ipRate.success || !accountRate.success) {
       const resetTime = Math.max(ipRate.reset, accountRate.reset);

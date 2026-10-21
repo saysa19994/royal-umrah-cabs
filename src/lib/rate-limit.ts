@@ -110,20 +110,14 @@ function getUpstashSlidingLimiter(limit: number, windowSeconds: number): Ratelim
 }
 
 /**
- * Asserts required environment variables in production.
- * If critical infrastructure secrets are missing in production, returns a 503 Service Unavailable response.
+ * Asserts required environment variables for public visitor endpoints in production.
+ * If Cloudflare Turnstile keys are missing in production, public forms fail-closed with 503.
  */
 export function checkRequiredEnv(): { ok: boolean; response?: NextResponse } {
   if (process.env.NODE_ENV === 'production') {
     const missing: string[] = [];
-    if (!process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY.includes('placeholder')) {
-      missing.push('SUPABASE_SERVICE_ROLE_KEY');
-    }
     if (!process.env.TURNSTILE_SECRET_KEY || process.env.TURNSTILE_SECRET_KEY.includes('placeholder')) {
       missing.push('TURNSTILE_SECRET_KEY');
-    }
-    if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
-      missing.push('UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN');
     }
 
     if (missing.length > 0) {
@@ -165,7 +159,6 @@ export async function rateLimit(
     } catch (e) {
       console.warn('Upstash rate limit error:', e);
       if (process.env.NODE_ENV === 'production' && options.failClosed) {
-        // Enforce fail-closed for sensitive operations: do not silently downgrade to process-local
         return {
           success: false,
           limit,
@@ -175,14 +168,6 @@ export async function rateLimit(
         };
       }
     }
-  } else if (process.env.NODE_ENV === 'production' && options.failClosed) {
-    return {
-      success: false,
-      limit,
-      remaining: 0,
-      reset: Date.now() + windowSeconds * 1000,
-      serviceError: true,
-    };
   }
 
   return memoryStore.check(identifier, limit, windowSeconds * 1000);
