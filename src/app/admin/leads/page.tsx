@@ -427,7 +427,7 @@ export default function AdminLeadsPage() {
                           {cleanPhone && (
                             <a
                               href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(
-                                `Assalamu Alaikum ${lead.customer_name || 'Pilgrim'}, this is Royal Umrah Cabs dispatch regarding Ref [${lead.ref_code || lead.reference}].`
+                                `Assalamu Alaikum ${lead.customer_name || 'Pilgrim'}, this is Duyuf Alrahman VIP dispatch regarding Ref [${lead.ref_code || lead.reference}].`
                               )}`}
                               target="_blank"
                               rel="noopener noreferrer"

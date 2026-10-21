@@ -158,7 +158,7 @@ export default function AdminDashboardPage() {
     } else if (b.language === 'ms') {
       msg =
         `Salam sejahtera Tuan/Puan ${b.customer_name},\n` +
-        `Salam ikhlas daripada pihak operasi Royal Umrah Cabs.\n\n` +
+        `Salam ikhlas daripada pihak operasi Duyuf Alrahman VIP.\n\n` +
         `Berikut adalah butiran pengangkutan Umrah anda:\n` +
         `No. Rujukan: *${b.reference}*\n` +
         `Laluan: Dari ${b.pickup_location} ke ${b.dropoff_location}\n` +
@@ -172,7 +172,7 @@ export default function AdminDashboardPage() {
     } else {
       msg =
         `Greetings ${b.customer_name},\n` +
-        `This is Royal Umrah Cabs Operations confirming your private transfer:\n\n` +
+        `This is Duyuf Alrahman VIP Operations confirming your private transfer:\n\n` +
         `Booking Ref: *${b.reference}*\n` +
         `Pickup: ${b.pickup_location}\n` +
         `Destination: ${b.dropoff_location}\n` +

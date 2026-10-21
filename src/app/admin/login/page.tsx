@@ -329,7 +329,7 @@ export default function AdminLoginPage() {
 
         <div className="mt-8 pt-6 border-t border-[#262B33] text-center text-[11px] text-[#6C7584]">
           <p>Protected by Supabase Auth with Mandatory TOTP 2FA</p>
-          <p className="mt-1 text-[10px]">Royal Umrah Cabs Operations • Saudi Arabia</p>
+          <p className="mt-1 text-[10px]">Duyuf Alrahman VIP Operations • Saudi Arabia</p>
         </div>
       </div>
     </div>
