@@ -29,6 +29,13 @@ function getPreferredLocale(request: NextRequest): string {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  // 0. Canonical domain redirect: 301 redirect from every *.vercel.app host to official domain
+  const host = request.headers.get('host') || '';
+  if (host.includes('.vercel.app')) {
+    const canonicalUrl = new URL(request.nextUrl.pathname + request.nextUrl.search, 'https://duyufalrahmanvip.com');
+    return NextResponse.redirect(canonicalUrl, { status: 301 });
+  }
+
 
   // 1. Explicit legacy redirects to eliminate old cached HTML files
   if (pathname === '/admin.html') {

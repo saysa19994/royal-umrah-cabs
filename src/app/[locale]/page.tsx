@@ -35,11 +35,13 @@ export default async function HomePage(props: HomePageProps) {
   const dict = getDictionary(locale);
   const settings = await getSiteSettings();
 
+  const waitingMinutes = settings.airport_waiting_minutes || 60;
+
   return (
     <div className="flex flex-col w-full overflow-x-hidden">
       <HomepageFaqJsonLd dict={dict} />
 
-      {/* 1. LUXURY EXECUTIVE HERO SECTION (Harmain Transfer & Umrah Taxi SA Fusion) */}
+      {/* 1. LUXURY EXECUTIVE HERO SECTION */}
       <section className="relative min-h-[640px] sm:min-h-[700px] lg:min-h-[780px] flex items-center justify-center overflow-hidden bg-[#0A0F1D] text-white pt-20 sm:pt-24 pb-32 sm:pb-40 md:pb-48">
         {/* BACKGROUND IMAGE & LUXURY OVERLAYS */}
         <div className="absolute inset-0 z-0">
@@ -62,7 +64,7 @@ export default async function HomePage(props: HomePageProps) {
               <Sparkles className="w-4 h-4 text-gold animate-pulse shrink-0" />
               <span>
                 {locale === 'ar'
-                  ? 'خدمة النقل التنفيذي المعتمدة لضيوف الرحمن | Duyuf Alrahman VIP'
+                  ? 'خدمة النقل الخاص لضيوف الرحمن | Duyuf Alrahman VIP'
                   : 'Executive VIP Chauffeur Service for Umrah Pilgrims'}
               </span>
             </div>
@@ -78,7 +80,7 @@ export default async function HomePage(props: HomePageProps) {
             {/* SUBTITLE */}
             <p className="text-sm sm:text-base md:text-lg text-white/90 leading-relaxed font-light max-w-2xl">
               {locale === 'ar'
-                ? 'استقبال خاص من بوابة المطار إلى فندقك بمكة والمدينة • سيارات VIP حديثة بسائق خاص • تتبع مباشر للرحلات وانتظار مجاني 90 دقيقة • الدفع عند الوصول 100% نقداً أو بطاقة.'
+                ? `استقبال خاص من بوابة المطار إلى فندقك بمكة والمدينة • سيارات VIP حديثة بسائق خاص • انتظار مجاني ${waitingMinutes} دقيقة • الدفع عند الوصول 100% نقداً للسائق.`
                 : dict.hero.description}
             </p>
 
@@ -103,10 +105,10 @@ export default async function HomePage(props: HomePageProps) {
               </a>
             </div>
 
-            {/* QUICK GUIDES ACCESS PILLS */}
+            {/* QUICK GUIDES ACCESS PILLS (NO UNVERIFIED "OFFICIAL" WORDING) */}
             <div className="pt-2">
               <span className="text-[11px] font-bold text-gold/80 uppercase tracking-widest block mb-2">
-                {locale === 'ar' ? 'أدلة إرشادات السفر لضيوف الرحمن 2026:' : 'Official Umrah Travel Guides 2026:'}
+                {locale === 'ar' ? 'أدلة وإرشادات السفر لضيوف الرحمن 2026:' : 'Umrah Travel Guides 2026:'}
               </span>
               <div className="flex flex-wrap items-center gap-2">
                 <Link
@@ -140,23 +142,27 @@ export default async function HomePage(props: HomePageProps) {
               </div>
             </div>
 
-            {/* 4 ASSURANCES TRUST LINE */}
+            {/* 4 ASSURANCES TRUST LINE (FACTUAL ONLY, DYNAMIC FROM SETTINGS) */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-4 border-t border-white/15 text-xs text-white/90">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-gold shrink-0" />
-                <span>{locale === 'ar' ? '100% الدفع عند الوصول بدون عربون' : '100% Pay on Arrival · Zero Deposit'}</span>
+                <span>{locale === 'ar' ? '100% الدفع عند الوصول (نقداً للسائق)' : '100% Pay on Arrival (Cash to Chauffeur)'}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-gold shrink-0" />
-                <span>{locale === 'ar' ? 'انتظار 90 دقيقة وتتبع الرحلات' : '90-Min Wait & Flight Radar'}</span>
+                <span>{locale === 'ar' ? `${waitingMinutes} دقيقة انتظار مجاني بالمطار` : `${waitingMinutes}-Min Free Airport Wait`}</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-gold shrink-0" />
-                <span>{locale === 'ar' ? 'توقف مجاني عند الميقات للإحرام' : 'Free Miqat Stop for Ihram'}</span>
+                <span>
+                  {settings.free_miqat_stop
+                    ? (locale === 'ar' ? 'توقف مجاني عند الميقات للإحرام' : 'Free Miqat Stop for Ihram')
+                    : (locale === 'ar' ? 'توصيل مباشر للفندق والحرمين' : 'Direct Chauffeur to Hotel')}
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <Headphones className="w-4 h-4 text-gold shrink-0" />
-                <span>{locale === 'ar' ? 'سائق خاص ودعم 24/7' : '24/7 Dedicated Chauffeur Support'}</span>
+                <span>{locale === 'ar' ? 'سائق خاص ومتابعة 24/7' : '24/7 Dedicated Chauffeur Support'}</span>
               </div>
             </div>
           </div>
@@ -168,24 +174,29 @@ export default async function HomePage(props: HomePageProps) {
         <BookingCard locale={locale} dict={dict} />
       </div>
 
-      {/* 3. BEIGE TRUST STRIP */}
+      {/* 3. BEIGE TRUST STRIP (ONLY SHOWN IF VALID OR FACTUAL) */}
       <section className="bg-bg-alt border-y border-border py-4 mt-8">
         <div className="container mx-auto px-4 max-w-7xl flex flex-wrap items-center justify-between gap-4 text-xs md:text-sm text-ink">
-          <a
-            href={settings.google_reviews_link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 font-semibold hover:text-gold-dark transition-colors"
-          >
-            {settings.google_reviews_rating > 0 && settings.google_reviews_count > 0 && (
+          {settings.google_reviews_link && settings.google_reviews_count > 0 ? (
+            <a
+              href={settings.google_reviews_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 font-semibold hover:text-gold-dark transition-colors"
+            >
               <span className="text-gold font-bold text-base">★ {settings.google_reviews_rating.toFixed(1)}</span>
-            )}
-            <span>{dict.trust_strip.googleReviews}</span>
-          </a>
+              <span>{dict.trust_strip.googleReviews}</span>
+            </a>
+          ) : (
+            <div className="flex items-center gap-2 font-semibold text-ink">
+              <span className="text-gold-dark font-bold">✓</span>
+              <span>{locale === 'ar' ? 'أسعار معتمدة ومحددة مسبقاً' : 'Guaranteed Fixed Fares'}</span>
+            </div>
+          )}
           <span className="hidden md:inline text-border-strong">•</span>
           <div className="flex items-center gap-2">
             <span className="text-gold-dark font-bold">✓</span>
-            <span>{dict.trust_strip.flightTracking}</span>
+            <span>{locale === 'ar' ? `${waitingMinutes} دقيقة انتظار مجاني بالمطار` : `${waitingMinutes}-Min Free Airport Wait`}</span>
           </div>
           <span className="hidden md:inline text-border-strong">•</span>
           <div className="flex items-center gap-2">
@@ -200,7 +211,7 @@ export default async function HomePage(props: HomePageProps) {
         </div>
       </section>
 
-      {/* 4. HOME SECTIONS (STEPS, POPULAR ROUTES, MULTI-SEGMENT PACKAGES, FLEET WITH VIP CABIN TOGGLE, SERVICES, REVIEWS, FAQS) */}
+      {/* 4. HOME SECTIONS */}
       <HomeSections locale={locale} dict={dict} settings={settings} />
     </div>
   );

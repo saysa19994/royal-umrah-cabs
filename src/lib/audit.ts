@@ -17,7 +17,7 @@ interface LogAuditParams {
 const memoryAuditLogs: AuditLogEntry[] = [
   {
     id: 'log-1',
-    user_email: 'owner@royalumrahcabs.com',
+    user_email: 'owner@duyufalrahmanvip.com',
     user_role: 'owner',
     action: 'system_initialized',
     resource: 'settings',
@@ -110,7 +110,7 @@ export async function getAuditLogs(filters?: {
       return data.map((d: any) => ({
         id: d.id,
         user_email: d.performed_by || 'system',
-        user_role: (d.new_values?._user_role || (d.performed_by === 'owner@royalumrahcabs.com' ? 'owner' : 'admin')) as Role,
+        user_role: (d.new_values?._user_role || (d.performed_by === 'owner@duyufalrahmanvip.com' ? 'owner' : 'admin')) as Role,
         action: d.action,
         resource: d.entity_type,
         resource_id: d.entity_id,

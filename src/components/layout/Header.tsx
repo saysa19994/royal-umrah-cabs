@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { Locale, LOCALES, LOCALE_CONFIG, CURRENCIES, CurrencyCode } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
@@ -100,8 +101,15 @@ export function Header({ locale, dict }: HeaderProps) {
             className="flex items-center gap-2.5 sm:gap-3 group focus-visible:ring-2 focus-visible:ring-gold rounded-lg p-1 -m-1"
             aria-label="Duyuf Alrahman VIP - ضيوف الرحمن VIP"
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-gold/25 via-gold/10 to-[#0A0F1D] border border-gold/40 flex items-center justify-center text-lg sm:text-xl shadow-xs group-hover:scale-105 transition-transform shrink-0">
-              🕋
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg overflow-hidden border border-gold/40 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform shrink-0 bg-[#0A0F1D]">
+              <Image
+                src="/icon-192.png"
+                alt="Duyuf Alrahman VIP"
+                width={40}
+                height={40}
+                className="w-full h-full object-cover"
+                priority
+              />
             </div>
             <div className="flex flex-col text-start">
               <span className="font-display font-bold text-base sm:text-lg md:text-xl tracking-wide uppercase text-ink group-hover:text-gold-dark transition-colors leading-tight">

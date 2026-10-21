@@ -3,6 +3,7 @@ import { unstable_cache } from 'next/cache';
 
 export interface SiteSettings {
   whatsapp_number: string;
+  whatsapp_number_secondary: string;
   phone: string;
   email: string;
   owner_notification_email: string;
@@ -16,18 +17,30 @@ export interface SiteSettings {
   free_cancellation_hours: number;
   founder_enabled?: boolean;
   currency_rates: Record<string, number>;
+  // Phase 1.5 & 1.6 Feature Flags (Default False)
+  flight_tracking_enabled: boolean;
+  complimentary_water: boolean;
+  zamzam_water: boolean;
+  complimentary_child_seat: boolean;
+  malay_speaking_chauffeur: boolean;
+  free_miqat_stop: boolean;
+  online_card_payment_enabled: boolean;
+  bank_transfer_payment_enabled: boolean;
+  coaster_enabled: boolean;
+  airport_waiting_minutes: number;
 }
 
 export const DEFAULT_SETTINGS: SiteSettings = {
   whatsapp_number: process.env.NEXT_PUBLIC_DEFAULT_WHATSAPP || '966567588261',
-  phone: process.env.NEXT_PUBLIC_DEFAULT_PHONE || '+966567588261',
-  email: process.env.NEXT_PUBLIC_DEFAULT_EMAIL || 'info@royalumrahcabs.com',
-  owner_notification_email: 'info@royalumrahcabs.com',
+  whatsapp_number_secondary: '966505316971',
+  phone: process.env.NEXT_PUBLIC_DEFAULT_PHONE || '+966505316971',
+  email: process.env.NEXT_PUBLIC_DEFAULT_EMAIL || 'info@duyufalrahmanvip.com',
+  owner_notification_email: 'info@duyufalrahmanvip.com',
   telegram_chat_id: '',
   lead_alert_minutes: 15,
   riyadh_enabled: false,
   address_cities: ['Makkah', 'Madinah', 'Jeddah', 'Riyadh'],
-  google_reviews_link: 'https://g.page/r/CTL7ETeAhDVpEAI/review',
+  google_reviews_link: '', // default empty; hides review block when empty
   google_reviews_rating: 0,
   google_reviews_count: 0,
   free_cancellation_hours: 24,
@@ -43,6 +56,16 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     PKR: 74.5,
     EGP: 13.1,
   },
+  flight_tracking_enabled: false,
+  complimentary_water: false,
+  zamzam_water: false,
+  complimentary_child_seat: false,
+  malay_speaking_chauffeur: false,
+  free_miqat_stop: false,
+  online_card_payment_enabled: false,
+  bank_transfer_payment_enabled: false,
+  coaster_enabled: false,
+  airport_waiting_minutes: 60,
 };
 
 function getStaticSupabaseClient() {
@@ -72,6 +95,7 @@ const fetchSettingsCached = unstable_cache(
 
       return {
         whatsapp_number: data.whatsapp_number || DEFAULT_SETTINGS.whatsapp_number,
+        whatsapp_number_secondary: data.whatsapp_number_secondary || DEFAULT_SETTINGS.whatsapp_number_secondary,
         phone: data.phone || DEFAULT_SETTINGS.phone,
         email: data.email || DEFAULT_SETTINGS.email,
         owner_notification_email: data.owner_notification_email || DEFAULT_SETTINGS.owner_notification_email,
@@ -85,6 +109,16 @@ const fetchSettingsCached = unstable_cache(
         free_cancellation_hours: Number(data.free_cancellation_hours) || DEFAULT_SETTINGS.free_cancellation_hours,
         founder_enabled: Boolean(data.founder_enabled),
         currency_rates: data.currency_rates || DEFAULT_SETTINGS.currency_rates,
+        flight_tracking_enabled: Boolean(data.flight_tracking_enabled),
+        complimentary_water: Boolean(data.complimentary_water),
+        zamzam_water: Boolean(data.zamzam_water),
+        complimentary_child_seat: Boolean(data.complimentary_child_seat),
+        malay_speaking_chauffeur: Boolean(data.malay_speaking_chauffeur),
+        free_miqat_stop: Boolean(data.free_miqat_stop),
+        online_card_payment_enabled: Boolean(data.online_card_payment_enabled),
+        bank_transfer_payment_enabled: Boolean(data.bank_transfer_payment_enabled),
+        coaster_enabled: Boolean(data.coaster_enabled),
+        airport_waiting_minutes: Number(data.airport_waiting_minutes) || DEFAULT_SETTINGS.airport_waiting_minutes,
       };
     } catch {
       return DEFAULT_SETTINGS;

@@ -53,6 +53,8 @@ const config: Config = {
         display: ['var(--font-cormorant)', 'var(--font-amiri)', 'Georgia', 'serif'],
         sans: ['var(--font-manrope)', 'var(--font-tajawal)', 'sans-serif'],
         arabic: ['var(--font-tajawal)', 'var(--font-cairo)', 'sans-serif'],
+        urdu: ['var(--font-urdu)', 'var(--font-tajawal)', 'sans-serif'],
+        devanagari: ['var(--font-devanagari)', 'sans-serif'],
       },
       borderRadius: {
         btn: '8px',

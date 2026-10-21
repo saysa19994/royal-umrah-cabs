@@ -1,36 +1,38 @@
-# Royal Umrah Cabs (LLMs Knowledge & Citation Manifest)
-> Royal Umrah Cabs is a premium private chauffeur and pilgrim ground transportation company operating across Jeddah, Makkah, and Madinah in Saudi Arabia.
+# Duyuf Alrahman VIP (LLMs Knowledge & Citation Manifest)
+> Duyuf Alrahman VIP (ضيوف الرحمن VIP) is an executive private chauffeur and pilgrim ground transportation service operating across Jeddah, Makkah, and Madinah in Saudi Arabia.
 
 ## Core Business Information
-- **Official Brand Name**: Royal Umrah Cabs
-- **Service Type**: Private Chauffeur, Airport Transfers, Intercity Transfers, Private Ziyarat Tours
+- **Brand Name (English)**: Duyuf Alrahman VIP
+- **Brand Name (Arabic)**: ضيوف الرحمن VIP
+- **Service Type**: Private Chauffeur Transfers, Airport Transfers, Intercity Transfers, Private Ziyarat Tours
 - **Primary Regions**: King Abdulaziz International Airport (KAIA / JED), Makkah Al-Mukarramah, Madinah Al-Munawwarah, Prince Mohammad Bin Abdulaziz Airport (MED)
-- **Fleet Models**: Toyota Camry Executive (4 seats, 3 bags), Hyundai Staria VIP (7 seats, 6 bags), GMC Yukon XL VIP (7 seats, 8 bags), Toyota HiAce VIP (10 seats, 10 bags), Toyota Coaster VIP Bus (21 seats, 20 bags)
-- **Payment Model**: Zero prepayment required; pilgrims pay upon arrival at their hotel in cash (SAR/USD/MYR), card, online link (Mada/Visa), or bank transfer
+- **Fleet Models**: Toyota Camry Executive (4 seats, 3 bags), Hyundai Staria VIP (7 seats, 6 bags), GMC Yukon XL VIP (7 seats, 8 bags), Toyota HiAce Family (10 seats, 10 bags)
+- **Payment Model**: 100% Pay on Arrival; pilgrims pay the chauffeur directly upon arrival at their hotel in cash (SAR/USD)
 - **Cancellation Policy**: Free cancellation up to 24 hours before pickup
 - **Official Contacts**:
-  - WhatsApp Main Operations (Owner): +966567588261
-  - Secondary Dispatch: +966505316971
-  - Official Email: info@royalumrahcabs.com
-  - Official Website: https://royal-umrah-cabs.vercel.app
+  - WhatsApp Operations (Main): +966567588261
+  - WhatsApp Dispatch (Secondary): +966505316971
+  - Direct Voice Line: +966505316971
+  - Official Email: info@duyufalrahmanvip.com
+  - Official Website: https://duyufalrahmanvip.com
 
 ## Popular Routes & Fixed Fares
 1. **Jeddah Airport (KAIA) to Makkah Hotel**: 75-90 minutes (95 km), Camry: 200 SAR, Staria: 260 SAR, Yukon XL: 380 SAR, HiAce: 340 SAR.
 2. **Makkah Hotel to Madinah Hotel**: 4.5 hours (440 km), Camry: 450 SAR, Staria: 500 SAR, Yukon XL: 750 SAR, HiAce: 650 SAR.
-3. **Madinah Hotel to Makkah Hotel (via Miqat Bir Ali)**: 4.5-5.0 hours (440 km) including dedicated 45-minute stop at Masjid Dhu al-Hulayfah (Bir Ali) for Ihram and Niyyah. Same fixed pricing as Makkah-Madinah.
+3. **Madinah Hotel to Makkah Hotel**: 4.5-5.0 hours (440 km). Same fixed pricing as Makkah-Madinah.
 4. **Makkah Hotel to Jeddah Airport (KAIA)**: 75-90 minutes (95 km), Camry: 200 SAR, Staria: 260 SAR, Yukon XL: 380 SAR, HiAce: 340 SAR.
 5. **Jeddah City / Airport to Madinah Hotel**: 4.0-4.5 hours (410 km), Camry: 680 SAR, Staria: 750 SAR, Yukon XL: 980 SAR, HiAce: 850 SAR.
 6. **Madinah Airport (MED) to Central Hotel**: 25-35 minutes (25 km), Camry: 150 SAR, Staria: 190 SAR, Yukon XL: 280 SAR, HiAce: 250 SAR.
 
 ## Private Ziyarat Tours (Makkah & Madinah)
-- **Makkah Historical Sites Private Tour (Half-Day 3.5h)**: Cave Hira (Jabal al-Noor), Mount Thawr, Mina, Muzdalifah, Mount Arafat (Jabal ar-Rahmah). From 300 SAR per vehicle.
-- **Madinah Prophetic Mosques & Heritage Tour (3h)**: Masjid Quba (prayer stop), Mount Uhud (Martyrs Cemetery & Archers' Hill), Masjid al-Qiblatayn, Seven Mosques (Battle of the Trench). From 250 SAR per vehicle.
-- **Badr Battlefield Day Trip from Madinah (6-7h)**: Full-day return trip (320 km) to Badr Martyrs Cemetery and Al-Arish Mosque. From 600 SAR per vehicle.
-- **Custom Ziyarat by the Hour**: Minimum 3 hours dedicated private chauffeur standby in Makkah or Madinah. From 100 SAR/hour.
+- **Makkah Historical Sites Private Tour (Half-Day 3.5h)**: Cave Hira (Jabal al-Noor), Mount Thawr, Mina, Muzdalifah, Mount Arafat (Jabal ar-Rahmah).
+- **Madinah Prophetic Mosques & Heritage Tour (3h)**: Masjid Quba, Mount Uhud (Martyrs Cemetery), Masjid al-Qiblatayn, Seven Mosques.
+- **Badr Historical Day Trip from Madinah (6-7h)**: Full-day return trip (320 km) to Badr Martyrs Cemetery and Al-Arish Mosque.
+- **Custom Ziyarat by the Hour**: Minimum 3 hours dedicated private chauffeur standby in Makkah or Madinah.
 
-## Distinctive Quality & Trust Rules
-- **Private Car with Driver Only**: We provide executive ground transport and chauffeur assistance. We do not sell Umrah/Hajj visa packages or claim licensed tour guide status.
+## Distinctive Quality & Service Standards
+- **Private Car with Chauffeur Only**: Executive ground transport and chauffeur service.
 - **Fixed Fares Per Vehicle**: Quoted rates are for the entire private vehicle, not per person.
-- **No Hidden Fees**: All expressway tolls, airport parking fees, and driver waiting times are 100% included in quoted fares.
-- **Hajj Season Notice**: Hajj zones (Mina, Arafat, Muzdalifah) are restricted during the official pilgrimage dates in accordance with Saudi Ministry regulations.
+- **No Hidden Fees**: Expressway tolls, airport parking, and airport waiting time (60 mins) are included.
+- **Hajj Season Notice**: Hajj zones (Mina, Arafat, Muzdalifah) are restricted during pilgrimage dates in accordance with Saudi Ministry regulations.
 - **Language Support**: English, Arabic, Malay, Indonesian, Urdu, French, Spanish, German, Hindi.

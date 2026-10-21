@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import type { SiteSettings } from '@/lib/settings';
@@ -12,10 +13,8 @@ import {
   Clock,
   CheckCircle2,
   Headphones,
-  Award,
-  CreditCard,
-  Building2,
-  FileCheck2,
+  Car,
+  HandCoins,
 } from 'lucide-react';
 
 interface FooterProps {
@@ -25,8 +24,11 @@ interface FooterProps {
 }
 
 export function Footer({ locale, dict, settings }: FooterProps) {
-  const waUrl = `https://wa.me/${settings.whatsapp_number}`;
-  const telUrl = `tel:${settings.phone}`;
+  const mainWa = settings.whatsapp_number || '966567588261';
+  const secondWa = settings.whatsapp_number_secondary || '966505316971';
+  const waUrl = `https://wa.me/${mainWa}`;
+  const secondWaUrl = `https://wa.me/${secondWa}`;
+  const telUrl = `tel:${settings.phone || '+966505316971'}`;
 
   return (
     <footer className="bg-[#0A0F1D] text-slate-300 border-t border-gold/20 mt-auto pb-20 md:pb-0 relative overflow-hidden">
@@ -40,48 +42,67 @@ export function Footer({ locale, dict, settings }: FooterProps) {
           {/* COL 1: WORDMARK, SHORT TAGLINE, WHATSAPP & CALL BUTTONS */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">
             <Link href={`/${locale}`} className="inline-flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gold/30 via-gold/15 to-transparent border border-gold/40 flex items-center justify-center text-xl shadow-xs shrink-0">
-                🕋
+              <div className="w-10 h-10 rounded-lg overflow-hidden border border-gold/40 flex items-center justify-center shadow-xs shrink-0 bg-[#0A0F1D]">
+                <Image
+                  src="/icon-192.png"
+                  alt="Duyuf Alrahman VIP"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="flex flex-col text-start">
                 <span className="font-display font-bold text-lg md:text-xl uppercase tracking-wide text-white">
                   {locale === 'ar' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
                 </span>
                 <span className="text-[10px] font-bold text-gold tracking-[0.16em] uppercase">
-                  {locale === 'ar' ? 'Duyuf Alrahman VIP • نقل معتمد' : 'Executive Chauffeur Service'}
+                  {locale === 'ar' ? 'نقل خاص لضيوف الرحمن' : 'Executive Chauffeur Service'}
                 </span>
               </div>
             </Link>
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
               {locale === 'ar'
-                ? 'الخدمة التنفيذية الأولى لنقل ضيوف الرحمن بين مطار جدة ومكة المكرمة والمدينة المنورة. أسطول VIP حديث وسائقون محترفون لخدمتكم على مدار الساعة.'
-                : 'Premier private chauffeur and executive Umrah transportation across Jeddah Airport, Makkah, and Madinah. Fixed fares, zero deposits, and 24/7 dedicated assistance.'}
+                ? 'الخدمة الخاصة لنقل ضيوف الرحمن بين مطار جدة ومكة المكرمة والمدينة المنورة. أسطول VIP وسائقون محترفون لخدمتكم بأعلى معايير الراحة والالتزام.'
+                : 'Premier private chauffeur transport for Umrah pilgrims across Jeddah Airport, Makkah, and Madinah. Transparent fixed rates, zero deposit, and 24/7 assistance.'}
             </p>
 
-            {/* DIRECT ACTION BUTTONS */}
-            <div className="grid grid-cols-2 gap-2 pt-2">
-              <a
-                href={waUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-3 rounded-btn bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors shadow-xs focus-visible:ring-2 focus-visible:ring-emerald-400"
-              >
-                <MessageCircle className="w-3.5 h-3.5" />
-                <span>{dict.footer.whatsappBtn || (locale === 'ar' ? 'واتساب VIP' : 'WhatsApp')}</span>
-              </a>
+            {/* DIRECT ACTION BUTTONS (BOTH WHATSAPP NUMBERS + PHONE) */}
+            <div className="space-y-2 pt-2">
+              <div className="grid grid-cols-2 gap-2">
+                <a
+                  href={waUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-2 rounded-btn bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors shadow-xs focus-visible:ring-2 focus-visible:ring-emerald-400"
+                  aria-label="WhatsApp Operations"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>{locale === 'ar' ? 'واتساب العمليات' : 'WhatsApp Main'}</span>
+                </a>
+                <a
+                  href={secondWaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-2 rounded-btn bg-emerald-700/80 hover:bg-emerald-600 text-white text-xs font-semibold transition-colors shadow-xs focus-visible:ring-2 focus-visible:ring-emerald-400"
+                  aria-label="WhatsApp Dispatch"
+                >
+                  <Headphones className="w-3.5 h-3.5" />
+                  <span>{locale === 'ar' ? 'واتساب المتابعة' : 'WhatsApp 2'}</span>
+                </a>
+              </div>
               <a
                 href={telUrl}
-                className="inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-3 rounded-btn border border-gold/40 bg-white/5 text-gold text-xs font-semibold hover:bg-gold hover:text-slate-950 transition-colors focus-visible:ring-2 focus-visible:ring-gold"
+                className="w-full inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-3 rounded-btn border border-gold/40 bg-white/5 text-gold text-xs font-semibold hover:bg-gold hover:text-slate-950 transition-colors focus-visible:ring-2 focus-visible:ring-gold"
               >
                 <Phone className="w-3.5 h-3.5" />
-                <span>{dict.footer.callBtn || (locale === 'ar' ? 'اتصال مباشر' : 'Call Dispatch')}</span>
+                <span>{locale === 'ar' ? 'اتصال مباشر' : 'Voice Dispatch'}: {settings.phone || '+966505316971'}</span>
               </a>
             </div>
 
-            {/* TRUST LICENSING BADGE */}
+            {/* DEDICATED PILGRIM CARE BADGE */}
             <div className="pt-2 text-[11px] text-slate-400 flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-gold shrink-0" />
-              <span>{locale === 'ar' ? 'مرخص ومعتمد من الهيئة العامة للنقل (TGA)' : 'Licensed by Saudi Transport General Authority (TGA)'}</span>
+              <Car className="w-4 h-4 text-gold shrink-0" />
+              <span>{locale === 'ar' ? 'خدمة نقل خاص مخصصة لضيوف الرحمن' : 'Dedicated Private Chauffeur for Umrah Pilgrims'}</span>
             </div>
           </div>
 
@@ -103,7 +124,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
               </li>
               <li>
                 <Link href={`/${locale}/routes/madinah-to-makkah`} className="hover:text-gold transition-colors inline-block py-1">
-                  Madinah to Makkah (Miqat Stop)
+                  Madinah to Makkah
                 </Link>
               </li>
               <li>
@@ -147,7 +168,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
               </li>
               <li>
                 <Link href={`/${locale}/fleet/toyota-hiace`} className="hover:text-gold transition-colors inline-block py-1">
-                  Toyota HiAce Family (10-14 Seats)
+                  Toyota HiAce Family (10 Seats)
                 </Link>
               </li>
               <li>
@@ -225,7 +246,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
               </li>
               <li>
                 <Link href={`/${locale}/safety`} className="hover:text-gold transition-colors inline-block py-1">
-                  {locale === 'ar' ? 'معايير الأمان والسلامة' : 'Safety & Protocol'}
+                  {locale === 'ar' ? 'معايير الأمان والسلامة' : 'Safety Standards'}
                 </Link>
               </li>
               <li>
@@ -242,28 +263,36 @@ export function Footer({ locale, dict, settings }: FooterProps) {
           </div>
         </div>
 
-        {/* PAYMENT BADGES STRIP */}
+        {/* PAYMENT BADGES STRIP (SHOW ONLY PAY ON ARRIVAL BY DEFAULT - PHASE 1.6) */}
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-6">
           <div className="flex flex-col gap-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-gold">
-              {locale === 'ar' ? 'طرق الدفع المعتمدة (100% الدفع عند الوصول)' : 'Accepted Payment Methods (100% Pay on Arrival)'}
+              {locale === 'ar' ? 'طريقة الدفع (100% الدفع عند الوصول)' : 'Payment Method (100% Pay on Arrival)'}
             </span>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
-                MADA مدى
+              <span className="px-3.5 py-1.5 rounded-lg bg-gold/15 border border-gold/40 text-gold text-xs font-bold inline-flex items-center gap-1.5">
+                <HandCoins className="w-3.5 h-3.5" />
+                <span>{locale === 'ar' ? 'الدفع نقداً للسائق عند الوصول (SAR / USD)' : 'Cash to Chauffeur on Arrival (SAR / USD)'}</span>
               </span>
-              <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
-                Visa
-              </span>
-              <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
-                Mastercard
-              </span>
-              <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
-                Apple Pay
-              </span>
-              <span className="px-3 py-1 rounded bg-gold/20 border border-gold/40 text-gold text-xs font-bold">
-                {locale === 'ar' ? 'نقداً للسائق SAR / USD' : 'Cash to Driver SAR / USD'}
-              </span>
+
+              {/* Conditional Online Card / Mada (hidden by default behind flag) */}
+              {settings.online_card_payment_enabled && (
+                <>
+                  <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
+                    MADA مدى
+                  </span>
+                  <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
+                    Visa / Mastercard
+                  </span>
+                </>
+              )}
+
+              {/* Conditional Bank Transfer (hidden by default behind flag) */}
+              {settings.bank_transfer_payment_enabled && (
+                <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
+                  {locale === 'ar' ? 'تحويل بنكي سعودي' : 'Saudi Bank Transfer'}
+                </span>
+              )}
             </div>
           </div>
 
@@ -289,7 +318,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
           </div>
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-gold shrink-0" />
-            <span>{dict.trust_strip.flightTracking}</span>
+            <span>{locale === 'ar' ? `${settings.airport_waiting_minutes || 60} دقيقة انتظار مجاني بالمطار` : `${settings.airport_waiting_minutes || 60} Min Airport Wait Time`}</span>
           </div>
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-gold shrink-0" />

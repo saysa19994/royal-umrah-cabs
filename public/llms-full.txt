@@ -1,97 +1,36 @@
-# Royal Umrah Cabs - Complete AI Citation & Knowledge Base
-URL: https://royal-umrah-cabs.vercel.app/
-Contact WhatsApp Main: +966567588261 (966567588261)
-Contact WhatsApp Secondary: +966505316971 (966505316971)
-Official Email: info@royalumrahcabs.com
+# Duyuf Alrahman VIP (Full Technical, Route & Fleet Knowledge Base)
+> Brand: Duyuf Alrahman VIP | ضيوف الرحمن VIP
+> Domain: https://duyufalrahmanvip.com
+> Email: info@duyufalrahmanvip.com
+> WhatsApp Main Operations: +966567588261
+> WhatsApp Secondary Dispatch: +966505316971
+> Voice Call Dispatch: +966505316971
 
-## 1. Company Profile & Overview
-Royal Umrah Cabs is a dedicated private chauffeur and pilgrim ground transportation service operating across Jeddah, Makkah, and Madinah in Saudi Arabia. The company provides professional, discreet, and reliable airport transfers, intercity transfers, and ziyarat tours for Umrah and Hajj pilgrims, visiting families, and executive travelers.
+## 1. Brand & Positioning
+Duyuf Alrahman VIP provides private executive chauffeur transfers for Umrah pilgrims and international travelers in the Kingdom of Saudi Arabia. Operating across Jeddah, Makkah, and Madinah (Riyadh available when enabled by feature flag).
 
-### Trust Signals & Verified Service Standards
-- Genuine verified pilgrim feedback on Google Reviews from travelers across the United Kingdom, Malaysia, Indonesia, Pakistan, and the GCC.
-- Modern sanitized fleet consisting of Hyundai Staria VIP, GMC Yukon XL, Toyota Camry, and Toyota HiAce.
-- Strict non-smoking policy enforced across all cabins.
-- Verified courteous chauffeurs fluent in Arabic, English, Malay, and Urdu with local road expertise.
+## 2. Fleet Specifications
+- **Toyota Camry Executive**: 4 passengers, 3 standard luggage bags.
+- **Hyundai Staria VIP**: 7 passengers, 6 luggage bags.
+- **GMC Yukon XL VIP**: 7 passengers, 8 luggage bags.
+- **Toyota HiAce Family Minibus**: 10 passengers, 10 luggage bags.
 
----
+## 3. Authoritative Route Matrix (SAR)
+- Jeddah Airport to Makkah: Camry 200 | Staria 260 | Yukon XL 380 | HiAce 340
+- Makkah to Jeddah Airport: Camry 200 | Staria 260 | Yukon XL 380 | HiAce 340
+- Makkah to Madinah: Camry 450 | Staria 500 | Yukon XL 750 | HiAce 650
+- Madinah to Makkah: Camry 450 | Staria 500 | Yukon XL 750 | HiAce 650
+- Madinah Airport to Hotel: Camry 150 | Staria 190 | Yukon XL 280 | HiAce 250
+- Jeddah to Madinah: Camry 680 | Staria 750 | Yukon XL 980 | HiAce 850
 
-## 2. Core Value Proposition & Service Policies
+## 4. Payment & Booking Policy
+- 100% Pay on Arrival: Cash directly to chauffeur upon delivery at hotel in SAR or USD.
+- Zero prepayment required.
+- Free cancellation up to 24 hours prior to pickup.
+- Airport waiting time: 60 minutes complimentary from flight landing.
 
-### 2.1. 100% Pay on Arrival (Zero Advance Prepayment Required)
-Unlike platforms that require advance credit card payments or non-refundable deposits, Royal Umrah Cabs operates on a 100% Pay-on-Arrival policy:
-- Pilgrims complete their booking online or on WhatsApp and receive an immediate reference voucher (e.g., RUC-XXXXX).
-- Payment is made directly to the chauffeur upon safe arrival at the destination hotel.
-- Accepted payment methods: Cash in Saudi Riyals (SAR), US Dollars (USD), British Pounds (GBP), Euros (EUR), Malaysian Ringgit (MYR), or Indonesian Rupiah (IDR), or credit/debit card on arrival.
-
-### 2.2. Terminal Meet & Greet with Flight Delay Monitoring
-- For pickups at King Abdulaziz International Airport (KAIA / JED) in Jeddah and Prince Mohammad Bin Abdulaziz International Airport (MED) in Madinah:
-- Chauffeurs arrive prior to flight touchdown with automated flight delay tracking synchronized with airport displays.
-- Chauffeur greets the pilgrim family outside arrivals with a digital or physical nameplate and assists with all luggage.
-- 60 minutes complimentary waiting time after physical flight landing.
-
-### 2.3. Transparent All-Inclusive Fixed Pricing
-All fares quoted on the platform are fixed, guaranteed, and include:
-- All highway expressway tolls and fees.
-- Airport parking and terminal pick-up charges.
-- Value Added Tax (VAT).
-- Zero surge pricing or unexpected surcharges.
-
-### 2.4. In-Vehicle Amenities
-- High-performance climate control air conditioning built for Saudi weather.
-- Ergonomic, comfortable executive seating with armrests and headrests.
-- Dedicated deep luggage space accommodating full suitcase sets and Zamzam containers.
-- Chilled bottled drinking water provided on all journeys.
-- USB-C and rapid mobile device charging ports.
-
----
-
-## 3. Fleet Categories & Specifications
-
-### 3.1. Hyundai Staria VIP (Family Van)
-- Passenger Capacity: Up to 7 passengers.
-- Luggage Capacity: 6 large suitcases + carry-on bags.
-- Best suited for: Pilgrim families traveling between Jeddah, Makkah, and Madinah.
-- Key Amenities: Dual-zone climate control, panoramic windows, captain seats, USB charging.
-
-### 3.2. GMC Yukon XL VIP (Ultra-Luxury SUV)
-- Passenger Capacity: Up to 7 passengers.
-- Luggage Capacity: 8 large suitcases.
-- Best suited for: VIP delegations, executives, and families seeking maximum cabin quietness and space.
-- Key Amenities: Acoustic double-glazed glass, leather seating, tri-zone AC, massive cargo hold.
-
-### 3.3. Toyota Camry Executive (Executive Sedan)
-- Passenger Capacity: Up to 4 passengers.
-- Luggage Capacity: 3 standard suitcases.
-- Best suited for: Solo pilgrims, couples, or business travelers.
-- Key Amenities: Quiet ride, high-efficiency AC, dependable highway transit.
-
-### 3.4. Toyota HiAce VIP (Family & Group Minibus)
-- Passenger Capacity: Up to 10 passengers.
-- Luggage Capacity: 10 large suitcases.
-- Best suited for: Large extended families, Umrah group packages, and tour groups.
-- Key Amenities: High-roof standing headroom, wide central walk-through aisle, individual AC louvers.
-
----
-
-## 4. Comprehensive Route & Guaranteed Fixed Pricing (SAR)
-
-| Route | Distance | Camry (4 Pax) | Staria (7 Pax) | Yukon XL (7 Pax) | HiAce (10 Pax) |
-|---|---|---|---|---|---|
-| Jeddah Airport (KAIA) to Makkah Hotel | 95 km (75-90 min) | 200 SAR | 260 SAR | 380 SAR | 340 SAR |
-| Makkah Hotel to Jeddah Airport (KAIA) | 95 km (75-90 min) | 200 SAR | 260 SAR | 380 SAR | 340 SAR |
-| Makkah Hotel to Madinah Hotel | 440 km (4.5 hrs) | 450 SAR | 500 SAR | 750 SAR | 650 SAR |
-| Madinah Hotel to Makkah (via Miqat Bir Ali) | 440 km (4.5-5 hrs) | 450 SAR | 500 SAR | 750 SAR | 650 SAR |
-| Jeddah Airport / City to Madinah Hotel | 410 km (4-4.5 hrs) | 680 SAR | 750 SAR | 980 SAR | 850 SAR |
-| Madinah Airport (MED) to Central Hotel | 25 km (25-35 min) | 150 SAR | 190 SAR | 280 SAR | 250 SAR |
-| Makkah Holy Sites Ziyarat Tour (3 hrs) | Holy Sites | 200 SAR | 280 SAR | 450 SAR | 380 SAR |
-| Madinah Holy Sites Ziyarat Tour (3 hrs) | Holy Sites | 180 SAR | 250 SAR | 400 SAR | 350 SAR |
-
----
-
-## 5. Booking & Reservation Procedure
-1. Visit https://royal-umrah-cabs.vercel.app/ or send a message to WhatsApp +966567588261.
-2. Select pickup location, drop-off destination, date, time, passenger count, luggage count, and vehicle class.
-3. System outputs guaranteed fixed price in SAR or selected currency.
-4. Booking is confirmed instantly with unique reference number (e.g., RUC-74291).
-5. Driver details (name, phone, vehicle plate) sent prior to departure.
-6. Pay your driver upon arrival at your destination hotel.
+## 5. Technology Stack & Security
+- Next.js 15 App Router, TypeScript, Tailwind CSS, Supabase PostgreSQL with Row Level Security (RLS).
+- Two-Factor Authentication (AAL2 TOTP) mandatory for owner and admin staff.
+- Cloudflare Turnstile bot protection on all public submission forms.
+- Sliding-window rate limiting on all public API endpoints.

@@ -62,3 +62,28 @@ test('Turnstile Security: Identifies production environment configuration requir
   // Verify server rejects missing tokens fail-closed
   assert.ok(turnstileServer.includes('if (!token)'), 'Server-side turnstile strictly rejects requests without token');
 });
+
+test('Phase 1 Truth, Brand & Hygiene: Unverifiable claims removed from components and footers', () => {
+  const footerContent = fs.readFileSync(path.resolve('src/components/layout/Footer.tsx'), 'utf-8');
+  const homeContent = fs.readFileSync(path.resolve('src/components/home/HomeSections.tsx'), 'utf-8');
+  const pageContent = fs.readFileSync(path.resolve('src/app/[locale]/page.tsx'), 'utf-8');
+
+  // Verify no TGA claim
+  assert.ok(!footerContent.includes('Transport General Authority') && !footerContent.includes('TGA'), 'No TGA claim in footer');
+
+  // Verify no "Official" prefix in guides or routes
+  assert.ok(!pageContent.includes('Official Umrah Travel Guides'), 'No Official Umrah Travel Guides wording');
+  assert.ok(!homeContent.includes('Official Pilgrim Routes'), 'No Official Pilgrim Routes wording');
+
+  // Verify no Protocol wording in travel
+  assert.ok(!homeContent.includes('Executive & Protocol Travel'), 'No Protocol travel wording');
+
+  // Verify brand icons exist
+  assert.ok(fs.existsSync(path.resolve('public/icon-192.png')), 'icon-192.png exists');
+  assert.ok(fs.existsSync(path.resolve('public/icon-512.png')), 'icon-512.png exists');
+  assert.ok(fs.existsSync(path.resolve('src/app/manifest.webmanifest')), 'manifest.webmanifest exists');
+
+  // Verify 301 host redirect in middleware
+  const middlewareContent = fs.readFileSync(path.resolve('src/middleware.ts'), 'utf-8');
+  assert.ok(middlewareContent.includes('.vercel.app') && middlewareContent.includes('301'), 'Middleware has 301 redirect for .vercel.app');
+});

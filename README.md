@@ -178,7 +178,7 @@ UPSTASH_REDIS_REST_TOKEN=your-upstash-redis-rest-token
 
 # Transactional Email Dispatcher (Resend - Optional / Recommended for ownership transfer emails)
 RESEND_API_KEY=your-resend-api-key
-RESEND_FROM="Royal Umrah Cabs Security <security@royalumrahcabs.com>"
+RESEND_FROM="Duyuf Alrahman VIP Security <security@duyufalrahmanvip.com>"
 
 # Production Domain & App Metadata
 NEXT_PUBLIC_SITE_URL=https://royal-umrah-cabs.vercel.app

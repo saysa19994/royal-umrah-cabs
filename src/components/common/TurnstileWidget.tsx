@@ -67,7 +67,7 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
       let isMounted = true;
 
       const initTurnstile = () => {
-        if (!isMounted || !containerRef.current || !window.turnstile) return;
+        if (!isMounted || !containerRef.current || !window.turnstile || !siteKey) return;
 
         // Clean up previous widget instance if container already has one
         if (widgetIdRef.current) {

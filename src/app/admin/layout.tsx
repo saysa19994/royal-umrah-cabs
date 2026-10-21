@@ -7,7 +7,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { manrope } from '@/app/fonts';
 
 export const metadata = {
-  title: 'Admin Operations Portal | Royal Umrah Cabs',
+  title: 'Admin Operations Portal | Duyuf Alrahman VIP',
   robots: {
     index: false,
     follow: false,
@@ -124,11 +124,17 @@ export default async function AdminLayout({
     <AdminShell>
       <div className="min-h-screen bg-[#0D0F12] text-[#F3EEE6] flex flex-col font-sans">
         <AdminNavbar initialUser={profile} />
+                {/* TURNSTILE CONFIGURATION WARNING IN PRODUCTION */}
+        {process.env.NODE_ENV === 'production' && (!process.env.TURNSTILE_SECRET_KEY || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || process.env.TURNSTILE_SECRET_KEY.includes('placeholder')) && (
+          <div className="bg-amber-950/80 border-b border-amber-600/50 px-4 py-3 text-amber-200 text-xs text-center flex items-center justify-center gap-2">
+            <span>⚠️ <strong>Security Notice:</strong> Cloudflare Turnstile keys (NEXT_PUBLIC_TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY) are missing or set to placeholder. Public booking and tracking APIs are in fail-closed 503 mode until valid production keys are configured.</span>
+          </div>
+        )}
         <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
           {children}
         </main>
         <footer className="border-t border-[#262B33] py-4 px-6 text-center text-xs text-[#6C7584]">
-          <span>Royal Umrah Cabs Operations Portal • Protected with RBAC &amp; Mandatory TOTP</span>
+          <span>Duyuf Alrahman VIP Operations Portal • Protected with RBAC &amp; Mandatory TOTP</span>
         </footer>
       </div>
     </AdminShell>

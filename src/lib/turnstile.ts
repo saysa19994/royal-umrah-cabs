@@ -1,7 +1,8 @@
 /**
  * Cloudflare Turnstile token verification helper.
  * Validates the cf-turnstile-response token submitted with public forms.
- * Rejects any request missing a token, and uses Cloudflare test secret key in development.
+ * Rejects any request missing a token.
+ * In production: NEVER falls back to test keys. Missing keys return 503 Service Unavailable.
  */
 
 const DEV_TEST_SECRET = '1x0000000000000000000000000000000AA';
@@ -9,21 +10,47 @@ const DEV_TEST_SECRET = '1x0000000000000000000000000000000AA';
 export async function verifyTurnstileToken(
   token: string | null | undefined,
   remoteIp?: string
-): Promise<{ success: boolean; error?: string }> {
-  // Always strictly fail if token is missing
-  if (!token) {
-    return { success: false, error: 'Anti-bot verification required (missing Turnstile token)' };
+): Promise<{ success: boolean; error?: string; status?: number }> {
+  const isProd = process.env.NODE_ENV === 'production';
+  const hasSecret = Boolean(
+    process.env.TURNSTILE_SECRET_KEY &&
+    !process.env.TURNSTILE_SECRET_KEY.includes('placeholder')
+  );
+  const hasSiteKey = Boolean(
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY &&
+    !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY.includes('placeholder')
+  );
+
+  // Phase 1.3: In production, missing Turnstile configuration returns 503
+  if (isProd && (!hasSecret || !hasSiteKey)) {
+    return {
+      success: false,
+      error: 'Security verification is temporarily unavailable (503). Please contact dispatch directly on WhatsApp.',
+      status: 503,
+    };
   }
 
-  const secretKey =
-    process.env.TURNSTILE_SECRET_KEY && !process.env.TURNSTILE_SECRET_KEY.includes('placeholder')
-      ? process.env.TURNSTILE_SECRET_KEY
-      : process.env.NODE_ENV !== 'production'
-      ? DEV_TEST_SECRET
-      : null;
+  // Always strictly fail if token is missing
+  if (!token) {
+    return {
+      success: false,
+      error: 'Anti-bot verification required (missing Turnstile token)',
+      status: 400,
+    };
+  }
+
+  const secretKey = hasSecret
+    ? process.env.TURNSTILE_SECRET_KEY!
+    : !isProd
+    ? DEV_TEST_SECRET
+    : null;
 
   if (!secretKey) {
-    return { success: false, error: 'Anti-bot verification configuration missing on server' };
+    return {
+      success: false,
+      error: 'Anti-bot verification configuration missing on server',
+      status: 503,
+    };
   }
 
   try {
@@ -47,9 +74,14 @@ export async function verifyTurnstileToken(
     return {
       success: false,
       error: 'Anti-bot verification failed. Please refresh and try again.',
+      status: 400,
     };
   } catch (err: any) {
     console.error('Turnstile verification error:', err);
-    return { success: false, error: 'Verification service unreachable' };
+    return {
+      success: false,
+      error: 'Verification service unreachable',
+      status: 503,
+    };
   }
 }

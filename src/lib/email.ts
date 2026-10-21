@@ -30,7 +30,7 @@ export async function sendOwnershipTransferEmail(
 
   if (resendApiKey) {
     try {
-      const fromAddress = process.env.RESEND_FROM || 'Royal Umrah Cabs Security <security@royalumrahcabs.com>';
+      const fromAddress = process.env.RESEND_FROM || 'Duyuf Alrahman VIP Security <security@duyufalrahmanvip.com>';
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {

@@ -8,7 +8,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingUI } from '@/components/layout/FloatingUI';
 import { JsonLd } from '@/components/seo/JsonLd';
-import { cormorant, manrope, amiri, tajawal } from '@/app/fonts';
+import { cormorant, manrope, amiri, tajawal, notoDevanagari, notoUrdu } from '@/app/fonts';
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -20,10 +20,7 @@ export async function generateMetadata(
   }
 ): Promise<Metadata> {
   const params = await props.params;
-
-  const {
-    locale
-  } = params;
+  const { locale } = params;
 
   if (!LOCALES.includes(locale as Locale)) return {};
   const validLocale = locale as Locale;
@@ -37,9 +34,9 @@ export async function generateMetadata(
       template: `%s | ${dict.meta.brand}`,
     },
     description: dict.meta.seoDescription,
-    authors: [{ name: 'Royal Umrah Cabs Dispatch Team' }],
-    creator: 'Royal Umrah Cabs',
-    publisher: 'Royal Umrah Cabs',
+    authors: [{ name: 'Duyuf Alrahman VIP Chauffeur Team' }],
+    creator: 'Duyuf Alrahman VIP',
+    publisher: 'Duyuf Alrahman VIP',
     robots: {
       index: true,
       follow: true,
@@ -84,9 +81,9 @@ export async function generateMetadata(
       siteName: dict.meta.brand,
       images: [
         {
-          url: `${baseUrl}/assets/images/og-image.jpg`,
-          width: 1200,
-          height: 630,
+          url: `${baseUrl}/icon-512.png`,
+          width: 512,
+          height: 512,
           alt: `${dict.meta.brand} - VIP Pilgrim Transport`,
         },
       ],
@@ -96,26 +93,22 @@ export async function generateMetadata(
       card: 'summary_large_image',
       title: dict.meta.seoTitle,
       description: dict.meta.seoDescription,
-      images: [`${baseUrl}/assets/images/og-image.jpg`],
+      images: [`${baseUrl}/icon-512.png`],
     },
   };
 }
 
-export default async function LocaleLayout(
-  props: {
-    children: React.ReactNode;
-    params: Promise<{ locale: string }>;
-  }
-) {
+interface LocaleLayoutProps {
+  children: React.ReactNode;
+  params: Promise<{
+    locale: string;
+  }>;
+}
+
+export default async function LocaleLayout(props: LocaleLayoutProps) {
   const params = await props.params;
-
-  const {
-    locale
-  } = params;
-
-  const {
-    children
-  } = props;
+  const { locale } = params;
+  const { children } = props;
 
   if (!LOCALES.includes(locale as Locale)) {
     notFound();
@@ -131,7 +124,7 @@ export default async function LocaleLayout(
     <html
       lang={validLocale}
       dir={dir}
-      className={`${cormorant.variable} ${manrope.variable} ${amiri.variable} ${tajawal.variable}`}
+      className={`${cormorant.variable} ${manrope.variable} ${amiri.variable} ${tajawal.variable} ${notoDevanagari.variable} ${notoUrdu.variable}`}
     >
       <body className="min-h-screen flex flex-col font-sans bg-bg text-body antialiased selection:bg-gold-soft selection:text-ink">
         <JsonLd locale={validLocale} dict={dict} settings={settings} />

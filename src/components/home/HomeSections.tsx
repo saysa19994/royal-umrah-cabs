@@ -136,10 +136,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       intImg: '/assets/images/camry_interior.webp',
       desc: locale === 'ar' ? 'مثالية للأفراد والأزواج والعائلات الصغيرة مع حقائب قياسية وتكييف فائق الراحة.' : 'A modern, immaculately maintained sedan for solo airport runs and couple pilgrimages.',
       features: [
-        { title: locale === 'ar' ? 'مياه نقية' : 'Water', desc: locale === 'ar' ? 'عبوات منعشة' : 'Fresh Bottles', icon: Droplet },
-        { title: locale === 'ar' ? 'مقصورة معقمة' : 'Clean Cabin', desc: locale === 'ar' ? 'تنظيف يومي فاخر' : 'Daily Serviced', icon: Sparkles },
-        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Driver', desc: locale === 'ar' ? 'خبير بمسارات الحرمين' : 'Route Expert', icon: Award },
-        { title: locale === 'ar' ? 'تأمين شامل' : 'Insurance', desc: locale === 'ar' ? 'معتمد نظامياً' : 'Saudi Compliant', icon: ShieldCheck },
+        { title: locale === 'ar' ? 'تكييف هوائي' : 'Air conditioning', desc: locale === 'ar' ? 'تبريد فائق' : 'High Performance', icon: Sparkles },
+        { title: locale === 'ar' ? 'مقصورة نظيفة' : 'Clean Cabin', desc: locale === 'ar' ? 'عناية فائقة' : 'Sanitized Daily', icon: Sparkles },
+        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Chauffeur', desc: locale === 'ar' ? 'خبير بمسارات مكة والمدينة' : 'Route Specialist', icon: Award },
+        { title: locale === 'ar' ? 'سعة أمتعة واسعة' : 'Luggage Space', desc: locale === 'ar' ? 'حقائب وزمزم' : 'Ample Trunk', icon: ShieldCheck },
       ],
     },
     {
@@ -155,10 +155,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       intImg: '/assets/images/staria_interior.webp',
       desc: locale === 'ar' ? 'الخيار المفضل للعائلات بمقاعد كابتن جلدية فاخرة وأبواب منزلقة وسعة رحبة للحقائب.' : 'The executive standard for Umrah families with captain seats and expansive cargo volume.',
       features: [
-        { title: locale === 'ar' ? 'مياه نقية' : 'Water', desc: locale === 'ar' ? 'عبوات منعشة' : 'Fresh Bottles', icon: Droplet },
-        { title: locale === 'ar' ? 'مقصورة معقمة' : 'Clean Cabin', desc: locale === 'ar' ? 'تنظيف يومي فاخر' : 'Daily Serviced', icon: Sparkles },
-        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Driver', desc: locale === 'ar' ? 'خبير بمسارات الحرمين' : 'Route Expert', icon: Award },
-        { title: locale === 'ar' ? 'تأمين شامل' : 'Insurance', desc: locale === 'ar' ? 'معتمد نظامياً' : 'Saudi Compliant', icon: ShieldCheck },
+        { title: locale === 'ar' ? 'تكييف هوائي' : 'Air conditioning', desc: locale === 'ar' ? 'تبريد فائق' : 'High Performance', icon: Sparkles },
+        { title: locale === 'ar' ? 'مقصورة نظيفة' : 'Clean Cabin', desc: locale === 'ar' ? 'عناية فائقة' : 'Sanitized Daily', icon: Sparkles },
+        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Chauffeur', desc: locale === 'ar' ? 'خبير بمسارات مكة والمدينة' : 'Route Specialist', icon: Award },
+        { title: locale === 'ar' ? 'سعة أمتعة واسعة' : 'Luggage Space', desc: locale === 'ar' ? 'حقائب وزمزم' : 'Ample Trunk', icon: ShieldCheck },
       ],
     },
     {
@@ -174,10 +174,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       intImg: '/assets/images/yukon_interior.webp',
       desc: locale === 'ar' ? 'قمة الفخامة والوقار لكبار الشخصيات والعائلات مع صندوق أمتعة عملاق يتسع لكافة الحقائب ومياه زمزم.' : 'Ultimate presidential luxury and expansive cargo space designed for VIP delegations and large families.',
       features: [
-        { title: locale === 'ar' ? 'مياه نقية' : 'Water', desc: locale === 'ar' ? 'عبوات منعشة' : 'Fresh Bottles', icon: Droplet },
-        { title: locale === 'ar' ? 'مقصورة معقمة' : 'Clean Cabin', desc: locale === 'ar' ? 'تنظيف يومي فاخر' : 'Daily Serviced', icon: Sparkles },
-        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Driver', desc: locale === 'ar' ? 'خبير بمسارات الحرمين' : 'Route Expert', icon: Award },
-        { title: locale === 'ar' ? 'تأمين شامل' : 'Insurance', desc: locale === 'ar' ? 'معتمد نظامياً' : 'Saudi Compliant', icon: ShieldCheck },
+        { title: locale === 'ar' ? 'تكييف هوائي' : 'Air conditioning', desc: locale === 'ar' ? 'تبريد فائق' : 'High Performance', icon: Sparkles },
+        { title: locale === 'ar' ? 'مقصورة نظيفة' : 'Clean Cabin', desc: locale === 'ar' ? 'عناية فائقة' : 'Sanitized Daily', icon: Sparkles },
+        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Chauffeur', desc: locale === 'ar' ? 'خبير بمسارات مكة والمدينة' : 'Route Specialist', icon: Award },
+        { title: locale === 'ar' ? 'سعة أمتعة واسعة' : 'Luggage Space', desc: locale === 'ar' ? 'حقائب وزمزم' : 'Ample Trunk', icon: ShieldCheck },
       ],
     },
     {
@@ -193,10 +193,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       intImg: '/assets/images/hiace_interior.webp',
       desc: locale === 'ar' ? 'مثالية للمجموعات الكبيرة والأسر الممتدة لتوفير تكلفة سيارتين والسفر معاً براحة تامة.' : 'Spacious group minibus keeping extended families together in air-conditioned comfort.',
       features: [
-        { title: locale === 'ar' ? 'مياه نقية' : 'Water', desc: locale === 'ar' ? 'عبوات منعشة' : 'Fresh Bottles', icon: Droplet },
-        { title: locale === 'ar' ? 'مقصورة معقمة' : 'Clean Cabin', desc: locale === 'ar' ? 'تنظيف يومي فاخر' : 'Daily Serviced', icon: Sparkles },
-        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Driver', desc: locale === 'ar' ? 'خبير بمسارات الحرمين' : 'Route Expert', icon: Award },
-        { title: locale === 'ar' ? 'تأمين شامل' : 'Insurance', desc: locale === 'ar' ? 'معتمد نظامياً' : 'Saudi Compliant', icon: ShieldCheck },
+        { title: locale === 'ar' ? 'تكييف هوائي' : 'Air conditioning', desc: locale === 'ar' ? 'تبريد فائق' : 'High Performance', icon: Sparkles },
+        { title: locale === 'ar' ? 'مقصورة نظيفة' : 'Clean Cabin', desc: locale === 'ar' ? 'عناية فائقة' : 'Sanitized Daily', icon: Sparkles },
+        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Chauffeur', desc: locale === 'ar' ? 'خبير بمسارات مكة والمدينة' : 'Route Specialist', icon: Award },
+        { title: locale === 'ar' ? 'سعة أمتعة واسعة' : 'Luggage Space', desc: locale === 'ar' ? 'حقائب وزمزم' : 'Ample Trunk', icon: ShieldCheck },
       ],
     },
   ];
@@ -232,7 +232,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
     },
     {
       id: 'executive-corporate',
-      title: locale === 'ar' ? 'النقل التنفيذي والبروتوكول' : 'Executive & Protocol Travel',
+      title: locale === 'ar' ? 'النقل التنفيذي الخاص لكبار الشخصيات' : 'Executive VIP Chauffeur Travel',
       subtitle: locale === 'ar' ? 'سيارات VIP فاخرة لرجال الأعمال والوفود' : 'VIP SUVs and hourly chauffeur hire',
       img: '/assets/images/hiace_exterior.webp',
       icon: Building2,
@@ -285,7 +285,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
     {
       q: locale === 'ar' ? 'ماذا لو تأخرت رحلة الطيران أو استغرقت الجوازات وقتاً طويلاً؟' : 'What happens if my flight is delayed or immigration takes time?',
       a: locale === 'ar'
-        ? 'نحن نتتبع رقم رحلتك مباشرة عبر رادار الطيران، ويشمل حجزك 90 دقيقة انتظار مجانية كاملة تبدأ بعد هبوط الطائرة الفعلي، مع دعم متواصل عبر واتساب.'
+        ? 'نحن نتتبع رقم رحلتك مباشرة عبر رادار الطيران، ويشمل حجزك ${settings.airport_waiting_minutes || 60} دقيقة انتظار مجاني بالمطارة كاملة تبدأ بعد هبوط الطائرة الفعلي، مع دعم متواصل عبر واتساب.'
         : 'We track your flight live via international aviation radar. Your reservation includes 90 minutes of complimentary waiting time starting after actual touchdown.',
     },
     {
@@ -412,7 +412,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
                 <Compass className="w-3.5 h-3.5 text-gold-dark" />
-                <span>{locale === 'ar' ? 'المسارات المعتمدة' : 'Official Pilgrim Routes'}</span>
+                <span>{locale === 'ar' ? 'المسارات المعتمدة' : 'Popular Umrah Routes'}</span>
               </div>
               <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
                 {locale === 'ar' ? 'مسارات الحرمين الشريفين والنقل بين المدن' : 'Jeddah, Makkah & Madinah Routes'}
@@ -570,11 +570,11 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 <Clock className="w-5 h-5" />
               </div>
               <h3 className="font-display font-bold text-lg text-white mb-2">
-                {locale === 'ar' ? '90 دقيقة انتظار مجاني' : '90-Min Free Airport Waiting'}
+                {locale === 'ar' ? '${settings.airport_waiting_minutes || 60} دقيقة انتظار مجاني بالمطار' : '${settings.airport_waiting_minutes || 60}-Min Free Airport Waiting'}
               </h3>
               <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
                 {locale === 'ar'
-                  ? 'خذ وقتك في استلام الأمتعة وإنهاء الجوازات وشراء الشرائح؛ السائق ينتظرك حتى 90 دقيقة مجاناً بعد الهبوط.'
+                  ? 'خذ وقتك في استلام الأمتعة وإنهاء الجوازات وشراء الشرائح؛ السائق ينتظرك حتى ${settings.airport_waiting_minutes || 60} دقيقة مجاناً بعد الهبوط.'
                   : 'Generous complimentary wait time allowing you to clear immigration and baggage claim completely stress-free.'}
               </p>
             </div>
@@ -925,7 +925,8 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       {/* ============================================================== */}
       <section className="py-16 md:py-24 bg-alabaster border-t border-border text-start">
         <div className="container mx-auto px-4 max-w-7xl">
-          {/* TESTIMONIALS */}
+          {/* TESTIMONIALS (ONLY RENDER IF CONFIGURED IN SETTINGS - PHASE 1.4) */}
+          {settings.google_reviews_link && settings.google_reviews_count > 0 && (
           <div className="mb-20">
             <div className="text-center max-w-3xl mx-auto mb-14">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
@@ -976,6 +977,8 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               ))}
             </div>
           </div>
+
+          )}
 
           {/* COMPREHENSIVE FAQ ACCORDION */}
           <div id="faq" className="max-w-4xl mx-auto pt-8">
