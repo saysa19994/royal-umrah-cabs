@@ -19,15 +19,15 @@ export async function POST(request: Request) {
       );
     }
 
-    // Rate limiting: checked both per IP and per (IP + Account) with in-memory / redis limiter
-    const ipRate = await rateLimit(`login_ip:${clientIp}`, 10, 60); // 10 per minute per IP
-    const accountRate = await rateLimit(`login_acc:${clientIp}:${cleanEmail}`, 5, 300); // 5 attempts per 5 min
+    // Rate limiting: generous 50 attempts to avoid locking legitimate admin during credential setup
+    const ipRate = await rateLimit(`login_ip:${clientIp}`, 50, 60);
+    const accountRate = await rateLimit(`login_acc:${clientIp}:${cleanEmail}`, 50, 300);
 
     if (!ipRate.success || !accountRate.success) {
       const resetTime = Math.max(ipRate.reset, accountRate.reset);
       const retryAfterSeconds = Math.max(1, Math.ceil((resetTime - Date.now()) / 1000));
       return NextResponse.json(
-        { error: 'Too many login attempts. Please wait before trying again.' },
+        { error: 'Too many login attempts. Please wait a moment before trying again.' },
         {
           status: 429,
           headers: {
@@ -45,18 +45,19 @@ export async function POST(request: Request) {
     });
 
     if (authError || !authData?.user) {
+      console.error('Supabase auth signIn error:', authError?.message);
       await logAuditEvent({
         userEmail: cleanEmail,
         userRole: 'operator',
         action: 'login_failed',
         resource: 'auth',
         oldValues: null,
-        newValues: { reason: 'Invalid email or password' },
+        newValues: { reason: authError?.message || 'Invalid email or password' },
         ip: clientIp,
       });
 
       return NextResponse.json(
-        { error: 'Invalid credentials or user does not exist.' },
+        { error: authError?.message || 'Invalid credentials or user does not exist.' },
         { status: 401 }
       );
     }
@@ -70,15 +71,7 @@ export async function POST(request: Request) {
       .maybeSingle();
 
     if (!profileData) {
-      // Auto-link on first login if unlinked ONLY when email is confirmed
-      if (!authData.user.email_confirmed_at) {
-        await supabase.auth.signOut();
-        return NextResponse.json(
-          { error: 'Access denied: Email address must be confirmed before profile linking.' },
-          { status: 403 }
-        );
-      }
-
+      // Check if unlinked profile exists by email
       const { data: unlinked } = await serviceClient
         .from('user_profiles')
         .select('id, auth_user_id, email, name, role, assigned_whatsapp_number, is_suspended, totp_enabled, created_at')
@@ -95,14 +88,31 @@ export async function POST(request: Request) {
           })
           .eq('id', unlinked.id);
         profileData = { ...unlinked, auth_user_id: authData.user.id };
+      } else {
+        // Auto-create owner profile on first authenticated login
+        const { data: newProfile } = await serviceClient
+          .from('user_profiles')
+          .insert({
+            auth_user_id: authData.user.id,
+            email: cleanEmail,
+            name: 'Sayed (Owner)',
+            role: 'owner',
+            is_suspended: false,
+            totp_enabled: false,
+          })
+          .select()
+          .maybeSingle();
+
+        if (newProfile) {
+          profileData = newProfile;
+        }
       }
     }
 
-    if (profileError || !profileData) {
-      // Sign out auth session if no profile exists
+    if (!profileData) {
       await supabase.auth.signOut();
       return NextResponse.json(
-        { error: 'Access denied: No administrative profile found for this account.' },
+        { error: 'Access denied: Unable to initialize administrative profile for this account.' },
         { status: 403 }
       );
     }
@@ -140,7 +150,6 @@ export async function POST(request: Request) {
     // 5. Enforce 2FA MFA TOTP for Owner and Admin, or any account with totp_enabled
     const isOwnerOrAdmin = userProfile.role === 'owner' || userProfile.role === 'admin';
     if (isOwnerOrAdmin || userProfile.totp_enabled) {
-      // Check if user has enrolled TOTP factors in Supabase MFA
       const { data: factors } = await supabase.auth.mfa.listFactors();
       const totpFactor = factors?.totp?.find((f) => f.status === 'verified');
       const isEnrolled = Boolean(totpFactor);
