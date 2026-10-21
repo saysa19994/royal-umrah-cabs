@@ -1,9 +1,22 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import type { SiteSettings } from '@/lib/settings';
-import { Phone, MessageCircle, ShieldCheck, Clock, CheckCircle2, Headphones } from 'lucide-react';
+import {
+  Phone,
+  MessageCircle,
+  ShieldCheck,
+  Clock,
+  CheckCircle2,
+  Headphones,
+  Award,
+  CreditCard,
+  Building2,
+  FileCheck2,
+} from 'lucide-react';
 
 interface FooterProps {
   locale: Locale;
@@ -16,80 +29,95 @@ export function Footer({ locale, dict, settings }: FooterProps) {
   const telUrl = `tel:${settings.phone}`;
 
   return (
-    <footer className="bg-surface text-body border-t border-border mt-auto pb-16 md:pb-0">
+    <footer className="bg-[#0A0F1D] text-slate-300 border-t border-gold/20 mt-auto pb-20 md:pb-0 relative overflow-hidden">
+      {/* LUXURY AMBIENT BACKGROUND GLOW */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+
       {/* 5-COLUMN MAIN GRID */}
-      <div className="container mx-auto px-4 max-w-7xl pt-12 pb-8 md:pt-16">
+      <div className="container mx-auto px-4 max-w-7xl pt-14 pb-10 md:pt-16 relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8 text-start">
           {/* COL 1: WORDMARK, SHORT TAGLINE, WHATSAPP & CALL BUTTONS */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">
             <Link href={`/${locale}`} className="inline-flex items-center gap-2.5">
-              <span className="text-2xl">🕋</span>
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gold/30 via-gold/15 to-transparent border border-gold/40 flex items-center justify-center text-xl shadow-xs shrink-0">
+                🕋
+              </div>
               <div className="flex flex-col text-start">
-                <span className="font-display font-bold text-xl uppercase tracking-wide text-ink">
-                  {dict.meta.brand}
+                <span className="font-display font-bold text-lg md:text-xl uppercase tracking-wide text-white">
+                  {locale === 'ar' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
                 </span>
-                <span className="text-[10px] font-bold text-gold-dark tracking-[0.16em] uppercase">
-                  {dict.meta.brandSub}
+                <span className="text-[10px] font-bold text-gold tracking-[0.16em] uppercase">
+                  {locale === 'ar' ? 'Duyuf Alrahman VIP • نقل معتمد' : 'Executive Chauffeur Service'}
                 </span>
               </div>
             </Link>
-            <p className="text-xs text-ink-muted leading-relaxed max-w-sm">
-              {dict.footer.desc}
+            <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
+              {locale === 'ar'
+                ? 'الخدمة التنفيذية الأولى لنقل ضيوف الرحمن بين مطار جدة ومكة المكرمة والمدينة المنورة. أسطول VIP حديث وسائقون محترفون لخدمتكم على مدار الساعة.'
+                : 'Premier private chauffeur and executive Umrah transportation across Jeddah Airport, Makkah, and Madinah. Fixed fares, zero deposits, and 24/7 dedicated assistance.'}
             </p>
-            {/* WHATSAPP & CALL DIRECT BUTTONS */}
+
+            {/* DIRECT ACTION BUTTONS */}
             <div className="grid grid-cols-2 gap-2 pt-2">
               <a
                 href={waUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-3 rounded-btn bg-gold text-ink text-xs font-bold hover:bg-gold-hover hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-gold"
+                className="inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-3 rounded-btn bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors shadow-xs focus-visible:ring-2 focus-visible:ring-emerald-400"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
-                <span>{dict.footer.whatsappBtn}</span>
+                <span>{dict.footer.whatsappBtn || (locale === 'ar' ? 'واتساب VIP' : 'WhatsApp')}</span>
               </a>
               <a
                 href={telUrl}
-                className="inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-3 rounded-btn border border-border-strong text-ink text-xs font-semibold hover:border-gold-dark hover:bg-bg-alt transition-colors focus-visible:ring-2 focus-visible:ring-gold"
+                className="inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-3 rounded-btn border border-gold/40 bg-white/5 text-gold text-xs font-semibold hover:bg-gold hover:text-slate-950 transition-colors focus-visible:ring-2 focus-visible:ring-gold"
               >
                 <Phone className="w-3.5 h-3.5" />
-                <span>{dict.footer.callBtn}</span>
+                <span>{dict.footer.callBtn || (locale === 'ar' ? 'اتصال مباشر' : 'Call Dispatch')}</span>
               </a>
+            </div>
+
+            {/* TRUST LICENSING BADGE */}
+            <div className="pt-2 text-[11px] text-slate-400 flex items-center gap-2">
+              <Building2 className="w-4 h-4 text-gold shrink-0" />
+              <span>{locale === 'ar' ? 'مرخص ومعتمد من الهيئة العامة للنقل (TGA)' : 'Licensed by Saudi Transport General Authority (TGA)'}</span>
             </div>
           </div>
 
-          {/* COL 2: POPULAR ROUTES (ALL 6 EXACT ROUTES) */}
+          {/* COL 2: POPULAR ROUTES */}
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-ink mb-3.5 font-display text-sm">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-display text-sm border-b border-gold/20 pb-1.5">
               {dict.footer.popularRoutes}
             </h4>
-            <ul className="space-y-2 text-xs text-ink-muted">
+            <ul className="space-y-2 text-xs text-slate-400">
               <li>
-                <Link href={`/${locale}/routes/jeddah-airport-to-makkah`} className="hover:text-gold-dark transition-colors inline-block py-1">
+                <Link href={`/${locale}/routes/jeddah-airport-to-makkah`} className="hover:text-gold transition-colors inline-block py-1">
                   Jeddah Airport to Makkah
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/routes/makkah-to-madinah`} className="hover:text-gold-dark transition-colors inline-block py-1">
+                <Link href={`/${locale}/routes/makkah-to-madinah`} className="hover:text-gold transition-colors inline-block py-1">
                   Makkah to Madinah VIP
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/routes/madinah-to-makkah`} className="hover:text-gold-dark transition-colors inline-block py-1">
+                <Link href={`/${locale}/routes/madinah-to-makkah`} className="hover:text-gold transition-colors inline-block py-1">
                   Madinah to Makkah (Miqat Stop)
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/routes/makkah-to-jeddah-airport`} className="hover:text-gold-dark transition-colors inline-block py-1">
+                <Link href={`/${locale}/routes/makkah-to-jeddah-airport`} className="hover:text-gold transition-colors inline-block py-1">
                   Makkah to Jeddah Airport
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/routes/jeddah-to-madinah`} className="hover:text-gold-dark transition-colors inline-block py-1">
+                <Link href={`/${locale}/routes/jeddah-to-madinah`} className="hover:text-gold transition-colors inline-block py-1">
                   Jeddah Airport to Madinah
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/routes/madinah-airport-to-hotel`} className="hover:text-gold-dark transition-colors inline-block py-1">
+                <Link href={`/${locale}/routes/madinah-airport-to-hotel`} className="hover:text-gold transition-colors inline-block py-1">
                   Madinah Airport to Hotel
                 </Link>
               </li>
@@ -98,174 +126,198 @@ export function Footer({ locale, dict, settings }: FooterProps) {
 
           {/* COL 3: SERVICES & FLEET */}
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-ink mb-3.5 font-display text-sm">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-display text-sm border-b border-gold/20 pb-1.5">
               {dict.footer.servicesFleet}
             </h4>
-            <ul className="space-y-2 text-xs text-ink-muted">
+            <ul className="space-y-2 text-xs text-slate-400">
               <li>
-                <Link href={`/${locale}/services`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  {dict.services_list.airportTitle}
+                <Link href={`/${locale}/fleet/gmc-yukon-xl`} className="hover:text-gold transition-colors inline-block py-1">
+                  GMC Yukon XL VIP (7 Seats)
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/services`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  {dict.services_list.intercityTitle}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  {dict.services_list.hourlyTitle}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/services`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  {dict.services_list.ziyaratTitle}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/fleet/hyundai-staria`} className="hover:text-gold-dark transition-colors inline-block py-1">
+                <Link href={`/${locale}/fleet/hyundai-staria`} className="hover:text-gold transition-colors inline-block py-1">
                   Hyundai Staria VIP (7 Seats)
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/fleet/gmc-yukon-xl`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  GMC Yukon XL (VIP SUV)
+                <Link href={`/${locale}/fleet/toyota-camry`} className="hover:text-gold transition-colors inline-block py-1">
+                  Toyota Camry Executive (4 Seats)
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/fleet/toyota-camry`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  Toyota Camry (Executive Sedan)
+                <Link href={`/${locale}/fleet/toyota-hiace`} className="hover:text-gold transition-colors inline-block py-1">
+                  Toyota HiAce Family (10-14 Seats)
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/fleet/toyota-hiace`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  Toyota HiAce (Family Mini Bus)
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* COL 4: COMPANY */}
-          <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-ink mb-3.5 font-display text-sm">
-              {dict.footer.company}
-            </h4>
-            <ul className="space-y-2 text-xs text-ink-muted">
-              <li>
-                <Link href={`/${locale}/about`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  {dict.nav.about}
+                <Link href={`/${locale}/services`} className="hover:text-gold transition-colors inline-block py-1">
+                  Makkah & Madinah Ziyarat Tours
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/safety`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  Safety Standards &amp; Protocol
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}#how-it-works`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  How It Works
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/track-booking`} className="hover:text-gold-dark font-medium text-ink inline-block py-1">
-                  {dict.nav.trackBooking}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/manage-booking`} className="hover:text-gold-dark font-medium text-ink inline-block py-1">
-                  Manage Booking
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/partners`} className="hover:text-gold-dark font-medium text-gold-dark inline-block py-1">
-                  Travel Agency Partners
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/contact`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  {dict.nav.contact}
+                <Link href={`/${locale}/services`} className="hover:text-gold transition-colors inline-block py-1">
+                  Hourly Chauffeur Rental
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* COL 5: LEGAL & HELP */}
+          {/* COL 4: PILGRIM GUIDES & TOOLS */}
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-ink mb-3.5 font-display text-sm">
-              Legal &amp; Support
+            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-display text-sm border-b border-gold/20 pb-1.5">
+              {locale === 'ar' ? 'أدلة المعتمرين والخدمات' : 'Pilgrim Guides & Tools'}
             </h4>
-            <ul className="space-y-2 text-xs text-ink-muted">
+            <ul className="space-y-2 text-xs text-slate-400">
               <li>
-                <Link href={`/${locale}/privacy`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  {dict.footer.privacy}
+                <Link href={`/${locale}/guides/jeddah-airport-arrival-pickup-guide`} className="hover:text-gold transition-colors inline-block py-1">
+                  {locale === 'ar' ? 'دليل الوصول بمطار جدة (KAIA)' : 'Jeddah Airport Arrival Guide'}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/terms`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  {dict.footer.terms}
+                <Link href={`/${locale}/guides/jeddah-airport-to-makkah-taxi-vs-train`} className="hover:text-gold transition-colors inline-block py-1">
+                  {locale === 'ar' ? 'مقارنة: تاكسي المطار أم قطار الحرمين' : 'Airport Taxi vs Haramain Train'}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/cancellation`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  {dict.footer.refunds}
+                <Link href={`/${locale}/guides/how-to-choose-the-right-vehicle-for-umrah-group`} className="hover:text-gold transition-colors inline-block py-1">
+                  {locale === 'ar' ? 'دليل اختيار سيارة العمرة المناسبة' : 'Choosing the Right Umrah Vehicle'}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/cookies`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  Cookie Policy
+                <Link href={`/${locale}/guides/makkah-ziyarat-places-routes-transport`} className="hover:text-gold transition-colors inline-block py-1">
+                  {locale === 'ar' ? 'دليل مزارات مكة المكرمة' : 'Makkah Ziyarat Complete Guide'}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}#faq`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  Frequently Asked Questions
+                <Link href={`/${locale}/track-booking`} className="hover:text-gold transition-colors inline-block py-1 text-gold font-semibold">
+                  {dict.nav.trackBooking || (locale === 'ar' ? 'تتبع رحلتك المباشرة' : 'Track Your Booking')}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/contact`} className="hover:text-gold-dark transition-colors inline-block py-1">
-                  Contact Support 24/7
+                <Link href={`/${locale}/partners`} className="hover:text-gold transition-colors inline-block py-1 text-gold/80">
+                  {locale === 'ar' ? 'بوابة وكالات السفر والشركاء' : 'Travel Agency Portal'}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* COL 5: LEGAL & TRUST */}
+          <div>
+            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-display text-sm border-b border-gold/20 pb-1.5">
+              {locale === 'ar' ? 'السياسات والضمانات' : 'Legal & Guarantees'}
+            </h4>
+            <ul className="space-y-2 text-xs text-slate-400">
+              <li>
+                <Link href={`/${locale}/cancellation`} className="hover:text-gold transition-colors inline-block py-1">
+                  {dict.footer.refunds || (locale === 'ar' ? 'سياسة الإلغاء المجاني' : 'Cancellation & Refunds')}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/terms`} className="hover:text-gold transition-colors inline-block py-1">
+                  {dict.footer.terms || (locale === 'ar' ? 'الشروط والأحكام' : 'Terms & Conditions')}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/privacy`} className="hover:text-gold transition-colors inline-block py-1">
+                  {dict.footer.privacy || (locale === 'ar' ? 'سياسة الخصوصية' : 'Privacy Policy')}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/safety`} className="hover:text-gold transition-colors inline-block py-1">
+                  {locale === 'ar' ? 'معايير الأمان والسلامة' : 'Safety & Protocol'}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}#faq`} className="hover:text-gold transition-colors inline-block py-1">
+                  {locale === 'ar' ? 'الأسئلة الشائعة' : 'FAQs'}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/contact`} className="hover:text-gold transition-colors inline-block py-1">
+                  {dict.nav.contact || (locale === 'ar' ? 'اتصل بخدمة العملاء' : 'Contact Support')}
                 </Link>
               </li>
             </ul>
           </div>
         </div>
+
+        {/* PAYMENT BADGES STRIP */}
+        <div className="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-6">
+          <div className="flex flex-col gap-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-gold">
+              {locale === 'ar' ? 'طرق الدفع المعتمدة (100% الدفع عند الوصول)' : 'Accepted Payment Methods (100% Pay on Arrival)'}
+            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
+                MADA مدى
+              </span>
+              <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
+                Visa
+              </span>
+              <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
+                Mastercard
+              </span>
+              <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
+                Apple Pay
+              </span>
+              <span className="px-3 py-1 rounded bg-gold/20 border border-gold/40 text-gold text-xs font-bold">
+                {locale === 'ar' ? 'نقداً للسائق SAR / USD' : 'Cash to Driver SAR / USD'}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1 text-xs text-slate-400">
+            <span className="font-semibold text-white">
+              {locale === 'ar' ? 'ضمان ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP Assurance'}
+            </span>
+            <span>
+              {locale === 'ar'
+                ? 'لا نطلب أية بطاقة ائتمانية أو دفعة مقدمة قبل وصولك واستلام سيارتك.'
+                : 'Zero upfront credit card deposit required. Inspect your vehicle first.'}
+            </span>
+          </div>
+        </div>
       </div>
 
-      {/* BEIGE TRUST STRIP */}
-      <div className="border-y border-border bg-bg-alt py-3.5">
-        <div className="container mx-auto px-4 max-w-7xl flex flex-wrap items-center justify-between gap-4 text-xs text-body">
+      {/* BEIGE TRUST STRIP (IN OBSIDIAN & GOLD THEME) */}
+      <div className="border-y border-gold/20 bg-[#060A14] py-3.5 relative z-10">
+        <div className="container mx-auto px-4 max-w-7xl flex flex-wrap items-center justify-between gap-4 text-xs text-slate-300">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-gold-dark shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-gold shrink-0" />
             <span>{dict.trust_strip.fixedPrices}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-gold-dark shrink-0" />
+            <Clock className="w-4 h-4 text-gold shrink-0" />
             <span>{dict.trust_strip.flightTracking}</span>
           </div>
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-gold-dark shrink-0" />
+            <ShieldCheck className="w-4 h-4 text-gold shrink-0" />
             <span>{dict.trust_strip.payOnArrival}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Headphones className="w-4 h-4 text-gold-dark shrink-0" />
+            <Headphones className="w-4 h-4 text-gold shrink-0" />
             <span>{dict.trust_strip.support247}</span>
           </div>
         </div>
       </div>
 
       {/* BOTTOM LEGAL & COPYRIGHT BAR */}
-      <div className="container mx-auto px-4 max-w-7xl py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-muted">
-        <p>{dict.footer.copyright}</p>
-        <div className="flex flex-wrap items-center gap-4">
-          <Link href={`/${locale}/privacy`} className="hover:text-ink transition-colors py-1">
+      <div className="container mx-auto px-4 max-w-7xl py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 relative z-10">
+        <p>
+          © {new Date().getFullYear()} {locale === 'ar' ? 'ضيوف الرحمن VIP (Duyuf Alrahman VIP). جميع الحقوق محفوظة.' : 'Duyuf Alrahman VIP. All rights reserved.'}
+        </p>
+        <div className="flex flex-wrap items-center gap-4 text-slate-400">
+          <Link href={`/${locale}/privacy`} className="hover:text-gold transition-colors py-1">
             {dict.footer.privacy}
           </Link>
-          <Link href={`/${locale}/terms`} className="hover:text-ink transition-colors py-1">
+          <Link href={`/${locale}/terms`} className="hover:text-gold transition-colors py-1">
             {dict.footer.terms}
           </Link>
-          <Link href={`/${locale}/cancellation`} className="hover:text-ink transition-colors py-1">
+          <Link href={`/${locale}/cancellation`} className="hover:text-gold transition-colors py-1">
             {dict.footer.refunds}
           </Link>
-          <Link href={`/${locale}/cookies`} className="hover:text-ink transition-colors py-1">
+          <Link href={`/${locale}/cookies`} className="hover:text-gold transition-colors py-1">
             Cookies
           </Link>
         </div>

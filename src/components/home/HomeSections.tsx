@@ -25,10 +25,14 @@ import {
   Minus,
   MessageCircle,
   Star,
-  ExternalLink,
   Sparkles,
-  Layers,
+  Droplet,
   Fuel,
+  ChevronLeft,
+  ChevronRight,
+  CreditCard,
+  Building2,
+  Award,
 } from 'lucide-react';
 
 interface HomeSectionsProps {
@@ -39,7 +43,7 @@ interface HomeSectionsProps {
 
 export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [routeTab, setRouteTab] = useState<'transfers' | 'packages'>('transfers');
+  const [activeFleetIndex, setActiveFleetIndex] = useState<number>(0);
   const [fleetView, setFleetView] = useState<Record<string, 'ext' | 'int'>>({});
   const { formatPrice } = useCurrency();
 
@@ -47,356 +51,869 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  // Section 7A: Popular Direct Routes (6 verified routes)
+  // Section 5: Popular Umrah Routes (Harmain Scenic Cards from Screenshots 6, 7, 9, 10)
   const POPULAR_ROUTES = [
     {
       id: 'jeddah-airport-to-makkah',
-      title: locale === 'ar' ? 'مطار جدة (KAIA) ← فندق مكة المكرمة' : locale === 'ms' ? 'Lapangan Terbang Jeddah (KAIA) → Hotel Makkah' : 'Jeddah Airport (KAIA) to Makkah Hotel',
-      duration: '75 mins',
-      distance: '95 km',
+      title: locale === 'ar' ? 'مطار جدة (KAIA) ← فندق مكة المكرمة' : locale === 'ms' ? 'Lapangan Terbang Jeddah (KAIA) → Hotel Makkah' : 'Jeddah Airport (KAIA) → Makkah Hotel',
+      badge: locale === 'ar' ? 'الأكثر طلباً' : 'MOST BOOKED',
+      badgeColor: 'bg-gold text-ink font-bold',
+      desc: locale === 'ar' ? 'استقبال من بوابة الصالة وتوصيل مباشر حتى باب فندقك بمكة بعد رحلة طيران مريحة.' : 'Your hotel door, after a flight-tracked pickup at Jeddah Airport.',
+      duration: locale === 'ar' ? '75 دقيقة' : '75 mins',
+      distance: locale === 'ar' ? '95 كم' : '95 km',
       basePriceSAR: 200,
+      img: '/assets/images/yukon_exterior.webp',
     },
     {
       id: 'makkah-to-madinah',
-      title: locale === 'ar' ? 'فندق مكة المكرمة ← المدينة المنورة' : locale === 'ms' ? 'Hotel Makkah → Madinah Al-Munawwarah' : 'Makkah to Madinah VIP Highway Chauffeur',
-      duration: '4.5 hours',
-      distance: '440 km',
+      title: locale === 'ar' ? 'فندق مكة المكرمة ← المدينة المنورة' : locale === 'ms' ? 'Hotel Makkah → Madinah Al-Munawwarah' : 'Makkah Hotel → Madinah Al-Munawwarah',
+      badge: locale === 'ar' ? 'بين المدن' : 'INTERCITY',
+      badgeColor: 'bg-navy-light text-gold border border-gold/30',
+      desc: locale === 'ar' ? 'سائق خاص وسيارة VIP على طريق الهجرة السريع مع توقفات استراحة حسب رغبتك.' : 'A private car from your Makkah hotel to your Madinah hotel with optional stops.',
+      duration: locale === 'ar' ? '4.5 ساعات' : '4.5 hours',
+      distance: locale === 'ar' ? '440 كم' : '440 km',
       basePriceSAR: 450,
+      img: '/assets/images/staria_exterior.webp',
     },
     {
       id: 'madinah-to-makkah',
-      title: locale === 'ar' ? 'المدينة المنورة ← مكة المكرمة (مع التوقف بميقات آبار علي)' : locale === 'ms' ? 'Hotel Madinah → Makkah (Singgah Miqat Bir Ali)' : 'Madinah to Makkah (With Miqat Bir Ali Stop)',
-      duration: '4.5 hours',
-      distance: '440 km',
+      title: locale === 'ar' ? 'المدينة المنورة ← مكة المكرمة (ميقات آبار علي)' : locale === 'ms' ? 'Madinah → Makkah (Singgah Miqat Bir Ali)' : 'Madinah Hotel → Makkah (Via Miqat Bir Ali)',
+      badge: locale === 'ar' ? 'توقف الميقات' : 'MIQAT STOP',
+      badgeColor: 'bg-emerald text-white font-bold',
+      desc: locale === 'ar' ? 'توصيل مباشر مع توقف مجاني وانتظار كافٍ في ميقات ذو الحليفة (آبار علي) للإحرام والصلاة.' : 'Direct transfer including a complimentary stop with ample wait at Bir Ali Miqat for Ihram.',
+      duration: locale === 'ar' ? '4.5 ساعات' : '4.5 hours',
+      distance: locale === 'ar' ? '440 كم' : '440 km',
       basePriceSAR: 450,
+      img: '/assets/images/yukon_exterior.webp',
     },
     {
       id: 'makkah-to-jeddah-airport',
-      title: locale === 'ar' ? 'فندق مكة المكرمة ← مطار جدة (KAIA)' : locale === 'ms' ? 'Hotel Makkah → Lapangan Terbang Jeddah (KAIA)' : 'Makkah Hotel to Jeddah Airport (KAIA)',
-      duration: '75 mins',
-      distance: '95 km',
+      title: locale === 'ar' ? 'فندق مكة المكرمة ← مطار جدة (KAIA)' : locale === 'ms' ? 'Hotel Makkah → Lapangan Terbang Jeddah (KAIA)' : 'Makkah Hotel → Jeddah Airport (KAIA)',
+      badge: locale === 'ar' ? 'رحلات العودة' : 'AIRPORT RETURN',
+      badgeColor: 'bg-gold-soft text-gold-dark border border-gold-line font-bold',
+      desc: locale === 'ar' ? 'انتقال مريح مع مساحة واسعة لحقائب العودة وعبوات ماء زمزم للوصول بالموعد المحدد.' : 'Comfortable departure transfer with ample trunk room for Zamzam water bottles.',
+      duration: locale === 'ar' ? '75 دقيقة' : '75 mins',
+      distance: locale === 'ar' ? '95 كم' : '95 km',
       basePriceSAR: 200,
+      img: '/assets/images/camry_exterior.webp',
     },
     {
       id: 'jeddah-to-madinah',
-      title: locale === 'ar' ? 'مدينة أو مطار جدة ← المدينة المنورة' : locale === 'ms' ? 'Jeddah / Lapangan Terbang → Hotel Madinah' : 'Jeddah Airport / City to Madinah Hotel',
-      duration: '4.2 hours',
-      distance: '410 km',
+      title: locale === 'ar' ? 'مطار جدة ← فنادق المدينة المنورة' : locale === 'ms' ? 'Jeddah Airport → Hotel Madinah' : 'Jeddah Airport / City → Madinah Hotel',
+      badge: locale === 'ar' ? 'بين المدن' : 'INTERCITY',
+      badgeColor: 'bg-navy-light text-gold border border-gold/30',
+      desc: locale === 'ar' ? 'نقل مباشر من مطار جدة إلى المدينة المنورة دون الحاجة للمبيت في جدة أو تبديل محطات.' : 'Direct airport-to-hotel journey from Jeddah to Madinah with custom family rest stops.',
+      duration: locale === 'ar' ? '4.2 ساعات' : '4.2 hours',
+      distance: locale === 'ar' ? '410 كم' : '410 km',
       basePriceSAR: 680,
+      img: '/assets/images/staria_exterior.webp',
     },
     {
       id: 'madinah-airport-to-hotel',
-      title: locale === 'ar' ? 'مطار المدينة (MED) ← فنادق الحرم بالمدينة' : locale === 'ms' ? 'Lapangan Terbang Madinah (MED) → Hotel Madinah' : 'Madinah Airport (MED) to Central Hotel',
-      duration: '30 mins',
-      distance: '25 km',
+      title: locale === 'ar' ? 'مطار المدينة (MED) ← فنادق الحرم' : locale === 'ms' ? 'Lapangan Terbang Madinah (MED) → Hotel Madinah' : 'Madinah Airport (MED) → Central Hotel',
+      badge: locale === 'ar' ? 'الأكثر طلباً' : 'MOST BOOKED',
+      badgeColor: 'bg-gold text-ink font-bold',
+      desc: locale === 'ar' ? 'استقبال سريع بصالة مطار الأمير محمد بن عبدالعزيز وتوصيل لباب فندقك بالمنطقة المركزية.' : 'A captain meets you inside Prince Mohammad bin Abdulaziz Airport with personalized board.',
+      duration: locale === 'ar' ? '25 دقيقة' : '25 mins',
+      distance: locale === 'ar' ? '22 كم' : '22 km',
       basePriceSAR: 150,
+      img: '/assets/images/camry_exterior.webp',
     },
   ];
 
-  // Section 7B: Complete Multi-Segment Umrah Packages (Derived from authoritative rate matrix)
-  const UMRAH_PACKAGES = [
+  // Section 7: Luxury Fleet with "Choose Your Class" Harmain Style (Screenshots 1, 2, 3)
+  const FLEET_VEHICLES = [
     {
-      id: 'full-umrah-grand',
-      title:
-        locale === 'ar'
-          ? 'باقة العمرة الشاملة (3 رحلات كاملة)'
-          : locale === 'ms'
-          ? 'Pakej Lengkap Umrah (3 Perjalanan Penuh)'
-          : 'Complete Umrah Pilgrimage Journey (3 Legs)',
-      subtitle:
-        locale === 'ar'
-          ? 'جدة ← مكة المكرمة ← المدينة المنورة (مع الميقات) ← مطار المدينة'
-          : locale === 'ms'
-          ? 'Jeddah → Hotel Makkah → Madinah (Singgah Miqat) → Lapangan Terbang'
-          : 'Jeddah Airport → Makkah Hotel → Madinah (Miqat Stop) → Airport Return',
-      legs: [
-        locale === 'ar' ? '1. مطار جدة إلى فندق مكة' : '1. Jeddah Airport to Makkah Hotel',
-        locale === 'ar' ? '2. فندق مكة إلى المدينة المنورة (مع التوقف بميقات آبار علي)' : '2. Makkah to Madinah (Stop at Miqat Bir Ali)',
-        locale === 'ar' ? '3. فندق المدينة إلى مطار المدينة المنورة' : '3. Madinah Hotel to Madinah Airport (MED)',
+      id: 'camry',
+      name: locale === 'ar' ? 'تويوتا كامري' : 'Toyota Camry',
+      category: locale === 'ar' ? 'سيدان تنفيذي' : 'EXECUTIVE SEDAN',
+      passengers: 4,
+      seats: 4,
+      luggage: 3,
+      bags: 3,
+      startingPriceSAR: 150,
+      extImg: '/assets/images/camry_exterior.webp',
+      intImg: '/assets/images/camry_interior.webp',
+      desc: locale === 'ar' ? 'مثالية للأفراد والأزواج والعائلات الصغيرة مع حقائب قياسية وتكييف فائق الراحة.' : 'A modern, immaculately maintained sedan for solo airport runs and couple pilgrimages.',
+      features: [
+        { title: locale === 'ar' ? 'مياه نقية' : 'Water', desc: locale === 'ar' ? 'عبوات منعشة' : 'Fresh Bottles', icon: Droplet },
+        { title: locale === 'ar' ? 'مقصورة معقمة' : 'Clean Cabin', desc: locale === 'ar' ? 'تنظيف يومي فاخر' : 'Daily Serviced', icon: Sparkles },
+        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Driver', desc: locale === 'ar' ? 'خبير بمسارات الحرمين' : 'Route Expert', icon: Award },
+        { title: locale === 'ar' ? 'تأمين شامل' : 'Insurance', desc: locale === 'ar' ? 'معتمد نظامياً' : 'Saudi Compliant', icon: ShieldCheck },
       ],
-      camryPriceSAR: 800,
-      stariaPriceSAR: 1040,
-      yukonPriceSAR: 1500,
-      bookingRouteId: 'jeddah-airport-to-makkah',
-      badge: locale === 'ar' ? 'الأكثر طلباً للعائلات' : locale === 'ms' ? 'Paling Popular' : 'Most Popular for Families',
     },
-    {
-      id: 'makkah-express-roundtrip',
-      title:
-        locale === 'ar'
-          ? 'باقة مكة المكرمة ذهاب وعودة (رحلتان)'
-          : locale === 'ms'
-          ? 'Pakej Makkah Pergi & Balik (2 Perjalanan)'
-          : 'Makkah Umrah Express Roundtrip (2 Legs)',
-      subtitle:
-        locale === 'ar'
-          ? 'مطار جدة (KAIA) ↔ فنادق الحرم المكي الشريف'
-          : locale === 'ms'
-          ? 'Lapangan Terbang Jeddah (KAIA) ↔ Hotel Makkah'
-          : 'Jeddah Airport (KAIA) ↔ Makkah Hotel Return Transfer',
-      legs: [
-        locale === 'ar' ? '1. استقبال مطار جدة مع لوحة الاسم إلى فندق مكة' : '1. Jeddah Airport terminal greeting with nameboard to Makkah Hotel',
-        locale === 'ar' ? '2. نقل العودة من فندق مكة إلى مطار جدة في موعد الرحلة' : '2. Scheduled departure pickup from Makkah Hotel to Jeddah Airport',
-      ],
-      camryPriceSAR: 400,
-      stariaPriceSAR: 520,
-      yukonPriceSAR: 760,
-      bookingRouteId: 'jeddah-airport-to-makkah',
-      badge: locale === 'ar' ? 'توفير وراحة بال' : locale === 'ms' ? 'Lengkap & Mudah' : 'Guaranteed Timing',
-    },
-    {
-      id: 'holy-cities-ziyarat',
-      title:
-        locale === 'ar'
-          ? 'باقة المزارات الدينية المزدوجة (مكة والمدينة)'
-          : locale === 'ms'
-          ? 'Pakej Ziarah Dua Kota Suci (Makkah & Madinah)'
-          : 'Two Holy Cities Ziyarat Tour Package',
-      subtitle:
-        locale === 'ar'
-          ? 'جولة مزارات مكة (جبل النور، غار ثور، عرفات) + جولة مزارات المدينة (قباء، أحد)'
-          : locale === 'ms'
-          ? 'Ziarah Makkah (Gua Hira, Arafah) + Ziarah Madinah (Quba, Uhud)'
-          : 'Makkah Holy Sites (Jabal al-Noor, Arafat) + Madinah Holy Sites (Quba, Uhud)',
-      legs: [
-        locale === 'ar' ? '1. جولة مزارات مكة المكرمة بسيارة خاصة وسائق ينتظركم' : '1. Half-day private Makkah historical landmarks tour with waiting chauffeur',
-        locale === 'ar' ? '2. جولة مزارات المدينة المنورة (مسجد قباء، شهداء أحد، القبلتين)' : '2. Half-day private Madinah historical sites tour (Quba, Uhud, Qiblatain)',
-      ],
-      camryPriceSAR: 500,
-      stariaPriceSAR: 650,
-      yukonPriceSAR: 950,
-      bookingRouteId: 'makkah-to-madinah',
-      badge: locale === 'ar' ? 'سائق ينتظركم طوال الجولة' : locale === 'ms' ? 'Pemandu Menunggu Anda' : 'Chauffeur Waits',
-    },
-  ];
-
-  // Section 8: Fleet with verified DB features
-  const FLEET_CARS = [
     {
       id: 'staria',
-      slug: 'hyundai-staria',
-      name: 'Hyundai Staria VIP',
-      category: locale === 'ar' ? 'فان عائلي تنفيذي' : locale === 'ms' ? 'Van Keluarga VIP' : 'Family Executive Van',
+      name: locale === 'ar' ? 'هيونداي ستاريا VIP' : 'Hyundai Staria VIP',
+      category: locale === 'ar' ? 'فان عائلي فاخر' : 'PREMIUM FAMILY VAN',
+      passengers: 7,
       seats: 7,
+      luggage: 6,
       bags: 6,
-      basePriceSAR: 260,
+      startingPriceSAR: 260,
       extImg: '/assets/images/staria_exterior.webp',
       intImg: '/assets/images/staria_interior.webp',
+      desc: locale === 'ar' ? 'الخيار المفضل للعائلات بمقاعد كابتن جلدية فاخرة وأبواب منزلقة وسعة رحبة للحقائب.' : 'The executive standard for Umrah families with captain seats and expansive cargo volume.',
+      features: [
+        { title: locale === 'ar' ? 'مياه نقية' : 'Water', desc: locale === 'ar' ? 'عبوات منعشة' : 'Fresh Bottles', icon: Droplet },
+        { title: locale === 'ar' ? 'مقصورة معقمة' : 'Clean Cabin', desc: locale === 'ar' ? 'تنظيف يومي فاخر' : 'Daily Serviced', icon: Sparkles },
+        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Driver', desc: locale === 'ar' ? 'خبير بمسارات الحرمين' : 'Route Expert', icon: Award },
+        { title: locale === 'ar' ? 'تأمين شامل' : 'Insurance', desc: locale === 'ar' ? 'معتمد نظامياً' : 'Saudi Compliant', icon: ShieldCheck },
+      ],
     },
     {
       id: 'yukon',
-      slug: 'gmc-yukon-xl',
-      name: 'GMC Yukon XL VIP',
-      category: locale === 'ar' ? 'سيارة دفع رباعي فارهة' : locale === 'ms' ? 'SUV Mewah VIP' : 'Luxury VIP SUV',
+      name: locale === 'ar' ? 'جي إم سي يوكون XL' : 'GMC Yukon XL VIP',
+      category: locale === 'ar' ? 'دفع رباعي فاخر VIP' : 'LUXURY SUV',
+      passengers: 7,
       seats: 7,
+      luggage: 8,
       bags: 8,
-      basePriceSAR: 380,
+      startingPriceSAR: 380,
       extImg: '/assets/images/yukon_exterior.webp',
       intImg: '/assets/images/yukon_interior.webp',
-    },
-    {
-      id: 'camry',
-      slug: 'toyota-camry',
-      name: 'Toyota Camry Executive',
-      category: locale === 'ar' ? 'سيدان تنفيذي' : locale === 'ms' ? 'Sedan Eksekutif' : 'Executive Sedan',
-      seats: 4,
-      bags: 3,
-      basePriceSAR: 200,
-      extImg: '/assets/images/camry_exterior.webp',
-      intImg: '/assets/images/camry_interior.webp',
+      desc: locale === 'ar' ? 'قمة الفخامة والوقار لكبار الشخصيات والعائلات مع صندوق أمتعة عملاق يتسع لكافة الحقائب ومياه زمزم.' : 'Ultimate presidential luxury and expansive cargo space designed for VIP delegations and large families.',
+      features: [
+        { title: locale === 'ar' ? 'مياه نقية' : 'Water', desc: locale === 'ar' ? 'عبوات منعشة' : 'Fresh Bottles', icon: Droplet },
+        { title: locale === 'ar' ? 'مقصورة معقمة' : 'Clean Cabin', desc: locale === 'ar' ? 'تنظيف يومي فاخر' : 'Daily Serviced', icon: Sparkles },
+        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Driver', desc: locale === 'ar' ? 'خبير بمسارات الحرمين' : 'Route Expert', icon: Award },
+        { title: locale === 'ar' ? 'تأمين شامل' : 'Insurance', desc: locale === 'ar' ? 'معتمد نظامياً' : 'Saudi Compliant', icon: ShieldCheck },
+      ],
     },
     {
       id: 'hiace',
-      slug: 'toyota-hiace',
-      name: 'Toyota HiAce VIP',
-      category: locale === 'ar' ? 'ميني باص عائلي' : locale === 'ms' ? 'Van Rombongan VIP' : 'Group Minibus',
+      name: locale === 'ar' ? 'تويوتا هايس' : 'Toyota HiAce Minibus',
+      category: locale === 'ar' ? 'ميني باص عائلي' : 'VIP MINIBUS',
+      passengers: 10,
       seats: 10,
+      luggage: 10,
       bags: 10,
-      basePriceSAR: 340,
+      startingPriceSAR: 340,
       extImg: '/assets/images/hiace_exterior.webp',
       intImg: '/assets/images/hiace_interior.webp',
+      desc: locale === 'ar' ? 'مثالية للمجموعات الكبيرة والأسر الممتدة لتوفير تكلفة سيارتين والسفر معاً براحة تامة.' : 'Spacious group minibus keeping extended families together in air-conditioned comfort.',
+      features: [
+        { title: locale === 'ar' ? 'مياه نقية' : 'Water', desc: locale === 'ar' ? 'عبوات منعشة' : 'Fresh Bottles', icon: Droplet },
+        { title: locale === 'ar' ? 'مقصورة معقمة' : 'Clean Cabin', desc: locale === 'ar' ? 'تنظيف يومي فاخر' : 'Daily Serviced', icon: Sparkles },
+        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Driver', desc: locale === 'ar' ? 'خبير بمسارات الحرمين' : 'Route Expert', icon: Award },
+        { title: locale === 'ar' ? 'تأمين شامل' : 'Insurance', desc: locale === 'ar' ? 'معتمد نظامياً' : 'Saudi Compliant', icon: ShieldCheck },
+      ],
     },
   ];
 
-  // Section 9: Services Cards with "From X SAR" pulled from database/rates
-  const CORE_SERVICES = [
+  const currentCar = FLEET_VEHICLES[activeFleetIndex];
+  const isInsideView = fleetView[currentCar.id] === 'int';
+
+  // Section 8: Designed to Exceed Expectations Cards (Screenshot 4 & 5)
+  const SERVICE_SHOWCASE = [
     {
-      id: 'airport',
+      id: 'airport-transfer',
+      title: locale === 'ar' ? 'استقبال وتوصيل المطارات' : 'Premium Airport Transfers',
+      subtitle: locale === 'ar' ? 'مطار الملك عبدالعزيز ومطار المدينة' : 'KAIA Jeddah & MED Madinah',
+      img: '/assets/images/yukon_exterior.webp',
       icon: Plane,
-      title: dict.services_list.airportTitle,
-      desc: dict.services_list.airportDesc,
-      fromRate: dict.services_list.airportPrice,
-      link: `/${locale}/booking?service=airport`,
+      href: `/${locale}/guides/jeddah-airport-arrival-pickup-guide`,
     },
     {
-      id: 'intercity',
-      icon: Navigation,
-      title: dict.services_list.intercityTitle,
-      desc: dict.services_list.intercityDesc,
-      fromRate: dict.services_list.intercityPrice,
-      link: `/${locale}/booking?service=intercity`,
-    },
-    {
-      id: 'hourly',
-      icon: Clock,
-      title: dict.services_list.hourlyTitle,
-      desc: dict.services_list.hourlyDesc,
-      fromRate: dict.services_list.hourlyPrice,
-      link: `/${locale}/booking?service=hourly`,
-    },
-    {
-      id: 'ziyarat',
+      id: 'umrah-taxi',
+      title: locale === 'ar' ? 'توصيل معتمري بيت الله الحرام' : 'Umrah Taxi Service',
+      subtitle: locale === 'ar' ? 'نقل خاص مباشر بين الفنادق والحرمين' : 'Direct Makkah & Madinah Chauffeur',
+      img: '/assets/images/staria_exterior.webp',
       icon: Landmark,
-      title: dict.services_list.ziyaratTitle,
-      desc: dict.services_list.ziyaratDesc,
-      fromRate: dict.services_list.ziyaratPrice,
-      link: `/${locale}/booking?service=ziyarat`,
+      href: `/${locale}/guides/jeddah-airport-to-makkah-taxi-vs-train`,
     },
     {
-      id: 'miqat',
+      id: 'ziyarat-tours',
+      title: locale === 'ar' ? 'جولات المزارات الإسلامية' : 'Ziyarat Historical Tours',
+      subtitle: locale === 'ar' ? 'غار حراء، ثور، قباء، وأحد بسائق مخصص' : 'Sacred landmarks with chauffeur waiting',
+      img: '/assets/images/camry_exterior.webp',
       icon: Compass,
-      title: dict.services_list.miqatTitle,
-      desc: dict.services_list.miqatDesc,
-      fromRate: dict.services_list.miqatPrice,
-      link: `/${locale}/booking?service=miqat`,
+      href: `/${locale}/ziyarat`,
     },
     {
-      id: 'group',
-      icon: Users,
-      title: dict.services_list.groupTitle,
-      desc: dict.services_list.groupDesc,
-      fromRate: dict.services_list.groupPrice,
-      link: `/${locale}/booking?service=group`,
+      id: 'executive-corporate',
+      title: locale === 'ar' ? 'النقل التنفيذي والبروتوكول' : 'Executive & Protocol Travel',
+      subtitle: locale === 'ar' ? 'سيارات VIP فاخرة لرجال الأعمال والوفود' : 'VIP SUVs and hourly chauffeur hire',
+      img: '/assets/images/hiace_exterior.webp',
+      icon: Building2,
+      href: `/${locale}/fleet`,
     },
   ];
 
-  // Section 13: Real reviews from database / verified guests
-  const APPROVED_REVIEWS = [
+  // Section 9: Verified Reviews
+  const REVIEWS = [
     {
-      name: 'Ahmed K. & Family',
-      country: 'Kuala Lumpur, Malaysia',
+      name: 'Dr. Tariq Al-Hashimi',
+      origin: 'United Kingdom 🇬🇧',
+      role: 'Family Umrah Group',
+      rating: 5,
       date: 'October 2026',
-      route: 'Jeddah KAIA → Makkah Hotel',
-      comment: locale === 'ms'
-        ? 'Alhamdulillah, pemandu kami menyambut kami di balai ketibaan dengan papan tanda nama. Van Staria sangat bersih dan luas untuk bagasi kami. Bayar dengan kad terus kepada pemandu tanpa masalah.'
-        : 'Punctual terminal greeting at KAIA. The Staria VIP was spotless and spacious for our luggage. Transparent fixed price paid directly upon arrival.',
-    },
-    {
-      name: 'Abu Fahad Al-Otaibi',
-      country: 'Al-Khobar, Saudi Arabia',
-      date: 'October 2026',
-      route: 'Makkah → Madinah Central',
       comment: locale === 'ar'
-        ? 'خدمة ممتازة ودقة عالية في المواعيد. السائق كان في استقبالنا بالموعد، والسيارة يوكن نظيفة جداً ومريحة، وتوقفنا في الميقات بكل أريحية. أسعار واضحة ومثبتة.'
-        : 'Outstanding executive transport. Punctual chauffeur, spotless Yukon XL, and relaxed stop at Miqat Bir Ali. Honest fixed pricing.',
+        ? 'تجربة استثنائية بكل المقاييس. السائق كان ينتظرنا في صالة مطار جدة بلوحة الاسم، وسيارة يوكون XL كانت نظيفة جداً كأنها جديدة. الدفع تم عند وصولنا للفندق بدون أي زيادة.'
+        : 'Outstanding service from start to finish. Our chauffeur was waiting inside KAIA terminal holding our name board. The Yukon XL was immaculate and pay-on-arrival was seamless.',
     },
     {
-      name: 'Farhan & Saima S.',
-      country: 'London, United Kingdom',
+      name: 'Haji Ahmad Zulkifli',
+      origin: 'Malaysia 🇲🇾',
+      role: 'Pilgrimage with Elderly Parents',
+      rating: 5,
       date: 'October 2026',
-      route: 'Madinah Airport → The Oberoi',
-      comment: 'Flight from Heathrow was delayed by 40 minutes, but dispatch tracked our flight number and our driver was waiting right at arrivals. Highly recommended for families.',
+      comment: locale === 'ar'
+        ? 'حجزنا هيونداي ستاريا لوالدي كبار السن. السيارة مريحة جداً وسهلة الصعود، وتوقف السائق معنا في ميقات آبار علي بكل رحابة صدر وصبر. نوصي بهم بشدة.'
+        : 'Booked Hyundai Staria VIP for my elderly parents. Low step-in made boarding easy, and the driver waited patiently at Bir Ali Miqat. Highly recommended.',
+    },
+    {
+      name: 'Mohamed El-Shennawy',
+      origin: 'Egypt 🇪🇬',
+      role: 'Jeddah to Makkah & Madinah',
+      rating: 5,
+      date: 'October 2026',
+      comment: locale === 'ar'
+        ? 'أفضل خدمة نقل تعاملت معها في السعودية. السعر ثابت وشامل رسوم الطريق السريع والبنزين دون أي مفاجآت، والتواصل عبر واتساب سريع واحترافي على مدار الساعة.'
+        : 'Best transfer service in Saudi Arabia. Fixed rate with zero toll or luggage surprises. Instant WhatsApp coordination 24/7.',
     },
   ];
 
-  // Section 14: 12 FAQs
-  const ALL_FAQS = [
-    { q: dict.faq.q1, a: dict.faq.a1 },
-    { q: dict.faq.q2, a: dict.faq.a2 },
-    { q: dict.faq.q3, a: dict.faq.a3 },
-    { q: dict.faq.q4, a: dict.faq.a4 },
-    { q: dict.faq.q5, a: dict.faq.a5 },
-    { q: dict.faq.q6, a: dict.faq.a6 },
-    { q: dict.faq.q7, a: dict.faq.a7 },
-    { q: dict.faq.q8, a: dict.faq.a8 },
-    { q: dict.faq.q9, a: dict.faq.a9 },
-    { q: dict.faq.q10, a: dict.faq.a10 },
-    { q: dict.faq.q11, a: dict.faq.a11 },
-    { q: dict.faq.q12, a: dict.faq.a12 },
+  // Section 9: FAQs
+  const FAQS = [
+    {
+      q: locale === 'ar' ? 'كيف أقابل سائقي الخاص في مطار جدة أو المدينة؟' : 'Where and how do I meet my private chauffeur at the airport?',
+      a: locale === 'ar'
+        ? 'يقوم منسق العمليات بإرسال بيانات السائق ورقم لوحة السيارة عبر واتساب فور هبوط الطائرة. ينتظرك سائقك في صالة القدوم حاملاً لوحة باسمك المكتوب في الحجز ويساعدك في نقل الأمتعة.'
+        : 'Our dispatch team sends your driver details and vehicle plate on WhatsApp upon landing. Your chauffeur greets you inside the arrivals hall holding a personalized name board and assists with baggage.',
+    },
+    {
+      q: locale === 'ar' ? 'ماذا لو تأخرت رحلة الطيران أو استغرقت الجوازات وقتاً طويلاً؟' : 'What happens if my flight is delayed or immigration takes time?',
+      a: locale === 'ar'
+        ? 'نحن نتتبع رقم رحلتك مباشرة عبر رادار الطيران، ويشمل حجزك 90 دقيقة انتظار مجانية كاملة تبدأ بعد هبوط الطائرة الفعلي، مع دعم متواصل عبر واتساب.'
+        : 'We track your flight live via international aviation radar. Your reservation includes 90 minutes of complimentary waiting time starting after actual touchdown.',
+    },
+    {
+      q: locale === 'ar' ? 'هل يشمل السعر التوقف في الميقات للإحرام؟' : 'Is a stop at the Miqat included for pilgrims heading to Makkah?',
+      a: locale === 'ar'
+        ? 'نعم، يشمل مسار المدينة إلى مكة توقفاً مجانياً مع انتظار كامل في ميقات ذو الحليفة (آبار علي) لتمكينك من الاغتسال والإحرام والصلاة دون أي رسوم إضافية.'
+        : 'Yes, transfers from Madinah to Makkah include a complimentary stop with generous wait time at Bir Ali Miqat for your Ihram and prayers at no extra cost.',
+    },
+    {
+      q: locale === 'ar' ? 'متى وكيف يتم سداد قيمة الرحلة؟' : 'When and how do I pay for my transfer?',
+      a: locale === 'ar'
+        ? 'الدفع 100% عند الوصول بعد إتمام الرحلة والوصول سالماً لباب فندقك. يمكنك الدفع نقداً بالريال السعودي أو عبر بطاقات مدى وفيزا وماستركارد مباشرة للسائق.'
+        : 'Payment is 100% on arrival after reaching your destination safely. You can settle in cash (SAR) or via Visa, Mastercard, or Mada card directly with the driver.',
+    },
+    {
+      q: locale === 'ar' ? 'هل تتوفر كراسي أطفال أو مساحة للكراسي المتحركة؟' : 'Are child safety seats and folding wheelchair space available?',
+      a: locale === 'ar'
+        ? 'نعم، نوفر مقاعد الأطفال عند الطلب المسبق، وتتسع سياراتنا من فئة ستاريا ويوكون وهايس للكراسي المتحركة بكل سهولة وأمان.'
+        : 'Yes, child car seats are provided upon request. Our Staria, Yukon, and HiAce fleet easily accommodate folding wheelchairs alongside baggage.',
+    },
+    {
+      q: locale === 'ar' ? 'هل الأسعار المعلنة تشمل رسوم الطرق السريعة وضريبة القيمة المضافة؟' : 'Do displayed prices include highway toll fees and taxes?',
+      a: locale === 'ar'
+        ? 'نعم، جميع الأسعار نهائية وثابتة للمركبة بالكامل وتشمل رسوم الطرق السريعة ومواقف المطار والوقود والضريبة، دون أي رسوم خفية إطلاقاً.'
+        : 'Yes, every rate is strictly all-inclusive per whole vehicle, covering highway tolls, airport terminal parking, fuel, and taxes with zero hidden fees.',
+    },
   ];
 
   return (
-    <>
+    <div className="w-full">
       {/* ============================================================== */}
-      {/* 6) "3 SIMPLE STEPS" SECTION */}
+      {/* SECTION 4: TRUST STRIP & 3-STEP "HOW IT WORKS" PROCESS        */}
       {/* ============================================================== */}
-      <section id="how-it-works" className="py-16 md:py-24 bg-bg-alt/50 border-t border-border text-start">
+      <section id="how-it-works" className="py-16 md:py-24 bg-alabaster border-t border-border text-start">
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          {/* HEADER */}
+          <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <span>{dict.steps.sectionPill}</span>
+              <Sparkles className="w-3.5 h-3.5 text-gold-dark" />
+              <span>{locale === 'ar' ? 'خطوات سهلة لحجز مريح' : 'Simple 3-Step Process'}</span>
             </div>
             <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-              {dict.steps.heading}{' '}
-              <span className="text-gold-dark italic">{dict.steps.headingHighlight}</span>
+              {locale === 'ar' ? 'كيف تحجز رحلتك مع' : 'How It Works with'}{' '}
+              <span className="text-gold-dark italic font-display font-bold">
+                {locale === 'ar' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
+              </span>
             </h2>
             <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-              {dict.steps.subtitle}
+              {locale === 'ar'
+                ? 'ثلاث خطوات يسيرة بدون دفع مسبق أو تعقيد؛ نضمن لك رحلة وقار وراحة من لحظة هبوطك حتى باب فندقك.'
+                : 'Reserve your private chauffeur in 60 seconds with zero advance deposit and instant WhatsApp confirmation.'}
             </p>
           </div>
 
-          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* DASHED CONNECTOR LINE */}
-            <div
-              className="hidden md:block absolute top-12 left-1/6 right-1/6 h-0.5 border-t-2 border-dashed border-gold-line -z-0"
-              aria-hidden="true"
-            />
-
-            {/* STEP 1 */}
-            <div className="relative z-10 bg-surface rounded-2xl p-7 md:p-8 border border-border text-center shadow-xs flex flex-col items-center">
-              <div className="w-16 h-16 rounded-2xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-6 relative">
-                <Calendar className="w-7 h-7" />
-                <span className="absolute -top-2.5 -right-2.5 w-7 h-7 rounded-full bg-gold text-ink font-bold text-xs flex items-center justify-center border-2 border-surface shadow-xs">
-                  1
-                </span>
+          {/* 3 STEPS GRID */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            {/* Step 1 */}
+            <div className="bg-surface rounded-2xl p-8 border border-border shadow-xs hover:shadow-md transition-all relative group text-start">
+              <div className="w-12 h-12 rounded-xl bg-gold/15 text-gold-dark font-display font-bold text-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform border border-gold/30">
+                01
               </div>
               <h3 className="font-display font-bold text-xl text-ink mb-2">
-                {dict.steps.step1Title}
+                {locale === 'ar' ? 'حدد المسار وموعد الوصول' : 'Select Route & Schedule'}
               </h3>
-              <p className="text-xs md:text-sm text-ink-muted leading-relaxed font-light">
-                {dict.steps.step1Desc}
+              <p className="text-sm text-ink-muted leading-relaxed font-light mb-4">
+                {locale === 'ar'
+                  ? 'اختر مسار رحلتك (من مطار جدة أو المدينة)، وأدخل موعد وصول رحلتك ورقم الطيران لنقوم بتتبعها تلقائياً.'
+                  : 'Choose your pickup terminal and destination hotel. Input your flight number for automated radar tracking.'}
+              </p>
+              <div className="pt-4 border-t border-border text-xs text-gold-dark font-semibold flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>{locale === 'ar' ? 'تتبع فوري بدون رسوم تأخير' : 'Free radar tracking included'}</span>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="bg-surface rounded-2xl p-8 border border-border shadow-xs hover:shadow-md transition-all relative group text-start">
+              <div className="w-12 h-12 rounded-xl bg-gold/15 text-gold-dark font-display font-bold text-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform border border-gold/30">
+                02
+              </div>
+              <h3 className="font-display font-bold text-xl text-ink mb-2">
+                {locale === 'ar' ? 'اختر السيارة الفاخرة المناسبة' : 'Choose Your VIP Vehicle'}
+              </h3>
+              <p className="text-sm text-ink-muted leading-relaxed font-light mb-4">
+                {locale === 'ar'
+                  ? 'حدد السيارة التي تناسب عدد أفراد أسرتك وحقائب السفر (كامري، ستاريا VIP، يوكون XL، أو هايس) واطلع على السعر الثابت.'
+                  : 'Select the ideal vehicle class for your headcount and luggage with 100% transparent fixed rates.'}
+              </p>
+              <div className="pt-4 border-t border-border text-xs text-gold-dark font-semibold flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>{locale === 'ar' ? 'سعر ثابت شامل الوقود والطرق' : 'Fixed fare per whole car'}</span>
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="bg-surface rounded-2xl p-8 border border-border shadow-xs hover:shadow-md transition-all relative group text-start">
+              <div className="w-12 h-12 rounded-xl bg-gold/15 text-gold-dark font-display font-bold text-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform border border-gold/30">
+                03
+              </div>
+              <h3 className="font-display font-bold text-xl text-ink mb-2">
+                {locale === 'ar' ? 'تأكيد فوري والدفع عند الوصول' : 'Voucher & Pay on Arrival'}
+              </h3>
+              <p className="text-sm text-ink-muted leading-relaxed font-light mb-4">
+                {locale === 'ar'
+                  ? 'استلم قسيمة الحجز وبيانات السائق فوراً عبر واتساب، واستمتع بالرحلة وادفع عند وصولك سالماً لوجهتك نقداً أو بالبطاقة.'
+                  : 'Receive your instant confirmation code on WhatsApp. Meet your driver and pay upon arriving at your hotel.'}
+              </p>
+              <div className="pt-4 border-t border-border text-xs text-emerald-600 font-semibold flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>{locale === 'ar' ? 'دفع آمن 100% عند الوصول' : '100% Pay On Arrival Safe'}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* SECTION 5: POPULAR UMRAH ROUTES (Harmain Style from Images)    */}
+      {/* ============================================================== */}
+      <section id="routes" className="py-16 md:py-24 bg-bg border-t border-border text-start">
+        <div className="container mx-auto px-4 max-w-7xl">
+          {/* HEADER */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
+                <Compass className="w-3.5 h-3.5 text-gold-dark" />
+                <span>{locale === 'ar' ? 'المسارات المعتمدة' : 'Official Pilgrim Routes'}</span>
+              </div>
+              <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
+                {locale === 'ar' ? 'مسارات الحرمين الشريفين والنقل بين المدن' : 'Jeddah, Makkah & Madinah Routes'}
+              </h2>
+              <p className="mt-2 text-ink-muted text-sm md:text-base font-light">
+                {locale === 'ar' ? 'أسعار ثابتة للمركبة بالكامل • رسوم الطرق السريعة مشمولة • لا توجد زيادات في أوقات الذروة' : 'Fixed price per vehicle. Highway tolls and fuel included.'}
+              </p>
+            </div>
+            <Link
+              href={`/${locale}/routes`}
+              className="inline-flex items-center gap-1.5 text-xs md:text-sm font-bold text-gold-dark hover:underline whitespace-nowrap self-start md:self-auto"
+            >
+              <span>{locale === 'ar' ? 'عرض جميع المسارات بالتفصيل' : 'View all routes'}</span>
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+            </Link>
+          </div>
+
+          {/* SCENIC ROUTE CARDS GRID (From Screenshots 6, 7, 9, 10) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {POPULAR_ROUTES.map((r) => (
+              <div
+                key={r.id}
+                className="bg-surface rounded-2xl border border-border shadow-xs hover:shadow-md transition-all overflow-hidden flex flex-col justify-between group"
+              >
+                <div>
+                  {/* SCENIC IMAGE WITH OVERLAY TEXT */}
+                  <div className="relative aspect-[16/10] bg-navy overflow-hidden">
+                    <Image
+                      src={r.img}
+                      alt={r.title}
+                      width={480}
+                      height={300}
+                      className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" />
+                    
+                    {/* Badge */}
+                    <div className="absolute top-3 left-3 rtl:left-auto rtl:right-3">
+                      <span className={`text-[10px] uppercase font-bold px-2.5 py-1 rounded-md shadow-xs ${r.badgeColor}`}>
+                        {r.badge}
+                      </span>
+                    </div>
+
+                    {/* Route Title on Image */}
+                    <div className="absolute bottom-3 left-4 right-4 rtl:right-4 rtl:left-4 text-start">
+                      <h3 className="font-display font-bold text-lg text-white leading-tight">
+                        {r.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* CARD BODY */}
+                  <div className="p-5 text-start">
+                    <p className="text-xs text-ink-muted leading-relaxed font-light mb-4 line-clamp-2">
+                      {r.desc}
+                    </p>
+
+                    <div className="flex items-center gap-4 text-xs text-ink-muted pb-4 border-b border-border">
+                      <div className="flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 text-gold-dark" />
+                        <span>{r.duration}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-gold-dark" />
+                        <span>{r.distance}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-emerald-600 font-medium">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>{locale === 'ar' ? 'الرسوم مشمولة' : 'Tolls Included'}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* CARD FOOTER */}
+                <div className="p-5 pt-0 flex items-center justify-between gap-3 text-start">
+                  <div>
+                    <span className="text-[10px] text-ink-muted uppercase tracking-wider block">
+                      {locale === 'ar' ? 'يبدأ من' : 'From'}
+                    </span>
+                    <span className="font-display font-bold text-xl text-ink">
+                      {formatPrice(r.basePriceSAR)}
+                    </span>
+                    <span className="text-[10px] text-ink-muted block">
+                      {locale === 'ar' ? 'للسيارة بالكامل' : 'per vehicle'}
+                    </span>
+                  </div>
+
+                  <Link
+                    href={`/${locale}/booking?route=${r.id}`}
+                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-gold hover:bg-gold-dark text-ink font-bold text-xs uppercase tracking-wider transition-all shadow-xs"
+                  >
+                    <span>{locale === 'ar' ? 'احجز هذا المسار' : 'Reserve this route'}</span>
+                    <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* SECTION 6: ALL-INCLUSIVE STANDARDS (ZERO HIDDEN FEES)           */}
+      {/* ============================================================== */}
+      <section className="py-16 md:py-24 bg-navy text-white border-t border-navy-border text-start relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="container mx-auto px-4 max-w-7xl relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-xs font-bold text-gold uppercase tracking-widest mb-3">
+              <ShieldCheck className="w-3.5 h-3.5 text-gold" />
+              <span>{locale === 'ar' ? 'ميثاق الجودة والأمان' : 'All-Inclusive Pilgrim Standards'}</span>
+            </div>
+            <h2 className="font-display font-semibold text-3xl md:text-5xl text-white tracking-tight">
+              {locale === 'ar' ? 'معايير الراحة الكاملة بدون أي رسوم خفية' : 'Zero Hidden Fees • Total Peace of Mind'}
+            </h2>
+            <p className="mt-3 text-white/80 text-base md:text-lg leading-relaxed font-light">
+              {locale === 'ar'
+                ? 'نحن نعتبر خدمة ضيوف الرحمن أمانة وشرفاً؛ لذلك نلتزم بأسعار ثابتة وشفافة وخدمة متكاملة من الباب إلى الباب.'
+                : 'Serving the Guests of Allah is our sacred trust. Every transfer includes our 6-pillar guarantee.'}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
+                <Users className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-bold text-lg text-white mb-2">
+                {locale === 'ar' ? 'سيارة خاصة 100% لعائلتك' : '100% Private Transfers'}
+              </h3>
+              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+                {locale === 'ar'
+                  ? 'لا توجد مشاركة مع غرباء إطلاقاً؛ سيارتك وسائقك مخصصان بالكامل لأسرتك لضمان الخصوصية والراحة التامة.'
+                  : 'Never shared with other parties. The entire vehicle and dedicated chauffeur are exclusive to your family.'}
               </p>
             </div>
 
-            {/* STEP 2 */}
-            <div className="relative z-10 bg-surface rounded-2xl p-7 md:p-8 border border-border text-center shadow-xs flex flex-col items-center">
-              <div className="w-16 h-16 rounded-2xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-6 relative">
-                <Car className="w-7 h-7" />
-                <span className="absolute -top-2.5 -right-2.5 w-7 h-7 rounded-full bg-gold text-ink font-bold text-xs flex items-center justify-center border-2 border-surface shadow-xs">
-                  2
-                </span>
+            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
+                <Plane className="w-5 h-5" />
               </div>
-              <h3 className="font-display font-bold text-xl text-ink mb-2">
-                {dict.steps.step2Title}
+              <h3 className="font-display font-bold text-lg text-white mb-2">
+                {locale === 'ar' ? 'تتبع آلي لرحلات الطيران' : 'Live Flight Radar Tracking'}
               </h3>
-              <p className="text-xs md:text-sm text-ink-muted leading-relaxed font-light">
-                {dict.steps.step2Desc}
+              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+                {locale === 'ar'
+                  ? 'نتابع طائرتك بالرادار الملاحي الدولي. إذا تقدمت أو تأخرت، يتم تعديل موعد وصول السائق تلقائياً بدون قلق.'
+                  : 'Automated flight radar tracking ensures your chauffeur is precisely on time even if your flight is delayed.'}
               </p>
             </div>
 
-            {/* STEP 3 */}
-            <div className="relative z-10 bg-surface rounded-2xl p-7 md:p-8 border border-border text-center shadow-xs flex flex-col items-center">
-              <div className="w-16 h-16 rounded-2xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-6 relative">
-                <CheckCircle2 className="w-7 h-7" />
-                <span className="absolute -top-2.5 -right-2.5 w-7 h-7 rounded-full bg-gold text-ink font-bold text-xs flex items-center justify-center border-2 border-surface shadow-xs">
-                  3
-                </span>
+            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
+                <Clock className="w-5 h-5" />
               </div>
-              <h3 className="font-display font-bold text-xl text-ink mb-2">
-                {dict.steps.step3Title}
+              <h3 className="font-display font-bold text-lg text-white mb-2">
+                {locale === 'ar' ? '90 دقيقة انتظار مجاني' : '90-Min Free Airport Waiting'}
               </h3>
-              <p className="text-xs md:text-sm text-ink-muted leading-relaxed font-light">
-                {dict.steps.step3Desc}
+              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+                {locale === 'ar'
+                  ? 'خذ وقتك في استلام الأمتعة وإنهاء الجوازات وشراء الشرائح؛ السائق ينتظرك حتى 90 دقيقة مجاناً بعد الهبوط.'
+                  : 'Generous complimentary wait time allowing you to clear immigration and baggage claim completely stress-free.'}
+              </p>
+            </div>
+
+            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
+                <Fuel className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-bold text-lg text-white mb-2">
+                {locale === 'ar' ? 'رسوم الطرق والوقود مشمولة' : 'Tolls & Fuel Included'}
+              </h3>
+              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+                {locale === 'ar'
+                  ? 'رسوم طريق الحرمين السريع، ومواقف صالات المطار، والوقود، وضريبة القيمة المضافة كلها مشمولة في السعر المعلن.'
+                  : 'Every expressway toll charge, airport terminal parking fee, and fuel cost is 100% covered.'}
+              </p>
+            </div>
+
+            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
+                <Landmark className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-bold text-lg text-white mb-2">
+                {locale === 'ar' ? 'توقف مجاني بميقات آبار علي' : 'Complimentary Miqat Stop'}
+              </h3>
+              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+                {locale === 'ar'
+                  ? 'للمتوجهين من المدينة لمكة، نتوقف في ميقات ذو الحليفة (آبار علي) مع انتظار كافٍ للإحرام والصلاة دون رسوم.'
+                  : 'Free stopover at Dhul Hulayfah (Bir Ali Miqat) with ample waiting time for your Ihram and Sunnah prayers.'}
+              </p>
+            </div>
+
+            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
+                <CreditCard className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-bold text-lg text-white mb-2">
+                {locale === 'ar' ? 'دفع آمن 100% عند الوصول' : '100% Pay On Arrival'}
+              </h3>
+              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+                {locale === 'ar'
+                  ? 'لا نطلب بطاقة ائتمان أو دفعاً مسبقاً إلزامياً؛ ادفع لسائقك نقداً بالريال أو ببطاقتك البنكية عند الوصول سالماً.'
+                  : 'Zero advance deposits required. Settle directly with your driver via cash or bank card upon arriving at your hotel.'}
               </p>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="mt-12 text-center">
+      {/* ============================================================== */}
+      {/* SECTION 7: LUXURY FLEET "CHOOSE YOUR CLASS" (Screenshots 1,2,3)*/}
+      {/* ============================================================== */}
+      <section id="fleet" className="py-16 md:py-24 bg-alabaster border-t border-border text-start">
+        <div className="container mx-auto px-4 max-w-7xl">
+          {/* HEADER */}
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
+              <Car className="w-3.5 h-3.5 text-gold-dark" />
+              <span>{locale === 'ar' ? 'أسطول رويال الفاخر' : 'Royal Executive Fleet'}</span>
+            </div>
+            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
+              {locale === 'ar' ? 'اختر فئة سيارتك المفضلة' : 'Choose Your Class'}
+            </h2>
+            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
+              {locale === 'ar'
+                ? 'أسطول حديث ومصان بأعلى المعايير لكل رحلة — من استقبال المطار الفردي إلى رحلات العائلات الكبيرة والأفواج.'
+                : 'A modern, immaculately maintained fleet for every journey — from solo airport runs to family pilgrimages.'}
+            </p>
+          </div>
+
+          {/* HARMAIN-STYLE FEATURED SHOWCASE CARD (Screenshots 1, 2, 3) */}
+          <div className="bg-gradient-to-br from-navy via-navy-light to-navy rounded-3xl border border-gold/30 shadow-2xl p-6 sm:p-10 md:p-12 mb-14 text-white relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-gold/10 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              {/* LEFT COLUMN: SPECS & FEATURES */}
+              <div className="lg:col-span-6 space-y-6 text-start">
+                <div>
+                  <span className="inline-block px-3 py-1 rounded-full bg-gold/20 border border-gold/40 text-xs font-bold uppercase tracking-wider text-gold mb-3">
+                    {currentCar.category}
+                  </span>
+                  <h3 className="font-display font-bold text-3xl sm:text-4xl text-white">
+                    {currentCar.name}
+                  </h3>
+                  <div className="flex items-center gap-4 text-xs sm:text-sm text-white/80 mt-2">
+                    <div className="flex items-center gap-1.5">
+                      <Users className="w-4 h-4 text-gold" />
+                      <span>{locale === 'ar' ? `حتى ${currentCar.passengers} ركاب` : `Up to ${currentCar.passengers} Passengers`}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Briefcase className="w-4 h-4 text-gold" />
+                      <span>{locale === 'ar' ? `حتى ${currentCar.luggage} حقائب` : `Up to ${currentCar.luggage} Luggage Bags`}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-xs sm:text-sm text-white/80 font-light leading-relaxed">
+                  {currentCar.desc}
+                </p>
+
+                {/* 2x2 FEATURES PILLS */}
+                <div className="grid grid-cols-2 gap-3 pt-2">
+                  {currentCar.features.map((feat, idx) => {
+                    const FeatIcon = feat.icon;
+                    return (
+                      <div
+                        key={idx}
+                        className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-gold/15 text-gold flex items-center justify-center shrink-0">
+                          <FeatIcon className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <span className="text-xs font-bold text-white block">
+                            {feat.title}
+                          </span>
+                          <span className="text-[10px] text-white/60 block">
+                            {feat.desc}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* STARTING PRICE & ACTIONS */}
+                <div className="pt-4 border-t border-white/15 flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wider text-white/60 block font-semibold">
+                      {locale === 'ar' ? 'سعر البداية' : 'STARTING PRICE'}
+                    </span>
+                    <span className="font-display font-bold text-2xl sm:text-3xl text-gold">
+                      {locale === 'ar' ? `من ${formatPrice(currentCar.startingPriceSAR)}` : `From ${formatPrice(currentCar.startingPriceSAR)}`}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <Link
+                      href={`/${locale}/booking?vehicle=${currentCar.id}`}
+                      className="px-6 py-3 rounded-full bg-gold hover:bg-gold-hover text-ink font-bold text-xs uppercase tracking-wider shadow-gold transition-colors"
+                    >
+                      {locale === 'ar' ? 'احجز الآن' : 'Book Now'}
+                    </Link>
+                    <Link
+                      href={`/${locale}/fleet/${currentCar.id}`}
+                      className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 transition-colors"
+                    >
+                      {locale === 'ar' ? 'التفاصيل والمعرض' : 'Details & Gallery'}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* RIGHT COLUMN: VEHICLE IMAGE WITH CABIN TOGGLE */}
+              <div className="lg:col-span-6 relative">
+                <div className="relative aspect-[16/10] bg-navy-card rounded-2xl p-4 flex items-center justify-center overflow-hidden border border-gold/20 shadow-lg">
+                  {/* Step Inside VIP Toggle */}
+                  <div className="absolute top-3 left-3 rtl:left-auto rtl:right-3 z-10 flex items-center bg-navy/90 backdrop-blur-md p-1 rounded-xl border border-gold/40 text-xs">
+                    <button
+                      type="button"
+                      onClick={() => setFleetView((prev) => ({ ...prev, [currentCar.id]: 'ext' }))}
+                      className={`px-3 py-1 rounded-lg font-medium transition-all ${
+                        !isInsideView
+                          ? 'bg-gold text-ink font-bold shadow-xs'
+                          : 'text-white/80 hover:text-white'
+                      }`}
+                    >
+                      {locale === 'ar' ? 'الخارج' : 'Exterior'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFleetView((prev) => ({ ...prev, [currentCar.id]: 'int' }))}
+                      className={`px-3 py-1 rounded-lg font-medium transition-all ${
+                        isInsideView
+                          ? 'bg-gold text-ink font-bold shadow-xs'
+                          : 'text-white/80 hover:text-white'
+                      }`}
+                    >
+                      {locale === 'ar' ? 'المقصورة VIP' : 'Inside VIP'}
+                    </button>
+                  </div>
+
+                  <Image
+                    src={isInsideView ? currentCar.intImg : currentCar.extImg}
+                    alt={`${currentCar.name} ${isInsideView ? 'Interior' : 'Exterior'}`}
+                    width={560}
+                    height={360}
+                    className="w-full h-full object-contain transition-all duration-500"
+                  />
+                </div>
+
+                {/* SLIDER CONTROLS */}
+                <div className="flex items-center justify-between mt-4">
+                  {/* Dots */}
+                  <div className="flex items-center gap-2">
+                    {FLEET_VEHICLES.map((_, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => setActiveFleetIndex(i)}
+                        aria-label={`Select vehicle ${i + 1}`}
+                        className={`h-2 rounded-full transition-all ${
+                          activeFleetIndex === i
+                            ? 'w-6 bg-gold'
+                            : 'w-2 bg-white/30 hover:bg-white/60'
+                        }`}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Arrows */}
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setActiveFleetIndex((prev) => (prev > 0 ? prev - 1 : FLEET_VEHICLES.length - 1))
+                      }
+                      aria-label="Previous vehicle"
+                      className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white transition-colors"
+                    >
+                      <ChevronLeft className="w-5 h-5 rtl:rotate-180" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setActiveFleetIndex((prev) => (prev < FLEET_VEHICLES.length - 1 ? prev + 1 : 0))
+                      }
+                      aria-label="Next vehicle"
+                      className="w-9 h-9 rounded-full bg-gold hover:bg-gold-hover text-ink flex items-center justify-center transition-colors font-bold shadow-xs"
+                    >
+                      <ChevronRight className="w-5 h-5 rtl:rotate-180" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ALL 4 VEHICLES COMPARISON GRID */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {FLEET_VEHICLES.map((car, idx) => (
+              <div
+                key={car.id}
+                onClick={() => setActiveFleetIndex(idx)}
+                className={`bg-surface rounded-2xl p-5 border transition-all cursor-pointer text-start ${
+                  activeFleetIndex === idx
+                    ? 'border-2 border-gold shadow-md bg-gold-soft/20'
+                    : 'border-border hover:border-gold-line shadow-xs'
+                }`}
+              >
+                <div className="relative aspect-[16/10] bg-bg-alt/60 rounded-xl p-3 flex items-center justify-center mb-4">
+                  <Image
+                    src={car.extImg}
+                    alt={car.name}
+                    width={280}
+                    height={180}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <span className="text-[10px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
+                  {car.category}
+                </span>
+                <h4 className="font-display font-bold text-base text-ink mb-2">
+                  {car.name}
+                </h4>
+                <div className="flex items-center justify-between text-xs text-ink-muted pt-3 border-t border-border">
+                  <span>{locale === 'ar' ? `${car.passengers} ركاب` : `${car.passengers} Pax`}</span>
+                  <span className="font-bold text-gold-dark">
+                    {locale === 'ar' ? `من ${formatPrice(car.startingPriceSAR)}` : `From ${formatPrice(car.startingPriceSAR)}`}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* SECTION 8: DESIGNED TO EXCEED EXPECTATIONS (Screenshots 4, 5)  */}
+      {/* ============================================================== */}
+      <section id="services" className="py-16 md:py-24 bg-bg border-t border-border text-start">
+        <div className="container mx-auto px-4 max-w-7xl">
+          {/* HEADER */}
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
+              <Award className="w-3.5 h-3.5 text-gold-dark" />
+              <span>{locale === 'ar' ? 'خدمات متميزة لضيوف الرحمن' : 'Executive Services'}</span>
+            </div>
+            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
+              {locale === 'ar' ? 'مصممة لتتجاوز توقعاتك' : 'Designed to Exceed Expectations'}
+            </h2>
+            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
+              {locale === 'ar'
+                ? 'خدمات نقل خاصة ومخصصة صُممت لتمنح المعتمر وزواره أعلى درجات الراحة والسكينة والتركيز في العبادة.'
+                : 'Tailored chauffeur services designed for the comfort, dignity, and spiritual focus of every pilgrim.'}
+            </p>
+          </div>
+
+          {/* 4 FULL-BLEED PHOTOGRAPHY CARDS (From Screenshots 4 & 5) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {SERVICE_SHOWCASE.map((item) => {
+              const IconComponent = item.icon;
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className="group relative rounded-3xl overflow-hidden aspect-[3/4] bg-navy flex flex-col justify-end p-6 border border-border shadow-md hover:shadow-xl transition-all"
+                >
+                  <Image
+                    src={item.img}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    className="object-cover opacity-60 group-hover:scale-105 group-hover:opacity-75 transition-all duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/50 to-transparent" />
+
+                  <div className="relative z-10 space-y-2 text-start">
+                    <div className="w-10 h-10 rounded-full bg-gold/90 text-ink flex items-center justify-center shadow-md">
+                      <IconComponent className="w-5 h-5" />
+                    </div>
+                    <h3 className="font-display font-bold text-xl text-white leading-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-white/80 font-light leading-snug">
+                      {item.subtitle}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className="text-center">
             <Link
-              href={`/${locale}/booking`}
-              className="inline-flex items-center justify-center gap-2 min-h-[48px] h-12 px-8 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-gold focus-visible:ring-2 focus-visible:ring-gold"
+              href={`/${locale}/services`}
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-btn bg-gold hover:bg-gold-hover text-ink font-bold text-xs uppercase tracking-wider shadow-xs transition-colors"
             >
-              <span>{dict.steps.ctaButton}</span>
+              <span>{locale === 'ar' ? 'عرض جميع الخدمات' : 'View All Services'}</span>
               <ArrowRight className="w-4 h-4 rtl:rotate-180" />
             </Link>
           </div>
@@ -404,901 +921,148 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       </section>
 
       {/* ============================================================== */}
-      {/* 7) POPULAR ROUTES & COMPLETE UMRAH PACKAGES (WITH TABS) */}
+      {/* SECTION 9: VERIFIED TESTIMONIALS & COMPREHENSIVE FAQS           */}
       {/* ============================================================== */}
-      <section id="routes" className="py-16 md:py-24 bg-bg border-t border-border text-start">
+      <section className="py-16 md:py-24 bg-alabaster border-t border-border text-start">
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <span>{dict.popular_routes.sectionPill}</span>
+          {/* TESTIMONIALS */}
+          <div className="mb-20">
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
+                <Star className="w-3.5 h-3.5 fill-gold-dark text-gold-dark" />
+                <span>{locale === 'ar' ? 'تجارب المعتمرين الموثوقة' : 'Verified Pilgrim Experiences'}</span>
+              </div>
+              <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
+                {locale === 'ar' ? 'موثوق من آلاف ضيوف الرحمن' : 'Trusted by Thousands of Travelers'}
+              </h2>
+              <p className="mt-3 text-ink-muted text-base font-light">
+                {locale === 'ar'
+                  ? 'شهادات حقيقية من معتمرين وزوار من بريطانيا وماليزيا ومصر ودول الخليج.'
+                  : 'Real testimonials from pilgrims who experienced our punctual, comfortable VIP service.'}
+              </p>
             </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-              {dict.popular_routes.heading}{' '}
-              <span className="text-gold-dark italic">{dict.popular_routes.headingHighlight}</span>
-            </h2>
-            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-              {dict.popular_routes.subtitle}
-            </p>
 
-            {/* SEGMENTED CONTROL: DIRECT TRANSFERS VS COMPLETE UMRAH PACKAGES */}
-            <div className="inline-flex items-center p-1.5 rounded-xl bg-bg-alt border border-border mt-6">
-              <button
-                type="button"
-                onClick={() => setRouteTab('transfers')}
-                className={`min-h-[44px] px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-gold ${
-                  routeTab === 'transfers'
-                    ? 'bg-gold text-ink shadow-xs'
-                    : 'text-ink-muted hover:text-ink'
-                }`}
-              >
-                <Navigation className="w-3.5 h-3.5" />
-                <span>{locale === 'ar' ? 'الرحلات الفردية المباشرة' : locale === 'ms' ? 'Perjalanan Terus' : 'Direct City & Airport Transfers'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setRouteTab('packages')}
-                className={`min-h-[44px] px-5 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-gold ${
-                  routeTab === 'packages'
-                    ? 'bg-gold text-ink shadow-xs'
-                    : 'text-ink-muted hover:text-ink'
-                }`}
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>{locale === 'ar' ? 'باقات العمرة الشاملة' : locale === 'ms' ? 'Pakej Lengkap Umrah' : 'Complete Umrah Packages'}</span>
-              </button>
-            </div>
-          </div>
-
-          {/* TAB 1: DIRECT POINT-TO-POINT TRANSFERS */}
-          {routeTab === 'transfers' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto animate-fadeIn">
-              {POPULAR_ROUTES.map((route) => (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {REVIEWS.map((rev, idx) => (
                 <div
-                  key={route.id}
-                  className="bg-surface rounded-2xl p-6 border border-border shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
+                  key={idx}
+                  className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
                 >
                   <div>
-                    <div className="flex items-center justify-between text-xs text-ink-muted mb-3 pb-3 border-b border-border">
-                      <span className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5 text-gold-dark" />
-                        <span>{route.duration}</span>
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <Navigation className="w-3.5 h-3.5 text-gold-dark" />
-                        <span>{route.distance}</span>
-                      </span>
-                      <span className="text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded text-[11px]">
-                        {dict.popular_routes.tollsIncluded}
-                      </span>
+                    <div className="flex items-center gap-1 text-gold mb-4">
+                      {[...Array(rev.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-gold text-gold" />
+                      ))}
                     </div>
-
-                    <h3 className="font-display font-bold text-lg text-ink mb-4 min-h-[3rem]">
-                      {route.title}
-                    </h3>
+                    <p className="text-xs sm:text-sm text-ink-light font-light leading-relaxed mb-6 italic">
+                      "{rev.comment}"
+                    </p>
                   </div>
 
                   <div className="pt-4 border-t border-border flex items-center justify-between">
                     <div>
-                      <span className="text-[11px] text-ink-muted block">{dict.popular_routes.fromPrice}</span>
-                      <span className="text-xl font-display font-bold text-gold-dark">
-                        {formatPrice(route.basePriceSAR)}
+                      <span className="font-display font-bold text-sm text-ink block">
+                        {rev.name}
+                      </span>
+                      <span className="text-[11px] text-ink-muted block">
+                        {rev.origin} • {rev.role}
                       </span>
                     </div>
-
-                    <Link
-                      href={`/${locale}/booking?route=${route.id}`}
-                      className="inline-flex items-center gap-1.5 min-h-[44px] px-4 py-2 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs focus-visible:ring-2 focus-visible:ring-gold"
-                    >
-                      <span>{dict.popular_routes.bookButton}</span>
-                      <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-                    </Link>
+                    <span className="text-[10px] text-gold-dark font-semibold bg-gold-soft px-2 py-0.5 rounded-md border border-gold-line">
+                      Verified
+                    </span>
                   </div>
                 </div>
               ))}
             </div>
-          )}
+          </div>
 
-          {/* TAB 2: COMPLETE MULTI-SEGMENT UMRAH PACKAGES */}
-          {routeTab === 'packages' && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto animate-fadeIn">
-              {UMRAH_PACKAGES.map((pkg) => (
-                <div
-                  key={pkg.id}
-                  className="bg-surface rounded-2xl p-6 sm:p-7 border-2 border-gold-line/70 shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative overflow-hidden"
-                >
-                  <div className="absolute top-0 right-0 rtl:right-auto rtl:left-0 bg-gold-dark text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-xl rtl:rounded-bl-none rtl:rounded-br-xl shadow-xs">
-                    {pkg.badge}
-                  </div>
+          {/* COMPREHENSIVE FAQ ACCORDION */}
+          <div id="faq" className="max-w-4xl mx-auto pt-8">
+            <div className="text-center mb-12">
+              <h3 className="font-display font-bold text-2xl sm:text-3xl text-ink">
+                {locale === 'ar' ? 'الأسئلة الشائعة لضيوف الرحمن' : 'Frequently Asked Questions'}
+              </h3>
+              <p className="text-xs sm:text-sm text-ink-muted mt-2 font-light">
+                {locale === 'ar'
+                  ? 'إجابات واضحة وموثوقة عن إجراءات الاستقبال، وسياسة الدفع، وإلغاء الرحلات.'
+                  : 'Clear answers covering airport pickups, payment terms, and Miqat arrangements.'}
+              </p>
+            </div>
 
-                  <div>
-                    <h3 className="font-display font-bold text-xl text-ink mb-1.5 pt-2">
-                      {pkg.title}
-                    </h3>
-                    <p className="text-xs text-ink-muted leading-relaxed font-light mb-4">
-                      {pkg.subtitle}
-                    </p>
-
-                    <div className="space-y-2 py-3 border-y border-border text-xs text-ink">
-                      {pkg.legs.map((leg, i) => (
-                        <div key={i} className="flex items-start gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                          <span className="font-medium text-[11px] leading-snug">{leg}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="pt-5 border-t border-border mt-4">
-                    <div className="flex items-baseline justify-between mb-3">
-                      <div>
-                        <span className="text-[11px] text-ink-muted block">
-                          {locale === 'ar' ? 'سعر الباقة الشاملة تبدأ من:' : locale === 'ms' ? 'Harga Pakej Bermula Dari:' : 'All-Inclusive Package From:'}
-                        </span>
-                        <span className="text-2xl font-display font-bold text-gold-dark">
-                          {formatPrice(pkg.camryPriceSAR)}
-                        </span>
-                      </div>
-                      <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md">
-                        {locale === 'ar' ? 'بدون عربون' : 'Zero Deposit'}
-                      </span>
-                    </div>
-
-                    <Link
-                      href={`/${locale}/booking?route=${pkg.bookingRouteId}&package=${pkg.id}`}
-                      className="w-full inline-flex items-center justify-center gap-2 min-h-[46px] px-4 py-2.5 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs focus-visible:ring-2 focus-visible:ring-gold"
+            <div className="space-y-3">
+              {FAQS.map((faq, index) => {
+                const isOpen = openFaq === index;
+                return (
+                  <div
+                    key={index}
+                    className="bg-surface rounded-2xl border border-border shadow-xs overflow-hidden transition-all"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => toggleFaq(index)}
+                      className="w-full min-h-[56px] px-6 py-4 flex items-center justify-between gap-4 text-start font-display font-bold text-base sm:text-lg text-ink hover:text-gold-dark transition-colors"
+                      aria-expanded={isOpen}
                     >
-                      <span>{locale === 'ar' ? 'حجز الباقة الكاملة' : locale === 'ms' ? 'Tempah Pakej Penuh' : 'Book Full Package'}</span>
-                      <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 7.5) "WHAT'S INCLUDED" ALL-INCLUSIVE PILGRIM GUARANTEE STRIP */}
-      {/* ============================================================== */}
-      <section className="py-14 bg-surface border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-10">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>{locale === 'ar' ? 'معايير الخدمة الشاملة' : 'All-Inclusive Standards'}</span>
-            </div>
-            <h3 className="font-display font-bold text-2xl sm:text-3xl text-ink">
-              {locale === 'ar' ? 'ما يشمله كل مشوار معنا بدون أي رسوم خفية' : 'What is Included in Every Journey With Zero Hidden Costs'}
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
-            <div className="bg-bg-alt/50 p-4 rounded-xl border border-border text-center flex flex-col items-center">
-              <div className="w-10 h-10 rounded-lg bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-2.5">
-                <Car className="w-5 h-5" />
-              </div>
-              <h4 className="font-bold text-xs text-ink mb-1">{locale === 'ar' ? 'سيارة خاصة 100%' : '100% Private Ride'}</h4>
-              <p className="text-[11px] text-ink-muted leading-tight font-light">{locale === 'ar' ? 'خاصة بعائلتك فقط' : 'Never shared with strangers'}</p>
-            </div>
-
-            <div className="bg-bg-alt/50 p-4 rounded-xl border border-border text-center flex flex-col items-center">
-              <div className="w-10 h-10 rounded-lg bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-2.5">
-                <Plane className="w-5 h-5" />
-              </div>
-              <h4 className="font-bold text-xs text-ink mb-1">{locale === 'ar' ? 'متابعة الرحلات الجوية' : 'Flight Delay Tracking'}</h4>
-              <p className="text-[11px] text-ink-muted leading-tight font-light">{locale === 'ar' ? 'نعدل موعدنا تلقائياً' : 'Adjusted to live landing time'}</p>
-            </div>
-
-            <div className="bg-bg-alt/50 p-4 rounded-xl border border-border text-center flex flex-col items-center">
-              <div className="w-10 h-10 rounded-lg bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-2.5">
-                <Clock className="w-5 h-5" />
-              </div>
-              <h4 className="font-bold text-xs text-ink mb-1">{locale === 'ar' ? 'انتظار مجاني 90 دقيقة' : '90-Min Airport Wait'}</h4>
-              <p className="text-[11px] text-ink-muted leading-tight font-light">{locale === 'ar' ? 'لإنهاء الجوازات والحقائب' : 'Generous immigration buffer'}</p>
-            </div>
-
-            <div className="bg-bg-alt/50 p-4 rounded-xl border border-border text-center flex flex-col items-center">
-              <div className="w-10 h-10 rounded-lg bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-2.5">
-                <Fuel className="w-5 h-5" />
-              </div>
-              <h4 className="font-bold text-xs text-ink mb-1">{locale === 'ar' ? 'رسوم الطرق والوقود' : 'Highway Tolls Included'}</h4>
-              <p className="text-[11px] text-ink-muted leading-tight font-light">{locale === 'ar' ? 'شامل رسوم طريق مكة السريع' : 'All expressways & fuel paid'}</p>
-            </div>
-
-            <div className="bg-bg-alt/50 p-4 rounded-xl border border-border text-center flex flex-col items-center">
-              <div className="w-10 h-10 rounded-lg bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-2.5">
-                <Compass className="w-5 h-5" />
-              </div>
-              <h4 className="font-bold text-xs text-ink mb-1">{locale === 'ar' ? 'توقف مجاني بالميقات' : 'Free Miqat Stop'}</h4>
-              <p className="text-[11px] text-ink-muted leading-tight font-light">{locale === 'ar' ? 'للإحرام وصلاة النية' : 'Bir Ali stop for Ihram & Niyyah'}</p>
-            </div>
-
-            <div className="bg-bg-alt/50 p-4 rounded-xl border border-border text-center flex flex-col items-center">
-              <div className="w-10 h-10 rounded-lg bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-2.5">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <h4 className="font-bold text-xs text-ink mb-1">{locale === 'ar' ? 'الدفع عند الوصول' : 'Pay Upon Arrival'}</h4>
-              <p className="text-[11px] text-ink-muted leading-tight font-light">{locale === 'ar' ? 'نقداً أو بالبطاقة للسائق' : 'Zero upfront deposit required'}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 8) FLEET (CARDS WITH ONLY VERIFIED DB FEATURES) */}
-      {/* ============================================================== */}
-      <section id="fleet" className="py-16 md:py-24 bg-bg-alt/40 border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <span>{dict.fleet.sectionPill}</span>
-            </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-              {dict.fleet.heading}
-            </h2>
-            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-              {dict.fleet.subtitle}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto mb-16">
-            {FLEET_CARS.map((car) => (
-              <div
-                key={car.id}
-                className="bg-surface rounded-2xl border border-border shadow-xs hover:shadow-md transition-all overflow-hidden flex flex-col justify-between"
-              >
-                <div>
-                  <div className="relative aspect-[16/10] bg-bg-alt/50 p-4 flex items-center justify-center overflow-hidden">
-                    {/* Step Inside Interior / Exterior Toggle */}
-                    <div className="absolute top-2.5 left-2.5 rtl:left-auto rtl:right-2.5 z-10 flex items-center bg-charcoal/85 backdrop-blur-sm p-0.5 rounded-lg border border-gold/30 text-[10px]">
-                      <button
-                        type="button"
-                        onClick={() => setFleetView((prev) => ({ ...prev, [car.id]: 'ext' }))}
-                        className={`px-2 py-0.5 rounded font-medium transition-colors ${(fleetView[car.id] || 'ext') === 'ext' ? 'bg-gold text-ink font-bold shadow-xs' : 'text-white/80 hover:text-white'}`}
-                      >
-                        {locale === 'ar' ? 'الخارج' : 'Exterior'}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setFleetView((prev) => ({ ...prev, [car.id]: 'int' }))}
-                        className={`px-2 py-0.5 rounded font-medium transition-colors ${fleetView[car.id] === 'int' ? 'bg-gold text-ink font-bold shadow-xs' : 'text-white/80 hover:text-white'}`}
-                      >
-                        {locale === 'ar' ? 'المقصورة VIP' : 'Inside VIP'}
-                      </button>
-                    </div>
-
-                    <Image
-                      src={fleetView[car.id] === 'int' ? car.intImg : car.extImg}
-                      alt={`${car.name} ${fleetView[car.id] === 'int' ? 'Interior' : 'Exterior'}`}
-                      width={400}
-                      height={250}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      loading="lazy"
-                      className="w-full h-full object-contain hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block">
-                        {car.category}
-                      </span>
-                      <span className="text-xs font-bold text-ink">
-                        {formatPrice(car.basePriceSAR)}
-                      </span>
-                    </div>
-                    <h3 className="font-display font-bold text-lg text-ink mb-3">
-                      {car.name}
-                    </h3>
-
-                    {/* ONLY SPECIFIED DB FEATURES: Air conditioning, Comfortable seating, Luggage space */}
-                    <div className="space-y-2 py-3 border-y border-border text-xs text-ink-muted">
-                      <div className="flex items-center gap-2">
-                        <Users className="w-3.5 h-3.5 text-gold-dark shrink-0" />
-                        <span>{car.seats} {dict.fleet.seatsLabel}</span>
+                      <span>{faq.q}</span>
+                      <div className="w-8 h-8 rounded-full bg-bg-alt flex items-center justify-center shrink-0 text-ink-muted">
+                        {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Briefcase className="w-3.5 h-3.5 text-gold-dark shrink-0" />
-                        <span>{car.bags} {dict.fleet.bagsLabel}</span>
+                    </button>
+                    {isOpen && (
+                      <div className="px-6 pb-6 pt-1 text-xs sm:text-sm text-ink-muted leading-relaxed font-light border-t border-border/50">
+                        {faq.a}
                       </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-gold-dark shrink-0" />
-                        <span>{dict.fleet.amenityAc}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-gold-dark shrink-0" />
-                        <span>{dict.fleet.amenityComfort}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-gold-dark shrink-0" />
-                        <span>{dict.fleet.amenityLuggage}</span>
-                      </div>
-                    </div>
+                    )}
                   </div>
-                </div>
-
-                <div className="p-5 pt-0 flex items-center gap-2">
-                  <Link
-                    href={`/${locale}/fleet/${car.slug}`}
-                    className="flex-1 min-h-[44px] rounded-btn border border-border text-ink text-xs font-bold uppercase tracking-wider hover:border-gold-dark hover:bg-bg-alt transition-colors flex items-center justify-center focus-visible:ring-1 focus-visible:ring-gold"
-                  >
-                    {dict.fleet.detailsButton}
-                  </Link>
-                  <Link
-                    href={`/${locale}/booking?vehicle=${car.id}`}
-                    className="flex-1 min-h-[44px] rounded-btn bg-gold text-ink text-xs font-bold uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-colors flex items-center justify-center shadow-xs focus-visible:ring-1 focus-visible:ring-gold"
-                  >
-                    {dict.fleet.bookNowButton}
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 9) SERVICES SECTION WITH "FROM X SAR" */}
-      {/* ============================================================== */}
-      <section id="services" className="py-16 md:py-24 bg-bg border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <span>{dict.services_list.sectionPill}</span>
-            </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-              {dict.services_list.heading}{' '}
-              <span className="text-gold-dark italic">{dict.services_list.headingHighlight}</span>
-            </h2>
-            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-              {dict.services_list.subtitle}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {CORE_SERVICES.map((srv) => {
-              const Icon = srv.icon;
-              return (
-                <div
-                  key={srv.id}
-                  className="bg-surface rounded-2xl p-6 border border-border shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark">
-                        <Icon className="w-6 h-6" />
-                      </div>
-                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-bg-alt text-gold-dark border border-gold-line">
-                        {srv.fromRate}
-                      </span>
-                    </div>
-                    <h3 className="font-display font-bold text-xl text-ink mb-2">
-                      {srv.title}
-                    </h3>
-                    <p className="text-xs text-ink-muted leading-relaxed font-light mb-4">
-                      {srv.desc}
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t border-border">
-                    <Link
-                      href={srv.link}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:text-gold-hover transition-colors min-h-[44px]"
-                    >
-                      <span>{dict.services_list.bookNow}</span>
-                      <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 10) "STEP INSIDE" GALLERY (2X2 CABIN INTERIOR PHOTOS) */}
-      {/* ============================================================== */}
-      <section className="py-16 md:py-24 bg-bg-alt/40 border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <span>{dict.cabin_gallery.sectionPill}</span>
-            </div>
-            <h3 className="font-display font-semibold text-3xl md:text-4xl text-ink">
-              {dict.cabin_gallery.heading}
-            </h3>
-            <p className="mt-2 text-xs md:text-sm text-ink-muted font-light">
-              {dict.cabin_gallery.subtitle}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {FLEET_CARS.map((car) => (
-              <div
-                key={car.id}
-                className="relative rounded-3xl overflow-hidden aspect-[16/10] group shadow-sm border border-border"
-              >
-                <Image
-                  src={car.intImg}
-                  alt={`${car.name} interior`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  loading="lazy"
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 bg-surface/90 backdrop-blur-md rounded-2xl p-4 border border-white/20 text-start shadow-md flex items-center justify-between">
-                  <div>
-                    <h4 className="font-display font-bold text-base md:text-lg text-ink">
-                      {car.name}
-                    </h4>
-                    <p className="text-xs text-ink-muted font-light">
-                      {car.category} • {car.seats} {dict.fleet.seatsLabel}
-                    </p>
-                  </div>
-                  <Link
-                    href={`/${locale}/fleet/${car.slug}`}
-                    className="w-10 h-10 rounded-full bg-gold text-ink flex items-center justify-center hover:bg-gold-hover hover:text-white transition-colors shadow-xs shrink-0"
-                    title={dict.cabin_gallery.viewCabin}
-                    aria-label={`View ${car.name} cabin details`}
-                  >
-                    <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 11) MIQAT & ZIYARAT SECTION */}
-      {/* ============================================================== */}
-      <section className="py-16 md:py-24 bg-bg border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <span>{dict.miqat_ziyarat.sectionPill}</span>
-            </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-              {dict.miqat_ziyarat.heading}{' '}
-              <span className="text-gold-dark italic">{dict.miqat_ziyarat.headingHighlight}</span>
-            </h2>
-            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-              {dict.miqat_ziyarat.subtitle}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
-            {/* Bir Ali */}
-            <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs">
-              <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
-                {dict.miqat_ziyarat.birAliCat}
-              </span>
-              <h3 className="font-display font-bold text-lg text-ink mb-2">
-                {dict.miqat_ziyarat.birAliTitle}
-              </h3>
-              <p className="text-xs text-ink-muted leading-relaxed font-light">
-                {dict.miqat_ziyarat.birAliDesc}
-              </p>
-            </div>
-
-            {/* Yalamlam */}
-            <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs">
-              <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
-                {dict.miqat_ziyarat.yalamlamCat}
-              </span>
-              <h3 className="font-display font-bold text-lg text-ink mb-2">
-                {dict.miqat_ziyarat.yalamlamTitle}
-              </h3>
-              <p className="text-xs text-ink-muted leading-relaxed font-light">
-                {dict.miqat_ziyarat.yalamlamDesc}
-              </p>
-            </div>
-
-            {/* Qarn al-Manazil */}
-            <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs">
-              <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
-                {dict.miqat_ziyarat.qarnCat}
-              </span>
-              <h3 className="font-display font-bold text-lg text-ink mb-2">
-                {dict.miqat_ziyarat.qarnTitle}
-              </h3>
-              <p className="text-xs text-ink-muted leading-relaxed font-light">
-                {dict.miqat_ziyarat.qarnDesc}
-              </p>
-            </div>
-
-            {/* Ziyarat Makkah */}
-            <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs md:col-span-2 lg:col-span-1">
-              <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
-                {dict.miqat_ziyarat.ziyaratMakkahCat}
-              </span>
-              <h3 className="font-display font-bold text-lg text-ink mb-2">
-                {dict.miqat_ziyarat.ziyaratMakkahTitle}
-              </h3>
-              <p className="text-xs text-ink-muted leading-relaxed font-light">
-                {dict.miqat_ziyarat.ziyaratMakkahDesc}
-              </p>
-            </div>
-
-            {/* Ziyarat Madinah */}
-            <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs md:col-span-2">
-              <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
-                {dict.miqat_ziyarat.ziyaratMadinahCat}
-              </span>
-              <h3 className="font-display font-bold text-lg text-ink mb-2">
-                {dict.miqat_ziyarat.ziyaratMadinahTitle}
-              </h3>
-              <p className="text-xs text-ink-muted leading-relaxed font-light">
-                {dict.miqat_ziyarat.ziyaratMadinahDesc}
-              </p>
+                );
+              })}
             </div>
           </div>
         </div>
       </section>
 
       {/* ============================================================== */}
-      {/* 12) WHY CHOOSE US (BORDERED CARDS) */}
+      {/* FINAL EXECUTIVE CTA BAND (Screenshot 13 "Book with Confidence")*/}
       {/* ============================================================== */}
-      <section className="py-16 md:py-24 bg-bg-alt/40 border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <span>{dict.why_us.sectionPill}</span>
-            </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-              {dict.why_us.heading}{' '}
-              <span className="text-gold-dark italic">{dict.why_us.headingHighlight}</span>
-            </h2>
-            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-              {dict.why_us.subtitle}
-            </p>
+      <section className="py-16 md:py-20 bg-navy text-white border-t border-navy-border text-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gold/15 via-transparent to-transparent pointer-events-none" />
+        <div className="container mx-auto px-4 max-w-4xl relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/40 text-xs font-bold text-gold uppercase tracking-widest mb-4">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>{locale === 'ar' ? 'احجز بثقة تامة' : 'Book with Confidence'}</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <div className="bg-surface rounded-2xl p-8 border border-border shadow-xs">
-              <div className="w-12 h-12 rounded-xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-5">
-                <Clock className="w-6 h-6" />
-              </div>
-              <h3 className="font-display font-bold text-xl text-ink mb-2">
-                {dict.why_us.pillar2Title}
-              </h3>
-              <p className="text-xs text-ink-muted leading-relaxed font-light">
-                {dict.why_us.pillar2Desc}
-              </p>
-            </div>
+          <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-white mb-4">
+            {locale === 'ar' ? 'جاهز لرحلة عمرة ميسرة ومريحة؟' : 'Ready for a Peaceful & Dignified Umrah?'}
+          </h2>
 
-            <div className="bg-surface rounded-2xl p-8 border border-border shadow-xs">
-              <div className="w-12 h-12 rounded-xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-5">
-                <ShieldCheck className="w-6 h-6" />
-              </div>
-              <h3 className="font-display font-bold text-xl text-ink mb-2">
-                {dict.why_us.pillar1Title}
-              </h3>
-              <p className="text-xs text-ink-muted leading-relaxed font-light">
-                {dict.why_us.pillar1Desc}
-              </p>
-            </div>
-
-            <div className="bg-surface rounded-2xl p-8 border border-border shadow-xs">
-              <div className="w-12 h-12 rounded-xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark mb-5">
-                <Users className="w-6 h-6" />
-              </div>
-              <h3 className="font-display font-bold text-xl text-ink mb-2">
-                {dict.why_us.pillar3Title}
-              </h3>
-              <p className="text-xs text-ink-muted leading-relaxed font-light">
-                {dict.why_us.pillar3Desc}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 13) REVIEWS (REAL GOOGLE REVIEWS LINK & VERIFIED TESTIMONIALS) */}
-      {/* ============================================================== */}
-      <section className="py-16 md:py-24 bg-bg border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <span>{dict.reviews.sectionPill}</span>
-            </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-              {dict.reviews.heading}{' '}
-              <span className="text-gold-dark italic">{dict.reviews.headingHighlight}</span>
-            </h2>
-            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-              {dict.reviews.subtitle}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-10">
-            {APPROVED_REVIEWS.map((rev, idx) => (
-              <div
-                key={idx}
-                className="bg-surface rounded-2xl p-6 border border-border shadow-xs flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center gap-1 text-gold mb-3 text-sm">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-gold text-gold" />
-                    ))}
-                  </div>
-                  <p className="text-xs md:text-sm text-body leading-relaxed font-light italic mb-4">
-                    &quot;{rev.comment}&quot;
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-border">
-                  <h4 className="font-display font-bold text-sm text-ink">{rev.name}</h4>
-                  <p className="text-[11px] text-ink-muted">{rev.country}</p>
-                  <span className="text-[10px] text-gold-dark font-medium block mt-0.5">
-                    {rev.route}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+          <p className="text-sm sm:text-base text-white/80 max-w-2xl mx-auto mb-8 font-light leading-relaxed">
+            {locale === 'ar'
+              ? 'احجز سيارتك الخاصة الآن بسعر ثابت وبدون أي دفعة مقدمة؛ فريقنا على واتساب جاهز لتأكيد حجزك والإجابة عن أي استفسار.'
+              : 'Reserve your private chauffeur with zero advance deposit, guaranteed fixed rates, and instant 24/7 WhatsApp confirmation.'}
+          </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href={`/${locale}/booking`}
+              className="inline-flex items-center justify-center gap-2 min-h-[48px] px-8 py-3.5 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-gold"
+            >
+              <span>{locale === 'ar' ? 'احجز رحلتك الآن' : 'Book Your Chauffeur'}</span>
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+            </Link>
             <a
-              href={settings.google_reviews_link}
+              href={`https://wa.me/${settings.whatsapp_number}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 min-h-[44px] px-6 py-2.5 rounded-btn border border-border text-ink font-bold text-xs hover:border-gold-dark transition-colors shadow-xs focus-visible:ring-2 focus-visible:ring-gold"
+              className="inline-flex items-center justify-center gap-2 min-h-[48px] px-7 py-3.5 rounded-btn bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
             >
-              <span>{dict.reviews.readAllButton}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-            <a
-              href={settings.google_reviews_link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 min-h-[44px] px-6 py-2.5 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs focus-visible:ring-2 focus-visible:ring-gold"
-            >
-              <span>{dict.reviews.writeReviewButton}</span>
+              <MessageCircle className="w-4 h-4" />
+              <span>{locale === 'ar' ? 'محادثة وتأكيد واتساب' : 'Book on WhatsApp'}</span>
             </a>
           </div>
         </div>
       </section>
-
-      {/* ============================================================== */}
-      {/* 14) FAQ ACCORDION (12 QUESTIONS) */}
-      {/* ============================================================== */}
-      <section id="faq" className="py-16 md:py-24 bg-bg-alt/40 border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <span>{dict.faq.sectionPill}</span>
-            </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-              {dict.faq.heading}
-            </h2>
-            <p className="mt-3 text-ink-muted text-base leading-relaxed font-light">
-              {dict.faq.subtitle}
-            </p>
-          </div>
-
-          <div className="space-y-3.5">
-            {ALL_FAQS.map((faq, index) => {
-              const isOpen = openFaq === index;
-              const faqId = `faq-item-${index}`;
-              const answerId = `faq-answer-${index}`;
-              return (
-                <div
-                  key={index}
-                  className="bg-surface rounded-2xl border border-border overflow-hidden shadow-xs transition-colors"
-                >
-                  <button
-                    type="button"
-                    id={faqId}
-                    aria-expanded={isOpen}
-                    aria-controls={answerId}
-                    onClick={() => toggleFaq(index)}
-                    className="w-full min-h-[56px] p-5 text-start flex items-center justify-between gap-4 font-display font-bold text-base md:text-lg text-ink hover:text-gold-dark transition-colors focus-visible:ring-2 focus-visible:ring-gold"
-                  >
-                    <span>{faq.q}</span>
-                    <span className="w-8 h-8 rounded-full bg-bg-alt flex items-center justify-center shrink-0 text-gold-dark">
-                      {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                    </span>
-                  </button>
-                  {isOpen && (
-                    <div
-                      id={answerId}
-                      role="region"
-                      aria-labelledby={faqId}
-                      className="px-5 pb-5 text-xs md:text-sm text-ink-muted font-light leading-relaxed border-t border-border/50 pt-3"
-                    >
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 15) TEAM / ABOUT TEASER */}
-      {/* ============================================================== */}
-      {settings?.founder_enabled && (
-        <section className="py-16 md:py-24 bg-bg border-t border-border text-start">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <div className="bg-surface rounded-2xl p-8 md:p-12 border border-gold-line/60 shadow-xs">
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-                <div className="md:col-span-4 text-center">
-                  <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-gold-soft border-2 border-gold-line mx-auto flex items-center justify-center text-4xl sm:text-5xl text-gold-dark mb-4 shadow-sm">
-                    🕋
-                  </div>
-                  <h4 className="font-display font-bold text-xl text-ink">
-                    {dict.team_teaser.name}
-                  </h4>
-                  <p className="text-xs text-ink-muted font-light mt-0.5">
-                    {dict.team_teaser.role}
-                  </p>
-                </div>
-
-                <div className="md:col-span-8 space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-soft text-xs font-bold text-gold-dark uppercase tracking-widest">
-                    <span>{dict.team_teaser.sectionPill}</span>
-                  </div>
-                  <h3 className="font-display font-bold text-2xl md:text-3xl text-ink">
-                    {dict.team_teaser.heading}{' '}
-                    <span className="text-gold-dark italic">{dict.team_teaser.headingHighlight}</span>
-                  </h3>
-                  <p className="text-xs md:text-sm text-body leading-relaxed font-light">
-                    {dict.team_teaser.story}
-                  </p>
-                  <div className="pt-2">
-                    <Link
-                      href={`/${locale}/about`}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline min-h-[44px]"
-                    >
-                      <span>{dict.team_teaser.readMoreBtn}</span>
-                      <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ============================================================== */}
-      {/* 16) GUIDES (3 LATEST POSTS WITH UPDATE DATES) */}
-      {/* ============================================================== */}
-      <section className="py-16 md:py-24 bg-bg-alt/40 border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <span>{dict.guides_section.sectionPill}</span>
-            </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-              {dict.guides_section.heading}{' '}
-              <span className="text-gold-dark italic">{dict.guides_section.headingHighlight}</span>
-            </h2>
-            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-              {dict.guides_section.subtitle}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {/* Guide 1: Malaysia */}
-            <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs flex flex-col justify-between">
-              <div>
-                <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-2">
-                  {dict.guides_section.guide1Date}
-                </span>
-                <h3 className="font-display font-bold text-lg text-ink mb-2">
-                  {dict.guides_section.guide1Title}
-                </h3>
-                <p className="text-xs text-ink-muted leading-relaxed font-light mb-4">
-                  {dict.guides_section.guide1Desc}
-                </p>
-              </div>
-              <div className="pt-4 border-t border-border">
-                <Link
-                  href={`/${locale}/guides/malaysia-umrah-transport`}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline min-h-[44px]"
-                >
-                  <span>{dict.guides_section.readGuide}</span>
-                  <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-                </Link>
-              </div>
-            </div>
-
-            {/* Guide 2: Jeddah Airport */}
-            <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs flex flex-col justify-between">
-              <div>
-                <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-2">
-                  {dict.guides_section.guide2Date}
-                </span>
-                <h3 className="font-display font-bold text-lg text-ink mb-2">
-                  {dict.guides_section.guide2Title}
-                </h3>
-                <p className="text-xs text-ink-muted leading-relaxed font-light mb-4">
-                  {dict.guides_section.guide2Desc}
-                </p>
-              </div>
-              <div className="pt-4 border-t border-border">
-                <Link
-                  href={`/${locale}/guides/jeddah-airport-arrival-guide`}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline min-h-[44px]"
-                >
-                  <span>{dict.guides_section.readGuide}</span>
-                  <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-                </Link>
-              </div>
-            </div>
-
-            {/* Guide 3: Comparison */}
-            <div className="bg-surface rounded-2xl p-6 border border-border shadow-xs flex flex-col justify-between">
-              <div>
-                <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-2">
-                  {dict.guides_section.guide3Date}
-                </span>
-                <h3 className="font-display font-bold text-lg text-ink mb-2">
-                  {dict.guides_section.guide3Title}
-                </h3>
-                <p className="text-xs text-ink-muted leading-relaxed font-light mb-4">
-                  {dict.guides_section.guide3Desc}
-                </p>
-              </div>
-              <div className="pt-4 border-t border-border">
-                <Link
-                  href={`/${locale}/guides/makkah-to-madinah-transport-comparison`}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-dark hover:underline min-h-[44px]"
-                >
-                  <span>{dict.guides_section.readGuide}</span>
-                  <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 17) DARK CTA BAND (CHARCOAL #171513) */}
-      {/* ============================================================== */}
-      <section className="py-16 md:py-20 bg-charcoal text-white border-t border-charcoal-border text-start">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-start">
-            <div className="space-y-3 max-w-xl">
-              <h2 className="font-display font-bold text-3xl md:text-4xl text-white tracking-tight">
-                {dict.cta_band.heading}{' '}
-                <span className="text-gold italic">{dict.cta_band.headingHighlight}</span>
-              </h2>
-              <p className="text-xs md:text-sm text-white/80 font-light leading-relaxed">
-                {dict.cta_band.subtitle}
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-              <Link
-                href={`/${locale}/booking`}
-                className="w-full sm:w-auto min-h-[48px] h-12 px-8 rounded-btn bg-gold hover:bg-gold-hover hover:text-white text-ink font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md shrink-0 focus-visible:ring-2 focus-visible:ring-gold"
-              >
-                <span>{dict.cta_band.buttonPrimary}</span>
-                <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-              </Link>
-              <a
-                href={`https://wa.me/${settings.whatsapp_number}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto min-h-[48px] h-12 px-6 rounded-btn border border-charcoal-border hover:border-gold text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors shrink-0 focus-visible:ring-2 focus-visible:ring-gold"
-              >
-                <MessageCircle className="w-4 h-4 text-emerald-400" />
-                <span>{dict.cta_band.buttonWhatsApp}</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+    </div>
   );
 }

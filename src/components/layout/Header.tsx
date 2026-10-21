@@ -65,21 +65,24 @@ export function Header({ locale, dict }: HeaderProps) {
 
   return (
     <div className="sticky top-0 z-50">
-      {/* 1) OPTIONAL PROMO BAR */}
-      {dict.promo_bar && (
-        <div className="bg-charcoal text-gold text-xs py-2 px-4 border-b border-charcoal-border text-center font-medium">
-          <div className="container mx-auto flex items-center justify-center gap-2">
-            <span>{dict.promo_bar.text}</span>
-            <Link
-              href={`/${locale}/booking`}
-              className="text-white hover:text-gold-hover underline ml-1 font-bold inline-flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-gold"
-            >
-              <span>{dict.promo_bar.btn}</span>
-              <span aria-hidden="true" className="rtl:rotate-180">→</span>
-            </Link>
-          </div>
+      {/* 1) EXECUTIVE ANNOUNCEMENT BAR */}
+      <div className="bg-[#0A0F1D] text-gold text-xs py-2 px-4 border-b border-gold/20 text-center font-medium shadow-xs">
+        <div className="container mx-auto flex items-center justify-center gap-2 flex-wrap">
+          <span className="inline-flex items-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5 text-gold shrink-0" />
+            {locale === 'ar'
+              ? 'أسعار موسم العمرة 2026 ثابتة ومعتمدة • إلغاء مجاني حتى 24 ساعة قبل موعد الوصول'
+              : 'Fixed 2026 Umrah Season Rates Available • Free Cancellation up to 24h Before Arrival'}
+          </span>
+          <Link
+            href={`/${locale}/booking`}
+            className="text-white hover:text-gold-hover underline font-bold inline-flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-gold text-xs"
+          >
+            <span>{locale === 'ar' ? 'احجز أونلاين' : 'Book Online'}</span>
+            <span aria-hidden="true" className="rtl:rotate-180">→</span>
+          </Link>
         </div>
-      )}
+      </div>
 
       {/* 2) STICKY HEADER */}
       <header
@@ -95,17 +98,17 @@ export function Header({ locale, dict }: HeaderProps) {
           <Link
             href={`/${locale}`}
             className="flex items-center gap-2.5 sm:gap-3 group focus-visible:ring-2 focus-visible:ring-gold rounded-lg p-1 -m-1"
-            aria-label={`${dict.meta.brand} - ${dict.meta.brandSub}`}
+            aria-label="Duyuf Alrahman VIP - ضيوف الرحمن VIP"
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-gold-soft border border-gold-line flex items-center justify-center text-lg sm:text-xl text-gold-dark shadow-xs group-hover:scale-105 transition-transform shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-gold/25 via-gold/10 to-[#0A0F1D] border border-gold/40 flex items-center justify-center text-lg sm:text-xl shadow-xs group-hover:scale-105 transition-transform shrink-0">
               🕋
             </div>
             <div className="flex flex-col text-start">
-              <span className="font-display font-bold text-lg sm:text-xl md:text-2xl tracking-wide uppercase text-ink group-hover:text-gold-dark transition-colors leading-tight">
-                {dict.meta.brand}
+              <span className="font-display font-bold text-base sm:text-lg md:text-xl tracking-wide uppercase text-ink group-hover:text-gold-dark transition-colors leading-tight">
+                {locale === 'ar' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
               </span>
-              <span className="text-[9px] sm:text-[10px] md:text-[11px] font-bold text-gold-dark tracking-[0.16em] uppercase leading-none mt-0.5">
-                {dict.meta.brandSub}
+              <span className="text-[9px] sm:text-[10px] md:text-[11px] font-bold text-gold-dark tracking-[0.14em] uppercase leading-none mt-0.5">
+                {locale === 'ar' ? 'Duyuf Alrahman VIP • نقل معتمد' : 'ضيوف الرحمن VIP • Executive Chauffeur'}
               </span>
             </div>
           </Link>
@@ -168,7 +171,7 @@ export function Header({ locale, dict }: HeaderProps) {
               href={`/${locale}/booking`}
               className="hidden sm:inline-flex items-center gap-1.5 h-10 px-4 text-xs font-bold uppercase tracking-wider rounded-btn bg-gold text-ink hover:bg-gold-hover hover:text-white transition-all shadow-xs focus-visible:ring-2 focus-visible:ring-gold"
             >
-              <span>{dict.nav.bookNow}</span>
+              <span>{locale === 'ar' ? 'احجز أونلاين' : 'Book Online'}</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
 
@@ -211,7 +214,7 @@ export function Header({ locale, dict }: HeaderProps) {
                   className="w-full min-h-[46px] flex items-center justify-center font-bold text-sm uppercase rounded-btn bg-gold text-ink hover:bg-gold-hover transition-colors shadow-xs"
                 >
                   <CalendarDays className="w-4 h-4 mr-2 rtl:mr-0 rtl:ml-2" />
-                  <span>{dict.nav.bookNow}</span>
+                  <span>{locale === 'ar' ? 'احجز أونلاين' : 'Book Online'}</span>
                 </Link>
                 <div className="flex items-center justify-between text-xs text-ink-muted pt-2 px-1">
                   <Link

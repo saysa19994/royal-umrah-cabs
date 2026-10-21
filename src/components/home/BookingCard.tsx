@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Locale, CURRENCIES, CurrencyCode } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import { useCurrency } from '@/context/CurrencyContext';
-import { MapPin, Calendar, Clock, Users, Luggage, Car, Check, ArrowRight, MessageCircle } from 'lucide-react';
+import { MapPin, Calendar, Clock, Users, Luggage, Car, Check, ArrowRight, MessageCircle, Plane, Sparkles } from 'lucide-react';
 import { TurnstileWidget } from '@/components/common/TurnstileWidget';
 import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
 import { trackEvent } from '@/lib/analytics';
@@ -66,6 +66,7 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
   const [route, setRoute] = useState('jeddah-airport-to-makkah');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('14:00');
+  const [flightNumber, setFlightNumber] = useState('');
   const [passengers, setPassengers] = useState(3);
   const [luggage, setLuggage] = useState(3);
   const [vehicle, setVehicle] = useState('staria');
@@ -109,11 +110,12 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
     });
     const params = new URLSearchParams({
       route,
+      vehicle,
       date,
       time,
       passengers: passengers.toString(),
       luggage: luggage.toString(),
-      vehicle,
+      flight_number: flightNumber,
     });
     router.push(`/${locale}/booking?${params.toString()}`);
   };
@@ -170,7 +172,11 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
       const targetPhone = isNumB ? '966505316971' : '966567588261';
       const refPrefix = isNumB ? 'REF-B' : 'REF-A';
       const fallbackRef = `${refPrefix}-` + Math.floor(10000 + Math.random() * 90000);
-      const fallbackMsg = `Assalamu Alaikum Royal Umrah Cabs [${fallbackRef}]\nRoute: ${routeText}\nVehicle: ${vehicleText}\nDate: ${date || 'Flexible'}\nPassengers: ${passengers}\nFixed Price: ${baseSAR || 'Quote Needed'} SAR`;
+      const formattedPrice = baseSAR ? `${baseSAR} SAR` : 'Quote';
+      const fallbackMsg =
+        locale === 'ar'
+          ? `السلام عليكم، أود حجز سيارة خاصة مع ضيوف الرحمن VIP [${fallbackRef}]:\n• المسار: ${routeText}\n• السيارة: ${vehicleText}\n• التاريخ: ${date || 'اليوم'}\n• الوقت: ${time}\n• رقم الرحلة: ${flightNumber || 'غير محدد'}\n• الركاب: ${passengers} | الأمتعة: ${luggage}\n• السعر الإجمالي: ${formattedPrice} (الدفع عند الوصول)`
+          : `Salam, I would like to reserve private chauffeur transport with Duyuf Alrahman VIP [${fallbackRef}]:\n• Route: ${routeText}\n• Vehicle: ${vehicleText}\n• Date: ${date || 'Today'}\n• Time: ${time}\n• Flight: ${flightNumber || 'TBD'}\n• Pax: ${passengers} | Luggage: ${luggage}\n• Total Fare: ${formattedPrice} (Pay on Arrival)`;
       targetUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(fallbackMsg)}`;
     }
 
@@ -187,15 +193,25 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
       aria-label={dict.booking_card.title}
       className="relative z-30 px-3 sm:px-4 -mt-14 sm:-mt-24 md:-mt-32 max-w-6xl mx-auto w-full scroll-mt-24"
     >
-      <div className="bg-surface rounded-2xl shadow-lg border border-border p-4 sm:p-6 md:p-8 transition-shadow">
+      <div className="bg-surface rounded-3xl shadow-xl border-2 border-gold/40 p-4 sm:p-6 md:p-8 transition-shadow relative overflow-hidden">
+        {/* Subtle decorative gold sheen */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-2xl pointer-events-none" />
+
         {/* Card Header & Currency Switcher */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-border text-start">
           <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[11px] font-bold text-gold-dark uppercase tracking-widest bg-gold-soft px-2.5 py-0.5 rounded-full border border-gold-line">
+                {locale === 'ar' ? 'حاسبة الأسعار الفورية المعتمدة' : 'Instant Fixed-Fare Calculator'}
+              </span>
+            </div>
             <h2 className="font-display font-bold text-xl sm:text-2xl md:text-3xl text-ink">
               {dict.booking_card.title}
             </h2>
             <p className="text-xs sm:text-sm text-ink-muted mt-0.5 font-light">
-              {dict.booking_card.subtitle}
+              {locale === 'ar'
+                ? 'حدد مسارك ونوع المركبة وشاهد السعر الثابت الفعلي بالريال وعملتك المفضلة • الدفع عند الوصول 100%'
+                : dict.booking_card.subtitle}
             </p>
           </div>
 
@@ -219,7 +235,7 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
           </div>
         </div>
 
-        {/* QUICK ROUTE SHORTCUT PILLS (Instant Pricing from Screenshot 1 & 2) */}
+        {/* QUICK ROUTE SHORTCUT PILLS (Instant Pricing from Screenshots 1 & 2) */}
         <div className="flex flex-wrap items-center gap-2 mb-4 pb-3 border-b border-border/60 text-start">
           <span className="text-[11px] font-bold text-ink-muted uppercase tracking-wider">
             {locale === 'ar' ? 'المسارات الأكثر طلباً:' : 'Popular Routes:'}
@@ -257,13 +273,24 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
           >
             {locale === 'ar' ? 'مطار المدينة ← الفندق (150 ر.س)' : 'Madinah Airport (150 SAR)'}
           </button>
+          <button
+            type="button"
+            onClick={() => setRoute('jeddah-to-madinah')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              route === 'jeddah-to-madinah'
+                ? 'bg-gold text-ink font-bold shadow-xs'
+                : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
+            }`}
+          >
+            {locale === 'ar' ? 'جدة ← المدينة (680 ر.س)' : 'Jeddah → Madinah (680 SAR)'}
+          </button>
         </div>
 
         <form onSubmit={handleBookOnline} className="space-y-4">
-          {/* FIRST ROW: ROUTE, DATE, TIME */}
+          {/* FIRST ROW: ROUTE, DATE, TIME, FLIGHT NUMBER */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
             {/* FROM & TO (ROUTE) */}
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-2">
               <label htmlFor="card-route-select" className="block text-xs font-bold text-ink mb-1.5 text-start">
                 {dict.booking_card.pickupLabel} ↔ {dict.booking_card.dropoffLabel} <span className="text-gold-dark">*</span>
               </label>
@@ -317,6 +344,24 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
                   className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium hover:border-gold-dark focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
                 />
                 <Clock className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+            </div>
+
+            {/* FLIGHT NUMBER (AIRPORT PICKUP) */}
+            <div>
+              <label htmlFor="card-flight-input" className="block text-xs font-bold text-ink mb-1.5 text-start">
+                {locale === 'ar' ? 'رقم الرحلة (للمطار)' : 'Flight No. (Optional)'}
+              </label>
+              <div className="relative">
+                <input
+                  id="card-flight-input"
+                  type="text"
+                  placeholder="e.g. SV 124"
+                  value={flightNumber}
+                  onChange={(e) => setFlightNumber(e.target.value)}
+                  className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium hover:border-gold-dark focus:outline-none focus:ring-2 focus:ring-gold"
+                />
+                <Plane className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
             </div>
           </div>
@@ -413,95 +458,68 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
           />
 
           {/* DYNAMIC PRICE DISPLAY & DUAL BUTTONS */}
-          <div className="bg-bg-alt rounded-xl p-4 sm:p-5 border border-border mt-3 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="bg-bg-alt rounded-2xl p-4 sm:p-5 border border-border mt-3 flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-center md:text-start">
               <span className="text-xs text-ink-muted block mb-0.5">
                 {dict.booking_card.totalFare}
               </span>
-              {baseSAR ? (
-                <div className="flex items-baseline gap-2 justify-center md:justify-start">
-                  <span className="font-display text-3xl sm:text-4xl font-bold text-gold-dark">
-                    {formatPrice(baseSAR)}
-                  </span>
-                  {currency !== 'SAR' && (
-                    <span className="text-xs text-ink-muted font-mono font-medium">
-                      ({baseSAR} SAR)
-                    </span>
-                  )}
-                </div>
-              ) : (
-                <span className="text-sm font-bold text-amber-700">
-                  {dict.booking_card.quoteNeeded}
+              <div className="flex items-baseline justify-center md:justify-start gap-2">
+                <span className="font-display font-bold text-3xl sm:text-4xl text-ink">
+                  {baseSAR ? formatPrice(baseSAR) : (locale === 'ar' ? 'حدد خط السير' : 'Select Route')}
                 </span>
-              )}
+                {baseSAR && (
+                  <span className="text-xs text-ink-muted font-normal">
+                    ({baseSAR} SAR)
+                  </span>
+                )}
+              </div>
+              <span className="text-[11px] text-gold-dark font-medium flex items-center justify-center md:justify-start gap-1 mt-0.5">
+                <Check className="w-3.5 h-3.5" />
+                <span>{dict.booking_card.payOnArrivalNotice}</span>
+              </span>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-              {/* BUTTON 1: BOOK ONLINE */}
+            {/* DUAL ACTION BUTTONS */}
+            <div className="flex flex-col sm:flex-row items-center gap-2.5 w-full md:w-auto">
               <button
                 type="submit"
-                className="w-full sm:w-auto min-h-[48px] h-12 px-7 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all flex items-center justify-center gap-2 shadow-xs shrink-0 focus-visible:ring-2 focus-visible:ring-gold"
+                className="w-full sm:w-auto min-h-[48px] h-12 px-7 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-gold"
               >
-                <span>{dict.booking_card.bookOnline}</span>
+                <span>{dict.booking_card.bookOnline || dict.booking_card.buttonBookNow}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180" />
               </button>
 
-              {/* BUTTON 2: CONTINUE ON WHATSAPP */}
               <button
                 type="button"
                 onClick={handleWhatsApp}
                 disabled={isSubmittingWa}
-                className="w-full sm:w-auto min-h-[48px] h-12 px-6 rounded-btn bg-whatsapp hover:bg-whatsapp-hover text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors shrink-0 shadow-xs focus-visible:ring-2 focus-visible:ring-whatsapp disabled:opacity-60"
+                className="w-full sm:w-auto min-h-[48px] h-12 px-6 rounded-btn bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-xs flex items-center justify-center gap-2 disabled:opacity-60 focus-visible:ring-2 focus-visible:ring-emerald-500"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>{isSubmittingWa ? '...' : dict.booking_card.continueWhatsApp}</span>
+                <span>
+                  {isSubmittingWa ? '...' : (dict.booking_card.continueWhatsApp || 'WhatsApp')}
+                </span>
               </button>
             </div>
           </div>
 
-          {/* POPUP BLOCKER RECOVERY BANNER */}
+          {/* FALLBACK BUTTON IF POPUP IS BLOCKED */}
           {waPopupUrl && (
-            <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs flex flex-col sm:flex-row items-center justify-between gap-3 text-start animate-fadeIn">
-              <div className="flex items-center gap-2">
-                <MessageCircle className="w-5 h-5 text-emerald-600 shrink-0" />
-                <span>
-                  {locale === 'ar'
-                    ? 'تم تجهيز طلبك! إذا لم تفتح نافذة واتساب تلقائياً، اضغط هنا للمتابعة:'
-                    : locale === 'ms'
-                    ? 'Permintaan anda telah didaftarkan! Jika WhatsApp tidak dibuka secara automatik, sila klik di sini:'
-                    : 'Your inquiry is ready! If WhatsApp was blocked by your browser, tap to continue:'}
-                </span>
-              </div>
+            <div className="p-3 bg-gold-soft border border-gold-line rounded-lg text-center mt-2 animate-fadeIn">
+              <p className="text-xs text-ink mb-1.5 font-medium">
+                {locale === 'ar' ? 'تم تجهيز بيانات حجزك؛ انقر للمتابعة عبر واتساب مباشرة:' : 'Your booking details are ready; click below to continue on WhatsApp:'}
+              </p>
               <a
                 href={waPopupUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="min-h-[44px] px-5 py-2.5 rounded-lg bg-emerald-600 text-white font-bold text-xs shrink-0 hover:bg-emerald-700 transition-colors shadow-xs flex items-center justify-center"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-emerald-600 text-white text-xs font-bold rounded shadow-xs hover:bg-emerald-700"
               >
-                {locale === 'ar' ? 'فتح محادثة واتساب' : locale === 'ms' ? 'Buka WhatsApp' : 'Open WhatsApp Chat'}
+                <MessageCircle className="w-3.5 h-3.5" />
+                <span>{locale === 'ar' ? 'فتح محادثة واتساب الآن' : 'Open WhatsApp Now'}</span>
               </a>
             </div>
           )}
-
-          {/* MICRO TRUST STRIP (4 ITEMS) */}
-          <div className="pt-3 border-t border-border flex flex-wrap items-center justify-between gap-y-2 gap-x-4 text-xs text-ink-muted">
-            <span className="flex items-center gap-1.5 font-medium">
-              <Check className="w-3.5 h-3.5 text-gold-dark shrink-0" />
-              <span>{dict.booking_card.microCancellation}</span>
-            </span>
-            <span className="flex items-center gap-1.5 font-medium">
-              <Check className="w-3.5 h-3.5 text-gold-dark shrink-0" />
-              <span>{dict.booking_card.microPayArrival}</span>
-            </span>
-            <span className="flex items-center gap-1.5 font-medium">
-              <Check className="w-3.5 h-3.5 text-gold-dark shrink-0" />
-              <span>{dict.booking_card.microNoHidden}</span>
-            </span>
-            <span className="flex items-center gap-1.5 font-medium">
-              <Check className="w-3.5 h-3.5 text-gold-dark shrink-0" />
-              <span>{dict.booking_card.microAllTolls}</span>
-            </span>
-          </div>
         </form>
       </div>
     </section>

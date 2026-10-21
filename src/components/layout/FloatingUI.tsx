@@ -59,7 +59,7 @@ export function FloatingUI({ locale, dict, whatsappNumber }: FloatingUIProps) {
     } catch (err) {
       console.error('Lead error:', err);
     }
-    const fallbackRef = 'RUC-' + Math.floor(10000 + Math.random() * 90000);
+    const fallbackRef = 'VIP-' + Math.floor(10000 + Math.random() * 90000);
     const fallbackMsg = encodeURIComponent(`${LOCALE_CONFIG[locale].whatsappGreeting} [Ref: ${fallbackRef}]`);
     window.open(`https://wa.me/${whatsappNumber}?text=${fallbackMsg}`, '_blank');
   };

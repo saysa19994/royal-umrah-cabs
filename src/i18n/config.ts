@@ -21,7 +21,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     dir: 'ltr',
     defaultCurrency: 'USD',
     dateFormat: 'en-US',
-    whatsappGreeting: 'Assalamu Alaikum Royal Umrah Cabs, I would like to inquire about a private VIP transfer:',
+    whatsappGreeting: 'Assalamu Alaikum Duyuf Alrahman VIP, I would like to inquire about a private VIP transfer:',
   },
   ar: {
     code: 'ar',
@@ -30,7 +30,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     dir: 'rtl',
     defaultCurrency: 'SAR',
     dateFormat: 'ar-SA',
-    whatsappGreeting: 'السلام عليكم ورحمة الله رويال كاب للعمرة، أود الاستفسار وحجز توصيل خاص VIP:',
+    whatsappGreeting: 'السلام عليكم ورحمة الله ضيوف الرحمن VIP، أود الاستفسار وحجز توصيل خاص VIP:',
   },
   ms: {
     code: 'ms',
@@ -39,7 +39,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     dir: 'ltr',
     defaultCurrency: 'MYR',
     dateFormat: 'ms-MY',
-    whatsappGreeting: 'Assalamu alaikum Royal Umrah Cabs, saya ingin membuat tempahan teksi VIP untuk perjalanan Umrah:',
+    whatsappGreeting: 'Assalamu alaikum Duyuf Alrahman VIP, saya ingin membuat tempahan teksi VIP untuk perjalanan Umrah:',
   },
   id: {
     code: 'id',
@@ -48,7 +48,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     dir: 'ltr',
     defaultCurrency: 'IDR',
     dateFormat: 'id-ID',
-    whatsappGreeting: 'Assalamu alaikum Royal Umrah Cabs, saya ingin memesan layanan transportasi privat Umrah VIP:',
+    whatsappGreeting: 'Assalamu alaikum Duyuf Alrahman VIP, saya ingin memesan layanan transportasi privat Umrah VIP:',
   },
   ur: {
     code: 'ur',
@@ -57,7 +57,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     dir: 'rtl',
     defaultCurrency: 'PKR',
     dateFormat: 'ur-PK',
-    whatsappGreeting: 'السلام علیکم رائل عمرہ کیبز، میں عمرہ پرائیویٹ ٹرانسپورٹ بکنگ کے حوالے سے معلومات چاہتا ہوں:',
+    whatsappGreeting: 'السلام علیکم ضيوف الرحمن VIP، میں عمرہ پرائیویٹ ٹرانسپورٹ بکنگ کے حوالے سے معلومات چاہتا ہوں:',
   },
   fr: {
     code: 'fr',
@@ -66,7 +66,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     dir: 'ltr',
     defaultCurrency: 'EUR',
     dateFormat: 'fr-FR',
-    whatsappGreeting: 'Bonjour Royal Umrah Cabs, je souhaite réserver un transfert privé VIP pour la Omra:',
+    whatsappGreeting: 'Bonjour Duyuf Alrahman VIP, je souhaite réserver un transfert privé VIP pour la Omra:',
   },
   es: {
     code: 'es',
@@ -75,7 +75,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     dir: 'ltr',
     defaultCurrency: 'EUR',
     dateFormat: 'es-ES',
-    whatsappGreeting: 'Hola Royal Umrah Cabs, deseo reservar un traslado privado VIP para la Umrah:',
+    whatsappGreeting: 'Hola Duyuf Alrahman VIP, deseo reservar un traslado privado VIP para la Umrah:',
   },
   de: {
     code: 'de',
@@ -84,7 +84,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     dir: 'ltr',
     defaultCurrency: 'EUR',
     dateFormat: 'de-DE',
-    whatsappGreeting: 'Hallo Royal Umrah Cabs, ich möchte einen privaten VIP-Transfer für die Umrah buchen:',
+    whatsappGreeting: 'Hallo Duyuf Alrahman VIP, ich möchte einen privaten VIP-Transfer für die Umrah buchen:',
   },
   hi: {
     code: 'hi',
@@ -93,7 +93,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     dir: 'ltr',
     defaultCurrency: 'INR',
     dateFormat: 'hi-IN',
-    whatsappGreeting: 'अस्सलाम अलैकुम रॉयल उमरा कैब्स, मैं निजी वीआईपी उमरा ट्रांसफर बुक करना चाहता हूँ:',
+    whatsappGreeting: 'अस्सलाम अलैकुम Duyuf Alrahman VIP, मैं निजी वीआईपी उमरा ट्रांसफर बुक करना चाहता हूँ:',
   },
 };
 
