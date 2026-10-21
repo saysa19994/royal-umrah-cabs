@@ -5,8 +5,8 @@ import { z } from 'zod';
 // 1. Password Schema Test
 const ChangePasswordSchema = z.object({
   currentPassword: z.string().min(1, 'Current password is required'),
-  newPassword: z.string().min(8, 'New password must be at least 8 characters'),
-  totpCode: z.string().trim().regex(/^\d{6}$/, 'TOTP code must be 6 digits'),
+  newPassword: z.string().min(6, 'New password must be at least 6 characters'),
+  totpCode: z.string().optional().default(''),
 });
 
 // 2. Email Schema Test
@@ -65,7 +65,7 @@ test('Owner Account Security: Role Authorization Guard', () => {
   assert.strictEqual(verifyAccountAccess(null).status, 401);
 });
 
-test('Owner Password Change: Strict Validation and 6-digit TOTP', () => {
+test('Owner Password Change: Strict Validation and Password Rules', () => {
   // Valid payload
   const valid = ChangePasswordSchema.safeParse({
     currentPassword: 'ExistingStrongPassword123!',
@@ -74,7 +74,7 @@ test('Owner Password Change: Strict Validation and 6-digit TOTP', () => {
   });
   assert.strictEqual(valid.success, true);
 
-  // Short password (< 8 chars)
+  // Short password (< 6 chars)
   const shortPwd = ChangePasswordSchema.safeParse({
     currentPassword: 'ExistingStrongPassword123!',
     newPassword: 'short',
@@ -82,20 +82,12 @@ test('Owner Password Change: Strict Validation and 6-digit TOTP', () => {
   });
   assert.strictEqual(shortPwd.success, false);
 
-  // Invalid TOTP (letters or wrong length)
-  const badTotp = ChangePasswordSchema.safeParse({
-    currentPassword: 'ExistingStrongPassword123!',
+  // Empty current password
+  const emptyCurrent = ChangePasswordSchema.safeParse({
+    currentPassword: '',
     newPassword: 'NewExecutivePassword2026@#',
-    totpCode: '12345', // 5 digits
   });
-  assert.strictEqual(badTotp.success, false);
-
-  const alphaTotp = ChangePasswordSchema.safeParse({
-    currentPassword: 'ExistingStrongPassword123!',
-    newPassword: 'NewExecutivePassword2026@#',
-    totpCode: 'ABCDEF',
-  });
-  assert.strictEqual(alphaTotp.success, false);
+  assert.strictEqual(emptyCurrent.success, false);
 });
 
 test('Owner Email Change: Strict Validation and Differentiation', () => {

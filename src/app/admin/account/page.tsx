@@ -365,20 +365,22 @@ export default function OwnerAccountPage() {
               </div>
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
-                Two-Factor TOTP Authenticator Code (6 Digits)
-              </label>
-              <input
-                type="text"
-                required
-                maxLength={6}
-                value={pwdTotpCode}
-                onChange={(e) => setPwdTotpCode(e.target.value)}
-                placeholder="000000"
-                className="w-full h-10 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono tracking-widest text-center"
-              />
-            </div>
+            {Boolean(mfaInfo?.verified_factors && mfaInfo.verified_factors > 0) && (
+              <div>
+                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+                  Two-Factor TOTP Authenticator Code (6 Digits)
+                </label>
+                <input
+                  type="text"
+                  required
+                  maxLength={6}
+                  value={pwdTotpCode}
+                  onChange={(e) => setPwdTotpCode(e.target.value)}
+                  placeholder="000000"
+                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono tracking-widest text-center"
+                />
+              </div>
+            )}
 
             <button
               type="submit"
@@ -442,20 +444,22 @@ export default function OwnerAccountPage() {
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
-                Two-Factor TOTP Authenticator Code (6 Digits)
-              </label>
-              <input
-                type="text"
-                required
-                maxLength={6}
-                value={emailTotpCode}
-                onChange={(e) => setEmailTotpCode(e.target.value)}
-                placeholder="000000"
-                className="w-full h-10 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono tracking-widest text-center"
-              />
-            </div>
+            {Boolean(mfaInfo?.verified_factors && mfaInfo.verified_factors > 0) && (
+              <div>
+                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+                  Two-Factor TOTP Authenticator Code (6 Digits)
+                </label>
+                <input
+                  type="text"
+                  required
+                  maxLength={6}
+                  value={emailTotpCode}
+                  onChange={(e) => setEmailTotpCode(e.target.value)}
+                  placeholder="000000"
+                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono tracking-widest text-center"
+                />
+              </div>
+            )}
 
             <button
               type="submit"
