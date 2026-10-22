@@ -451,86 +451,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             </Link>
           </div>
 
-          {/* SCENIC ROUTE CARDS GRID (From Screenshots 6, 7, 9, 10) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {POPULAR_ROUTES.map((r) => (
-              <div
-                key={r.id}
-                className="bg-surface rounded-2xl border border-border shadow-xs hover:shadow-md transition-all overflow-hidden flex flex-col justify-between group"
-              >
-                <div>
-                  {/* SCENIC IMAGE WITH OVERLAY TEXT */}
-                  <div className="relative aspect-[16/10] bg-navy overflow-hidden">
-                    <Image
-                      src={r.img}
-                      alt={r.title}
-                      width={480}
-                      height={300}
-                      className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" />
-                    
-                    {/* Badge */}
-                    <div className="absolute top-3 left-3 rtl:left-auto rtl:right-3">
-                      <span className={`text-[10px] uppercase font-bold px-2.5 py-1 rounded-md shadow-xs ${r.badgeColor}`}>
-                        {r.badge}
-                      </span>
-                    </div>
-
-                    {/* Route Title on Image */}
-                    <div className="absolute bottom-3 left-4 right-4 rtl:right-4 rtl:left-4 text-start">
-                      <h3 className="font-display font-bold text-lg text-white leading-tight">
-                        {r.title}
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* CARD BODY */}
-                  <div className="p-5 text-start">
-                    <p className="text-xs text-ink-muted leading-relaxed font-light mb-4 line-clamp-2">
-                      {r.desc}
-                    </p>
-
-                    <div className="flex items-center gap-4 text-xs text-ink-muted pb-4 border-b border-border">
-                      <div className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5 text-gold-dark" />
-                        <span>{r.duration}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-gold-dark" />
-                        <span>{r.distance}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-emerald-600 font-medium">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>{locale === 'ar' ? 'الرسوم مشمولة' : 'Tolls Included'}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* CARD FOOTER */}
-                <div className="p-5 pt-0 flex items-center justify-between gap-3 text-start">
-                  <div>
-                    <span className="text-[10px] text-ink-muted uppercase tracking-wider block">
-                      {locale === 'ar' ? 'يبدأ من' : 'From'}
-                    </span>
-                    <span className="font-display font-bold text-xl text-ink">
-                      {formatPrice(r.basePriceSAR)}
-                    </span>
-                    <span className="text-[10px] text-ink-muted block">
-                      {locale === 'ar' ? 'للسيارة بالكامل' : 'per vehicle'}
-                    </span>
-                  </div>
-
-                  <Link
-                    href={`/${locale}/booking?route=${r.id}`}
-                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-gold hover:bg-gold-dark text-ink font-bold text-xs uppercase tracking-wider transition-all shadow-xs"
-                  >
-                    <span>{locale === 'ar' ? 'احجز هذا المسار' : 'Reserve this route'}</span>
-                    <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-                  </Link>
-                </div>
-              </div>
+          {/* RESPONSIVE SCENIC ROUTE CARDS (From Reference Screenshots) */}
+          <div className="flex flex-col gap-6 sm:gap-8">
+            {EXECUTIVE_ROUTES_DATA.map((r) => (
+              <ExecutiveRouteCard key={r.slug} route={r} locale={locale} />
             ))}
           </div>
         </div>
