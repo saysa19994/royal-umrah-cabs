@@ -63,6 +63,7 @@ export async function generateMetadata(
         de: 'de_DE',
         hi: 'hi_IN',
         ur: 'ur_PK',
+        tr: 'tr_TR',
       }[validLocale] || 'en_US',
       alternateLocale: LOCALES.filter((l) => l !== validLocale).map(
         (l) =>
@@ -76,6 +77,7 @@ export async function generateMetadata(
             de: 'de_DE',
             hi: 'hi_IN',
             ur: 'ur_PK',
+            tr: 'tr_TR',
           }[l] || 'en_US')
       ),
       url: `${baseUrl}/${validLocale}`,

@@ -1,4 +1,4 @@
-export const LOCALES = ['en', 'ar', 'ms', 'fr', 'es', 'id', 'hi', 'de', 'ur'] as const;
+export const LOCALES = ['en', 'ar', 'ms', 'fr', 'es', 'id', 'hi', 'de', 'ur', 'tr'] as const;
 export type Locale = (typeof LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = 'en';
@@ -95,6 +95,15 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     dateFormat: 'hi-IN',
     whatsappGreeting: 'अस्सलाम अलैकुम Duyuf Alrahman VIP, मैं निजी वीआईपी उमरा ट्रांसफर बुक करना चाहता हूँ:',
   },
+  tr: {
+    code: 'tr',
+    name: 'Turkish',
+    nativeName: 'Türkçe',
+    dir: 'ltr',
+    defaultCurrency: 'SAR',
+    dateFormat: 'tr-TR',
+    whatsappGreeting: 'Selamün Aleyküm Duyuf Alrahman VIP, Umre özel VIP transfer hakkında bilgi almak ve rezervasyon yapmak istiyorum:',
+  },
 };
 
 export const CURRENCIES = {
@@ -113,23 +122,23 @@ export type CurrencyCode = keyof typeof CURRENCIES;
 
 // Translated URL slug map for cross-language page preservation
 export const PAGE_SLUGS: Record<string, Partial<Record<Locale, string>>> = {
-  home: { en: '', ar: '', ms: '', fr: '', es: '', id: '', hi: '', de: '', ur: '' },
-  booking: { en: 'booking', ar: 'booking', ms: 'tempahan', id: 'pemesanan', fr: 'reservation', es: 'reserva', de: 'buchung', ur: 'booking', hi: 'booking' },
-  routes: { en: 'routes', ar: 'routes', ms: 'laluan', id: 'rute', fr: 'itineraires', es: 'rutas', de: 'routen', ur: 'routes', hi: 'routes' },
-  fleet: { en: 'fleet', ar: 'fleet', ms: 'armada', id: 'armada', fr: 'flotte', es: 'flota', de: 'flotte', ur: 'fleet', hi: 'fleet' },
-  services: { en: 'services', ar: 'services', ms: 'perkhidmatan', id: 'layanan', fr: 'services', es: 'servicios', de: 'dienstleistungen', ur: 'services', hi: 'services' },
-  pricing: { en: 'pricing', ar: 'pricing', ms: 'harga', id: 'tarif', fr: 'tarifs', es: 'precios', de: 'preise', ur: 'pricing', hi: 'pricing' },
-  compare: { en: 'compare', ar: 'compare', ms: 'bandingkan', id: 'perbandingan', fr: 'comparer', es: 'comparar', de: 'vergleich', ur: 'compare', hi: 'compare' },
-  guides: { en: 'guides', ar: 'guides', ms: 'panduan', id: 'panduan', fr: 'guides', es: 'guias', de: 'ratgeber', ur: 'guides', hi: 'guides' },
-  about: { en: 'about', ar: 'about', ms: 'tentang-kami', id: 'tentang-kami', fr: 'a-propos', es: 'sobre-nosotros', de: 'ueber-uns', ur: 'about', hi: 'about' },
-  contact: { en: 'contact', ar: 'contact', ms: 'hubungi-kami', id: 'kontak', fr: 'contact', es: 'contacto', de: 'kontakt', ur: 'contact', hi: 'contact' },
-  safety: { en: 'safety', ar: 'safety', ms: 'keselamatan', id: 'keamanan', fr: 'securite', es: 'seguridad', de: 'sicherheit', ur: 'safety', hi: 'safety' },
-  trackBooking: { en: 'track-booking', ar: 'track-booking', ms: 'kesan-tempahan', id: 'lacak-pesanan', fr: 'suivi-reservation', es: 'seguir-reserva', de: 'buchung-verfolgen', ur: 'track-booking', hi: 'track-booking' },
-  manageBooking: { en: 'manage-booking', ar: 'manage-booking', ms: 'urus-tempahan', id: 'kelola-pesanan', fr: 'gerer-reservation', es: 'gestionar-reserva', de: 'buchung-verwalten', ur: 'manage-booking', hi: 'manage-booking' },
-  privacy: { en: 'privacy', ar: 'privacy', ms: 'privasi', id: 'privasi', fr: 'confidentialite', es: 'privacidad', de: 'datenschutz', ur: 'privacy', hi: 'privacy' },
-  terms: { en: 'terms', ar: 'terms', ms: 'terma', id: 'syarat-ketentuan', fr: 'conditions', es: 'terminos', de: 'agb', ur: 'terms', hi: 'terms' },
-  cancellationRefund: { en: 'cancellation', ar: 'cancellation', ms: 'pembatalan', id: 'pembatalan', fr: 'annulation', es: 'cancelacion', de: 'stornierung', ur: 'cancellation', hi: 'cancellation' },
-  partners: { en: 'partners', ar: 'partners', ms: 'rakan-kongsi', id: 'mitra', fr: 'partenaires', es: 'socios', de: 'partner', ur: 'partners', hi: 'partners' },
+  home: {en: '', ar: '', ms: '', fr: '', es: '', id: '', hi: '', de: '', ur: '', tr: '' },
+  booking: {en: 'booking', ar: 'booking', ms: 'tempahan', id: 'pemesanan', fr: 'reservation', es: 'reserva', de: 'buchung', ur: 'booking', hi: 'booking', tr: 'rezervasyon' },
+  routes: {en: 'routes', ar: 'routes', ms: 'laluan', id: 'rute', fr: 'itineraires', es: 'rutas', de: 'routen', ur: 'routes', hi: 'routes', tr: 'guzergahlar' },
+  fleet: {en: 'fleet', ar: 'fleet', ms: 'armada', id: 'armada', fr: 'flotte', es: 'flota', de: 'flotte', ur: 'fleet', hi: 'fleet', tr: 'filo' },
+  services: {en: 'services', ar: 'services', ms: 'perkhidmatan', id: 'layanan', fr: 'services', es: 'servicios', de: 'dienstleistungen', ur: 'services', hi: 'services', tr: 'hizmetler' },
+  pricing: {en: 'pricing', ar: 'pricing', ms: 'harga', id: 'tarif', fr: 'tarifs', es: 'precios', de: 'preise', ur: 'pricing', hi: 'pricing', tr: 'fiyatlar' },
+  compare: {en: 'compare', ar: 'compare', ms: 'bandingkan', id: 'perbandingan', fr: 'comparer', es: 'comparar', de: 'vergleich', ur: 'compare', hi: 'compare', tr: 'karsilastir' },
+  guides: {en: 'guides', ar: 'guides', ms: 'panduan', id: 'panduan', fr: 'guides', es: 'guias', de: 'ratgeber', ur: 'guides', hi: 'guides', tr: 'rehberler' },
+  about: {en: 'about', ar: 'about', ms: 'tentang-kami', id: 'tentang-kami', fr: 'a-propos', es: 'sobre-nosotros', de: 'ueber-uns', ur: 'about', hi: 'about', tr: 'hakkimizda' },
+  contact: {en: 'contact', ar: 'contact', ms: 'hubungi-kami', id: 'kontak', fr: 'contact', es: 'contacto', de: 'kontakt', ur: 'contact', hi: 'contact', tr: 'iletisim' },
+  safety: {en: 'safety', ar: 'safety', ms: 'keselamatan', id: 'keamanan', fr: 'securite', es: 'seguridad', de: 'sicherheit', ur: 'safety', hi: 'safety', tr: 'guvenlik' },
+  trackBooking: {en: 'track-booking', ar: 'track-booking', ms: 'kesan-tempahan', id: 'lacak-pesanan', fr: 'suivi-reservation', es: 'seguir-reserva', de: 'buchung-verfolgen', ur: 'track-booking', hi: 'track-booking', tr: 'rezervasyon-takibi' },
+  manageBooking: {en: 'manage-booking', ar: 'manage-booking', ms: 'urus-tempahan', id: 'kelola-pesanan', fr: 'gerer-reservation', es: 'gestionar-reserva', de: 'buchung-verwalten', ur: 'manage-booking', hi: 'manage-booking', tr: 'rezervasyon-yonetimi' },
+  privacy: {en: 'privacy', ar: 'privacy', ms: 'privasi', id: 'privasi', fr: 'confidentialite', es: 'privacidad', de: 'datenschutz', ur: 'privacy', hi: 'privacy', tr: 'gizlilik' },
+  terms: {en: 'terms', ar: 'terms', ms: 'terma', id: 'syarat-ketentuan', fr: 'conditions', es: 'terminos', de: 'agb', ur: 'terms', hi: 'terms', tr: 'kosullar' },
+  cancellationRefund: {en: 'cancellation', ar: 'cancellation', ms: 'pembatalan', id: 'pembatalan', fr: 'annulation', es: 'cancelacion', de: 'stornierung', ur: 'cancellation', hi: 'cancellation', tr: 'iptal' },
+  partners: {en: 'partners', ar: 'partners', ms: 'rakan-kongsi', id: 'mitra', fr: 'partenaires', es: 'socios', de: 'partner', ur: 'partners', hi: 'partners', tr: 'ortaklar' },
 };
 
 export function getLocalizedAlternates(locale: Locale, path: string = '') {

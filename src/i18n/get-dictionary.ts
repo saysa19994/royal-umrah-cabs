@@ -13,6 +13,7 @@ const dictionaries: Record<Locale, () => Dictionary> = {
   es: () => require('./dictionaries/es.json'),
   de: () => require('./dictionaries/de.json'),
   hi: () => require('./dictionaries/hi.json'),
+  tr: () => require('./dictionaries/tr.json'),
 };
 
 export function getDictionary(locale: Locale): Dictionary {
