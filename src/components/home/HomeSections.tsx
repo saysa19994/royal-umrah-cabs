@@ -832,8 +832,8 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             </div>
           </div>
 
-          {/* ALL 4 VEHICLES COMPARISON GRID */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* ALL 5 FLEET VEHICLES COMPARISON GRID */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {FLEET_VEHICLES.map((car, idx) => (
               <div
                 key={car.id}
