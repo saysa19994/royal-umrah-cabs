@@ -7,6 +7,7 @@ import { CurrencyProvider } from '@/context/CurrencyContext';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingUI } from '@/components/layout/FloatingUI';
+import { AiChatWidget } from '@/components/chat/AiChatWidget';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { cormorant, manrope, amiri, tajawal, notoDevanagari, notoUrdu } from '@/app/fonts';
 
@@ -137,6 +138,7 @@ export default async function LocaleLayout(props: LocaleLayoutProps) {
             dict={dict}
             whatsappNumber={settings.whatsapp_number}
           />
+          <AiChatWidget locale={validLocale} />
         </CurrencyProvider>
       </body>
     </html>

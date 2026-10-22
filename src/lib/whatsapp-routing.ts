@@ -136,7 +136,7 @@ export function formatWhatsAppLeadMessage(payload: LeadCreationPayload): string 
   const ref = payload.ref_code || generateLeadRefCode();
 
   if (lang === 'ar') {
-    let msg = `السلام عليكم ورحمة الله، رويال كاب للعمرة [كود المرجع: ${ref}]\nأود الاستفسار وحجز توصيل خاص:\n`;
+    let msg = `السلام عليكم ورحمة الله، ضيوف الرحمن VIP [كود المرجع: ${ref}]\nأود الاستفسار وحجز توصيل خاص:\n`;
     if (payload.route_title) msg += `📍 المسار: ${payload.route_title}\n`;
     if (payload.vehicle_name) msg += `🚗 السيارة: ${payload.vehicle_name}\n`;
     if (payload.pickup_date) msg += `📅 التاريخ: ${payload.pickup_date}\n`;
@@ -147,7 +147,7 @@ export function formatWhatsAppLeadMessage(payload: LeadCreationPayload): string 
   }
 
   if (lang === 'ms') {
-    let msg = `Assalamu Alaikum Royal Umrah Cabs [Kod Rujukan: ${ref}]\nSaya ingin membuat tempahan teksi VIP untuk perjalanan Umrah:\n`;
+    let msg = `Assalamu Alaikum Duyuf Alrahman VIP [Kod Rujukan: ${ref}]\nSaya ingin membuat tempahan teksi VIP untuk perjalanan Umrah:\n`;
     if (payload.route_title) msg += `📍 Laluan: ${payload.route_title}\n`;
     if (payload.vehicle_name) msg += `🚗 Kenderaan: ${payload.vehicle_name}\n`;
     if (payload.pickup_date) msg += `📅 Tarikh: ${payload.pickup_date}\n`;
@@ -158,7 +158,7 @@ export function formatWhatsAppLeadMessage(payload: LeadCreationPayload): string 
   }
 
   if (lang === 'ur') {
-    let msg = `السلام علیکم رائل عمرہ کیبز [ریفرنس کوڈ: ${ref}]\nمیں عمرہ پرائیویٹ ٹرانسپورٹ بکنگ کے حوالے سے معلومات چاہتا ہوں:\n`;
+    let msg = `السلام علیکم ضیوف الرحمن وی آئی پی [ریفرنس کوڈ: ${ref}]\nمیں عمرہ پرائیویٹ ٹرانسپورٹ بکنگ کے حوالے سے معلومات چاہتا ہوں:\n`;
     if (payload.route_title) msg += `📍 روٹ: ${payload.route_title}\n`;
     if (payload.vehicle_name) msg += `🚗 گاڑی: ${payload.vehicle_name}\n`;
     if (payload.pickup_date) msg += `📅 تاریخ: ${payload.pickup_date}\n`;
@@ -169,7 +169,7 @@ export function formatWhatsAppLeadMessage(payload: LeadCreationPayload): string 
   }
 
   if (lang === 'id') {
-    let msg = `Assalamu Alaikum Royal Umrah Cabs [Kode Ref: ${ref}]\nSaya ingin memesan layanan transportasi privat Umrah VIP:\n`;
+    let msg = `Assalamu Alaikum Duyuf Alrahman VIP [Kode Ref: ${ref}]\nSaya ingin memesan layanan transportasi privat Umrah VIP:\n`;
     if (payload.route_title) msg += `📍 Rute: ${payload.route_title}\n`;
     if (payload.vehicle_name) msg += `🚗 Kendaraan: ${payload.vehicle_name}\n`;
     if (payload.pickup_date) msg += `📅 Tanggal: ${payload.pickup_date}\n`;
@@ -180,7 +180,7 @@ export function formatWhatsAppLeadMessage(payload: LeadCreationPayload): string 
   }
 
   if (lang === 'fr') {
-    let msg = `Bonjour Royal Umrah Cabs [Réf: ${ref}]\nJe souhaite réserver un transport privé VIP pour la Omra:\n`;
+    let msg = `Bonjour Duyuf Alrahman VIP [Réf: ${ref}]\nJe souhaite réserver un transport privé VIP pour la Omra:\n`;
     if (payload.route_title) msg += `📍 Trajet: ${payload.route_title}\n`;
     if (payload.vehicle_name) msg += `🚗 Véhicule: ${payload.vehicle_name}\n`;
     if (payload.pickup_date) msg += `📅 Date: ${payload.pickup_date}\n`;
@@ -191,7 +191,7 @@ export function formatWhatsAppLeadMessage(payload: LeadCreationPayload): string 
   }
 
   if (lang === 'es') {
-    let msg = `Hola Royal Umrah Cabs [Ref: ${ref}]\nQuisiera consultar sobre un traslado privado VIP para la Umrah:\n`;
+    let msg = `Hola Duyuf Alrahman VIP [Ref: ${ref}]\nQuisiera consultar sobre un traslado privado VIP para la Umrah:\n`;
     if (payload.route_title) msg += `📍 Ruta: ${payload.route_title}\n`;
     if (payload.vehicle_name) msg += `🚗 Vehículo: ${payload.vehicle_name}\n`;
     if (payload.pickup_date) msg += `📅 Fecha: ${payload.pickup_date}\n`;
@@ -202,7 +202,7 @@ export function formatWhatsAppLeadMessage(payload: LeadCreationPayload): string 
   }
 
   if (lang === 'de') {
-    let msg = `Guten Tag Royal Umrah Cabs [Ref: ${ref}]\nIch möchte einen privaten VIP-Umrah-Transfer anfragen:\n`;
+    let msg = `Guten Tag Duyuf Alrahman VIP [Ref: ${ref}]\nIch möchte einen privaten VIP-Umrah-Transfer anfragen:\n`;
     if (payload.route_title) msg += `📍 Route: ${payload.route_title}\n`;
     if (payload.vehicle_name) msg += `🚗 Fahrzeug: ${payload.vehicle_name}\n`;
     if (payload.pickup_date) msg += `📅 Datum: ${payload.pickup_date}\n`;
@@ -213,7 +213,7 @@ export function formatWhatsAppLeadMessage(payload: LeadCreationPayload): string 
   }
 
   if (lang === 'hi') {
-    let msg = `नमस्ते Royal Umrah Cabs [रेफरेंस: ${ref}]\nमैं उमराह के लिए प्राइवेट वीआईपी कैब ट्रांसफर बुक करना चाहता हूँ:\n`;
+    let msg = `नमस्ते Duyuf Alrahman VIP [रेफरेंस: ${ref}]\nमैं उमराह के लिए प्राइवेट वीआईपी कैब ट्रांसफर बुक करना चाहता हूँ:\n`;
     if (payload.route_title) msg += `📍 रूट: ${payload.route_title}\n`;
     if (payload.vehicle_name) msg += `🚗 गाड़ी: ${payload.vehicle_name}\n`;
     if (payload.pickup_date) msg += `📅 तारीख: ${payload.pickup_date}\n`;
@@ -224,7 +224,7 @@ export function formatWhatsAppLeadMessage(payload: LeadCreationPayload): string 
   }
 
   // Default English master
-  let msg = `Assalamu Alaikum Royal Umrah Cabs [Ref: ${ref}]\nI would like to inquire about a private VIP Umrah transfer:\n`;
+  let msg = `Assalamu Alaikum Duyuf Alrahman VIP [Ref: ${ref}]\nI would like to inquire about a private VIP Umrah transfer:\n`;
   if (payload.route_title) msg += `📍 Route: ${payload.route_title}\n`;
   if (payload.vehicle_name) msg += `🚗 Vehicle: ${payload.vehicle_name}\n`;
   if (payload.pickup_date) msg += `📅 Date: ${payload.pickup_date}\n`;
@@ -326,5 +326,52 @@ export async function logLeadAndGenerateWhatsAppUrl(payload: LeadCreationPayload
     whatsapp_number: assignedNumber.number,
     whatsapp_url,
     message,
+  };
+}
+
+
+/**
+ * Phase 5.1: buildWhatsAppUrl(number, locale, context)
+ * Pre-fills a polite greeting in the current page locale with route/vehicle/date when known
+ * and the lead reference code. Saves the lead in the database BEFORE opening WhatsApp.
+ */
+export async function buildWhatsAppUrl(
+  number?: string | null,
+  locale: string = 'en',
+  context?: {
+    route_id?: string;
+    route_title?: string;
+    vehicle_id?: string;
+    vehicle_name?: string;
+    pickup_date?: string;
+    passengers?: number;
+    luggage?: number;
+    price_sar?: number;
+    page?: string;
+    customer_name?: string;
+  }
+): Promise<{
+  whatsapp_url: string;
+  ref_code: string;
+  message: string;
+  number: string;
+}> {
+  const assigned = number
+    ? { number, id: 'custom' }
+    : await resolveWhatsAppNumber(locale);
+
+  const payload: LeadCreationPayload = {
+    ...context,
+    language: locale,
+    page: context?.page || '/',
+  };
+
+  const result = await logLeadAndGenerateWhatsAppUrl(payload);
+
+  return {
+    whatsapp_url: result.whatsapp_url,
+    ref_code: result.ref_code,
+    message: result.message,
+    number: assigned.number,
   };
 }
