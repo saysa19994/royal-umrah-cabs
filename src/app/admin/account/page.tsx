@@ -14,6 +14,9 @@ import {
   Lock,
   UserCheck,
   ShieldCheck,
+  QrCode,
+  Copy,
+  Check,
 } from 'lucide-react';
 
 interface OwnerProfile {
@@ -62,6 +65,80 @@ export default function OwnerAccountPage() {
   const [sessionLoading, setSessionLoading] = useState(false);
   const [sessionSuccess, setSessionSuccess] = useState<string | null>(null);
   const [sessionError, setSessionError] = useState<string | null>(null);
+
+  // TOTP 2FA Setup state
+  const [showTotpSetup, setShowTotpSetup] = useState(false);
+  const [totpLoading, setTotpLoading] = useState(false);
+  const [totpSecret, setTotpSecret] = useState('');
+  const [totpFactorId, setTotpFactorId] = useState('');
+  const [totpQrImage, setTotpQrImage] = useState('');
+  const [totpVerifyCode, setTotpVerifyCode] = useState('');
+  const [totpError, setTotpError] = useState<string | null>(null);
+  const [totpSuccess, setTotpSuccess] = useState<string | null>(null);
+  const [copiedSecret, setCopiedSecret] = useState(false);
+
+  const startTotpEnrollment = async () => {
+    setTotpLoading(true);
+    setTotpError(null);
+    setTotpSuccess(null);
+    try {
+      const res = await fetch('/api/admin/auth/setup-2fa', { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to start 2FA enrollment');
+      }
+      setTotpSecret(data.secret);
+      setTotpFactorId(data.factorId);
+      setTotpQrImage(data.qrImageUrl);
+      setShowTotpSetup(true);
+    } catch (err: any) {
+      setTotpError(err.message || 'Error generating 2FA credentials');
+    } finally {
+      setTotpLoading(false);
+    }
+  };
+
+  const confirmTotpEnrollment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!totpVerifyCode || totpVerifyCode.trim().length !== 6) {
+      setTotpError('يرجى إدخال الرمز المكون من 6 أرقام من تطبيق Google Authenticator');
+      return;
+    }
+    setTotpLoading(true);
+    setTotpError(null);
+    try {
+      const res = await fetch('/api/admin/auth/setup-2fa', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          factorId: totpFactorId,
+          secret: totpSecret,
+          code: totpVerifyCode.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'الرمز المدخل غير صحيح');
+      }
+      setTotpSuccess('✓ تم تفعيل التحقق بخطوتين (AAL2) بنجاح على حسابك!');
+      setMfaInfo({ totp_enabled: true, factors_count: 1, verified_factors: 1 });
+      setTimeout(() => {
+        setShowTotpSetup(false);
+        setTotpSuccess(null);
+      }, 3000);
+    } catch (err: any) {
+      setTotpError(err.message || 'فشل التحقق من الرمز');
+    } finally {
+      setTotpLoading(false);
+    }
+  };
+
+  const handleCopySecret = () => {
+    if (!totpSecret) return;
+    navigator.clipboard.writeText(totpSecret);
+    setCopiedSecret(true);
+    setTimeout(() => setCopiedSecret(false), 2000);
+  };
 
   const fetchAccountData = async () => {
     setLoading(true);
@@ -268,32 +345,164 @@ export default function OwnerAccountPage() {
         {/* MFA Status Card */}
         <div className="bg-[#14171C] rounded-2xl border border-[#262B33] p-6 space-y-4 flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2 pb-3 border-b border-[#262B33]">
-              <Smartphone className="w-4 h-4 text-emerald-400" />
-              <h2 className="font-display font-bold text-base text-[#FAF9F6]">
-                Two-Factor MFA (AAL2)
-              </h2>
+            <div className="flex items-center justify-between pb-3 border-b border-[#262B33]">
+              <div className="flex items-center gap-2">
+                <Smartphone className="w-4 h-4 text-emerald-400" />
+                <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+                  Two-Factor MFA (AAL2)
+                </h2>
+              </div>
+              <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${mfaInfo?.totp_enabled ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-[#D9A031]/10 text-[#D9A031] border border-[#D9A031]/30'}`}>
+                {mfaInfo?.totp_enabled ? 'مفعّل (Active)' : 'متاح للتفعيل'}
+              </span>
             </div>
+
             <div className="mt-4 space-y-2">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-[#A0A6B2]">Enforcement Level:</span>
+                <span className="text-[#A0A6B2]">مستوى الحماية:</span>
                 <span className="font-bold text-emerald-400 font-mono">AAL2 Strict</span>
               </div>
               <div className="flex items-center justify-between text-xs">
-                <span className="text-[#A0A6B2]">Active TOTP Factors:</span>
-                <span className="font-bold text-[#FAF9F6] font-mono">{mfaInfo?.verified_factors ?? 1} Verified</span>
+                <span className="text-[#A0A6B2]">الأجهزة المربوطة:</span>
+                <span className="font-bold text-[#FAF9F6] font-mono">{mfaInfo?.totp_enabled ? '1 جهاز موثق (Google Authenticator)' : '0 أجهزة'}</span>
               </div>
-              <p className="text-[11px] text-[#6C7584] mt-3 leading-relaxed">
-                Supabase TOTP is enforced at every login and credential change. If device access is lost, use the emergency recovery protocol in README.md.
+              <p className="text-[11px] text-[#6C7584] mt-2 leading-relaxed">
+                يتم التحقق من الرمز المكون من 6 أرقام لحماية حساب المالك من أي دخول غير مصرح به.
               </p>
             </div>
           </div>
-          <div className="pt-3 border-t border-[#262B33] text-[11px] text-emerald-400 flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-            <span>MFA Protected</span>
+
+          <div className="pt-3 border-t border-[#262B33] space-y-3">
+            {totpSuccess && (
+              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>{totpSuccess}</span>
+              </div>
+            )}
+
+            {totpError && (
+              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 shrink-0" />
+                <span>{totpError}</span>
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={startTotpEnrollment}
+              disabled={totpLoading}
+              className="w-full h-10 px-4 rounded-xl bg-[#D9A031] hover:bg-[#B8821F] text-[#0D0F12] font-bold text-xs flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+            >
+              {totpLoading ? (
+                <RefreshCw className="w-4 h-4 animate-spin" />
+              ) : (
+                <QrCode className="w-4 h-4" />
+              )}
+              <span>{mfaInfo?.totp_enabled ? '📱 إعادة ربط تطبيق Google Authenticator' : '📱 تفعيل التحقق بخطوتين (Google Authenticator)'}</span>
+            </button>
           </div>
         </div>
       </div>
+
+      {/* MODAL: TOTP 2FA SETUP */}
+      {showTotpSetup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-[#14171C] border border-[#262B33] rounded-2xl max-w-md w-full p-6 space-y-5 text-start shadow-2xl">
+            <div className="flex items-center justify-between pb-3 border-b border-[#262B33]">
+              <div className="flex items-center gap-2">
+                <Smartphone className="w-5 h-5 text-[#D9A031]" />
+                <h3 className="font-display font-bold text-base text-[#FAF9F6]">
+                  تفعيل التحقق بخطوتين (AAL2)
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowTotpSetup(false)}
+                className="text-[#6C7584] hover:text-[#FAF9F6] text-sm"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs text-[#A0A6B2]">
+              <p className="leading-relaxed text-center">
+                1. افتح تطبيق <span className="font-bold text-[#FAF9F6]">Google Authenticator</span> أو <span className="font-bold text-[#FAF9F6]">1Password</span> على هاتفك.
+              </p>
+
+              {totpQrImage && (
+                <div className="flex justify-center py-2">
+                  <div className="bg-white p-3 rounded-2xl shadow-lg border-2 border-[#D9A031]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={totpQrImage}
+                      alt="TOTP QR Code"
+                      className="w-44 h-44 block"
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <p className="mb-1 text-[11px] text-[#6C7584]">
+                  أو يمكنك إدخال المفتاح السري يدوياً في التطبيق:
+                </p>
+                <div className="flex items-center gap-2 bg-[#0D0F12] border border-[#262B33] rounded-xl px-3 py-2">
+                  <code className="font-mono text-xs text-[#D9A031] flex-1 tracking-widest break-all">
+                    {totpSecret}
+                  </code>
+                  <button
+                    type="button"
+                    onClick={handleCopySecret}
+                    className="p-1.5 rounded-lg bg-[#1F242D] hover:bg-[#2A303C] text-[#FAF9F6] text-xs transition-colors shrink-0 flex items-center gap-1"
+                  >
+                    {copiedSecret ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedSecret ? 'تم النسخ' : 'نسخ'}</span>
+                  </button>
+                </div>
+              </div>
+
+              <form onSubmit={confirmTotpEnrollment} className="space-y-3 pt-2">
+                <label className="block text-xs font-semibold text-[#FAF9F6]">
+                  اكتب الرمز المكون من 6 أرقام الظاهر الآن في التطبيق:
+                </label>
+                <input
+                  type="text"
+                  required
+                  maxLength={6}
+                  value={totpVerifyCode}
+                  onChange={(e) => setTotpVerifyCode(e.target.value.replace(/[^0-9]/g, ''))}
+                  placeholder="000000"
+                  className="w-full h-12 text-center text-lg tracking-[0.4em] font-mono font-bold rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                />
+
+                {totpError && (
+                  <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs">
+                    {totpError}
+                  </div>
+                )}
+
+                <div className="flex gap-2 pt-2">
+                  <button
+                    type="submit"
+                    disabled={totpLoading || totpVerifyCode.length !== 6}
+                    className="flex-1 h-11 rounded-xl bg-[#D9A031] hover:bg-[#B8821F] text-[#0D0F12] font-bold text-xs flex items-center justify-center gap-1.5 transition-colors disabled:opacity-50"
+                  >
+                    {totpLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
+                    <span>تأكيد وتفعيل الحماية (Activate)</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowTotpSetup(false)}
+                    className="h-11 px-4 rounded-xl border border-[#262B33] hover:bg-[#1F242D] text-[#A0A6B2] text-xs font-semibold"
+                  >
+                    إلغاء
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Grid: Password Change & Email Change */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -11,7 +11,7 @@ export function generateTotpSecret(length = 20): string {
   return secret;
 }
 
-export function generateTotpUri(email: string, secret: string, issuer = 'Royal Umrah Cabs'): string {
+export function generateTotpUri(email: string, secret: string, issuer = 'Duyuf Alrahman VIP'): string {
   const encodedIssuer = encodeURIComponent(issuer);
   const encodedEmail = encodeURIComponent(email);
   return `otpauth://totp/${encodedIssuer}:${encodedEmail}?secret=${secret}&issuer=${encodedIssuer}&algorithm=SHA1&digits=6&period=30`;

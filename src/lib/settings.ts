@@ -1,5 +1,6 @@
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { unstable_cache } from 'next/cache';
+import { getMergedSiteSettings } from './dynamic-settings-store';
 
 export interface SiteSettings {
   whatsapp_number: string;
@@ -94,25 +95,25 @@ const fetchSettingsCached = unstable_cache(
         .maybeSingle();
 
       if (error || !data) {
-        return DEFAULT_SETTINGS;
+        return getMergedSiteSettings(null);
       }
 
-      return {
-        whatsapp_number: data.whatsapp_number || DEFAULT_SETTINGS.whatsapp_number,
-        whatsapp_number_secondary: data.whatsapp_number_secondary || DEFAULT_SETTINGS.whatsapp_number_secondary,
-        phone: data.phone || DEFAULT_SETTINGS.phone,
-        email: data.email || DEFAULT_SETTINGS.email,
-        owner_notification_email: data.owner_notification_email || DEFAULT_SETTINGS.owner_notification_email,
-        telegram_chat_id: data.telegram_chat_id || DEFAULT_SETTINGS.telegram_chat_id,
-        lead_alert_minutes: Number(data.lead_alert_minutes) || DEFAULT_SETTINGS.lead_alert_minutes,
+      return getMergedSiteSettings({
+        whatsapp_number: data.whatsapp_number,
+        whatsapp_number_secondary: data.whatsapp_number_secondary,
+        phone: data.phone,
+        email: data.email,
+        owner_notification_email: data.owner_notification_email,
+        telegram_chat_id: data.telegram_chat_id,
+        lead_alert_minutes: Number(data.lead_alert_minutes) || undefined,
         riyadh_enabled: Boolean(data.riyadh_enabled),
-        address_cities: data.address_cities || DEFAULT_SETTINGS.address_cities,
-        google_reviews_link: data.google_reviews_link || DEFAULT_SETTINGS.google_reviews_link,
-        google_reviews_rating: Number(data.google_reviews_rating) || DEFAULT_SETTINGS.google_reviews_rating,
-        google_reviews_count: Number(data.google_reviews_count) || DEFAULT_SETTINGS.google_reviews_count,
-        free_cancellation_hours: Number(data.free_cancellation_hours) || DEFAULT_SETTINGS.free_cancellation_hours,
+        address_cities: data.address_cities,
+        google_reviews_link: data.google_reviews_link,
+        google_reviews_rating: Number(data.google_reviews_rating) || undefined,
+        google_reviews_count: Number(data.google_reviews_count) || undefined,
+        free_cancellation_hours: Number(data.free_cancellation_hours) || undefined,
         founder_enabled: Boolean(data.founder_enabled),
-        currency_rates: data.currency_rates || DEFAULT_SETTINGS.currency_rates,
+        currency_rates: data.currency_rates,
         flight_tracking_enabled: Boolean(data.flight_tracking_enabled),
         complimentary_water: Boolean(data.complimentary_water),
         zamzam_water: Boolean(data.zamzam_water),
@@ -122,12 +123,12 @@ const fetchSettingsCached = unstable_cache(
         online_card_payment_enabled: Boolean(data.online_card_payment_enabled),
         bank_transfer_payment_enabled: Boolean(data.bank_transfer_payment_enabled),
         coaster_enabled: Boolean(data.coaster_enabled),
-        airport_waiting_minutes: Number(data.airport_waiting_minutes) || DEFAULT_SETTINGS.airport_waiting_minutes,
-        promo_banner_enabled: data.promo_banner_enabled !== undefined ? Boolean(data.promo_banner_enabled) : DEFAULT_SETTINGS.promo_banner_enabled,
-        promo_banner_text: data.promo_banner_text || DEFAULT_SETTINGS.promo_banner_text,
-      };
+        airport_waiting_minutes: Number(data.airport_waiting_minutes) || undefined,
+        promo_banner_enabled: data.promo_banner_enabled !== undefined ? Boolean(data.promo_banner_enabled) : undefined,
+        promo_banner_text: data.promo_banner_text,
+      });
     } catch {
-      return DEFAULT_SETTINGS;
+      return getMergedSiteSettings(null);
     }
   },
   ['site_settings_cache'],

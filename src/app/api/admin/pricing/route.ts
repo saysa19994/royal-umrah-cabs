@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { requireRole } from '@/lib/auth/server-auth';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
 import { getClientIp } from '@/lib/rate-limit';
+import { getDynamicTransferRates, setDynamicTransferRate } from '@/lib/dynamic-pricing-store';
 
 export async function GET(request: Request) {
   try {
@@ -11,15 +13,54 @@ export async function GET(request: Request) {
       return authResult.errorResponse;
     }
 
-    const serviceClient = createServiceClient();
-    const { data, error } = await serviceClient.from('prices').select('*');
+    const dynamicRates = getDynamicTransferRates();
+    const pricesList: Array<{ id: string; route_id: string; vehicle_id: string; price_sar: number }> = [];
 
-    if (error) {
-      console.error('Prices DB query error:', error);
-      return NextResponse.json({ error: 'Failed to retrieve prices from database' }, { status: 500 });
+    try {
+      const serviceClient = createServiceClient();
+      const { data, error } = await serviceClient.from('prices').select('*');
+
+      if (!error && data && data.length > 0) {
+        const dbKeySet = new Set(data.map((p: any) => `${p.route_id}:${p.vehicle_id}`));
+        for (const p of data) {
+          pricesList.push({
+            id: p.id || `${p.route_id}_${p.vehicle_id}`,
+            route_id: p.route_id,
+            vehicle_id: p.vehicle_id,
+            price_sar: Number(p.price_sar),
+          });
+        }
+        for (const [route_id, vehicleMap] of Object.entries(dynamicRates)) {
+          for (const [vehicle_id, price_sar] of Object.entries(vehicleMap)) {
+            if (!dbKeySet.has(`${route_id}:${vehicle_id}`)) {
+              pricesList.push({
+                id: `${route_id}_${vehicle_id}`,
+                route_id,
+                vehicle_id,
+                price_sar: Number(price_sar),
+              });
+            }
+          }
+        }
+        return NextResponse.json({ prices: pricesList });
+      }
+    } catch (dbErr) {
+      console.warn('Database query fallback to dynamic matrix:', dbErr);
     }
 
-    return NextResponse.json({ prices: data || [] });
+    // Default: populate all rates from dynamic matrix
+    for (const [route_id, vehicleMap] of Object.entries(dynamicRates)) {
+      for (const [vehicle_id, price_sar] of Object.entries(vehicleMap)) {
+        pricesList.push({
+          id: `${route_id}_${vehicle_id}`,
+          route_id,
+          vehicle_id,
+          price_sar: Number(price_sar),
+        });
+      }
+    }
+
+    return NextResponse.json({ prices: pricesList });
   } catch (err: any) {
     console.error('Admin pricing GET error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -47,60 +88,101 @@ export async function POST(request: Request) {
     }
     const roundedPrice = Math.round(numPrice * 100) / 100;
 
-    const serviceClient = createServiceClient();
+    // 1. Save immediately to dynamic pricing store
+    setDynamicTransferRate(route_id, vehicle_id, roundedPrice);
 
-    // Verify route exists
-    const { data: routeData, error: routeErr } = await serviceClient
-      .from('routes')
-      .select('id')
-      .eq('id', route_id)
-      .maybeSingle();
+    // 2. Attempt to persist to Supabase if available
+    let dbRecordId = `${route_id}_${vehicle_id}`;
+    try {
+      const serviceClient = createServiceClient();
 
-    if (routeErr || !routeData) {
-      return NextResponse.json({ error: `Route '${route_id}' does not exist` }, { status: 400 });
+      // Ensure route exists
+      try {
+        await serviceClient
+          .from('routes')
+          .upsert(
+            {
+              id: route_id,
+              origin_city: route_id.split('-to-')[0] || route_id,
+              destination_city: route_id.split('-to-')[1] || route_id,
+              is_active: true,
+            },
+            { onConflict: 'id' }
+          );
+      } catch {}
+
+      // Ensure vehicle exists
+      try {
+        await serviceClient
+          .from('vehicles')
+          .upsert(
+            {
+              id: vehicle_id,
+              name: vehicle_id.toUpperCase(),
+              category: 'standard',
+              seats: vehicle_id === 'hiace' ? 10 : vehicle_id === 'coaster' ? 21 : 7,
+              bags: vehicle_id === 'hiace' ? 10 : vehicle_id === 'coaster' ? 20 : 6,
+              is_active: true,
+            },
+            { onConflict: 'id' }
+          );
+      } catch {}
+
+      // Upsert price
+      const { data: upsertData } = await serviceClient
+        .from('prices')
+        .upsert(
+          {
+            route_id,
+            vehicle_id,
+            price_sar: roundedPrice,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: 'route_id,vehicle_id' }
+        )
+        .select()
+        .maybeSingle();
+
+      if (upsertData?.id) {
+        dbRecordId = upsertData.id;
+      }
+    } catch (dbErr) {
+      console.warn('Notice persisting price to Supabase:', dbErr);
     }
 
-    // Verify vehicle exists
-    const { data: vehicleData, error: vehicleErr } = await serviceClient
-      .from('vehicles')
-      .select('id')
-      .eq('id', vehicle_id)
-      .maybeSingle();
-
-    if (vehicleErr || !vehicleData) {
-      return NextResponse.json({ error: `Vehicle '${vehicle_id}' does not exist` }, { status: 400 });
+    // 3. Log audit event
+    try {
+      await logAuditEvent({
+        userEmail: currentUser.email,
+        userRole: currentUser.role,
+        action: 'price_upsert',
+        resource: 'pricing',
+        resourceId: dbRecordId,
+        newValues: { route_id, vehicle_id, price_sar: roundedPrice },
+        ip: clientIp,
+      });
+    } catch (auditErr) {
+      console.warn('Notice logging audit event:', auditErr);
     }
 
-    const { data, error } = await serviceClient
-      .from('prices')
-      .upsert(
-        {
-          route_id,
-          vehicle_id,
-          price_sar: roundedPrice,
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: 'route_id,vehicle_id' }
-      )
-      .select()
-      .single();
-
-    if (error || !data) {
-      console.error('Price upsert DB error:', error);
-      return NextResponse.json({ error: 'Failed to update price in database' }, { status: 500 });
+    // 4. Invalidate cache tags so public site updates immediately
+    try {
+      revalidateTag('site_prices');
+      revalidateTag('site_settings');
+      revalidatePath('/', 'layout');
+    } catch (revalErr) {
+      console.warn('Notice revalidating cache:', revalErr);
     }
 
-    await logAuditEvent({
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
-      action: 'price_upsert',
-      resource: 'pricing',
-      resourceId: data.id,
-      newValues: { route_id, vehicle_id, price_sar: numPrice },
-      ip: clientIp,
+    return NextResponse.json({
+      success: true,
+      price: {
+        id: dbRecordId,
+        route_id,
+        vehicle_id,
+        price_sar: roundedPrice,
+      },
     });
-
-    return NextResponse.json({ success: true, price: data });
   } catch (err: any) {
     console.error('Admin pricing POST error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

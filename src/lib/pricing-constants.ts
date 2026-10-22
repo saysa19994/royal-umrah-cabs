@@ -1,5 +1,5 @@
 /**
- * Single Authoritative Pricing Matrix for Royal Umrah Cabs
+ * Single Authoritative Pricing Matrix for Duyuf Alrahman VIP
  *
  * Guaranteed 100% consistency across:
  * - Supabase database prices table and seed data
@@ -82,11 +82,15 @@ export function getEstimatedBasePriceSAR(params: {
   routeId?: string | null;
   vehicleId: string;
   durationHours?: number | null;
+  customRates?: Record<string, Record<string, number>>;
 }): number | null {
-  const { bookingType, routeId, vehicleId, durationHours } = params;
+  const { bookingType, routeId, vehicleId, durationHours, customRates } = params;
 
   if (bookingType === 'transfer') {
     if (!routeId) return null;
+    if (customRates && customRates[routeId]?.[vehicleId]) {
+      return customRates[routeId][vehicleId];
+    }
     return AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId] ?? null;
   }
 

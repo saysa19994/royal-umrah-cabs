@@ -1,5 +1,28 @@
 import { createServiceClient } from '@/lib/supabase/service';
 import { CURRENCIES, CurrencyCode } from '@/i18n/config';
+import { getDynamicPriceForRouteVehicle } from './dynamic-pricing-store';
+import {
+  AUTHORITATIVE_HOURLY_RATES_4H,
+  AUTHORITATIVE_ZIYARAT_RATES,
+  AUTHORITATIVE_GROUP_RATES,
+} from './pricing-constants';
+
+const STANDARD_VEHICLE_SPECS: Record<string, { seats: number; bags: number; is_active: boolean }> = {
+  camry: { seats: 4, bags: 3, is_active: true },
+  staria: { seats: 7, bags: 6, is_active: true },
+  yukon: { seats: 7, bags: 8, is_active: true },
+  hiace: { seats: 10, bags: 10, is_active: true },
+  coaster: { seats: 21, bags: 20, is_active: true },
+};
+
+const STANDARD_ROUTES: Record<string, boolean> = {
+  'jeddah-airport-to-makkah': true,
+  'makkah-to-jeddah-airport': true,
+  'makkah-to-madinah': true,
+  'madinah-to-makkah': true,
+  'madinah-airport-to-hotel': true,
+  'jeddah-to-madinah': true,
+};
 
 export interface PriceCalculationResult {
   basePriceSAR: number;
@@ -44,20 +67,27 @@ export async function calculateServerPrice(params: {
   }
 
   // 2. Verify vehicle exists and is active, and read seats/bags limits
-  const { data: vehicleData, error: vehicleErr } = await serviceClient
+  let activeVehicle: { seats: number; bags: number; is_active: boolean } | null = null;
+  const { data: vehicleData } = await serviceClient
     .from('vehicles')
     .select('id, is_active, seats, bags')
     .eq('id', vehicleId)
     .eq('is_active', true)
     .maybeSingle();
 
-  if (vehicleErr || !vehicleData) {
+  if (vehicleData) {
+    activeVehicle = vehicleData;
+  } else if (STANDARD_VEHICLE_SPECS[vehicleId]?.is_active) {
+    activeVehicle = STANDARD_VEHICLE_SPECS[vehicleId];
+  }
+
+  if (!activeVehicle) {
     throw new Error(`Active vehicle '${vehicleId}' not found in database`);
   }
 
   // Reject bookings where passengers_count exceeds vehicle seats
   if (passengersCount !== undefined && passengersCount !== null) {
-    const seatsLimit = vehicleData.seats ?? 4;
+    const seatsLimit = activeVehicle.seats ?? 4;
     if (passengersCount > seatsLimit) {
       throw new Error(`Passenger count (${passengersCount}) exceeds vehicle '${vehicleId}' capacity of ${seatsLimit} seats`);
     }
@@ -65,7 +95,7 @@ export async function calculateServerPrice(params: {
 
   // Reject bookings where luggage_count exceeds vehicle bags
   if (luggageCount !== undefined && luggageCount !== null) {
-    const bagsLimit = vehicleData.bags ?? 3;
+    const bagsLimit = activeVehicle.bags ?? 3;
     if (luggageCount > bagsLimit) {
       throw new Error(`Luggage count (${luggageCount}) exceeds vehicle '${vehicleId}' capacity of ${bagsLimit} bags`);
     }
@@ -79,30 +109,41 @@ export async function calculateServerPrice(params: {
     }
 
     // Verify route is active
-    const { data: routeData, error: routeErr } = await serviceClient
+    let isRouteActive = false;
+    const { data: routeData } = await serviceClient
       .from('routes')
       .select('id, is_active')
       .eq('id', routeId)
       .eq('is_active', true)
       .maybeSingle();
 
-    if (routeErr || !routeData) {
+    if (routeData) {
+      isRouteActive = true;
+    } else if (STANDARD_ROUTES[routeId]) {
+      isRouteActive = true;
+    }
+
+    if (!isRouteActive) {
       throw new Error(`Active route '${routeId}' not found in database`);
     }
 
-    // Retrieve exact route x vehicle price from database
-    const { data: priceRow, error: priceErr } = await serviceClient
+    // Retrieve exact route x vehicle price from database or dynamic store
+    const { data: priceRow } = await serviceClient
       .from('prices')
       .select('price_sar')
       .eq('route_id', routeId)
       .eq('vehicle_id', vehicleId)
       .maybeSingle();
 
-    if (priceErr || !priceRow || !priceRow.price_sar) {
-      throw new Error(`Configured price not found for route '${routeId}' and vehicle '${vehicleId}'`);
+    if (priceRow?.price_sar) {
+      basePriceSAR = Number(priceRow.price_sar);
+    } else {
+      basePriceSAR = getDynamicPriceForRouteVehicle(routeId, vehicleId);
     }
 
-    basePriceSAR = Number(priceRow.price_sar);
+    if (!basePriceSAR || isNaN(basePriceSAR) || basePriceSAR <= 0) {
+      throw new Error(`Configured price not found for route '${routeId}' and vehicle '${vehicleId}'`);
+    }
   } else if (bookingType === 'hourly') {
     // Validate durationHours: must be integer between 2 and 24 hours
     const hours = durationHours !== undefined && durationHours !== null
@@ -137,6 +178,9 @@ export async function calculateServerPrice(params: {
       if (standardPrice && standardPrice.price_sar) {
         const blocks = Math.ceil(hours / 4);
         basePriceSAR = Number(standardPrice.price_sar) * blocks;
+      } else if (AUTHORITATIVE_HOURLY_RATES_4H[vehicleId]) {
+        const blocks = Math.ceil(hours / 4);
+        basePriceSAR = AUTHORITATIVE_HOURLY_RATES_4H[vehicleId] * blocks;
       } else {
         throw new Error(`No configured hourly pricing found in database for vehicle '${vehicleId}'`);
       }
@@ -144,31 +188,37 @@ export async function calculateServerPrice(params: {
   } else if (bookingType === 'ziyarat') {
     // Ignore client route_id entirely for ziyarat: derive from booking type
     const targetRouteId = 'ziyarat-tour';
-    const { data: priceRow, error: priceErr } = await serviceClient
+    const { data: priceRow } = await serviceClient
       .from('prices')
       .select('price_sar')
       .eq('route_id', targetRouteId)
       .eq('vehicle_id', vehicleId)
       .maybeSingle();
 
-    if (priceErr || !priceRow || !priceRow.price_sar) {
+    if (priceRow?.price_sar) {
+      basePriceSAR = Number(priceRow.price_sar);
+    } else if (AUTHORITATIVE_ZIYARAT_RATES[vehicleId]) {
+      basePriceSAR = AUTHORITATIVE_ZIYARAT_RATES[vehicleId];
+    } else {
       throw new Error(`No configured ziyarat pricing found in database for route '${targetRouteId}' and vehicle '${vehicleId}'`);
     }
-    basePriceSAR = Number(priceRow.price_sar);
   } else if (bookingType === 'group_bus') {
     // Ignore client route_id entirely for group_bus: derive from booking type
     const targetRouteId = 'group-coaster';
-    const { data: priceRow, error: priceErr } = await serviceClient
+    const { data: priceRow } = await serviceClient
       .from('prices')
       .select('price_sar')
       .eq('route_id', targetRouteId)
       .eq('vehicle_id', vehicleId)
       .maybeSingle();
 
-    if (priceErr || !priceRow || !priceRow.price_sar) {
+    if (priceRow?.price_sar) {
+      basePriceSAR = Number(priceRow.price_sar);
+    } else if (AUTHORITATIVE_GROUP_RATES[vehicleId]) {
+      basePriceSAR = AUTHORITATIVE_GROUP_RATES[vehicleId];
+    } else {
       throw new Error(`No configured group transport pricing found in database for route '${targetRouteId}' and vehicle '${vehicleId}'`);
     }
-    basePriceSAR = Number(priceRow.price_sar);
   }
 
   if (basePriceSAR === null || isNaN(basePriceSAR) || basePriceSAR <= 0) {

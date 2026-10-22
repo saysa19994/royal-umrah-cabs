@@ -13,6 +13,7 @@ import { trackEvent } from '@/lib/analytics';
 interface BookingCardProps {
   locale: Locale;
   dict: Dictionary;
+  initialRates?: Record<string, Record<string, number>>;
 }
 
 // Database-backed rate matrix in SAR (guaranteed 100% parity with Supabase prices)
@@ -59,7 +60,7 @@ const VEHICLE_SPECS: Record<string, { name: string; seats: number; bags: number 
   coaster: { name: 'Toyota Coaster VIP Coach (Up to 21 Seats • 20 Bags)', seats: 21, bags: 20 },
 };
 
-export function BookingCard({ locale, dict }: BookingCardProps) {
+export function BookingCard({ locale, dict, initialRates }: BookingCardProps) {
   const router = useRouter();
   const { currency, setCurrency, formatPrice } = useCurrency();
 
@@ -90,7 +91,8 @@ export function BookingCard({ locale, dict }: BookingCardProps) {
   };
 
   // Calculate live price
-  const baseSAR = BASE_RATES[route]?.[vehicle];
+  const activeRates = initialRates || BASE_RATES;
+  const baseSAR = activeRates[route]?.[vehicle] ?? BASE_RATES[route]?.[vehicle];
 
   const handleBookOnline = (e: React.FormEvent) => {
     e.preventDefault();

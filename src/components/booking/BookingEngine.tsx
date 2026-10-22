@@ -32,6 +32,7 @@ interface BookingEngineProps {
   initialTime?: string;
   initialPassengers?: string;
   initialLuggage?: string;
+  initialRates?: Record<string, Record<string, number>>;
 }
 
 const VEHICLE_SPECS: Record<string, { name: string; seats: number; bags: number }> = {
@@ -61,6 +62,7 @@ export function BookingEngine({
   initialTime = '14:00',
   initialPassengers = '2',
   initialLuggage = '2',
+  initialRates,
 }: BookingEngineProps) {
   const { currency, formatPrice } = useCurrency();
 
@@ -127,6 +129,7 @@ export function BookingEngine({
       routeId: bookingType === 'transfer' ? routeId : null,
       vehicleId,
       durationHours: bookingType === 'hourly' ? durationHours : undefined,
+      customRates: initialRates,
     });
     return calculated || 200;
   };

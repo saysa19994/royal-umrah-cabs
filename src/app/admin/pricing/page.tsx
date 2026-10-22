@@ -7,10 +7,7 @@ import {
   CheckCircle2,
   AlertCircle,
   Calendar,
-  Sparkles,
   Plus,
-  Sliders,
-  DollarSign,
 } from 'lucide-react';
 
 interface RouteRow {
@@ -44,8 +41,11 @@ const DEFAULT_ROWS: RouteRow[] = [
 export default function AdminPricingPage() {
   const [rows, setRows] = useState<RouteRow[]>(DEFAULT_ROWS);
   const [seasons, setSeasons] = useState<SeasonalMultiplier[]>([]);
-  const [saving, setSaving] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [savingRouteId, setSavingRouteId] = useState<string | null>(null);
+  const [savedRouteId, setSavedRouteId] = useState<string | null>(null);
+  const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [savingAll, setSavingAll] = useState(false);
 
   // New Season Form
   const [showAddSeason, setShowAddSeason] = useState(false);
@@ -85,7 +85,7 @@ export default function AdminPricingPage() {
         });
       }
     } catch (e) {
-      console.error('Error fetching prices from DB:', e);
+      console.error('Error fetching prices:', e);
     }
   };
 
@@ -102,8 +102,9 @@ export default function AdminPricingPage() {
   };
 
   const handleSave = async (route: RouteRow) => {
-    setSaving(true);
-    setSuccess(false);
+    setSavingRouteId(route.id);
+    setSaveMessage(null);
+    setSaveError(null);
     try {
       const vehicles: (keyof Omit<RouteRow, 'id' | 'title'>)[] = ['camry', 'staria', 'yukon', 'hiace', 'coaster'];
       for (const v of vehicles) {
@@ -116,16 +117,50 @@ export default function AdminPricingPage() {
             price_sar: route[v],
           }),
         });
-        if (!res.ok) {
-          throw new Error(`Failed to save price for ${v} on route ${route.id}`);
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || `Failed to save price for ${v}`);
         }
       }
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
-    } catch (e) {
+      setSavedRouteId(route.id);
+      setSaveMessage(`✓ تم حفظ أسعار (${route.title}) بنجاح وتحديثها فوراً على الموقع الرئيسي!`);
+      setTimeout(() => {
+        setSavedRouteId(null);
+        setSaveMessage(null);
+      }, 4000);
+    } catch (e: any) {
       console.error('Save error:', e);
+      setSaveError(e.message || 'خطأ أثناء حفظ الأسعار');
     } finally {
-      setSaving(false);
+      setSavingRouteId(null);
+    }
+  };
+
+  const handleSaveAll = async () => {
+    setSavingAll(true);
+    setSaveMessage(null);
+    setSaveError(null);
+    try {
+      for (const row of rows) {
+        const vehicles: (keyof Omit<RouteRow, 'id' | 'title'>)[] = ['camry', 'staria', 'yukon', 'hiace', 'coaster'];
+        for (const v of vehicles) {
+          await fetch('/api/admin/pricing', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              route_id: row.id,
+              vehicle_id: v,
+              price_sar: row[v],
+            }),
+          });
+        }
+      }
+      setSaveMessage('✓ تم حفظ جميع أسعار المسارات وتحديث الموقع الرئيسي تلقائياً وبنجاح!');
+      setTimeout(() => setSaveMessage(null), 5000);
+    } catch (e: any) {
+      setSaveError(e.message || 'خطأ أثناء حفظ جميع الأسعار');
+    } finally {
+      setSavingAll(false);
     }
   };
 
@@ -179,19 +214,41 @@ export default function AdminPricingPage() {
   return (
     <div className="space-y-10 text-start">
       {/* Header */}
-      <div>
-        <h1 className="font-display text-2xl md:text-3xl font-bold text-[#FAF9F6]">
-          Pricing Matrix &amp; High Season Fares
-        </h1>
-        <p className="text-xs text-[#A0A6B2] mt-1 font-light">
-          Set base guaranteed fares per vehicle class and configure automated peak season multipliers
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="font-display text-2xl md:text-3xl font-bold text-[#FAF9F6]">
+            Pricing Matrix &amp; High Season Fares
+          </h1>
+          <p className="text-xs text-[#A0A6B2] mt-1 font-light">
+            Set base guaranteed fares per vehicle class and configure automated peak season multipliers
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={handleSaveAll}
+          disabled={savingAll}
+          className="px-4 py-2.5 rounded-xl bg-[#D9A031] hover:bg-[#B8821F] text-[#0D0F12] font-bold text-xs flex items-center gap-2 transition-colors shrink-0 shadow-lg disabled:opacity-50"
+        >
+          {savingAll ? (
+            <RefreshCw className="w-4 h-4 animate-spin" />
+          ) : (
+            <Save className="w-4 h-4" />
+          )}
+          <span>{savingAll ? 'جاري حفظ الكل...' : 'حفظ جميع الأسعار دفعة واحدة (Save All)'}</span>
+        </button>
       </div>
 
-      {success && (
-        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4" />
-          <span>Fares updated successfully in database!</span>
+      {saveMessage && (
+        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-2 shadow-lg animate-fadeIn">
+          <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-400" />
+          <span>{saveMessage}</span>
+        </div>
+      )}
+
+      {saveError && (
+        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold flex items-center gap-2 shadow-lg">
+          <AlertCircle className="w-5 h-5 shrink-0 text-rose-400" />
+          <span>{saveError}</span>
         </div>
       )}
 
@@ -203,7 +260,7 @@ export default function AdminPricingPage() {
               Standard Base Route Fares (SAR)
             </h2>
             <p className="text-xs text-[#A0A6B2]">
-              Direct chauffeur rates displayed on public website and instant price cards
+              Direct chauffeur rates displayed on public website and instant booking cards
             </p>
           </div>
         </div>
@@ -222,63 +279,78 @@ export default function AdminPricingPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#262B33]">
-              {rows.map((row) => (
-                <tr key={row.id} className="hover:bg-[#1A1F26] transition-colors">
-                  <td className="py-3.5 px-4 font-semibold text-[#FAF9F6] max-w-xs">
-                    {row.title}
-                  </td>
-                  <td className="py-3.5 px-3 text-center">
-                    <input
-                      type="number"
-                      value={row.camry}
-                      onChange={(e) => handleChange(row.id, 'camry', e.target.value)}
-                      className="w-20 h-9 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
-                    />
-                  </td>
-                  <td className="py-3.5 px-3 text-center">
-                    <input
-                      type="number"
-                      value={row.staria}
-                      onChange={(e) => handleChange(row.id, 'staria', e.target.value)}
-                      className="w-20 h-9 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#262B33] bg-[#0D0F12] text-[#D9A031] focus:border-[#D9A031] outline-none"
-                    />
-                  </td>
-                  <td className="py-3.5 px-3 text-center">
-                    <input
-                      type="number"
-                      value={row.yukon}
-                      onChange={(e) => handleChange(row.id, 'yukon', e.target.value)}
-                      className="w-20 h-9 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
-                    />
-                  </td>
-                  <td className="py-3.5 px-3 text-center">
-                    <input
-                      type="number"
-                      value={row.hiace}
-                      onChange={(e) => handleChange(row.id, 'hiace', e.target.value)}
-                      className="w-20 h-9 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
-                    />
-                  </td>
-                  <td className="py-3.5 px-3 text-center">
-                    <input
-                      type="number"
-                      value={row.coaster}
-                      onChange={(e) => handleChange(row.id, 'coaster', e.target.value)}
-                      className="w-20 h-9 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
-                    />
-                  </td>
-                  <td className="py-3.5 px-4 text-center">
-                    <button
-                      onClick={() => handleSave(row)}
-                      disabled={saving}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#D9A031] hover:bg-[#B8821F] text-[#0D0F12] font-bold text-xs transition-colors disabled:opacity-50"
-                    >
-                      <Save className="w-3.5 h-3.5" />
-                      <span>Save</span>
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {rows.map((row) => {
+                const isSaving = savingRouteId === row.id || savingAll;
+                const isSaved = savedRouteId === row.id;
+                return (
+                  <tr key={row.id} className="hover:bg-[#1A1F26] transition-colors">
+                    <td className="py-3.5 px-4 font-semibold text-[#FAF9F6] max-w-xs">
+                      {row.title}
+                    </td>
+                    <td className="py-3.5 px-3 text-center">
+                      <input
+                        type="number"
+                        value={row.camry}
+                        onChange={(e) => handleChange(row.id, 'camry', e.target.value)}
+                        className="w-20 h-9 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                      />
+                    </td>
+                    <td className="py-3.5 px-3 text-center">
+                      <input
+                        type="number"
+                        value={row.staria}
+                        onChange={(e) => handleChange(row.id, 'staria', e.target.value)}
+                        className="w-20 h-9 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#262B33] bg-[#0D0F12] text-[#D9A031] focus:border-[#D9A031] outline-none"
+                      />
+                    </td>
+                    <td className="py-3.5 px-3 text-center">
+                      <input
+                        type="number"
+                        value={row.yukon}
+                        onChange={(e) => handleChange(row.id, 'yukon', e.target.value)}
+                        className="w-20 h-9 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                      />
+                    </td>
+                    <td className="py-3.5 px-3 text-center">
+                      <input
+                        type="number"
+                        value={row.hiace}
+                        onChange={(e) => handleChange(row.id, 'hiace', e.target.value)}
+                        className="w-20 h-9 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                      />
+                    </td>
+                    <td className="py-3.5 px-3 text-center">
+                      <input
+                        type="number"
+                        value={row.coaster}
+                        onChange={(e) => handleChange(row.id, 'coaster', e.target.value)}
+                        className="w-20 h-9 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                      />
+                    </td>
+                    <td className="py-3.5 px-4 text-center">
+                      <button
+                        type="button"
+                        onClick={() => handleSave(row)}
+                        disabled={isSaving}
+                        className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg font-bold text-xs transition-all disabled:opacity-50 ${
+                          isSaved
+                            ? 'bg-emerald-500 text-black shadow-lg shadow-emerald-500/20'
+                            : 'bg-[#D9A031] hover:bg-[#B8821F] text-[#0D0F12]'
+                        }`}
+                      >
+                        {isSaving ? (
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        ) : isSaved ? (
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                        ) : (
+                          <Save className="w-3.5 h-3.5" />
+                        )}
+                        <span>{isSaving ? 'حفظ...' : isSaved ? 'تم الحفظ ✓' : 'حفظ / Save'}</span>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -297,6 +369,7 @@ export default function AdminPricingPage() {
             </p>
           </div>
           <button
+            type="button"
             onClick={() => setShowAddSeason(!showAddSeason)}
             className="px-3.5 py-1.5 rounded-xl bg-[#D9A031] text-[#0D0F12] text-xs font-bold hover:bg-[#B8821F] flex items-center gap-1.5 transition-colors"
           >
@@ -400,6 +473,7 @@ export default function AdminPricingPage() {
                   </td>
                   <td className="py-3.5 px-4 text-end">
                     <button
+                      type="button"
                       onClick={() => handleToggleSeason(s.id, s.is_active)}
                       className={`px-3 py-1 rounded-full text-[11px] font-bold border transition-colors ${
                         s.is_active

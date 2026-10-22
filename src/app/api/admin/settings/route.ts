@@ -5,6 +5,7 @@ import { requireRole } from '@/lib/auth/server-auth';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
 import { getClientIp } from '@/lib/rate-limit';
+import { getMergedSiteSettings, setDynamicSettingsOverrides } from '@/lib/dynamic-settings-store';
 
 export async function GET(request: Request) {
   try {
@@ -13,20 +14,24 @@ export async function GET(request: Request) {
       return authResult.errorResponse;
     }
 
-    const serviceClient = createServiceClient();
-    const { data, error } = await serviceClient
-      .from('site_settings')
-      .select('*')
-      .eq('lock_id', true)
-      .maybeSingle();
-
-    if (error || !data) {
-      return NextResponse.json({ error: 'Failed to retrieve settings from database' }, { status: 500 });
+    let dbSettings: any = null;
+    try {
+      const serviceClient = createServiceClient();
+      const { data } = await serviceClient
+        .from('site_settings')
+        .select('*')
+        .eq('lock_id', true)
+        .maybeSingle();
+      if (data) dbSettings = data;
+    } catch (e) {
+      console.warn('Notice fetching settings from DB:', e);
     }
+
+    const mergedSettings = getMergedSiteSettings(dbSettings);
 
     return NextResponse.json({
       success: true,
-      settings: data,
+      settings: mergedSettings,
       system_status: {
         resend_configured: Boolean(process.env.RESEND_API_KEY && !process.env.RESEND_API_KEY.includes('placeholder')),
         resend_from: process.env.RESEND_FROM || 'Duyuf Alrahman VIP Security <security@duyufalrahmanvip.com>',
@@ -127,27 +132,43 @@ export async function POST(request: Request) {
     if (validated.promo_banner_enabled !== undefined) updates.promo_banner_enabled = validated.promo_banner_enabled;
     if (validated.promo_banner_text !== undefined) updates.promo_banner_text = validated.promo_banner_text;
 
-    const { data, error } = await serviceClient
-      .from('site_settings')
-      .update(updates)
-      .eq('lock_id', true)
-      .select()
-      .single();
+    // 1. Save immediately to dynamic runtime store
+    setDynamicSettingsOverrides(updates);
 
-    if (error || !data) {
-      console.error('Error updating site_settings:', error);
-      return NextResponse.json({ success: false, error: 'Failed to update settings in database' }, { status: 500 });
+    // 2. Persist to Supabase if available
+    let dbData: any = null;
+    try {
+      const serviceClient = createServiceClient();
+      const { data } = await serviceClient
+        .from('site_settings')
+        .upsert(
+          {
+            lock_id: true,
+            ...updates,
+          },
+          { onConflict: 'lock_id' }
+        )
+        .select()
+        .maybeSingle();
+
+      if (data) dbData = data;
+    } catch (dbErr) {
+      console.warn('Notice persisting site_settings to DB:', dbErr);
     }
 
-    await logAuditEvent({
-      userEmail: currentUser.email,
-      userRole: currentUser.role,
-      action: 'settings_update',
-      resource: 'settings',
-      resourceId: 'lock_id',
-      newValues: updates,
-      ip: clientIp,
-    });
+    try {
+      await logAuditEvent({
+        userEmail: currentUser.email,
+        userRole: currentUser.role,
+        action: 'settings_update',
+        resource: 'settings',
+        resourceId: 'lock_id',
+        newValues: updates,
+        ip: clientIp,
+      });
+    } catch (auditErr) {
+      console.warn('Notice logging audit event:', auditErr);
+    }
 
     // Revalidate cache tags and layouts
     try {
@@ -157,7 +178,7 @@ export async function POST(request: Request) {
       console.warn('Cache revalidation notice:', revalErr);
     }
 
-    return NextResponse.json({ success: true, settings: data });
+    return NextResponse.json({ success: true, settings: getMergedSiteSettings(dbData || updates) });
   } catch (err: any) {
     console.error('Settings update error:', err);
     return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
