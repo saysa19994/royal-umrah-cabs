@@ -46,7 +46,17 @@ export async function POST(request: Request) {
       uri = generateTotpUri(user.email, secret, 'Duyuf Alrahman VIP');
     }
 
-    const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(uri)}`;
+    let qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(uri)}`;
+    try {
+      const qrRes = await fetch(qrImageUrl);
+      if (qrRes.ok) {
+        const arrayBuf = await qrRes.arrayBuffer();
+        const base64 = Buffer.from(arrayBuf).toString('base64');
+        qrImageUrl = `data:image/png;base64,${base64}`;
+      }
+    } catch (e) {
+      console.warn('Notice converting QR code to data URI:', e);
+    }
 
     return NextResponse.json({
       success: true,

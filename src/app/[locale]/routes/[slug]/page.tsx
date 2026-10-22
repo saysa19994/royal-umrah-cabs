@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { MapPin, Clock, ShieldCheck, Check, ArrowRight } from 'lucide-react';
+import { getDynamicPriceForRouteVehicle } from '@/lib/dynamic-pricing-store';
 
 interface RouteDetailPageProps {
   params: Promise<{
@@ -253,11 +254,18 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
         <div className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs mb-8">
           <h2 className="font-display font-bold text-xl text-ink mb-4">Fixed Rates for this Route</h2>
           <div className="divide-y divide-border">
-            {route.rates.map((rate, idx) => (
+            {route.rates.map((rate, idx) => {
+              const vKey = rate.vehicle.toLowerCase().includes('camry') ? 'camry'
+                : rate.vehicle.toLowerCase().includes('staria') ? 'staria'
+                : rate.vehicle.toLowerCase().includes('yukon') ? 'yukon'
+                : rate.vehicle.toLowerCase().includes('hiace') ? 'hiace'
+                : 'coaster';
+              const displayPrice = getDynamicPriceForRouteVehicle(slug, vKey) || rate.priceSAR;
+              return (
               <div key={idx} className="py-3.5 flex items-center justify-between text-xs md:text-sm">
                 <span className="font-semibold text-ink">{rate.vehicle}</span>
                 <div className="flex items-center gap-4">
-                  <span className="font-display font-bold text-base text-ink">SAR {rate.priceSAR}</span>
+                  <span className="font-display font-bold text-base text-ink">SAR {displayPrice}</span>
                   <Link
                     href={`/${locale}/booking?route=${slug}`}
                     className="h-8 px-4 rounded-btn bg-gold text-ink text-xs font-bold uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-colors flex items-center justify-center shadow-xs"
@@ -266,7 +274,7 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
                   </Link>
                 </div>
               </div>
-            ))}
+            );})}
           </div>
         </div>
 

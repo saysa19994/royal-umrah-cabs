@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { PricingTable } from '@/components/pricing/PricingTable';
+import { getDynamicTransferRates } from '@/lib/dynamic-pricing-store';
 
 interface PricingPageProps {
   params: Promise<{
@@ -33,6 +34,7 @@ export default async function PricingPage(props: PricingPageProps) {
   } = params;
 
   const dict = getDictionary(locale);
+  const initialRates = getDynamicTransferRates();
 
   return (
     <div className="py-16 md:py-24 bg-bg min-h-screen">
@@ -51,7 +53,7 @@ export default async function PricingPage(props: PricingPageProps) {
         </div>
 
         {/* Interactive Pricing Matrix */}
-        <PricingTable locale={locale} dict={dict} />
+        <PricingTable locale={locale} dict={dict} initialRates={initialRates} />
       </div>
     </div>
   );

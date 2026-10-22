@@ -6,11 +6,12 @@ import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import { useCurrency } from '@/context/CurrencyContext';
 import { CURRENCIES, CurrencyCode } from '@/i18n/config';
-import { CheckCircle2, ArrowRight, ShieldCheck, DollarSign } from 'lucide-react';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
 
 interface PricingTableProps {
   locale: Locale;
   dict: Dictionary;
+  initialRates?: Record<string, Record<string, number>>;
 }
 
 interface RoutePriceItem {
@@ -23,70 +24,35 @@ interface RoutePriceItem {
   coaster: number;
 }
 
-const ROUTE_PRICES: RoutePriceItem[] = [
-  {
-    id: 'jeddah-airport-to-makkah',
-    title: 'Jeddah Airport (KAIA) → Makkah Hotel',
-    camry: 200,
-    staria: 260,
-    yukon: 380,
-    hiace: 340,
-    coaster: 650,
-  },
-  {
-    id: 'makkah-to-jeddah-airport',
-    title: 'Makkah Hotel → Jeddah Airport (KAIA)',
-    camry: 200,
-    staria: 260,
-    yukon: 380,
-    hiace: 340,
-    coaster: 650,
-  },
-  {
-    id: 'makkah-to-madinah',
-    title: 'Makkah → Madinah Al-Munawwarah',
-    camry: 450,
-    staria: 500,
-    yukon: 750,
-    hiace: 650,
-    coaster: 1200,
-  },
-  {
-    id: 'madinah-to-makkah',
-    title: 'Madinah → Makkah (With Miqat Bir Ali Stop)',
-    camry: 450,
-    staria: 500,
-    yukon: 750,
-    hiace: 650,
-    coaster: 1200,
-  },
-  {
-    id: 'madinah-airport-to-hotel',
-    title: 'Madinah Airport (MED) → Central Hotel',
-    camry: 150,
-    staria: 190,
-    yukon: 280,
-    hiace: 250,
-    coaster: 550,
-  },
-  {
-    id: 'jeddah-to-madinah',
-    title: 'Jeddah City / Airport → Madinah Hotel',
-    camry: 680,
-    staria: 750,
-    yukon: 980,
-    hiace: 850,
-    coaster: 1600,
-  },
+const DEFAULT_ROUTE_META = [
+  { id: 'jeddah-airport-to-makkah', title: 'Jeddah Airport (KAIA) → Makkah Hotel', defCamry: 200, defStaria: 260, defYukon: 380, defHiace: 340, defCoaster: 650 },
+  { id: 'makkah-to-jeddah-airport', title: 'Makkah Hotel → Jeddah Airport (KAIA)', defCamry: 200, defStaria: 260, defYukon: 380, defHiace: 340, defCoaster: 650 },
+  { id: 'makkah-to-madinah', title: 'Makkah → Madinah Al-Munawwarah', defCamry: 450, defStaria: 500, defYukon: 750, defHiace: 650, defCoaster: 1200 },
+  { id: 'madinah-to-makkah', title: 'Madinah → Makkah (With Miqat Bir Ali Stop)', defCamry: 450, defStaria: 500, defYukon: 750, defHiace: 650, defCoaster: 1200 },
+  { id: 'madinah-airport-to-hotel', title: 'Madinah Airport (MED) → Central Hotel', defCamry: 150, defStaria: 190, defYukon: 280, defHiace: 250, defCoaster: 550 },
+  { id: 'jeddah-to-madinah', title: 'Jeddah City / Airport → Madinah Hotel', defCamry: 680, defStaria: 750, defYukon: 980, defHiace: 850, defCoaster: 1600 },
 ];
 
-export function PricingTable({ locale, dict }: PricingTableProps) {
+export function PricingTable({ locale, dict, initialRates }: PricingTableProps) {
   const { currency, setCurrency, formatPrice } = useCurrency();
   const [selectedRoute, setSelectedRoute] = useState<string>('all');
 
+  const routePrices: RoutePriceItem[] = DEFAULT_ROUTE_META.map((meta) => {
+    const rates = initialRates?.[meta.id];
+    return {
+      id: meta.id,
+      title: meta.title,
+      camry: rates?.camry ?? meta.defCamry,
+      staria: rates?.staria ?? meta.defStaria,
+      yukon: rates?.yukon ?? meta.defYukon,
+      hiace: rates?.hiace ?? meta.defHiace,
+      coaster: rates?.coaster ?? meta.defCoaster,
+    };
+  });
+
   const filteredRoutes = selectedRoute === 'all'
-    ? ROUTE_PRICES
-    : ROUTE_PRICES.filter((r) => r.id === selectedRoute);
+    ? routePrices
+    : routePrices.filter((r) => r.id === selectedRoute);
 
   return (
     <div className="space-y-8">
@@ -105,7 +71,7 @@ export function PricingTable({ locale, dict }: PricingTableProps) {
             <option value="all">
               {locale === 'ar' ? 'جميع المسارات المتاحة' : locale === 'ms' ? 'Semua Laluan' : 'All Available Routes'}
             </option>
-            {ROUTE_PRICES.map((r) => (
+            {routePrices.map((r) => (
               <option key={r.id} value={r.id}>
                 {r.title}
               </option>

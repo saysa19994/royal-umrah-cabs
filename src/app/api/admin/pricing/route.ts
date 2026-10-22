@@ -129,7 +129,7 @@ export async function POST(request: Request) {
       } catch {}
 
       // Upsert price
-      const { data: upsertData } = await serviceClient
+      const { data: upsertData, error: upsertErr } = await serviceClient
         .from('prices')
         .upsert(
           {
@@ -143,11 +143,24 @@ export async function POST(request: Request) {
         .select()
         .maybeSingle();
 
+      if (upsertErr) {
+        console.error('Price upsert DB error:', upsertErr);
+        return NextResponse.json({
+          success: false,
+          error: `تعذر حفظ السعر في قاعدة بيانات Supabase: (${upsertErr.message || 'RLS Policy Block'}). لحفظ الأسعار بشكل دائم، يلزم إضافة مفتاح SUPABASE_SERVICE_ROLE_KEY في Vercel أو تشغيل كود تعطيل RLS في Supabase.`,
+          code: upsertErr.code,
+        }, { status: 400 });
+      }
+
       if (upsertData?.id) {
         dbRecordId = upsertData.id;
       }
-    } catch (dbErr) {
+    } catch (dbErr: any) {
       console.warn('Notice persisting price to Supabase:', dbErr);
+      return NextResponse.json({
+        success: false,
+        error: `خطأ أثناء الاتصال بقاعدة البيانات: ${dbErr?.message || 'DB Error'}`,
+      }, { status: 500 });
     }
 
     // 3. Log audit event
