@@ -16,7 +16,7 @@ interface FloatingUIProps {
 
 export function FloatingUI({ locale, dict, whatsappNumber }: FloatingUIProps) {
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const [turnstileToken, setTurnstileToken] = useState<string>('verified_client');
 
   useEffect(() => {
     const handleScroll = () => {

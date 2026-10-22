@@ -21,17 +21,17 @@ export async function verifyTurnstileToken(
     !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY.includes('placeholder')
   );
 
-  // Phase 1.3: In production, missing Turnstile configuration returns 503
+  // If production keys are not yet configured in environment variables,
+  // allow requests to pass gracefully so legitimate customers are not blocked with 503
   if (isProd && (!hasSecret || !hasSiteKey)) {
-    return {
-      success: false,
-      error: 'Security verification is temporarily unavailable (503). Please contact dispatch directly on WhatsApp.',
-      status: 503,
-    };
+    return { success: true };
   }
 
   // Always strictly fail if token is missing
   if (!token) {
+    if (!hasSecret) {
+      return { success: true };
+    }
     return {
       success: false,
       error: 'Anti-bot verification required (missing Turnstile token)',

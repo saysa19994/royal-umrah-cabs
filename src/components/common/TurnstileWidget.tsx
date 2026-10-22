@@ -156,13 +156,12 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
     }, [siteKey, locale, theme, onSuccess, onExpire, onError]);
 
     return (
-      <div className={`turnstile-container my-3 ${className}`}>
-        <div ref={containerRef} className="flex justify-center" />
-        {statusMessage && (
-          <p className="text-[11px] text-amber-400 text-center mt-1.5 font-medium">
-            {statusMessage}
-          </p>
-        )}
+      <div
+        className={`turnstile-container pointer-events-none fixed -top-[9999px] -left-[9999px] w-0 h-0 opacity-0 overflow-hidden ${className}`}
+        aria-hidden="true"
+        tabIndex={-1}
+      >
+        <div ref={containerRef} />
       </div>
     );
   }

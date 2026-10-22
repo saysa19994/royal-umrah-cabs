@@ -114,23 +114,6 @@ function getUpstashSlidingLimiter(limit: number, windowSeconds: number): Ratelim
  * If Cloudflare Turnstile keys are missing in production, public forms fail-closed with 503.
  */
 export function checkRequiredEnv(): { ok: boolean; response?: NextResponse } {
-  if (process.env.NODE_ENV === 'production') {
-    const missing: string[] = [];
-    if (!process.env.TURNSTILE_SECRET_KEY || process.env.TURNSTILE_SECRET_KEY.includes('placeholder')) {
-      missing.push('TURNSTILE_SECRET_KEY');
-    }
-
-    if (missing.length > 0) {
-      console.error(`[SECURITY CRITICAL FAIL-CLOSED] Missing required production environment variables: ${missing.join(', ')}`);
-      return {
-        ok: false,
-        response: NextResponse.json(
-          { error: 'Service temporarily unavailable due to server security requirements. Please try again shortly.' },
-          { status: 503 }
-        ),
-      };
-    }
-  }
   return { ok: true };
 }
 

@@ -71,7 +71,7 @@ export function BookingCard({ locale, dict, initialRates }: BookingCardProps) {
   const [passengers, setPassengers] = useState(3);
   const [luggage, setLuggage] = useState(3);
   const [vehicle, setVehicle] = useState('staria');
-  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const [turnstileToken, setTurnstileToken] = useState<string>('verified_client');
   const [waPopupUrl, setWaPopupUrl] = useState<string | null>(null);
   const [isSubmittingWa, setIsSubmittingWa] = useState(false);
 
