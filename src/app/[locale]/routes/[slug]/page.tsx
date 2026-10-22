@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { MapPin, Clock, ShieldCheck, Check, ArrowRight } from 'lucide-react';
-import { getDynamicPriceForRouteVehicle } from '@/lib/dynamic-pricing-store';
+import { getDbPricesCached } from '@/lib/pricing-db';
 
 interface RouteDetailPageProps {
   params: Promise<{
@@ -196,6 +196,8 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
     notFound();
   }
 
+  const dbRates = await getDbPricesCached();
+
   return (
     <div className="py-16 md:py-24 bg-bg min-h-screen text-start">
       <div className="container mx-auto px-4 max-w-4xl">
@@ -260,7 +262,7 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
                 : rate.vehicle.toLowerCase().includes('yukon') ? 'yukon'
                 : rate.vehicle.toLowerCase().includes('hiace') ? 'hiace'
                 : 'coaster';
-              const displayPrice = getDynamicPriceForRouteVehicle(slug, vKey) || rate.priceSAR;
+              const displayPrice = dbRates[slug]?.[vKey] || rate.priceSAR;
               return (
               <div key={idx} className="py-3.5 flex items-center justify-between text-xs md:text-sm">
                 <span className="font-semibold text-ink">{rate.vehicle}</span>

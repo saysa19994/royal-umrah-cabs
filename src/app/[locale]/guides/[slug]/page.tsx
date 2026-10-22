@@ -6,6 +6,7 @@ import { Locale, getLocalizedAlternates, LOCALES } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { COMPREHENSIVE_GUIDES, GuideItem } from '@/data/comprehensive-guides';
 import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
+import { getDbPricesCached } from '@/lib/pricing-db';
 import {
   BookOpen,
   MapPin,
@@ -72,7 +73,8 @@ export default async function GuideDetailPage(props: GuideSlugPageProps) {
   }
 
   const dict = getDictionary(locale);
-  const routePrices = AUTHORITATIVE_TRANSFER_RATES[guide.routeId] || AUTHORITATIVE_TRANSFER_RATES['jeddah-airport-to-makkah'];
+  const dbRates = await getDbPricesCached();
+  const routePrices = dbRates[guide.routeId] || dbRates['jeddah-airport-to-makkah'] || AUTHORITATIVE_TRANSFER_RATES[guide.routeId] || AUTHORITATIVE_TRANSFER_RATES['jeddah-airport-to-makkah'];
 
   // Breadcrumbs JSON-LD
   const breadcrumbJsonLd = {

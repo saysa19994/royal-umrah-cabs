@@ -5,7 +5,7 @@ import { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { BookingCard } from '@/components/home/BookingCard';
-import { getDynamicTransferRates } from '@/lib/dynamic-pricing-store';
+import { getDbPricesCached } from '@/lib/pricing-db';
 import { HomeSections } from '@/components/home/HomeSections';
 import { HomepageFaqJsonLd } from '@/components/seo/JsonLd';
 import {
@@ -172,7 +172,7 @@ export default async function HomePage(props: HomePageProps) {
 
       {/* 2. OVERLAPPING BOOKING CARD WITH ELEVATED LUXURY STYLE */}
       <div id="booking-calculator" className="relative z-20">
-        <BookingCard locale={locale} dict={dict} initialRates={getDynamicTransferRates()} />
+        <BookingCard locale={locale} dict={dict} initialRates={await getDbPricesCached()} />
       </div>
 
       {/* 3. BEIGE TRUST STRIP (ONLY SHOWN IF VALID OR FACTUAL) */}

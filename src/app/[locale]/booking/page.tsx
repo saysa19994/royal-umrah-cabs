@@ -4,7 +4,7 @@ import { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { BookingEngine } from '@/components/booking/BookingEngine';
-import { getDynamicTransferRates } from '@/lib/dynamic-pricing-store';
+import { getDbPricesCached } from '@/lib/pricing-db';
 
 interface BookingPageProps {
   params: Promise<{
@@ -78,7 +78,7 @@ export default async function BookingPage(props: BookingPageProps) {
           initialTime={searchParams.time}
           initialPassengers={searchParams.passengers}
           initialLuggage={searchParams.luggage}
-          initialRates={getDynamicTransferRates()}
+          initialRates={await getDbPricesCached()}
         />
       </div>
     </div>
