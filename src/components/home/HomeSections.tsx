@@ -199,6 +199,25 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
         { title: locale === 'ar' ? 'سعة أمتعة واسعة' : 'Luggage Space', desc: locale === 'ar' ? 'حقائب وزمزم' : 'Ample Trunk', icon: ShieldCheck },
       ],
     },
+      {
+      id: 'coaster',
+      name: locale === 'ar' ? 'تويوتا كوستر VIP' : 'Toyota Coaster VIP Coach',
+      category: locale === 'ar' ? 'حافلة VIP للمجموعات' : 'VIP GROUP COACH',
+      passengers: 21,
+      seats: 21,
+      luggage: 20,
+      bags: 20,
+      startingPriceSAR: 650,
+      extImg: '/assets/images/coaster_exterior.webp',
+      intImg: '/assets/images/coaster_interior.webp',
+      desc: locale === 'ar' ? 'حافلة فاخرة مخصصة للمجموعات والأفواج الكبيرة مع مقاعد رحبة وتكييف مركزي متطور ومستودع أمتعة عملاق.' : 'The executive standard for large pilgrim delegations and family groups with whisper-quiet ride and massive luggage hold.',
+      features: [
+        { title: locale === 'ar' ? 'تكييف هوائي مركزي' : 'High-Output AC', desc: locale === 'ar' ? 'فتحات سقفية لكل مقعد' : 'Ceiling Louvers', icon: Sparkles },
+        { title: locale === 'ar' ? 'مقصورة نظيفة' : 'Sanitized Cabin', desc: locale === 'ar' ? 'عناية فائقة يومية' : 'Executive Grade', icon: Sparkles },
+        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Chauffeur', desc: locale === 'ar' ? 'خبير بمسارات مكة والمدينة' : 'Route Specialist', icon: Award },
+        { title: locale === 'ar' ? 'مستودع أمتعة ضخم' : 'Massive Luggage Bay', desc: locale === 'ar' ? 'يتسع لـ 20 حقيبة وزمزم' : '20 Large Bags', icon: ShieldCheck },
+      ],
+    },
   ];
 
   const currentCar = FLEET_VEHICLES[activeFleetIndex];

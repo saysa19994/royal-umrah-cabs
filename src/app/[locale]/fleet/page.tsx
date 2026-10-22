@@ -68,6 +68,16 @@ const VEHICLES = [
     desc: 'Dedicated transport for large families and group delegations with high-roof headroom, powerful climate control, and abundant luggage room.',
     startSAR: 340,
   },
+  {
+    slug: 'toyota-coaster',
+    name: 'Toyota Coaster VIP Coach',
+    category: 'VIP Group Coach',
+    seats: 21,
+    bags: 20,
+    extImg: '/assets/images/coaster_exterior.webp',
+    desc: 'The gold standard for large pilgrimage families and delegations. Reclining executive seating, individual overhead cooling, and massive rear luggage hold.',
+    startSAR: 650,
+  },
 ];
 
 export default async function FleetPage(props: FleetPageProps) {

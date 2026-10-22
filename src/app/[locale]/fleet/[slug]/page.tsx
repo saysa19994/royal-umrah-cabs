@@ -33,8 +33,8 @@ const FLEET_MAP: Record<
     category: 'Premium Family Van',
     seats: 7,
     bags: 6,
-    extImg: '/assets/images/staria_exterior.jpg',
-    intImg: '/assets/images/staria_interior.jpg',
+    extImg: '/assets/images/staria_exterior.webp',
+    intImg: '/assets/images/staria_interior.webp',
     desc: 'The Hyundai Staria VIP sets a new standard for modern pilgrim family transport in Saudi Arabia. With its expansive panoramic windows, captain chair layout, and serene ride quality, families can rest peacefully during the 4.5-hour transfer between Makkah and Madinah.',
     features: [
       'High-efficiency climate control with dedicated ceiling vents',
@@ -50,8 +50,8 @@ const FLEET_MAP: Record<
     category: 'Ultra-Luxury VIP SUV',
     seats: 7,
     bags: 8,
-    extImg: '/assets/images/yukon_exterior.jpg',
-    intImg: '/assets/images/yukon_interior.jpg',
+    extImg: '/assets/images/yukon_exterior.webp',
+    intImg: '/assets/images/yukon_interior.webp',
     desc: 'The GMC Yukon XL represents the pinnacle of highway prestige and executive comfort in Saudi Arabia. Built for long-distance highway cruises, its extended wheelbase and soundproof cabin isolate travelers from road noise and desert heat.',
     features: [
       'Acoustic double-glazed glass for near-silent highway cruising',
@@ -67,8 +67,8 @@ const FLEET_MAP: Record<
     category: 'Executive Sedan',
     seats: 4,
     bags: 3,
-    extImg: '/assets/images/camry_exterior.jpg',
-    intImg: '/assets/images/camry_interior.jpg',
+    extImg: '/assets/images/camry_exterior.webp',
+    intImg: '/assets/images/camry_interior.webp',
     desc: 'A quiet, reliable, and smooth executive sedan offering exceptional value. Perfectly suited for couples or solo pilgrims seeking a dependable and swift transfer between Jeddah Airport, Makkah, and Madinah.',
     features: [
       'Efficient, whisper-quiet cabin',
@@ -83,8 +83,8 @@ const FLEET_MAP: Record<
     category: 'Mini Bus for Groups',
     seats: 10,
     bags: 10,
-    extImg: '/assets/images/hiace_exterior.jpg',
-    intImg: '/assets/images/hiace_interior.jpg',
+    extImg: '/assets/images/hiace_exterior.webp',
+    intImg: '/assets/images/hiace_interior.webp',
     desc: 'Engineered specifically for large pilgrim families and group delegations. The high-roof cabin allows easy entry and standing headroom, while rear air-conditioning vents keep all 10 passengers refreshed.',
     features: [
       'High roof with wide central walk-through aisle',
@@ -94,10 +94,28 @@ const FLEET_MAP: Record<
     ],
     typicalUse: 'Large extended families, Umrah group packages, and travel agency groups.',
   },
+  'toyota-coaster': {
+    name: 'Toyota Coaster VIP Coach',
+    category: 'VIP Group Coach',
+    seats: 21,
+    bags: 20,
+    extImg: '/assets/images/coaster_exterior.webp',
+    intImg: '/assets/images/coaster_interior.webp',
+    desc: 'The Toyota Coaster VIP Coach represents executive group travel at its finest. Designed for large pilgrim delegations, extended family groups, and VIP Umrah tours, it features a whisper-quiet high-capacity cabin, aircraft-style overhead air conditioning, wide panoramic tinted windows, and expansive dedicated luggage compartments.',
+    features: [
+      'Dual-zone high-performance multi-vent air conditioning system',
+      'Ergonomic reclining seats with executive armrests and ample legroom',
+      'Spacious central walk-through aisle for effortless boarding',
+      'Dedicated massive cargo hold accommodating up to 20 large suitcases and Zamzam containers',
+      'Senior certified highway chauffeur specialized in Jeddah-Makkah-Madinah routes',
+      'Panoramic tinted solar glass offering privacy and protection from Saudi sunshine',
+    ],
+    typicalUse: 'Large families, Umrah group delegations, and private corporate groups (12 to 21 passengers) demanding unified luxury travel without splitting into multiple small cars.',
+  },
 };
 
 export function generateStaticParams() {
-  const slugs = ['hyundai-staria', 'gmc-yukon-xl', 'toyota-camry', 'toyota-hiace'];
+  const slugs = ['hyundai-staria', 'gmc-yukon-xl', 'toyota-camry', 'toyota-hiace', 'toyota-coaster'];
   return slugs.map((slug) => ({ slug }));
 }
 

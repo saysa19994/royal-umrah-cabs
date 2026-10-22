@@ -62,6 +62,18 @@ const VEHICLES = [
     intImg: '/assets/images/hiace_interior.webp',
     tagline: 'Together in comfort for large families',
   },
+  {
+    id: 'coaster',
+    slug: 'toyota-coaster',
+    name: 'Toyota Coaster VIP Coach',
+    category: 'VIP Group Coach',
+    seats: 21,
+    bags: 20,
+    basePriceSAR: 650,
+    extImg: '/assets/images/coaster_exterior.webp',
+    intImg: '/assets/images/coaster_interior.webp',
+    tagline: 'VIP group comfort for large delegations & families',
+  },
 ];
 
 export function FleetSection({ locale, dict }: FleetSectionProps) {
