@@ -17,6 +17,7 @@ import {
   ExternalLink,
   LogOut,
   UserCheck,
+  HelpCircle,
 } from 'lucide-react';
 import { UserProfile } from '@/types/auth';
 import { createClient } from '@/lib/supabase/client';
@@ -46,6 +47,7 @@ export function AdminNavbar({ initialUser }: { initialUser?: UserProfile | null 
     { href: '/admin/users', label: 'Users & Staff', icon: UserCheck, show: !isOperator },
     { href: '/admin/roles', label: 'Roles Matrix', icon: Shield, show: isOwner },
     { href: '/admin/audit-log', label: 'Audit Log', icon: History, show: !isOperator },
+    { href: '/admin/faqs', label: 'FAQ Editor', icon: HelpCircle, show: !isOperator },
     { href: '/admin/settings', label: 'Settings', icon: Settings, show: !isOperator },
     { href: '/admin/account', label: 'Owner Account', icon: ShieldCheck, show: isOwner },
   ];

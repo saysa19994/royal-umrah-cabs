@@ -219,3 +219,96 @@ export function HomepageFaqJsonLd({ dict }: { dict: Dictionary }) {
     />
   );
 }
+
+
+export function RoutePageJsonLd({
+  route,
+  locale,
+  minPriceSAR,
+}: {
+  route: any;
+  locale: Locale;
+  minPriceSAR: number;
+}) {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
+  const isAr = locale === 'ar';
+  const title = isAr ? route.titleAr : route.titleEn;
+  const desc = isAr ? route.descriptionAr : route.descriptionEn;
+  const pageUrl = `${baseUrl}/${locale}/routes/${route.id}`;
+
+  const breadcrumbList = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: isAr ? 'الرئيسية' : 'Home',
+        item: `${baseUrl}/${locale}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: isAr ? 'المسارات' : 'Routes',
+        item: `${baseUrl}/${locale}/routes`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: title,
+        item: pageUrl,
+      },
+    ],
+  };
+
+  const faqPage = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: (route.faqs || []).map((f: any) => ({
+      '@type': 'Question',
+      name: isAr ? f.questionAr : f.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: isAr ? f.answerAr : f.answer,
+      },
+    })),
+  };
+
+  const offerSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: title,
+    description: desc,
+    image: `${baseUrl}/assets/images/og-image.jpg`,
+    offers: {
+      '@type': 'Offer',
+      price: minPriceSAR || 200,
+      priceCurrency: 'SAR',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      validFrom: '2026-01-01',
+      priceValidUntil: '2026-12-31',
+    },
+  };
+
+  function safeJsonLd(data: unknown): string {
+    return JSON.stringify(data).replace(/</g, '\\u003c');
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbList) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(faqPage) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(offerSchema) }}
+      />
+    </>
+  );
+}
