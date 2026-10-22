@@ -1,0 +1,10 @@
+Competitor Name,URL,Primary Service,Target Route / Intent,Pricing Disclosed,Vehicle Types,Languages Supported,Booking Method,Key Weakness
+Saudi Chauffeur Service,https://saudichauffeurservice.com/,VIP Executive Chauffeur,Corporate & Diplomatic Airport Transfers,No (Quote only),GMC Yukon XL / Mercedes S-Class,English,WhatsApp & RFQ Form,No public pricing / high barrier for Umrah pilgrims
+Saudi Chauffeur Service,https://saudichauffeurservice.com/jeddah-airport-transfer/,Airport Transfer,Jeddah Airport Chauffeur,No (Quote only),GMC Yukon XL / Mercedes,English,Form / Phone,Limited pilgrimage-specific guidance
+Kiswah Umrah Cab,https://www.kiswahumrahcab.com/,Umrah Taxi,Jeddah Airport to Makkah,Yes (Contradictory SAR 180-250),Camry / Staria / Yukon / HiAce,English & Arabic,WhatsApp & Form,Meta description contradicts internal price tables
+Kiswah Umrah Cab,https://www.kiswahumrahcab.com/makkah-to-madinah-taxi,Intercity Umrah Transfer,Makkah to Madinah Taxi,Yes (SAR 450-700),Camry / Staria / Yukon / HiAce,English & Arabic,WhatsApp & Form,No guidance on train vs car luggage limits
+UmrahTransit,https://umrahtransit.com/,Private Umrah Transfer,Jeddah Airport to Makkah,Yes (SAR 300-350),Sedan / SUV / HiAce,English,Stripe 20% Deposit + Balance,High base price; only 1 language supported
+UmrahTransit,https://umrahtransit.com/umrah-transportation-guide,Travel Guide,Umrah Transport Guide 2026,Informational,Various,English,Contextual Links,Infrequent updates / no multi-language support
+Harmain Transfer,https://www.harmaintransfer.com/en,Umrah Taxi,Haramain Route Network,Yes (SAR 200-800),Sedan / SUV / Coaster,English / Arabic / Urdu,WhatsApp & Web Form,Production canonical URLs point to localhost:3000
+Umrah Taxi SA,https://www.umrahtaxisa.com/,Umrah Cab,Jeddah Makkah Madinah Transfers,Yes (SAR 200-650),Camry / Staria / Yukon,English / Arabic,WhatsApp,Basic design / no live flight tracking verification
+Taxi Bhai,https://www.taxibhai.com/blog/umrah-taxi-prices-2026,Blog Guide,Umrah Taxi Prices 2026,Informational,Overview,English,WhatsApp Banner,Blog format without integrated booking engine

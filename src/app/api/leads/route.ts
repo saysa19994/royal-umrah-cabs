@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 const LeadInputSchema = z
   .object({
     page: z.string().max(255).optional(),
-    language: z.enum(['en', 'ar', 'ms', 'fr', 'es', 'id', 'hi', 'de', 'ur']).default('en'),
+    language: z.enum(['en', 'ar', 'ms', 'fr', 'es', 'id', 'hi', 'de', 'ur', 'tr']).default('en'),
     route_id: z.string().max(100).optional().nullable(),
     route_title: z.string().max(255).optional().nullable(),
     vehicle_id: z.string().max(100).optional().nullable(),

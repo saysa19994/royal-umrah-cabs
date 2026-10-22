@@ -211,6 +211,24 @@ const I18N_STRINGS: Record<
       talkAgent: { label: '💬 व्हाट्सएप संपर्क', prompt: 'मैं व्हाट्सएप पर सुपरवाइजर से बात करना चाहता हूँ।' },
     },
   },
+  tr: {
+    botTitle: 'Refik AI - Umre Asistanı',
+    botSubtitle: '7/24 Duyuf Alrahman VIP Dijital Asistanı',
+    online: 'Çevrimiçi',
+    welcomeMsg:
+      'Selamün Aleyküm! Ben Refik, Duyuf Alrahman VIP yapay zeka asistanıyım. Cidde, Mekke ve Medine VIP transferleri, araç kapasiteleri ve sabit fiyatlarımız hakkında size nasıl yardımcı olabilirim?',
+    placeholder: 'Sorunuzu buraya yazın veya hızlı işlemlerden seçin...',
+    safetyNotice: 'Rezervasyonlar resmi sistemimiz üzerinden doğrulanır. Kart veya şifre bilgisi talep edilmez.',
+    errorMsg: 'Bağlantıda bir gecikme yaşandı. Lütfen WhatsApp üzerinden doğrudan bize ulaşın.',
+    quickActions: {
+      bookTransfer: { label: '🚗 Transfer Rezervasyonu', prompt: 'Cidde Havalimanı\'ndan Mekke\'ye transfer rezervasyonu yapmak istiyorum.' },
+      hourlyDriver: { label: '⏱️ Şoförlü Özel Araç', prompt: 'Mekke ve Medine\'de saatlik özel şoförlü araç hizmetiniz hakkında bilgi verir misiniz?' },
+      trackBooking: { label: '🔍 Rezervasyon Takibi', prompt: 'Mevcut rezervasyonumu nasıl sorgulayabilirim?' },
+      getPrice: { label: '💰 Sabit Fiyat Tarifesi', prompt: 'Mekke - Medine ve Cidde transfer ücretleriniz ne kadardır?' },
+      talkAgent: { label: '💬 WhatsApp Yetkilisi', prompt: 'Bir müşteri temsilcisiyle WhatsApp üzerinden görüşmek istiyorum.' },
+      faq: { label: '❓ Sık Sorulan Sorular', prompt: 'Havalimanı karşılama ve iptal politikanız nasıldır?' },
+    },
+  },
 };
 
 export function AiChatWidget({ locale }: AiChatWidgetProps) {

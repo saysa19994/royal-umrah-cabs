@@ -22,7 +22,7 @@ export const FALLBACK_WHATSAPP_NUMBERS: WhatsAppNumberRecord[] = [
     is_active: true,
     priority: 1,
     routing_rule: 'main_with_fallback',
-    assigned_languages: ['en', 'ar', 'ms', 'fr', 'es', 'id', 'hi', 'de', 'ur'],
+    assigned_languages: ['en', 'ar', 'ms', 'fr', 'es', 'id', 'hi', 'de', 'ur', 'tr'],
   },
   {
     id: 'second-default',
@@ -220,6 +220,17 @@ export function formatWhatsAppLeadMessage(payload: LeadCreationPayload): string 
     if (payload.passengers) msg += `👥 यात्री: ${payload.passengers}\n`;
     if (payload.price_sar) msg += `💰 निश्चित किराया: SAR ${payload.price_sar}\n`;
     msg += `कृपया बुकिंग और ड्राइवर विवरण की पुष्टि करें। धन्यवाद।`;
+    return msg;
+  }
+
+  if (lang === 'tr') {
+    let msg = `Selamün Aleyküm Duyuf Alrahman VIP [Referans: ${ref}]\nUmre özel VIP transferi hakkında bilgi almak ve rezervasyon yapmak istiyorum:\n`;
+    if (payload.route_title) msg += `📍 Güzergah: ${payload.route_title}\n`;
+    if (payload.vehicle_name) msg += `🚗 Araç: ${payload.vehicle_name}\n`;
+    if (payload.pickup_date) msg += `📅 Tarih: ${payload.pickup_date}\n`;
+    if (payload.passengers) msg += `👥 Yolcu: ${payload.passengers}\n`;
+    if (payload.price_sar) msg += `💰 Sabit Fiyat: SAR ${payload.price_sar}\n`;
+    msg += `Lütfen araç müsaitliğini ve şoför bilgilerini teyit ediniz. Teşekkürler.`;
     return msg;
   }
 

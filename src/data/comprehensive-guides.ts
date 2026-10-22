@@ -15,6 +15,7 @@ export function loc(
     de: overrides?.de || en,
     hi: overrides?.hi || en,
     ur: overrides?.ur || ar,
+    tr: overrides?.tr || en,
     ...overrides,
   };
 }
