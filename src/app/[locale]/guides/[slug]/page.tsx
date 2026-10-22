@@ -51,7 +51,7 @@ export async function generateMetadata(props: GuideSlugPageProps): Promise<Metad
   const description = guide.subtitle[locale] || guide.summary[locale] || guide.subtitle.en;
 
   return {
-    title: `${title} | Royal Umrah Cabs`,
+    title: `${title} | Duyuf Alrahman VIP`,
     description,
     alternates: getLocalizedAlternates(locale, `/guides/${slug}`),
     openGraph: {

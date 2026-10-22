@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { ShieldCheck, CheckCircle2, UserCheck, Wrench, HeartHandshake, PhoneCall, ArrowRight } from 'lucide-react';
 
@@ -23,9 +23,7 @@ export async function generateMetadata(props: SafetyPageProps): Promise<Metadata
   return {
     title: 'Safety Standards & Chauffeur Protocol',
     description: 'Learn about our rigorous safety standards, vehicle inspections, hygiene protocols, and vetted chauffeurs for your sacred Umrah journey.',
-    alternates: {
-      canonical: `${baseUrl}/${locale}/safety`,
-    },
+    alternates: getLocalizedAlternates(locale, '/safety'),
   };
 }
 
@@ -51,7 +49,7 @@ export default async function SafetyPage(props: SafetyPageProps) {
             Safety Standards &amp; Chauffeur Protocol
           </h1>
           <p className="mt-4 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-            Your sacred pilgrimage demands uncompromising safety, vehicle hygiene, and professional courtesy. Discover how Royal Umrah Cabs protects your family from arrival to departure.
+            Your sacred pilgrimage demands uncompromising safety, vehicle hygiene, and professional courtesy. Discover how Duyuf Alrahman VIP protects your family from arrival to departure.
           </p>
         </div>
 

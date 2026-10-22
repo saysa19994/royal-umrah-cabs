@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 
 interface LegalPageProps {
@@ -20,10 +20,8 @@ export async function generateMetadata(props: LegalPageProps): Promise<Metadata>
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   return {
     title: dict.footer.terms,
-    description: 'Terms of service and passenger transport conditions for Royal Umrah Cabs.',
-    alternates: {
-      canonical: `${baseUrl}/${locale}/terms`,
-    },
+    description: 'Terms of service and passenger transport conditions for Duyuf Alrahman VIP.',
+    alternates: getLocalizedAlternates(locale, '/terms'),
   };
 }
 
@@ -55,7 +53,7 @@ export default async function TermsPage(props: LegalPageProps) {
           <section className="space-y-2">
             <h2 className="font-display text-xl font-bold text-ink">1. Nature of Service</h2>
             <p>
-              Royal Umrah Cabs provides private chauffeur transport services between Jeddah Airport (KAIA), Makkah Al-Mukarramah, and Madinah Al-Munawwarah. Every reservation is for a private vehicle dedicated exclusively to the booking passenger and their party.
+              Duyuf Alrahman VIP provides private chauffeur transport services between Jeddah Airport (KAIA), Makkah Al-Mukarramah, and Madinah Al-Munawwarah. Every reservation is for a private vehicle dedicated exclusively to the booking passenger and their party.
             </p>
           </section>
 

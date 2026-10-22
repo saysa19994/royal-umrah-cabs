@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { ManageBookingEngine } from '@/components/booking/ManageBookingEngine';
 
@@ -26,9 +26,7 @@ export async function generateMetadata(props: ManageBookingPageProps): Promise<M
       index: false,
       follow: false,
     },
-    alternates: {
-      canonical: `${baseUrl}/${locale}/manage-booking`,
-    },
+    alternates: getLocalizedAlternates(locale, '/manage-booking'),
   };
 }
 

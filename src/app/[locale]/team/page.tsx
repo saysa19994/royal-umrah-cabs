@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { ShieldCheck, Award, HeartHandshake, CheckCircle2, ArrowRight, UserCheck, Star } from 'lucide-react';
 
@@ -30,15 +30,13 @@ export async function generateMetadata(props: TeamPageProps): Promise<Metadata> 
     locale === 'ar'
       ? 'تعرف على كباتن وسائقي رويال عمرة كاب المؤهلين بخبرة واسعة وأمانة عالية في خدمة ضيوف الرحمن بين جدة ومكة والمدينة.'
       : locale === 'ms'
-      ? 'Kenali kapten pemandu dan pasukan operasi Royal Umrah Cabs yang berpengalaman dan mesra jemaah Umrah.'
+      ? 'Kenali kapten pemandu dan pasukan operasi Duyuf Alrahman VIP yang berpengalaman dan mesra jemaah Umrah.'
       : 'Meet our vetted, professional pilgrim chauffeurs and 24/7 dispatch coordinators serving Jeddah, Makkah, and Madinah.';
 
   return {
     title,
     description,
-    alternates: {
-      canonical: `${baseUrl}/${locale}/team`,
-    },
+    alternates: getLocalizedAlternates(locale, '/team'),
   };
 }
 

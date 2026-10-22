@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { Plane, Navigation, Landmark, Clock, Users, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 
@@ -23,9 +23,7 @@ export async function generateMetadata(props: ServicesPageProps): Promise<Metada
   return {
     title: dict.page_services.title,
     description: dict.page_services.subtitle,
-    alternates: {
-      canonical: `${baseUrl}/${locale}/services`,
-    },
+    alternates: getLocalizedAlternates(locale, '/services'),
   };
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { ShieldCheck, Lock, Eye, FileText } from 'lucide-react';
 
@@ -21,10 +21,8 @@ export async function generateMetadata(props: LegalPageProps): Promise<Metadata>
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   return {
     title: dict.footer.privacy,
-    description: 'Privacy policy for Royal Umrah Cabs passenger dispatch and booking operations.',
-    alternates: {
-      canonical: `${baseUrl}/${locale}/privacy`,
-    },
+    description: 'Privacy policy for Duyuf Alrahman VIP passenger dispatch and booking operations.',
+    alternates: getLocalizedAlternates(locale, '/privacy'),
   };
 }
 
@@ -56,7 +54,7 @@ export default async function PrivacyPage(props: LegalPageProps) {
           <section className="space-y-2">
             <h2 className="font-display text-xl font-bold text-ink">1. Information We Collect</h2>
             <p>
-              When you reserve private Umrah chauffeur transport through Royal Umrah Cabs, we collect only the necessary information required to coordinate your transfer: your full name, WhatsApp phone number, email address (optional), scheduled travel dates, flight number (for real-time flight delay tracking), and pickup/drop-off hotel addresses.
+              When you reserve private Umrah chauffeur transport through Duyuf Alrahman VIP, we collect only the necessary information required to coordinate your transfer: your full name, WhatsApp phone number, email address (optional), scheduled travel dates, flight number (for real-time flight delay tracking), and pickup/drop-off hotel addresses.
             </p>
           </section>
 

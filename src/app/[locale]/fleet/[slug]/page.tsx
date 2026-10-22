@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { Users, Briefcase, Check, ArrowRight, Sparkles, ShieldCheck } from 'lucide-react';
 
@@ -133,9 +133,7 @@ export async function generateMetadata(props: FleetDetailPageProps): Promise<Met
   return {
     title: vehicle.name,
     description: vehicle.desc.slice(0, 160),
-    alternates: {
-      canonical: `${baseUrl}/${locale}/fleet/${slug}`,
-    },
+    alternates: getLocalizedAlternates(locale, `/fleet/${slug}`),
   };
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { ZIYARAT_GUIDES } from '@/data/ziyarat';
 import { Clock, Calendar, ArrowRight, Car, Compass, MessageCircle, ShieldCheck } from 'lucide-react';
 
@@ -35,9 +35,7 @@ export async function generateMetadata(props: GuideDetailPageProps): Promise<Met
   return {
     title: isAr ? g.titleAr : g.titleEn,
     description: isAr ? g.metaDescAr : g.metaDescEn,
-    alternates: {
-      canonical: `${baseUrl}/${locale}/ziyarat/guides/${slug}`,
-    },
+    alternates: getLocalizedAlternates(locale, `/ziyarat/guides/${slug}`),
   };
 }
 
@@ -66,11 +64,11 @@ export default async function GuideDetailPage(props: GuideDetailPageProps) {
     mainEntityOfPage: currentUrl,
     author: {
       '@type': 'Organization',
-      name: 'Royal Umrah Cabs Dispatch Team',
+      name: 'Duyuf Alrahman VIP Dispatch Team',
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Royal Umrah Cabs',
+      name: 'Duyuf Alrahman VIP',
       logo: {
         '@type': 'ImageObject',
         url: 'https://duyufalrahmanvip.com/logo.png',

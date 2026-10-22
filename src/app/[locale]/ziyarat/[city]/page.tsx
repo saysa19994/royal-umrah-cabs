@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { ZIYARAT_SITES, ZIYARAT_TOURS, ZIYARAT_GUIDES } from '@/data/ziyarat';
 import { MapPin, Clock, ArrowRight, Car, Compass, MessageCircle, ShieldCheck } from 'lucide-react';
@@ -49,9 +49,7 @@ export async function generateMetadata(props: CityHubPageProps): Promise<Metadat
   return {
     title,
     description,
-    alternates: {
-      canonical: `${baseUrl}/${locale}/ziyarat/${city}`,
-    },
+    alternates: getLocalizedAlternates(locale, `/ziyarat/${city}`),
   };
 }
 

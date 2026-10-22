@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { TrackBookingEngine } from '@/components/booking/TrackBookingEngine';
 
@@ -26,9 +26,7 @@ export async function generateMetadata(props: TrackBookingPageProps): Promise<Me
       index: false,
       follow: false,
     },
-    alternates: {
-      canonical: `${baseUrl}/${locale}/track-booking`,
-    },
+    alternates: getLocalizedAlternates(locale, '/track-booking'),
   };
 }
 

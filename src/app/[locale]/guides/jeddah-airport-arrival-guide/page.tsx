@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { Plane, MapPin, Clock, ShieldCheck, ArrowRight, MessageCircle } from 'lucide-react';
 
@@ -23,9 +23,7 @@ export async function generateMetadata(props: GuidePageProps): Promise<Metadata>
   return {
     title: dict.guides_section.guide2Title,
     description: dict.guides_section.guide2Desc,
-    alternates: {
-      canonical: `${baseUrl}/${locale}/guides/jeddah-airport-arrival-guide`,
-    },
+    alternates: getLocalizedAlternates(locale, '/guides/jeddah-airport-arrival-guide'),
   };
 }
 
@@ -71,7 +69,7 @@ export default async function JeddahAirportGuidePage(props: GuidePageProps) {
           <section className="space-y-2">
             <h2 className="font-display text-xl font-bold text-ink">3. Where Your Chauffeur Meets You</h2>
             <p>
-              Once you walk out through the customs exit doors into the public arrival hall, your private Royal Umrah Cabs chauffeur will be standing in the designated reception area holding a clear welcome board bearing your family name. You will also receive your chauffeur's direct mobile number, photograph, and vehicle plate number on WhatsApp before landing.
+              Once you walk out through the customs exit doors into the public arrival hall, your private Duyuf Alrahman VIP chauffeur will be standing in the designated reception area holding a clear welcome board bearing your family name. You will also receive your chauffeur's direct mobile number, photograph, and vehicle plate number on WhatsApp before landing.
             </p>
           </section>
 

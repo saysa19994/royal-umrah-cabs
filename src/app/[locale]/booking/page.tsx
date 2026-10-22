@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { BookingEngine } from '@/components/booking/BookingEngine';
@@ -36,9 +36,7 @@ export async function generateMetadata(
   return {
     title: dict.nav.bookNow,
     description: dict.booking_card.subtitle,
-    alternates: {
-      canonical: `${baseUrl}/${locale}/booking`,
-    },
+    alternates: getLocalizedAlternates(locale, '/booking'),
   };
 }
 

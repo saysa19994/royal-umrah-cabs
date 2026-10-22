@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { Car, Train, Bus, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 
@@ -23,9 +23,7 @@ export async function generateMetadata(props: GuidePageProps): Promise<Metadata>
   return {
     title: dict.guides_section.guide3Title,
     description: dict.guides_section.guide3Desc,
-    alternates: {
-      canonical: `${baseUrl}/${locale}/guides/makkah-to-madinah-transport-comparison`,
-    },
+    alternates: getLocalizedAlternates(locale, '/guides/makkah-to-madinah-transport-comparison'),
   };
 }
 

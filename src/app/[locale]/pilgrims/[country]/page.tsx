@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { PILGRIM_COUNTRIES } from '@/data/pilgrims';
 import { Plane, MapPin, Clock, ShieldCheck, Check, ArrowRight, Car, Users, Luggage, MessageCircle, CreditCard, HelpCircle } from 'lucide-react';
 
@@ -38,9 +38,7 @@ export async function generateMetadata(props: PilgrimCountryPageProps): Promise<
   return {
     title: isMatchLocale ? c.titleNative : c.titleEn,
     description: isMatchLocale ? c.metaDescNative : c.metaDescEn,
-    alternates: {
-      canonical: `${baseUrl}/${locale}/pilgrims/${country}`,
-    },
+    alternates: getLocalizedAlternates(locale, `/pilgrims/${country}`),
     ...(c.noindex ? { robots: { index: false, follow: true } } : {}),
   };
 }
@@ -69,7 +67,7 @@ export default async function PilgrimCountryPage(props: PilgrimCountryPageProps)
     description: isMatchLocale ? c.metaDescNative : c.metaDescEn,
     provider: {
       '@type': 'LocalBusiness',
-      name: 'Royal Umrah Cabs',
+      name: 'Duyuf Alrahman VIP',
       telephone: '+966567588261',
       url: 'https://duyufalrahmanvip.com',
       areaServed: [
@@ -328,7 +326,7 @@ export default async function PilgrimCountryPage(props: PilgrimCountryPageProps)
           <div className="p-6 rounded-2xl bg-surface border border-border text-xs text-ink-muted mb-10">
             <h4 className="font-bold text-ink mb-2">Impressum &amp; Rechtliche Angaben (für Pilger aus Deutschland)</h4>
             <p className="leading-relaxed font-light mb-2">
-              Royal Umrah Cabs • Kingdom of Saudi Arabia • Chauffeur &amp; Ground Transportation Dispatch.
+              Duyuf Alrahman VIP • Kingdom of Saudi Arabia • Chauffeur &amp; Ground Transportation Dispatch.
             </p>
             <p className="font-light">
               Kontakt: info@royalumrahcabs.com | WhatsApp: +966 56 758 8261. Vertreten durch die Geschäftsleitung.

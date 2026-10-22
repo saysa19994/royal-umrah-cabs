@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { ContactForm } from '@/components/contact/ContactForm';
@@ -20,9 +20,7 @@ export async function generateMetadata(props: ContactPageProps): Promise<Metadat
   return {
     title: `${dict.page_contact.title} | Duyuf Alrahman VIP`,
     description: dict.page_contact.subtitle,
-    alternates: {
-      canonical: `${baseUrl}/${locale}/contact`,
-    },
+    alternates: getLocalizedAlternates(locale, '/contact'),
   };
 }
 

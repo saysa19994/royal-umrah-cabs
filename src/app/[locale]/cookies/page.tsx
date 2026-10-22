@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 
 interface LegalPageProps {
@@ -20,10 +20,8 @@ export async function generateMetadata(props: LegalPageProps): Promise<Metadata>
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   return {
     title: dict.footer_extra.cookiePolicy,
-    description: 'Cookie policy and technical storage usage on Royal Umrah Cabs.',
-    alternates: {
-      canonical: `${baseUrl}/${locale}/cookies`,
-    },
+    description: 'Cookie policy and technical storage usage on Duyuf Alrahman VIP.',
+    alternates: getLocalizedAlternates(locale, '/cookies'),
   };
 }
 
@@ -62,7 +60,7 @@ export default async function CookiePage(props: LegalPageProps) {
           <section className="space-y-2">
             <h2 className="font-display text-xl font-bold text-ink">2. Essential Operational Cookies</h2>
             <p>
-              Royal Umrah Cabs uses minimal, essential cookies exclusively to maintain your booking session, save your preferred currency (e.g. SAR, MYR, USD), and ensure smooth language switching between Arabic, English, and Malay.
+              Duyuf Alrahman VIP uses minimal, essential cookies exclusively to maintain your booking session, save your preferred currency (e.g. SAR, MYR, USD), and ensure smooth language switching between Arabic, English, and Malay.
             </p>
           </section>
 

@@ -43,7 +43,7 @@ export async function generateMetadata(props: GuidesPageProps): Promise<Metadata
       : 'Comprehensive library of 12 verified travel guides for Umrah pilgrims: airport arrivals, train vs taxi comparisons, vehicle selection, and sacred ziyarat tours.';
 
   return {
-    title: `${title} | Royal Umrah Cabs`,
+    title: `${title} | Duyuf Alrahman VIP`,
     description,
     alternates: getLocalizedAlternates(locale, '/guides'),
   };

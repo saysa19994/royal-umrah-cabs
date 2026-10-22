@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { ZIYARAT_SITES, ZIYARAT_TOURS, ZIYARAT_GUIDES } from '@/data/ziyarat';
 import { MapPin, Clock, ShieldCheck, Check, ArrowRight, MessageCircle, Star, Compass, Car } from 'lucide-react';
@@ -28,9 +28,7 @@ export async function generateMetadata(props: ZiyaratHubPageProps): Promise<Meta
     description: isAr
       ? 'احجز جولة مزارات خاصة في مكة المكرمة والمدينة المنورة بسيارة مكيفة وسائق مخصص. غار حراء، ثور، قباء، وأحد بأسعار ثابتة شاملة الانتظار.'
       : 'Book private car Ziyarat tours in Makkah & Madinah with professional chauffeurs. Cave Hira, Mount Thawr, Masjid Quba, & Mount Uhud with fixed fares.',
-    alternates: {
-      canonical: `${baseUrl}/${locale}/ziyarat`,
-    },
+    alternates: getLocalizedAlternates(locale, '/ziyarat'),
   };
 }
 

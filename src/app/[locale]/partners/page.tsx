@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { Building2, Handshake, Users, ArrowRight, MessageCircle, FileText, CheckCircle2 } from 'lucide-react';
 import { getSiteSettings } from '@/lib/settings';
@@ -23,10 +23,8 @@ export async function generateMetadata(props: PartnersPageProps): Promise<Metada
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   return {
     title: 'Travel Agency & B2B Umrah Partnerships',
-    description: 'Partner with Royal Umrah Cabs for reliable ground transport for your Umrah pilgrim groups across Jeddah, Makkah, and Madinah.',
-    alternates: {
-      canonical: `${baseUrl}/${locale}/partners`,
-    },
+    description: 'Partner with Duyuf Alrahman VIP for reliable ground transport for your Umrah pilgrim groups across Jeddah, Makkah, and Madinah.',
+    alternates: getLocalizedAlternates(locale, '/partners'),
   };
 }
 
@@ -50,7 +48,7 @@ export default async function PartnersPage(props: PartnersPageProps) {
             <span>Travel Agencies &amp; Group Operators</span>
           </div>
           <h1 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-            Partner with Royal Umrah Cabs
+            Partner with Duyuf Alrahman VIP
           </h1>
           <p className="mt-4 text-ink-muted text-base md:text-lg leading-relaxed font-light">
             We partner with travel agencies, group organizers, and international tour operators worldwide to deliver dependable VIP pilgrim transport across Jeddah, Makkah, and Madinah.

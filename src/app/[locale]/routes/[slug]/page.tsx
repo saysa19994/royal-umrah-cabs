@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import {
   MapPin,
@@ -48,9 +48,7 @@ export async function generateMetadata(props: RouteDetailPageProps): Promise<Met
   return {
     title: `${title} | Duyuf Alrahman VIP`,
     description: desc,
-    alternates: {
-      canonical: `${baseUrl}/${locale}/routes/${slug}`,
-    },
+    alternates: getLocalizedAlternates(locale, `/routes/${slug}`),
     openGraph: {
       title,
       description: desc,

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { CheckCircle2, Clock, ShieldCheck, ArrowRight, MessageCircle } from 'lucide-react';
 
@@ -22,10 +22,8 @@ export async function generateMetadata(props: LegalPageProps): Promise<Metadata>
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   return {
     title: dict.footer.refunds,
-    description: 'Cancellation policy and refund terms for Royal Umrah Cabs passenger transport.',
-    alternates: {
-      canonical: `${baseUrl}/${locale}/cancellation`,
-    },
+    description: 'Cancellation policy and refund terms for Duyuf Alrahman VIP passenger transport.',
+    alternates: getLocalizedAlternates(locale, '/cancellation'),
   };
 }
 
@@ -71,7 +69,7 @@ export default async function CancellationPage(props: LegalPageProps) {
           <section className="space-y-2">
             <h2 className="font-display text-xl font-bold text-ink">2. No Prepayment Required = Immediate Peace of Mind</h2>
             <p>
-              Because Royal Umrah Cabs operates on a transparent "Pay Upon Arrival" model, you do not need to wait weeks for credit card refunds. If you cancel your reservation before the 24-hour window, your booking is simply cancelled in our dispatch system without any financial deduction.
+              Because Duyuf Alrahman VIP operates on a transparent "Pay Upon Arrival" model, you do not need to wait weeks for credit card refunds. If you cancel your reservation before the 24-hour window, your booking is simply cancelled in our dispatch system without any financial deduction.
             </p>
           </section>
 

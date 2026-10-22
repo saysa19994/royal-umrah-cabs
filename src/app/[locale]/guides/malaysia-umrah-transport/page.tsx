@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Locale } from '@/i18n/config';
+import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { Plane, Compass, Luggage, DollarSign, CheckCircle2, ArrowRight, MessageCircle, HelpCircle } from 'lucide-react';
 
@@ -32,16 +32,7 @@ export async function generateMetadata(props: MalaysiaGuideProps): Promise<Metad
       'teksi miqat bir ali madinah ke makkah',
       'pengangkutan jemaah umrah klia',
     ],
-    alternates: {
-      canonical: `${baseUrl}/${locale}/guides/malaysia-umrah-transport`,
-      languages: {
-        en: `${baseUrl}/en/guides/malaysia-umrah-transport`,
-        ar: `${baseUrl}/ar/guides/malaysia-umrah-transport`,
-        ms: `${baseUrl}/ms/guides/malaysia-umrah-transport`,
-        'ms-MY': `${baseUrl}/ms/guides/malaysia-umrah-transport`,
-        'x-default': `${baseUrl}/en/guides/malaysia-umrah-transport`,
-      },
-    },
+    alternates: getLocalizedAlternates(locale, '/guides/malaysia-umrah-transport'),
     openGraph: {
       title: `${dict.page_guide_malaysia.title} | ${dict.meta.brand}`,
       description: dict.page_guide_malaysia.subtitle,
