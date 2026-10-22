@@ -172,6 +172,11 @@ export function Footer({ locale, dict, settings }: FooterProps) {
                 </Link>
               </li>
               <li>
+                <Link href={`/${locale}/fleet/toyota-coaster`} className="hover:text-gold transition-colors inline-block py-1">
+                  Toyota Coaster VIP Coach (21 Seats)
+                </Link>
+              </li>
+              <li>
                 <Link href={`/${locale}/services`} className="hover:text-gold transition-colors inline-block py-1">
                   Makkah & Madinah Ziyarat Tours
                 </Link>

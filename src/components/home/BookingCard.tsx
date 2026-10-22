@@ -251,7 +251,7 @@ export function BookingCard({ locale, dict, initialRates }: BookingCardProps) {
                 : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
             }`}
           >
-            {locale === 'ar' ? 'مطار جدة ← مكة (200 ر.س)' : 'Jeddah KAIA → Makkah (200 SAR)'}
+            {locale === 'ar' ? `مطار جدة ← مكة (${formatPrice(200)})` : `Jeddah KAIA → Makkah (${formatPrice(200)})`}
           </button>
           <button
             type="button"
@@ -262,7 +262,7 @@ export function BookingCard({ locale, dict, initialRates }: BookingCardProps) {
                 : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
             }`}
           >
-            {locale === 'ar' ? 'مكة ← المدينة (450 ر.س)' : 'Makkah → Madinah (450 SAR)'}
+            {locale === 'ar' ? `مكة ← المدينة (${formatPrice(450)})` : `Makkah → Madinah (${formatPrice(450)})`}
           </button>
           <button
             type="button"
@@ -273,7 +273,7 @@ export function BookingCard({ locale, dict, initialRates }: BookingCardProps) {
                 : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
             }`}
           >
-            {locale === 'ar' ? 'مطار المدينة ← الفندق (150 ر.س)' : 'Madinah Airport (150 SAR)'}
+            {locale === 'ar' ? `مطار المدينة ← الفندق (${formatPrice(150)})` : `Madinah Airport (${formatPrice(150)})`}
           </button>
           <button
             type="button"
@@ -284,7 +284,7 @@ export function BookingCard({ locale, dict, initialRates }: BookingCardProps) {
                 : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
             }`}
           >
-            {locale === 'ar' ? 'جدة ← المدينة (680 ر.س)' : 'Jeddah → Madinah (680 SAR)'}
+            {locale === 'ar' ? `جدة ← المدينة (${formatPrice(680)})` : `Jeddah → Madinah (${formatPrice(680)})`}
           </button>
         </div>
 
@@ -451,6 +451,18 @@ export function BookingCard({ locale, dict, initialRates }: BookingCardProps) {
               </div>
             </div>
           </div>
+
+          {/* CAPACITY RECOMMENDATION CALLOUT */}
+          {(passengers >= maxSeats || luggage >= maxBags) && (
+            <div className="p-2.5 rounded-xl bg-gold-soft border border-gold-line text-xs text-ink flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-gold-dark shrink-0" />
+              <span>
+                {locale === 'ar'
+                  ? `أقصى سعة للمركبة المحددة: ${maxSeats} ركاب و ${maxBags} حقائب. للعائلات الكبرى والأفواج، ننصح باختيار تويوتا هايس (10 ركاب) أو تويوتا كوستر (21 راكب).`
+                  : `Selected vehicle capacity reached (${maxSeats} passengers, ${maxBags} bags). For extended families and delegations, choose Toyota HiAce (10 Pax) or Toyota Coaster (21 Pax).`}
+              </span>
+            </div>
+          )}
 
           {/* BOT PROTECTION */}
           <TurnstileWidget
