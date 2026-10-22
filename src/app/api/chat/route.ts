@@ -105,8 +105,7 @@ export async function POST(request: Request) {
           return new Response(stream, {
             headers: {
               'Content-Type': 'text/plain; charset=utf-8',
-              'Transfer-Encoding': 'chunked',
-              'Cache-Control': 'no-cache',
+              'Cache-Control': 'no-cache, no-transform',
             },
           });
         }
@@ -149,19 +148,23 @@ export async function POST(request: Request) {
         : `Welcome to **Duyuf Alrahman VIP** Private Umrah & Chauffeur Services 🕋✨\n\nI am "Rafeeq", your dedicated pilgrimage assistant. How may I assist you today?\n\n• Fixed fares for transfers (Jeddah, Makkah, and Madinah)\n• Fleet capacities (GMC Yukon XL, Hyundai Staria, Camry, HiAce, Coaster)\n• Terminal meeting points at KAIA Jeddah and MED Madinah\n• Miqat Bir Ali stops and historic Ziyarat tours\n\nFeel free to ask any question or tap below to connect with a live supervisor on WhatsApp.`;
     }
 
-    // Log session for admin review
-    const isHandoff = reply.includes('wa.me') || reply.includes('الواتساب') || reply.includes('WhatsApp');
-    logChatSession({
-      id: `sess-${Date.now().toString(36)}`,
-      createdAt: new Date().toISOString(),
-      locale,
-      messagesCount: sanitizedMessages.length,
-      lastUserMessage,
-      lastAssistantMessage: reply.slice(0, 300),
-      handoffOccurred: isHandoff,
-      handoffRef: isHandoff ? `VIP-${Math.floor(10000 + Math.random() * 90000)}` : undefined,
-      ipMasked: clientIp ? clientIp.replace(/(\d+)\.(\d+)\..*/, '$1.$2.***.***') : undefined,
-    });
+    // Log session for admin review safely
+    try {
+      const isHandoff = reply.includes('wa.me') || reply.includes('الواتساب') || reply.includes('WhatsApp');
+      logChatSession({
+        id: `sess-${Date.now().toString(36)}`,
+        createdAt: new Date().toISOString(),
+        locale,
+        messagesCount: sanitizedMessages.length,
+        lastUserMessage,
+        lastAssistantMessage: reply.slice(0, 300),
+        handoffOccurred: isHandoff,
+        handoffRef: isHandoff ? `VIP-${Math.floor(10000 + Math.random() * 90000)}` : undefined,
+        ipMasked: clientIp ? clientIp.replace(/(\d+)\.(\d+)\..*/, '$1.$2.***.***') : undefined,
+      });
+    } catch (logErr) {
+      console.warn('Non-blocking chat log notice:', logErr);
+    }
 
     // Stream the text reply with chunks for smooth UX
     const encoder = new TextEncoder();
@@ -180,8 +183,7 @@ export async function POST(request: Request) {
     return new Response(stream, {
       headers: {
         'Content-Type': 'text/plain; charset=utf-8',
-        'Transfer-Encoding': 'chunked',
-        'Cache-Control': 'no-cache',
+        'Cache-Control': 'no-cache, no-transform',
       },
     });
   } catch (err: any) {
