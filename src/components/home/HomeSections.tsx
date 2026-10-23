@@ -484,7 +484,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
           </div>
 
           {/* HARMAIN-STYLE FEATURED SHOWCASE CARD (Screenshots 1, 2, 3) */}
-          <div className="bg-gradient-to-br from-navy via-navy-light to-navy rounded-3xl border border-gold/30 shadow-2xl p-6 sm:p-10 md:p-12 mb-14 text-white relative overflow-hidden">
+          <div className="bg-gradient-to-br from-navy via-navy-light to-navy rounded-3xl border border-gold/30 shadow-2xl p-6 sm:p-10 md:p-12 mb-0 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-80 h-80 bg-gold/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -651,40 +651,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             </div>
           </div>
 
-          {/* ALL 5 FLEET VEHICLES COMPARISON GRID */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {FLEET_VEHICLES.map((car, idx) => (
-              <div
-                key={car.id}
-                onClick={() => setActiveFleetIndex(idx)}
-                className={`bg-surface rounded-2xl p-5 border transition-all cursor-pointer text-start ${
-                  activeFleetIndex === idx
-                    ? 'border-2 border-gold shadow-md bg-gold-soft/20'
-                    : 'border-border hover:border-gold-line shadow-xs'
-                }`}
-              >
-                <div className="relative aspect-[16/10] bg-bg-alt/60 rounded-xl p-3 flex items-center justify-center mb-4">
-                  <Image
-                    src={car.extImg}
-                    alt={car.name}
-                    width={280}
-                    height={180}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <span className="text-[10px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
-                  {car.category}
-                </span>
-                <h4 className="font-display font-bold text-base text-ink mb-2">
-                  {car.name}
-                </h4>
-                <div className="flex items-center justify-between text-xs text-ink-muted pt-3 border-t border-border">
-                  <span>{locale === 'ar' ? `${car.passengers} ركاب` : `${car.passengers} Pax`}</span>
-                  <span className="font-bold text-gold-dark">
-                    {locale === 'ar' ? `من ${formatPrice(car.startingPriceSAR)}` : `From ${formatPrice(car.startingPriceSAR)}`}
-                  </span>
-                </div>
-              </div>
+          
             ))}
           </div>
         </div>
