@@ -65,7 +65,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       duration: locale === 'ar' ? '75 دقيقة' : '75 mins',
       distance: locale === 'ar' ? '95 كم' : '95 km',
       basePriceSAR: 200,
-      img: '/assets/images/yukon_studio.webp',
+      img: '/assets/images/vehicles/gmc-yukon-xl/exterior-studio.webp',
     },
     {
       id: 'makkah-to-madinah',
@@ -76,7 +76,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       duration: locale === 'ar' ? '4.5 ساعات' : '4.5 hours',
       distance: locale === 'ar' ? '440 كم' : '440 km',
       basePriceSAR: 450,
-      img: '/assets/images/staria_studio.webp',
+      img: '/assets/images/vehicles/hyundai-staria/exterior-studio.webp',
     },
     {
       id: 'madinah-to-makkah',
@@ -87,7 +87,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       duration: locale === 'ar' ? '4.5 ساعات' : '4.5 hours',
       distance: locale === 'ar' ? '440 كم' : '440 km',
       basePriceSAR: 450,
-      img: '/assets/images/yukon_exterior.webp',
+      img: '/assets/images/vehicles/gmc-yukon-xl/exterior-studio.webp',
     },
     {
       id: 'makkah-to-jeddah-airport',
@@ -98,7 +98,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       duration: locale === 'ar' ? '75 دقيقة' : '75 mins',
       distance: locale === 'ar' ? '95 كم' : '95 km',
       basePriceSAR: 200,
-      img: '/assets/images/camry_exterior.webp',
+      img: '/assets/images/vehicles/toyota-camry/exterior-studio.webp',
     },
     {
       id: 'jeddah-to-madinah',
@@ -109,7 +109,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       duration: locale === 'ar' ? '4.2 ساعات' : '4.2 hours',
       distance: locale === 'ar' ? '410 كم' : '410 km',
       basePriceSAR: 680,
-      img: '/assets/images/staria_exterior.webp',
+      img: '/assets/images/vehicles/hyundai-staria/exterior-studio.webp',
     },
     {
       id: 'madinah-airport-to-hotel',
@@ -127,6 +127,25 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
   // Section 7: Luxury Fleet with "Choose Your Class" Harmain Style (Screenshots 1, 2, 3)
   const FLEET_VEHICLES = [
     {
+      id: 'maybach',
+      name: locale === 'ar' ? 'مرسيدس مايباخ S-Class' : 'Mercedes-Maybach S-Class VIP',
+      category: locale === 'ar' ? 'سيدان ملكي فائق الفخامة' : 'ULTRA VIP FIRST-CLASS SEDAN',
+      passengers: 3,
+      seats: 3,
+      luggage: 3,
+      bags: 3,
+      startingPriceSAR: 550,
+      extImg: '/assets/images/vehicles/mercedes-maybach/exterior-studio.webp',
+      intImg: '/assets/images/vehicles/mercedes-maybach/interior.webp',
+      desc: locale === 'ar' ? 'قمة الفخامة الملكية والهدوء التام مع مقاعد استرخاء من الدرجة الأولى وعزل صوتي فائق.' : 'The pinnacle of presidential luxury with first-class reclining seats and supreme road tranquility.',
+      features: [
+        { title: locale === 'ar' ? 'تكييف هوائي ملكي' : 'First-Class Climate', desc: locale === 'ar' ? 'تبريد فائق' : 'Multi-Zone Comfort', icon: Sparkles },
+        { title: locale === 'ar' ? 'مقصورة جلد نابا' : 'Nappa Leather', desc: locale === 'ar' ? 'مقاعد مساج فارهة' : 'Executive Reclining', icon: Sparkles },
+        { title: locale === 'ar' ? 'سائق VIP خاص' : 'Executive Chauffeur', desc: locale === 'ar' ? 'زي رسمي ملكي' : 'Formal Uniform', icon: Award },
+        { title: locale === 'ar' ? 'ضيافة مياه زمزم' : 'Zamzam Hospitality', desc: locale === 'ar' ? 'كؤوس فضية' : 'Silver Service', icon: ShieldCheck },
+      ],
+    },
+    {
       id: 'camry',
       name: locale === 'ar' ? 'تويوتا كامري' : 'Toyota Camry',
       category: locale === 'ar' ? 'سيدان تنفيذي' : 'EXECUTIVE SEDAN',
@@ -135,7 +154,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       luggage: 3,
       bags: 3,
       startingPriceSAR: 150,
-      extImg: '/assets/images/camry_studio.webp',
+      extImg: '/assets/images/vehicles/toyota-camry/exterior-studio.webp',
       intImg: '/assets/images/camry_interior.webp',
       desc: locale === 'ar' ? 'مثالية للأفراد والأزواج والعائلات الصغيرة مع حقائب قياسية وتكييف فائق الراحة.' : 'A modern, immaculately maintained sedan for solo airport runs and couple pilgrimages.',
       features: [
@@ -211,7 +230,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       luggage: 10,
       bags: 10,
       startingPriceSAR: 340,
-      extImg: '/assets/images/hiace_exterior.webp',
+      extImg: '/assets/images/vehicles/toyota-hiace/exterior-studio.webp',
       intImg: '/assets/images/hiace_interior.webp',
       desc: locale === 'ar' ? 'مثالية للمجموعات الكبيرة والأسر الممتدة لتوفير تكلفة سيارتين والسفر معاً براحة تامة.' : 'Spacious group minibus keeping extended families together in air-conditioned comfort.',
       features: [
@@ -230,7 +249,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       luggage: 20,
       bags: 20,
       startingPriceSAR: 650,
-      extImg: '/assets/images/coaster_exterior.webp',
+      extImg: '/assets/images/vehicles/toyota-coaster/exterior-studio.webp',
       intImg: '/assets/images/coaster_interior.webp',
       desc: locale === 'ar' ? 'حافلة فاخرة مخصصة للمجموعات والأفواج الكبيرة مع مقاعد رحبة وتكييف مركزي متطور ومستودع أمتعة عملاق.' : 'The executive standard for large pilgrim delegations and family groups with whisper-quiet ride and massive luggage hold.',
       features: [

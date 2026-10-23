@@ -29,27 +29,27 @@ const FLEET_MAP: Record<
     gallery: { title: string; img: string; tag: string }[];
   }
 > = {
-  'hyundai-staria': {
-    name: 'Hyundai Staria VIP',
-    category: 'Premium Family Van',
-    seats: 7,
-    bags: 6,
-    extImg: '/assets/images/staria_studio.webp',
-    intImg: '/assets/images/staria_interior.webp',
-    desc: 'The Hyundai Staria VIP sets a new standard for modern pilgrim family transport in Saudi Arabia. With its expansive panoramic windows, captain chair layout, and serene ride quality, families can rest peacefully during the 4.5-hour transfer between Makkah and Madinah.',
+  'mercedes-maybach': {
+    name: 'Mercedes-Maybach S-Class VIP',
+    category: 'Ultra-Luxury First-Class Sedan',
+    seats: 3,
+    bags: 3,
+    extImg: '/assets/images/vehicles/mercedes-maybach/exterior-studio.webp',
+    intImg: '/assets/images/vehicles/mercedes-maybach/interior.webp',
+    desc: 'The Mercedes-Maybach S-Class is the ultimate expression of automotive elegance, discretion, and supreme comfort. Engineered for state dignitaries, VIP pilgrims, and executives, its rear first-class suite isolates passengers in serene quietude during journeys across the Holy Land.',
     features: [
-      'High-efficiency climate control with dedicated ceiling vents',
-      'Individual reclining executive seats with armrests',
-      'Complimentary chilled Zamzam water bottles on all trips',
-      'USB-C rapid charging ports at every row',
-      'Deep luggage cargo area accommodating up to 6 large suitcases',
+      'Individual first-class executive reclining lounge seats with massage function',
+      'Acoustic double-glazed laminated privacy glass and electric window shades',
+      'Burmester High-End 4D surround sound and rear OLED entertainment displays',
+      'Chilled refreshments and Zamzam water served in luxury silver flutes',
+      'Senior executive chauffeur dressed in presidential formal attire',
     ],
-    typicalUse: 'Families of 4 to 7 passengers traveling with multiple large suitcases and Zamzam containers.',
+    typicalUse: 'Royal delegates, VIP pilgrims, and corporate executives demanding the absolute highest level of luxury and prestige.',
     gallery: [
-      { title: '2K Studio Exterior', img: '/assets/images/staria_studio.webp', tag: '2K Studio' },
-      { title: 'Highway Exterior Profile', img: '/assets/images/staria_exterior.webp', tag: 'Exterior' },
-      { title: 'VIP Captain Cabin', img: '/assets/images/staria_interior.webp', tag: 'VIP Interior' },
-      { title: 'Spacious Trunk Hold', img: '/assets/images/extracted_gallery/WhatsApp Image 2026-10-22 at 10.12.33 PM (1).jpeg', tag: 'Luggage Hold' },
+      { title: '2K Studio Exterior View', img: '/assets/images/vehicles/mercedes-maybach/exterior-studio.webp', tag: '2K Studio' },
+      { title: 'Executive First-Class Lounge', img: '/assets/images/vehicles/mercedes-maybach/interior.webp', tag: 'VIP Interior' },
+      { title: 'Presidential Road Presence', img: '/assets/images/maybach_exterior.webp', tag: 'Prestige Exterior' },
+      { title: 'Rear Cabin Comfort', img: '/assets/images/maybach_interior.webp', tag: 'Executive Suite' },
     ],
   },
   'gmc-yukon-xl': {
@@ -57,8 +57,8 @@ const FLEET_MAP: Record<
     category: 'Ultra-Luxury VIP SUV',
     seats: 7,
     bags: 8,
-    extImg: '/assets/images/yukon_studio.webp',
-    intImg: '/assets/images/yukon_interior.webp',
+    extImg: '/assets/images/vehicles/gmc-yukon-xl/exterior-studio.webp',
+    intImg: '/assets/images/vehicles/gmc-yukon-xl/interior.webp',
     desc: 'The GMC Yukon XL represents the pinnacle of highway prestige and executive comfort in Saudi Arabia. Built for long-distance highway cruises, its extended wheelbase and soundproof cabin isolate travelers from road noise and desert heat.',
     features: [
       'Acoustic double-glazed glass for near-silent highway cruising',
@@ -69,32 +69,33 @@ const FLEET_MAP: Record<
     ],
     typicalUse: 'VIP pilgrims, corporate delegations, and families demanding the utmost in prestige and space.',
     gallery: [
-      { title: '2K Studio Prestige View', img: '/assets/images/yukon_studio.webp', tag: '2K Studio' },
+      { title: '2K Studio Prestige View', img: '/assets/images/vehicles/gmc-yukon-xl/exterior-studio.webp', tag: '2K Studio' },
       { title: 'Airport Arrivals Exterior', img: '/assets/images/yukon_exterior.webp', tag: 'VIP Arrivals' },
-      { title: 'Executive Leather Cabin', img: '/assets/images/yukon_interior.webp', tag: 'VIP Interior' },
+      { title: 'Executive Leather Cabin', img: '/assets/images/vehicles/gmc-yukon-xl/interior.webp', tag: 'VIP Interior' },
       { title: 'Extended Cargo Capacity', img: '/assets/images/extracted_gallery/GMC_Yukon_XL_studio_photograph_2K_20261022210253.jpg', tag: '2K Master' },
     ],
   },
-  'toyota-camry': {
-    name: 'Toyota Camry Executive',
-    category: 'Executive Sedan',
-    seats: 4,
-    bags: 3,
-    extImg: '/assets/images/camry_studio.webp',
-    intImg: '/assets/images/camry_interior.webp',
-    desc: 'A quiet, reliable, and smooth executive sedan offering exceptional value. Perfectly suited for couples or solo pilgrims seeking a dependable and swift transfer between Jeddah Airport, Makkah, and Madinah.',
+  'hyundai-staria': {
+    name: 'Hyundai Staria VIP',
+    category: 'Premium Family Van',
+    seats: 7,
+    bags: 6,
+    extImg: '/assets/images/vehicles/hyundai-staria/exterior-studio.webp',
+    intImg: '/assets/images/vehicles/hyundai-staria/interior.webp',
+    desc: 'The Hyundai Staria VIP sets a new standard for modern pilgrim family transport in Saudi Arabia. With its expansive panoramic windows, captain chair layout, and serene ride quality, families can rest peacefully during the 4.5-hour transfer between Makkah and Madinah.',
     features: [
-      'Efficient, whisper-quiet cabin',
-      'Cold air conditioning built for Saudi summer temperatures',
-      'Trunk space for 2-3 standard suitcases and hand luggage',
-      'Smooth suspension absorbing highway bumps',
+      'High-efficiency climate control with dedicated ceiling vents',
+      'Individual reclining executive seats with armrests',
+      'Complimentary chilled Zamzam water bottles on all trips',
+      'USB-C rapid charging ports at every row',
+      'Deep luggage cargo area accommodating up to 6 large suitcases',
     ],
-    typicalUse: 'Solo pilgrims, couples, or small families of 2-3 travelers.',
+    typicalUse: 'Families of 4 to 7 passengers traveling with multiple large suitcases and Zamzam containers.',
     gallery: [
-      { title: '2K Studio Sedan Exterior', img: '/assets/images/camry_studio.webp', tag: '2K Studio' },
-      { title: 'Commercial City Exterior', img: '/assets/images/camry_exterior.webp', tag: 'Exterior' },
-      { title: 'Ergonomic Interior Cabin', img: '/assets/images/camry_interior.webp', tag: 'Cabin' },
-      { title: 'High-Res Studio View', img: '/assets/images/extracted_gallery/Toyota_Camry_in_studio_2K_20261022205913.jpg', tag: '2K High-Res' },
+      { title: '2K Studio Exterior', img: '/assets/images/vehicles/hyundai-staria/exterior-studio.webp', tag: '2K Studio' },
+      { title: 'Highway Exterior Profile', img: '/assets/images/staria_exterior.webp', tag: 'Exterior' },
+      { title: 'VIP Captain Cabin', img: '/assets/images/vehicles/hyundai-staria/interior.webp', tag: 'VIP Interior' },
+      { title: 'Spacious Trunk Hold', img: '/assets/images/extracted_gallery/WhatsApp Image 2026-10-22 at 10.12.33 PM (1).jpeg', tag: 'Luggage Hold' },
     ],
   },
   'hyundai-h1': {
@@ -102,8 +103,8 @@ const FLEET_MAP: Record<
     category: 'Family Minivan',
     seats: 8,
     bags: 7,
-    extImg: '/assets/images/h1_exterior.webp',
-    intImg: '/assets/images/staria_interior.webp',
+    extImg: '/assets/images/vehicles/hyundai-h1/exterior-studio.webp',
+    intImg: '/assets/images/vehicles/hyundai-h1/interior.webp',
     desc: 'The Hyundai H1 Starex is the trusted family workhorse across the Kingdom. Renowned for its reliable high-capacity seating, smooth dual sliding doors, and ample space for luggage and Zamzam water containers.',
     features: [
       '8 comfortable passenger seats with flexible arrangement',
@@ -114,10 +115,32 @@ const FLEET_MAP: Record<
     ],
     typicalUse: 'Medium to large families of 5 to 8 passengers needing a balanced, highly dependable transport option.',
     gallery: [
-      { title: '2K Studio Front View', img: '/assets/images/h1_exterior.webp', tag: '2K Studio' },
-      { title: 'High-Res Master View', img: '/assets/images/extracted_gallery/Hyundai_H1_Starex_studio_photograph_2K_20261022211204.jpg', tag: '2K High-Res' },
-      { title: 'Executive Passenger Seats', img: '/assets/images/staria_interior.webp', tag: 'Seating Layout' },
+      { title: '2K Studio Front View', img: '/assets/images/vehicles/hyundai-h1/exterior-studio.webp', tag: '2K Studio' },
+      { title: 'Family Passenger Cabin', img: '/assets/images/vehicles/hyundai-h1/interior.webp', tag: 'Real Interior' },
+      { title: 'Dual Sliding Access', img: '/assets/images/vehicles/hyundai-h1/rear.webp', tag: 'Sliding Access' },
       { title: 'Family Luggage Hold', img: '/assets/images/extracted_gallery/WhatsApp Image 2026-10-22 at 10.12.33 PM (3).jpeg', tag: 'Luggage Bay' },
+    ],
+  },
+  'toyota-camry': {
+    name: 'Toyota Camry Executive',
+    category: 'Executive Sedan',
+    seats: 4,
+    bags: 3,
+    extImg: '/assets/images/vehicles/toyota-camry/exterior-studio.webp',
+    intImg: '/assets/images/vehicles/toyota-camry/interior.webp',
+    desc: 'A quiet, reliable, and smooth executive sedan offering exceptional value. Perfectly suited for couples or solo pilgrims seeking a dependable and swift transfer between Jeddah Airport, Makkah, and Madinah.',
+    features: [
+      'Efficient, whisper-quiet cabin',
+      'Cold air conditioning built for Saudi summer temperatures',
+      'Trunk space for 2-3 standard suitcases and hand luggage',
+      'Smooth suspension absorbing highway bumps',
+    ],
+    typicalUse: 'Solo pilgrims, couples, or small families of 2-3 travelers.',
+    gallery: [
+      { title: '2K Studio Sedan Exterior', img: '/assets/images/vehicles/toyota-camry/exterior-studio.webp', tag: '2K Studio' },
+      { title: 'Commercial City Exterior', img: '/assets/images/camry_exterior.webp', tag: 'Exterior' },
+      { title: 'Ergonomic Interior Cabin', img: '/assets/images/vehicles/toyota-camry/interior.webp', tag: 'Cabin' },
+      { title: 'High-Res Studio View', img: '/assets/images/extracted_gallery/Toyota_Camry_in_studio_2K_20261022205913.jpg', tag: '2K High-Res' },
     ],
   },
   'toyota-hiace': {
@@ -125,8 +148,8 @@ const FLEET_MAP: Record<
     category: 'Mini Bus for Groups',
     seats: 10,
     bags: 10,
-    extImg: '/assets/images/hiace_exterior.webp',
-    intImg: '/assets/images/hiace_interior.webp',
+    extImg: '/assets/images/vehicles/toyota-hiace/exterior-studio.webp',
+    intImg: '/assets/images/vehicles/toyota-hiace/interior.webp',
     desc: 'Engineered specifically for large pilgrim families and group delegations. The high-roof cabin allows easy entry and standing headroom, while rear air-conditioning vents keep all 10 passengers refreshed.',
     features: [
       'High roof with wide central walk-through aisle',
@@ -136,10 +159,10 @@ const FLEET_MAP: Record<
     ],
     typicalUse: 'Large extended families, Umrah group packages, and travel agency groups.',
     gallery: [
-      { title: 'High-Roof Exterior', img: '/assets/images/hiace_exterior.webp', tag: 'Full Exterior' },
-      { title: '10-Passenger Cabin', img: '/assets/images/hiace_interior.webp', tag: 'Spacious Cabin' },
+      { title: '2K Studio High-Roof Exterior', img: '/assets/images/vehicles/toyota-hiace/exterior-studio.webp', tag: '2K Studio' },
+      { title: '10-Passenger Cabin', img: '/assets/images/vehicles/toyota-hiace/interior.webp', tag: 'Spacious Cabin' },
+      { title: 'Passenger Seating Rows', img: '/assets/images/vehicles/toyota-hiace/seats.webp', tag: 'Seating Rows' },
       { title: 'Group Luggage Bay', img: '/assets/images/extracted_gallery/WhatsApp Image 2026-10-22 at 10.12.34 PM (1).jpeg', tag: 'Cargo Capacity' },
-      { title: 'Rear Boarding Access', img: '/assets/images/extracted_gallery/WhatsApp Image 2026-10-22 at 10.12.32 PM (4).jpeg', tag: 'Boarding Gate' },
     ],
   },
   'toyota-coaster': {
@@ -147,8 +170,8 @@ const FLEET_MAP: Record<
     category: 'VIP Group Coach',
     seats: 21,
     bags: 20,
-    extImg: '/assets/images/coaster_exterior.webp',
-    intImg: '/assets/images/coaster_interior.webp',
+    extImg: '/assets/images/vehicles/toyota-coaster/exterior-studio.webp',
+    intImg: '/assets/images/vehicles/toyota-coaster/interior.webp',
     desc: 'The Toyota Coaster VIP Coach represents executive group travel at its finest. Designed for large pilgrim delegations, extended family groups, and VIP Umrah tours, it features a whisper-quiet high-capacity cabin, aircraft-style overhead air conditioning, wide panoramic tinted windows, and expansive dedicated luggage compartments.',
     features: [
       'Dual-zone high-performance multi-vent air conditioning system',
@@ -160,8 +183,8 @@ const FLEET_MAP: Record<
     ],
     typicalUse: 'Large families, Umrah group delegations, and private corporate groups (12 to 21 passengers) demanding unified luxury travel without splitting into multiple small cars.',
     gallery: [
-      { title: 'VIP Coach Exterior', img: '/assets/images/coaster_exterior.webp', tag: 'Coach Exterior' },
-      { title: 'Executive Leather Seating', img: '/assets/images/coaster_interior.webp', tag: 'Aircraft Louvers' },
+      { title: '2K Studio Coach Exterior', img: '/assets/images/vehicles/toyota-coaster/exterior-studio.webp', tag: '2K Studio' },
+      { title: 'Executive Leather Seating', img: '/assets/images/vehicles/toyota-coaster/interior.webp', tag: 'Aircraft Louvers' },
       { title: 'Deluxe Side Profile', img: '/assets/images/extracted_gallery/WhatsApp Image 2026-10-22 at 10.12.37 PM.jpeg', tag: 'Side Profile' },
       { title: 'Group Delegation Hold', img: '/assets/images/extracted_gallery/WhatsApp Image 2026-10-22 at 10.12.38 PM.jpeg', tag: 'Massive Bay' },
     ],
@@ -169,7 +192,15 @@ const FLEET_MAP: Record<
 };
 
 export function generateStaticParams() {
-  const slugs = ['hyundai-staria', 'gmc-yukon-xl', 'toyota-camry', 'hyundai-h1', 'toyota-hiace', 'toyota-coaster'];
+  const slugs = [
+    'mercedes-maybach',
+    'gmc-yukon-xl',
+    'hyundai-staria',
+    'hyundai-h1',
+    'toyota-camry',
+    'toyota-hiace',
+    'toyota-coaster',
+  ];
   return slugs.map((slug) => ({ slug }));
 }
 
@@ -177,7 +208,7 @@ export async function generateMetadata(props: FleetDetailPageProps): Promise<Met
   const params = await props.params;
   const { locale, slug } = params;
 
-  const vehicle = FLEET_MAP[slug] || FLEET_MAP['hyundai-staria'];
+  const vehicle = FLEET_MAP[slug] || FLEET_MAP['mercedes-maybach'];
   return {
     title: `${vehicle.name} | Duyuf Alrahman VIP Fleet`,
     description: vehicle.desc.slice(0, 160),

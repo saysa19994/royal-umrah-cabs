@@ -29,6 +29,16 @@ export async function generateMetadata(props: FleetPageProps): Promise<Metadata>
 
 const VEHICLES = [
   {
+    slug: 'mercedes-maybach',
+    name: 'Mercedes-Maybach S-Class VIP',
+    category: 'Ultra VIP First-Class Sedan',
+    seats: 3,
+    bags: 3,
+    extImg: '/assets/images/vehicles/mercedes-maybach/exterior-studio.webp',
+    desc: 'The pinnacle of presidential luxury and discretion. First-class reclining lounge seats, burmester audio, acoustic double glazing, and chilled refreshments.',
+    startSAR: 550,
+  },
+  {
     slug: 'hyundai-staria',
     name: 'Hyundai Staria VIP',
     category: 'Family Van',
@@ -74,7 +84,7 @@ const VEHICLES = [
     category: 'Mini Bus',
     seats: 10,
     bags: 10,
-    extImg: '/assets/images/hiace_exterior.webp',
+    extImg: '/assets/images/vehicles/toyota-hiace/exterior-studio.webp',
     desc: 'Dedicated transport for large families and group delegations with high-roof headroom, powerful climate control, and abundant luggage room.',
     startSAR: 340,
   },
@@ -84,7 +94,7 @@ const VEHICLES = [
     category: 'VIP Group Coach',
     seats: 21,
     bags: 20,
-    extImg: '/assets/images/coaster_exterior.webp',
+    extImg: '/assets/images/vehicles/toyota-coaster/exterior-studio.webp',
     desc: 'The gold standard for large pilgrimage families and delegations. Reclining executive seating, individual overhead cooling, and massive rear luggage hold.',
     startSAR: 650,
   },
