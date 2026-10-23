@@ -86,13 +86,13 @@ export function middleware(request: NextRequest) {
   );
 
   if (!pathnameHasLocale) {
-    const targetLocale = getPreferredLocale(request);
+    // Rewrite internally to default locale (Arabic) without redirecting the browser address bar.
+    // The user's address bar remains clean: https://duyufalrahmanvip.com/
+    // Users who want another language can switch manually via the language selector.
+    const targetLocale = DEFAULT_LOCALE;
     const url = request.nextUrl.clone();
-    url.pathname = `/${targetLocale}${pathname === '/' ? '' : pathname}`;
-    // Use 307 temporary redirect for locale detection to avoid cache poisoning / sticky redirects
-    const res = NextResponse.redirect(url, { status: 307 });
-    res.headers.set('Cache-Control', 'private, no-cache, no-store, max-age=0, must-revalidate');
-    return res;
+    url.pathname = '/' + targetLocale + (pathname === '/' ? '' : pathname);
+    return NextResponse.rewrite(url);
   }
 
   return NextResponse.next();

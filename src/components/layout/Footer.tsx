@@ -41,7 +41,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8 text-start">
           {/* COL 1: WORDMARK, SHORT TAGLINE, WHATSAPP & CALL BUTTONS */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">
-            <Link href={`/${locale}`} className="inline-flex items-center gap-2.5">
+            <Link href={locale === 'ar' ? '/' : `/${locale}`} className="inline-flex items-center gap-2.5">
               <div className="w-10 h-10 rounded-lg overflow-hidden border border-gold/40 flex items-center justify-center shadow-xs shrink-0 bg-[#0A0F1D]">
                 <Image
                   src="/icon-192.png"
