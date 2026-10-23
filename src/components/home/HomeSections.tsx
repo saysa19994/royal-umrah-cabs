@@ -27,7 +27,6 @@ import {
   Plus,
   Minus,
   MessageCircle,
-  Star,
   Sparkles,
   Droplet,
   Fuel,
@@ -297,40 +296,6 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       img: '/assets/images/hiace_exterior.webp',
       icon: Building2,
       href: `/${locale}/fleet`,
-    },
-  ];
-
-  // Section 9: Verified Reviews
-  const REVIEWS = [
-    {
-      name: 'Dr. Tariq Al-Hashimi',
-      origin: 'United Kingdom 🇬🇧',
-      role: 'Family Umrah Group',
-      rating: 5,
-      date: 'October 2026',
-      comment: locale === 'ar'
-        ? 'تجربة استثنائية بكل المقاييس. السائق كان ينتظرنا في صالة مطار جدة بلوحة الاسم، وسيارة يوكون XL كانت نظيفة جداً كأنها جديدة. الدفع تم عند وصولنا للفندق بدون أي زيادة.'
-        : 'Outstanding service from start to finish. Our chauffeur was waiting inside KAIA terminal holding our name board. The Yukon XL was immaculate and pay-on-arrival was seamless.',
-    },
-    {
-      name: 'Haji Ahmad Zulkifli',
-      origin: 'Malaysia 🇲🇾',
-      role: 'Pilgrimage with Elderly Parents',
-      rating: 5,
-      date: 'October 2026',
-      comment: locale === 'ar'
-        ? 'حجزنا هيونداي ستاريا لوالدي كبار السن. السيارة مريحة جداً وسهلة الصعود، وتوقف السائق معنا في ميقات آبار علي بكل رحابة صدر وصبر. نوصي بهم بشدة.'
-        : 'Booked Hyundai Staria VIP for my elderly parents. Low step-in made boarding easy, and the driver waited patiently at Bir Ali Miqat. Highly recommended.',
-    },
-    {
-      name: 'Mohamed El-Shennawy',
-      origin: 'Egypt 🇪🇬',
-      role: 'Jeddah to Makkah & Madinah',
-      rating: 5,
-      date: 'October 2026',
-      comment: locale === 'ar'
-        ? 'أفضل خدمة نقل تعاملت معها في السعودية. السعر ثابت وشامل رسوم الطريق السريع والبنزين دون أي مفاجآت، والتواصل عبر واتساب سريع واحترافي على مدار الساعة.'
-        : 'Best transfer service in Saudi Arabia. Fixed rate with zero toll or luggage surprises. Instant WhatsApp coordination 24/7.',
     },
   ];
 
@@ -654,6 +619,74 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       </section>
 
       {/* ============================================================== */}
+      {/* SECTION 8: DESIGNED TO EXCEED EXPECTATIONS (Screenshots 4, 5)  */}
+      {/* ============================================================== */}
+      <section id="services" className="py-16 md:py-24 bg-bg border-t border-border text-start">
+        <div className="container mx-auto px-4 max-w-7xl">
+          {/* HEADER */}
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
+              <Award className="w-3.5 h-3.5 text-gold-dark" />
+              <span>{locale === 'ar' ? 'خدمات متميزة لضيوف الرحمن' : 'Executive Services'}</span>
+            </div>
+            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
+              {locale === 'ar' ? 'مصممة لتتجاوز توقعاتك' : 'Designed to Exceed Expectations'}
+            </h2>
+            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
+              {locale === 'ar'
+                ? 'خدمات نقل خاصة ومخصصة صُممت لتمنح المعتمر وزواره أعلى درجات الراحة والسكينة والتركيز في العبادة.'
+                : 'Tailored chauffeur services designed for the comfort, dignity, and spiritual focus of every pilgrim.'}
+            </p>
+          </div>
+
+          {/* 4 FULL-BLEED PHOTOGRAPHY CARDS (From Screenshots 4 & 5) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {SERVICE_SHOWCASE.map((item) => {
+              const IconComponent = item.icon;
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className="group relative rounded-3xl overflow-hidden aspect-[3/4] bg-navy flex flex-col justify-end p-6 border border-border shadow-md hover:shadow-xl transition-all"
+                >
+                  <Image
+                    src={item.img}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    className="object-cover opacity-60 group-hover:scale-105 group-hover:opacity-75 transition-all duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/50 to-transparent" />
+
+                  <div className="relative z-10 space-y-2 text-start">
+                    <div className="w-10 h-10 rounded-full bg-gold/90 text-ink flex items-center justify-center shadow-md">
+                      <IconComponent className="w-5 h-5" />
+                    </div>
+                    <h3 className="font-display font-bold text-xl text-white leading-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-white/80 font-light leading-snug">
+                      {item.subtitle}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className="text-center">
+            <Link
+              href={`/${locale}/services`}
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-btn bg-gold hover:bg-gold-hover text-ink font-bold text-xs uppercase tracking-wider shadow-xs transition-colors"
+            >
+              <span>{locale === 'ar' ? 'عرض جميع الخدمات' : 'View All Services'}</span>
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
       {/* SECTION 5: POPULAR UMRAH ROUTES (Harmain Style from Images)    */}
       {/* ============================================================== */}
       <section id="routes" className="py-16 md:py-24 bg-bg border-t border-border text-start">
@@ -801,133 +834,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
 
 
       {/* ============================================================== */}
-      {/* SECTION 8: DESIGNED TO EXCEED EXPECTATIONS (Screenshots 4, 5)  */}
-      {/* ============================================================== */}
-      <section id="services" className="py-16 md:py-24 bg-bg border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          {/* HEADER */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <Award className="w-3.5 h-3.5 text-gold-dark" />
-              <span>{locale === 'ar' ? 'خدمات متميزة لضيوف الرحمن' : 'Executive Services'}</span>
-            </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-              {locale === 'ar' ? 'مصممة لتتجاوز توقعاتك' : 'Designed to Exceed Expectations'}
-            </h2>
-            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-              {locale === 'ar'
-                ? 'خدمات نقل خاصة ومخصصة صُممت لتمنح المعتمر وزواره أعلى درجات الراحة والسكينة والتركيز في العبادة.'
-                : 'Tailored chauffeur services designed for the comfort, dignity, and spiritual focus of every pilgrim.'}
-            </p>
-          </div>
-
-          {/* 4 FULL-BLEED PHOTOGRAPHY CARDS (From Screenshots 4 & 5) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {SERVICE_SHOWCASE.map((item) => {
-              const IconComponent = item.icon;
-              return (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  className="group relative rounded-3xl overflow-hidden aspect-[3/4] bg-navy flex flex-col justify-end p-6 border border-border shadow-md hover:shadow-xl transition-all"
-                >
-                  <Image
-                    src={item.img}
-                    alt={item.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    className="object-cover opacity-60 group-hover:scale-105 group-hover:opacity-75 transition-all duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/50 to-transparent" />
-
-                  <div className="relative z-10 space-y-2 text-start">
-                    <div className="w-10 h-10 rounded-full bg-gold/90 text-ink flex items-center justify-center shadow-md">
-                      <IconComponent className="w-5 h-5" />
-                    </div>
-                    <h3 className="font-display font-bold text-xl text-white leading-tight">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs text-white/80 font-light leading-snug">
-                      {item.subtitle}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="text-center">
-            <Link
-              href={`/${locale}/services`}
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-btn bg-gold hover:bg-gold-hover text-ink font-bold text-xs uppercase tracking-wider shadow-xs transition-colors"
-            >
-              <span>{locale === 'ar' ? 'عرض جميع الخدمات' : 'View All Services'}</span>
-              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
       {/* SECTION 9: VERIFIED TESTIMONIALS & COMPREHENSIVE FAQS           */}
       {/* ============================================================== */}
       <section className="py-16 md:py-24 bg-alabaster border-t border-border text-start">
         <div className="container mx-auto px-4 max-w-7xl">
-          {/* TESTIMONIALS (ONLY RENDER IF CONFIGURED IN SETTINGS - PHASE 1.4) */}
-          {settings.google_reviews_link && settings.google_reviews_count > 0 && (
-          <div className="mb-20">
-            <div className="text-center max-w-3xl mx-auto mb-14">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-                <Star className="w-3.5 h-3.5 fill-gold-dark text-gold-dark" />
-                <span>{locale === 'ar' ? 'تجارب المعتمرين الموثوقة' : 'Verified Pilgrim Experiences'}</span>
-              </div>
-              <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-                {locale === 'ar' ? 'موثوق من آلاف ضيوف الرحمن' : 'Trusted by Thousands of Travelers'}
-              </h2>
-              <p className="mt-3 text-ink-muted text-base font-light">
-                {locale === 'ar'
-                  ? 'شهادات حقيقية من معتمرين وزوار من بريطانيا وماليزيا ومصر ودول الخليج.'
-                  : 'Real testimonials from pilgrims who experienced our punctual, comfortable VIP service.'}
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {REVIEWS.map((rev, idx) => (
-                <div
-                  key={idx}
-                  className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="flex items-center gap-1 text-gold mb-4">
-                      {[...Array(rev.rating)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-gold text-gold" />
-                      ))}
-                    </div>
-                    <p className="text-xs sm:text-sm text-ink-light font-light leading-relaxed mb-6 italic">
-                      "{rev.comment}"
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t border-border flex items-center justify-between">
-                    <div>
-                      <span className="font-display font-bold text-sm text-ink block">
-                        {rev.name}
-                      </span>
-                      <span className="text-[11px] text-ink-muted block">
-                        {rev.origin} • {rev.role}
-                      </span>
-                    </div>
-                    <span className="text-[10px] text-gold-dark font-semibold bg-gold-soft px-2 py-0.5 rounded-md border border-gold-line">
-                      Verified
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          )}
-
           {/* COMPREHENSIVE FAQ ACCORDION */}
           <div id="faq" className="max-w-4xl mx-auto pt-8">
             <div className="text-center mb-12">

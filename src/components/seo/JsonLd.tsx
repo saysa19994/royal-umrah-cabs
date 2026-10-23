@@ -85,16 +85,6 @@ export function JsonLd({ locale, dict, settings, includeFaq = false }: JsonLdPro
     ],
   };
 
-  // Only include aggregateRating if real verified reviews exist in site_settings
-  if (settings && settings.google_reviews_count > 0 && settings.google_reviews_rating > 0) {
-    businessSchema.aggregateRating = {
-      '@type': 'AggregateRating',
-      ratingValue: settings.google_reviews_rating.toFixed(1),
-      reviewCount: settings.google_reviews_count.toString(),
-      bestRating: '5',
-      worstRating: '1',
-    };
-  }
 
   // 2. FAQPage Schema (All 12 localized questions)
   const faqList = [
