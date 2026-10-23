@@ -52,8 +52,10 @@
 * **Key Feature:** 100% authoritative pricing matrix in **SAR** with transparent season notes, zero hidden fees, child seat policy, and luggage capacities.
 
 ### Hub D: Fleet Architecture (`/[locale]/fleet/[slug]`)
-* `/[locale]/fleet/hyundai-staria`: 6 Pax / 6 Bags — Executive VIP Van with reclining captain seats.
-* `/[locale]/fleet/gmc-yukon-xl`: 7 Pax / 8 Bags — American Luxury SUV for VIP families.
-* `/[locale]/fleet/toyota-camry`: 4 Pax / 2 Bags — Reliable economical transfer for couples/solos.
-* `/[locale]/fleet/toyota-hiace`: 10 Pax / 10 Bags — Spacious family transport for extended households.
-* `/[locale]/fleet/toyota-coaster`: 21 Pax / 20 Bags — Luxury group coach for private delegations and groups.
+* `/[locale]/fleet/mercedes-maybach`: 3 Pax / 3 Bags — Ultra-luxury presidential chauffeur limousine with reclining first-class suites.
+* `/[locale]/fleet/gmc-yukon-xl`: 7 Pax / 8 Bags — American luxury flagship SUV for VIP families with massive luggage volume.
+* `/[locale]/fleet/hyundai-staria`: 6 Pax / 6 Bags — Executive VIP Van with reclining captain seats and panoramic views.
+* `/[locale]/fleet/toyota-camry`: 4 Pax / 2 Bags — Reliable economical transfer for couples and solo executive travelers.
+* `/[locale]/fleet/hyundai-h1`: 7 Pax / 5 Bags — Spacious family Starex van balancing passenger comfort and luggage.
+* `/[locale]/fleet/toyota-hiace`: 10 Pax / 10 Bags — High-roof executive group minibus for extended pilgrim households.
+* `/[locale]/fleet/toyota-coaster`: 21 Pax / 20 Bags — Luxury group coach for private delegations and large pilgrimage parties.

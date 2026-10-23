@@ -8,3 +8,19 @@ UmrahTransit,https://umrahtransit.com/umrah-transportation-guide,Travel Guide,Um
 Harmain Transfer,https://www.harmaintransfer.com/en,Umrah Taxi,Haramain Route Network,Yes (SAR 200-800),Sedan / SUV / Coaster,English / Arabic / Urdu,WhatsApp & Web Form,Production canonical URLs point to localhost:3000
 Umrah Taxi SA,https://www.umrahtaxisa.com/,Umrah Cab,Jeddah Makkah Madinah Transfers,Yes (SAR 200-650),Camry / Staria / Yukon,English / Arabic,WhatsApp,Basic design / no live flight tracking verification
 Taxi Bhai,https://www.taxibhai.com/blog/umrah-taxi-prices-2026,Blog Guide,Umrah Taxi Prices 2026,Informational,Overview,English,WhatsApp Banner,Blog format without integrated booking engine
+Umrah Car Rentals,https://umrahcarrentals.com/,Chauffeur & Rental,Airport & Intercity,Yes (Variable),Sedan / SUV,English,Form,Focuses on rental instead of airport reception
+UmrahTaxi.net,https://umrahtaxi.net/,Intercity Taxi,Holy Cities,Yes (SAR 200-750),Sedan / SUV / HiAce,English & Arabic,WhatsApp,Poor mobile responsiveness
+Hujjaj Umrah Taxi,https://hujjajumrahtaxi.com/,Pilgrim Taxi,Airport to Haram,Yes (SAR 190-600),Sedan / HiAce,English & Urdu,Phone / WhatsApp,Outdated UI without SSL enforcement on sub-resources
+Al Haram Cabs,https://www.alharamcabs.com/,Umrah Transport,Jeddah Makkah Madinah,Yes (SAR 200-680),Camry / Staria / Yukon,English & Arabic,WhatsApp,No vehicle interior galleries
+Rawahel Al Safwa,https://rawahelalsafwa.com/,Group Transportation,B2B Hajj & Umrah Buses,Quote Only,Buses / Coasters,Arabic,Email / Phone,Inaccessible for individual private families
+Zikr Cabs,https://zikrcabs.com/,Private Umrah Cabs,Jeddah to Makkah,Yes (SAR 210-650),Camry / HiAce,English,Web Form,Slow server response time (>3.2s)
+Umrah Online Taxi,https://umrahonline.taxi/guides/jeddah-airport-to-makkah/,Travel Guide,Jeddah to Makkah Route,Informational,Overview,English,WhatsApp Link,English only; no Turkish, Indonesian, or Urdu
+Harmain Transport Service,https://harmaintransportservice.com/,Chauffeur Service,Intercity Travel,Yes (SAR 220-700),Sedan / Minibus,English & Urdu,WhatsApp,Unresponsive booking forms on mobile
+Taxi Umrah,https://www.taxiumrah.com/,Umrah Taxi,Airport Pickups,Yes (SAR 200-650),Camry / Staria / Yukon,English & Arabic,WhatsApp,No clear luggage capacity indicators
+Adam Umrah Transport,https://adamumrah.com/routes/,Route Listing,Saudi Pilgrimage Routes,Yes (SAR 200-800),Sedan / SUV / Van,English,WhatsApp,Dense tables without search or filter
+Ziyarah Taxi,https://ziyarahtaxi.com/,Ziyarat Specialist,Makkah & Madinah Ziyarat,Yes (SAR 150-400),Sedan / SUV,English & Arabic,WhatsApp,Lacks intercity transfer integration
+Makkah Movers,https://makkahmovers.com/,Luggage & Passenger,Jeddah to Makkah,Yes (SAR 200-600),Sedan / Van,English,Phone / Form,Outdated design and low resolution images
+Diyar e Haramain,https://diyareharamain.com/,Pilgrim Transport,Makkah Madinah Transfers,Custom Quote,Sedan / Van / Coaster,English & Urdu,WhatsApp,Focuses on full packages rather than single transfers
+Al-Fateh Transport,https://www.alfatehtransport.com/umrah-taxi-services/,Umrah Fleet Services,All Routes,Quote Based,Sedan / SUV / Bus,English & Arabic,Form,Multiple dead navigation links
+Pilgrim Taxi,https://pilgrimtaxi.com/,Private Airport Taxi,KAIA to Makkah Hotels,Yes (SAR 280-750),Sedan / SUV,English,Form,Substantially higher pricing than market average
+Al-Maqam,https://almaqamstay.com/,Hotel & Transfer,Umrah Accommodations & Cabs,Bundled,Various,English & Arabic,Online Booking,Transportation is secondary to hotel booking
