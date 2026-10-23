@@ -7,7 +7,9 @@ import { ChevronLeft, ChevronRight, Camera, Expand } from 'lucide-react';
 export interface GalleryImage {
   src: string;
   title: string;
+  titleAr?: string;
   tag: string;
+  tagAr?: string;
 }
 
 interface VehicleGalleryProps {
@@ -68,10 +70,10 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
         <div className="absolute bottom-4 sm:bottom-6 start-4 sm:start-6 end-4 sm:end-6 flex items-end justify-between gap-4 pointer-events-none">
           <div className="text-white">
             <span className="inline-block px-2.5 py-1 rounded-md text-[11px] font-black uppercase tracking-wider bg-amber-500 text-slate-950 mb-1.5 shadow-xs">
-              {activeImage.tag}
+              {isAr && activeImage.tagAr ? activeImage.tagAr : activeImage.tag}
             </span>
             <p className="text-sm sm:text-base font-bold text-white drop-shadow-sm">
-              {activeImage.title}
+              {isAr && activeImage.titleAr ? activeImage.titleAr : activeImage.title}
             </p>
           </div>
         </div>
