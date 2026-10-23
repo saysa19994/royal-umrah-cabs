@@ -650,10 +650,6 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               </div>
             </div>
           </div>
-
-          
-            ))}
-          </div>
         </div>
       </section>
 
