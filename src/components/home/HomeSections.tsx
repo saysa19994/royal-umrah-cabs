@@ -726,7 +726,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       {/* ============================================================== */}
       {/* SECTION 6: ALL-INCLUSIVE STANDARDS (ZERO HIDDEN FEES)           */}
       {/* ============================================================== */}
-      <section className="py-16 md:py-24 bg-navy text-white border-t border-navy-border text-start relative overflow-hidden">
+      <section id="standards" className="py-16 md:py-24 bg-navy text-white border-t border-navy-border text-start relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
         <div className="container mx-auto px-4 max-w-7xl relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-16">
