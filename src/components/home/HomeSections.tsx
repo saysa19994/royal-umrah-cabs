@@ -65,7 +65,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       duration: locale === 'ar' ? '75 دقيقة' : '75 mins',
       distance: locale === 'ar' ? '95 كم' : '95 km',
       basePriceSAR: 200,
-      img: '/assets/images/yukon_exterior.webp',
+      img: '/assets/images/yukon_studio.webp',
     },
     {
       id: 'makkah-to-madinah',
@@ -76,7 +76,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       duration: locale === 'ar' ? '4.5 ساعات' : '4.5 hours',
       distance: locale === 'ar' ? '440 كم' : '440 km',
       basePriceSAR: 450,
-      img: '/assets/images/staria_exterior.webp',
+      img: '/assets/images/staria_studio.webp',
     },
     {
       id: 'madinah-to-makkah',
@@ -135,7 +135,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       luggage: 3,
       bags: 3,
       startingPriceSAR: 150,
-      extImg: '/assets/images/camry_exterior.webp',
+      extImg: '/assets/images/camry_studio.webp',
       intImg: '/assets/images/camry_interior.webp',
       desc: locale === 'ar' ? 'مثالية للأفراد والأزواج والعائلات الصغيرة مع حقائب قياسية وتكييف فائق الراحة.' : 'A modern, immaculately maintained sedan for solo airport runs and couple pilgrimages.',
       features: [
@@ -143,6 +143,25 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
         { title: locale === 'ar' ? 'مقصورة نظيفة' : 'Clean Cabin', desc: locale === 'ar' ? 'عناية فائقة' : 'Sanitized Daily', icon: Sparkles },
         { title: locale === 'ar' ? 'سائق محترف' : 'Pro Chauffeur', desc: locale === 'ar' ? 'خبير بمسارات مكة والمدينة' : 'Route Specialist', icon: Award },
         { title: locale === 'ar' ? 'سعة أمتعة واسعة' : 'Luggage Space', desc: locale === 'ar' ? 'حقائب وزمزم' : 'Ample Trunk', icon: ShieldCheck },
+      ],
+    },
+    {
+      id: 'h1',
+      name: locale === 'ar' ? 'هيونداي H1 ستاريكس' : 'Hyundai H1 Starex VIP',
+      category: locale === 'ar' ? 'فان عائلي عملي' : 'PRACTICAL FAMILY VAN',
+      passengers: 8,
+      seats: 8,
+      luggage: 7,
+      bags: 7,
+      startingPriceSAR: 280,
+      extImg: '/assets/images/h1_exterior.webp',
+      intImg: '/assets/images/staria_interior.webp',
+      desc: locale === 'ar' ? 'الخيار العائلي العملي المفضل للأسر المتوسطة مع أبواب سحابية ومساحة أمتعة واسعة.' : 'Practical high-capacity minivan with sliding doors and ample luggage space for medium families.',
+      features: [
+        { title: locale === 'ar' ? 'تكييف هوائي مزدوج' : 'Dual AC', desc: locale === 'ar' ? 'تبريد قوي' : 'High Output', icon: Sparkles },
+        { title: locale === 'ar' ? 'مقصورة معقمة' : 'Sanitized Cabin', desc: locale === 'ar' ? 'نظافة يومية' : 'Spotless', icon: Sparkles },
+        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Chauffeur', desc: locale === 'ar' ? 'خبير بمسارات الحرمين' : 'Route Specialist', icon: Award },
+        { title: locale === 'ar' ? 'سعة 7 حقائب' : '7 Large Bags', desc: locale === 'ar' ? 'حقائب وزمزم' : 'Luggage & Zamzam', icon: ShieldCheck },
       ],
     },
     {
