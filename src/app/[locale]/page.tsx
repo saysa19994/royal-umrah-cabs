@@ -43,7 +43,7 @@ export default async function HomePage(props: HomePageProps) {
       <HomepageFaqJsonLd dict={dict} />
 
       {/* 1. LUXURY EXECUTIVE HERO SECTION */}
-      <section className="relative min-h-[640px] sm:min-h-[700px] lg:min-h-[780px] flex items-center justify-center overflow-hidden bg-[#0A0F1D] text-white pt-20 sm:pt-24 pb-32 sm:pb-40 md:pb-48">
+      <section className="relative min-h-[640px] sm:min-h-[700px] lg:min-h-[780px] flex items-center justify-center overflow-hidden bg-[#0A0F1D] text-white pt-28 sm:pt-36 lg:pt-40 pb-32 sm:pb-40 md:pb-48">
         {/* BACKGROUND IMAGE & LUXURY OVERLAYS */}
         <div className="absolute inset-0 z-0">
           <Image
