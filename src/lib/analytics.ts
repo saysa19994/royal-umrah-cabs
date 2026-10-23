@@ -10,8 +10,7 @@ export type AnalyticsEvent =
       event: 'route_selected';
       service_type: string;
       route?: string;
-      vehicle_id?: string;
-    }
+      vehicle_id?: string;      passengers?: number;      luggage?: number;    }
   | {
       event: 'booking_form_started';
       source: 'booking_card' | 'booking_engine' | 'contact_form' | 'floating_ui';
