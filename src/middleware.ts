@@ -29,9 +29,9 @@ function getPreferredLocale(request: NextRequest): string {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  // 0. Canonical domain redirect: 301 redirect from every *.vercel.app host to official domain
+  // 0. Canonical domain redirect: disabled by default until the custom domain DNS is fully activated
   const host = request.headers.get('host') || '';
-  if (host.includes('.vercel.app')) {
+  if (process.env.ENFORCE_CANONICAL_REDIRECT === 'true' && host.includes('.vercel.app')) {
     const canonicalUrl = new URL(request.nextUrl.pathname + request.nextUrl.search, 'https://duyufalrahmanvip.com');
     return NextResponse.redirect(canonicalUrl, { status: 301 });
   }
