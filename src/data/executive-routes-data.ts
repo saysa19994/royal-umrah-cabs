@@ -4,7 +4,7 @@ export const EXECUTIVE_ROUTES_DATA: RouteCardData[] = [
   {
     slug: 'jeddah-airport-to-makkah',
     image: '/assets/images/routes/jeddah-airport-to-makkah.jpg',
-    imagePosition: 'object-center',
+    imagePosition: 'object-[center_30%]',
     timeEn: '60-75 mins',
     timeAr: '60-75 دقيقة',
     distanceEn: '95 km',
