@@ -4,6 +4,7 @@ export const EXECUTIVE_ROUTES_DATA: RouteCardData[] = [
   {
     slug: 'jeddah-airport-to-makkah',
     image: '/assets/images/routes/jeddah-airport-to-makkah.jpg',
+    imagePosition: 'object-center',
     timeEn: '60-75 mins',
     timeAr: '60-75 دقيقة',
     distanceEn: '95 km',
@@ -21,6 +22,7 @@ export const EXECUTIVE_ROUTES_DATA: RouteCardData[] = [
   {
     slug: 'makkah-to-madinah',
     image: '/assets/images/routes/makkah-to-madinah.jpg',
+    imagePosition: 'object-[center_35%]',
     timeEn: '4.5 - 5 hours',
     timeAr: '4.5 - 5 ساعات',
     distanceEn: '450 km',
@@ -38,6 +40,7 @@ export const EXECUTIVE_ROUTES_DATA: RouteCardData[] = [
   {
     slug: 'jeddah-to-madinah',
     image: '/assets/images/routes/jeddah-to-madinah.jpg',
+    imagePosition: 'object-[center_18%]',
     timeEn: '4 - 4.5 hours',
     timeAr: '4 - 4.5 ساعات',
     distanceEn: '400 km',
@@ -55,6 +58,7 @@ export const EXECUTIVE_ROUTES_DATA: RouteCardData[] = [
   {
     slug: 'makkah-ziyarat',
     image: '/assets/images/routes/makkah-ziyarat.jpg',
+    imagePosition: 'object-[center_22%]',
     timeEn: '3-4 hours',
     timeAr: '3-4 ساعات',
     distanceEn: 'Various',
@@ -72,6 +76,7 @@ export const EXECUTIVE_ROUTES_DATA: RouteCardData[] = [
   {
     slug: 'madinah-airport-to-hotel',
     image: '/assets/images/routes/madinah-airport.jpg',
+    imagePosition: 'object-[center_25%]',
     timeEn: '25-30 mins',
     timeAr: '25-30 دقيقة',
     distanceEn: '20 km',
@@ -89,6 +94,7 @@ export const EXECUTIVE_ROUTES_DATA: RouteCardData[] = [
   {
     slug: 'makkah-to-taif',
     image: '/assets/images/routes/makkah-to-taif.jpg',
+    imagePosition: 'object-[center_18%]',
     timeEn: '1.5 hours',
     timeAr: '1.5 ساعة',
     distanceEn: '85 km',

@@ -452,8 +452,8 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             </Link>
           </div>
 
-          {/* RESPONSIVE SCENIC ROUTE CARDS (From Reference Screenshots) */}
-          <div className="flex flex-col gap-6 sm:gap-8">
+          {/* RESPONSIVE SCENIC ROUTE CARDS (Optimized for Mobile, Laptop & Desktop) */}
+          <div className="flex flex-col gap-6 sm:gap-8 max-w-5xl mx-auto">
             {EXECUTIVE_ROUTES_DATA.map((r) => (
               <ExecutiveRouteCard key={r.slug} route={r} locale={locale} />
             ))}

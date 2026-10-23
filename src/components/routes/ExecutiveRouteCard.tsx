@@ -10,6 +10,7 @@ import { useCurrency } from '@/context/CurrencyContext';
 export interface RouteCardData {
   slug: string;
   image: string;
+  imagePosition?: string;
   timeEn: string;
   timeAr: string;
   distanceEn: string;
@@ -50,14 +51,14 @@ export function ExecutiveRouteCard({ route, locale }: ExecutiveRouteCardProps) {
       className="bg-white rounded-3xl p-4 sm:p-5 md:p-6 border border-slate-200/90 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col md:flex-row items-stretch gap-5 lg:gap-7 text-start overflow-hidden group"
       dir={isRtl ? 'rtl' : 'ltr'}
     >
-      {/* 1. SCENIC PHOTOGRAPH (Top on mobile, side on desktop) */}
-      <div className="relative w-full md:w-[320px] lg:w-[380px] h-56 sm:h-64 md:h-auto min-h-[220px] md:min-h-[260px] rounded-2xl overflow-hidden shrink-0 bg-slate-100 shadow-xs">
+      {/* 1. SCENIC PHOTOGRAPH (Optimized for Mobile, Tablet, Laptop, and Desktop screens) */}
+      <div className="relative w-full md:w-[300px] lg:w-[340px] xl:w-[360px] aspect-[4/3] sm:aspect-[16/10] md:aspect-[3/4] md:h-auto min-h-[240px] md:min-h-[340px] rounded-2xl overflow-hidden shrink-0 bg-slate-100 shadow-xs">
         <Image
           src={route.image}
           alt={`${title} - Duyuf Alrahman VIP`}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 380px, 420px"
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 300px, (max-width: 1280px) 340px, 360px"
+          className={`object-cover ${route.imagePosition || 'object-center'} group-hover:scale-105 transition-transform duration-500`}
           priority={false}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none md:hidden" />
