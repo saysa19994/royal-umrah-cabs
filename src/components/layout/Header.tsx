@@ -97,7 +97,7 @@ export function Header({ locale, dict }: HeaderProps) {
         <div className="container mx-auto px-4 max-w-7xl flex items-center justify-between">
           {/* WORDMARK LOGO */}
           <Link
-            href={locale === 'ar' ? '/' : `/${locale}`}
+            href={locale === 'en' ? '/' : `/${locale}`}
             className="flex items-center gap-2.5 sm:gap-3 group focus-visible:ring-2 focus-visible:ring-gold rounded-lg p-1 -m-1"
             aria-label="Duyuf Alrahman VIP - ضيوف الرحمن VIP"
           >
