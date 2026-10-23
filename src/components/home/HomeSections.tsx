@@ -463,152 +463,6 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       </section>
 
       {/* ============================================================== */}
-      {/* SECTION 5: POPULAR UMRAH ROUTES (Harmain Style from Images)    */}
-      {/* ============================================================== */}
-      <section id="routes" className="py-16 md:py-24 bg-bg border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          {/* HEADER */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
-            <div>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-                <Compass className="w-3.5 h-3.5 text-gold-dark" />
-                <span>{locale === 'ar' ? 'المسارات المعتمدة' : 'Popular Umrah Routes'}</span>
-              </div>
-              <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-                {locale === 'ar' ? 'مسارات الحرمين الشريفين والنقل بين المدن' : 'Jeddah, Makkah & Madinah Routes'}
-              </h2>
-              <p className="mt-2 text-ink-muted text-sm md:text-base font-light">
-                {locale === 'ar' ? 'أسعار ثابتة للمركبة بالكامل • رسوم الطرق السريعة مشمولة • لا توجد زيادات في أوقات الذروة' : 'Fixed price per vehicle. Highway tolls and fuel included.'}
-              </p>
-            </div>
-            <Link
-              href={`/${locale}/routes`}
-              className="inline-flex items-center gap-1.5 text-xs md:text-sm font-bold text-gold-dark hover:underline whitespace-nowrap self-start md:self-auto"
-            >
-              <span>{locale === 'ar' ? 'عرض جميع المسارات بالتفصيل' : 'View all routes'}</span>
-              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-            </Link>
-          </div>
-
-          {/* RESPONSIVE SCENIC ROUTE CARDS (Optimized for Mobile, Laptop & Desktop) */}
-          <div className="flex flex-col gap-6 sm:gap-8 max-w-5xl mx-auto">
-            {EXECUTIVE_ROUTES_DATA.map((r) => (
-              <ExecutiveRouteCard key={r.slug} route={r} locale={locale} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* SECTION 6: ALL-INCLUSIVE STANDARDS (ZERO HIDDEN FEES)           */}
-      {/* ============================================================== */}
-      <section className="py-16 md:py-24 bg-navy text-white border-t border-navy-border text-start relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="container mx-auto px-4 max-w-7xl relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-xs font-bold text-gold uppercase tracking-widest mb-3">
-              <ShieldCheck className="w-3.5 h-3.5 text-gold" />
-              <span>{locale === 'ar' ? 'ميثاق الجودة والأمان' : 'All-Inclusive Pilgrim Standards'}</span>
-            </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-white tracking-tight">
-              {locale === 'ar' ? 'معايير الراحة الكاملة بدون أي رسوم خفية' : 'Zero Hidden Fees • Total Peace of Mind'}
-            </h2>
-            <p className="mt-3 text-white/80 text-base md:text-lg leading-relaxed font-light">
-              {locale === 'ar'
-                ? 'نحن نعتبر خدمة ضيوف الرحمن أمانة وشرفاً؛ لذلك نلتزم بأسعار ثابتة وشفافة وخدمة متكاملة من الباب إلى الباب.'
-                : 'Serving the Guests of Allah is our sacred trust. Every transfer includes our 6-pillar guarantee.'}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
-              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
-                <Users className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                {locale === 'ar' ? 'سيارة خاصة 100% لعائلتك' : '100% Private Transfers'}
-              </h3>
-              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
-                {locale === 'ar'
-                  ? 'لا توجد مشاركة مع غرباء إطلاقاً؛ سيارتك وسائقك مخصصان بالكامل لأسرتك لضمان الخصوصية والراحة التامة.'
-                  : 'Never shared with other parties. The entire vehicle and dedicated chauffeur are exclusive to your family.'}
-              </p>
-            </div>
-
-            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
-              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
-                <Plane className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                {locale === 'ar' ? 'تتبع آلي لرحلات الطيران' : 'Live Flight Radar Tracking'}
-              </h3>
-              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
-                {locale === 'ar'
-                  ? 'نتابع طائرتك بالرادار الملاحي الدولي. إذا تقدمت أو تأخرت، يتم تعديل موعد وصول السائق تلقائياً بدون قلق.'
-                  : 'Automated flight radar tracking ensures your chauffeur is precisely on time even if your flight is delayed.'}
-              </p>
-            </div>
-
-            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
-              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
-                <Clock className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                {locale === 'ar' ? '${settings.airport_waiting_minutes || 60} دقيقة انتظار مجاني بالمطار' : '${settings.airport_waiting_minutes || 60}-Min Free Airport Waiting'}
-              </h3>
-              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
-                {locale === 'ar'
-                  ? 'خذ وقتك في استلام الأمتعة وإنهاء الجوازات وشراء الشرائح؛ السائق ينتظرك حتى ${settings.airport_waiting_minutes || 60} دقيقة مجاناً بعد الهبوط.'
-                  : 'Generous complimentary wait time allowing you to clear immigration and baggage claim completely stress-free.'}
-              </p>
-            </div>
-
-            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
-              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
-                <Fuel className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                {locale === 'ar' ? 'رسوم الطرق والوقود مشمولة' : 'Tolls & Fuel Included'}
-              </h3>
-              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
-                {locale === 'ar'
-                  ? 'رسوم طريق الحرمين السريع، ومواقف صالات المطار، والوقود، وضريبة القيمة المضافة كلها مشمولة في السعر المعلن.'
-                  : 'Every expressway toll charge, airport terminal parking fee, and fuel cost is 100% covered.'}
-              </p>
-            </div>
-
-            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
-              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
-                <Landmark className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                {locale === 'ar' ? 'توقف مجاني بميقات آبار علي' : 'Complimentary Miqat Stop'}
-              </h3>
-              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
-                {locale === 'ar'
-                  ? 'للمتوجهين من المدينة لمكة، نتوقف في ميقات ذو الحليفة (آبار علي) مع انتظار كافٍ للإحرام والصلاة دون رسوم.'
-                  : 'Free stopover at Dhul Hulayfah (Bir Ali Miqat) with ample waiting time for your Ihram and Sunnah prayers.'}
-              </p>
-            </div>
-
-            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
-              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
-                <CreditCard className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                {locale === 'ar' ? 'دفع آمن 100% عند الوصول' : '100% Pay On Arrival'}
-              </h3>
-              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
-                {locale === 'ar'
-                  ? 'لا نطلب بطاقة ائتمان أو دفعاً مسبقاً إلزامياً؛ ادفع لسائقك نقداً بالريال أو ببطاقتك البنكية عند الوصول سالماً.'
-                  : 'Zero advance deposits required. Settle directly with your driver via cash or bank card upon arriving at your hotel.'}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
       {/* SECTION 7: LUXURY FLEET "CHOOSE YOUR CLASS" (Screenshots 1,2,3)*/}
       {/* ============================================================== */}
       <section id="fleet" className="py-16 md:py-24 bg-alabaster border-t border-border text-start">
@@ -835,6 +689,153 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
           </div>
         </div>
       </section>
+
+      {/* ============================================================== */}
+      {/* SECTION 5: POPULAR UMRAH ROUTES (Harmain Style from Images)    */}
+      {/* ============================================================== */}
+      <section id="routes" className="py-16 md:py-24 bg-bg border-t border-border text-start">
+        <div className="container mx-auto px-4 max-w-7xl">
+          {/* HEADER */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
+                <Compass className="w-3.5 h-3.5 text-gold-dark" />
+                <span>{locale === 'ar' ? 'المسارات المعتمدة' : 'Popular Umrah Routes'}</span>
+              </div>
+              <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
+                {locale === 'ar' ? 'مسارات الحرمين الشريفين والنقل بين المدن' : 'Jeddah, Makkah & Madinah Routes'}
+              </h2>
+              <p className="mt-2 text-ink-muted text-sm md:text-base font-light">
+                {locale === 'ar' ? 'أسعار ثابتة للمركبة بالكامل • رسوم الطرق السريعة مشمولة • لا توجد زيادات في أوقات الذروة' : 'Fixed price per vehicle. Highway tolls and fuel included.'}
+              </p>
+            </div>
+            <Link
+              href={`/${locale}/routes`}
+              className="inline-flex items-center gap-1.5 text-xs md:text-sm font-bold text-gold-dark hover:underline whitespace-nowrap self-start md:self-auto"
+            >
+              <span>{locale === 'ar' ? 'عرض جميع المسارات بالتفصيل' : 'View all routes'}</span>
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+            </Link>
+          </div>
+
+          {/* RESPONSIVE SCENIC ROUTE CARDS (Optimized for Mobile, Laptop & Desktop) */}
+          <div className="flex flex-col gap-6 sm:gap-8 max-w-5xl mx-auto">
+            {EXECUTIVE_ROUTES_DATA.map((r) => (
+              <ExecutiveRouteCard key={r.slug} route={r} locale={locale} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* SECTION 6: ALL-INCLUSIVE STANDARDS (ZERO HIDDEN FEES)           */}
+      {/* ============================================================== */}
+      <section className="py-16 md:py-24 bg-navy text-white border-t border-navy-border text-start relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="container mx-auto px-4 max-w-7xl relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-xs font-bold text-gold uppercase tracking-widest mb-3">
+              <ShieldCheck className="w-3.5 h-3.5 text-gold" />
+              <span>{locale === 'ar' ? 'ميثاق الجودة والأمان' : 'All-Inclusive Pilgrim Standards'}</span>
+            </div>
+            <h2 className="font-display font-semibold text-3xl md:text-5xl text-white tracking-tight">
+              {locale === 'ar' ? 'معايير الراحة الكاملة بدون أي رسوم خفية' : 'Zero Hidden Fees • Total Peace of Mind'}
+            </h2>
+            <p className="mt-3 text-white/80 text-base md:text-lg leading-relaxed font-light">
+              {locale === 'ar'
+                ? 'نحن نعتبر خدمة ضيوف الرحمن أمانة وشرفاً؛ لذلك نلتزم بأسعار ثابتة وشفافة وخدمة متكاملة من الباب إلى الباب.'
+                : 'Serving the Guests of Allah is our sacred trust. Every transfer includes our 6-pillar guarantee.'}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
+                <Users className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-bold text-lg text-white mb-2">
+                {locale === 'ar' ? 'سيارة خاصة 100% لعائلتك' : '100% Private Transfers'}
+              </h3>
+              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+                {locale === 'ar'
+                  ? 'لا توجد مشاركة مع غرباء إطلاقاً؛ سيارتك وسائقك مخصصان بالكامل لأسرتك لضمان الخصوصية والراحة التامة.'
+                  : 'Never shared with other parties. The entire vehicle and dedicated chauffeur are exclusive to your family.'}
+              </p>
+            </div>
+
+            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
+                <Plane className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-bold text-lg text-white mb-2">
+                {locale === 'ar' ? 'تتبع آلي لرحلات الطيران' : 'Live Flight Radar Tracking'}
+              </h3>
+              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+                {locale === 'ar'
+                  ? 'نتابع طائرتك بالرادار الملاحي الدولي. إذا تقدمت أو تأخرت، يتم تعديل موعد وصول السائق تلقائياً بدون قلق.'
+                  : 'Automated flight radar tracking ensures your chauffeur is precisely on time even if your flight is delayed.'}
+              </p>
+            </div>
+
+            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
+                <Clock className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-bold text-lg text-white mb-2">
+                {locale === 'ar' ? '${settings.airport_waiting_minutes || 60} دقيقة انتظار مجاني بالمطار' : '${settings.airport_waiting_minutes || 60}-Min Free Airport Waiting'}
+              </h3>
+              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+                {locale === 'ar'
+                  ? 'خذ وقتك في استلام الأمتعة وإنهاء الجوازات وشراء الشرائح؛ السائق ينتظرك حتى ${settings.airport_waiting_minutes || 60} دقيقة مجاناً بعد الهبوط.'
+                  : 'Generous complimentary wait time allowing you to clear immigration and baggage claim completely stress-free.'}
+              </p>
+            </div>
+
+            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
+                <Fuel className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-bold text-lg text-white mb-2">
+                {locale === 'ar' ? 'رسوم الطرق والوقود مشمولة' : 'Tolls & Fuel Included'}
+              </h3>
+              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+                {locale === 'ar'
+                  ? 'رسوم طريق الحرمين السريع، ومواقف صالات المطار، والوقود، وضريبة القيمة المضافة كلها مشمولة في السعر المعلن.'
+                  : 'Every expressway toll charge, airport terminal parking fee, and fuel cost is 100% covered.'}
+              </p>
+            </div>
+
+            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
+                <Landmark className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-bold text-lg text-white mb-2">
+                {locale === 'ar' ? 'توقف مجاني بميقات آبار علي' : 'Complimentary Miqat Stop'}
+              </h3>
+              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+                {locale === 'ar'
+                  ? 'للمتوجهين من المدينة لمكة، نتوقف في ميقات ذو الحليفة (آبار علي) مع انتظار كافٍ للإحرام والصلاة دون رسوم.'
+                  : 'Free stopover at Dhul Hulayfah (Bir Ali Miqat) with ample waiting time for your Ihram and Sunnah prayers.'}
+              </p>
+            </div>
+
+            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
+              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
+                <CreditCard className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-bold text-lg text-white mb-2">
+                {locale === 'ar' ? 'دفع آمن 100% عند الوصول' : '100% Pay On Arrival'}
+              </h3>
+              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+                {locale === 'ar'
+                  ? 'لا نطلب بطاقة ائتمان أو دفعاً مسبقاً إلزامياً؛ ادفع لسائقك نقداً بالريال أو ببطاقتك البنكية عند الوصول سالماً.'
+                  : 'Zero advance deposits required. Settle directly with your driver via cash or bank card upon arriving at your hotel.'}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
 
       {/* ============================================================== */}
       {/* SECTION 8: DESIGNED TO EXCEED EXPECTATIONS (Screenshots 4, 5)  */}
