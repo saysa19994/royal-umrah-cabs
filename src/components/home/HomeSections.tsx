@@ -342,87 +342,118 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
   return (
     <div className="w-full">
       {/* ============================================================== */}
-      {/* SECTION 4: TRUST STRIP & 3-STEP "HOW IT WORKS" PROCESS        */}
+      {/* SECTION 4: HOW IT WORKS (Clean, Light-Themed, Responsive)     */}
       {/* ============================================================== */}
-      <section id="how-it-works" className="py-16 md:py-24 bg-alabaster border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          {/* HEADER */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <Sparkles className="w-3.5 h-3.5 text-gold-dark" />
-              <span>{locale === 'ar' ? 'خطوات سهلة لحجز مريح' : 'Simple 3-Step Process'}</span>
-            </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-              {locale === 'ar' ? 'كيف تحجز رحلتك مع' : 'How It Works with'}{' '}
-              <span className="text-gold-dark italic font-display font-bold">
-                {locale === 'ar' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
-              </span>
+      <section id="how-it-works" className="py-16 md:py-24 bg-gray-50 border-t border-gray-200/60 font-sans">
+        <div className="container mx-auto px-4 max-w-6xl">
+          {/* Header */}
+          <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
+              {locale === 'ar' ? 'احجز رحلتك في 3 خطوات بسيطة' : 'Book your ride in 3 simple steps'}
             </h2>
-            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
+            <p className="mt-3 text-base md:text-lg text-gray-500 leading-relaxed font-normal">
               {locale === 'ar'
-                ? 'ثلاث خطوات يسيرة بدون دفع مسبق أو تعقيد؛ نضمن لك رحلة وقار وراحة من لحظة هبوطك حتى باب فندقك.'
-                : 'Reserve your private chauffeur in 60 seconds with zero advance deposit and instant WhatsApp confirmation.'}
+                ? 'واضحة وبسيطة، من الخطوة الأولى وحتى وصولك وجهتك بسلام.'
+                : 'Clear and simple, from the first step to your arrival.'}
             </p>
           </div>
 
-          {/* 3 STEPS GRID */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          {/* Grid Layout: 3-column grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-stretch">
             {/* Step 1 */}
-            <div className="bg-surface rounded-2xl p-8 border border-border shadow-xs hover:shadow-md transition-all relative group text-start">
-              <div className="w-12 h-12 rounded-xl bg-gold/15 text-gold-dark font-display font-bold text-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform border border-gold/30">
-                01
+            <div className="bg-white rounded-2xl p-8 sm:p-10 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 text-center flex flex-col items-center group">
+              {/* Minimalist Route Map Outline SVG */}
+              <div className="w-16 h-16 rounded-2xl bg-amber-50/80 border border-[#df9e38]/20 flex items-center justify-center mb-6 text-[#df9e38] group-hover:scale-105 transition-transform duration-200">
+                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="6" cy="19" r="3" />
+                  <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" />
+                  <circle cx="18" cy="5" r="3" />
+                </svg>
               </div>
-              <h3 className="font-display font-bold text-xl text-ink mb-2">
-                {locale === 'ar' ? 'حدد المسار وموعد الوصول' : 'Select Route & Schedule'}
+              <span className="text-sm font-bold tracking-wider text-[#df9e38] uppercase mb-2">
+                {locale === 'ar' ? 'الخطوة 1' : 'STEP 1'}
+              </span>
+              <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3">
+                {locale === 'ar' ? 'حدد المسار وموعد الوصول' : 'Enter your trip'}
               </h3>
-              <p className="text-sm text-ink-muted leading-relaxed font-light mb-4">
+              <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-6 flex-1">
                 {locale === 'ar'
                   ? 'اختر مسار رحلتك (من مطار جدة أو المدينة)، وأدخل موعد وصول رحلتك ورقم الطيران لنقوم بتتبعها تلقائياً.'
                   : 'Choose your pickup terminal and destination hotel. Input your flight number for automated radar tracking.'}
               </p>
-              <div className="pt-4 border-t border-border text-xs text-gold-dark font-semibold flex items-center gap-1.5">
+              <div className="w-full pt-4 border-t border-gray-100 text-xs text-[#df9e38] font-semibold flex items-center justify-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
                 <span>{locale === 'ar' ? 'تتبع فوري بدون رسوم تأخير' : 'Free radar tracking included'}</span>
               </div>
             </div>
 
             {/* Step 2 */}
-            <div className="bg-surface rounded-2xl p-8 border border-border shadow-xs hover:shadow-md transition-all relative group text-start">
-              <div className="w-12 h-12 rounded-xl bg-gold/15 text-gold-dark font-display font-bold text-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform border border-gold/30">
-                02
+            <div className="bg-white rounded-2xl p-8 sm:p-10 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 text-center flex flex-col items-center group">
+              {/* Minimalist Car Outline SVG */}
+              <div className="w-16 h-16 rounded-2xl bg-amber-50/80 border border-[#df9e38]/20 flex items-center justify-center mb-6 text-[#df9e38] group-hover:scale-105 transition-transform duration-200">
+                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 11.1 2 11.5 2 12v4c0 .6.4 1 1 1h2" />
+                  <circle cx="7" cy="17" r="2" />
+                  <path d="M9 17h6" />
+                  <circle cx="17" cy="17" r="2" />
+                </svg>
               </div>
-              <h3 className="font-display font-bold text-xl text-ink mb-2">
-                {locale === 'ar' ? 'اختر السيارة الفاخرة المناسبة' : 'Choose Your VIP Vehicle'}
+              <span className="text-sm font-bold tracking-wider text-[#df9e38] uppercase mb-2">
+                {locale === 'ar' ? 'الخطوة 2' : 'STEP 2'}
+              </span>
+              <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3">
+                {locale === 'ar' ? 'اختر السيارة الفاخرة المناسبة' : 'Choose your vehicle'}
               </h3>
-              <p className="text-sm text-ink-muted leading-relaxed font-light mb-4">
+              <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-6 flex-1">
                 {locale === 'ar'
                   ? 'حدد السيارة التي تناسب عدد أفراد أسرتك وحقائب السفر (كامري، ستاريا VIP، يوكون XL، أو هايس) واطلع على السعر الثابت.'
                   : 'Select the ideal vehicle class for your headcount and luggage with 100% transparent fixed rates.'}
               </p>
-              <div className="pt-4 border-t border-border text-xs text-gold-dark font-semibold flex items-center gap-1.5">
+              <div className="w-full pt-4 border-t border-gray-100 text-xs text-[#df9e38] font-semibold flex items-center justify-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
                 <span>{locale === 'ar' ? 'سعر ثابت شامل الوقود والطرق' : 'Fixed fare per whole car'}</span>
               </div>
             </div>
 
             {/* Step 3 */}
-            <div className="bg-surface rounded-2xl p-8 border border-border shadow-xs hover:shadow-md transition-all relative group text-start">
-              <div className="w-12 h-12 rounded-xl bg-gold/15 text-gold-dark font-display font-bold text-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform border border-gold/30">
-                03
+            <div className="bg-white rounded-2xl p-8 sm:p-10 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 text-center flex flex-col items-center group">
+              {/* Minimalist Calendar with Checkmark SVG */}
+              <div className="w-16 h-16 rounded-2xl bg-amber-50/80 border border-[#df9e38]/20 flex items-center justify-center mb-6 text-[#df9e38] group-hover:scale-105 transition-transform duration-200">
+                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                  <path d="m9 16 2 2 4-4" />
+                </svg>
               </div>
-              <h3 className="font-display font-bold text-xl text-ink mb-2">
-                {locale === 'ar' ? 'تأكيد فوري والدفع عند الوصول' : 'Voucher & Pay on Arrival'}
+              <span className="text-sm font-bold tracking-wider text-[#df9e38] uppercase mb-2">
+                {locale === 'ar' ? 'الخطوة 3' : 'STEP 3'}
+              </span>
+              <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3">
+                {locale === 'ar' ? 'تأكيد فوري والدفع عند الوصول' : 'Get your confirmation'}
               </h3>
-              <p className="text-sm text-ink-muted leading-relaxed font-light mb-4">
+              <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-6 flex-1">
                 {locale === 'ar'
                   ? 'استلم قسيمة الحجز وبيانات السائق فوراً عبر واتساب، واستمتع بالرحلة وادفع عند وصولك سالماً لوجهتك نقداً أو بالبطاقة.'
-                  : 'Receive your instant confirmation code on WhatsApp. Meet your driver and pay upon arriving at your hotel.'}
+                  : 'Receive your instant confirmation and driver details on WhatsApp. Meet your driver and pay upon arriving at your hotel.'}
               </p>
-              <div className="pt-4 border-t border-border text-xs text-emerald-600 font-semibold flex items-center gap-1.5">
+              <div className="w-full pt-4 border-t border-gray-100 text-xs text-emerald-600 font-semibold flex items-center justify-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
                 <span>{locale === 'ar' ? 'دفع آمن 100% عند الوصول' : '100% Pay On Arrival Safe'}</span>
               </div>
             </div>
+          </div>
+
+          {/* Call to Action (CTA) Button */}
+          <div className="mt-12 md:mt-16 text-center">
+            <Link
+              href={`/${locale}/booking`}
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#df9e38] hover:bg-[#c9892c] active:scale-[0.98] text-gray-950 font-bold text-sm md:text-base tracking-wide shadow-[0_4px_16px_rgba(223,158,56,0.35)] hover:shadow-[0_6px_22px_rgba(223,158,56,0.45)] transition-all duration-200 cursor-pointer"
+            >
+              <span>{locale === 'ar' ? 'احجز رحلتك الآن' : 'Book your ride now'}</span>
+              <ArrowRight className="w-4 h-4 rtl:rotate-180 transition-transform" />
+            </Link>
           </div>
         </div>
       </section>
