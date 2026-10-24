@@ -17,9 +17,6 @@ interface HeroLocalizedContent {
   description: string;
   btnPrimary: string;
   btnSecondary: string;
-  trustPay: string;
-  trustWait: string;
-  trustSupport: string;
 }
 
 interface BookingWidgetTranslations {
@@ -49,9 +46,6 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
       'Private Umrah taxi across Makkah, Madinah and Jeddah. Professional chauffeurs, fixed rates, and comfort for the Guests of Allah.',
     btnPrimary: 'Get Prices & Book',
     btnSecondary: 'Chat on WhatsApp',
-    trustPay: 'Pay on arrival',
-    trustWait: '60-minute free airport wait',
-    trustSupport: '24/7 chauffeur support',
   },
   ar: {
     badge: 'خدمة سائق VIP خاص لضيوف الرحمن والمعتمرين',
@@ -60,9 +54,6 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
       'توصيل خاص بسيارات حديثة عبر مكة المكرمة والمدينة المنورة وجدة. سائقون محترفون، أسعار ثابتة ومحددة، وراحة تليق بضيوف الرحمن.',
     btnPrimary: 'عرض الأسعار والحجز',
     btnSecondary: 'محادثة عبر واتساب',
-    trustPay: 'الدفع عند الوصول',
-    trustWait: '60 دقيقة انتظار مجاني بالمطار',
-    trustSupport: 'متابعة ودعم 24/7',
   },
   fr: {
     badge: 'Service de Chauffeur VIP Privé pour les Pèlerins de la Omra',
@@ -71,9 +62,6 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
       "Transport privé pour la Omra à La Mecque, Médine et Djeddah. Chauffeurs professionnels, tarifs fixes garantis et confort dédié aux Hôtes d'Allah.",
     btnPrimary: 'Voir les Tarifs & Réserver',
     btnSecondary: 'Discuter sur WhatsApp',
-    trustPay: "Paiement à l'arrivée",
-    trustWait: "60 min d'attente gratuite à l'aéroport",
-    trustSupport: 'Support chauffeur 24h/24 et 7j/7',
   },
   es: {
     badge: 'Servicio de Chofer VIP Privado para Peregrinos de la Umrah',
@@ -82,9 +70,6 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
       'Transporte privado para la Umrah en La Meca, Medina y Yeda. Choferes profesionales, tarifas fijas y máxima comodidad para los Huéspedes de Alá.',
     btnPrimary: 'Ver Tarifas y Reservar',
     btnSecondary: 'Contactar por WhatsApp',
-    trustPay: 'Pago a la llegada',
-    trustWait: '60 min de espera gratuita en aeropuerto',
-    trustSupport: 'Soporte de chofer 24/7',
   },
   id: {
     badge: 'Layanan Sopir VIP Privat untuk Jamaah Umrah',
@@ -93,9 +78,6 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
       'Taksi privat Umrah melayani Makkah, Madinah, dan Jeddah. Sopir profesional, tarif pasti transparan, dan kenyamanan utama bagi Tamu Allah.',
     btnPrimary: 'Lihat Tarif & Pesan',
     btnSecondary: 'Hubungi via WhatsApp',
-    trustPay: 'Bayar saat tiba',
-    trustWait: 'Tunggu gratis 60 menit di bandara',
-    trustSupport: 'Dukungan sopir 24/7',
   },
   hi: {
     badge: 'उमरा यात्रियों के लिए विशेष वीआईपी निजी चौफर सेवा',
@@ -104,9 +86,6 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
       'मक्का, मदीना और जेद्दा में निजी उमरा टैक्सी। पेशेवर ड्राइवर, निश्चित दरें और अल्लाह के मेहमानों के लिए सर्वोच्च आराम।',
     btnPrimary: 'किराया देखें और बुक करें',
     btnSecondary: 'व्हाट्सएप पर बात करें',
-    trustPay: 'पहुंचने पर भुगतान',
-    trustWait: 'हवाई अड्डे पर 60 मिनट निःशुल्क प्रतीक्षा',
-    trustSupport: '24/7 चौफर सहायता',
   },
   de: {
     badge: 'Exklusiver VIP-Chauffeurservice für Umrah-Pilger',
@@ -115,9 +94,6 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
       'Privater Umrah-Fahrdienst zwischen Mekka, Medina und Dschidda. Professionelle Chauffeure, garantierte Festpreise und maximaler Komfort für die Gäste Allahs.',
     btnPrimary: 'Preise Ansehen & Buchen',
     btnSecondary: 'Auf WhatsApp chatten',
-    trustPay: 'Zahlung bei Ankunft',
-    trustWait: '60 Min. kostenlose Wartezeit',
-    trustSupport: '24/7 Chauffeur-Betreuung',
   },
   ur: {
     badge: 'عمرہ زائرین کے لیے خصوصی وی آئی پی پرائیویٹ ڈرائیور سروس',
@@ -126,9 +102,6 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
       'مکہ مکرمہ، مدینہ منورہ اور جدہ کے درمیان پرائیویٹ عمرہ ٹیکسی۔ پیشہ ور ڈرائیور، طے شدہ کرائے اور ضیوف الرحمن کے لیے پُرسکون سفر۔',
     btnPrimary: 'کرائے دیکھیں اور بک کریں',
     btnSecondary: 'واٹس ایپ پر رابطہ کریں',
-    trustPay: 'آمد پر ادائیگی',
-    trustWait: 'ایئرپورٹ پر 60 منٹ مفت انتظار',
-    trustSupport: '24/7 ڈرائیور معاونت',
   },
   ms: {
     badge: 'Perkhidmatan Pemandu VIP Khas untuk Jemaah Umrah',
@@ -137,9 +110,6 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
       'Teksi Umrah peribadi meliputi Makkah, Madinah dan Jeddah. Pemandu profesional, kadar tetap terjamin, dan keselesaan khas untuk Tetamu Allah.',
     btnPrimary: 'Lihat Harga & Tempah',
     btnSecondary: 'Hubungi WhatsApp',
-    trustPay: 'Bayar semasa tiba',
-    trustWait: 'Menunggu percuma 60 minit di lapangan terbang',
-    trustSupport: 'Sokongan pemandu 24/7',
   },
   tr: {
     badge: 'Umre Ziyaretçileri İçin Özel VIP Şoför Hizmeti',
@@ -148,9 +118,6 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
       "Mekke, Medine ve Cidde arasında özel Umre transferi. Profesyonel şoförler, sabit garantili fiyatlar ve Allah'ın Misafirleri için üstün konfor.",
     btnPrimary: 'Fiyatları Gör ve Rezervasyon Yap',
     btnSecondary: "WhatsApp'tan Yazın",
-    trustPay: 'Varışta ödeme',
-    trustWait: 'Havalimanında 60 dk ücretsiz bekleme',
-    trustSupport: '7/24 şoför desteği',
   },
 };
 
@@ -515,18 +482,18 @@ export function HeroSection({ locale }: HeroSectionProps) {
           </button>
         </div>
 
-        {/* 3) LUXURY BOOKING WIDGET (Directly below CTA buttons, replacing former trust row position) */}
+        {/* 3) LUXURY LIGHT-THEME BOOKING WIDGET */}
         <div className="w-full max-w-5xl mx-auto">
-          {/* Top Pill Toggle Switch: hovering slightly above the container */}
-          <div className="flex justify-center mb-2.5">
-            <div className="inline-flex p-1 rounded-full bg-[#0a1224]/85 backdrop-blur-md border border-white/15 shadow-lg">
+          {/* Top Pill Toggle Switch: clean white with orange-gold active tab */}
+          <div className="flex justify-center mb-3">
+            <div className="inline-flex p-1 rounded-full bg-white/95 backdrop-blur-md border border-gray-200/90 shadow-md">
               <button
                 type="button"
                 onClick={() => setTripType('one-way')}
-                className={`px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all ${
+                className={`px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
                   tripType === 'one-way'
-                    ? 'bg-[#d4af37] text-black shadow-md'
-                    : 'bg-[#1a2235]/80 hover:bg-white/10 text-white'
+                    ? 'bg-[#df9e38] text-gray-950 shadow-sm'
+                    : 'text-gray-700 hover:text-gray-950'
                 }`}
               >
                 {bwt.oneWay}
@@ -534,10 +501,10 @@ export function HeroSection({ locale }: HeroSectionProps) {
               <button
                 type="button"
                 onClick={() => setTripType('hourly')}
-                className={`px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all ${
+                className={`px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
                   tripType === 'hourly'
-                    ? 'bg-[#d4af37] text-black shadow-md'
-                    : 'bg-[#1a2235]/80 hover:bg-white/10 text-white'
+                    ? 'bg-[#df9e38] text-gray-950 shadow-sm'
+                    : 'text-gray-700 hover:text-gray-950'
                 }`}
               >
                 {bwt.byTheHour}
@@ -545,112 +512,112 @@ export function HeroSection({ locale }: HeroSectionProps) {
             </div>
           </div>
 
-          {/* Floating Horizontal Glassmorphism Card */}
+          {/* Solid White Horizontal Container with Soft Elegant Shadow */}
           <form
             onSubmit={handleWidgetSubmit}
-            className="w-full bg-[#0a1224]/80 backdrop-blur-xl border border-white/15 rounded-2xl lg:rounded-full p-3 sm:p-3.5 shadow-[0_16px_50px_rgba(0,0,0,0.6)]"
+            className="w-full bg-white rounded-2xl lg:rounded-full p-3 sm:p-3.5 border border-gray-100 shadow-[0_12px_45px_rgba(0,0,0,0.18)] text-gray-900"
           >
-            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-0 lg:divide-x lg:divide-white/15 rtl:lg:divide-x-reverse">
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-0 lg:divide-x lg:divide-gray-200 rtl:lg:divide-x-reverse">
               {/* Field 1: Pick-up location */}
-              <div className="flex-1 px-3 py-1 text-left rtl:text-right">
-                <label className="text-[10px] sm:text-[11px] font-medium text-gray-300 uppercase tracking-wider block mb-1">
+              <div className="flex-1 px-4 py-1.5 text-left rtl:text-right">
+                <label className="text-[10px] sm:text-[11px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
                   {bwt.pickupLocation}
                 </label>
                 <div className="relative">
                   <select
                     value={pickupLocation}
                     onChange={(e) => setPickupLocation(e.target.value)}
-                    className="w-full bg-transparent text-white text-xs sm:text-sm font-medium focus:outline-none border-b border-white/20 focus:border-[#d4af37] pb-1 pt-0.5 pr-6 rtl:pr-0 rtl:pl-6 appearance-none cursor-pointer transition-colors text-ellipsis overflow-hidden whitespace-nowrap"
+                    className="w-full bg-transparent text-gray-950 font-semibold text-xs sm:text-sm focus:outline-none border-b border-gray-200 focus:border-[#df9e38] pb-1 pt-0.5 pr-6 rtl:pr-0 rtl:pl-6 appearance-none cursor-pointer transition-colors text-ellipsis overflow-hidden whitespace-nowrap"
                   >
-                    <option value="jeddah-airport" className="bg-[#0a1224] text-white">
+                    <option value="jeddah-airport" className="bg-white text-gray-900">
                       {bwt.locJeddahAirport}
                     </option>
-                    <option value="makkah-hotel" className="bg-[#0a1224] text-white">
+                    <option value="makkah-hotel" className="bg-white text-gray-900">
                       {bwt.locMakkahHotel}
                     </option>
-                    <option value="madinah-hotel" className="bg-[#0a1224] text-white">
+                    <option value="madinah-hotel" className="bg-white text-gray-900">
                       {bwt.locMadinahHotel}
                     </option>
-                    <option value="madinah-airport" className="bg-[#0a1224] text-white">
+                    <option value="madinah-airport" className="bg-white text-gray-900">
                       {bwt.locMadinahAirport}
                     </option>
-                    <option value="jeddah-city" className="bg-[#0a1224] text-white">
+                    <option value="jeddah-city" className="bg-white text-gray-900">
                       {bwt.locJeddahCity}
                     </option>
                   </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-white/50 pointer-events-none absolute right-1 rtl:right-auto rtl:left-1 bottom-1.5" />
+                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 pointer-events-none absolute right-1 rtl:right-auto rtl:left-1 bottom-1.5" />
                 </div>
               </div>
 
               {/* Dynamic Field 2: Drop-off location OR Duration */}
               {tripType === 'one-way' ? (
-                <div className="flex-1 px-3 py-1 text-left rtl:text-right">
-                  <label className="text-[10px] sm:text-[11px] font-medium text-gray-300 uppercase tracking-wider block mb-1">
+                <div className="flex-1 px-4 py-1.5 text-left rtl:text-right">
+                  <label className="text-[10px] sm:text-[11px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
                     {bwt.dropoffLocation}
                   </label>
                   <div className="relative">
                     <select
                       value={dropoffLocation}
                       onChange={(e) => setDropoffLocation(e.target.value)}
-                      className="w-full bg-transparent text-white text-xs sm:text-sm font-medium focus:outline-none border-b border-white/20 focus:border-[#d4af37] pb-1 pt-0.5 pr-6 rtl:pr-0 rtl:pl-6 appearance-none cursor-pointer transition-colors text-ellipsis overflow-hidden whitespace-nowrap"
+                      className="w-full bg-transparent text-gray-950 font-semibold text-xs sm:text-sm focus:outline-none border-b border-gray-200 focus:border-[#df9e38] pb-1 pt-0.5 pr-6 rtl:pr-0 rtl:pl-6 appearance-none cursor-pointer transition-colors text-ellipsis overflow-hidden whitespace-nowrap"
                     >
-                      <option value="makkah-hotel" className="bg-[#0a1224] text-white">
+                      <option value="makkah-hotel" className="bg-white text-gray-900">
                         {bwt.locMakkahHotel}
                       </option>
-                      <option value="madinah-hotel" className="bg-[#0a1224] text-white">
+                      <option value="madinah-hotel" className="bg-white text-gray-900">
                         {bwt.locMadinahHotel}
                       </option>
-                      <option value="jeddah-airport" className="bg-[#0a1224] text-white">
+                      <option value="jeddah-airport" className="bg-white text-gray-900">
                         {bwt.locJeddahAirport}
                       </option>
-                      <option value="madinah-airport" className="bg-[#0a1224] text-white">
+                      <option value="madinah-airport" className="bg-white text-gray-900">
                         {bwt.locMadinahAirport}
                       </option>
-                      <option value="makkah-ziyarat" className="bg-[#0a1224] text-white">
+                      <option value="makkah-ziyarat" className="bg-white text-gray-900">
                         {bwt.locMakkahZiyarat}
                       </option>
-                      <option value="madinah-ziyarat" className="bg-[#0a1224] text-white">
+                      <option value="madinah-ziyarat" className="bg-white text-gray-900">
                         {bwt.locMadinahZiyarat}
                       </option>
                     </select>
-                    <ChevronDown className="w-3.5 h-3.5 text-white/50 pointer-events-none absolute right-1 rtl:right-auto rtl:left-1 bottom-1.5" />
+                    <ChevronDown className="w-3.5 h-3.5 text-gray-400 pointer-events-none absolute right-1 rtl:right-auto rtl:left-1 bottom-1.5" />
                   </div>
                 </div>
               ) : (
-                <div className="flex-1 px-3 py-1 text-left rtl:text-right">
-                  <label className="text-[10px] sm:text-[11px] font-medium text-gray-300 uppercase tracking-wider block mb-1">
+                <div className="flex-1 px-4 py-1.5 text-left rtl:text-right">
+                  <label className="text-[10px] sm:text-[11px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
                     {bwt.duration}
                   </label>
                   <div className="relative">
                     <select
                       value={durationHours}
                       onChange={(e) => setDurationHours(e.target.value)}
-                      className="w-full bg-transparent text-white text-xs sm:text-sm font-medium focus:outline-none border-b border-white/20 focus:border-[#d4af37] pb-1 pt-0.5 pr-6 rtl:pr-0 rtl:pl-6 appearance-none cursor-pointer transition-colors"
+                      className="w-full bg-transparent text-gray-950 font-semibold text-xs sm:text-sm focus:outline-none border-b border-gray-200 focus:border-[#df9e38] pb-1 pt-0.5 pr-6 rtl:pr-0 rtl:pl-6 appearance-none cursor-pointer transition-colors"
                     >
-                      <option value="2" className="bg-[#0a1224] text-white">
+                      <option value="2" className="bg-white text-gray-900">
                         2 {bwt.hoursSuffix}
                       </option>
-                      <option value="4" className="bg-[#0a1224] text-white">
+                      <option value="4" className="bg-white text-gray-900">
                         4 {bwt.hoursSuffix} (Standard)
                       </option>
-                      <option value="6" className="bg-[#0a1224] text-white">
+                      <option value="6" className="bg-white text-gray-900">
                         6 {bwt.hoursSuffix}
                       </option>
-                      <option value="8" className="bg-[#0a1224] text-white">
+                      <option value="8" className="bg-white text-gray-900">
                         8 {bwt.hoursSuffix} (Full Day)
                       </option>
-                      <option value="12" className="bg-[#0a1224] text-white">
+                      <option value="12" className="bg-white text-gray-900">
                         12 {bwt.hoursSuffix} (Executive)
                       </option>
                     </select>
-                    <ChevronDown className="w-3.5 h-3.5 text-white/50 pointer-events-none absolute right-1 rtl:right-auto rtl:left-1 bottom-1.5" />
+                    <ChevronDown className="w-3.5 h-3.5 text-gray-400 pointer-events-none absolute right-1 rtl:right-auto rtl:left-1 bottom-1.5" />
                   </div>
                 </div>
               )}
 
               {/* Field 3: Pick-up date */}
-              <div className="flex-1 px-3 py-1 text-left rtl:text-right">
-                <label className="text-[10px] sm:text-[11px] font-medium text-gray-300 uppercase tracking-wider block mb-1">
+              <div className="flex-1 px-4 py-1.5 text-left rtl:text-right">
+                <label className="text-[10px] sm:text-[11px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
                   {bwt.pickupDate}
                 </label>
                 <input
@@ -658,28 +625,28 @@ export function HeroSection({ locale }: HeroSectionProps) {
                   min={todayStr}
                   value={pickupDate}
                   onChange={(e) => setPickupDate(e.target.value)}
-                  className="w-full bg-transparent text-white text-xs sm:text-sm font-medium focus:outline-none border-b border-white/20 focus:border-[#d4af37] pb-1 pt-0.5 transition-colors [color-scheme:dark]"
+                  className="w-full bg-transparent text-gray-950 font-semibold text-xs sm:text-sm focus:outline-none border-b border-gray-200 focus:border-[#df9e38] pb-1 pt-0.5 transition-colors cursor-pointer"
                 />
               </div>
 
               {/* Field 4: Pickup time */}
-              <div className="flex-1 px-3 py-1 text-left rtl:text-right">
-                <label className="text-[10px] sm:text-[11px] font-medium text-gray-300 uppercase tracking-wider block mb-1">
+              <div className="flex-1 px-4 py-1.5 text-left rtl:text-right">
+                <label className="text-[10px] sm:text-[11px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
                   {bwt.pickupTime}
                 </label>
                 <input
                   type="time"
                   value={pickupTime}
                   onChange={(e) => setPickupTime(e.target.value)}
-                  className="w-full bg-transparent text-white text-xs sm:text-sm font-medium focus:outline-none border-b border-white/20 focus:border-[#d4af37] pb-1 pt-0.5 transition-colors [color-scheme:dark]"
+                  className="w-full bg-transparent text-gray-950 font-semibold text-xs sm:text-sm focus:outline-none border-b border-gray-200 focus:border-[#df9e38] pb-1 pt-0.5 transition-colors cursor-pointer"
                 />
               </div>
 
-              {/* Submit Button: Pill-shaped on far right with mustard yellow background & right chevron */}
+              {/* Submit Button: Solid orange-gold background with dark text */}
               <div className="lg:pl-3 rtl:lg:pl-0 rtl:lg:pr-3 pt-2 lg:pt-0 shrink-0">
                 <button
                   type="submit"
-                  className="w-full lg:w-auto h-11 sm:h-12 px-6 sm:px-7 rounded-full bg-[#d4af37] hover:bg-[#e0be4d] text-black font-bold text-xs sm:text-sm tracking-wider flex items-center justify-center gap-1.5 shadow-[0_4px_20px_rgba(212,175,55,0.35)] hover:shadow-[0_4px_25px_rgba(212,175,55,0.55)] transition-all whitespace-nowrap cursor-pointer"
+                  className="w-full lg:w-auto h-11 sm:h-12 px-6 sm:px-7 rounded-full bg-[#df9e38] hover:bg-[#c9892c] active:scale-[0.98] text-gray-950 font-bold text-xs sm:text-sm tracking-wider flex items-center justify-center gap-1.5 shadow-[0_4px_16px_rgba(223,158,56,0.35)] transition-all whitespace-nowrap cursor-pointer"
                 >
                   <span>{bwt.viewOptions}</span>
                   <ChevronRight className="w-4 h-4 rtl:rotate-180" />
