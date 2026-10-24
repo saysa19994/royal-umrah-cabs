@@ -247,16 +247,28 @@ export function HeroSection({ locale }: HeroSectionProps) {
     <section className="relative h-[100svh] min-h-[660px] max-h-[1200px] flex flex-col justify-between items-center overflow-hidden bg-[#0a1224] text-white pt-24 sm:pt-28 pb-4 select-none">
       {/* BACKGROUND: CINEMATIC MULTI-LAYER VIDEO EFFECT */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        {/* Layer 1: Base image with slow cinematic camera movement */}
-        <div className="absolute inset-[-4%] w-[108%] h-[108%] animate-cinematic-camera">
-          <Image
-            src="/assets/images/haram_hero.webp"
-            alt="Masjid al-Haram, Holy Kaaba and Makkah Royal Clock Tower at night - Duyuf Alrahman VIP"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[center_38%]"
-          />
+        {/* Layer 1: Looping Cinematic Video with High-Res Image Poster Fallback */}
+        <div className="absolute inset-0 w-full h-full">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            poster="/assets/images/haram_hero.webp"
+            className="w-full h-full object-cover object-[center_38%]"
+            aria-label="Masjid al-Haram, Holy Kaaba and Makkah Royal Clock Tower at night - Duyuf Alrahman VIP"
+          >
+            <source src="/assets/videos/haram_hero.mp4" type="video/mp4" />
+            <Image
+              src="/assets/images/haram_hero.webp"
+              alt="Masjid al-Haram, Holy Kaaba and Makkah Royal Clock Tower at night - Duyuf Alrahman VIP"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-[center_38%]"
+            />
+          </video>
         </div>
 
         {/* Layer 2: Warm golden glow near the Haram that breathes */}
