@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { Locale, getLocalizedAlternates, LOCALES } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { COMPREHENSIVE_GUIDES, GuideItem } from '@/data/comprehensive-guides';
@@ -69,6 +69,9 @@ export default async function GuideDetailPage(props: GuideSlugPageProps) {
 
   const guide = COMPREHENSIVE_GUIDES.find((g) => g.slug === slug);
   if (!guide) {
+    if (slug === 'vip-umrah-transport-jeddah-to-makkah') {
+      redirect(`/${locale}/blog/${slug}`);
+    }
     notFound();
   }
 

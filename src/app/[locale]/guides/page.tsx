@@ -137,6 +137,52 @@ export default async function GuidesIndexPage(props: GuidesPageProps) {
           </p>
         </div>
 
+        {/* NEW FEATURED VIP ARTICLE BANNER */}
+        <div className="mb-14 p-6 sm:p-8 rounded-3xl bg-surface border-2 border-gold-line shadow-md relative overflow-hidden group">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center text-start">
+            <div className="lg:col-span-5 relative aspect-[16/9] rounded-2xl overflow-hidden shadow-xs bg-slate-900">
+              <Image
+                src="/assets/images/vip-umrah-transport-jeddah-to-makkah.jpg"
+                alt={locale === 'ar' ? 'سيارة VIP لنقل ضيوف الرحمن من مطار جدة إلى مكة المكرمة' : 'VIP Umrah Transport from Jeddah Airport to Makkah'}
+                fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="lg:col-span-7 space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-1 rounded-full bg-gold text-ink text-[11px] font-bold uppercase tracking-wider">
+                  {locale === 'ar' ? 'دليل VIP المميز' : 'Featured VIP Guide'}
+                </span>
+                <span className="text-xs text-ink-muted">
+                  {locale === 'ar' ? '8 دقائق للقراءة' : '8 min read'}
+                </span>
+              </div>
+              <h2 className="font-display font-bold text-xl sm:text-2xl text-ink leading-tight group-hover:text-gold-dark transition-colors">
+                <Link href={`/${locale}/blog/vip-umrah-transport-jeddah-to-makkah`}>
+                  {locale === 'ar'
+                    ? 'دليل اختيار سيارة VIP من مطار جدة إلى مكة المكرمة لضيوف الرحمن'
+                    : 'VIP Umrah Transport from Jeddah Airport to Makkah: Complete Chauffeur Guide'}
+                </Link>
+              </h2>
+              <p className="text-xs sm:text-sm text-ink-muted font-light leading-relaxed">
+                {locale === 'ar'
+                  ? 'دليل شامل لاختيار أفضل سيارة خاصة مع سائق من مطار الملك عبدالعزيز بجدة إلى فنادق مكة المكرمة: معايير الراحة، سعة الأمتعة للعائلات، وتأكيد الأسعار الثابتة بدون رسوم خفية.'
+                  : 'Comprehensive guide to choosing the best private chauffeur vehicle from King Abdulaziz International Airport in Jeddah to Makkah hotels with fixed pricing and meet & greet.'}
+              </p>
+              <div className="pt-2">
+                <Link
+                  href={`/${locale}/blog/vip-umrah-transport-jeddah-to-makkah`}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gold hover:bg-gold-dark text-ink font-bold text-xs sm:text-sm transition-colors"
+                >
+                  <span>{locale === 'ar' ? 'قراءة الدليل كاملاً' : 'Read Full Guide'}</span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* 4 CORE CATEGORY PILLARS (Matching Screenshot 12) */}
         <div className="mb-20">
           <div className="flex items-center justify-between mb-6 pb-2 border-b border-border">

@@ -32,6 +32,8 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
     '/guides/malaysia-umrah-transport',
     '/guides/jeddah-airport-arrival-guide',
     '/guides/makkah-to-madinah-transport-comparison',
+    '/blog',
+    '/blog/vip-umrah-transport-jeddah-to-makkah',
     '/ziyarat',
     '/ziyarat/makkah',
     '/ziyarat/madinah',
