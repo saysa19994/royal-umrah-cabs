@@ -9,7 +9,7 @@ import { Footer } from '@/components/layout/Footer';
 import { FloatingUI } from '@/components/layout/FloatingUI';
 import { AiChatWidget } from '@/components/chat/AiChatWidget';
 import { JsonLd } from '@/components/seo/JsonLd';
-import { cormorant, manrope, amiri, tajawal, notoDevanagari, notoUrdu } from '@/app/fonts';
+import { cormorant, manrope, amiri, tajawal, notoDevanagari, notoUrdu, playfair, inter, cairo } from '@/app/fonts';
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -127,7 +127,7 @@ export default async function LocaleLayout(props: LocaleLayoutProps) {
     <html
       lang={validLocale}
       dir={dir}
-      className={`${cormorant.variable} ${manrope.variable} ${amiri.variable} ${tajawal.variable} ${notoDevanagari.variable} ${notoUrdu.variable}`}
+      className={`${cormorant.variable} ${manrope.variable} ${amiri.variable} ${tajawal.variable} ${notoDevanagari.variable} ${notoUrdu.variable} ${playfair.variable} ${inter.variable} ${cairo.variable}`}
     >
       <body className="min-h-screen flex flex-col font-sans bg-bg text-body antialiased selection:bg-gold-soft selection:text-ink">
         <JsonLd locale={validLocale} dict={dict} settings={settings} />

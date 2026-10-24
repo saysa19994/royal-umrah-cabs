@@ -10,7 +10,10 @@ export type AnalyticsEvent =
       event: 'route_selected';
       service_type: string;
       route?: string;
-      vehicle_id?: string;      passengers?: number;      luggage?: number;    }
+      vehicle_id?: string;
+      passengers?: number;
+      luggage?: number;
+    }
   | {
       event: 'booking_form_started';
       source: 'booking_card' | 'booking_engine' | 'contact_form' | 'floating_ui';
@@ -37,8 +40,9 @@ export type AnalyticsEvent =
     }
   | {
       event: 'whatsapp_handoff_initiated';
-      source: 'booking_card' | 'booking_engine' | 'floating_ui' | 'contact_form' | 'header';
+      source: 'booking_card' | 'booking_engine' | 'floating_ui' | 'contact_form' | 'header' | 'hero_cta';
       booking_reference?: string;
+      assigned_number?: string;
     }
   | {
       event: 'booking_confirmed';
