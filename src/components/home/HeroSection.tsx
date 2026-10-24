@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Locale } from '@/i18n/config';
 import { WhatsAppModal } from '@/components/common/WhatsAppModal';
-import { ArrowRight, MessageCircle } from 'lucide-react';
+import { ArrowRight, MessageCircle, ChevronDown, ChevronRight } from 'lucide-react';
 
 interface HeroSectionProps {
   locale: Locale;
@@ -19,6 +20,25 @@ interface HeroLocalizedContent {
   trustPay: string;
   trustWait: string;
   trustSupport: string;
+}
+
+interface BookingWidgetTranslations {
+  oneWay: string;
+  byTheHour: string;
+  pickupLocation: string;
+  dropoffLocation: string;
+  duration: string;
+  pickupDate: string;
+  pickupTime: string;
+  viewOptions: string;
+  hoursSuffix: string;
+  locJeddahAirport: string;
+  locMakkahHotel: string;
+  locMadinahHotel: string;
+  locMadinahAirport: string;
+  locJeddahCity: string;
+  locMakkahZiyarat: string;
+  locMadinahZiyarat: string;
 }
 
 const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
@@ -134,12 +154,214 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
   },
 };
 
+const BOOKING_WIDGET_TRANSLATIONS: Record<Locale, BookingWidgetTranslations> = {
+  en: {
+    oneWay: 'One way',
+    byTheHour: 'By the hour',
+    pickupLocation: 'Pick-up location',
+    dropoffLocation: 'Drop-off location',
+    duration: 'Duration',
+    pickupDate: 'Pick-up date',
+    pickupTime: 'Pickup time',
+    viewOptions: 'View options',
+    hoursSuffix: 'Hours',
+    locJeddahAirport: 'Jeddah Airport (KAIA)',
+    locMakkahHotel: 'Makkah Hotel / Haram',
+    locMadinahHotel: 'Madinah Hotel / Haram',
+    locMadinahAirport: 'Madinah Airport (MED)',
+    locJeddahCity: 'Jeddah City',
+    locMakkahZiyarat: 'Makkah Holy Sites / Ziyarat',
+    locMadinahZiyarat: 'Madinah Holy Sites / Ziyarat',
+  },
+  ar: {
+    oneWay: 'اتجاه واحد',
+    byTheHour: 'بالساعة',
+    pickupLocation: 'موقع الانطلاق',
+    dropoffLocation: 'وجهة الوصول',
+    duration: 'المدة',
+    pickupDate: 'تاريخ الانطلاق',
+    pickupTime: 'وقت الانطلاق',
+    viewOptions: 'عرض الخيارات',
+    hoursSuffix: 'ساعات',
+    locJeddahAirport: 'مطار جدة (KAIA)',
+    locMakkahHotel: 'فندق بمكة / الحرم',
+    locMadinahHotel: 'فندق بالمدينة / الحرم',
+    locMadinahAirport: 'مطار المدينة (MED)',
+    locJeddahCity: 'مدينة جدة',
+    locMakkahZiyarat: 'مزارات مكة المكرمة',
+    locMadinahZiyarat: 'مزارات المدينة المنورة',
+  },
+  fr: {
+    oneWay: 'Aller simple',
+    byTheHour: "À l'heure",
+    pickupLocation: 'Lieu de prise en charge',
+    dropoffLocation: 'Lieu de destination',
+    duration: 'Durée',
+    pickupDate: 'Date de départ',
+    pickupTime: 'Heure de départ',
+    viewOptions: 'Voir les options',
+    hoursSuffix: 'Heures',
+    locJeddahAirport: 'Aéroport de Djeddah (KAIA)',
+    locMakkahHotel: 'Hôtel La Mecque / Haram',
+    locMadinahHotel: 'Hôtel Médine / Haram',
+    locMadinahAirport: 'Aéroport de Médine (MED)',
+    locJeddahCity: 'Ville de Djeddah',
+    locMakkahZiyarat: 'Lieux saints de La Mecque',
+    locMadinahZiyarat: 'Lieux saints de Médine',
+  },
+  es: {
+    oneWay: 'Solo ida',
+    byTheHour: 'Por horas',
+    pickupLocation: 'Punto de recogida',
+    dropoffLocation: 'Punto de destino',
+    duration: 'Duración',
+    pickupDate: 'Fecha de recogida',
+    pickupTime: 'Hora de recogida',
+    viewOptions: 'Ver opciones',
+    hoursSuffix: 'Horas',
+    locJeddahAirport: 'Aeropuerto de Yeda (KAIA)',
+    locMakkahHotel: 'Hotel en La Meca / Haram',
+    locMadinahHotel: 'Hotel en Medina / Haram',
+    locMadinahAirport: 'Aeropuerto de Medina (MED)',
+    locJeddahCity: 'Ciudad de Yeda',
+    locMakkahZiyarat: 'Lugares sagrados de La Meca',
+    locMadinahZiyarat: 'Lugares sagrados de Medina',
+  },
+  id: {
+    oneWay: 'Sekali jalan',
+    byTheHour: 'Per jam',
+    pickupLocation: 'Lokasi jemput',
+    dropoffLocation: 'Lokasi tujuan',
+    duration: 'Durasi',
+    pickupDate: 'Tanggal jemput',
+    pickupTime: 'Waktu jemput',
+    viewOptions: 'Lihat opsi',
+    hoursSuffix: 'Jam',
+    locJeddahAirport: 'Bandara Jeddah (KAIA)',
+    locMakkahHotel: 'Hotel Makkah / Masjidil Haram',
+    locMadinahHotel: 'Hotel Madinah / Nabawi',
+    locMadinahAirport: 'Bandara Madinah (MED)',
+    locJeddahCity: 'Kota Jeddah',
+    locMakkahZiyarat: 'Ziarah Makkah',
+    locMadinahZiyarat: 'Ziarah Madinah',
+  },
+  hi: {
+    oneWay: 'एक तरफ',
+    byTheHour: 'प्रति घंटा',
+    pickupLocation: 'पिक-अप स्थान',
+    dropoffLocation: 'ड्रॉप-ऑफ स्थान',
+    duration: 'अवधि',
+    pickupDate: 'पिक-अप तिथि',
+    pickupTime: 'पिक-अप समय',
+    viewOptions: 'विकल्प देखें',
+    hoursSuffix: 'घंटे',
+    locJeddahAirport: 'जेद्दा हवाई अड्डा (KAIA)',
+    locMakkahHotel: 'मक्का होटल / हरम',
+    locMadinahHotel: 'मदीना होटल / हरम',
+    locMadinahAirport: 'मदीना हवाई अड्डा (MED)',
+    locJeddahCity: 'जेद्दा शहर',
+    locMakkahZiyarat: 'मक्का ज़ियारत स्थल',
+    locMadinahZiyarat: 'मदीना ज़ियारत स्थल',
+  },
+  de: {
+    oneWay: 'Einfache Fahrt',
+    byTheHour: 'Stundenweise',
+    pickupLocation: 'Abholort',
+    dropoffLocation: 'Zielort',
+    duration: 'Dauer',
+    pickupDate: 'Abholdatum',
+    pickupTime: 'Abholzeit',
+    viewOptions: 'Optionen ansehen',
+    hoursSuffix: 'Stunden',
+    locJeddahAirport: 'Flughafen Dschidda (KAIA)',
+    locMakkahHotel: 'Hotel Mekka / Haram',
+    locMadinahHotel: 'Hotel Medina / Haram',
+    locMadinahAirport: 'Flughafen Medina (MED)',
+    locJeddahCity: 'Stadt Dschidda',
+    locMakkahZiyarat: 'Heilige Stätten Mekka',
+    locMadinahZiyarat: 'Heilige Stätten Medina',
+  },
+  ur: {
+    oneWay: 'ایک طرفہ',
+    byTheHour: 'فی گھنٹہ',
+    pickupLocation: 'روانگی کا مقام',
+    dropoffLocation: 'منزل کا مقام',
+    duration: 'مدت',
+    pickupDate: 'روانگی کی تاریخ',
+    pickupTime: 'روانگی کا وقت',
+    viewOptions: 'اختیارات دیکھیں',
+    hoursSuffix: 'گھنٹے',
+    locJeddahAirport: 'جدہ ایئرپورٹ (KAIA)',
+    locMakkahHotel: 'مکہ ہوٹل / حرم',
+    locMadinahHotel: 'مدینہ ہوٹل / حرم',
+    locMadinahAirport: 'مدینہ ایئرپورٹ (MED)',
+    locJeddahCity: 'جدہ شہر',
+    locMakkahZiyarat: 'مکہ زیارات',
+    locMadinahZiyarat: 'مدینہ زیارات',
+  },
+  ms: {
+    oneWay: 'Satu hala',
+    byTheHour: 'Mengikut jam',
+    pickupLocation: 'Lokasi pengambilan',
+    dropoffLocation: 'Lokasi destinasi',
+    duration: 'Tempoh',
+    pickupDate: 'Tarikh ambil',
+    pickupTime: 'Masa ambil',
+    viewOptions: 'Lihat pilihan',
+    hoursSuffix: 'Jam',
+    locJeddahAirport: 'Lapangan Terbang Jeddah (KAIA)',
+    locMakkahHotel: 'Hotel Makkah / Masjidil Haram',
+    locMadinahHotel: 'Hotel Madinah / Nabawi',
+    locMadinahAirport: 'Lapangan Terbang Madinah (MED)',
+    locJeddahCity: 'Bandar Jeddah',
+    locMakkahZiyarat: 'Ziarah Makkah',
+    locMadinahZiyarat: 'Ziarah Madinah',
+  },
+  tr: {
+    oneWay: 'Tek yön',
+    byTheHour: 'Saatlik',
+    pickupLocation: 'Alış noktası',
+    dropoffLocation: 'Bırakış noktası',
+    duration: 'Süre',
+    pickupDate: 'Alış tarihi',
+    pickupTime: 'Alış saati',
+    viewOptions: 'Seçenekleri gör',
+    hoursSuffix: 'Saat',
+    locJeddahAirport: 'Cidde Havalimanı (KAIA)',
+    locMakkahHotel: 'Mekke Oteli / Harem',
+    locMadinahHotel: 'Medine Oteli / Harem',
+    locMadinahAirport: 'Medine Havalimanı (MED)',
+    locJeddahCity: 'Cidde Şehir',
+    locMakkahZiyarat: 'Mekke Ziyaret Yerleri',
+    locMadinahZiyarat: 'Medine Ziyaret Yerleri',
+  },
+};
+
 export function HeroSection({ locale }: HeroSectionProps) {
+  const router = useRouter();
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = React.useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef<HTMLElement>(null);
 
+  // Booking Widget State
+  const [tripType, setTripType] = useState<'one-way' | 'hourly'>('one-way');
+  const [pickupLocation, setPickupLocation] = useState('jeddah-airport');
+  const [dropoffLocation, setDropoffLocation] = useState('makkah-hotel');
+  const [durationHours, setDurationHours] = useState('4');
+
+  // Dates
+  const tomorrowStr = React.useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    return d.toISOString().split('T')[0];
+  }, []);
+  const todayStr = React.useMemo(() => new Date().toISOString().split('T')[0], []);
+
+  const [pickupDate, setPickupDate] = useState(tomorrowStr);
+  const [pickupTime, setPickupTime] = useState('14:00');
+
   const content = HERO_CONTENT[locale] || HERO_CONTENT.en;
+  const bwt = BOOKING_WIDGET_TRANSLATIONS[locale] || BOOKING_WIDGET_TRANSLATIONS.en;
   const isArabic = locale === 'ar';
   const isUrdu = locale === 'ur';
 
@@ -188,10 +410,42 @@ export function HeroSection({ locale }: HeroSectionProps) {
     };
   }, []);
 
+  const handleWidgetSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const query = new URLSearchParams();
+
+    if (tripType === 'one-way') {
+      let routeSlug = 'jeddah-airport-to-makkah';
+      if (pickupLocation === 'jeddah-airport' && dropoffLocation === 'makkah-hotel') {
+        routeSlug = 'jeddah-airport-to-makkah';
+      } else if (pickupLocation === 'makkah-hotel' && dropoffLocation === 'jeddah-airport') {
+        routeSlug = 'makkah-to-jeddah-airport';
+      } else if (pickupLocation === 'makkah-hotel' && dropoffLocation === 'madinah-hotel') {
+        routeSlug = 'makkah-to-madinah';
+      } else if (pickupLocation === 'madinah-hotel' && dropoffLocation === 'makkah-hotel') {
+        routeSlug = 'madinah-to-makkah';
+      } else if (pickupLocation === 'madinah-airport' || dropoffLocation === 'madinah-airport') {
+        routeSlug = 'madinah-airport-to-hotel';
+      } else if (pickupLocation === 'jeddah-city' || dropoffLocation === 'madinah-hotel') {
+        routeSlug = 'jeddah-to-madinah';
+      }
+      query.set('route', routeSlug);
+      query.set('date', pickupDate);
+      query.set('time', pickupTime);
+    } else {
+      query.set('type', 'hourly');
+      query.set('duration', durationHours);
+      query.set('date', pickupDate);
+      query.set('time', pickupTime);
+    }
+
+    router.push(`/${locale}/booking?${query.toString()}`);
+  };
+
   return (
     <section
       ref={heroRef}
-      className="relative h-[100svh] min-h-[640px] max-h-[1200px] flex flex-col justify-center items-center overflow-hidden bg-[#0a1224] text-white select-none"
+      className="relative min-h-[100svh] py-20 lg:py-24 flex flex-col justify-center items-center overflow-hidden bg-[#0a1224] text-white select-none"
     >
       {/* 1) FULL-SCREEN CINEMATIC BACKGROUND VIDEO */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -215,15 +469,15 @@ export function HeroSection({ locale }: HeroSectionProps) {
       </div>
 
       {/* 2) SIMPLE, CLASSY, CENTERED CONTENT */}
-      <div className="container mx-auto px-4 sm:px-6 max-w-4xl relative z-10 flex flex-col items-center justify-center text-center my-auto pt-20 pb-8">
+      <div className="container mx-auto px-4 sm:px-6 max-w-5xl relative z-10 flex flex-col items-center justify-center text-center my-auto">
         {/* SMALL BADGE: Thin gold border, no heavy fill, refined letter-spacing */}
-        <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-[#d4a72c]/50 bg-[#0a1224]/30 backdrop-blur-sm text-[#d4a72c] text-xs sm:text-[13px] font-medium tracking-[0.14em] uppercase mb-6 sm:mb-8 animate-fadeIn">
+        <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-[#d4a72c]/50 bg-[#0a1224]/30 backdrop-blur-sm text-[#d4a72c] text-xs sm:text-[13px] font-medium tracking-[0.14em] uppercase mb-5 sm:mb-6 animate-fadeIn">
           <span>{content.badge}</span>
         </div>
 
         {/* H1: Large serif headline in Playfair Display, semi-bold, white */}
         <h1
-          className={`text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] leading-[1.14] sm:leading-[1.08] tracking-tight max-w-3xl mx-auto text-[clamp(34px,5.4vw,68px)] font-semibold ${
+          className={`text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] leading-[1.14] sm:leading-[1.08] tracking-tight max-w-3xl mx-auto text-[clamp(32px,5vw,64px)] font-semibold ${
             isArabic ? 'font-arabic font-bold' : isUrdu ? 'font-urdu font-bold' : 'font-display'
           }`}
         >
@@ -231,12 +485,12 @@ export function HeroSection({ locale }: HeroSectionProps) {
         </h1>
 
         {/* SHORT PARAGRAPH: Max 2 lines */}
-        <p className="mt-4 sm:mt-5 text-sm sm:text-base md:text-lg text-[#e2e8f0] drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] font-light leading-relaxed max-w-2xl mx-auto line-clamp-2">
+        <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-[#e2e8f0] drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] font-light leading-relaxed max-w-2xl mx-auto line-clamp-2">
           {content.description}
         </p>
 
         {/* TWO BUTTONS WITH GENEROUS SPACING & SUBTLE LUXURY SHINE */}
-        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 mt-7 sm:mt-9">
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 mt-6 sm:mt-7 mb-7 sm:mb-9">
           {/* Gold "Get Prices & Book" Button */}
           <Link
             href={`/${locale}/pricing`}
@@ -244,7 +498,6 @@ export function HeroSection({ locale }: HeroSectionProps) {
           >
             <span className="relative z-10">{content.btnPrimary}</span>
             <ArrowRight className="w-4 h-4 rtl:rotate-180 relative z-10" />
-            {/* Subtle luxury shine sweep across the button every ~6s and on hover */}
             <span
               aria-hidden="true"
               className="absolute inset-0 pointer-events-none -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] animate-luxury-shine group-hover:translate-x-full transition-transform duration-700"
@@ -262,8 +515,182 @@ export function HeroSection({ locale }: HeroSectionProps) {
           </button>
         </div>
 
-        {/* SLIM TRUST ROW: Thin gold hairline divider above 3 trust points */}
-        <div className="w-full max-w-2xl mx-auto mt-8 sm:mt-11 pt-6 border-t border-[#d4a72c]/25">
+        {/* 3) LUXURY BOOKING WIDGET (Directly below CTA buttons, replacing former trust row position) */}
+        <div className="w-full max-w-5xl mx-auto">
+          {/* Top Pill Toggle Switch: hovering slightly above the container */}
+          <div className="flex justify-center mb-2.5">
+            <div className="inline-flex p-1 rounded-full bg-[#0a1224]/85 backdrop-blur-md border border-white/15 shadow-lg">
+              <button
+                type="button"
+                onClick={() => setTripType('one-way')}
+                className={`px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all ${
+                  tripType === 'one-way'
+                    ? 'bg-[#d4af37] text-black shadow-md'
+                    : 'bg-[#1a2235]/80 hover:bg-white/10 text-white'
+                }`}
+              >
+                {bwt.oneWay}
+              </button>
+              <button
+                type="button"
+                onClick={() => setTripType('hourly')}
+                className={`px-5 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all ${
+                  tripType === 'hourly'
+                    ? 'bg-[#d4af37] text-black shadow-md'
+                    : 'bg-[#1a2235]/80 hover:bg-white/10 text-white'
+                }`}
+              >
+                {bwt.byTheHour}
+              </button>
+            </div>
+          </div>
+
+          {/* Floating Horizontal Glassmorphism Card */}
+          <form
+            onSubmit={handleWidgetSubmit}
+            className="w-full bg-[#0a1224]/80 backdrop-blur-xl border border-white/15 rounded-2xl lg:rounded-full p-3 sm:p-3.5 shadow-[0_16px_50px_rgba(0,0,0,0.6)]"
+          >
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-0 lg:divide-x lg:divide-white/15 rtl:lg:divide-x-reverse">
+              {/* Field 1: Pick-up location */}
+              <div className="flex-1 px-3 py-1 text-left rtl:text-right">
+                <label className="text-[10px] sm:text-[11px] font-medium text-gray-300 uppercase tracking-wider block mb-1">
+                  {bwt.pickupLocation}
+                </label>
+                <div className="relative">
+                  <select
+                    value={pickupLocation}
+                    onChange={(e) => setPickupLocation(e.target.value)}
+                    className="w-full bg-transparent text-white text-xs sm:text-sm font-medium focus:outline-none border-b border-white/20 focus:border-[#d4af37] pb-1 pt-0.5 pr-6 rtl:pr-0 rtl:pl-6 appearance-none cursor-pointer transition-colors text-ellipsis overflow-hidden whitespace-nowrap"
+                  >
+                    <option value="jeddah-airport" className="bg-[#0a1224] text-white">
+                      {bwt.locJeddahAirport}
+                    </option>
+                    <option value="makkah-hotel" className="bg-[#0a1224] text-white">
+                      {bwt.locMakkahHotel}
+                    </option>
+                    <option value="madinah-hotel" className="bg-[#0a1224] text-white">
+                      {bwt.locMadinahHotel}
+                    </option>
+                    <option value="madinah-airport" className="bg-[#0a1224] text-white">
+                      {bwt.locMadinahAirport}
+                    </option>
+                    <option value="jeddah-city" className="bg-[#0a1224] text-white">
+                      {bwt.locJeddahCity}
+                    </option>
+                  </select>
+                  <ChevronDown className="w-3.5 h-3.5 text-white/50 pointer-events-none absolute right-1 rtl:right-auto rtl:left-1 bottom-1.5" />
+                </div>
+              </div>
+
+              {/* Dynamic Field 2: Drop-off location OR Duration */}
+              {tripType === 'one-way' ? (
+                <div className="flex-1 px-3 py-1 text-left rtl:text-right">
+                  <label className="text-[10px] sm:text-[11px] font-medium text-gray-300 uppercase tracking-wider block mb-1">
+                    {bwt.dropoffLocation}
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={dropoffLocation}
+                      onChange={(e) => setDropoffLocation(e.target.value)}
+                      className="w-full bg-transparent text-white text-xs sm:text-sm font-medium focus:outline-none border-b border-white/20 focus:border-[#d4af37] pb-1 pt-0.5 pr-6 rtl:pr-0 rtl:pl-6 appearance-none cursor-pointer transition-colors text-ellipsis overflow-hidden whitespace-nowrap"
+                    >
+                      <option value="makkah-hotel" className="bg-[#0a1224] text-white">
+                        {bwt.locMakkahHotel}
+                      </option>
+                      <option value="madinah-hotel" className="bg-[#0a1224] text-white">
+                        {bwt.locMadinahHotel}
+                      </option>
+                      <option value="jeddah-airport" className="bg-[#0a1224] text-white">
+                        {bwt.locJeddahAirport}
+                      </option>
+                      <option value="madinah-airport" className="bg-[#0a1224] text-white">
+                        {bwt.locMadinahAirport}
+                      </option>
+                      <option value="makkah-ziyarat" className="bg-[#0a1224] text-white">
+                        {bwt.locMakkahZiyarat}
+                      </option>
+                      <option value="madinah-ziyarat" className="bg-[#0a1224] text-white">
+                        {bwt.locMadinahZiyarat}
+                      </option>
+                    </select>
+                    <ChevronDown className="w-3.5 h-3.5 text-white/50 pointer-events-none absolute right-1 rtl:right-auto rtl:left-1 bottom-1.5" />
+                  </div>
+                </div>
+              ) : (
+                <div className="flex-1 px-3 py-1 text-left rtl:text-right">
+                  <label className="text-[10px] sm:text-[11px] font-medium text-gray-300 uppercase tracking-wider block mb-1">
+                    {bwt.duration}
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={durationHours}
+                      onChange={(e) => setDurationHours(e.target.value)}
+                      className="w-full bg-transparent text-white text-xs sm:text-sm font-medium focus:outline-none border-b border-white/20 focus:border-[#d4af37] pb-1 pt-0.5 pr-6 rtl:pr-0 rtl:pl-6 appearance-none cursor-pointer transition-colors"
+                    >
+                      <option value="2" className="bg-[#0a1224] text-white">
+                        2 {bwt.hoursSuffix}
+                      </option>
+                      <option value="4" className="bg-[#0a1224] text-white">
+                        4 {bwt.hoursSuffix} (Standard)
+                      </option>
+                      <option value="6" className="bg-[#0a1224] text-white">
+                        6 {bwt.hoursSuffix}
+                      </option>
+                      <option value="8" className="bg-[#0a1224] text-white">
+                        8 {bwt.hoursSuffix} (Full Day)
+                      </option>
+                      <option value="12" className="bg-[#0a1224] text-white">
+                        12 {bwt.hoursSuffix} (Executive)
+                      </option>
+                    </select>
+                    <ChevronDown className="w-3.5 h-3.5 text-white/50 pointer-events-none absolute right-1 rtl:right-auto rtl:left-1 bottom-1.5" />
+                  </div>
+                </div>
+              )}
+
+              {/* Field 3: Pick-up date */}
+              <div className="flex-1 px-3 py-1 text-left rtl:text-right">
+                <label className="text-[10px] sm:text-[11px] font-medium text-gray-300 uppercase tracking-wider block mb-1">
+                  {bwt.pickupDate}
+                </label>
+                <input
+                  type="date"
+                  min={todayStr}
+                  value={pickupDate}
+                  onChange={(e) => setPickupDate(e.target.value)}
+                  className="w-full bg-transparent text-white text-xs sm:text-sm font-medium focus:outline-none border-b border-white/20 focus:border-[#d4af37] pb-1 pt-0.5 transition-colors [color-scheme:dark]"
+                />
+              </div>
+
+              {/* Field 4: Pickup time */}
+              <div className="flex-1 px-3 py-1 text-left rtl:text-right">
+                <label className="text-[10px] sm:text-[11px] font-medium text-gray-300 uppercase tracking-wider block mb-1">
+                  {bwt.pickupTime}
+                </label>
+                <input
+                  type="time"
+                  value={pickupTime}
+                  onChange={(e) => setPickupTime(e.target.value)}
+                  className="w-full bg-transparent text-white text-xs sm:text-sm font-medium focus:outline-none border-b border-white/20 focus:border-[#d4af37] pb-1 pt-0.5 transition-colors [color-scheme:dark]"
+                />
+              </div>
+
+              {/* Submit Button: Pill-shaped on far right with mustard yellow background & right chevron */}
+              <div className="lg:pl-3 rtl:lg:pl-0 rtl:lg:pr-3 pt-2 lg:pt-0 shrink-0">
+                <button
+                  type="submit"
+                  className="w-full lg:w-auto h-11 sm:h-12 px-6 sm:px-7 rounded-full bg-[#d4af37] hover:bg-[#e0be4d] text-black font-bold text-xs sm:text-sm tracking-wider flex items-center justify-center gap-1.5 shadow-[0_4px_20px_rgba(212,175,55,0.35)] hover:shadow-[0_4px_25px_rgba(212,175,55,0.55)] transition-all whitespace-nowrap cursor-pointer"
+                >
+                  <span>{bwt.viewOptions}</span>
+                  <ChevronRight className="w-4 h-4 rtl:rotate-180" />
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        {/* 4) RELOCATED TRUST ROW: Thin gold hairline divider immediately below booking card */}
+        <div className="w-full max-w-2xl mx-auto mt-6 sm:mt-7 pt-4 border-t border-[#d4a72c]/20">
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs sm:text-sm text-[#e2e8f0] font-light">
             <span className="flex items-center gap-1.5">
               <span className="text-[#d4a72c] font-bold text-xs">✓</span>
