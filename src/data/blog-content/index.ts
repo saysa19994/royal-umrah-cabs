@@ -10,6 +10,7 @@ import { esContent } from './es';
 import { deContent } from './de';
 import { hiContent } from './hi';
 import { trContent } from './tr';
+import { MAKKAH_MADINAH_CONTENT } from './makkah-to-madinah';
 
 export const BLOG_CONTENT_BY_LOCALE: Record<string, Record<Locale, LocalizedArticleBody>> = {
   'vip-umrah-transport-jeddah-to-makkah': {
@@ -24,6 +25,7 @@ export const BLOG_CONTENT_BY_LOCALE: Record<string, Record<Locale, LocalizedArti
     hi: hiContent,
     tr: trContent,
   },
+  'private-transfer-makkah-to-madinah': MAKKAH_MADINAH_CONTENT,
 };
 
 export function getBlogArticleContent(slug: string, locale: Locale): LocalizedArticleBody {

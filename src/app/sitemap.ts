@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next';
 import { LOCALES, Locale, getLocalizedAlternates } from '@/i18n/config';
 import { ZIYARAT_SITES, ZIYARAT_TOURS, ZIYARAT_GUIDES } from '@/data/ziyarat';
 import { PILGRIM_COUNTRIES } from '@/data/pilgrims';
+import { BLOG_POSTS } from '@/data/blog-posts';
 
 export async function generateSitemaps() {
   return LOCALES.map((locale) => ({ id: locale }));
@@ -33,7 +34,7 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
     '/guides/jeddah-airport-arrival-guide',
     '/guides/makkah-to-madinah-transport-comparison',
     '/blog',
-    '/blog/vip-umrah-transport-jeddah-to-makkah',
+    ...BLOG_POSTS.map((post) => `/blog/${post.slug}`),
     '/ziyarat',
     '/ziyarat/makkah',
     '/ziyarat/madinah',

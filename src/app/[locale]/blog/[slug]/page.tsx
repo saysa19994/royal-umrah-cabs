@@ -95,7 +95,122 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
   const isRtl = localeMeta.dir === 'rtl';
 
   const dbRates = await getDbPricesCached();
-  const routePrices = dbRates['jeddah-airport-to-makkah'] || AUTHORITATIVE_TRANSFER_RATES['jeddah-airport-to-makkah'];
+  const isMadinahRoute = slug.includes('makkah-to-madinah');
+  const routeKey = isMadinahRoute ? 'makkah-to-madinah' : 'jeddah-airport-to-makkah';
+  const routePrices = dbRates[routeKey] || AUTHORITATIVE_TRANSFER_RATES[routeKey];
+
+  const pricingCardContent: Record<
+    string,
+    {
+      badge: Record<Locale, string>;
+      title: Record<Locale, string>;
+      desc: Record<Locale, string>;
+      btn: Record<Locale, string>;
+    }
+  > = {
+    'makkah-to-madinah': {
+      badge: {
+        ar: 'الأسعار الرسمية المعتمدة لنقل الحرمين',
+        en: 'Guaranteed Fixed Intercity Rates',
+        ms: 'Kadar Rasmi Dijamin Antara Dua Tanah Haram',
+        id: 'Tarif Resmi Dijamin Antar Dua Kota Suci',
+        ur: 'حرمین شریفین کے مابین سرکاری و حتمی کرایے',
+        fr: 'Tarifs Officiels Garantis Intervilles',
+        es: 'Tarifas Oficiales Garantizadas Entre Ciudades',
+        de: 'Garantierte Feste Überlandpreise',
+        hi: 'दो पवित्र शहरों के बीच आधिकारिक निर्धारित दरें',
+        tr: 'İki Harem Arası Resmi Garantili Sabit Fiyatlar',
+      },
+      title: {
+        ar: 'أسعار سيارات VIP من مكة المكرمة إلى المدينة المنورة',
+        en: 'VIP Vehicle Rates: Makkah to Madinah Private Transfer',
+        ms: 'Kadar Kenderaan VIP: Pemindahan Peribadi Makkah ke Madinah',
+        id: 'Tarif Kendaraan VIP: Antar Jemput Pribadi Makkah ke Madinah',
+        ur: 'مکہ مکرمہ سے مدینہ منورہ وی آئی پی گاڑیوں کے کرایے',
+        fr: 'Tarifs Véhicules VIP : Transfert Privé La Mecque vers Médine',
+        es: 'Tarifas Vehículos VIP: Traslado Privado de La Meca a Medina',
+        de: 'VIP-Fahrzeugpreise: Privater Transfer von Mekka nach Medina',
+        hi: 'वीआईपी वाहन दरें: मक्का से मदीना निजी स्थानांतरण',
+        tr: 'VIP Araç Fiyatları: Mekke\'den Medine\'ye Özel Transfer',
+      },
+      desc: {
+        ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم طريق الهجرة السريع والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, expressway tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
+        id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
+        ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
+        fr: 'Tarif fixe par véhicule complet incluant chauffeur privé, carburant, péages et taxes. Aucun prépaiement — règlement au chauffeur à l\'arrivée.',
+        es: 'Precio fijo por vehículo completo que incluye chofer privado, combustible, peajes e impuestos. Sin pago por adelantado: pague al chofer al llegar.',
+        de: 'Festpreis pro Fahrzeug inklusive privatem Chauffeur, Kraftstoff, Maut und Steuern. Keine Vorauszahlung — Bezahlung beim Fahrer bei Ankunft.',
+        hi: 'निजी ड्राइवर, ईंधन, टोल और करों सहित पूरे वाहन के लिए निश्चित दर। कोई अग्रिम भुगतान नहीं — आगमन पर ड्राइवर को भुगतान करें।',
+        tr: 'Özel şoför, yakıt, otoyol geçişleri ve vergiler dahil sabit fiyat. Ön ödeme yok — varışta şoföre ödeme.',
+      },
+      btn: {
+        ar: 'احجز سيارة خاصة من مكة إلى المدينة',
+        en: 'Book Makkah to Madinah Transfer',
+        ms: 'Tempah Kenderaan Makkah ke Madinah',
+        id: 'Pesan Antar Jemput Makkah ke Madinah',
+        ur: 'مکہ سے مدینہ پرائیویٹ کار بک کریں',
+        fr: 'Réserver le transfert La Mecque - Médine',
+        es: 'Reservar traslado de La Meca a Medina',
+        de: 'Transfer Mekka nach Medina buchen',
+        hi: 'मक्का से मदीना स्थानांतरण बुक करें',
+        tr: 'Mekke - Medine Transferi Rezervasyonu Yap',
+      },
+    },
+    'jeddah-airport-to-makkah': {
+      badge: {
+        ar: 'الأسعار الرسمية المعتمدة',
+        en: 'Guaranteed Fixed Rates',
+        ms: 'Kadar Rasmi Dijamin',
+        id: 'Tarif Resmi Dijamin',
+        ur: 'سرکاری و حتمی منظور شدہ کرایے',
+        fr: 'Tarifs Officiels Garantis',
+        es: 'Tarifas Oficiales Garantizadas',
+        de: 'Garantierte Feste Tarife',
+        hi: 'गारंटीकृत निश्चित दरें',
+        tr: 'Garantili Sabit Fiyatlar',
+      },
+      title: {
+        ar: 'أسعار سيارات VIP من مطار جدة إلى مكة',
+        en: 'VIP Vehicle Rates: Jeddah Airport to Makkah',
+        ms: 'Kadar Kenderaan VIP: Lapangan Terbang Jeddah ke Makkah',
+        id: 'Tarif Kendaraan VIP: Bandara Jeddah ke Makkah',
+        ur: 'جدہ ایئرپورٹ سے مکہ مکرمہ وی آئی پی گاڑیوں کے کرایے',
+        fr: 'Tarifs Véhicules VIP : Aéroport de Djeddah vers La Mecque',
+        es: 'Tarifas Vehículos VIP: Aeropuerto de Yeda a La Meca',
+        de: 'VIP-Fahrzeugpreise: Flughafen Dschidda nach Mekka',
+        hi: 'वीआईपी वाहन दरें: जेद्दा हवाई अड्डा से मक्का',
+        tr: 'VIP Araç Fiyatları: Cidde Havalimanı - Mekke',
+      },
+      desc: {
+        ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم طريق الحرمين والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
+        id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
+        ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
+        fr: 'Tarif fixe par véhicule complet incluant chauffeur privé, carburant, péages et taxes. Aucun prépaiement — règlement au chauffeur à l\'arrivée.',
+        es: 'Precio fijo por vehículo completo que incluye chofer privado, combustible, peajes e impuestos. Sin pago por adelantado: pague al chofer al llegar.',
+        de: 'Festpreis pro Fahrzeug inklusive privatem Chauffeur, Kraftstoff, Maut und Steuern. Keine Vorauszahlung — Bezahlung beim Fahrer bei Ankunft.',
+        hi: 'निजी ड्राइवर, ईंधन, टोल और करों सहित पूरे वाहन के लिए निश्चित दर। कोई अग्रिम भुगतान नहीं — आगमन पर ड्राइवर को भुगतान करें।',
+        tr: 'Özel şoför, yakıt, otoyol geçişleri ve vergiler dahil sabit fiyat. Ön ödeme yok — varışta şoföre ödeme.',
+      },
+      btn: {
+        ar: 'احجز سيارة من مطار جدة إلى مكة',
+        en: 'Book Jeddah to Makkah Car',
+        ms: 'Tempah Kenderaan Lapangan Terbang Jeddah ke Makkah',
+        id: 'Pesan Mobil Bandara Jeddah ke Makkah',
+        ur: 'جدہ ایئرپورٹ سے مکہ مکرمہ کار بک کریں',
+        fr: 'Réserver voiture Aéroport Djeddah vers La Mecque',
+        es: 'Reservar coche del Aeropuerto de Yeda a La Meca',
+        de: 'Auto vom Flughafen Dschidda nach Mekka buchen',
+        hi: 'जेद्दा हवाई अड्डे से मक्का के लिए कार बुक करें',
+        tr: 'Cidde Havalimanı\'ndan Mekke\'ye Araç Rezervasyonu Yap',
+      },
+    },
+  };
+
+  const activePricingMeta = pricingCardContent[routeKey] || pricingCardContent['jeddah-airport-to-makkah'];
 
   const content = getBlogArticleContent(slug, locale);
 
@@ -266,27 +381,25 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
 
         {/* AUTHORITATIVE LIVE PRICING CARD & CTA */}
         <section className="bg-surface rounded-2xl p-6 md:p-8 border-2 border-gold-line shadow-xs mb-12">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-border text-start">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-border border-b text-start">
             <div>
               <span className="text-[11px] font-bold uppercase tracking-widest text-gold-dark block mb-1">
-                {locale === 'ar' ? 'الأسعار الرسمية المعتمدة' : 'Guaranteed Fixed Rates'}
+                {activePricingMeta.badge[locale] || activePricingMeta.badge.en}
               </span>
               <h2 className="font-display font-bold text-xl md:text-2xl text-ink">
-                {locale === 'ar' ? 'أسعار سيارات VIP من مطار جدة إلى مكة' : 'VIP Vehicle Rates: Jeddah Airport to Makkah'}
+                {activePricingMeta.title[locale] || activePricingMeta.title.en}
               </h2>
               <p className="text-xs text-ink-muted mt-1 font-light">
-                {locale === 'ar'
-                  ? 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم طريق الحرمين والضرائب'
-                  : 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes'}
+                {activePricingMeta.desc[locale] || activePricingMeta.desc.en}
               </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
               <Link
-                href={`/${locale}/booking?route=jeddah-airport-to-makkah`}
+                href={`/${locale}/booking?route=${routeKey}`}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gold hover:bg-gold-dark text-ink font-bold text-sm shadow-xs transition-colors"
               >
-                <span>{locale === 'ar' ? 'احجز سيارة من مطار جدة إلى مكة' : 'Book Jeddah to Makkah Car'}</span>
+                <span>{activePricingMeta.btn[locale] || activePricingMeta.btn.en}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180" />
               </Link>
               <a
@@ -488,7 +601,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
 
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
-                href={`/${locale}/booking?route=jeddah-airport-to-makkah`}
+                href={`/${locale}/booking?route=${routeKey}`}
                 className="px-8 py-3.5 rounded-full bg-gold hover:bg-gold-dark text-ink font-bold text-sm md:text-base shadow-md transition-all hover:scale-105"
               >
                 <span>{content.cta.primaryBtn}</span>
