@@ -87,3 +87,25 @@ test('Phase 1 Truth, Brand & Hygiene: Unverifiable claims removed from component
   const middlewareContent = fs.readFileSync(path.resolve('src/middleware.ts'), 'utf-8');
   assert.ok(middlewareContent.includes('.vercel.app') && middlewareContent.includes('301'), 'Middleware has 301 redirect for .vercel.app');
 });
+
+test('Mandatory Payment Requirement: Pay the Driver is the only permitted customer payment method', () => {
+  const schemaContent = fs.readFileSync(path.resolve('src/types/booking.ts'), 'utf-8');
+  const engineContent = fs.readFileSync(path.resolve('src/components/booking/BookingEngine.tsx'), 'utf-8');
+  const pageContent = fs.readFileSync(path.resolve('src/app/[locale]/booking/page.tsx'), 'utf-8');
+
+  // Verify BookingSchema strictly allows only 'pay_upon_arrival'
+  assert.ok(schemaContent.includes("z.enum(['pay_upon_arrival']"), 'BookingSchema strictly accepts only pay_upon_arrival');
+  assert.ok(!schemaContent.includes("'online_card'"), 'BookingSchema strictly rejects online_card');
+  assert.ok(!schemaContent.includes("'bank_transfer'"), 'BookingSchema strictly rejects bank_transfer');
+
+  // Verify BookingEngine has hardcoded pay_upon_arrival payment method
+  assert.ok(engineContent.includes("paymentMethod = 'pay_upon_arrival'"), 'BookingEngine paymentMethod state is strictly pay_upon_arrival');
+
+  // Verify no selectable payment method radio buttons or online card/bank transfer forms
+  assert.ok(!engineContent.includes("onClick={() => setPaymentMethod('online_card')}"), 'No online_card payment option in BookingEngine');
+  assert.ok(!engineContent.includes("onClick={() => setPaymentMethod('bank_transfer')}"), 'No bank_transfer payment option in BookingEngine');
+
+  // Verify booking page subtitle does not advertise online cards
+  assert.ok(!pageContent.includes('Choose Online Card'), 'Booking page does not claim Online Card checkout');
+});
+
