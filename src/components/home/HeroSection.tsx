@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Locale } from '@/i18n/config';
 import { WhatsAppModal } from '@/components/common/WhatsAppModal';
@@ -135,7 +135,7 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
 };
 
 export function HeroSection({ locale }: HeroSectionProps) {
-  const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
+  const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = React.useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef<HTMLElement>(null);
 
@@ -144,24 +144,23 @@ export function HeroSection({ locale }: HeroSectionProps) {
   const isUrdu = locale === 'ur';
 
   useEffect(() => {
-    // 1. Force video muted property on DOM node (crucial for Chrome/Edge autoplay policy)
-    const video = videoRef.current;
-    if (video) {
-      video.muted = true;
-      video.defaultMuted = true;
-      video.play().catch((err) => {
-        console.warn('Autoplay attempt caught:', err);
+    // 1. Force video to play muted
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.play().catch((err) => {
+        console.log('Video autoPlay deferred:', err);
       });
     }
 
     // 2. Pause video when hero section scrolls off-screen
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!video) return;
+        if (!videoRef.current) return;
         if (entry.isIntersecting) {
-          video.play().catch(() => {});
+          videoRef.current.play().catch(() => {});
         } else {
-          video.pause();
+          videoRef.current.pause();
         }
       },
       { threshold: 0.1 }
@@ -173,11 +172,11 @@ export function HeroSection({ locale }: HeroSectionProps) {
 
     // 3. Pause video when browser tab is hidden
     const handleVisibilityChange = () => {
-      if (!video) return;
+      if (!videoRef.current) return;
       if (document.hidden) {
-        video.pause();
+        videoRef.current.pause();
       } else {
-        video.play().catch(() => {});
+        videoRef.current.play().catch(() => {});
       }
     };
 
@@ -198,7 +197,6 @@ export function HeroSection({ locale }: HeroSectionProps) {
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <video
           ref={videoRef}
-          src="/haram.mp4"
           autoPlay
           muted
           loop
@@ -207,24 +205,25 @@ export function HeroSection({ locale }: HeroSectionProps) {
           poster="/haram.jpg"
           className="w-full h-full object-cover object-[center_38%]"
           aria-label="Masjid al-Haram, Holy Kaaba and Makkah Royal Clock Tower at night - Duyuf Alrahman VIP"
-        />
+        >
+          <source src="/haram.mp4" type="video/mp4" />
+        </video>
 
-        {/* Dark Navy Gradient Overlays: Well balanced for vibrant video visibility & crisp text contrast */}
+        {/* Balanced Dark Navy Gradient Overlays: keeps video vibrant while ensuring text has strong contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a1224] via-[#0a1224]/50 to-[#0a1224]/20 pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(10,18,36,0.35)_0%,rgba(10,18,36,0.75)_100%)] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-36 bg-gradient-to-t from-[#0a1224] to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a1224]/50 via-transparent to-[#0a1224]/85 pointer-events-none" />
       </div>
 
       {/* 2) SIMPLE, CLASSY, CENTERED CONTENT */}
       <div className="container mx-auto px-4 sm:px-6 max-w-4xl relative z-10 flex flex-col items-center justify-center text-center my-auto pt-20 pb-8">
         {/* SMALL BADGE: Thin gold border, no heavy fill, refined letter-spacing */}
-        <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-[#d4a72c]/40 bg-transparent text-[#d4a72c] text-xs sm:text-[13px] font-medium tracking-[0.14em] uppercase mb-6 sm:mb-8 animate-fadeIn">
+        <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-[#d4a72c]/50 bg-[#0a1224]/30 backdrop-blur-sm text-[#d4a72c] text-xs sm:text-[13px] font-medium tracking-[0.14em] uppercase mb-6 sm:mb-8 animate-fadeIn">
           <span>{content.badge}</span>
         </div>
 
         {/* H1: Large serif headline in Playfair Display, semi-bold, white */}
         <h1
-          className={`text-white leading-[1.14] sm:leading-[1.08] tracking-tight max-w-3xl mx-auto text-[clamp(34px,5.4vw,68px)] font-semibold ${
+          className={`text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] leading-[1.14] sm:leading-[1.08] tracking-tight max-w-3xl mx-auto text-[clamp(34px,5.4vw,68px)] font-semibold ${
             isArabic ? 'font-arabic font-bold' : isUrdu ? 'font-urdu font-bold' : 'font-display'
           }`}
         >
@@ -232,7 +231,7 @@ export function HeroSection({ locale }: HeroSectionProps) {
         </h1>
 
         {/* SHORT PARAGRAPH: Max 2 lines */}
-        <p className="mt-4 sm:mt-5 text-sm sm:text-base md:text-lg text-[#c9d1e3] font-light leading-relaxed max-w-2xl mx-auto line-clamp-2">
+        <p className="mt-4 sm:mt-5 text-sm sm:text-base md:text-lg text-[#e2e8f0] drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] font-light leading-relaxed max-w-2xl mx-auto line-clamp-2">
           {content.description}
         </p>
 
@@ -241,7 +240,7 @@ export function HeroSection({ locale }: HeroSectionProps) {
           {/* Gold "Get Prices & Book" Button */}
           <Link
             href={`/${locale}/pricing`}
-            className="group relative overflow-hidden inline-flex items-center justify-center gap-2.5 min-h-[48px] h-12 px-8 rounded-[8px] bg-[#d4a72c] text-[#0a1224] font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-[#e8c766] transition-all shadow-[0_4px_25px_rgba(212,167,44,0.35)] hover:shadow-[0_4px_35px_rgba(212,167,44,0.55)] focus-visible:ring-2 focus-visible:ring-[#d4a72c]"
+            className="group relative overflow-hidden inline-flex items-center justify-center gap-2.5 min-h-[48px] h-12 px-8 rounded-[8px] bg-[#d4a72c] text-[#0a1224] font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-[#e8c766] transition-all shadow-[0_4px_25px_rgba(212,167,44,0.4)] hover:shadow-[0_4px_35px_rgba(212,167,44,0.6)] focus-visible:ring-2 focus-visible:ring-[#d4a72c]"
           >
             <span className="relative z-10">{content.btnPrimary}</span>
             <ArrowRight className="w-4 h-4 rtl:rotate-180 relative z-10" />
@@ -256,7 +255,7 @@ export function HeroSection({ locale }: HeroSectionProps) {
           <button
             type="button"
             onClick={() => setIsWhatsAppModalOpen(true)}
-            className="inline-flex items-center justify-center gap-2 min-h-[48px] h-12 px-7 rounded-[8px] border border-[#25d366]/60 bg-transparent hover:bg-[#25d366] text-[#25d366] hover:text-white font-semibold text-xs sm:text-sm transition-all focus-visible:ring-2 focus-visible:ring-[#25d366]"
+            className="inline-flex items-center justify-center gap-2 min-h-[48px] h-12 px-7 rounded-[8px] border border-[#25d366]/70 bg-[#0a1224]/30 backdrop-blur-sm hover:bg-[#25d366] text-[#25d366] hover:text-white font-semibold text-xs sm:text-sm transition-all focus-visible:ring-2 focus-visible:ring-[#25d366]"
           >
             <MessageCircle className="w-4 h-4" />
             <span>{content.btnSecondary}</span>
@@ -264,8 +263,8 @@ export function HeroSection({ locale }: HeroSectionProps) {
         </div>
 
         {/* SLIM TRUST ROW: Thin gold hairline divider above 3 trust points */}
-        <div className="w-full max-w-2xl mx-auto mt-8 sm:mt-11 pt-6 border-t border-[#d4a72c]/20">
-          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs sm:text-sm text-[#c9d1e3] font-light">
+        <div className="w-full max-w-2xl mx-auto mt-8 sm:mt-11 pt-6 border-t border-[#d4a72c]/25">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs sm:text-sm text-[#e2e8f0] font-light">
             <span className="flex items-center gap-1.5">
               <span className="text-[#d4a72c] font-bold text-xs">✓</span>
               <span>{content.trustPay}</span>
