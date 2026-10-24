@@ -40,7 +40,9 @@ export const BookingSchema = z.object({
     zamzam_water: true,
   }),
   special_notes: z.string().max(1000, 'Special notes cannot exceed 1000 characters').optional().nullable(),
-  payment_method: z.enum(['pay_upon_arrival', 'online_card', 'bank_transfer']).default('pay_upon_arrival'),
+  payment_method: z.enum(['pay_upon_arrival'], {
+    errorMap: () => ({ message: 'Only Pay upon Arrival (Pay the Driver) is accepted for bookings' }),
+  }).default('pay_upon_arrival'),
   currency: z.enum(SUPPORTED_CURRENCY_CODES, {
     errorMap: () => ({ message: `Invalid currency. Supported: ${SUPPORTED_CURRENCY_CODES.join(', ')}` }),
   }).default('SAR'),
