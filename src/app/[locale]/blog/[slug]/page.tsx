@@ -96,7 +96,12 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
 
   const dbRates = await getDbPricesCached();
   const isMadinahRoute = slug.includes('makkah-to-madinah');
-  const routeKey = isMadinahRoute ? 'makkah-to-madinah' : 'jeddah-airport-to-makkah';
+  const isMakkahToJeddah = slug.includes('makkah-to-jeddah');
+  const routeKey = isMadinahRoute
+    ? 'makkah-to-madinah'
+    : isMakkahToJeddah
+    ? 'makkah-to-jeddah-airport'
+    : 'jeddah-airport-to-makkah';
   const routePrices = dbRates[routeKey] || AUTHORITATIVE_TRANSFER_RATES[routeKey];
 
   const pricingCardContent: Record<
@@ -108,6 +113,56 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       btn: Record<Locale, string>;
     }
   > = {
+    'makkah-to-jeddah-airport': {
+      badge: {
+        ar: 'الأسعار الرسمية المعتمدة لرحلة العودة للمطار',
+        en: 'Guaranteed Airport Return Rates',
+        ms: 'Kadar Rasmi Dijamin ke Lapangan Terbang',
+        id: 'Tarif Resmi Dijamin Menuju Bandara',
+        ur: 'جدہ ایئرپورٹ واپسی کے سرکاری و حتمی کرایے',
+        fr: 'Tarifs Officiels Garantis Vers l\'Aéroport',
+        es: 'Tarifas Oficiales Garantizadas al Aeropuerto',
+        de: 'Garantierte Feste Flughafentarife',
+        hi: 'हवाई अड्डे के लिए आधिकारिक निर्धारित दरें',
+        tr: 'Havalimanı Dönüşü Resmi Sabit Fiyatlar',
+      },
+      title: {
+        ar: 'أسعار سيارات VIP من مكة المكرمة إلى مطار جدة',
+        en: 'VIP Vehicle Rates: Makkah to Jeddah Airport',
+        ms: 'Kadar Kenderaan VIP: Makkah ke Lapangan Terbang Jeddah',
+        id: 'Tarif Kendaraan VIP: Makkah ke Bandara Jeddah',
+        ur: 'مکہ مکرمہ سے جدہ ایئرپورٹ وی آئی پی گاڑیوں کے کرایے',
+        fr: 'Tarifs Véhicules VIP : La Mecque vers Aéroport de Djeddah',
+        es: 'Tarifas Véhicules VIP: La Meca al Aeropuerto de Yeda',
+        de: 'VIP-Fahrzeugpreise: Mekka zum Flughafen Dschidda',
+        hi: 'वीआईपी वाहन दरें: मक्का से जेद्दा हवाई अड्डा',
+        tr: 'VIP Araç Fiyatları: Mekke\'den Cidde Havalimanı\'na',
+      },
+      desc: {
+        ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم طريق الحرمين والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
+        id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
+        ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
+        fr: 'Tarif fixe par véhicule complet incluant chauffeur privé, carburant, péages et taxes. Aucun prépaiement — règlement au chauffeur à l\'arrivée.',
+        es: 'Precio fijo por vehículo completo que incluye chofer privado, combustible, peajes e impuestos. Sin pago por adelantado: pague al chofer al llegar.',
+        de: 'Festpreis pro Fahrzeug inklusive privatem Chauffeur, Kraftstoff, Maut und Steuern. Keine Vorauszahlung — Bezahlung beim Fahrer bei Ankunft.',
+        hi: 'निजी ड्राइवर, ईंधन, टोल और करों सहित पूरे वाहन के लिए निश्चित दर। कोई अग्रिम भुगतान नहीं — आगमन पर ड्राइवर को भुगतान करें।',
+        tr: 'Özel şoför, yakıt, otoyol geçişleri ve vergiler dahil sabit fiyat. Ön ödeme yok — varışta şoföre ödeme.',
+      },
+      btn: {
+        ar: 'احجز سيارة من مكة إلى مطار جدة',
+        en: 'Book Makkah to Jeddah Airport Car',
+        ms: 'Tempah Kenderaan Makkah ke Lapangan Terbang Jeddah',
+        id: 'Pesan Mobil Makkah ke Bandara Jeddah',
+        ur: 'مکہ سے جدہ ایئرپورٹ کار بک کریں',
+        fr: 'Réserver voiture La Mecque vers Aéroport Djeddah',
+        es: 'Reservar coche de La Meca al Aeropuerto de Yeda',
+        de: 'Auto von Mekka zum Flughafen Dschidda buchen',
+        hi: 'मक्का से जेद्दा हवाई अड्डे के लिए कार बुक करें',
+        tr: 'Mekke\'den Cidde Havalimanı\'na Araç Rezervasyonu Yap',
+      },
+    },
     'makkah-to-madinah': {
       badge: {
         ar: 'الأسعار الرسمية المعتمدة لنقل الحرمين',
