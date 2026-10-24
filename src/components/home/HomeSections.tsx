@@ -755,108 +755,167 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       </section>
 
       {/* ============================================================== */}
-      {/* SECTION 6: ALL-INCLUSIVE STANDARDS (ZERO HIDDEN FEES)           */}
+      {/* SECTION 6: WHY CHOOSE US / FEATURES (Clean, Breathable Grid)   */}
       {/* ============================================================== */}
-      <section id="standards" className="py-16 md:py-24 bg-navy text-white border-t border-navy-border text-start relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="container mx-auto px-4 max-w-7xl relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-xs font-bold text-gold uppercase tracking-widest mb-3">
-              <ShieldCheck className="w-3.5 h-3.5 text-gold" />
-              <span>{locale === 'ar' ? 'ميثاق الجودة والأمان' : 'All-Inclusive Pilgrim Standards'}</span>
-            </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-white tracking-tight">
-              {locale === 'ar' ? 'معايير الراحة الكاملة بدون أي رسوم خفية' : 'Zero Hidden Fees • Total Peace of Mind'}
-            </h2>
-            <p className="mt-3 text-white/80 text-base md:text-lg leading-relaxed font-light">
+      <section
+        id="standards"
+        dir={locale === 'ar' ? 'rtl' : undefined}
+        className="py-16 md:py-24 bg-gray-50 border-t border-gray-200/60 font-sans"
+      >
+        <div className="container mx-auto px-4 max-w-6xl">
+          {/* Main Header (Centered at the top) */}
+          <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20 px-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 leading-snug tracking-tight">
               {locale === 'ar'
-                ? 'نحن نعتبر خدمة ضيوف الرحمن أمانة وشرفاً؛ لذلك نلتزم بأسعار ثابتة وشفافة وخدمة متكاملة من الباب إلى الباب.'
-                : 'Serving the Guests of Allah is our sacred trust. Every transfer includes our 6-pillar guarantee.'}
-            </p>
+                ? 'هذه رحلة إيمانية وليست مجرد مشوار. نتولى أمر الطريق لتتفرغوا لعبادتكم.'
+                : 'This is a sacred pilgrimage, not just a ride. We handle the road so you can focus on your worship.'}
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
-              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
-                <Users className="w-5 h-5" />
+          {/* Features Grid: 1 col on mobile, 2 on tablet, 4 on desktop (Clean, open, NO borders/cards) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 md:gap-y-16">
+            {/* Item 1 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
+                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
               </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                {locale === 'ar' ? 'سيارة خاصة 100% لعائلتك' : '100% Private Transfers'}
+              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+                {locale === 'ar' ? 'مرخصون ومؤمنون' : 'Licensed & Insured'}
               </h3>
-              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
-                  ? 'لا توجد مشاركة مع غرباء إطلاقاً؛ سيارتك وسائقك مخصصان بالكامل لأسرتك لضمان الخصوصية والراحة التامة.'
-                  : 'Never shared with other parties. The entire vehicle and dedicated chauffeur are exclusive to your family.'}
+                  ? 'سائقون مرخصون ومركبات مؤمنة في كل رحلة لضمان أمانكم.'
+                  : 'Licensed chauffeurs and fully insured vehicles on every journey for your peace of mind.'}
               </p>
             </div>
 
-            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
-              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
-                <Plane className="w-5 h-5" />
+            {/* Item 2 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
+                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
+                </svg>
               </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
+              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
                 {locale === 'ar' ? 'تتبع آلي لرحلات الطيران' : 'Live Flight Radar Tracking'}
               </h3>
-              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
-                  ? 'نتابع طائرتك بالرادار الملاحي الدولي. إذا تقدمت أو تأخرت، يتم تعديل موعد وصول السائق تلقائياً بدون قلق.'
-                  : 'Automated flight radar tracking ensures your chauffeur is precisely on time even if your flight is delayed.'}
+                  ? 'نتابع طائرتك بالرادار الملاحي لنتواجد في الموعد تماماً، تقدمت أو تأخرت.'
+                  : 'We track your flight via live radar to arrive right on time, whether early or delayed.'}
               </p>
             </div>
 
-            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
-              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
-                <Clock className="w-5 h-5" />
+            {/* Item 3 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
+                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
               </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                {locale === 'ar' ? '${settings.airport_waiting_minutes || 60} دقيقة انتظار مجاني بالمطار' : '${settings.airport_waiting_minutes || 60}-Min Free Airport Waiting'}
+              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+                {locale === 'ar' ? 'استقبال مجاني بالمطار' : 'Free Airport Meet & Greet'}
               </h3>
-              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
-                  ? 'خذ وقتك في استلام الأمتعة وإنهاء الجوازات وشراء الشرائح؛ السائق ينتظرك حتى ${settings.airport_waiting_minutes || 60} دقيقة مجاناً بعد الهبوط.'
-                  : 'Generous complimentary wait time allowing you to clear immigration and baggage claim completely stress-free.'}
+                  ? 'سائقك ينتظرك بلوحة باسمك مع 60 دقيقة انتظار مجانية بعد الهبوط.'
+                  : 'Your chauffeur greets you with a personalized name board with 60 minutes of free waiting time.'}
               </p>
             </div>
 
-            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
-              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
-                <Fuel className="w-5 h-5" />
+            {/* Item 4 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
+                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                  <line x1="7" y1="7" x2="7.01" y2="7" />
+                </svg>
               </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                {locale === 'ar' ? 'رسوم الطرق والوقود مشمولة' : 'Tolls & Fuel Included'}
+              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+                {locale === 'ar' ? 'سعر ثابت وشامل' : 'Fixed All-Inclusive Price'}
               </h3>
-              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
-                  ? 'رسوم طريق الحرمين السريع، ومواقف صالات المطار، والوقود، وضريبة القيمة المضافة كلها مشمولة في السعر المعلن.'
-                  : 'Every expressway toll charge, airport terminal parking fee, and fuel cost is 100% covered.'}
+                  ? 'السعر المعلن يشمل الوقود، رسوم الطرق، والضرائب. لا توجد أي رسوم خفية.'
+                  : 'The quoted fare covers fuel, highway toll charges, and taxes with zero hidden fees.'}
               </p>
             </div>
 
-            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
-              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
-                <Landmark className="w-5 h-5" />
+            {/* Item 5 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
+                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6a3 3 0 0 1 6 0v6" />
+                </svg>
               </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                {locale === 'ar' ? 'توقف مجاني بميقات آبار علي' : 'Complimentary Miqat Stop'}
+              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+                {locale === 'ar' ? 'توقف مجاني بالميقات' : 'Complimentary Miqat Stop'}
               </h3>
-              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
-                  ? 'للمتوجهين من المدينة لمكة، نتوقف في ميقات ذو الحليفة (آبار علي) مع انتظار كافٍ للإحرام والصلاة دون رسوم.'
-                  : 'Free stopover at Dhul Hulayfah (Bir Ali Miqat) with ample waiting time for your Ihram and Sunnah prayers.'}
+                  ? 'توقف مجاني في ميقات ذو الحليفة (آبار علي) للإحرام والصلاة دون أي رسوم إضافية.'
+                  : 'Free stopover at Dhul Hulayfah (Bir Ali Miqat) for Ihram and prayer with zero extra surcharge.'}
               </p>
             </div>
 
-            <div className="bg-navy-light/80 rounded-2xl p-6 border border-navy-border hover:border-gold/40 transition-colors">
-              <div className="w-11 h-11 rounded-xl bg-gold/15 text-gold flex items-center justify-center mb-4 border border-gold/30">
-                <CreditCard className="w-5 h-5" />
+            {/* Item 6 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
+                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 11.1 2 11.5 2 12v4c0 .6.4 1 1 1h2" />
+                  <circle cx="7" cy="17" r="2" />
+                  <path d="M9 17h6" />
+                  <circle cx="17" cy="17" r="2" />
+                </svg>
               </div>
-              <h3 className="font-display font-bold text-lg text-white mb-2">
-                {locale === 'ar' ? 'دفع آمن 100% عند الوصول' : '100% Pay On Arrival'}
+              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+                {locale === 'ar' ? 'سيارات خاصة وحديثة' : 'Modern Private Vehicles'}
               </h3>
-              <p className="text-xs sm:text-sm text-white/75 leading-relaxed font-light">
+              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
-                  ? 'لا نطلب بطاقة ائتمان أو دفعاً مسبقاً إلزامياً؛ ادفع لسائقك نقداً بالريال أو ببطاقتك البنكية عند الوصول سالماً.'
-                  : 'Zero advance deposits required. Settle directly with your driver via cash or bank card upon arriving at your hotel.'}
+                  ? 'سيارات فخمة ومكيفة مخصصة لك ولعائلتك بالكامل لضمان أقصى درجات الخصوصية.'
+                  : 'Air-conditioned luxury vehicles dedicated entirely to your family for maximum privacy.'}
+              </p>
+            </div>
+
+            {/* Item 7 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
+                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="5" width="20" height="14" rx="2" />
+                  <line x1="2" y1="10" x2="22" y2="10" />
+                  <path d="m9 15 2 2 4-4" />
+                </svg>
+              </div>
+              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+                {locale === 'ar' ? 'دفع آمن عند الوصول' : 'Safe Pay on Arrival'}
+              </h3>
+              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+                {locale === 'ar'
+                  ? 'لا نطلب بطاقة ائتمان مسبقاً؛ ادفع لسائقك نقداً أو بالبطاقة البنكية عند الوصول سالماً.'
+                  : 'No credit card needed in advance; pay your chauffeur via cash or card upon safe arrival.'}
+              </p>
+            </div>
+
+            {/* Item 8 */}
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
+                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" />
+                  <circle cx="12" cy="12" r="2" />
+                </svg>
+              </div>
+              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+                {locale === 'ar' ? 'دعم على مدار الساعة' : '24/7 Dedicated Support'}
+              </h3>
+              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+                {locale === 'ar'
+                  ? 'تواصلوا مع فريقنا عبر واتساب في أي وقت ليلاً أو نهاراً لتلبية احتياجاتكم.'
+                  : 'Connect with our team on WhatsApp at any time, day or night, for all your requests.'}
               </p>
             </div>
           </div>
