@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Locale } from '@/i18n/config';
 import { WhatsAppModal } from '@/components/common/WhatsAppModal';
 import { ArrowRight, MessageCircle } from 'lucide-react';
@@ -82,7 +81,7 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
     badge: 'उमरा यात्रियों के लिए विशेष वीआईपी निजी चौफर सेवा',
     h1: 'प्रीमियम उमरा चौफर और तीर्थयात्रियों के लिए लक्जरी परिवहन',
     description:
-      'मक्का, मदीنا और जेद्दा में निजी उमरा टैक्सी। पेशेवर ड्राइवर, निश्चित दरें और अल्लाह के मेहमानों के लिए सर्वोच्च आराम।',
+      'मक्का, मदीना और जेद्दा में निजी उमरा टैक्सी। पेशेवर ड्राइवर, निश्चित दरें और अल्लाह के मेहमानों के लिए सर्वोच्च आराम।',
     btnPrimary: 'किराया देखें और बुक करें',
     btnSecondary: 'व्हाट्सएप पर बात करें',
     trustPay: 'पहुंचने पर भुगतान',
@@ -137,8 +136,6 @@ const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
 
 export function HeroSection({ locale }: HeroSectionProps) {
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
-  const [isVideoReady, setIsVideoReady] = useState(false);
-  const [showVideo, setShowVideo] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef<HTMLElement>(null);
 
@@ -147,24 +144,24 @@ export function HeroSection({ locale }: HeroSectionProps) {
   const isUrdu = locale === 'ur';
 
   useEffect(() => {
-    // 1. Accessibility & Data-Saver check
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isDataSaver =
-      (navigator as unknown as { connection?: { saveData?: boolean } })?.connection?.saveData === true;
-
-    if (prefersReduced || isDataSaver) {
-      setShowVideo(false);
-      return;
+    // 1. Force video muted property on DOM node (crucial for Chrome/Edge autoplay policy)
+    const video = videoRef.current;
+    if (video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.play().catch((err) => {
+        console.warn('Autoplay attempt caught:', err);
+      });
     }
 
     // 2. Pause video when hero section scrolls off-screen
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!videoRef.current) return;
+        if (!video) return;
         if (entry.isIntersecting) {
-          videoRef.current.play().catch(() => {});
+          video.play().catch(() => {});
         } else {
-          videoRef.current.pause();
+          video.pause();
         }
       },
       { threshold: 0.1 }
@@ -176,11 +173,11 @@ export function HeroSection({ locale }: HeroSectionProps) {
 
     // 3. Pause video when browser tab is hidden
     const handleVisibilityChange = () => {
-      if (!videoRef.current) return;
+      if (!video) return;
       if (document.hidden) {
-        videoRef.current.pause();
+        video.pause();
       } else {
-        videoRef.current.play().catch(() => {});
+        video.play().catch(() => {});
       }
     };
 
@@ -197,44 +194,25 @@ export function HeroSection({ locale }: HeroSectionProps) {
       ref={heroRef}
       className="relative h-[100svh] min-h-[640px] max-h-[1200px] flex flex-col justify-center items-center overflow-hidden bg-[#0a1224] text-white select-none"
     >
-      {/* 1) FULL-SCREEN CINEMATIC BACKGROUND VIDEO / POSTER */}
+      {/* 1) FULL-SCREEN CINEMATIC BACKGROUND VIDEO */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        {/* Instant High-Res Poster Image */}
-        <Image
-          src="/haram.jpg"
-          alt="Masjid al-Haram, Holy Kaaba and Makkah Royal Clock Tower at night - Duyuf Alrahman VIP"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-[center_38%]"
+        <video
+          ref={videoRef}
+          src="/haram.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/haram.jpg"
+          className="w-full h-full object-cover object-[center_38%]"
+          aria-label="Masjid al-Haram, Holy Kaaba and Makkah Royal Clock Tower at night - Duyuf Alrahman VIP"
         />
 
-        {/* Looping Video with 1s Smooth Fade-in when ready */}
-        {showVideo && (
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster="/haram.jpg"
-            onCanPlay={() => setIsVideoReady(true)}
-            onPlaying={() => setIsVideoReady(true)}
-            className={`w-full h-full object-cover object-[center_38%] transition-opacity duration-1000 ${
-              isVideoReady ? 'opacity-100' : 'opacity-0'
-            }`}
-            aria-label="Masjid al-Haram, Holy Kaaba and Makkah Royal Clock Tower at night - Duyuf Alrahman VIP"
-          >
-            <source src="/haram.webm" type="video/webm" />
-            <source src="/haram.mp4" type="video/mp4" />
-          </video>
-        )}
-
-        {/* Dark Navy Gradient Overlays: Darker at the bottom and behind the text */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1224] via-[#0a1224]/80 to-[#0a1224]/40 pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(10,18,36,0.55)_0%,rgba(10,18,36,0.92)_100%)] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-44 bg-gradient-to-t from-[#0a1224] to-transparent pointer-events-none" />
+        {/* Dark Navy Gradient Overlays: Well balanced for vibrant video visibility & crisp text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1224] via-[#0a1224]/50 to-[#0a1224]/20 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(10,18,36,0.35)_0%,rgba(10,18,36,0.75)_100%)] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-36 bg-gradient-to-t from-[#0a1224] to-transparent pointer-events-none" />
       </div>
 
       {/* 2) SIMPLE, CLASSY, CENTERED CONTENT */}
