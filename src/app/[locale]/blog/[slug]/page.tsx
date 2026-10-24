@@ -97,12 +97,17 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
   const dbRates = await getDbPricesCached();
   const isMadinahRoute = slug.includes('makkah-to-madinah');
   const isMakkahToJeddah = slug.includes('makkah-to-jeddah');
+  const isVipGuide = slug.includes('vip-car-with-driver');
   const routeKey = isMadinahRoute
     ? 'makkah-to-madinah'
     : isMakkahToJeddah
     ? 'makkah-to-jeddah-airport'
+    : isVipGuide
+    ? 'vip-car-with-driver-saudi-arabia'
     : 'jeddah-airport-to-makkah';
-  const routePrices = dbRates[routeKey] || AUTHORITATIVE_TRANSFER_RATES[routeKey];
+  const effectivePricingKey = isVipGuide ? 'jeddah-airport-to-makkah' : routeKey;
+  const routePrices = dbRates[effectivePricingKey] || AUTHORITATIVE_TRANSFER_RATES[effectivePricingKey];
+  const bookingHref = isVipGuide ? `/${locale}/booking` : `/${locale}/booking?route=${routeKey}`;
 
   const pricingCardContent: Record<
     string,
@@ -113,6 +118,56 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       btn: Record<Locale, string>;
     }
   > = {
+    'vip-car-with-driver-saudi-arabia': {
+      badge: {
+        ar: 'الأسعار الرسمية المعتمدة لسيارات VIP في السعودية',
+        en: 'Guaranteed VIP Chauffeur Rates in Saudi Arabia',
+        ms: 'Kadar Rasmi Dijamin untuk Kenderaan VIP di Arab Saudi',
+        id: 'Tarif Resmi Dijamin Layanan Mobil VIP di Arab Saudi',
+        ur: 'سعودی عرب میں وی آئی پی گاڑیوں کے سرکاری کرایے',
+        fr: 'Tarifs Officiels Garantis Voitures VIP en Arabie Saoudite',
+        es: 'Tarifas Oficiales Garantizadas de Vehículos VIP en Arabia Saudita',
+        de: 'Garantierte VIP-Chauffeurpreise in Saudi-Arabien',
+        hi: 'सऊदी अरब में आधिकारिक वीआईपी वाहन दरें',
+        tr: 'Suudi Arabistan VIP Şoförlü Araç Resmi Sabit Fiyatları',
+      },
+      title: {
+        ar: 'أسعار خدمات سيارات VIP مع سائق في السعودية (جدة - مكة - المدينة)',
+        en: 'VIP Chauffeur Service Rates in Saudi Arabia (Jeddah, Makkah, Madinah)',
+        ms: 'Kadar Khidmat Pemandu VIP di Arab Saudi (Jeddah, Makkah, Madinah)',
+        id: 'Tarif Layanan Sopir VIP di Arab Saudi (Jeddah, Makkah, Madinah)',
+        ur: 'سعودی عرب میں نجی ڈرائیور کے ساتھ وی آئی پی گاڑیوں کے ریٹس',
+        fr: 'Tarifs Service Chauffeur VIP en Arabie Saoudite (Djeddah, La Mecque, Médine)',
+        es: 'Tarifas de Servicio de Chófer VIP en Arabia Saudita (Yeda, La Meca, Medina)',
+        de: 'VIP-Chauffeurdienst-Tarife in Saudi-Arabien (Dschidda, Mekka, Medina)',
+        hi: 'सऊदी अरब में वीआईपी चौफ़र सेवा दरें (जेद्दा, मक्का, मदीना)',
+        tr: 'Suudi Arabistan VIP Özel Şoförlü Hizmet Fiyatları (Cidde, Mekke, Medine)',
+      },
+      desc: {
+        ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم الطرق والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
+        id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
+        ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
+        fr: 'Tarif fixe par véhicule complet incluant chauffeur privé, carburant, péages et taxes. Aucun prépaiement — règlement au chauffeur à l\'arrivée.',
+        es: 'Precio fijo por vehículo completo que incluye chofer privado, combustible, peajes e impuestos. Sin pago por adelantado: pague al chofer al llegar.',
+        de: 'Festpreis pro Fahrzeug inklusive privatem Chauffeur, Kraftstoff, Maut und Steuern. Keine Vorauszahlung — Bezahlung beim Fahrer bei Ankunft.',
+        hi: 'निजी ड्राइवर, ईंधन, टोल और करों सहित पूरे वाहन के लिए निश्चित दर। कोई अग्रिम भुगतान नहीं — आगमन पर ड्राइवर को भुगतान करें।',
+        tr: 'Özel şoför, yakıt, otoyol geçişleri ve vergiler dahil sabit fiyat. Ön ödeme yok — varışta şoföre ödeme.',
+      },
+      btn: {
+        ar: 'احجز سيارة VIP مع سائق الآن',
+        en: 'Book VIP Chauffeur Car Now',
+        ms: 'Tempah Kenderaan VIP Sekarang',
+        id: 'Pesan Mobil VIP Sekarang',
+        ur: 'ابھی وی آئی پی کار بک کریں',
+        fr: 'Réserver Votre Voiture VIP Maintenant',
+        es: 'Reservar Coche VIP con Chófer Ahora',
+        de: 'Jetzt VIP-Fahrzeug mit Chauffeur buchen',
+        hi: 'अभी वीआईपी कार बुक करें',
+        tr: 'VIP Şoförlü Aracınızı Şimdi Ayırtın',
+      },
+    },
     'makkah-to-jeddah-airport': {
       badge: {
         ar: 'الأسعار الرسمية المعتمدة لرحلة العودة للمطار',
@@ -451,7 +506,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
 
             <div className="flex flex-wrap items-center gap-3">
               <Link
-                href={`/${locale}/booking?route=${routeKey}`}
+                href={bookingHref}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gold hover:bg-gold-dark text-ink font-bold text-sm shadow-xs transition-colors"
               >
                 <span>{activePricingMeta.btn[locale] || activePricingMeta.btn.en}</span>
@@ -656,7 +711,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
 
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
-                href={`/${locale}/booking?route=${routeKey}`}
+                href={bookingHref}
                 className="px-8 py-3.5 rounded-full bg-gold hover:bg-gold-dark text-ink font-bold text-sm md:text-base shadow-md transition-all hover:scale-105"
               >
                 <span>{content.cta.primaryBtn}</span>

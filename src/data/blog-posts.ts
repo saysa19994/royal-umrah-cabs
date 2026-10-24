@@ -1083,4 +1083,378 @@ export const BLOG_POSTS: BlogPost[] = [
     },
   ],
   },
+  {
+  "slug": "vip-car-with-driver-saudi-arabia",
+  "title": {
+    "ar": "دليل اختيار سيارة VIP مع سائق في السعودية: كيف تختار الخدمة المناسبة؟",
+    "en": "Guide to Choosing a VIP Car with Driver in Saudi Arabia: How to Select the Right Service",
+    "ms": "Panduan Memilih Kereta VIP Berpemandu di Arab Saudi: Cara Memilih Khidmat yang Tepat",
+    "id": "Panduan Memilih Mobil VIP dengan Sopir di Arab Saudi: Cara Menentukan Layanan Terbaik",
+    "ur": "سعودی عرب میں نجی ڈرائیور کے ساتھ وی آئی پی گاڑی کا انتخاب: بہترین سروس کا جامع گائیڈ",
+    "fr": "Guide pour Choisir une Voiture VIP avec Chauffeur en Arabie Saoudite : Sélectionner le Bon Service",
+    "es": "Guía para Elegir un Coche VIP con Chófer en Arabia Saudita: Cómo Seleccionar el Servicio Adecuado",
+    "de": "Leitfaden für VIP-Fahrzeuge mit Chauffeur in Saudi-Arabien: Die richtige Wahl treffen",
+    "hi": "सऊदी अरब में ड्राइवर के साथ वीआईपी कार चयन गाइड: सही सेवा कैसे चुनें?",
+    "tr": "Suudi Arabistan’da Şoförlü VIP Araç Seçim Rehberi: Doğru Hizmet Nasıl Seçilir?"
+  },
+  "seoTitle": {
+    "ar": "سيارة VIP مع سائق في السعودية | دليل الاختيار",
+    "en": "VIP Car with Driver in Saudi Arabia | Chauffeur Guide",
+    "ms": "Kereta VIP Berpemandu Arab Saudi | Panduan Pemandu",
+    "id": "Sewa Mobil VIP Sopir Arab Saudi | Panduan Pilihan",
+    "ur": "سعودی عرب میں وی آئی پی کار مع ڈرائیور | مکمل رہنمائی",
+    "fr": "Voiture VIP avec Chauffeur en Arabie Saoudite | Guide",
+    "es": "Coche VIP con Chófer en Arabia Saudita | Guía de Selección",
+    "de": "VIP-Auto mit Chauffeur in Saudi-Arabien | Ratgeber",
+    "hi": "सऊदी अरब में ड्राइवर के साथ वीआईपी कार | चयन गाइड",
+    "tr": "Suudi Arabistan Şoförlü VIP Araç | Seçim Rehberi"
+  },
+  "metaDescription": {
+    "ar": "اكتشف كيف تختار سيارة VIP مع سائق في السعودية، وقارن خيارات المركبات والحجز والتكلفة لتحديد خدمة النقل المناسبة لرحلتك مع الدفع بعد الوصول.",
+    "en": "Discover how to choose a VIP car with driver in Saudi Arabia. Compare vehicle categories, booking models, and rates with Pay the Driver Only.",
+    "ms": "Ketahui cara memilih kereta VIP berpemandu di Arab Saudi. Bandingkan jenis kenderaan, kaedah tempahan, dan kos dengan jaminan Bayar kepada Pemandu Sahaja.",
+    "id": "Pelajari cara memilih mobil VIP dengan sopir di Arab Saudi. Bandingkan armada, skema pemesanan, dan biaya dengan jaminan Bayar Langsung ke Sopir saat tiba.",
+    "ur": "سعودی عرب میں نجی ڈرائیور کے ساتھ بہترین وی آئی پی گاڑی کا انتخاب کریں، گاڑیوں کے ماڈلز اور کرایوں کا موازنہ کریں اور صرف منزل پر ادائیگی کریں۔",
+    "fr": "Découvrez comment choisir une voiture VIP avec chauffeur en Arabie Saoudite. Comparez les catégories de véhicules et tarifs avec paiement direct au chauffeur.",
+    "es": "Descubra cómo elegir un coche VIP con chófer en Arabia Saudita. Compare categorías de vehículos, modelos de reserva y tarifas con pago directo al chófer.",
+    "de": "Erfahren Sie, wie Sie ein VIP-Fahrzeug mit Chauffeur in Saudi-Arabien wählen. Vergleichen Sie Fahrzeugklassen und Tarife mit Bezahlung erst bei Ankunft.",
+    "hi": "सऊदी अरब में ड्राइवर के साथ वीआईपी कार चुनने का तरीका जानें। वाहनों की श्रेणियों और किराए की तुलना करें और केवल पहुंचने पर ड्राइवर को भुगतान करें।",
+    "tr": "Suudi Arabistan’da şoförlü VIP araç seçimini keşfedin. Araç kategorilerini, rezervasyon modellerini ve fiyatları varışta şoföre ödeme kolaylığıyla karşılaştırın."
+  },
+  "primaryKeyword": {
+    "ar": "سيارة VIP مع سائق في السعودية",
+    "en": "VIP car with driver Saudi Arabia",
+    "ms": "kereta VIP berpemandu Arab Saudi",
+    "id": "mobil VIP dengan sopir Arab Saudi",
+    "ur": "سعودی عرب میں وی آئی پی کار مع ڈرائیور",
+    "fr": "voiture VIP avec chauffeur Arabie Saoudite",
+    "es": "coche VIP con chófer Arabia Saudita",
+    "de": "VIP Auto mit Chauffeur Saudi-Arabien",
+    "hi": "सऊदी अरब में ड्राइवर के साथ वीआईपी कार",
+    "tr": "Suudi Arabistan şoförlü VIP araç"
+  },
+  "supportingKeywords": {
+    "ar": [
+      "سيارة خاصة مع سائق",
+      "حجز سيارة فاخرة",
+      "سيارات VIP في السعودية",
+      "سائق خاص في مكة",
+      "سيارة مع سائق في جدة",
+      "نقل VIP لضيوف الرحمن",
+      "سيارات فاخرة للعمرة",
+      "حجز سيارة خاصة بين المدن"
+    ],
+    "en": [
+      "Private chauffeur Saudi Arabia",
+      "Luxury car with driver Makkah",
+      "Jeddah airport VIP car hire",
+      "VIP Umrah transport service",
+      "GMC Yukon chauffeur Saudi",
+      "Hyundai Staria VIP transfer",
+      "Executive car service Jeddah",
+      "Intercity private driver Saudi"
+    ],
+    "ms": [
+      "Pemandu peribadi Arab Saudi",
+      "Kereta sewa VIP Makkah",
+      "Pemandu VIP lapangan terbang Jeddah",
+      "Khidmat kereta mewah Umrah",
+      "Sewa GMC Yukon Arab Saudi",
+      "Sewa Hyundai Staria VIP",
+      "Kereta eksekutif Jeddah",
+      "Pemandu antara bandar Saudi"
+    ],
+    "id": [
+      "Sopir pribadi Arab Saudi",
+      "Sewa mobil VIP Makkah",
+      "Sopir VIP bandara Jeddah",
+      "Layanan mobil mewah Umrah",
+      "Sewa GMC Yukon Arab Saudi",
+      "Sewa Hyundai Staria VIP",
+      "Mobil eksekutif Jeddah",
+      "Sopir antarkota Saudi"
+    ],
+    "ur": [
+      "سعودی عرب میں نجی ڈرائیور",
+      "مکہ میں لگژری کار بکنگ",
+      "جدہ ایئرپورٹ وی آئی پی ٹرانسپورٹ",
+      "عمرہ زائرین کے لیے وی آئی پی گاڑی",
+      "جی ایم سی یوکون ڈرائیور کے ساتھ",
+      "ہونڈائی اسٹاریا وی آئی پی",
+      "جدہ ایگزیکٹو کار سروس",
+      "سعودی عرب میں انٹرسٹی ڈرائیور"
+    ],
+    "fr": [
+      "Chauffeur privé Arabie Saoudite",
+      "Location voiture luxe La Mecque",
+      "Transfert VIP aéroport Djeddah",
+      "Service transport VIP Omra",
+      "GMC Yukon avec chauffeur",
+      "Hyundai Staria VIP Arabie",
+      "Voiture exécutive Djeddah",
+      "Chauffeur interurbain Arabie"
+    ],
+    "es": [
+      "Chófer privado Arabia Saudita",
+      "Coche de lujo con chófer La Meca",
+      "Traslado VIP aeropuerto Yeda",
+      "Servicio VIP transporte Umrah",
+      "GMC Yukon con chófer",
+      "Hyundai Staria VIP Arabia",
+      "Coche ejecutivo Yeda",
+      "Chófer interurbano Arabia"
+    ],
+    "de": [
+      "Privater Chauffeur Saudi-Arabien",
+      "Luxusauto mit Fahrer Mekka",
+      "VIP-Transfer Flughafen Dschidda",
+      "VIP-Fahrdienst Umrah",
+      "GMC Yukon mit Fahrer",
+      "Hyundai Staria VIP Saudi-Arabien",
+      "Executive Car Service Dschidda",
+      "Überland-Chauffeur Saudi-Arabien"
+    ],
+    "hi": [
+      "सऊदी अरब में निजी ड्राइवर",
+      "मक्का में लक्जरी कार बुकिंग",
+      "जेद्दा एयरपोर्ट वीआईपी ट्रांसफर",
+      "उमरा वीआईपी परिवहन सेवा",
+      "जीएमसी युकोन ड्राइवर सहित",
+      "हुंडई स्टारिया वीआईपी",
+      "एग्जीक्यूटिव कार जेद्दा",
+      "सऊदी अरब में अंतर-शहर ड्राइवर"
+    ],
+    "tr": [
+      "Suudi Arabistan özel şoför",
+      "Mekke lüks araç kiralama",
+      "Cidde havalimanı VIP araç",
+      "VIP Umre transfer hizmeti",
+      "Şoförlü GMC Yukon kiralama",
+      "Hyundai Staria VIP transfer",
+      "Cidde makam aracı hizmeti",
+      "Şehirlerarası şoförlü araç Suudi"
+    ]
+  },
+  "excerpt": {
+    "ar": "دليلك الشامل لاختيار سيارة VIP مع سائق في السعودية: كيف تفاضل بين السيدان والفان العائلي والدفع الرباعي، ومعايير التسعير العادل، وضمان الدفع للسائق بعد الوصول.",
+    "en": "Your complete guide to choosing a VIP car with driver in Saudi Arabia: comparing executive sedans, family MPVs, and luxury SUVs with verified rates and Pay-on-Arrival.",
+    "ms": "Panduan lengkap memilih kereta VIP berpemandu di Arab Saudi: bandingkan sedan eksekutif, van keluarga, dan SUV mewah dengan harga tetap dan Bayar Semasa Tiba.",
+    "id": "Panduan komprehensif memilih mobil VIP dengan sopir di Arab Saudi: perbandingan sedan eksekutif, MPV keluarga, dan SUV mewah dengan tarif pasti dan Bayar saat Tiba.",
+    "ur": "سعودی عرب میں نجی ڈرائیور کے ساتھ وی آئی پی کار کا انتخاب: سیڈان، فیملی وین اور لگژری ایس یو وی کا موازنہ، شفاف قیمتیں اور صرف منزل پر ادائیگی کی گارنٹی۔",
+    "fr": "Votre guide complet pour choisir une voiture VIP avec chauffeur en Arabie Saoudite : berlines, monospaces familiaux et grands SUV avec paiement direct à l’arrivée.",
+    "es": "Guía completa para elegir un coche VIP con chófer en Arabia Saudita: comparación de sedanes, monovolúmenes familiares y SUV de lujo con pago directo a la llegada.",
+    "de": "Ihr umfassender Leitfaden für VIP-Fahrzeuge mit Chauffeur in Saudi-Arabien: Limousinen, Familien-Vans und Luxus-SUVs im Vergleich mit Bezahlung erst bei Ankunft.",
+    "hi": "सऊदी अरब में ड्राइवर के साथ वीआईपी कार चुनने की पूरी गाइड: सेडान, पारिवारिक वैन और लक्जरी एसयूवी की तुलना, पारदर्शी दरें और केवल आगमन पर भुगतान।",
+    "tr": "Suudi Arabistan’da şoförlü VIP araç seçimi için eksiksiz rehber: yönetici sedanlar, aile minivanları ve lüks SUV karşılaştırması ve varışta şoföre ödeme kolaylığı."
+  },
+  "featuredImage": "/assets/images/vip-car-with-driver-saudi-arabia.webp",
+  "imageAlt": {
+    "ar": "أسطول سيارات VIP فاخرة مع سائقين محترفين لخدمة ضيوف الرحمن في المملكة العربية السعودية",
+    "en": "Luxury VIP chauffeur fleet with professional drivers serving Umrah pilgrims and travelers in Saudi Arabia",
+    "ms": "Armada kenderaan VIP mewah bersama pemandu profesional untuk jemaah Umrah di Arab Saudi",
+    "id": "Armada mobil VIP mewah dengan sopir profesional untuk melayani jamaah Umrah di Arab Saudi",
+    "ur": "سعودی عرب میں عمرہ زائرین کی خدمت کے لیے پیشہ ور ڈرائیورز کے ساتھ وی آئی پی گاڑیوں کا جدید بیڑہ",
+    "fr": "Flotte de voitures VIP luxueuses avec chauffeurs professionnels au service des pèlerins en Arabie Saoudite",
+    "es": "Flota de vehículos VIP de lujo con chóferes profesionales al servicio de los peregrinos en Arabia Saudita",
+    "de": "Exklusive VIP-Chauffeurflotte mit professionellen Fahrern für Umrah-Pilger in Saudi-Arabien",
+    "hi": "सऊदी अरब में उमरा तीर्थयात्रियों की सेवा के लिए पेशेवर ड्राइवरों के साथ लक्जरी वीआईपी कारों का बेड़ा",
+    "tr": "Suudi Arabistan’da umrecilere ve ziyaretçilere hizmet veren profesyonel şoförlü lüks VIP araç filosu"
+  },
+  "category": {
+    "ar": "دليل النقل الفاخر",
+    "en": "VIP Chauffeur Guides",
+    "ms": "Panduan Pengangkutan VIP",
+    "id": "Panduan Transportasi VIP",
+    "ur": "وی آئی پی ٹرانسپورٹ گائیڈ",
+    "fr": "Guides Chauffeur VIP",
+    "es": "Guías de Chófer VIP",
+    "de": "VIP-Chauffeur-Ratgeber",
+    "hi": "वीआईपी चौफ़र गाइड",
+    "tr": "VIP Şoförlü Rehberler"
+  },
+  "publishedAt": "2026-10-25T00:00:00.000Z",
+  "updatedAt": "2026-10-25T00:00:00.000Z",
+  "readTime": {
+    "ar": "9 دقائق للقراءة",
+    "en": "9 min read",
+    "ms": "9 minit bacaan",
+    "id": "9 menit membaca",
+    "ur": "9 منٹ کا مطالعہ",
+    "fr": "9 min de lecture",
+    "es": "9 min de lectura",
+    "de": "9 Min. Lesezeit",
+    "hi": "9 मिनट पढ़ने का समय",
+    "tr": "9 dk okuma süresi"
+  },
+  "author": {
+    "ar": "فريق التحرير والخدمات اللوجستية | ضيوف الرحمن VIP",
+    "en": "Logistics & Editorial Team | Duyuf Alrahman VIP",
+    "ms": "Pasukan Editorial & Logistik | Duyuf Alrahman VIP",
+    "id": "Tim Editorial & Logistik | Duyuf Alrahman VIP",
+    "ur": "ادارتی و لاجسٹکس ٹیم | ضيوف الرحمن VIP",
+    "fr": "Équipe Logistique & Rédaction | Duyuf Alrahman VIP",
+    "es": "Equipo Editorial y Logístico | Duyuf Alrahman VIP",
+    "de": "Redaktions- & Logistik-Team | Duyuf Alrahman VIP",
+    "hi": "संपादकीय एवं लॉजिस्टिक्स टीम | ज़ुयूफ़ अर-रहमान वीआईपी",
+    "tr": "Yazı İşleri ve Lojistik Ekibi | Duyuf Alrahman VIP"
+  },
+  "faqs": [
+    {
+      "question": {
+        "ar": "كيف أحجز سيارة VIP مع سائق في السعودية؟",
+        "en": "How do I book a VIP car with driver in Saudi Arabia?",
+        "ms": "Bagaimanakah cara menempah kereta VIP berpemandu di Arab Saudi?",
+        "id": "Bagaimana cara memesan mobil VIP dengan sopir di Arab Saudi?",
+        "ur": "سعودی عرب میں نجی ڈرائیور کے ساتھ وی آئی پی گاڑی کیسے بک کریں؟",
+        "fr": "Comment réserver une voiture VIP avec chauffeur en Arabie Saoudite ?",
+        "es": "¿Cómo reservo un coche VIP con chófer en Arabia Saudita?",
+        "de": "Wie buche ich ein VIP-Fahrzeug mit Chauffeur in Saudi-Arabien?",
+        "hi": "सऊदी अरब में ड्राइवर के साथ वीआईपी कार कैसे बुक करें?",
+        "tr": "Suudi Arabistan’da şoförlü VIP araç nasıl kiralanır?"
+      },
+      "answer": {
+        "ar": "يمكنك الحجز مباشرة عبر بوابة الحجز الإلكترونية في موقعنا أو بالتواصل الفوري عبر الواتساب. ما عليك سوى تحديد مسار رحلتك أو الخدمة المطلوبة، وتاريخ ووقت الاستلام، وعدد الركاب والحقائب. يتم تأكيد الحجز فوراً بدون أي دفع مسبق.",
+        "en": "You can book directly via our online booking engine or instantly via WhatsApp. Simply specify your route or required service, pickup date and time, and passenger/luggage details. Your reservation is confirmed immediately with zero deposit.",
+        "ms": "Anda boleh menempah terus melalui enjin tempahan dalam talian kami atau melalui WhatsApp. Pilih laluan, tarikh dan masa pengambilan, serta bilangan penumpang dan bagasi. Pengesahan segera tanpa sebarang bayaran pendahuluan.",
+        "id": "Anda dapat memesan langsung melalui portal booking online kami atau via WhatsApp. Tentukan rute, tanggal dan jam penjemputan, serta data penumpang dan bagasi. Konfirmasi instan tanpa uang muka.",
+        "ur": "آپ ہماری ویب سائٹ کے آن لائن پورٹل یا واٹس ایپ پر براہ راست بکنگ کر سکتے ہیں۔ اپنا مطلوبہ روٹ، تاریخ اور وقت، اور مسافروں و سامان کی تعداد درج کریں۔ بغیر کسی ایڈوانس کے بکنگ فوری کنفرم ہو جائے گی۔",
+        "fr": "Vous pouvez réserver directement via notre module en ligne ou sur WhatsApp. Précisez votre trajet, date et heure souhaitées, nombre de passagers et bagages. Confirmation immédiate sans acompte.",
+        "es": "Puede reservar directamente a través de nuestro portal en línea o por WhatsApp. Indique su trayecto, fecha y hora de recogida, pasajeros y equipaje. Confirmación instantánea sin anticipo.",
+        "de": "Buchen Sie direkt über unsere Online-Buchungsmaske oder per WhatsApp. Wählen Sie Ihre Route, Datum, Abholzeit sowie Personen- und Gepäckanzahl. Sofortige Bestätigung ohne Anzahlung.",
+        "hi": "आप हमारे ऑनलाइन बुकिंग पोर्टल या सीधे व्हाट्सएप पर बुक कर सकते हैं। बस अपना रूट, पिकअप का समय और तारीख, यात्रियों और बैगों की संख्या बताएं। बिना किसी एडवांस के बुकिंग तुरंत कन्फर्म हो जाएगी।",
+        "tr": "Çevrim içi rezervasyon panelimizden veya WhatsApp üzerinden anında rezervasyon yapabilirsiniz. Güzergahınızı, alış tarih ve saatinizi, yolcu ve bagaj bilgilerinizi iletmeniz yeterlidir. Kapora olmadan anında onaylanır."
+      }
+    },
+    {
+      "question": {
+        "ar": "كيف أختار السيارة المناسبة لعدد الركاب والحقائب؟",
+        "en": "How do I choose the right vehicle for passenger and luggage capacity?",
+        "ms": "Bagaimanakah cara memilih kenderaan yang sepadan dengan bilangan penumpang dan bagasi?",
+        "id": "Bagaimana cara memilih mobil yang sesuai dengan jumlah penumpang dan koper?",
+        "ur": "مسافروں اور سامان کی تعداد کے لحاظ سے بہترین گاڑی کا انتخاب کیسے کریں؟",
+        "fr": "Comment choisir le véhicule idéal selon le nombre de passagers et de valises ?",
+        "es": "¿Cómo elijo el vehículo adecuado según pasajeros y equipaje?",
+        "de": "Wie wähle ich das passende Fahrzeug für Passagiere und Gepäck?",
+        "hi": "यात्रियों और सामान की क्षमता के अनुसार सही वाहन कैसे चुनें?",
+        "tr": "Yolcu ve bagaj kapasitesine göre en doğru araç nasıl seçilir?"
+      },
+      "answer": {
+        "ar": "لـ 1-3 ركاب مع حقيبتين نوصي بسيارة كامري سيدان. وللعائلات حتى 7 ركاب مع 5-6 حقائب نوصي بهيونداي ستاريا VIP. أما للعائلات الباحثة عن الفخامة القصوى وسعة 6-8 حقائب فنوصي بـ يوكون XL VIP، وللمجموعات الكبيرة حتى 11 راكباً نوصي بتويوتا هايس.",
+        "en": "For 1-3 passengers with 2 bags, we recommend the Camry sedan. For families up to 7 with 5-6 bags, the Hyundai Staria VIP is ideal. For ultimate luxury with 6-8 large bags, choose the Yukon XL VIP, and for groups up to 11, the Toyota HiAce is best.",
+        "ms": "Untuk 1-3 penumpang bersama 2 beg, kami syorkan sedan Camry. Bagi keluarga sehingga 7 orang bersama 5-6 beg, Hyundai Staria VIP adalah pilihan terbaik. Untuk kemewahan maksimum dengan 6-8 beg, pilih Yukon XL VIP, dan rombongan hingga 11 orang sesuai dengan Toyota HiAce.",
+        "id": "Untuk 1-3 penumpang dengan 2 koper, kami sarankan sedan Camry. Untuk keluarga hingga 7 orang dengan 5-6 koper, Hyundai Staria VIP sangat ideal. Untuk kemewahan maksimal dengan 6-8 koper, pilih Yukon XL VIP, dan rombongan hingga 11 orang tepat dengan Toyota HiAce.",
+        "ur": "1 سے 3 مسافروں اور 2 بیگز کے لیے کیمری سیڈان، 7 افراد اور 5-6 بیگز کے لیے ہونڈائی اسٹاریا VIP، زیادہ سامان اور لگژری کے لیے یوکون XL VIP، اور 11 مسافروں کے لیے ٹویوٹا ہائیس بہترین ہے۔",
+        "fr": "Pour 1 à 3 passagers et 2 valises, choisissez la berline Camry. Pour les familles jusqu’à 7 personnes et 5-6 valises, le Hyundai Staria VIP est idéal. Pour le grand luxe et 6-8 valises, optez pour le Yukon XL VIP, et pour les groupes jusqu’à 11, le Toyota HiAce.",
+        "es": "Para 1-3 pasajeros con 2 maletas, recomendamos el sedán Camry. Para familias de hasta 7 con 5-6 maletas, el Hyundai Staria VIP es ideal. Para máximo lujo y 6-8 maletas, elija el Yukon XL VIP, y para grupos de hasta 11, la Toyota HiAce.",
+        "de": "Für 1-3 Personen mit 2 Koffern empfehlen wir die Camry Limousine. Für Familien bis 7 Personen mit 5-6 Koffern den Hyundai Staria VIP. Für höchsten Luxus und 6-8 Koffer den Yukon XL VIP und für Gruppen bis 11 den Toyota HiAce.",
+        "hi": "1-3 यात्रियों और 2 बैग के लिए कैमरी सेडान। 7 यात्रियों और 5-6 बैग वाले परिवारों के लिए हुंडई स्टारिया VIP। अधिकतम लक्जरी और 6-8 बैग के लिए युकोन XL VIP और 11 यात्रियों तक के समूहों के लिए टोयोटा हायेस सबसे अच्छी है।",
+        "tr": "1-3 yolcu ve 2 bavul için Camry sedan, 7 kişiye kadar ve 5-6 bavullu aileler için Hyundai Staria VIP, maksimum lüks ve 6-8 bavul için Yukon XL VIP, 11 kişiye kadar gruplar için ise Toyota HiAce önerilir."
+      }
+    },
+    {
+      "question": {
+        "ar": "هل يمكن حجز سيارة خاصة من مطار جدة إلى مكة المكرمة مباشرة؟",
+        "en": "Can I book a private car directly from Jeddah Airport to Makkah?",
+        "ms": "Bolehkah saya menempah kenderaan terus dari Lapangan Terbang Jeddah ke Makkah?",
+        "id": "Bisakah memesan mobil privat langsung dari Bandara Jeddah ke Makkah?",
+        "ur": "کیا جدہ ایئرپورٹ سے براہِ راست مکہ مکرمہ کے لیے گاڑی بک کی جا سکتی ہے؟",
+        "fr": "Puis-je réserver une voiture privée directement de l’aéroport de Djeddah à La Mecque ?",
+        "es": "¿Se puede reservar un coche privado directamente del aeropuerto de Yeda a La Meca?",
+        "de": "Kann ich ein privates Fahrzeug direkt vom Flughafen Dschidda nach Mekka buchen?",
+        "hi": "क्या जेद्दा हवाई अड्डे से सीधे मक्का के लिए प्राइवेट कार बुक की जा सकती है?",
+        "tr": "Cidde Havalimanı’ndan doğrudan Mekke’ye özel araç kiralanabilir mi?"
+      },
+      "answer": {
+        "ar": "نعم؛ هذه إحدى خدماتنا الأساسية والأكثر طلباً. يستقبلك سائقك الخاص في صالة الوصول بلوحة تحمل اسمك ويساعدك في تحميل الحقائب ويوصلك مباشرة إلى باب فندقك بمكة.",
+        "en": "Yes. This is one of our primary core services. Your private chauffeur meets you at the arrival hall holding a name board, assists with luggage, and drives you directly to your Makkah hotel door.",
+        "ms": "Ya. Ini adalah antara perkhidmatan utama kami. Pemandu peribadi anda akan menyambut di balai ketibaan dengan papan nama, membantu bagasi, dan menghantar terus ke pintu hotel anda di Makkah.",
+        "id": "Ya. Ini adalah layanan utama kami. Sopir pribadi Anda akan menyambut di terminal kedatangan dengan papan nama, membantu koper, dan mengantar langsung ke depan hotel Anda di Makkah.",
+        "ur": "جی ہاں، یہ ہماری بنیادی سروس ہے۔ ڈرائیور ارائیول ہال میں آپ کے نام کے بورڈ کے ساتھ استقبال کرتا ہے، سامان اٹھواتا ہے اور براہِ راست مکہ کے ہوٹل پہنچاتا ہے۔",
+        "fr": "Oui. C’est l’un de nos services phares. Votre chauffeur vous accueille dans le hall des arrivées avec une pancarte à votre nom, prend en charge vos valises et vous conduit directement à votre hôtel à La Mecque.",
+        "es": "Sí. Es uno de nuestros servicios principales. Su chófer le recibe en la terminal de llegadas con un cartel con su nombre, le ayuda con las maletas y le lleva directamente a su hotel en La Meca.",
+        "de": "Ja. Dies ist eine unserer Kernleistungen. Ihr Chauffeur empfängt Sie mit Namensschild in der Ankunftshalle, hilft beim Gepäck und fährt Sie direkt zu Ihrem Hotel in Mekka.",
+        "hi": "हाँ। यह हमारी प्रमुख सेवाओं में से एक है। आपका निजी ड्राइवर अराइवल हॉल में आपके नाम के बोर्ड के साथ स्वागत करता है, सामान में मदद करता है और सीधे मक्का के होटल तक ले जाता है।",
+        "tr": "Evet. Bu ana hizmetlerimizden biridir. Özel şoförünüz sizi gelen yolcu salonunda isminizin yazılı olduğu levha ile karşılar, bavullarınıza yardımcı olur ve Mekke’deki otelinizin kapısına kadar ulaştırır."
+      }
+    },
+    {
+      "question": {
+        "ar": "ما الذي يؤثر في تكلفة السيارة الخاصة مع سائق في السعودية؟",
+        "en": "What factors influence the cost of a VIP car with driver in Saudi Arabia?",
+        "ms": "Apakah faktor yang mempengaruhi kos kereta VIP berpemandu di Arab Saudi?",
+        "id": "Faktor apa saja yang mempengaruhi tarif mobil VIP dengan sopir di Arab Saudi?",
+        "ur": "سعودی عرب میں نجی ڈرائیور کے ساتھ گاڑی کے کرائے پر کون سے عوامل اثر انداز ہوتے ہیں؟",
+        "fr": "Quels facteurs influencent le tarif d’une voiture VIP avec chauffeur en Arabie Saoudite ?",
+        "es": "¿Qué factores influyen en el precio de un coche VIP con chófer en Arabia Saudita?",
+        "de": "Welche Faktoren beeinflussen die Kosten eines VIP-Fahrzeugs mit Chauffeur in Saudi-Arabien?",
+        "hi": "सऊदी अरब में ड्राइवर के साथ वीआईपी कार की लागत को क्या प्रभावित करता है?",
+        "tr": "Suudi Arabistan’da şoförlü VIP araç maliyetini hangi faktörler etkiler?"
+      },
+      "answer": {
+        "ar": "تتأثر التكلفة بفئة المركبة (سيدان، فان، أو دفع رباعي فخم)، والمسافة المقطوعة بين المدن، ونوع الحجز (مسار محدد أو حجز بالساعة)، مع ضمان ثبات السعر المتفق عليه وشموله لكافة الرسوم والوقود.",
+        "en": "Cost is determined by vehicle class (sedan, MPV, or luxury SUV), intercity route distance, and service type (point-to-point or hourly hire). All our agreed rates are fully fixed and all-inclusive.",
+        "ms": "Kos ditentukan oleh kategori kenderaan (sedan, MPV, atau SUV mewah), jarak perjalanan antara bandar, dan jenis tempahan (laluan tetap atau sewa mengikut jam). Semua kadar yang dipersetujui adalah tetap dan lengkap.",
+        "id": "Tarif ditentukan oleh kelas kendaraan (sedan, MPV, atau SUV mewah), jarak rute antarkota, dan jenis layanan (rute tetap atau sewa per jam). Seluruh tarif yang disepakati bersifat tetap dan all-inclusive.",
+        "ur": "گاڑی کی کلاس (سیڈان، وین یا ایس یو وی)، شہروں کے درمیان فاصلہ، اور سروس کی قسم (فکس روٹ یا فی گھنٹہ) کرائے پر اثر انداز ہوتی ہے۔ ہمارے تمام ریٹس فکس اور مکمل اخراجات پر مشتمل ہوتے ہیں۔",
+        "fr": "Le tarif dépend de la catégorie du véhicule (berline, van ou grand SUV), de la distance parcourue et de la formule (trajet fixe ou location horaire). Tous nos tarifs convenus sont nets et tout compris.",
+        "es": "El precio depende de la categoría del coche (sedán, monovolumen o SUV de lujo), la distancia del trayecto y la modalidad (punto a punto o por horas). Todas nuestras tarifas son fijas y con todo incluido.",
+        "de": "Der Preis richtet sich nach der Fahrzeugklasse (Limousine, Van oder Luxus-SUV), der Streckenlänge und dem Buchungsmodell (Feststrecke oder Stundenmiete). Alle vereinbarten Tarife sind verbindliche Festpreise.",
+        "hi": "लागत वाहन की श्रेणी (सेडान, वैन या लक्जरी एसयूवी), शहरों के बीच की दूरी और बुकिंग के प्रकार (फिक्स्ड रूट या प्रति घंटा) पर निर्भर करती है। हमारे सभी तय किराए सर्वसमावेशी और निश्चित होते हैं।",
+        "tr": "Maliyet; araç sınıfı (sedan, minivan veya lüks SUV), şehirlerarası mesafe ve hizmet türüne (sabit rota veya saatlik kiralama) bağlıdır. Anlaşılan tüm fiyatlarımız sabittir ve her şey dahildir."
+      }
+    },
+    {
+      "question": {
+        "ar": "ما الفرق بين الحجز بالساعة والحجز لرحلة واحدة محددة؟",
+        "en": "What is the difference between hourly hire and single point-to-point transfer?",
+        "ms": "Apakah perbezaan antara sewaan mengikut jam dan pemindahan laluan tetap?",
+        "id": "Apa perbedaan antara sewa per jam dan transfer rute tetap?",
+        "ur": "فی گھنٹہ بکنگ اور سنگل روٹ ٹرانسفر میں کیا فرق ہے؟",
+        "fr": "Quelle est la différence entre la location à l’heure et un transfert point à point ?",
+        "es": "¿Cuál es la diferencia entre el alquiler por horas y un traslado punto a punto?",
+        "de": "Was ist der Unterschied zwischen Stundenmiete und einem Feststrecken-Transfer?",
+        "hi": "प्रति घंटा बुकिंग और एक निश्चित रूट ट्रांसफर में क्या अंतर है?",
+        "tr": "Saatlik araç kiralama ile tek yön sabit transfer arasındaki fark nedir?"
+      },
+      "answer": {
+        "ar": "الحجز لرحلة واحدة ينقلك مباشرة من نقطة انطلاق محددة إلى وجهة وصول محددة (مثل المطار إلى الفندق). أما الحجز بالساعة فيضع المركبة والسائق تحت تصرفك الكامل لزيارة عدة محطات أو جولات المزارات وفق رغبتك.",
+        "en": "A point-to-point transfer transports you directly from a designated pickup location to your final destination (e.g., airport to hotel). Hourly hire keeps the vehicle and private chauffeur at your exclusive disposal for multiple stops or Ziyarat tours.",
+        "ms": "Pemindahan laluan tetap membawa anda terus dari titik permulaan ke destinasi akhir (contohnya lapangan terbang ke hotel). Sewaan mengikut jam meletakkan kenderaan dan pemandu di bawah kawalan anda untuk lawatan pelbagai lokasi atau Ziarah.",
+        "id": "Transfer rute tetap mengantar Anda langsung dari titik awal ke tujuan akhir (misalnya bandara ke hotel). Sewa per jam menempatkan kendaraan dan sopir sepenuhnya untuk melayani beberapa perhentian atau tur Ziarah Anda.",
+        "ur": "سنگل روٹ ٹرانسفر آپ کو ایک مقام سے دوسرے مقام (جیسے ایئرپورٹ سے ہوٹل) تک براہ راست پہنچاتا ہے۔ جبکہ فی گھنٹہ سروس میں گاڑی اور ڈرائیور متعدد مقامات پر جانے یا زیارات کے لیے مکمل طور پر آپ کے پاس رہتے ہیں۔",
+        "fr": "Le transfert point à point assure une liaison directe entre un lieu de départ et une destination précise (ex. aéroport vers hôtel). La location à l’heure met le véhicule et le chauffeur à votre entière disposition pour des arrêts multiples ou des Ziyarat.",
+        "es": "El traslado punto a punto le lleva directamente desde un origen hasta su destino final (ej. aeropuerto al hotel). El alquiler por horas pone el coche y el chófer a su entera disposición para múltiples paradas o visitas de Ziyarat.",
+        "de": "Ein Feststrecken-Transfer bringt Sie direkt vom Start- zum Zielort (z. B. Flughafen zum Hotel). Bei der Stundenmiete stehen Fahrzeug und Chauffeur exklusiv für mehrere Stopps oder Ziyarat-Touren zu Ihrer Verfügung.",
+        "hi": "फिक्स्ड रूट ट्रांसफर आपको सीधे एक स्थान से गंतव्य तक ले जाता है (जैसे एयरपोर्ट से होटल)। प्रति घंटा बुकिंग में वाहन और ड्राइवर कई जगहों पर जाने या जियारत यात्राओं के लिए पूरी तरह आपके पास रहते हैं।",
+        "tr": "Noktadan noktaya transfer sizi başlangıç noktasından varış noktasına doğrudan ulaştırır (örneğin havalimanından otele). Saatlik kiralamada ise araç ve şoför birden fazla durak veya Ziyaret turları için tamamen hizmetinizde kalır."
+      }
+    },
+    {
+      "question": {
+        "ar": "ما المعلومات التي يجب تجهيزها قبل إتمام الحجز؟",
+        "en": "What information should I have ready before completing my booking?",
+        "ms": "Apakah maklumat yang perlu disediakan sebelum melengkapkan tempahan?",
+        "id": "Informasi apa yang perlu disiapkan sebelum melakukan pemesanan?",
+        "ur": "بکنگ مکمل کرنے سے پہلے کون سی معلومات تیار رکھنی چاہئیں؟",
+        "fr": "Quelles informations dois-je préparer avant de finaliser ma réservation ?",
+        "es": "¿Qué datos debo tener listos antes de completar la reserva?",
+        "de": "Welche Angaben sollte ich vor der Buchung bereithalten?",
+        "hi": "बुकिंग पूरी करने से पहले मुझे क्या जानकारी तैयार रखनी चाहिए?",
+        "tr": "Rezervasyonu tamamlamadan önce hangi bilgileri hazırlamalıyım?"
+      },
+      "answer": {
+        "ar": "تحتاج فقط لتجهيز: تاريخ وساعة الاستلام المطلوبة، اسم الفندق أو صالة المطار، رقم رحلة الطيران، عدد الركاب، عدد الحقائب الكبيرة والصغيرة، ورقم واتساب للتواصل المباشر.",
+        "en": "You only need: requested pickup date and time, hotel address or airport terminal, flight number, total passenger count, luggage count (large and small bags), and an active WhatsApp number.",
+        "ms": "Anda hanya perlu menyediakan: tarikh dan waktu pengambilan, nama hotel atau terminal lapangan terbang, nombor penerbangan, bilangan penumpang, bilangan beg, dan nombor WhatsApp aktif.",
+        "id": "Anda cukup menyiapkan: tanggal dan jam penjemputan, nama hotel atau terminal bandara, nomor penerbangan, jumlah penumpang, jumlah koper, dan nomor WhatsApp aktif.",
+        "ur": "آپ کو صرف یہ معلومات درکار ہیں: تاریخ اور وقت، ہوٹل یا ایئرپورٹ کا پتہ، فلائٹ نمبر، مسافروں اور بیگز کی تعداد، اور ایک فعال واٹس ایپ نمبر۔",
+        "fr": "Il vous suffit de préparer : date et heure de prise en charge, adresse de l’hôtel ou terminal, numéro de vol, nombre de passagers, nombre de valises et un numéro WhatsApp actif.",
+        "es": "Solo necesita tener listo: fecha y hora de recogida, nombre del hotel o terminal, número de vuelo, pasajeros, cantidad de maletas y un número de WhatsApp activo.",
+        "de": "Sie benötigen lediglich: gewünschtes Abholdatum und Uhrzeit, Hotelname oder Terminal, Flugnummer, Personenanzahl, Kofferanzahl und eine aktive WhatsApp-Nummer.",
+        "hi": "आपको केवल तैयार रखना है: पिकअप की तारीख और समय, होटल या एयरपोर्ट टर्मिनल, फ्लाइट नंबर, यात्रियों की संख्या, बैगों की संख्या और एक सक्रिय व्हाट्सएप नंबर।",
+        "tr": "Yalnızca şu bilgileri hazırlamanız yeterlidir: alış tarihi ve saati, otel adı veya terminal, uçuş numarası, yolcu sayısı, bavul sayısı ve aktif bir WhatsApp numarası."
+      }
+    }
+  ]
+},
 ];
