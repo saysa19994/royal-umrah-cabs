@@ -760,12 +760,12 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       <section
         id="standards"
         dir={locale === 'ar' ? 'rtl' : undefined}
-        className="py-16 md:py-24 bg-gray-50 border-t border-gray-200/60 font-sans"
+        className="py-16 md:py-24 bg-[#0B101D] text-white border-t border-white/10 font-sans relative overflow-hidden"
       >
-        <div className="container mx-auto px-4 max-w-6xl">
+        <div className="container mx-auto px-4 max-w-6xl relative z-10">
           {/* Main Header (Centered at the top) */}
           <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20 px-4">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 leading-snug tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-snug tracking-tight">
               {locale === 'ar'
                 ? 'هذه رحلة إيمانية وليست مجرد مشوار. نتولى أمر الطريق لتتفرغوا لعبادتكم.'
                 : 'This is a sacred pilgrimage, not just a ride. We handle the road so you can focus on your worship.'}
@@ -782,10 +782,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                   <path d="m9 12 2 2 4-4" />
                 </svg>
               </div>
-              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
                 {locale === 'ar' ? 'مرخصون ومؤمنون' : 'Licensed & Insured'}
               </h3>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
                   ? 'سائقون مرخصون ومركبات مؤمنة في كل رحلة لضمان أمانكم.'
                   : 'Licensed chauffeurs and fully insured vehicles on every journey for your peace of mind.'}
@@ -799,10 +799,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                   <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
                 </svg>
               </div>
-              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
                 {locale === 'ar' ? 'تتبع آلي لرحلات الطيران' : 'Live Flight Radar Tracking'}
               </h3>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
                   ? 'نتابع طائرتك بالرادار الملاحي لنتواجد في الموعد تماماً، تقدمت أو تأخرت.'
                   : 'We track your flight via live radar to arrive right on time, whether early or delayed.'}
@@ -817,10 +817,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                   <polyline points="12 6 12 12 16 14" />
                 </svg>
               </div>
-              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
                 {locale === 'ar' ? 'استقبال مجاني بالمطار' : 'Free Airport Meet & Greet'}
               </h3>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
                   ? 'سائقك ينتظرك بلوحة باسمك مع 60 دقيقة انتظار مجانية بعد الهبوط.'
                   : 'Your chauffeur greets you with a personalized name board with 60 minutes of free waiting time.'}
@@ -835,10 +835,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                   <line x1="7" y1="7" x2="7.01" y2="7" />
                 </svg>
               </div>
-              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
                 {locale === 'ar' ? 'سعر ثابت وشامل' : 'Fixed All-Inclusive Price'}
               </h3>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
                   ? 'السعر المعلن يشمل الوقود، رسوم الطرق، والضرائب. لا توجد أي رسوم خفية.'
                   : 'The quoted fare covers fuel, highway toll charges, and taxes with zero hidden fees.'}
@@ -852,10 +852,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                   <path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6a3 3 0 0 1 6 0v6" />
                 </svg>
               </div>
-              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
                 {locale === 'ar' ? 'توقف مجاني بالميقات' : 'Complimentary Miqat Stop'}
               </h3>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
                   ? 'توقف مجاني في ميقات ذو الحليفة (آبار علي) للإحرام والصلاة دون أي رسوم إضافية.'
                   : 'Free stopover at Dhul Hulayfah (Bir Ali Miqat) for Ihram and prayer with zero extra surcharge.'}
@@ -872,10 +872,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                   <circle cx="17" cy="17" r="2" />
                 </svg>
               </div>
-              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
                 {locale === 'ar' ? 'سيارات خاصة وحديثة' : 'Modern Private Vehicles'}
               </h3>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
                   ? 'سيارات فخمة ومكيفة مخصصة لك ولعائلتك بالكامل لضمان أقصى درجات الخصوصية.'
                   : 'Air-conditioned luxury vehicles dedicated entirely to your family for maximum privacy.'}
@@ -891,10 +891,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                   <path d="m9 15 2 2 4-4" />
                 </svg>
               </div>
-              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
                 {locale === 'ar' ? 'دفع آمن عند الوصول' : 'Safe Pay on Arrival'}
               </h3>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
                   ? 'لا نطلب بطاقة ائتمان مسبقاً؛ ادفع لسائقك نقداً أو بالبطاقة البنكية عند الوصول سالماً.'
                   : 'No credit card needed in advance; pay your chauffeur via cash or card upon safe arrival.'}
@@ -909,10 +909,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                   <circle cx="12" cy="12" r="2" />
                 </svg>
               </div>
-              <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">
+              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
                 {locale === 'ar' ? 'دعم على مدار الساعة' : '24/7 Dedicated Support'}
               </h3>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
                   ? 'تواصلوا مع فريقنا عبر واتساب في أي وقت ليلاً أو نهاراً لتلبية احتياجاتكم.'
                   : 'Connect with our team on WhatsApp at any time, day or night, for all your requests.'}
