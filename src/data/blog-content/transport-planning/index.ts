@@ -1,0 +1,25 @@
+import { Locale } from '@/i18n/config';
+import { LocalizedArticleBody } from '../types';
+import { TRANSPORT_PLANNING_CONTENT_AR } from './ar';
+import { TRANSPORT_PLANNING_CONTENT_EN } from './en';
+import { TRANSPORT_PLANNING_CONTENT_MS } from './ms';
+import { TRANSPORT_PLANNING_CONTENT_ID } from './id';
+import { TRANSPORT_PLANNING_CONTENT_UR } from './ur';
+import { TRANSPORT_PLANNING_CONTENT_FR } from './fr';
+import { TRANSPORT_PLANNING_CONTENT_ES } from './es';
+import { TRANSPORT_PLANNING_CONTENT_DE } from './de';
+import { TRANSPORT_PLANNING_CONTENT_HI } from './hi';
+import { TRANSPORT_PLANNING_CONTENT_TR } from './tr';
+
+export const TRANSPORT_PLANNING_CONTENT: Record<Locale, LocalizedArticleBody> = {
+  ar: TRANSPORT_PLANNING_CONTENT_AR,
+  en: TRANSPORT_PLANNING_CONTENT_EN,
+  ms: TRANSPORT_PLANNING_CONTENT_MS,
+  id: TRANSPORT_PLANNING_CONTENT_ID,
+  ur: TRANSPORT_PLANNING_CONTENT_UR,
+  fr: TRANSPORT_PLANNING_CONTENT_FR,
+  es: TRANSPORT_PLANNING_CONTENT_ES,
+  de: TRANSPORT_PLANNING_CONTENT_DE,
+  hi: TRANSPORT_PLANNING_CONTENT_HI,
+  tr: TRANSPORT_PLANNING_CONTENT_TR,
+};

@@ -14,6 +14,7 @@ import { MAKKAH_MADINAH_CONTENT } from './makkah-to-madinah';
 import { MAKKAH_JEDDAH_CONTENT } from './makkah-to-jeddah';
 import { VIP_CAR_CONTENT } from './vip-car-with-driver';
 import { VEHICLE_CAPACITY_CONTENT } from './vehicle-capacity';
+import { TRANSPORT_PLANNING_CONTENT } from './transport-planning';
 
 export const BLOG_CONTENT_BY_LOCALE: Record<string, Record<Locale, LocalizedArticleBody>> = {
   'vip-umrah-transport-jeddah-to-makkah': {
@@ -32,6 +33,7 @@ export const BLOG_CONTENT_BY_LOCALE: Record<string, Record<Locale, LocalizedArti
   'makkah-to-jeddah-airport-transfer': MAKKAH_JEDDAH_CONTENT,
   'vip-car-with-driver-saudi-arabia': VIP_CAR_CONTENT,
   'vehicle-capacity-passengers-luggage': VEHICLE_CAPACITY_CONTENT,
+  'transport-planning-makkah-madinah-jeddah': TRANSPORT_PLANNING_CONTENT,
 };
 
 export function getBlogArticleContent(slug: string, locale: Locale): LocalizedArticleBody {

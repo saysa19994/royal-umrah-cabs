@@ -99,6 +99,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
   const isMakkahToJeddah = slug.includes('makkah-to-jeddah');
   const isVipGuide = slug.includes('vip-car-with-driver');
   const isCapacityGuide = slug.includes('vehicle-capacity');
+  const isPlanningGuide = slug.includes('transport-planning');
   const routeKey = isMadinahRoute
     ? 'makkah-to-madinah'
     : isMakkahToJeddah
@@ -107,10 +108,12 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
     ? 'vip-car-with-driver-saudi-arabia'
     : isCapacityGuide
     ? 'vehicle-capacity-passengers-luggage'
+    : isPlanningGuide
+    ? 'transport-planning-makkah-madinah-jeddah'
     : 'jeddah-airport-to-makkah';
-  const effectivePricingKey = (isVipGuide || isCapacityGuide) ? 'jeddah-airport-to-makkah' : routeKey;
+  const effectivePricingKey = (isVipGuide || isCapacityGuide || isPlanningGuide) ? 'jeddah-airport-to-makkah' : routeKey;
   const routePrices = dbRates[effectivePricingKey] || AUTHORITATIVE_TRANSFER_RATES[effectivePricingKey];
-  const bookingHref = (isVipGuide || isCapacityGuide) ? `/${locale}/booking` : `/${locale}/booking?route=${routeKey}`;
+  const bookingHref = (isVipGuide || isCapacityGuide || isPlanningGuide) ? `/${locale}/booking` : `/${locale}/booking?route=${routeKey}`;
 
   const pricingCardContent: Record<
     string,
@@ -121,6 +124,56 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       btn: Record<Locale, string>;
     }
   > = {
+    'transport-planning-makkah-madinah-jeddah': {
+      badge: {
+        ar: 'الأسعار الرسمية المعتمدة لرحلات مكة والمدينة وجدة',
+        en: 'Guaranteed Official Intercity & Airport Rates',
+        ms: 'Kadar Rasmi Dijamin Antara Makkah, Madinah & Jeddah',
+        id: 'Tarif Resmi Dijamin Makkah, Madinah & Jeddah',
+        ur: 'مکہ، مدینہ اور جدہ کے لیے سرکاری فکس کرایے',
+        fr: 'Tarifs Officiels Garantis La Mecque, Médine et Djeddah',
+        es: 'Tarifas Oficiales Garantizadas La Meca, Medina y Yeda',
+        de: 'Garantierte Tarife für Mekka, Medina und Dschidda',
+        hi: 'मक्का, मदीना और जेद्दा के लिए आधिकारिक निर्धारित दरें',
+        tr: 'Mekke, Medine ve Cidde İçin Resmi Sabit Fiyatlar',
+      },
+      title: {
+        ar: 'أسعار التنقل الخاص بين مكة المكرمة والمدينة المنورة وجدة',
+        en: 'Private Transfer Rates: Makkah, Madinah & Jeddah Intercity Travel',
+        ms: 'Kadar Pengangkutan Peribadi: Makkah, Madinah & Perjalanan Jeddah',
+        id: 'Tarif Transportasi Privat: Perjalanan Makkah, Madinah & Jeddah',
+        ur: 'مکہ مکرمہ، مدینہ منورہ اور جدہ کے مابین نجی ٹرانسپورٹ کے کرایے',
+        fr: 'Tarifs des Transferts Privés : La Mecque, Médine et Djeddah',
+        es: 'Tarifas de Traslado Privado: La Meca, Medina y Viajes en Yeda',
+        de: 'Tarife für Privattransfers: Mekka, Medina und Dschidda',
+        hi: 'निजी ट्रांसफर दरें: मक्का, मदीना और जेद्दा यात्रा',
+        tr: 'Özel Transfer Fiyatları: Mekke, Medine ve Cidde Şehirlerarası Seyahat',
+      },
+      desc: {
+        ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم الطرق السريعة والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, expressway tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
+        id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
+        ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
+        fr: 'Tarif fixe par véhicule complet incluant chauffeur privé, carburant, péages et taxes. Aucun prépaiement — règlement au chauffeur à l\'arrivée.',
+        es: 'Precio fijo por vehículo completo que incluye chofer privado, combustible, peajes e impuestos. Sin pago por adelantado: pague al chofer al llegar.',
+        de: 'Festpreis pro Fahrzeug inklusive privatem Chauffeur, Kraftstoff, Maut und Steuern. Keine Vorauszahlung — Bezahlung beim Fahrer bei Ankunft.',
+        hi: 'निजी ड्राइवर, ईंधन, टोल और करों सहित पूरे वाहन के लिए निश्चित दर। कोई अग्रिम भुगतान नहीं — आगमन पर ड्राइवर को भुगतान करें।',
+        tr: 'Özel şoför, yakıt, otoyol geçişleri ve vergiler dahil sabit fiyat. Ön ödeme yok — varışta şoföre ödeme.',
+      },
+      btn: {
+        ar: 'خطط لرحلتك واحجز سيارتك الآن',
+        en: 'Plan Your Route & Book Vehicle Now',
+        ms: 'Rancang Perjalanan & Tempah Kenderaan Sekarang',
+        id: 'Rencanakan Rute & Pesan Mobil Sekarang',
+        ur: 'اپنے سفر کی منصوبہ بندی کریں اور گاڑی بک کریں',
+        fr: 'Planifier Votre Trajet et Réserver',
+        es: 'Planifique su Ruta y Reserve Ahora',
+        de: 'Route planen und Fahrzeug jetzt buchen',
+        hi: 'अपना रूट प्लान करें और अभी वाहन बुक करें',
+        tr: 'Rotanızı Planlayın ve Şimdi Araç Ayırtın',
+      },
+    },
     'vehicle-capacity-passengers-luggage': {
       badge: {
         ar: 'الأسعار الرسمية المعتمدة لأسطول النقل الخاص',
