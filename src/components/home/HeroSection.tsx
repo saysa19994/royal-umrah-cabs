@@ -688,26 +688,6 @@ export function HeroSection({ locale }: HeroSectionProps) {
             </div>
           </form>
         </div>
-
-        {/* 4) RELOCATED TRUST ROW: Thin gold hairline divider immediately below booking card */}
-        <div className="w-full max-w-2xl mx-auto mt-6 sm:mt-7 pt-4 border-t border-[#d4a72c]/20">
-          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs sm:text-sm text-[#e2e8f0] font-light">
-            <span className="flex items-center gap-1.5">
-              <span className="text-[#d4a72c] font-bold text-xs">✓</span>
-              <span>{content.trustPay}</span>
-            </span>
-            <span className="hidden sm:inline text-[#d4a72c]/40">•</span>
-            <span className="flex items-center gap-1.5">
-              <span className="text-[#d4a72c] font-bold text-xs">✓</span>
-              <span>{content.trustWait}</span>
-            </span>
-            <span className="hidden sm:inline text-[#d4a72c]/40">•</span>
-            <span className="flex items-center gap-1.5">
-              <span className="text-[#d4a72c] font-bold text-xs">✓</span>
-              <span>{content.trustSupport}</span>
-            </span>
-          </div>
-        </div>
       </div>
 
       {/* DUAL NUMBER WHATSAPP MODAL */}
