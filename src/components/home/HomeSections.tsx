@@ -924,6 +924,93 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
 
 
       {/* ============================================================== */}
+      {/* SECTION: LATEST FROM OUR VIP BLOG & GUIDES                     */}
+      {/* ============================================================== */}
+      <section id="blog-highlight" className="py-16 md:py-24 bg-[#0A1224] text-white border-t border-gold/20 relative overflow-hidden">
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="container mx-auto px-4 max-w-6xl relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/40 bg-gold/10 text-gold text-xs font-semibold uppercase tracking-wider mb-3">
+                <span>{locale === 'ar' ? 'جديد المدونة لضيوف الرحمن' : 'Latest VIP Guide'}</span>
+              </div>
+              <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white">
+                {locale === 'ar' ? 'مقالات وأدلة السفر الحصرية' : 'Exclusive VIP Travel Articles'}
+              </h2>
+            </div>
+            <Link
+              href={`/${locale}/blog`}
+              className="inline-flex items-center gap-2 text-gold hover:text-amber-300 font-semibold text-sm transition-colors group self-start md:self-auto"
+            >
+              <span>{locale === 'ar' ? 'عرض جميع المقالات' : 'View All Articles'}</span>
+              <ArrowRight className="w-4 h-4 rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          {/* FEATURED ARTICLE CARD */}
+          <div className="bg-[#111A30] border border-gold/30 rounded-2xl overflow-hidden shadow-2xl hover:border-gold/60 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 gap-0 group">
+            <div className="lg:col-span-7 relative min-h-[260px] sm:min-h-[320px] lg:min-h-[400px] overflow-hidden">
+              <Image
+                src="/assets/images/vip-umrah-transport-jeddah-to-makkah.jpg"
+                alt={locale === 'ar' ? 'سيارة VIP لنقل ضيوف الرحمن من مطار جدة إلى مكة المكرمة' : 'VIP Umrah Transport Jeddah to Makkah'}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 1024px) 100vw, 55vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#111A30] via-transparent to-transparent lg:hidden" />
+            </div>
+
+            <div className="lg:col-span-5 p-6 sm:p-8 lg:p-10 flex flex-col justify-between text-start">
+              <div className="space-y-4">
+                <div className="flex flex-wrap items-center gap-2 text-xs">
+                  <span className="px-2.5 py-1 rounded-md bg-gold/20 text-gold font-bold">
+                    {locale === 'ar' ? 'نقل مطار جدة VIP' : 'Jeddah Airport VIP'}
+                  </span>
+                  <span className="text-gray-400">
+                    {locale === 'ar' ? '⏱ 8 دقائق قراءة' : '⏱ 8 min read'}
+                  </span>
+                </div>
+
+                <h3 className="font-display font-bold text-xl sm:text-2xl text-white group-hover:text-gold transition-colors leading-snug">
+                  {locale === 'ar'
+                    ? 'دليل اختيار سيارة VIP من مطار جدة إلى مكة المكرمة لضيوف الرحمن'
+                    : 'The Ultimate Guide to Choosing VIP Umrah Transport from Jeddah Airport to Makkah'}
+                </h3>
+
+                <p className="text-gray-300 text-sm leading-relaxed line-clamp-3">
+                  {locale === 'ar'
+                    ? 'الدليل الشامل لاختيار وسيلة المواصلات المثالية والفاخرة لرحلة العمرة، مع مقارنة تفصيلية بين أسطول السيارات والأسعار الثابتة، وتجنب أخطاء مطار الملك عبدالعزيز.'
+                    : 'A comprehensive guide on selecting executive chauffeur transport for Umrah, vehicle capacities, fixed rates, and avoiding common airport taxi traps.'}
+                </p>
+
+                <div className="flex flex-wrap gap-2 pt-2">
+                  <span className="text-[11px] px-2.5 py-1 rounded bg-white/5 border border-white/10 text-gray-300">
+                    {locale === 'ar' ? '✓ الدفع للسائق فقط' : '✓ Pay Chauffeur Directly'}
+                  </span>
+                  <span className="text-[11px] px-2.5 py-1 rounded bg-white/5 border border-white/10 text-gray-300">
+                    {locale === 'ar' ? '✓ استقبال بصالة المطار' : '✓ Terminal Meet & Greet'}
+                  </span>
+                </div>
+              </div>
+
+              <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between">
+                <Link
+                  href={`/${locale}/blog/vip-umrah-transport-jeddah-to-makkah`}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gold hover:bg-gold-light text-[#0A1224] font-bold text-sm transition-all shadow-md hover:shadow-gold/30"
+                >
+                  <span>{locale === 'ar' ? 'قراءة المقال كاملاً' : 'Read Full Guide'}</span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                </Link>
+                <span className="text-xs text-gray-400">
+                  {locale === 'ar' ? 'محدّث لعام 2026' : 'Updated 2026'}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
       {/* SECTION 9: VERIFIED TESTIMONIALS & COMPREHENSIVE FAQS           */}
       {/* ============================================================== */}
       <section className="py-16 md:py-24 bg-alabaster border-t border-border text-start">

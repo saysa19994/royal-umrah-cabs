@@ -196,6 +196,16 @@ export function Footer({ locale, dict, settings }: FooterProps) {
             </h4>
             <ul className="space-y-2 text-xs text-slate-400">
               <li>
+                <Link href={`/${locale}/blog`} className="hover:text-gold transition-colors inline-block py-1 text-gold font-bold">
+                  {locale === 'ar' ? '📖 مقالات ومدونة VIP' : '📖 VIP Umrah Blog'}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${locale}/blog/vip-umrah-transport-jeddah-to-makkah`} className="hover:text-gold transition-colors inline-block py-1 text-amber-300 font-semibold">
+                  {locale === 'ar' ? '✨ دليل سيارة VIP من مطار جدة لمكة' : '✨ VIP Chauffeur: Jeddah to Makkah'}
+                </Link>
+              </li>
+              <li>
                 <Link href={`/${locale}/guides/jeddah-airport-arrival-pickup-guide`} className="hover:text-gold transition-colors inline-block py-1">
                   {locale === 'ar' ? 'دليل الوصول بمطار جدة (KAIA)' : 'Jeddah Airport Arrival Guide'}
                 </Link>

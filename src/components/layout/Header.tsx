@@ -70,6 +70,7 @@ export function Header({ locale, dict }: HeaderProps) {
     { href: `/${locale}/services`, label: dict.nav.services },
     { href: `/${locale}/fleet`, label: dict.nav.fleet },
     { href: `/${locale}/pricing`, label: dict.nav.pricing },
+    { href: `/${locale}/blog`, label: locale === 'ar' ? 'المدونة' : 'Blog' },
     { href: `/${locale}/guides`, label: dict.nav.guides },
     { href: `/${locale}/about`, label: dict.nav.about },
     { href: `/${locale}/contact`, label: dict.nav.contact },
