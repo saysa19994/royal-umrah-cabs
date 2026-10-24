@@ -2,90 +2,143 @@ import { LocalizedArticleBody } from '../types';
 
 export const TRANSPORT_PLANNING_CONTENT_EN: LocalizedArticleBody = {
   intro: {
-    title: 'Comprehensive Transport Planning Guide: Makkah, Madinah & Jeddah for Umrah Pilgrims',
+    title: 'How to Plan Transportation Between Makkah, Madinah, and Jeddah: A Practical Guide for Umrah Pilgrims',
     paragraphs: [
-      'Performing Umrah and visiting the Prophet’s Mosque is an extraordinary spiritual journey. Achieving peace of mind and complete devotional focus depends directly on early, meticulous logistics planning across the three key pilgrimage cities: Jeddah, Makkah Al-Mukarramah, and Madinah Al-Munawwarah. Without prior coordination, the opening hours of a pilgrimage can quickly devolve into unnecessary fatigue and chaotic negotiations at airport curbs and hotel lobbies.',
-      'A typical Umrah itinerary entails several essential transport legs: touching down at King Abdulaziz International Airport in Jeddah, transferring directly to your Makkah hotel in the state of Ihram to perform Umrah, spending days in prayer, taking the long highway journey along the historic Hijrah route to Madinah to visit Al-Masjid an-Nabawi, conducting historical Ziyarat tours, and finally departing via Jeddah or Madinah airport laden with boxes of blessed Zamzam water and gifts.',
-      'In this authoritative strategic guide, the fleet logistics team at Duyuf Alrahman VIP provides an end-to-end roadmap for planning every transfer leg, comparing transport modes objectively, optimizing timing around prayer and flight schedules, avoiding congestion, and booking verified VIP vehicles at fixed rates with zero prepayment (strict Pay the Driver Only upon arrival policy).'
+      'Planning transportation between Makkah, Madinah, and Jeddah is one of the most critical logistical pillars governing the comfort, peace of mind, and devotional focus of Umrah pilgrims and visitors. The ideal travel arrangement depends directly on your flight itinerary, hotel locations, available transport modes, luggage volume, family requirements (children and elderly relatives), booking availability, and the planned sequence of visits.',
+      'Without proactive planning, the first hours of an Umrah journey can easily devolve into unnecessary fatigue and anxiety caused by searching for taxis at airport curbs, haggling over seasonal fares, or discovering that a vehicle’s trunk cannot accommodate all suitcases and official 5-liter Zamzam containers.',
+      'In this comprehensive practical guide, we provide an objective roadmap for organizing your multi-city itinerary across King Abdulaziz International Airport in Jeddah, Makkah Al-Mukarramah, and Madinah Al-Munawwarah. We compare private cars, the Haramain High-Speed Railway, and buses, provide an illustrative planning timetable, outline budget considerations, and explain how to reserve modern VIP vehicles at guaranteed fixed rates with zero prepayment (strict Pay the Driver Only upon safe arrival policy).'
     ]
   },
   sections: [
     {
-      title: 'The Three Core Legs of a Complete Umrah Transport Plan',
+      title: 'How to Organize Your Travel Itinerary Between Makkah, Madinah, and Jeddah',
       paragraphs: [
-        'An effective pilgrimage transport plan coordinates three pivotal travel legs:',
-        '1. Arrival Leg (Jeddah Airport to Makkah Hotel): Covering approximately 85–100 km and taking 60 to 75 minutes. Pilgrims entering in the state of Ihram require an immediate, seamless, air-conditioned private vehicle to reach their hotel without the physical strain of waiting in taxi ranks.',
-        '2. Intercity Holy Sanctuary Leg (Makkah to Madinah): A 430–450 km journey along the multi-lane expressway (Al-Hijrah Highway), taking approximately 4 to 4.5 hours by private car. This demanding stretch requires an expansive, quiet vehicle with plush seating, reliable climate control, and ample space for all luggage and Zamzam water.',
-        '3. Departure Leg (Makkah or Madinah to the Airport): Whether traveling by road from Madinah to Jeddah Airport (~420 km) or departing locally via Madinah’s Prince Mohammad bin Abdulaziz Airport (MED), punctual scheduling with an adequate safety buffer is essential to ensure a stress-free flight check-in.'
+        'Successful transport planning begins by defining key structural milestones:',
+        '1. Arrival Airport and Touchdown Time: Identifying whether your flight lands at King Abdulaziz International Airport in Jeddah (Terminal 1 or North Terminal) or at Prince Mohammad bin Abdulaziz Airport in Madinah.',
+        '2. First Destination and Accommodation: Deciding whether to head straight to Makkah in the state of Ihram to perform Umrah, or to begin in Madinah to visit the Prophet’s Mosque and rest before entering Ihram.',
+        '3. Duration of Stay in Makkah and Madinah: Coordinating intercity travel to align smoothly with standard hotel check-in (typically 3:00–4:00 PM) and check-out (12:00 PM) times in central zones.',
+        '4. Intercity Transfer Routes: Accounting for real driving distances (Jeddah to Makkah: ~85 km, Makkah to Madinah: ~430 km, Madinah to Jeddah: ~420 km) and typical highway travel times.',
+        '5. Final Departure City and Airport: Scheduling airport transfers with a generous time buffer to accommodate luggage check-in and mandatory Zamzam container processing.',
+        'Important Planning Note: There is no religious requirement dictating whether you must visit Makkah before Madinah or vice versa. Both sequences are permissible and blessed. The choice should be based entirely on flight schedules, hotel rates, and personal family comfort.'
       ]
     },
     {
-      title: 'Comparing Transport Options: Private Chauffeur, High-Speed Train & Buses',
+      title: 'How to Travel from Jeddah Airport to Makkah',
       paragraphs: [
-        'To select the ideal solution for your family’s itinerary, consider this objective comparison:',
-        '1. Private Chauffeur Transfer (Door-to-Door): The premier choice for families, elderly pilgrims, and travelers with significant luggage. Delivers direct hotel-to-hotel transit, complete schedule flexibility, custom rest-stop timing, private cabin environment, and payment only upon safe arrival.',
-        '2. Haramain High-Speed Railway: A fast and modern rail option between major terminals. However, it requires separate taxi rides with heavy luggage from hotels to train stations and again from destination stations to final hotels, adding transit fatigue when traveling with young children, elderly parents, or bulky baggage.',
-        '3. Public & Group Tour Buses: An economical alternative for budget group tours, but subject to fixed schedules, central bus terminals far from hotels, and extended travel times due to mandatory multi-passenger checkpoints.',
-        '4. On-the-Spot Street Taxis: Unpredictable and vulnerable to peak-season fare inflation, variable vehicle cleanliness, uncertain air-conditioning performance, and limited trunk capacities.'
+        'The initial transfer from Jeddah Airport to Makkah is a pivotal journey, as pilgrims are often wearing Ihram garments after a long international flight. Practical planning considerations include:',
+        '• Pre-Coordinated Meet and Greet: Ensuring your private chauffeur is waiting at the arrival terminal holding a personalized name board, avoiding taxi lines and chaotic curb negotiations.',
+        '• Matching Luggage and Passenger Count: Verifying that all bags fit inside the dedicated trunk without encroaching on passenger seats, preserving cabin comfort and highway safety.',
+        '• Confirmed All-Inclusive Rates: Checking that your agreed rate covers fuel, expressway tolls, and taxes with no hidden surcharges.',
+        'For detailed terminal guidance and vehicle options on this route, consult our comprehensive guide on [Choosing a VIP Car from Jeddah Airport to Makkah](/en/blog/vip-umrah-transport-jeddah-to-makkah).'
       ]
     },
     {
-      title: 'Timing Strategy: Scheduling Around Prayers, Traffic & Flights',
+      title: 'How to Plan Your Transfer Between Makkah and Madinah',
       paragraphs: [
-        'Mastering your travel timeline is the key to a frictionless pilgrimage:',
-        '1. Factoring in Congregational Prayer Closures: Streets in the central zones around the Grand Mosque in Makkah and the Prophet’s Mosque in Madinah experience temporary traffic closures approximately 30 minutes before and after each mandatory prayer. Always schedule your pickup during intermediate prayer windows.',
-        '2. International Flight Buffer: For departures from Makkah to Jeddah Airport, schedule hotel pickup at least 4.5 to 5 hours prior to your scheduled flight departure. This guarantees arrival at the terminal 3 hours before boarding with ample contingency.',
-        '3. Best Time of Day for Intercity Travel: We recommend departing for the Makkah-to-Madinah highway either in the early morning after Fajr prayer (cooler ambient temperature and clear traffic) or in the late afternoon after Asr prayer, avoiding the peak midday desert heat.',
-        '4. Ring Roads & Highway Routes: Experienced private chauffeurs utilize modern bypass expressways to bypass inner-city bottlenecks around the holy mosques.'
+        'The road journey between Makkah and Madinah spans 430–450 km along the multi-lane Al-Hijrah Highway, taking approximately 4 to 4.5 hours by car. Travelers generally choose between two primary options:',
+        '1. Private Car with Driver (Private Chauffeur):',
+        'A private chauffeur provides direct door-to-door transit from your Makkah hotel lobby to your Madinah hotel door. This service offers complete departure time flexibility, custom stops at licensed highway rest areas for prayer and refreshments, unmatched privacy for families, and direct payment upon arrival. For full route details, explore our dedicated guide on [Private Transfers from Makkah to Madinah](/en/blog/private-transfer-makkah-to-madinah).',
+        '2. Haramain High-Speed Railway:',
+        'The Haramain Railway is a modern electric high-speed train connecting Makkah (Al-Rusaifah Station) and Madinah Station in approximately 2 hours and 20 minutes at speeds up to 300 km/h.',
+        'However, travelers must consider practical station-to-station realities: you must book separate taxis with heavy luggage from your hotel to Makkah train station, arrive at least 60 minutes before departure for security screening and baggage checks, and take another taxi from Madinah station to your accommodation. The railway also enforces strict luggage limits per passenger.',
+        'Pilgrims interested in rail travel should verify current timetables, ticket prices, and luggage policies through official Haramain Railway channels and book well in advance, distinguishing public rail transit from door-to-door private chauffeur services provided by Duyuf Alrahman VIP.'
       ]
     },
     {
-      title: 'Luggage Logistics, Zamzam Water & Mobility Equipment',
+      title: 'How to Plan Travel Within Jeddah and Airport Departures',
       paragraphs: [
-        'Moving between hotels in Makkah and Madinah with full luggage requires practical foresight:',
-        '• Keep Inbound Luggage Manageable: Travel light on your outbound leg to preserve luggage capacity for prayer mats, dates, and gifts purchased during your stay.',
-        '• Defer Zamzam Water Purchases to the Final Leg: Do not transport heavy 5-liter boxed Zamzam containers across cities from Makkah to Madinah throughout your entire trip. Purchase official airport-approved containers at your final departure city to save weight and cargo space.',
-        '• Plan Dedicated Space for Strollers and Wheelchairs: For families traveling with elderly dependents or young children, select vehicles with expansive cargo bays (such as the Hyundai Staria VIP or GMC Yukon XL VIP) to securely store folding wheelchairs without encroaching on passenger legroom.'
+        'Whether spending a few days shopping in the historic Al-Balad district and Jeddah Corniche or heading straight to the airport for your return flight, planning requires:',
+        '• Specifying Exact Pickup Addresses and Terminals: Providing your transfer provider with exact hotel locations or specific flight departure terminals (Terminal 1 for Saudia and major carriers, or the North Terminal for budget and select international flights).',
+        '• Accounting for Travel Time and Traffic: The drive from Makkah hotels to Jeddah Airport typically takes 60 to 75 minutes under normal conditions, but peak traffic demands a substantial advance margin.',
+        '• Consulting the Return Transfer Guide: For a seamless airport departure, review our complete guide on [Booking a Transfer from Makkah to Jeddah Airport](/en/blog/makkah-to-jeddah-airport-transfer).'
       ]
     },
     {
-      title: 'Historical Ziyarat Tours in Makkah and Madinah',
+      title: 'Illustrative Intercity Travel Itinerary Template',
       paragraphs: [
-        'No comprehensive pilgrimage itinerary is complete without visiting significant Islamic heritage sites:',
-        '• Makkah Ziyarat: Highlights include Jabal al-Nour (Cave of Hira), Jabal Thawr, Mina, Muzdalifah, the Plain of Arafat, the Clock Tower Museum, and the Kiswa Factory. A 3- to 4-hour private vehicle tour allows families to explore at an unhurried, reflective pace.',
-        '• Madinah Ziyarat: Essential landmarks include Masjid Quba (the first mosque of Islam), Masjid al-Qiblatayn, Mount Uhud and the Martyrs Cemetery, and the site of the Battle of the Trench (The Seven Mosques). A private car allows pilgrims to pray two units of Sunnah at Quba and reflect at Uhud in tranquility.',
-        '• The Private Chauffeur Advantage: Local chauffeurs know optimal visiting hours to avoid tourist bus congestion, guiding families smoothly from site to site.'
+        'The following illustrative table presents a flexible travel schedule that can be tailored to your specific flight and accommodation bookings:',
+        '| Journey Stage | Starting Point | Destination | Recommended Transport | Key Details to Confirm in Advance |',
+        '| :--- | :--- | :--- | :--- | :--- |',
+        '| **Day 1: Arrival** | Jeddah Airport (T1 / North) | Makkah Hotel | VIP Private Car with Chauffeur | Flight number, terminal, passenger & bag count, meet point |',
+        '| **Days 2–4: Makkah Stay** | Makkah Accommodation | Makkah Ziyarat Tour | Private Car (Hourly / Tour) | Schedule tour between intermediate prayer times |',
+        '| **Day 5: Intercity Transfer** | Makkah Hotel | Madinah Hotel | Private Family MPV / SUV | Align with hotel check-out (12:00 PM) and check-in (3:00 PM) |',
+        '| **Days 6–8: Madinah Stay** | Madinah Accommodation | Madinah Ziyarat (Quba & Uhud) | Private Car (Hourly / Tour) | Visit Masjid Quba and Uhud early in the morning |',
+        '| **Day 9: Departure** | Madinah / Makkah Hotel | Jeddah / Madinah Airport | Direct Private Airport Transfer | Depart 4.5 to 5 hours prior to international flights |'
       ]
     },
     {
-      title: 'Selecting the Right Vehicle Class for Each Itinerary Leg',
+      title: 'When to Choose Private Transport vs. The Haramain Train (Balanced Comparison)',
       paragraphs: [
-        'Match vehicle categories to passenger counts and journey distances:',
-        '1. Toyota Camry (VIP Executive Sedan): Optimal for solo pilgrims and couples (1–3 passengers with 2 large suitcases). Agile and fuel-efficient for rapid airport hops and city errands.',
-        '2. Hyundai Staria VIP (Luxury 7-Seater Family MPV): The gold standard for families of 4 to 7. Features plush captain seating, independent multi-zone air conditioning, and trunk room for 5–6 bags and a stroller.',
-        '3. GMC Yukon XL VIP (Extended Full-Size Luxury SUV): The ultimate long-distance highway cruiser between Makkah and Madinah. Offers exceptional cabin quietness, commanding ride height, and an elongated XL trunk fitting 6–8 large bags alongside wheelchairs.',
-        '4. Toyota HiAce & Toyota Coaster (Executive Minibuses): Tailored for extended multi-generational families and Umrah tour groups (10 to 20 passengers) wanting to stay together in a single air-conditioned vehicle.'
+        'This balanced comparison clarifies operational differences to help you select the best transport mode:',
+        '| Evaluation Criteria | Private Chauffeur Service (Door-to-Door) | Haramain High-Speed Train (Station-to-Station) |',
+        '| :--- | :--- | :--- |',
+        '| **Service Delivery** | Direct transit from hotel lobby to hotel lobby | Transit between railway stations; requires separate taxis |',
+        '| **Luggage Capacity** | Expansive trunk space for large suitcases, Zamzam, strollers | Strict limits on suitcase weight, dimensions, and count |',
+        '| **Schedule Flexibility** | Depart at any hour chosen by your family | Fixed timetable; requires arriving 60 minutes prior |',
+        '| **Family & Senior Comfort** | Effortless with zero walking, lifting, or mode switching | Requires walking through terminals, platforms, and taxis |',
+        '| **Privacy & Cabin Experience**| 100% private cabin with personalized AC and stops | Shared public train cars (Economy or Business Class) |',
+        '| **Total Cost Structure** | Fixed rate per entire vehicle; highly economical for groups | Per-passenger ticket fares + taxi rides to/from stations |',
+        'Summary: The high-speed train is a rapid option for solo travelers or couples traveling light. Private chauffeur transfers remain the most practical, comfortable, and cost-effective choice for families, seniors, and travelers carrying multiple suitcases.'
       ]
     },
     {
-      title: 'Benefits of Pre-Booking Your Complete Transport Package',
+      title: 'How to Choose the Right Vehicle for Your Family or Group',
       paragraphs: [
-        'Consolidating your intercity transport with a single reputable service provider delivers decisive advantages:',
-        '• Fixed, Guaranteed Rates: Shield yourself from volatile peak-season fare inflation and curb negotiations.',
-        '• Dedicated 24/7 Logistics Coordinator: A single bilingual point of contact on WhatsApp actively monitors your flight arrivals and schedules vehicle dispatches.',
-        '• Verified Chauffeurs & Modern Fleet: Spotless, late-model vehicles driven by experienced, polite drivers who know every hotel access point in Makkah and Madinah.',
-        '• Total Financial Flexibility: Zero advance deposit or credit card pre-authorization. You pay directly to the driver after reaching each destination safely.'
+        'Selecting the right vehicle category requires matching your group size with verified luggage capacity:',
+        '• Solo Pilgrims & Couples (1–3 passengers with 2 bags): An executive sedan like the Toyota Camry VIP provides smooth, agile, and economical transfers.',
+        '• Average Families (4–7 passengers with 5–6 bags and a stroller): The Hyundai Staria VIP MPV is the preferred choice, featuring plush captain chairs, multi-zone AC, and dedicated trunk room.',
+        '• Large Families & Luxury Seekers (Up to 7 passengers with 6–8 bags and wheelchairs): The GMC Yukon XL VIP extended-wheelbase SUV offers royal comfort on the expressway and a cavernous cargo bed.',
+        '• Large Groups (10–14 passengers): The Toyota HiAce and Toyota Coaster minibuses allow extended families to travel together comfortably in a single vehicle.',
+        'For comprehensive capacity specifications and bag sizing advice, see our [Guide to Umrah Vehicle Capacity and Luggage Space](/en/blog/vehicle-capacity-passengers-luggage).'
       ]
     },
     {
-      title: 'Final Pre-Travel Logistics Checklist',
+      title: 'How to Plan Your Intercity Transport Budget',
       paragraphs: [
-        'Confirm these five critical points before embarking on your journey:',
-        '✔ Are intercity transfers scheduled to align smoothly with hotel check-in (typically 3:00–4:00 PM) and check-out (12:00 PM)?',
-        '✔ Have you scheduled at least a 4.5-hour departure buffer before international flights from Jeddah Airport?',
-        '✔ Did you communicate exact suitcase counts, folding strollers, and wheelchairs to your transfer coordinator?',
-        '✔ Does your quoted rate explicitly include all fuel, expressway tolls, and taxes with no hidden surcharges?',
-        '✔ Is the reservation strictly structured around Pay the Driver Only upon arrival with zero prepayment?'
+        'When budgeting for Umrah transportation, evaluate the total cost of your complete itinerary rather than isolated single journeys:',
+        '1. Flat Vehicle Fares: With Duyuf Alrahman VIP, rates are quoted per vehicle rather than per person, significantly reducing per-passenger costs for families.',
+        '2. Zero Hidden Fees: Our verified rates are fully inclusive of fuel, expressway tolls, and taxes, protecting you from unexpected surcharges.',
+        '3. Factoring in Multi-Leg Transfers: When comparing public transit, remember to add taxi fares to and from train stations to ticket prices for an accurate comparison.',
+        '4. Pay the Driver Only Policy: Booking with a provider that enforces payment upon arrival eliminates financial risk from schedule adjustments or flight delays.'
+      ]
+    },
+    {
+      title: 'Common Mistakes to Avoid When Planning Umrah Transportation',
+      paragraphs: [
+        'Avoid these common logistical pitfalls to ensure a stress-free pilgrimage:',
+        '1. Booking transport before confirming exact hotel addresses in Makkah and Madinah.',
+        '2. Forgetting to factor in travel time and taxi transfers between hotels and railway stations.',
+        '3. Underestimating luggage volume, souvenirs, and boxed 5-liter Zamzam containers.',
+        '4. Scheduling airport departures too tightly without adequate safety margins before international flights.',
+        '5. Assuming street taxi rates remain stable during peak periods like Ramadan and seasonal Umrah spikes.',
+        '6. Neglecting to inform your transfer coordinator in advance about folding wheelchairs or bulky baby strollers.'
+      ]
+    },
+    {
+      title: 'Frequently Asked Questions: Transport Planning Between Makkah, Madinah, and Jeddah',
+      paragraphs: [
+        'Here are detailed, verified answers to the seven most common questions from Umrah travelers:',
+        '1. What is the best way to organize transportation between Makkah, Madinah, and Jeddah?',
+        'The most reliable approach is pre-booking a unified door-to-door transfer package with an authorized private chauffeur service at fixed rates. This aligns travel times with hotel check-in/check-out schedules and ensures adequate airport buffers.',
+        '2. Can I travel from Makkah to Madinah by private car?',
+        'Yes. This is the most comfortable and popular option for families. The 430 km journey along the Al-Hijrah Highway takes approximately 4 to 4.5 hours in a modern air-conditioned vehicle, with direct pickup and drop-off at your hotel doors.',
+        '3. What is the difference between a private car and the Haramain High-Speed Train?',
+        'A private car provides direct door-to-door service without handling baggage at stations, offering flexible departure times and unlimited luggage space. The train is a rapid station-to-station rail service requiring separate taxi rides and enforcing strict baggage limits.',
+        '4. How do I arrange an airport transfer from Jeddah to Makkah?',
+        'You can reserve online or via WhatsApp by providing your flight number, arrival time, and passenger count. A private chauffeur meets you at the terminal holding a name board and drives you directly to your Makkah hotel.',
+        '5. How do I choose the right vehicle for my family and luggage?',
+        'Choose based on passenger count and baggage: Toyota Camry for 1–3 passengers with 2 bags; Hyundai Staria VIP for families up to 7 with 5–6 bags; GMC Yukon XL VIP for luxury, wheelchairs, and 6–8 bags; and Toyota HiAce for groups up to 11.',
+        '6. When should I confirm transport and train bookings?',
+        'Confirm transport arrangements as soon as your flights and hotels are finalized, especially during peak seasons like Ramadan and winter holidays, to secure your preferred vehicle class and lock in fixed rates.',
+        '7. How should I organize my return journey to Jeddah Airport?',
+        'Schedule hotel pickup in Makkah at least 4.5 to 5 hours prior to your international flight departure. This allows 60–75 minutes for driving and ensures arrival 3 hours before boarding for smooth baggage drop and Zamzam processing.'
+      ]
+    },
+    {
+      title: 'Plan Your Journey with Duyuf Alrahman VIP',
+      paragraphs: [
+        'Duyuf Alrahman VIP offers a comprehensive luxury transport system connecting Makkah, Madinah, and Jeddah. We provide spotless late-model vehicles, professional chauffeurs with intimate knowledge of holy city access routes, and guaranteed all-inclusive rates covering fuel, tolls, and taxes with no hidden fees.',
+        'Crucially, we operate under a strict Pay the Driver Only upon safe arrival policy, requiring zero advance deposit or credit card pre-authorization. Contact us today to plan your complete pilgrimage itinerary and experience seamless, serene travel throughout the Kingdom.'
       ]
     }
   ],

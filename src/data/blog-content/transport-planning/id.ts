@@ -2,95 +2,148 @@ import { LocalizedArticleBody } from '../types';
 
 export const TRANSPORT_PLANNING_CONTENT_ID: LocalizedArticleBody = {
   intro: {
-    title: 'Panduan Lengkap Perencanaan Transportasi: Makkah, Madinah & Jeddah untuk Jamaah Umrah',
+    title: 'Cara Merencanakan Transportasi Antara Makkah, Madinah & Jeddah: Panduan Praktis untuk Jamaah Umrah',
     paragraphs: [
-      'Melaksanakan ibadah Umrah dan berziarah ke Masjid Nabawi adalah perjalanan spiritual yang paling dirindukan setiap Muslim. Ketenangan hati dan kekhusyukan ibadah di Tanah Suci sangat bergantung pada perencanaan transportasi yang matang di antara tiga kota utama: Jeddah, Makkah Al-Mukarramah, dan Madinah Al-Munawwarah. Tanpa perencanaan yang terstruktur, jam-jam pertama ibadah bisa berubah menjadi kelelahan akibat tawar-menawar taksi di bandara atau antrean di lobi hotel.',
-      'Rangkaian perjalanan Umrah meliputi beberapa tahapan penting: mendarat di Bandara Internasional King Abdulaziz Jeddah, menuju hotel di Makkah dalam kondisi berihram untuk menunaikan Umrah, hari-hari ibadah di Masjidil Haram, perjalanan darat melintasi Jalur Hijrah ke Madinah untuk salat di Masjid Nabawi, ziarah tempat bersejarah Islam, dan perjalanan kepulangan menuju bandara di Jeddah atau Madinah dengan membawa air Zamzam dan kurma.',
-      'Dalam panduan strategis ini, tim logistik Duyuf Alrahman VIP menyajikan peta jalan lengkap untuk merencanakan setiap rute perjalanan, membandingkan opsi transportasi secara objektif, menyelaraskan jadwal dengan waktu salat dan penerbangan, menghindari kemacetan, serta memesan armada VIP bertarif pasti tanpa uang muka (kebijakan Wajib Bayar Langsung ke Sopir saat tiba di tujuan).'
+      'Perencanaan transportasi antara Makkah, Madinah, dan Jeddah merupakan salah satu pilar logistik paling fundamental yang menentukan kenyamanan, ketenangan hati, dan kekhusyukan jamaah Umrah selama di Tanah Suci. Pengaturan rute terbaik bergantung pada jadwal tiket penerbangan, lokasi hotel, moda transportasi yang tersedia, volume koper, kebutuhan anggota keluarga (anak-anak dan lansia), serta urutan ziarah yang direncanakan.',
+      'Tanpa perencanaan matang, jam-jam pertama kedatangan jamaah dapat berubah menjadi kelelahan akibat mencari taksi secara mendadak di bandara, tawar-menawar tarif yang melonjak saat musim ramai, atau mendapati bagasi mobil tidak muat menampung seluruh koper dan kardus air Zamzam resmi 5 liter.',
+      'Dalam panduan strategis dan praktis ini, kami menyajikan peta jalan lengkap untuk mengelola rute perjalanan antara Bandara Internasional King Abdulaziz Jeddah, Makkah Al-Mukarramah, dan Madinah Al-Munawwarah. Kami membandingkan armada mobil privat, Kereta Cepat Haramain, dan bus secara objektif, menyediakan simulasi jadwal perjalanan, rincian anggaran biaya, serta panduan memesan armada VIP bertarif pasti tanpa uang muka (kebijakan Wajib Bayar Langsung ke Sopir saat tiba di tujuan).'
     ]
   },
   sections: [
     {
-      title: 'Tiga Rute Utama dalam Rencana Transportasi Umrah Terpadu',
+      title: 'Bagaimana Menyusun Rute Perjalanan Antara Makkah, Madinah, dan Jeddah?',
       paragraphs: [
-        'Rencana transportasi umrah yang efektif mengintegrasikan tiga jalur perjalanan krusial:',
-        '1. Rute Kedatangan (Bandara Jeddah ke Hotel Makkah): Berjarak sekitar 85–100 km dengan waktu tempuh 60 hingga 75 menit. Jamaah yang sudah berihram membutuhkan kendaraan pribadi yang sejuk dan nyaman setibanya di bandara tanpa perlu antre atau berganti kendaraan.',
-        '2. Rute Antar Dua Kota Suci (Makkah ke Madinah): Perjalanan 430–450 km melintasi Jalan Bebas Hambatan Hijrah yang membutuhkan waktu sekitar 4 hingga 4,5 jam dengan mobil privat. Perjalanan panjang ini menuntut armada yang lega, kedap suara, ber-AC dingin, serta memiliki bagasi yang cukup untuk koper dan air Zamzam.',
-        '3. Rute Kepulangan (Makkah atau Madinah ke Bandara): Baik perjalanan darat dari Madinah ke Bandara Jeddah (~420 km) maupun langsung dari Bandara Madinah (MED), ketepatan waktu berangkat dengan margin waktu yang aman sangat penting agar proses check-in penerbangan berjalan santai.'
+        'Perencanaan transportasi yang efektif dimulai dengan menetapkan tahapan penting perjalanan:',
+        '1. Bandara Kedatangan dan Waktu Pendaratan: Ketahui apakah penerbangan Anda mendarat di Bandara Jeddah (Terminal 1 atau Terminal Utara) atau langsung di Bandara Madinah.',
+        '2. Kota Tujuan Pertama dan Hotel Penginapan: Putuskan apakah langsung menuju Makkah dalam kondisi berihram untuk menunaikan Umrah, atau mengawali perjalanan di Madinah untuk berziarah di Masjid Nabawi dan beristirahat sebelum berniat ihram.',
+        '3. Durasi Menginap di Makkah dan Madinah: Selaraskan jadwal keberangkatan antarkota agar tepat dengan waktu check-in (umumnya 15.00–16.00) dan check-out (12.00 siang) hotel-hotel di area ring satu.',
+        '4. Jarak dan Waktu Tempuh Antarkota: Perhitungkan jarak tempuh riil (Jeddah ke Makkah: ~85 km, Makkah ke Madinah: ~430 km, Madinah ke Jeddah: ~420 km) serta perkiraan durasi perjalanan di jalan tol.',
+        '5. Bandara dan Kota Keberangkatan Akhir: Jadwalkan penjemputan menuju bandara dengan margin waktu yang longgar untuk proses bagasi pesawat dan pelaporan kardus air Zamzam resmi.',
+        'Catatan Penting: Tidak ada aturan agama yang mewajibkan berkunjung ke Makkah sebelum Madinah atau sebaliknya. Kedua urutan sah dan bernilai ibadah. Pilihan hendaknya didasarkan pada kecocokan tiket pesawat, tarif hotel, dan kenyamanan keluarga Anda.'
       ]
     },
     {
-      title: 'Perbandingan Pilihan Transportasi: Sopir Pribadi, Kereta Cepat & Bus Jamaah',
+      title: 'Bagaimana Perjalanan dari Bandara Jeddah ke Makkah?',
       paragraphs: [
-        'Untuk menentukan pilihan terbaik bagi keluarga Anda, pertimbangkan perbandingan objektif berikut:',
-        '1. Transportasi Privat dengan Sopir (Door-to-Door): Pilihan ideal bagi keluarga, jamaah lansia, dan rombongan berbagasi banyak. Mengantar langsung dari lobi hotel ke lobi hotel tujuan, jadwal fleksibel, waktu istirahat fleksibel di rest area, kabin pribadi yang nyaman, dan pembayaran hanya dilakukan setelah tiba dengan selamat.',
-        '2. Kereta Cepat Haramain: Moda kereta modern yang cepat antar stasiun besar. Namun, jamaah harus naik taksi terlebih dahulu bersama koper dari hotel ke stasiun dan naik taksi lagi dari stasiun kedatangan ke hotel, menimbulkan kelelahan fisik bagi anak-anak dan lansia.',
-        '3. Bus Pariwisata Rombongan: Opsi ekonomis untuk paket tur rombongan besar, namun terikat jadwal kaku, terminal bus yang jauh dari hotel ring satu, serta durasi perjalanan yang jauh lebih lama akibat pemeriksaan pos keamanan.',
-        '4. Taksi Jalanan yang Dicari Dadakan: Berisiko menghadapi lonjakan tarif musiman, kebersihan interior yang tidak terjamin, AC yang kurang dingin, dan kapasitas bagasi yang sering kali tidak mencukupi.'
+        'Perjalanan perdana dari Bandara Jeddah ke Makkah adalah fase krusial karena jamaah umumnya telah mengenakan pakaian ihram setelah penerbangan internasional yang melelahkan. Hal penting yang perlu diperhatikan:',
+        '• Penjemputan Terkoordinasi di Terminal: Pastikan sopir pribadi telah siap menyambut Anda di terminal kedatangan dengan papan nama bertuliskan nama Anda, guna menghindari antrean taksi liar di bandara.',
+        '• Kesesuaian Jumlah Penumpang dan Kapasitas Koper: Pastikan seluruh koper dapat masuk ke bagasi belakang tanpa diletakkan di kursi penumpang demi kenyamanan dan keselamatan perjalanan tol.',
+        '• Kepastian Tarif Tetap All-Inclusive: Pastikan tarif yang disepakati sudah mencakup bahan bakar, tol bandara, dan pajak tanpa ada biaya tersembunyi.',
+        'Untuk ulasan lengkap mengenai panduan penjemputan bandara dan opsi armada, silakan baca [Panduan Memilih Mobil VIP dari Bandara Jeddah ke Makkah](/id/blog/vip-umrah-transport-jeddah-to-makkah).'
       ]
     },
     {
-      title: 'Manajemen Waktu: Menyesuaikan Jadwal Salat, Lalu Lintas & Penerbangan',
+      title: 'Bagaimana Merencanakan Perjalanan Antara Makkah dan Madinah?',
       paragraphs: [
-        'Pengelolaan waktu yang cermat adalah kunci sukses perjalanan yang lancar di Tanah Suci:',
-        '1. Penutupan Akses Jalan Saat Waktu Salat: Ruas jalan utama di kawasan ring satu sekitar Masjidil Haram dan Masjid Nabawi mengalami penutupan sementara sekitar 30 menit sebelum dan sesudah salat fardhu. Selalu jadwalkan keberangkatan mobil di jeda waktu antara dua waktu salat.',
-        '2. Margin Waktu Penerbangan Internasional: Untuk kepulangan dari Makkah ke Bandara Jeddah, atur waktu penjemputan dari hotel setidaknya 4,5 hingga 5 jam sebelum jadwal terbang. Hal ini memastikan Anda tiba di bandara 3 jam sebelum jadwal boarding.',
-        '3. Waktu Terbaik untuk Perjalanan Antarkota: Kami merekomendasikan memulai perjalanan Makkah ke Madinah di pagi hari setelah salat Subuh (udara segar dan jalan lengang) atau di sore hari setelah salat Ashar, guna menghindari sengatan matahari terik di siang hari.',
-        '4. Pemanfaatan Jalur Tol Lingkar: Sopir berpengalaman kami menggunakan jalan tol lingkar luar untuk menghindari kemacetan di gang-gang sempit pusat kota.'
+        'Jarak tempuh antara Makkah dan Madinah membentang sepanjang 430–450 km melintasi Jalan Bebas Hambatan Hijrah, dan membutuhkan waktu sekitar 4 hingga 4,5 jam dengan mobil. Jamaah umumnya memilih antara dua opsi transportasi utama:',
+        '1. Mobil Privat dengan Sopir (Private Chauffeur):',
+        'Menyediakan layanan antar-jemput langsung dari pintu ke pintu (Door-to-Door) dari lobi hotel Makkah langsung ke lobi hotel Madinah. Pilihan ini memberikan fleksibilitas waktu keberangkatan sesuai kesiapan keluarga, memungkinkan Anda berhenti di rest area resmi untuk salat dan makan, menjaga privasi keluarga, serta pembayaran dilakukan langsung ke sopir saat tiba. Untuk panduan lengkap, lihat [Sewa Mobil Privat Makkah ke Madinah](/id/blog/private-transfer-makkah-to-madinah).',
+        '2. Kereta Cepat Haramain (Haramain High-Speed Railway):',
+        'Kereta listrik modern berkecepatan hingga 300 km/jam yang menghubungkan Stasiun Makkah (Al-Rusaifah) dan Stasiun Madinah dalam waktu sekitar 2 jam 20 menit.',
+        'Namun, jamaah perlu mempertimbangkan aspek operasional stasiun-ke-stasiun: Anda harus naik taksi bersama koper berat dari hotel ke stasiun Makkah, tiba 60 menit lebih awal untuk pemeriksaan keamanan, serta mencari taksi lagi dari stasiun Madinah ke hotel tujuan. Kereta cepat juga menerapkan batas berat dan dimensi koper yang sangat ketat.',
+        'Jamaah yang berminat disarankan memeriksa jadwal dan memesan tiket jauh-jauh hari melalui kanal resmi Kereta Haramain, serta membedakan layanan kereta api publik dengan layanan mobil privat door-to-door dari Duyuf Alrahman VIP.'
       ]
     },
     {
-      title: 'Manajemen Koper, Air Zamzam & Perlengkapan Lansia',
+      title: 'Bagaimana Mengatur Perjalanan di Jeddah dan Keberangkatan Bandara?',
       paragraphs: [
-        'Berpindah hotel antara Makkah dan Madinah dengan koper penuh menuntut pengaturan logistik yang rapi:',
-        '• Ringankan Bawaan Saat Berangkat: Berangkatlah dengan koper yang efisien untuk menyisakan ruang bagi sajadah, abaya, dan kurma yang dibeli di Tanah Suci.',
-        '• Tunda Pembelian Air Zamzam ke Rute Terakhir: Jangan mengangkut kardus air Zamzam 5 liter yang berat dari Makkah ke Madinah sepanjang hari perjalanan. Belilah kardus air Zamzam resmi di kota keberangkatan terakhir sebelum menuju bandara.',
-        '• Siapkan Ruang Khusus Stroller dan Kursi Roda: Bagi keluarga yang membawa balita atau orang tua lansia, pilihlah armada berkapasitas bagasi besar (seperti Hyundai Staria VIP atau GMC Yukon XL VIP) agar kursi roda lipat dapat tersimpan aman tanpa mengorbankan kursi penumpang.'
+        'Baik saat Anda meluangkan waktu berbelanja di kawasan bersejarah Al-Balad dan tepi laut Corniche Jeddah, maupun langsung menuju bandara untuk penerbangan pulang, perencanaan yang baik menuntut:',
+        '• Cantumkan Alamat Hotel dan Terminal dengan Jelas: Beritahukan kepada penyedia transportasi alamat hotel atau terminal keberangkatan Anda (Terminal 1 untuk Saudia dan maskapai besar, atau Terminal Utara untuk penerbangan internasional tertentu).',
+        '• Perhitungkan Kondisi Lalu Lintas: Perjalanan dari Makkah ke Bandara Jeddah memakan waktu 60 hingga 75 menit dalam kondisi normal, tetapi jam-jam sibuk memerlukan waktu keberangkatan yang lebih awal.',
+        '• Tinjau Panduan Perjalanan Pulang: Untuk panduan lengkap menuju bandara, simak ulasan kami tentang [Pemesanan Mobil dari Makkah ke Bandara Jeddah](/id/blog/makkah-to-jeddah-airport-transfer).'
       ]
     },
     {
-      title: 'Jadwal Ziarah Bersejarah di Makkah dan Madinah',
+      title: 'Simulasi Jadwal Perencanaan Perjalanan Antarkota',
       paragraphs: [
-        'Perencanaan rute yang komprehensif belum lengkap tanpa mengunjungi situs-situs bersejarah Islam:',
-        '• Ziarah Makkah: Meliputi Jabal Nur (Gua Hira), Jabal Tsur, Mina, Muzdalifah, Padang Arafah, Museum Menara Jam, dan Pabrik Kiswah Ka’bah. Tur privat selama 3 hingga 4 jam memberi kebebasan bagi keluarga untuk meneladani sejarah tanpa tergesa-gesa.',
-        '• Ziarah Madinah: Meliputi Masjid Quba (masjid pertama dalam Islam), Masjid Qiblatain, Jabal Uhud dan Makam Syuhada Uhud, serta lokasi Perang Khandaq (Tujuh Masjid). Mobil privat memudahkan jamaah untuk menunaikan salat sunnah dua rakaat di Quba secara khusyuk.',
-        '• Keuntungan Sopir Lokal: Sopir berpengalaman mengetahui waktu terbaik untuk mengunjungi situs bersejarah guna menghindari kerumunan bus ziarah besar.'
+        'Tabel simulasi di bawah ini memberikan gambaran rencana perjalanan yang fleksibel dan dapat disesuaikan dengan tiket penerbangan serta hotel Anda:',
+        '| Tahapan Perjalanan | Titik Awal | Tujuan | Rekomendasi Transportasi | Hal Penting yang Perlu Dikonfirmasi |',
+        '| :--- | :--- | :--- | :--- | :--- |',
+        '| **Hari 1: Kedatangan** | Bandara Jeddah (T1 / Utara) | Hotel Makkah | Mobil Privat VIP dengan Sopir | No penerbangan, terminal, jumlah jamaah & koper |',
+        '| **Hari 2–4: Di Makkah** | Penginapan Makkah | Tur Ziarah Makkah | Mobil Privat (Per Jam / Tur) | Jadwalkan ziarah pada jeda waktu antara salat fardhu |',
+        '| **Hari 5: Pindah Kota** | Hotel Makkah | Hotel Madinah | Kendaraan Keluarga (Staria / Yukon) | Selaraskan dengan waktu check-out hotel (12.00 siang) |',
+        '| **Hari 6–8: Di Madinah** | Penginapan Madinah | Ziarah Madinah (Quba & Uhud) | Mobil Privat (Per Jam / Tur) | Kunjungi Masjid Quba dan Uhud pada pagi hari |',
+        '| **Hari 9: Kepulangan** | Hotel Madinah / Makkah | Bandara Jeddah / Madinah | Antar Jemput Langsung Bandara | Berangkat 4,5 hingga 5 jam sebelum terbang internasional |'
       ]
     },
     {
-      title: 'Memilih Kategori Armada Berdasarkan Tahapan Perjalanan',
+      title: 'Kapan Memilih Mobil Privat vs. Kereta Cepat Haramain? (Perbandingan Berimbang)',
       paragraphs: [
-        'Sesuaikan pilihan kendaraan dengan jumlah rombongan dan jarak tempuh:',
-        '1. Toyota Camry (Sedan Eksekutif VIP): Sangat pas untuk jamaah perorangan dan pasangan (1–3 penumpang dengan 2 koper besar). Lincah dan hemat untuk perjalanan cepat ke bandara.',
-        '2. Hyundai Staria VIP (MPV Mewah Keluarga 7 Kursi): Armada favorit keluarga 4 hingga 7 orang berkat captain seat yang nyaman, AC multi-zona yang sejuk, dan bagasi untuk 5–6 koper serta stroller.',
-        '3. GMC Yukon XL VIP (SUV Mewah Full-Size Sasis Panjang): Pilihan paling berkelas untuk perjalanan jauh Makkah - Madinah. Menawarkan kabin hening, posisi duduk tinggi di jalan tol, dan bagasi XL ekstra luas yang memuat 6–8 koper besar beserta kursi roda.',
-        '4. Toyota HiAce & Toyota Coaster (Minibus Eksekutif): Dirancang khusus untuk keluarga besar dan grup Umrah (10 hingga 20 penumpang) yang ingin tetap bersama dalam satu kendaraan yang nyaman.'
+        'Perbandingan berimbang berikut menguraikan perbedaan praktis di lapangan untuk membantu Anda menentukan pilihan terbaik:',
+        '| Kriteria Penilaian | Mobil Privat dengan Sopir (Door-to-Door) | Kereta Cepat Haramain (Station-to-Station) |',
+        '| :--- | :--- | :--- |',
+        '| **Sifat Layanan** | Antar-jemput langsung dari lobi hotel ke lobi hotel | Perjalanan antarstasiun; butuh taksi tambahan di kedua kota |',
+        '| **Kapasitas Koper** | Bagasi luas untuk koper besar, air Zamzam, dan stroller | Batasan berat, ukuran, dan jumlah koper sangat ketat |',
+        '| **Fleksibilitas Waktu** | Berangkat bebas kapan saja sesuai kesiapan keluarga | Jadwal kereta kaku; wajib tiba di stasiun 60 menit sebelumnya |',
+        '| **Kenyamanan Keluarga & Lansia** | Sangat nyaman tanpa perlu berjalan jauh atau mengangkat koper | Butuh jalan jauh di peron, stasiun, dan berganti taksi |',
+        '| **Privasi Kabin** | 100% privasi keluarga dengan kendali AC dan tempat istirahat | Gerbong umum bersama penumpang lain (Ekonomi / Bisnis) |',
+        '| **Struktur Biaya** | Tarif pasti per kendaraan; sangat ekonomis untuk rombongan | Tiket per orang + biaya taksi menuju dan dari stasiun |',
+        'Kesimpulan: Kereta cepat adalah opsi cepat bagi pelancong tunggal atau pasangan dengan tas jinjing ringan. Mobil privat berpemandu tetap menjadi pilihan paling praktis, nyaman, dan hemat biaya bagi keluarga, jamaah lansia, dan rombongan berbagasi banyak.'
       ]
     },
     {
-      title: 'Keuntungan Memesan Paket Transportasi Terpadu Sejak Awal',
+      title: 'Bagaimana Memilih Kategori Armada yang Tepat untuk Keluarga atau Grup?',
       paragraphs: [
-        'Mengatur seluruh mobilitas Anda dengan satu penyedia layanan resmi menghadirkan banyak kemudahan:',
-        '• Tarif Pasti dan Bergaransi: Terbebas dari kenaikan harga mendadak saat musim puncak serta tawar-menawar yang melelahkan di jalan.',
-        '• Koordinator Layanan 24/7 di WhatsApp: Satu kontak bilingual yang secara aktif memantau jadwal pendaratan pesawat Anda dan mengatur kedatangan sopir tepat waktu.',
-        '• Sopir Berpengalaman & Mobil Bersih: Armada modern yang wangi dikemudikan oleh sopir profesional yang hafal setiap akses pintu masuk hotel di Makkah dan Madinah.',
-        '• Fleksibilitas Tanpa Beban Keuangan di Awal: Tanpa perlu transfer uang muka atau jaminan kartu kredit. Anda hanya membayar langsung kepada sopir setelah tiba di setiap destinasi dengan selamat.'
+        'Menentukan jenis kendaraan yang ideal memerlukan kesesuaian antara jumlah rombongan dan kapasitas bagasi resmi:',
+        '• Jamaah Solo & Pasangan (1–3 orang dengan 2 koper besar): Sedan eksekutif seperti Toyota Camry VIP memberikan perjalanan gesit, nyaman, dan hemat.',
+        '• Keluarga Sedang (4–7 orang dengan 5–6 koper dan stroller): MPV mewah Hyundai Staria VIP adalah pilihan utama berkat captain seat, AC multi-zona, dan bagasi yang lapang.',
+        '• Keluarga Besar & Kenyamanan Maksimal (Hingga 7 orang dengan 6–8 koper dan kursi roda): SUV panjang GMC Yukon XL VIP memberikan kenyamanan kelas atas di jalan tol dan bagasi ekstra besar.',
+        '• Rombongan Besar (10–14 orang): Minibus Toyota HiAce dan Toyota Coaster memungkinkan seluruh rombongan bepergian bersama dalam satu armada ber-AC.',
+        'Untuk panduan lengkap mengenai dimensi koper dan kapasitas tiap jenis armada, simak [Panduan Kapasitas Armada dan Ruang Bagasi Umrah](/id/blog/vehicle-capacity-passengers-luggage).'
       ]
     },
     {
-      title: 'Daftar Periksa Akhir Sebelum Memulai Perjalanan',
+      title: 'Bagaimana Menghitung Anggaran Transportasi Antarkota?',
       paragraphs: [
-        'Pastikan lima hal ini terpenuhi sebelum Anda berangkat:',
-        '✔ Apakah jam penjemputan antarkota sudah diselaraskan dengan waktu check-in (15.00–16.00) dan check-out (12.00) hotel?',
-        '✔ Apakah Anda telah menyisakan margin waktu setidaknya 4,5 jam sebelum jadwal penerbangan internasional di Bandara Jeddah?',
-        '✔ Apakah rincian koper besar, stroller, dan kursi roda sudah diinformasikan secara tepat kepada tim layanan?',
-        '✔ Apakah tarif yang disepakati sudah mencakup BBM, tol jalan bebas hambatan, dan pajak tanpa biaya tersembunyi?',
-        '✔ Apakah pemesanan berlandaskan sistem pembayaran langsung ke sopir saat tiba tanpa uang muka?'
+        'Saat menyusun anggaran transportasi untuk ibadah Umrah, hitunglah total biaya keseluruhan rencana perjalanan, bukan hanya tarif satu rute terpisah:',
+        '1. Tarif Tetap per Kendaraan: Bersama Duyuf Alrahman VIP, harga dihitung per unit kendaraan dan bukan per orang, sehingga biaya per jamaah menjadi jauh lebih murah bagi keluarga.',
+        '2. Tanpa Biaya Tersembunyi: Tarif kami sudah mencakup bahan bakar, tol, dan pajak, menghindarkan Anda dari pungutan tak terduga.',
+        '3. Perhitungkan Ongkos Tambahan Angkutan Umum: Saat membandingkan transportasi umum, ingatlah untuk menambahkan ongkos taksi menuju dan dari stasiun kereta ke dalam harga tiket.',
+        '4. Kebijakan Bayar Langsung ke Sopir saat Tiba: Memesan lewat penyedia yang menerapkan pembayaran saat tiba menghindarkan risiko finansial bila terjadi perubahan jadwal penerbangan.'
+      ]
+    },
+    {
+      title: 'Kesalahan Umum yang Harus Dihindari dalam Perencanaan Transportasi Umrah',
+      paragraphs: [
+        'Hindari kekeliruan logistik berikut agar ibadah Anda berlangsung tenang:',
+        '1. Memesan kendaraan sebelum memastikan alamat hotel penginapan di Makkah dan Madinah.',
+        '2. Lupa memperhitungkan waktu dan biaya taksi antara hotel dan stasiun kereta.',
+        '3. Meremehkan jumlah koper, oleh-oleh, dan kardus air Zamzam resmi 5 liter.',
+        '4. Menetapkan waktu berangkat ke bandara terlalu mepet tanpa margin waktu yang aman sebelum penerbangan internasional.',
+        '5. Mengira tarif taksi jalanan selalu tetap, padahal melonjak drastis saat musim Ramadan dan liburan.',
+        '6. Lupa mengabari pihak penyedia layanan mengenai kursi roda lipat atau kereta dorong bayi.'
+      ]
+    },
+    {
+      title: 'Pertanyaan yang Sering Diajukan: Perencanaan Transportasi Makkah, Madinah, dan Jeddah',
+      paragraphs: [
+        'Berikut jawaban terperinci atas tujuh pertanyaan yang paling sering diajukan oleh jamaah Umrah:',
+        '1. Apa cara terbaik mengatur transportasi antara Makkah, Madinah, dan Jeddah?',
+        'Cara terbaik adalah memesan paket transportasi terpadu door-to-door dengan penyedia mobil privat resmi bertarif pasti. Hal ini memastikan waktu perjalanan selaras dengan jadwal hotel dan penerbangan.',
+        '2. Apakah bisa bepergian dari Makkah ke Madinah dengan mobil privat?',
+        'Ya, tentu saja. Ini adalah opsi paling nyaman dan digemari oleh keluarga. Perjalanan sejauh 430 km melintasi Jalan Tol Hijrah memakan waktu sekitar 4 hingga 4,5 jam di dalam mobil ber-AC yang nyaman dengan layanan door-to-door.',
+        '3. Apa perbedaan antara mobil privat dan Kereta Cepat Haramain?',
+        'Mobil privat memberikan layanan antar-jemput dari hotel ke hotel tanpa repot angkat koper di stasiun, jadwal bebas, dan bagasi tanpa batas. Kereta cepat beroperasi stesen-ke-stesen, butuh taksi tambahan, dan menerapkan batas bagasi ketat.',
+        '4. Bagaimana cara mengatur antar-jemput dari Bandara Jeddah ke Makkah?',
+        'Anda dapat memesan secara daring atau via WhatsApp dengan mencantumkan nomor penerbangan, waktu mendarat, dan jumlah jamaah. Sopir pribadi akan menyambut di terminal dengan papan nama dan mengantar langsung ke hotel Makkah.',
+        '5. Bagaimana memilih mobil yang tepat untuk keluarga dan koper bawaan?',
+        'Pilihlah sesuai jumlah jamaah dan koper: Toyota Camry untuk 1–3 orang dengan 2 koper; Hyundai Staria VIP untuk keluarga hingga 7 orang dengan 5–6 koper; GMC Yukon XL VIP untuk kemewahan, kursi roda dan 6–8 koper; serta Toyota HiAce untuk rombongan hingga 11 orang.',
+        '6. Kapan waktu terbaik memastikan pesanan mobil dan tiket kereta?',
+        'Konfirmasikan pesanan transportasi begitu tiket pesawat dan hotel selesai dipesan, terutama pada musim ramai seperti Ramadan, guna mengamankan unit armada pilihan dan mengunci tarif pasti.',
+        '7. Bagaimana mengatur perjalanan kepulangan menuju Bandara Jeddah?',
+        'Jadwalkan penjemputan di hotel Makkah setidaknya 4,5 hingga 5 jam sebelum jadwal terbang internasional Anda. Ini memberi waktu perjalanan 60–75 menit dan memungkinkan Anda tiba 3 jam sebelumnya untuk proses koper dan pelaporan air Zamzam.'
+      ]
+    },
+    {
+      title: 'Rencanakan Perjalanan Anda Bersama Duyuf Alrahman VIP',
+      paragraphs: [
+        'Duyuf Alrahman VIP menghadirkan sistem transportasi mewah dan aman yang menghubungkan Makkah, Madinah, dan Jeddah. Kami menjamin armada modern yang bersih, sopir profesional yang hafal rute hotel di kedua Tanah Suci, serta tarif pasti all-inclusive tanpa biaya tersembunyi.',
+        'Yang terpenting, kami berpegang teguh pada kebijakan Wajib Bayar Langsung ke Sopir saat tiba di tujuan tanpa uang muka atau kartu kredit. Hubungi kami hari ini untuk menyusun seluruh jadwal transportasi ibadah Umrah Anda dan nikmati perjalanan ibadah yang tenang dan menyenangkan.'
       ]
     }
   ],
   faqTitle: 'Pertanyaan yang Sering Diajukan: Perencanaan Transportasi Makkah, Madinah & Jeddah',
-  faqSubtitle: 'Jawaban transparan untuk memudahkan Anda menyusun agenda perjalanan Umrah yang aman, nyaman dan tepat waktu',
+  faqSubtitle: 'Jawaban transparan untuk membantu Anda menyusun perjalanan Umrah yang aman, nyaman dan tepat waktu',
   cta: {
     title: 'Rencanakan Seluruh Transportasi Umrah Anda Bersama Duyuf Alrahman VIP',
     subtitle: 'Armada VIP berlisensi, sopir tepat waktu, tarif pasti terverifikasi, dan pembayaran langsung saat tiba di tujuan.',

@@ -2,90 +2,143 @@ import { LocalizedArticleBody } from '../types';
 
 export const TRANSPORT_PLANNING_CONTENT_TR: LocalizedArticleBody = {
   intro: {
-    title: 'Kapsamlı Ulaşım Planlama Rehberi: Umre Yolcuları İçin Mekke, Medine ve Cidde',
+    title: 'Mekke, Medine ve Cidde Arasında Ulaşım Nasıl Planlanır? Umre Yolcuları İçin Pratik Rehber',
     paragraphs: [
-      'Umre ibadetini yerine getirmek ve Mescid-i Nebevi’yi ziyaret etmek, her Müslümanın hayatındaki en kıymetli manevi yolculuklardan biridir. Kutsal topraklarda huşu ve huzur içinde bir ibadet geçirmek, üç ana şehir olan Cidde, Mekke-i Mükerreme ve Medine-i Münevvere arasındaki transfer lojistiğinin önceden ve titizlikle planlanmasına bağlıdır. Önceden planlanmayan transferler, seyahatin ilk saatlerini havalimanı çıkışlarında veya otel lobilerinde yorucu taksi pazarlıklarına dönüştürebilir.',
-      'Tipik bir Umre programı birkaç kritik transfer aşamasından oluşur: Cidde Kral Abdülaziz Uluslararası Havalimanı’na iniş, ihramlı halde Umre ibadetini ifa etmek üzere doğrudan Mekke’deki otele geçiş, Harem-i Şerif’te geçirilen ibadet günleri, Hicret Otoyolu üzerinden Medine’ye uzanan kara yolculuğu ile Mescid-i Nebevi ziyareti, tarihi Ziyaret turları ve nihayetinde Zemzem suları ve hurmalarla Cidde veya Medine havalimanından yurda dönüş.',
-      'Bu stratejik rehberde Duyuf Alrahman VIP lojistik ekibi; tüm transfer aşamalarını planlama adımlarını, ulaşım araçlarının objektif karşılaştırmasını, namaz ve uçuş saatlerine göre zaman yönetimini ve sıfır ön ödeme ile (varışta doğrudan şoföre ödeme güvencesiyle) sabit fiyatlı VIP araç rezervasyonunu tüm ayrıntılarıyla sunmaktadır.'
+      'Mekke, Medine ve Cidde arasındaki ulaşım planlaması, Umre ibadetini yerine getiren misafirlerin konforunu, manevi huzurunu ve ibadete odaklanmasını belirleyen en temel lojistik unsurdur. En doğru seyahat düzeni; uçak bilet saatlerinize, otel konumlarınıza, tercih edilen araç türüne, bagaj hacmine, aile bireylerinin (çocuklar ve yaşlılar) ihtiyaçlarına ve planlanan ziyaret sıralamasına doğrudan bağlıdır.',
+      'Önceden plan yapılmadığında, kutsal topraklara varışın ilk saatleri; terminal çıkışlarında taksi aramakla, yoğun sezonun fahiş fiyat pazarlıklarıyla veya aracın bagajına valizler ile 5 litrelik resmi Zemzem bidonlarının sığmaması gibi yorucu sürprizlerle gölgelenebilir.',
+      'Bu kapsamlı ve pratik rehberde, Cidde Kral Abdülaziz Uluslararası Havalimanı, Mekke-i Mükerreme ve Medine-i Münevvere arasındaki güzergahları organize etmeniz için eksiksiz bir yol haritası sunuyoruz. Özel şoförlü araçları, Haremeyn Hızlı Treni’ni ve otobüsleri objektif olarak karşılaştırıyor, örnek bir seyahat takvimi paylaşıyor, bütçe dinamiklerini açıklıyor ve sıfır ön ödeme ile (varışta şoföre doğrudan ödeme güvencesiyle) modern VIP araç rezervasyonunun adımlarını aktarıyoruz.'
     ]
   },
   sections: [
     {
-      title: 'Eksiksiz Bir Umre Ulaşım Planının Üç Ana Güzergahı',
+      title: 'Mekke, Medine ve Cidde Arasındaki Seyahat Güzergahınızı Nasıl Düzenlemelisiniz?',
       paragraphs: [
-        'Kusursuz bir Umre seyahat planı üç temel güzergahın koordinasyonu üzerine kurulur:',
-        '1. Varış Güzergahı (Cidde Havalimanı’ndan Mekke Oteline): Yaklaşık 85–100 km mesafede olup özel araçla 60 ila 75 dakika sürer. İhramlı durumdaki yolcu, terminalden çıkar çıkmaz beklemeden konforlu ve klimalı bir araca binerek yorulmadan oteline ulaşmalıdır.',
-        '2. İki Kutsal Şehir Arası Transfer (Mekke’den Medine’ye): Hicret Otoyolu üzerinden 430–450 km süren bu kara yolculuğu özel araçla yaklaşık 4 ila 4,5 saat alır. Bu uzun güzergah ferah, sessiz, güçlü klimalı ve tüm valizler ile Zemzem bidonlarını rahatça alan geniş bagajlı bir aracı zorunlu kılar.',
-        '3. Dönüş ve Ayrılış Güzergahı (Mekke veya Medine’den Havalimanına): Medine’den karayoluyla Cidde Havalimanı’na dönüş (~420 km) veya doğrudan Medine Prens Muhammed bin Abdülaziz Havalimanı’ndan (MED) uçuş olsun, yeterli güvenlik payıyla yola çıkmak stressiz bir check-in sürecinin anahtarıdır.'
+        'Başarılı bir ulaşım planı temel kilometre taşlarının netleştirilmesiyle başlar:',
+        '1. Varış Havalimanı ve İniş Saati: Uçağınızın Cidde Havalimanı’na mı (Terminal 1 veya Kuzey Terminali) yoksa doğrudan Medine Havalimanı’na mı indiğini belirleyin.',
+        '2. İlk Durak ve Otel Konumu: İhramlı halde doğrudan Mekke’ye geçip Umre ibadetinizi mi ifa edeceğinize, yoksa ilk olarak Medine’ye gidip Mescid-i Nebevi’yi ziyaret ederek dinleneceğinize karar verin.',
+        '3. Mekke ve Medine’de Konaklama Süresi: Şehirlerarası transfer saatlerinizi, merkezi otellerin standart giriş (15.00–16.00) ve çıkış (12.00) saatleriyle tam uyumlu olacak şekilde ayarlayın.',
+        '4. Şehirlerarası Mesafeler ve Sürüş Süreleri: Karayolu mesafelerini (Cidde - Mekke: ~85 km, Mekke - Medine: ~430 km, Medine - Cidde: ~420 km) ve otoyoldaki ortalama seyir sürelerini hesaba katın.',
+        '5. Dönüş Havalimanı ve Şehri: Bagaj teslimi ve resmi Zemzem bidonlarının kaydı için havalimanı transferinizi geniş bir güvenlik payıyla planlayın.',
+        'Önemli Dini Hatırlatma: Umre ibadetinde önce Mekke’ye gitmek veya önce Medine’ye gitmek konusunda zorunlu bir dini kural yoktur. Her iki sıralama da caiz ve mübarektir. Karar; uçuş saatlerine, otel fiyatlarına ve aile konforunuza göre verilmelidir.'
       ]
     },
     {
-      title: 'Ulaşım Seçeneklerinin Karşılaştırması: Özel Şoför, Hızlı Tren ve Otobüsler',
+      title: 'Cidde Havalimanı’ndan Mekke’ye Ulaşım Nasıl Sağlanır?',
       paragraphs: [
-        'Aileniz için en doğru tercihi yapabilmeniz adına objektif bir değerlendirme:',
-        '1. Özel Şoförlü VIP Transfer (Kapıdan Kapıya): Aileler, yaşlı misafirler ve çok bagajlı yolcular için rakipsiz seçenek. Otel kapısından otel kapısına aktarmasız ulaşım, esnek hareket saati, istenen tesiste mola verme özgürlüğü, tam mahremiyet ve sadece varışta ödeme.',
-        '2. Haremeyn Yüksek Hızlı Treni: Ana istasyonlar arasında modern ve hızlı bir demiryolu seçeneğidir. Ancak otelden istasyona valizlerle taksi tutmayı, peronda bavul taşımayı ve varış istasyonundan otele tekrar taksi bulmayı gerektirir; bu da yaşlılar ve çocuklar için yorucu olabilir.',
-        '3. Grup Tur Otobüsleri: Bütçe dostu toplu turlar için uygundur ancak katı kalkış saatlerine bağlıdır, otellerden uzak ana terminallerden kalkar ve güvenlik kontrol noktalarındaki beklemeler nedeniyle yolculuk süresi çok uzar.',
-        '4. Sokaktan Rastgele Çevrilen Taksiler: Yoğun sezonda fahiş fiyat talepleri, araç temizliği ve klimanın belirsizliği ile valizlerin bagaja sığmaması gibi ciddi riskler taşır.'
+        'Cidde Havalimanı’ndan Mekke’ye ilk transfer son derece önemlidir; çünkü yolcular uzun bir uçuştan sonra genellikle ihramlıdır. Dikkat edilmesi gereken hususlar:',
+        '• Terminalde İsimle Karşılama: Özel şoförünüzün gelen yolcu salonunda isminizin yazılı olduğu levha ile sizi beklemesini sağlayarak taksi kuyruklarından kaçının.',
+        '• Yolcu ve Bagaj Uyumlu Araç: Tüm valizlerin yolcu koltuklarına konmadan bagaja sığmasını sağlayarak konforlu ve güvenli bir yolculuk geçirin.',
+        '• Sabit ve Her Şey Dahil Fiyat: Anlaşılan ücrete yakıt, otoyol geçişleri ve vergilerin dahil olduğundan, gizli masraf bulunmadığından emin olun.',
+        'Bu rota hakkında ayrıntılı bilgi için [Cidde Havalimanı’ndan Mekke’ye VIP Araç Seçim Rehberi](/tr/blog/vip-umrah-transport-jeddah-to-makkah) yazımızı inceleyebilirsiniz.'
       ]
     },
     {
-      title: 'Zaman Yönetimi: Namaz Vakitleri, Trafik ve Uçuş Saatleriyle Uyum',
+      title: 'Mekke ve Medine Arasındaki Transferi Nasıl Planlamalısınız?',
       paragraphs: [
-        'Doğru zamanlama kutsal topraklarda seyahatinizi son derece konforlu kılar:',
-        '1. Namaz Vakitlerindeki Yol Kapanmaları: Mekke’de Kabe ve Medine’de Mescid-i Nebevi çevresindeki ana yollar, farz namazlardan yaklaşık 30 dakika önce ve sonra araç trafiğine geçici olarak kapatılır. Araç hareket saatlerinizi mutlaka iki namaz arasındaki serbest vakitlere denk getirin.',
-        '2. Uluslararası Uçuşlar İçin Zaman Payı: Mekke’den Cidde Havalimanı’na dönüşte, uçağın kalkış saatinden en az 4,5 ila 5 saat önce otelden hareket edin; böylece kalkıştan 3 saat önce havalimanına rahatça ulaşırsınız.',
-        '3. Şehirlerarası Yolculuk İçin En Uygun Saatler: Mekke-Medine yolculuğuna sabah erken saatte Sabah namazı sonrası (serin hava ve sakin trafik) ya da İkindi namazı sonrası çıkmanızı öneririz; bu sayede çöl sıcağının en yoğun olduğu öğle vaktinden kaçınmış olursunuz.',
-        '4. Çevre Yolu Kullanımı: Deneyimli şoförlerimiz şehir içi yoğunluklara takılmamak adına modern ekspres çevre yollarını kullanır.'
+        'Mekke ile Medine arasındaki karayolu Hicret Otoyolu üzerinden 430–450 km olup, özel araçla yaklaşık 4 ila 4,5 saat sürer. Yolcular çoğunlukla iki seçenek arasında tercih yapar:',
+        '1. Şoförlü Özel Araç (Private Chauffeur):',
+        'Mekke’deki otel kapısından Medine’deki otel kapısına doğrudan transfer (Door-to-Door) sağlar. Ailenin uyanma saatine göre serbest hareket imkanı, otoyol dinlenme tesislerinde namaz ve yemek molası verme özgürlüğü, tam mahremiyet ve varışta ödeme kolaylığı sunar. Detaylar için [Mekke’den Medine’ye Özel Transfer Rehberi](/tr/blog/private-transfer-makkah-to-madinah) sayfamıza göz atın.',
+        '2. Haremeyn Yüksek Hızlı Treni (Haramain High-Speed Railway):',
+        'Mekke İstasyonu (Al-Rusaifah) ile Medine İstasyonu’nu 300 km/s hızla yaklaşık 2 saat 20 dakikada bağlayan modern bir elektrikli tren hattıdır.',
+        'Ancak istasyondan istasyona seyahatin sahadaki gerekleri unutulmamalıdır: Otelden Mekke tren istasyonuna valizlerle taksi tutulmalı, güvenlik kontrolü için 60 dakika önce gidilmeli ve Medine’de istasyondan otele tekrar taksiye binilmelidir. Tren ayrıca kişi başı bagaj ağırlığında katı kurallar uygular.',
+        'Trenle seyahat etmek isteyen yolcuların resmi Haremeyn kanallarından biletlerini önceden almalarını ve toplu demiryolu ile Duyuf Alrahman VIP’in kapıdan kapıya özel şoför hizmeti arasındaki farkları göz önünde bulundurmalarını öneririz.'
       ]
     },
     {
-      title: 'Bagaj Lojistiği, Zemzem Suyu ve Tekerlekli Sandalye Düzeni',
+      title: 'Cidde İçi Geziler ve Havalimanı Dönüş Transferi Nasıl Organize Edilir?',
       paragraphs: [
-        'Mekke ile Medine arasında dolu valizlerle otel değiştirmek düzenli bir plan gerektirir:',
-        '• Gidişte Eşyayı Asgari Tutun: Kutsal topraklardan alınacak seccadeler, hurmalar ve hediyelikler için valizlerde yer bırakacak şekilde yola çıkın.',
-        '• Zemzem Suyu Alımını Son Noktaya Bırakın: Seyahatiniz boyunca 5 litrelik ağır Zemzem kolilerini şehirden şehre taşımayın. Havalimanı onaylı resmi bidonları ayrılış yapacağınız son şehirde, havalimanına geçmeden hemen önce temin edin.',
-        '• Bebek Arabası ve Tekerlekli Sandalye İçin Yer Ayırın: Yaşlı veya çocuklu aileler için katlanabilir sandalyeleri yolcu koltuğuna koymadan rahatça alacak geniş bagajlı araçlar (Hyundai Staria VIP veya GMC Yukon XL VIP) seçilmelidir.'
+        'İster tarihi Al-Balad bölgesi ve Cidde Kordonu’nda alışverişe vakit ayırın, ister dönüş uçağınız için doğrudan havalimanına geçin, iyi bir planlama şunları içerir:',
+        '• Otel Adresi ve Terminali Doğru Bildirin: Şoförünüze otelinizin açık adresini veya kalkış terminalini (Saudia ve ana havayolları için Terminal 1, diğer uçuşlar için Kuzey Terminali) eksiksiz iletin.',
+        '• Trafik Süresini Hesaba Katın: Mekke otellerinden Cidde Havalimanı’na ulaşım normalde 60 ila 75 dakika sürer ancak yoğun saatler daha erken çıkmayı gerektirir.',
+        '• Dönüş Rehberini İnceleyin: Havalimanına gidiş sürecini eksiksiz planlamak için [Mekke’den Cidde Havalimanı’na Araç Rezervasyonu](/tr/blog/makkah-to-jeddah-airport-transfer) rehberimizi okuyabilirsiniz.'
       ]
     },
     {
-      title: 'Mekke ve Medine’de Tarihi Ziyaret Turları',
+      title: 'Şehirlerarası Seyahat İçin Örnek Planlama Tablosu',
       paragraphs: [
-        'Eksiksiz bir Umre programı, İslam tarihinin dönüm noktası olan mekanların ziyaretini mutlaka içermelidir:',
-        '• Mekke Ziyaret Yerleri: Sevr Dağı, Hira Mağarası (Nur Dağı), Mina, Müzdelife, Arafat Meydanı, Saat Kulesi Müzesi ve Kabe Örtüsü Fabrikası. 3 ila 4 saatlik özel araç turu ile aileniz telaşsızca gezebilir.',
-        '• Medine Ziyaret Yerleri: Kuba Mescidi (İslam’ın ilk mescidi), Kıbleteyn Mescidi, Uhud Dağı ve Uhud Şehitliği ile Hendek Savaşı mevki (Yedi Mescitler). Özel araçla Kuba’da iki rekat nafile namazı kılmak ve Uhud’da dua etmek büyük bir huzur sağlar.',
-        '• Yerel Şoför Avantajı: Şoförlerimiz kalabalık turist otobüslerinden kaçınmak için en uygun saatleri bilir ve her noktada ailenizi bekler.'
+        'Aşağıdaki örnek takvim, uçuş ve otel rezervasyonlarınıza göre esnetebileceğiniz bir rota modeli sunar:',
+        '| Seyahat Aşaması | Başlangıç Noktası | Varış Noktası | Önerilen Araç Türü | Önceden Teyit Edilecek Hususlar |',
+        '| :--- | :--- | :--- | :--- | :--- |',
+        '| **1. Gün: Varış** | Cidde Havalimanı (T1 / Kuzey) | Mekke Oteli | Şoförlü VIP Özel Araç | Uçuş no, terminal, yolcu ve bavul adedi |',
+        '| **2–4. Gün: Mekke** | Mekke Oteli | Mekke Ziyaret Turu | Özel Araç (Saatlik / Tur) | Ziyareti namaz aralarındaki vakte denk getirin |',
+        '| **5. Gün: Medine’ye Geçiş** | Mekke Oteli | Medine Oteli | Aile MPV / Lüks SUV | Otel çıkış (12.00) ve giriş (15.00) uyumu |',
+        '| **6–8. Gün: Medine** | Medine Oteli | Medine Ziyaret (Kuba & Uhud) | Özel Araç (Saatlik / Tur) | Kuba Mescidi ve Uhud’u sabah erken ziyaret |',
+        '| **9. Gün: Ayrılış** | Medine / Mekke Oteli | Cidde / Medine Havalimanı | Doğrudan Havalimanı Transferi | Dış hat uçuşundan 4,5-5 saat önce hareket |'
       ]
     },
     {
-      title: 'Seyahatin Her Aşaması İçin Doğru Araç Sınıfı Seçimi',
+      title: 'Ne Zaman Özel Araç, Ne Zaman Haremeyn Treni Seçilmeli? (Dengeli Karşılaştırma)',
       paragraphs: [
-        'Yolcu sayısı ve mesafeye göre en doğru aracı belirleyin:',
-        '1. Toyota Camry (VIP Executive Sedan): Yalnız seyahat edenler ve çiftler için idealdir (1-3 yolcu ve 2 büyük valiz). Hızlı ve ekonomik havalimanı transferleri sağlar.',
-        '2. Hyundai Staria VIP (7 Kişilik Lüks Aile MPV): Ayrı kaptan koltukları, bağımsız arka kliması ve 5-6 valiz ile bebek arabasını alan bagajıyla 4 ila 7 kişilik ailelerin bir numaralı tercihidir.',
-        '3. GMC Yukon XL VIP (Uzun Şasili Tam Boy Lüks SUV): Mekke - Medine otoyolu için en prestijli araçtır; üstün yol sessizliği, yüksek sürüş konforu ve 6 ila 8 büyük valizi alan devasa XL bagaj sunar.',
-        '4. Toyota HiAce ve Toyota Coaster (Executive Minibüsler): Birlikte seyahat etmek isteyen 10 ila 20 kişilik geniş aileler ve Umre kafileleri için mükemmel konfor sağlar.'
+        'Bu karşılaştırma tablosu, seyahat şartlarınıza en uygun aracı seçmenizi kolaylaştırır:',
+        '| Değerlendirme Ölçütü | Şoförlü Özel Araç (Kapıdan Kapıya) | Haremeyn Hızlı Treni (İstasyondan İstasyona) |',
+        '| :--- | :--- | :--- |',
+        '| **Hizmet Şekli** | Otel kapısından diğer otel kapısına doğrudan transfer | Yalnızca tren istasyonları arası; iki uçta taksi gerekir |',
+        '| **Bagaj Kapasitesi** | Büyük valizler, Zemzem bidonları ve bebek arabası sığar | Kilo, ebat ve parça sayısında katı sınırlamalar |',
+        '| **Zaman Esnekliği** | Ailenizin dilediği saatte hareket edebilme serbestliği | Sabit sefer saatleri; 60 dakika önceden gitme zorunluluğu |',
+        '| **Aile ve Yaşlı Konforu** | İstasyonda yürümeden, bavul taşımadan tam rahatlık | Peronlarda uzun yürüyüşler ve araç değiştirme yorgunluğu |',
+        '| **Mahremiyet ve Konfor** | %100 özel kabin, klima ve mola yerlerini belirleme hakkı | Diğer yolcularla paylaşılan vagonlar (Ekonomi / Business) |',
+        '| **Toplam Maliyet** | Tüm araç için sabit fiyat; aile ve gruplara çok ekonomik | Kişi başı bilet + her iki şehirde istasyon taksi masrafı |',
+        'Özet: Hızlı tren, yalnız seyahat edenler veya hafif çantalı çiftler için pratik bir seçenektir. Aileler, yaşlılar ve çok sayıda büyük valizi olan misafirler içinse şoförlü özel araç en konforlu ve ekonomik alternatiftir.'
       ]
     },
     {
-      title: 'Tüm Seyahat Paketini Önceden Rezerve Etmenin Avantajları',
+      title: 'Aileniz veya Grubunuz İçin En Doğru Araç Sınıfı Nasıl Seçilir?',
       paragraphs: [
-        'Tüm transferlerinizi tek bir güvenilir kurumsal firmadan organize etmenin faydaları:',
-        '• Sabit ve Garantili Fiyatlar: Sezonluk fiyat artışlarından ve sokakta pazarlık yapma zahmetinden tamamen korunursunuz.',
-        '• WhatsApp Üzerinden 7/24 Koordinatör Desteği: Uçuşlarınızı anlık takip eden ve şoför yönlendirmelerini hatasız yapan tek bir yetkili muhatap.',
-        '• Profesyonel Şoförler ve Temiz Araçlar: Mekke ve Medine’deki tüm otel girişlerini çok iyi bilen, saygılı şoförler ve tertemiz modern araçlar.',
-        '• Tam Mali Esneklik: Ön kapora veya kredi kartı gerekmez. Her transferin ödemesi varış noktasına ulaşıldığında doğrudan şoföre yapılır.'
+        'Doğru araç tercihi yolcu sayısının bagaj kapasitesiyle tam örtüşmesini gerektirir:',
+        '• Yalnız Seyahat Edenler ve Çiftler (1–3 yolcu ve 2 büyük valiz): Toyota Camry VIP sedan çevik, konforlu ve tasarrufludur.',
+        '• Orta Büyüklükteki Aileler (4–7 yolcu, 5–6 valiz ve bebek arabası): Kaptan koltuklu Hyundai Staria VIP MPV ferahlığıyla en çok tercih edilen aile aracıdır.',
+        '• Geniş Aileler ve Üstün Lüks Arayanlar (7 yolcuya kadar, 6–8 valiz ve tekerlekli sandalye): Uzun şasili GMC Yukon XL VIP otoyolda mükemmel bir sürüş konforu ve devasa bir bagaj sunar.',
+        '• Kalabalık Gruplar (10–14 yolcu): Toyota HiAce ve Toyota Coaster minibüsleri tüm kafilenin tek araçta klimalı şekilde seyahat etmesini sağlar.',
+        'Ayrıntılı kapasite ölçüleri için [Umre Araç Kapasitesi ve Bagaj Rehberi](/tr/blog/vehicle-capacity-passengers-luggage) yazımızı inceleyebilirsiniz.'
       ]
     },
     {
-      title: 'Yola Çıkmadan Önce Son Kontrol Listesi',
+      title: 'Şehirlerarası Ulaşım Bütçesi Nasıl Hesaplanır?',
       paragraphs: [
-        'Seyahatinize başlamadan önce şu beş maddeyi teyit edin:',
-        '✔ Şehirlerarası araç hareket saatleri otel çıkış (12.00) ve giriş (15.00–16.00) saatleriyle uyumlu mu?',
-        '✔ Cidde Havalimanı dış hat uçuşunuz için en az 4,5 saatlik hareket payı bıraktınız mı?',
-        '✔ Büyük valiz sayısı, bebek arabası ve tekerlekli sandalye bilgisi rezervasyon ekibine eksiksiz iletildi mi?',
-        '✔ Belirtilen fiyata yakıt, otoyol geçişleri ve vergiler gizli masraf olmadan dahil mi?',
-        '✔ Rezervasyonunuz sıfır ön ödeme ile doğrudan varışta şoföre ödeme garantisi içeriyor mu?'
+        'Umre seyahatinizin ulaşım bütçesini belirlerken tek bir yolculuk yerine tüm seyahat planının toplam maliyetini göz önünde bulundurun:',
+        '1. Araç Başına Sabit Fiyat: Duyuf Alrahman VIP’te fiyat kişi başı değil araç başına sabitlendiğinden, kişi başına düşen maliyet aileler için çok uygundur.',
+        '2. Gizli Masraf Yok: Belirtilen net fiyatlarımıza yakıt, otoyol geçiş ücretleri ve vergiler dahildir.',
+        '3. Toplu Ulaşımın Yan Masraflarını Ekleyin: Trenle karşılaştırırken istasyonlara gidiş-dönüş taksi ücretlerini bilet fiyatının üzerine ekleyin.',
+        '4. Varışta Ödeme Güvencesi: Uçuş rötarı veya plan değişikliğinde mağdur olmamak için ödemeyi varışta doğrudan şoföre kabul eden firmaları tercih edin.'
+      ]
+    },
+    {
+      title: 'Umre Ulaşımını Planlarken En Sık Yapılan Hatalar',
+      paragraphs: [
+        'Huzurlu bir seyahat için şu yaygın hatalara düşmeyin:',
+        '1. Mekke ve Medine’deki otellerin kesin adresini doğrulamadan araç kiralamak.',
+        '2. Otel ile tren istasyonu arasındaki sürüş süresini ve taksi masrafını unutmak.',
+        '3. Hediyelik eşyalar ve 5 litrelik Zemzem bidonlarının kaplayacağı hacmi azımsamak.',
+        '4. Dış hat uçuş saatinden önce yeterli hareket payı bırakmayıp havalimanına geç kalmak.',
+        '5. Sokak taksilerinin fiyatlarının sabit kalacağını sanmak; Ramazan gibi yoğun dönemlerde fiyatlar katlanır.',
+        '6. Bebek arabası veya tekerlekli sandalye bilgisini rezervasyon sırasında iletmemek.'
+      ]
+    },
+    {
+      title: 'Sıkça Sorulan Sorular: Mekke, Medine ve Cidde Arası Ulaşım Planlaması',
+      paragraphs: [
+        'Umre yolcularının en çok merak ettiği yedi soruya verilen güvenilir cevaplar:',
+        '1. Mekke, Medine ve Cidde arasındaki ulaşımı organize etmenin en iyi yolu nedir?',
+        'En güvenli yol, kurumsal bir özel transfer firmasından tüm güzergahları içeren kapıdan kapıya sabit fiyatlı bir paket ayırtmaktır; bu sayede otel giriş/çıkış ve uçuş saatleri aksamaz.',
+        '2. Mekke’den Medine’ye özel araçla gidilebilir mi?',
+        'Evet, kesinlikle. Aileler için en popüler ve konforlu yoldur. Hicret Otoyolu üzerinden 430 km’lik mesafe klimalı araçlarla 4 ila 4,5 saatte doğrudan otelden otele tamamlanır.',
+        '3. Özel araç ile Haremeyn Treni arasındaki fark nedir?',
+        'Özel araç istasyonda bavul taşımadan kapıdan kapıya doğrudan götürür ve bagaj sınırı yoktur. Tren ise istasyondan istasyona çalışır, aktarma gerektirir ve katı bagaj kuralları uygular.',
+        '4. Cidde Havalimanı’ndan Mekke’ye transfer nasıl ayarlanır?',
+        'Web sitemizden veya WhatsApp üzerinden uçuş numarası, iniş saati ve yolcu sayısını ileterek rezervasyon yapabilirsiniz. Şoförünüz sizi terminalde isim levhasıyla karşılar.',
+        '5. Ailem ve eşyalarım için en doğru aracı nasıl seçerim?',
+        'Yolcu ve bavul sayısına göre: 1–3 kişi ve 2 bavul için Camry; 7 kişiye kadar aileler ve 5–6 bavul için Staria VIP; üstün lüks ve 6–8 bavul için Yukon XL VIP; 11 kişiye kadar HiAce seçilmelidir.',
+        '6. Araç ve tren rezervasyonları ne zaman teyit edilmelidir?',
+        'Uçak bileti ve oteller kesinleşir kesinleşmez, özellikle Ramazan gibi yoğun dönemlerde istediğiniz aracı sabit fiyata güvenceye almak için transferinizi onaylayın.',
+        '7. Cidde Havalimanı dönüş yolculuğu nasıl planlanmalıdır?',
+        'Dış hat uçuşunuzdan en az 4,5 ila 5 saat önce Mekke otelinden hareket edin; 60–75 dakikalık karayolu sürüşü sonrası uçuşa 3 saat kala terminalde rahatça bavul ve Zemzem işlemlerinizi tamamlayın.'
+      ]
+    },
+    {
+      title: 'Seyahatinizi Duyuf Alrahman VIP ile Planlayın',
+      paragraphs: [
+        'Duyuf Alrahman VIP, Mekke, Medine ve Cidde arasında güvenli ve konforlu bir özel transfer ağı sunmaktadır. Temiz modern araçlar, kutsal şehirlerin otel girişlerini çok iyi bilen deneyimli şoförler ve yakıt ile vergilerin dahil olduğu sabit fiyat garantisi sağlıyoruz.',
+        'Hepsinden önemlisi; hiçbir ön ödeme veya kredi kartı talep etmeksizin ödemeyi varışta şoföre yapma güvencesiyle çalışıyoruz. Seyahat takviminizi eksiksiz planlamak ve huzur dolu bir Umre deneyimi yaşamak için bizimle bugün iletişime geçin.'
       ]
     }
   ],

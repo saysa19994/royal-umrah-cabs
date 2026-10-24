@@ -2,94 +2,147 @@ import { LocalizedArticleBody } from '../types';
 
 export const TRANSPORT_PLANNING_CONTENT_DE: LocalizedArticleBody = {
   intro: {
-    title: 'Umfassender Leitfaden zur Transportplanung: Mekka, Medina und Dschidda für Umrah-Pilger',
+    title: 'Wie Sie den Transport zwischen Mekka, Medina und Dschidda planen: Praktischer Leitfaden für Umrah-Pilger',
     paragraphs: [
-      'Die Durchführung der Umrah und der Besuch der Prophetenmoschee ist ein einzigartiges spirituelles Erlebnis im Leben jedes Muslims. Innere Ruhe und vollkommene Andacht hängen unmittelbar von einer vorausschauenden und präzisen Transportlogistik zwischen den drei Pilgerstädten ab: Dschidda, Mekka und Medina. Ohne rechtzeitige Planung können die ersten Stunden der Reise schnell in Hektik und kräftezehrende Taxiverhandlungen an Flughäfen oder in Hotelhallen umschlagen.',
-      'Ein klassischer Umrah-Reiseplan umfasst mehrere entscheidende Etappen: die Landung am King Abdulaziz International Airport in Dschidda, die Weiterfahrt im Ihram-Zustand direkt zum Hotel in Mekka zur Verrichtung der Riten, Tage des Gebets an der Heiligen Moschee, die lange Überlandfahrt auf der historischen Hidschra-Autobahn nach Medina zum Besuch der Prophetenmoschee, historische Ziyarat-Besichtigungen und schließlich die Rückreise zum Flughafen in Dschidda oder Medina mit Zamzam-Wasser und Datteln.',
-      'In diesem strategischen Leitfaden vermittelt Ihnen das Logistikteam von Duyuf Alrahman VIP einen praxiserprobten Fahrplan zur Organisation aller Reiseetappen, einen transparenten Vergleich der Transportmittel, Empfehlungen zur Taktung nach Gebets- und Flugzeiten sowie die Buchung moderner VIP-Fahrzeuge zu Festpreisen ohne Vorauszahlung (strikte Bezahlung erst beim Fahrer bei Ankunft).'
+      'Die Transportplanung zwischen Mekka, Medina und Dschidda gehört zu den wichtigsten logistischen Säulen, die über den Komfort, die innere Ruhe und die spirituelle Hingabe von Umrah-Pilgern entscheiden. Die optimale Gestaltung hängt maßgeblich von den Flugdaten, den Hotelstandorten, den verfügbaren Verkehrsmitteln, dem Gepäckvolumen, den Bedürfnissen der Familie (Kinder und Senioren) sowie der geplanten Besichtigungsreihenfolge ab.',
+      'Ohne rechtzeitige Vorbereitung können die ersten Stunden der Pilgerreise leicht in Frustration und Erschöpfung umschlagen – sei es durch hektische Taxisuche an überfüllten Flughafenausgängen, Verhandlungen über überhöhte Spontantarife oder die Entdeckung, dass der Kofferraum nicht alle Koffer und 5-Liter-Zamzam-Kanister fasst.',
+      'In diesem umfassenden, praxisnahen Leitfaden stellen wir Ihnen einen bewährten Fahrplan zur Organisation Ihrer Reiseroute über den King Abdulaziz International Airport in Dschidda, Mekka und Medina vor. Wir vergleichen Privatwagen, den Haramain-Hochgeschwindigkeitszug und Busse objektiv, stellen einen Beispielzeitplan bereit, analysieren Budgetfaktoren und erklären, wie Sie moderne VIP-Fahrzeuge zu garantierten Festpreisen ohne Vorauszahlung reservieren (strikte Bezahlung erst beim Fahrer bei Ankunft).'
     ]
   },
   sections: [
     {
-      title: 'Die drei Hauptetappen eines vollständigen Umrah-Transportplans',
+      title: 'Wie Sie Ihre Reiseroute zwischen Mekka, Medina und Dschidda strukturieren',
       paragraphs: [
-        'Ein durchdachter Reiseplan koordiniert drei wesentliche Wegstrecken:',
-        '1. Ankunftsetappe (Flughafen Dschidda zum Hotel in Mekka): Die Strecke beträgt etwa 85 bis 100 km und dauert im Pkw rund 60 bis 75 Minuten. Der Pilger im Weihezustand (Ihram) benötigt direkt nach dem Verlassen des Terminals ein klimatisiertes, bequemes Fahrzeug, um das Hotel ohne Wartezeiten zu erreichen.',
-        '2. Verbindung zwischen den Heiligen Stätten (Mekka nach Medina): Eine 430 bis 450 km lange Autobahnfahrt über den Al-Hijrah Highway, die im Privatwagen etwa 4 bis 4,5 Stunden in Anspruch nimmt. Diese Distanz erfordert ein geräumiges, leises Fahrzeug mit starker Mehrzonen-Klimaanlage und großzügigem Stauraum für Koffer und Zamzam-Wasser.',
-        '3. Abreiseetappe (Mekka oder Medina zum Flughafen): Ob Überlandfahrt von Medina zum Flughafen Dschidda (~420 km) oder Abflug ab dem Flughafen Medina (MED) – eine rechtzeitige Abfahrt mit ausreichendem Zeitpuffer sichert einen entspannten Check-in am Flughafen.'
+        'Eine vorausschauende Transportplanung beginnt mit der Definition der wichtigsten Eckpunkte:',
+        '1. Ankunftsflughafen und Landezeit: Klären Sie, ob Ihr Flug am Flughafen Dschidda (Terminal 1 oder Nord-Terminal) oder direkt am Flughafen Medina landet.',
+        '2. Erstes Ziel und Unterkunft: Entscheiden Sie, ob Sie im Ihram-Zustand direkt nach Mekka reisen, um die Umrah-Riten zu vollziehen, oder zuerst nach Medina fahren, um die Prophetenmoschee zu besuchen und sich auszuruhen.',
+        '3. Aufenthaltsdauer in Mekka und Medina: Stimmen Sie Überlandfahrten präzise auf die regulären Check-in- (15:00–16:00 Uhr) und Check-out-Zeiten (12:00 Uhr) der zentralen Hotels ab.',
+        '4. Streckenlängen und reale Fahrzeiten: Berücksichtigen Sie die Autobahndistanzen (Dschidda nach Mekka: ~85 km, Mekka nach Medina: ~430 km, Medina nach Dschidda: ~420 km) sowie typische Fahrzeiten.',
+        '5. Abflughafen und Rückreise: Planen Sie den Transfer zum Flughafen mit großzügigem Zeitpuffer, um Gepäckabgabe und die offizielle Zamzam-Wasser-Registrierung stressfrei zu durchlaufen.',
+        'Wichtiger religiöser Hinweis: Es gibt keine Vorschrift, ob Mekka vor Medina besucht werden muss oder umgekehrt. Beide Abläufe sind legitim und gesegnet. Die Wahl sollte sich rein nach Flugpreisen, Hotelverfügbarkeiten und dem Familienkomfort richten.'
       ]
     },
     {
-      title: 'Transportmittel im Vergleich: Privatchauffeur, Haramain-Hochgeschwindigkeitszug & Busse',
+      title: 'Wie Sie vom Flughafen Dschidda nach Mekka reisen',
       paragraphs: [
-        'Um die beste Lösung für Ihre Familie auszuwählen, beachten Sie diesen objektiven Vergleich:',
-        '1. Privater Chauffeur-Transfer (Tür-zu-Tür): Die erstklassige Wahl für Familien, Senioren und Reisende mit viel Gepäck. Bietet Direktfahrten von Hotel zu Hotel, freie Abfahrtszeiten, Pausen nach Wunsch, ungestörte Privatsphäre und Bezahlung erst bei sicherer Ankunft.',
-        '2. Haramain-Hochgeschwindigkeitszug: Modern und schnell auf der Schiene zwischen den Hauptbahnhöfen. Erfordert jedoch Taxifahrten mit schwerem Gepäck vom Hotel zum Bahnhof und vom Zielbahnhof zum Hotel, was insbesondere mit Kindern und Senioren ermüdend ist.',
-        '3. Gruppenreisebusse: Kostengünstig für Pauschalgruppen, jedoch gebunden an starre Fahrpläne, zentrale Haltestellen abseits der Haram-Hotels und deutlich längere Fahrzeiten durch behördliche Sicherheitskontrollen.',
-        '4. Straßentaxis auf Zuruf: Berdrängend durch überhöhte Spontanpreise in der Hauptsaison, unvorhersehbare Fahrzeugsauberkeit und oft zu kleine Kofferräume für alle Reisekoffer.'
+        'Die erste Etappe vom Flughafen Dschidda nach Mekka ist entscheidend, da Pilger nach langen Flügen meist bereits den Ihram tragen. Wichtige Planungsaspekte:',
+        '• Vorab abgestimmte Abholung am Terminal: Ihr persönlicher Chauffeur erwartet Sie mit Namensschild in der Ankunftshalle, wodurch lästige Warteschlangen und Taxifeilschen vermieden werden.',
+        '• Passender Laderaum für Personen und Gepäck: Stellen Sie sicher, dass alle Koffer vollständig im Kofferraum Platz finden, um Sicherheit und Fahrgastkomfort zu wahren.',
+        '• Verbindliche All-Inclusive-Festpreise: Vergewissern Sie sich, dass Kraftstoff, Autobahnmaut und Steuern im vereinbarten Preis enthalten sind.',
+        'Detaillierte Informationen zu Terminalabläufen und Fahrzeugklassen finden Sie in unserem Leitfaden zur [Wahl eines VIP-Fahrzeugs vom Flughafen Dschidda nach Mekka](/de/blog/vip-umrah-transport-jeddah-to-makkah).'
       ]
     },
     {
-      title: 'Zeitmanagement: Abstimmung auf Gebetszeiten, Verkehr und Flüge',
+      title: 'Wie Sie den Transfer zwischen Mekka und Medina planen',
       paragraphs: [
-        'Präzises Timing ist der Schlüssel zu einer reibungslosen Reise:',
-        '1. Straßensperren während der Gebete beachten: Die Straßen im inneren Ring rund um die Heiligen Moscheen in Mekka und Medina werden ca. 30 Minuten vor und nach den fünf Pflichtgebeten vorübergehend für den Autoverkehr gesperrt. Planen Sie Ihre Abfahrten stets in den Zwischenzeiten.',
-        '2. Sicherheitszeitfenster für internationale Flüge: Für Fahrten von Mekka zum Flughafen Dschidda planen Sie die Abholung am Hotel mindestens 4,5 bis 5 Stunden vor der geplanten Abflugzeit, um 3 Stunden vor Abflug stressfrei am Terminal zu sein.',
-        '3. Beste Tageszeit für Überlandfahrten: Wir empfehlen die Autobahnfahrt von Mekka nach Medina entweder früh morgens nach dem Fajr-Gebet (kühlere Temperaturen und freie Straßen) oder am späten Nachmittag nach dem Asr-Gebet, um die intensive Mittagshitze zu meiden.',
-        '4. Umgehungsstraßen nutzen: Unsere ortskundigen Chauffeure nutzen moderne Schnellstraßenringe, um innerstädtische Engpässe zu umfahren.'
+        'Die Fahrtstrecke zwischen Mekka und Medina umfasst rund 430 bis 450 km über den Al-Hijrah Highway und dauert im Pkw ca. 4 bis 4,5 Stunden. Reisende wählen vor allem zwischen zwei Varianten:',
+        '1. Privates Fahrzeug mit Chauffeur (Private Chauffeur):',
+        'Bietet eine direkte Tür-zu-Tür-Beförderung (Door-to-Door) von der Hotellobby in Mekka bis zur Hoteltür in Medina. Diese Option ermöglicht flexible Abfahrtszeiten, angenehme Pausen an lizenzierten Raststätten zum Gebet und Essen, uneingeschränkte Privatsphäre und Bezahlung bei Ankunft. Weitere Details finden Sie in unserem [Leitfaden für Privattransfers von Mekka nach Medina](/de/blog/private-transfer-makkah-to-madinah).',
+        '2. Haramain-Hochgeschwindigkeitszug (Haramain High-Speed Railway):',
+        'Eine moderne Elektrobahn, die den Bahnhof Mekka (Al-Rusaifah) und den Bahnhof Medina in ca. 2 Stunden und 20 Minuten mit bis zu 300 km/h verbindet.',
+        'Hierbei müssen jedoch logistische Stationsabläufe bedacht werden: Sie müssen separate Taxis mit schwerem Gepäck vom Hotel zum Bahnhof Mekka buchen, 60 Minuten vor Abfahrt zur Sicherheitskontrolle eintreffen und in Medina ein weiteres Taxi zum Hotel nehmen. Zudem gelten strenge Gepäckbestimmungen pro Fahrgast.',
+        'Interessierten Pilgern empfehlen wir, Fahrkarten frühzeitig über offizielle Kanäle der Haramain Railway zu buchen und klar zwischen dem öffentlichen Bahnverkehr und den privaten Tür-zu-Tür-Transfers von Duyuf Alrahman VIP zu unterscheiden.'
       ]
     },
     {
-      title: 'Gepäcklogistik, Zamzam-Wasser und Mobilitätshilfen',
+      title: 'Wie Sie Fahrten innerhalb Dschiddas und zum Flughafen organisieren',
       paragraphs: [
-        'Der Hotelwechsel zwischen Mekka und Medina mit vollem Gepäck verlangt praktische Voraussicht:',
-        '• Bei der Anreise Gepäck begrenzen: Reisen Sie mit dem Nötigsten an, um Stauraum für Gebetsteppiche, Datteln und Geschenke freizuhalten.',
-        '• Zamzam-Wasser erst an der letzten Station kaufen: Transportieren Sie schwere 5-Liter-Kartons nicht unnötig über Tage von Mekka nach Medina. Kaufen Sie die flughafenzertifizierten Kanister an Ihrem letzten Aufenthaltsort unmittelbar vor der Abreise.',
-        '• Platz für Kinderwagen und Rollstühle einplanen: Für Reisende mit Senioren oder Kleinkindern bieten Großraumfahrzeuge (wie der Hyundai Staria VIP oder GMC Yukon XL VIP) genügend Ladevolumen, um Faltrollstühle sicher ohne Beeinträchtigung der Sitze zu verstauen.'
+        'Ob Sie einige Tage für Einkäufe im historischen Viertel Al-Balad und an der Corniche von Dschidda einplanen oder direkt zum Abflug fahren, gute Planung erfordert:',
+        '• Genaue Hoteladresse und Abflugterminal angeben: Teilen Sie dem Fahrdienst Hotelname und Terminal (Terminal 1 für Saudia und große Airlines, Nord-Terminal für Budgetflüge) verbindlich mit.',
+        '• Verkehrsaufkommen einkalkulieren: Die Fahrt von Mekka zum Flughafen Dschidda dauert normal 60 bis 75 Minuten; zu Spitzenzeiten sollte mehr Zeit eingeplant werden.',
+        '• Rückreiseleitfaden beachten: Für eine reibungslose Fahrt zum Flughafen lesen Sie unseren Ratgeber zur [Fahrzeugbuchung von Mekka zum Flughafen Dschidda](/de/blog/makkah-to-jeddah-airport-transfer).'
       ]
     },
     {
-      title: 'Historische Ziyarat-Touren in Mekka und Medina',
+      title: 'Musterablauf für Überlandtransfers (Orientierungstabelle)',
       paragraphs: [
-        'Zu einer vollkommenen Pilgerreise gehören Besuche der bedeutsamsten Stätten der islamischen Geschichte:',
-        '• Ziyarat in Mekka: Umfasst den Berg Jabal al-Nour (Höhle Hira), Jabal Thawr, Mina, Muzdalifah, die Ebene von Arafat, das Uhrenturm-Museum und die Kiswa-Manufaktur. Eine 3- bis 4-stündige Privattour ermöglicht Besichtigungen im eigenen Tempo.',
-        '• Ziyarat in Medina: Beinhaltet die Quba-Moschee (die erste Moschee des Islam), die Qiblatayn-Moschee, den Berg Uhud mit dem Märtyrerfriedhof und die Stätte der Grabenschlacht (Die Sieben Moscheen). Ein Privatwagen ermöglicht ruhige Sunnah-Gebete in Quba.',
-        '• Der Vorteil einheimischer Chauffeure: Unsere Fahrer kennen die verkehrsarmen Zeiten zur Vermeidung von Touristenbussen und warten zuverlässig an jedem Haltepunkt.'
+        'Die folgende Tabelle skizziert einen flexiblen Reiseplan, der an Ihre Buchungen angepasst werden kann:',
+        '| Reisephase | Startort | Zielort | Empfohlenes Verkehrsmittel | Vorab zu bestätigende Punkte |',
+        '| :--- | :--- | :--- | :--- | :--- |',
+        '| **Tag 1: Ankunft** | Flughafen Dschidda (T1 / Nord) | Hotel in Mekka | VIP-Privatwagen mit Chauffeur | Flugnummer, Terminal, Personen- und Kofferanzahl |',
+        '| **Tag 2–4: In Mekka** | Unterkunft Mekka | Mekka Ziyarat-Tour | Privatwagen (Stundenbasis / Tour) | Tour zwischen die Gebetszeiten legen |',
+        '| **Tag 5: Überlandfahrt** | Hotel in Mekka | Hotel in Medina | Familien-MPV / SUV (Staria / Yukon) | Abgestimmt auf Check-out (12:00) und Check-in (15:00) |',
+        '| **Tag 6–8: In Medina** | Unterkunft Medina | Medina Ziyarat (Quba & Uhud) | Privatwagen (Stundenbasis / Tour) | Quba-Moschee und Uhud frühmorgens besuchen |',
+        '| **Tag 9: Abreise** | Hotel Medina / Mekka | Flughafen Dschidda / Medina | Direkter Flughafentransfer | 4,5 bis 5 Stunden vor internationalem Abflug starten |'
       ]
     },
     {
-      title: 'Wahl der passenden Fahrzeugklasse für jede Etappe',
+      title: 'Wann Chauffeur-Service und wann der Haramain-Zug ideal ist (Ausgewogener Vergleich)',
       paragraphs: [
-        'Stimmen Sie die Fahrzeugkategorie auf Personenanzahl und Distanz ab:',
-        '1. Toyota Camry (VIP Executive Limousine): Hervorragend für Alleinreisende und Paare (1 bis 3 Personen mit 2 großen Koffern). Wendig, komfortabel und wirtschaftlich für Transfers zum Flughafen.',
-        '2. Hyundai Staria VIP (7-Sitzer Luxus-Familien-Van): Das bevorzugte Fahrzeug für Familien von 4 bis 7 Personen dank bequemer Einzelsitze, Mehrzonen-Klima und Platz für 5 bis 6 Koffer plus Kinderwagen.',
-        '3. GMC Yukon XL VIP (Verlängerter Luxus-Fullsize-SUV): Die First-Class-Wahl für die Autobahn Mekka - Medina mit maximaler Laufruhe, erhöhter Sitzposition und einem XL-Kofferraum für 6 bis 8 Koffer samt Rollstühlen.',
-        '4. Toyota HiAce und Toyota Coaster (Executive Minibusse): Speziell für Großfamilien und Reisegruppen von 10 bis 20 Personen, die gemeinsam in einem Fahrzeug reisen möchten.'
+        'Dieser praxisnahe Vergleich zeigt die betrieblichen Unterschiede zur Orientierung:',
+        '| Vergleichskriterium | Privater Chauffeur (Tür-zu-Tür) | Haramain-Zug (Bahnhof-zu-Bahnhof) |',
+        '| :--- | :--- | :--- |',
+        '| **Serviceform** | Direkte Fahrt von Hotellobby zu Hotellobby | Fahrt nur zwischen Bahnhöfen; zusätzliche Taxis nötig |',
+        '| **Gepäckraum** | Großzügiger Kofferraum für Großkoffer, Zamzam und Buggys | Strenge Gewichtslimits und Zusatzgebühren bei Mehrgepäck |',
+        '| **Zeitliche Flexibilität** | Freie Abfahrt genau nach Wunsch Ihrer Familie | Feste Zugabfahrten; Ankunft 60 Minuten vor Abfahrt Pflicht |',
+        '| **Komfort für Familien & Senioren**| Höchster Komfort: kein Tragen von Gepäck auf Bahnsteigen | Erhebliche Laufwege und Umsteigen zwischen Fahrzeugen |',
+        '| **Privatsphäre** | 100 % private Kabine mit eigener Klimaregelung und Pausen | Geteilte Großraumwagen (Economy oder Business Class) |',
+        '| **Kostenstruktur** | Festpreis pro Fahrzeug; sehr günstig für Gruppen | Ticketpreis pro Person + Taxikosten an beiden Bahnhöfen |',
+        'Fazit: Der Zug ist eine schnelle Alternative für Alleinreisende mit leichtem Gepäck. Der Privattransfer bleibt die entspannteste, komfortabelste und wirtschaftlichste Wahl für Familien, Senioren und Pilger mit mehreren Koffern.'
       ]
     },
     {
-      title: 'Vorteile einer vorab gebuchten Gesamtreise',
+      title: 'Wie Sie die passende Fahrzeugklasse für Ihre Gruppe wählen',
       paragraphs: [
-        'Die Bündelung aller Transfers bei einem einzigen verlässlichen Anbieter bietet erhebliche Vorzüge:',
-        '• Feste und garantierte Tarife: Vollständiger Schutz vor Preissprüngen in der Hauptsaison und lästigem Straßenfeilschen.',
-        '• Persönlicher 24/7-Support über WhatsApp: Ein fester zweisprachiger Ansprechpartner überwacht Ihre Flugankünfte und disponiert die Chauffeure pünktlich.',
-        '• Professionelle Chauffeure und gepflegte Fahrzeuge: Neuwertige Fahrzeuge mit Fahrern, die alle Hotelzufahrten in Mekka und Medina genau kennen.',
-        '• Volle finanzielle Flexibilität: Keine Vorauskasse und keine Kreditkartenbelastung. Die Bezahlung erfolgt immer erst direkt beim Fahrer nach sicherer Ankunft an jedem Etappenziel.'
+        'Die Wahl des Fahrzeugs richtet sich nach Personenanzahl und geprüftem Gepäckvolumen:',
+        '• Alleinreisende & Paare (1 bis 3 Personen mit 2 Koffern): Eine Business-Limousine wie die Toyota Camry VIP bietet Wendigkeit, Komfort und Wirtschaftlichkeit.',
+        '• Durchschnittliche Familien (4 bis 7 Personen mit 5 bis 6 Koffern und Kinderwagen): Der Luxus-Van Hyundai Staria VIP überzeugt mit Einzelsitzen, Mehrzonen-Klima und geräumigem Kofferraum.',
+        '• Großfamilien & Luxusanspruch (Bis 7 Personen mit 6 bis 8 Koffern und Rollstuhl): Der Langversion-SUV GMC Yukon XL VIP bietet erstklassige Laufruhe auf der Autobahn und ein enormes Ladevolumen.',
+        '• Größere Gruppen (10 bis 14 Personen): Die Minibusse Toyota HiAce und Toyota Coaster ermöglichen gemeinsames Reisen in einem klimatisierten Fahrzeug.',
+        'Ausführliche Maße und Stauraumtipps finden Sie in unserem [Leitfaden zur Fahrzeugkapazität für Umrah](/de/blog/vehicle-capacity-passengers-luggage).'
       ]
     },
     {
-      title: 'Abschließende Checkliste vor Reiseantritt',
+      title: 'Wie Sie Ihr Überland-Transportbudget planen',
       paragraphs: [
-        'Überprüfen Sie diese fünf Punkte vor Ihrer Abreise:',
-        '✔ Sind die Überlandfahrten auf die Check-in- (15:00–16:00 Uhr) und Check-out-Zeiten (12:00 Uhr) der Hotels abgestimmt?',
-        '✔ Haben Sie mindestens 4,5 Stunden Zeitpuffer vor internationalen Flügen ab Dschidda eingeplant?',
-        '✔ Wurden Kofferanzahl, Kinderwagen und Rollstühle vorab genau an den Koordinator übermittelt?',
-        '✔ Beinhaltet der vereinbarte Festpreis Kraftstoff, Mautgebühren und Steuern ohne versteckte Aufpreise?',
-        '✔ Basiert Ihre Buchung auf Barzahlung beim Fahrer bei Ankunft ohne jegliche Vorauskasse?'
+        'Kalkulieren Sie bei den Transportkosten die Gesamtausgaben des Reiseplans und nicht nur eine Einzelfahrt:',
+        '1. Feste Fahrzeugtarife: Bei Duyuf Alrahman VIP gilt der Preis pro Fahrzeug und nicht pro Kopf, was die Kosten pro Person bei Familien stark senkt.',
+        '2. Keine versteckten Gebühren: Unsere Preise beinhalten Kraftstoff, Autobahngebühren und Steuern verbindlich.',
+        '3. Nebenkosten im öffentlichen Nahverkehr: Addieren Sie beim Bahnvergleich stets die Taxifahrten zu und von den Bahnhöfen zu den Fahrkartenpreisen.',
+        '4. Zahlung erst bei Ankunft: Buchungen mit Bezahlung direkt beim Fahrer vor Ort schützen Sie vor finanziellen Risiken bei Flugverschiebungen.'
+      ]
+    },
+    {
+      title: 'Typische Fehler bei der Umrah-Transportplanung vermeiden',
+      paragraphs: [
+        'Vermeiden Sie diese häufigen Fehler für einen entspannten Reiseverlauf:',
+        '1. Transportmittel buchen, bevor die genauen Hoteladressen in Mekka und Medina feststehen.',
+        '2. Den Zeitaufwand und die Kosten für Taxifahrten zwischen Hotel und Bahnhof vergessen.',
+        '3. Das Gepäckvolumen durch Einkäufe, Geschenke und 5-Liter-Zamzam-Kartons unterschätzen.',
+        '4. Zu knapp bemessene Abfahrtszeiten vor internationalen Abflügen wählen.',
+        '5. Davon ausgehen, dass Straßentaxis in der Hauptsaison (z. B. Ramadan) feste Tarife verlangen.',
+        '6. Faltrollstühle oder größere Kinderwagen bei der Buchung nicht rechtzeitig angeben.'
+      ]
+    },
+    {
+      title: 'Häufig gestellte Fragen: Transportplanung Mekka, Medina und Dschidda',
+      paragraphs: [
+        'Hier finden Sie fundierte Antworten auf die sieben wichtigsten Pilgerfragen:',
+        '1. Wie organisiere ich den Transport zwischen Mekka, Medina und Dschidda am besten?',
+        'Am zuverlässigsten ist die Vorabbuchung eines Tür-zu-Tür-Transferpakets bei einem lizenzierten Chauffeurdienst zu Festpreisen. Dies stimmt die Fahrten optimal auf Hotel- und Flugzeiten ab.',
+        '2. Kann ich von Mekka nach Medina mit einem privaten Pkw reisen?',
+        'Ja, absolut. Dies ist die beliebteste und bequemste Option für Familien. Die 430 km lange Strecke auf dem Al-Hijrah Highway wird in 4 bis 4,5 Stunden direkt von Hotel zu Hotel zurückgelegt.',
+        '3. Was unterscheidet einen Privatwagen vom Haramain-Zug?',
+        'Der Privatwagen fährt direkt von Tür zu Tür ohne Kofferzerren an Bahnhöfen und bietet freie Zeiteinteilung sowie uneingeschränkten Gepäckraum. Der Zug verkehrt nur zwischen Bahnhöfen und erfordert Taxis sowie strenge Gepäckregeln.',
+        '4. Wie organisiere ich den Transfer vom Flughafen Dschidda nach Mekka?',
+        'Sie können online oder via WhatsApp mit Flugnummer, Ankunftszeit und Personenzahl buchen. Ihr Chauffeur empfängt Sie mit Namensschild am Terminal und fährt Sie direkt zum Hotel in Mekka.',
+        '5. Wie wähle ich das richtige Fahrzeug für Familie und Gepäck aus?',
+        'Wählen Sie nach Passagieren und Koffern: Toyota Camry für 1–3 Personen und 2 Koffer; Hyundai Staria VIP für bis zu 7 Personen und 5–6 Koffer; GMC Yukon XL VIP für Luxus, Rollstühle und 6–8 Koffer; und Toyota HiAce für bis zu 11 Personen.',
+        '6. Wann sollten Transfers und Zugtickets bestätigt werden?',
+        'Bestätigen Sie den Transport, sobald Flüge und Hotels gebucht sind – besonders zu Spitzenzeiten wie Ramadan, um die Wunschklasse zum Festpreis zu sichern.',
+        '7. Wie plane ich die Rückfahrt zum Flughafen Dschidda?',
+        'Planen Sie die Abholung am Hotel in Mekka mindestens 4,5 bis 5 Stunden vor internationalem Abflug. Dies lässt 60–75 Minuten Fahrzeit und sichert 3 Stunden Puffer am Flughafen für Check-in und Zamzam-Aufgabe.'
+      ]
+    },
+    {
+      title: 'Planen Sie Ihre Reise mit Duyuf Alrahman VIP',
+      paragraphs: [
+        'Duyuf Alrahman VIP bietet Ihnen ein ganzheitliches Premium-Transportsystem zwischen Mekka, Medina und Dschidda. Wir garantieren gepflegte Fahrzeuge, erfahrene Chauffeure mit genauer Kenntnis aller Hotelzufahrten sowie transparente Festpreise inklusive Benzin, Maut und Steuern.',
+        'Besonders wichtig: Wir praktizieren strikte Barzahlung beim Fahrer bei sicherer Ankunft ohne Vorkasse oder Kreditkartenzwang. Kontaktieren Sie uns noch heute, um Ihren Reiseplan entspannt und sicher zu gestalten.'
       ]
     }
   ],
-  faqTitle: 'Häufig gestellte Fragen: Transportplanung Mekka, Medina und Dschidda',
+  faqTitle: 'Häufig gestellte Fragen: Transportplanung Mekka, Medina & Dschidda',
   faqSubtitle: 'Transparente Antworten für eine sichere, bequeme und perfekt getaktete Umrah-Reise',
   cta: {
     title: 'Planen Sie Ihre Umrah-Transporte komplett mit Duyuf Alrahman VIP',
