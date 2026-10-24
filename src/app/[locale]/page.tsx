@@ -2,8 +2,6 @@ import React from 'react';
 import { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
-import { BookingCard } from '@/components/home/BookingCard';
-import { getDbPricesCached } from '@/lib/pricing-db';
 import { HomeSections } from '@/components/home/HomeSections';
 import { HomepageFaqJsonLd } from '@/components/seo/JsonLd';
 import { HeroSection } from '@/components/home/HeroSection';
@@ -30,13 +28,8 @@ export default async function HomePage(props: HomePageProps) {
       {/* 1. CINEMATIC FULL-SCREEN HARAM HERO SECTION */}
       <HeroSection locale={locale} />
 
-      {/* 2. OVERLAPPING BOOKING CARD WITH ELEVATED LUXURY STYLE */}
-      <div id="booking-calculator" className="relative z-20">
-        <BookingCard locale={locale} dict={dict} initialRates={await getDbPricesCached()} />
-      </div>
-
-      {/* 3. BEIGE TRUST STRIP (ONLY SHOWN IF VALID OR FACTUAL) */}
-      <section className="bg-bg-alt border-y border-border py-4 mt-8">
+      {/* 2. BEIGE TRUST STRIP (ONLY SHOWN IF VALID OR FACTUAL) */}
+      <section className="bg-bg-alt border-b border-border py-4">
         <div className="container mx-auto px-4 max-w-7xl flex flex-wrap items-center justify-between gap-4 text-xs md:text-sm text-ink">
           {settings.google_reviews_link && settings.google_reviews_count > 0 ? (
             <a
@@ -72,7 +65,7 @@ export default async function HomePage(props: HomePageProps) {
         </div>
       </section>
 
-      {/* 4. HOME SECTIONS */}
+      {/* 3. HOME SECTIONS (HOW IT WORKS, FLEET, SERVICES, ROUTES, STANDARDS, FAQ, CTA, FOOTER) */}
       <HomeSections locale={locale} dict={dict} settings={settings} />
     </div>
   );

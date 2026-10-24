@@ -168,7 +168,7 @@ export function Header({ locale, dict }: HeaderProps) {
 
           {/* GOLD BOOK ONLINE CTA */}
           <Link
-            href={isHomePage ? '#booking-calculator' : `/${locale}/booking`}
+            href={`/${locale}/booking`}
             className="hidden sm:inline-flex items-center gap-1.5 h-9 sm:h-10 px-4 text-xs font-bold uppercase tracking-wider rounded-[8px] bg-gold text-[#0A1224] hover:bg-[#E8C766] hover:text-[#0A1224] transition-all shadow-[0_2px_14px_rgba(212,175,55,0.35)] focus-visible:ring-2 focus-visible:ring-gold"
           >
             <span>{locale === 'ar' ? 'احجز أونلاين' : 'Book Online'}</span>
@@ -253,7 +253,7 @@ export function Header({ locale, dict }: HeaderProps) {
           {/* DRAWER FOOTER CONTROLS & CTA */}
           <div className="flex flex-col gap-4 pt-4 border-t border-white/15">
             <Link
-              href={isHomePage ? '#booking-calculator' : `/${locale}/booking`}
+              href={`/${locale}/booking`}
               onClick={() => setMobileMenuOpen(false)}
               className="w-full min-h-[48px] rounded-[8px] bg-gold text-[#0A1224] font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(212,175,55,0.4)] hover:bg-[#E8C766] transition-colors"
             >

@@ -169,6 +169,25 @@
   animation: bounceScroll 2.4s infinite;
 }
 
+
+@keyframes luxuryButtonShine {
+  0%, 75% {
+    transform: translateX(-160%) skewX(-20deg);
+    opacity: 0;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  90%, 100% {
+    transform: translateX(180%) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+.animate-luxury-shine {
+  animation: luxuryButtonShine 6s infinite ease-in-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
