@@ -3,24 +3,20 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Locale, getLocalizedAlternates, LOCALES } from '@/i18n/config';
+import { Locale, getLocalizedAlternates, LOCALES, LOCALE_CONFIG } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { BLOG_POSTS } from '@/data/blog-posts';
+import { getBlogArticleContent } from '@/data/blog-content';
 import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
 import { getDbPricesCached } from '@/lib/pricing-db';
 import {
   Clock,
   Calendar,
-  ShieldCheck,
   CheckCircle2,
   ArrowRight,
   MessageCircle,
   HelpCircle,
-  Car,
-  ChevronRight,
-  Plane,
   AlertTriangle,
-  MapPin,
   Sparkles,
 } from 'lucide-react';
 
@@ -50,14 +46,14 @@ export async function generateMetadata(props: BlogPostPageProps): Promise<Metada
     return { title: 'Article Not Found' };
   }
 
-  const title = post.seoTitle[locale] || post.seoTitle.ar;
-  const description = post.metaDescription[locale] || post.metaDescription.ar;
+  const title = post.seoTitle[locale] || post.seoTitle.en;
+  const description = post.metaDescription[locale] || post.metaDescription.en;
   const alternates = getLocalizedAlternates(locale, `/blog/${slug}`);
 
   return {
     title: `${title} | Duyuf Alrahman VIP`,
     description,
-    keywords: post.supportingKeywords,
+    keywords: post.supportingKeywords[locale] || post.supportingKeywords.en,
     alternates,
     openGraph: {
       title,
@@ -72,7 +68,7 @@ export async function generateMetadata(props: BlogPostPageProps): Promise<Metada
           url: post.featuredImage,
           width: 1024,
           height: 571,
-          alt: post.imageAlt[locale] || post.imageAlt.ar,
+          alt: post.imageAlt[locale] || post.imageAlt.en,
         },
       ],
     },
@@ -95,20 +91,58 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
   }
 
   const dict = getDictionary(locale);
+  const localeMeta = LOCALE_CONFIG[locale] || LOCALE_CONFIG.en;
+  const isRtl = localeMeta.dir === 'rtl';
+
   const dbRates = await getDbPricesCached();
   const routePrices = dbRates['jeddah-airport-to-makkah'] || AUTHORITATIVE_TRANSFER_RATES['jeddah-airport-to-makkah'];
 
-  const canonicalUrl = `https://duyufalrahmanvip.com/${locale}/blog/${slug}`;
+  const content = getBlogArticleContent(slug, locale);
 
-  // Breadcrumbs JSON-LD
-  const breadcrumbJsonLd = {
+  const mainWa = '966567588261';
+  const greeting = encodeURIComponent(
+    localeMeta.whatsappGreeting + ` ${post.title[locale] || post.title.en}`
+  );
+  const waUrl = `https://wa.me/${mainWa}?text=${greeting}`;
+
+  // Structured Data JSON-LD
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://duyufalrahmanvip.com/${locale}/blog/${slug}`,
+    },
+    headline: post.title[locale] || post.title.en,
+    description: post.metaDescription[locale] || post.metaDescription.en,
+    image: [`https://duyufalrahmanvip.com${post.featuredImage}`],
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt,
+    author: {
+      '@type': 'Organization',
+      name: post.author[locale] || post.author.en,
+      url: 'https://duyufalrahmanvip.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Duyuf Alrahman VIP',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://duyufalrahmanvip.com/icon-192.png',
+      },
+    },
+    inLanguage: locale,
+    keywords: (post.supportingKeywords[locale] || []).join(', '),
+  };
+
+  const breadcrumbsJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
       {
         '@type': 'ListItem',
         position: 1,
-        name: dict.nav.home || 'Home',
+        name: dict.nav.home,
         item: `https://duyufalrahmanvip.com/${locale}`,
       },
       {
@@ -120,73 +154,35 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       {
         '@type': 'ListItem',
         position: 3,
-        name: post.title[locale] || post.title.ar,
-        item: canonicalUrl,
+        name: post.title[locale] || post.title.en,
+        item: `https://duyufalrahmanvip.com/${locale}/blog/${slug}`,
       },
     ],
   };
 
-  // BlogPosting Schema JSON-LD
-  const blogPostingJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: post.seoTitle[locale] || post.seoTitle.ar,
-    description: post.metaDescription[locale] || post.metaDescription.ar,
-    image: `https://duyufalrahmanvip.com${post.featuredImage}`,
-    datePublished: post.publishedAt,
-    dateModified: post.updatedAt,
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': canonicalUrl,
-    },
-    author: {
-      '@type': 'Organization',
-      name: 'Duyuf Alrahman VIP',
-      url: 'https://duyufalrahmanvip.com',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Duyuf Alrahman VIP',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://duyufalrahmanvip.com/icon-192.png',
-      },
-    },
-    keywords: [post.primaryKeyword, ...post.supportingKeywords].join(', '),
-  };
-
-  // FAQ Schema JSON-LD
   const faqJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: post.faqs.map((faq) => ({
       '@type': 'Question',
-      name: faq.question[locale] || faq.question.ar,
+      name: faq.question[locale] || faq.question.en,
       acceptedAnswer: {
         '@type': 'Answer',
-        text: faq.answer[locale] || faq.answer.ar,
+        text: faq.answer[locale] || faq.answer.en,
       },
     })),
   };
 
-  const waNumber = '966567588261';
-  const waText = encodeURIComponent(
-    locale === 'ar'
-      ? `السلام عليكم، قرأت مقال (${post.title.ar}) وأرغب في حجز سيارة VIP من مطار جدة إلى مكة المكرمة.`
-      : `Salam, I read your article "${post.title.en}" and would like to inquire about booking a VIP vehicle from Jeddah Airport to Makkah.`
-  );
-  const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
-
   return (
-    <div className="py-12 md:py-20 bg-bg min-h-screen text-start">
-      {/* STRUCTURED DATA SCHEMAS */}
+    <div className="py-12 md:py-20 bg-bg min-h-screen" dir={isRtl ? 'rtl' : 'ltr'}>
+      {/* Schema Structured Data */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
       />
       <script
         type="application/ld+json"
@@ -194,8 +190,11 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       />
 
       <div className="container mx-auto px-4 max-w-4xl">
-        {/* BREADCRUMB NAVIGATION */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-ink-muted mb-8">
+        {/* BREADCRUMB */}
+        <nav
+          aria-label="Breadcrumb"
+          className="flex items-center gap-2 text-xs text-ink-muted mb-8 overflow-x-auto text-start"
+        >
           <Link href={`/${locale}`} className="hover:text-gold-dark transition-colors">
             {dict.nav.home}
           </Link>
@@ -205,7 +204,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
           </Link>
           <span>/</span>
           <span className="text-ink font-medium truncate max-w-xs md:max-w-md">
-            {post.category[locale] || post.category.ar}
+            {post.category[locale] || post.category.en}
           </span>
         </nav>
 
@@ -214,11 +213,11 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5" />
-              {post.category[locale] || post.category.ar}
+              {post.category[locale] || post.category.en}
             </span>
             <span className="inline-flex items-center gap-1 text-xs text-ink-muted">
               <Clock className="w-3.5 h-3.5 text-gold-dark" />
-              {post.readTime[locale] || post.readTime.ar}
+              {post.readTime[locale] || post.readTime.en}
             </span>
             <span className="inline-flex items-center gap-1 text-xs text-ink-muted">
               <Calendar className="w-3.5 h-3.5 text-gold-dark" />
@@ -227,18 +226,18 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
           </div>
 
           <h1 className="font-display font-semibold text-2xl sm:text-3xl md:text-5xl text-ink tracking-tight leading-tight">
-            {post.title[locale] || post.title.ar}
+            {post.title[locale] || post.title.en}
           </h1>
 
           <p className="mt-4 text-base md:text-lg text-ink-muted font-light leading-relaxed">
-            {post.metaDescription[locale] || post.metaDescription.ar}
+            {post.metaDescription[locale] || post.metaDescription.en}
           </p>
 
-          {/* FEATURED IMAGE (PROMINENTLY DISPLAYED BELOW TITLE) */}
+          {/* FEATURED IMAGE */}
           <div className="relative w-full aspect-[1024/571] my-8 rounded-2xl overflow-hidden border border-border shadow-md bg-slate-900">
             <Image
               src={post.featuredImage}
-              alt={post.imageAlt[locale] || post.imageAlt.ar}
+              alt={post.imageAlt[locale] || post.imageAlt.en}
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 1024px"
@@ -246,7 +245,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
             />
           </div>
           <p className="text-xs text-center text-ink-muted italic -mt-5 mb-8">
-            {post.imageAlt[locale] || post.imageAlt.ar}
+            {post.imageAlt[locale] || post.imageAlt.en}
           </p>
 
           {/* KEYWORDS PILL BADGES */}
@@ -255,23 +254,19 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
               {locale === 'ar' ? 'الكلمات المفتاحية:' : 'Topics:'}
             </span>
             <span className="px-2.5 py-1 rounded-md bg-gold-soft text-gold-dark font-semibold">
-              {post.primaryKeyword}
+              {post.primaryKeyword[locale] || post.primaryKeyword.en}
             </span>
-            <span className="px-2.5 py-1 rounded-md bg-bg text-ink-muted">
-              نقل من مطار جدة إلى مكة
-            </span>
-            <span className="px-2.5 py-1 rounded-md bg-bg text-ink-muted">
-              سيارة VIP إلى مكة
-            </span>
-            <span className="px-2.5 py-1 rounded-md bg-bg text-ink-muted">
-              سائق خاص في مكة
-            </span>
+            {(post.supportingKeywords[locale] || []).slice(0, 4).map((kw, idx) => (
+              <span key={idx} className="px-2.5 py-1 rounded-md bg-bg text-ink-muted">
+                {kw}
+              </span>
+            ))}
           </div>
         </header>
 
         {/* AUTHORITATIVE LIVE PRICING CARD & CTA */}
         <section className="bg-surface rounded-2xl p-6 md:p-8 border-2 border-gold-line shadow-xs mb-12">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-border">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-border text-start">
             <div>
               <span className="text-[11px] font-bold uppercase tracking-widest text-gold-dark block mb-1">
                 {locale === 'ar' ? 'الأسعار الرسمية المعتمدة' : 'Guaranteed Fixed Rates'}
@@ -282,7 +277,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
               <p className="text-xs text-ink-muted mt-1 font-light">
                 {locale === 'ar'
                   ? 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم طريق الحرمين والضرائب'
-                  : 'Fixed rate per entire vehicle including chauffeur, fuel, road tolls, and taxes'}
+                  : 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes'}
               </p>
             </div>
 
@@ -348,7 +343,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
 
             <div className="p-4 rounded-xl bg-bg border border-border text-center">
               <span className="text-xs font-semibold text-ink-muted block">
-                {locale === 'ar' ? 'تويوتا هايس' : 'HiAce Van'}
+                {locale === 'ar' ? 'تويوتا هايس' : 'HiAce Minibus'}
               </span>
               <span className="text-xs text-ink-muted block mb-1">
                 {locale === 'ar' ? 'حتى 10 ركاب' : 'Up to 10 pax'}
@@ -360,307 +355,109 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
           </div>
         </section>
 
-        {/* ARTICLE FULL BODY CONTENT (OVER 1,300 ARABIC WORDS) */}
+        {/* FULL LOCALIZED ARTICLE BODY */}
         <article className="prose prose-lg max-w-none text-ink leading-relaxed space-y-10 text-start">
           {/* INTRODUCTION */}
           <div className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs">
             <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-4">
-              مقدمة: ابدأ رحلتك إلى مكة براحة وطمأنينة
+              {content.intro.title}
             </h2>
-            <p className="text-ink-muted text-base md:text-lg leading-relaxed font-light mb-4">
-              تبدأ رحلة العمرة بلحظات مليئة بالشوق والترقب، فالوصول إلى المملكة العربية السعودية يمثل بداية تجربة روحانية ينتظرها الكثيرون طويلًا. وبعد الهبوط في مطار الملك عبدالعزيز الدولي بجدة (KAIA)، يأتي السؤال المهم: كيف تصل إلى مكة المكرمة براحة وأمان، خاصة إذا كنت تسافر مع عائلتك أو كبار السن أو تحمل أمتعة كثيرة؟
-            </p>
-            <p className="text-ink-muted text-base md:text-lg leading-relaxed font-light mb-4">
-              هنا تأتي أهمية اختيار خدمة <strong className="text-gold-dark font-semibold">نقل VIP لضيوف الرحمن</strong>، التي تساعدك على ترتيب انتقالك من المطار إلى مكة المكرمة أو إلى وجهتك التالية بطريقة أكثر تنظيمًا وراحة. فبدلًا من الانشغال بالبحث عن وسيلة نقل مناسبة بعد الوصول، يمكنك التخطيط لرحلتك مسبقًا واختيار السيارة التي تناسب عدد المسافرين واحتياجاتهم من خلال{' '}
-              <Link href={`/${locale}/booking`} className="text-gold-dark font-semibold hover:underline">
-                حجز سيارة من مطار جدة إلى مكة
-              </Link>.
-            </p>
-            <p className="text-ink-muted text-base md:text-lg leading-relaxed font-light">
-              في هذا الدليل، سنتعرف على أهم معايير اختيار سيارة خاصة مع سائق، وكيفية ترتيب الاستقبال من المطار، وما الذي ينبغي التأكد منه قبل الحجز، حتى تكون تجربة انتقالك جزءًا مريحًا من رحلتك إلى الأراضي المقدسة.
-            </p>
+            {content.intro.paragraphs.map((p, idx) => (
+              <p key={idx} className="text-ink-muted text-base md:text-lg leading-relaxed font-light mb-4 last:mb-0">
+                {p}
+              </p>
+            ))}
           </div>
 
-          {/* SECTION 1 */}
-          <div className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs">
-            <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-6">
-              لماذا تختار النقل الخاص من مطار جدة إلى مكة؟
-            </h2>
-            <p className="text-ink-muted text-base leading-relaxed font-light mb-6">
-              يصل المسافرون إلى مطار جدة في أوقات مختلفة، وقد يكون بعضهم قادمًا بعد رحلة جوية طويلة أو برفقة أطفال وكبار سن. لذلك، فإن تنظيم وسيلة النقل مسبقًا يمكن أن يوفر قدرًا مهمًا من الراحة والوضوح.
-            </p>
+          {/* DYNAMIC SECTIONS */}
+          {content.sections.map((section, sIdx) => (
+            <div key={sIdx} className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs">
+              <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-4">
+                {section.title}
+              </h2>
 
-            <div className="space-y-6">
-              <div>
-                <h3 className="font-display font-bold text-lg text-ink mb-2 flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-gold-dark shrink-0" />
-                  <span>1. استقبال أكثر تنظيمًا في المطار</span>
-                </h3>
-                <p className="text-ink-muted text-sm md:text-base leading-relaxed font-light">
-                  من أهم مزايا حجز سيارة مسبقًا أنك تستطيع الاتفاق على تفاصيل الاستقبال قبل موعد الوصول. ويشمل ذلك مشاركة بيانات الرحلة، وتحديد عدد الركاب والحقائب، وتأكيد مكان الالتقاء وطريقة التواصل مع السائق. وعند الحجز، احرص على التأكد من تفاصيل خدمة الاستقبال المتاحة، وما إذا كانت تتضمن مقابلة المسافر داخل صالة الوصول أم الالتقاء في نقطة محددة خارجها. فهذه التفاصيل قد تختلف حسب نوع الخدمة والاتفاق المسبق. يساعدك التخطيط على تجنب الارتباك، خاصة إذا كنت تزور المملكة للمرة الأولى أو لا تعرف مداخل المطار ومناطق الالتقاء.
+              {section.lead && (
+                <p className="text-ink-muted text-base leading-relaxed font-light mb-6">
+                  {section.lead}
                 </p>
-              </div>
+              )}
 
-              <div>
-                <h3 className="font-display font-bold text-lg text-ink mb-2 flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-gold-dark shrink-0" />
-                  <span>2. الخصوصية والراحة أثناء الرحلة</span>
-                </h3>
-                <p className="text-ink-muted text-sm md:text-base leading-relaxed font-light">
-                  توفر السيارة الخاصة مساحة أكثر خصوصية مقارنة بوسائل النقل المشتركة. ويمكن أن يكون ذلك مفيدًا للعائلات التي ترغب في السفر معًا، أو للمسافرين الذين يحتاجون إلى مساحة مريحة بعد رحلة طويلة. كما يتيح لك الحجز المسبق اختيار فئة السيارة المناسبة من بين خيارات{' '}
-                  <Link href={`/${locale}/fleet`} className="text-gold-dark font-semibold hover:underline">
-                    أسطول السيارات الفاخرة
-                  </Link>، وفقًا للسيارات المتاحة واحتياجات رحلتك.
+              {section.paragraphs.map((p, pIdx) => (
+                <p key={pIdx} className="text-ink-muted text-base leading-relaxed font-light mb-4">
+                  {p}
                 </p>
-              </div>
+              ))}
 
-              <div>
-                <h3 className="font-display font-bold text-lg text-ink mb-2 flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-gold-dark shrink-0" />
-                  <span>3. وضوح التكلفة قبل الانطلاق</span>
-                </h3>
-                <p className="text-ink-muted text-sm md:text-base leading-relaxed font-light">
-                  يساعد الاتفاق على السعر قبل الرحلة على تخطيط ميزانيتك بصورة أفضل. لذلك، يُفضَّل اختيار خدمة توضح لك التكلفة المتفق عليها، وما إذا كانت تشمل الانتقال من المطار إلى الفندق أو أي رسوم أو خدمات إضافية. عند مقارنة أسعار النقل من مطار جدة إلى مكة، لا تعتمد على السعر وحده؛ بل قارن أيضًا فئة السيارة، وعدد الركاب، وسعة الأمتعة، وتفاصيل الاستقبال، وشروط الانتظار والإلغاء مع مراجعة{' '}
-                  <Link href={`/${locale}/pricing`} className="text-gold-dark font-semibold hover:underline">
-                    الأسعار الثابتة المعتمدة
-                  </Link>.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-display font-bold text-lg text-ink mb-2 flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-gold-dark shrink-0" />
-                  <span>4. خدمة تناسب العائلات وكبار السن</span>
-                </h3>
-                <p className="text-ink-muted text-sm md:text-base leading-relaxed font-light">
-                  قد يحتاج بعض المسافرين إلى مركبة واسعة وسهلة الدخول والخروج، خاصة إذا كانوا برفقة كبار السن أو الأطفال. وقد تكون السيارة العائلية أو المركبة الأكبر خيارًا مناسبًا عند وجود عدد كبير من المسافرين أو الحقائب. من الأفضل توضيح هذه الاحتياجات عند الحجز، بدلًا من اكتشاف عدم ملاءمة السيارة بعد وصولك إلى المطار.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* SECTION 2 */}
-          <div className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs">
-            <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-4">
-              كيف تختار سيارة VIP مناسبة لرحلتك إلى مكة؟
-            </h2>
-            <p className="text-ink-muted text-base leading-relaxed font-light mb-6">
-              لا تعني خدمة النقل الفاخر بالضرورة اختيار أكبر سيارة أو أغلاها. فالخيار الأفضل هو السيارة التي تناسب احتياجات رحلتك وتوفر مستوى الراحة الذي تبحث عنه.
-            </p>
-
-            <div className="space-y-6">
-              <div>
-                <h3 className="font-display font-bold text-lg text-ink mb-2">
-                  السيارات العائلية والمركبات الواسعة
-                </h3>
-                <p className="text-ink-muted text-sm md:text-base leading-relaxed font-light">
-                  إذا كنت تسافر مع العائلة، فابدأ بتحديد عدد الركاب وحجم الأمتعة. فقد تكون السيارة العائلية مثل هيونداي ستاريا VIP أو جي إم سي يوكون XL مناسبة لمجموعة صغيرة إلى متوسطة، بينما تحتاج العائلة الكبيرة إلى مركبة متعددة المقاعد مثل تويوتا هايس مع مساحة إضافية للحقائب. تأكد من السؤال عن السعة الفعلية للسيارة، لأن عدد المقاعد وحده لا يكفي للحكم على ملاءمتها. فقد تتسع المركبة لعدد الركاب، لكن لا تتوفر مساحة كافية لجميع حقائبهم.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-display font-bold text-lg text-ink mb-2">
-                  سيارات رجال الأعمال وكبار الشخصيات
-                </h3>
-                <p className="text-ink-muted text-sm md:text-base leading-relaxed font-light">
-                  إذا كنت تبحث عن تجربة أكثر خصوصية، فقد تناسبك إحدى السيارات التنفيذية المتاحة ضمن أسطول الخدمة. وتوفر هذه الفئة خيارًا مناسبًا للمسافرين الذين يعطون أهمية للخصوصية والراحة والمظهر الاحترافي. ومع ذلك، ينبغي مراجعة فئة السيارة المتاحة ومواصفاتها عند الحجز، وعدم الاكتفاء بوصف عام مثل «VIP» دون معرفة المركبة التي ستُخصص للرحلة.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-xl bg-bg border border-border">
-                <h3 className="font-display font-bold text-base md:text-lg text-ink mb-3">
-                  قائمة الأسئلة السريعة لاختيار المركبة المناسبة:
-                </h3>
-                <ul className="space-y-2 text-sm text-ink-muted list-disc list-inside">
-                  <li>كم عدد الأشخاص المسافرين معك في الرحلة؟</li>
-                  <li>كم حقيبة كبيرة وصغيرة ستصطحب معك؟</li>
-                  <li>هل يوجد أطفال يحتاجون إلى مقاعد أمان مخصصة؟</li>
-                  <li>هل يسافر معك شخص من كبار السن يحتاج إلى مساعدة في الدخول والخروج؟</li>
-                  <li>هل تحتاج إلى سيارة لرحلة مباشرة أم إلى خدمة بالساعة؟</li>
-                  <li>هل لديك احتياجات خاصة للمساحة أو الخصوصية؟</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* SECTION 3 */}
-          <div className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs">
-            <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-4">
-              حجز نقل من مطار جدة إلى مكة: ما المعلومات التي ينبغي تجهيزها؟
-            </h2>
-            <p className="text-ink-muted text-base leading-relaxed font-light mb-6">
-              يساعد تقديم المعلومات الصحيحة عند الحجز على تقليل احتمالات سوء الفهم وتسريع ترتيب الرحلة.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div className="p-4 rounded-xl bg-bg border border-border">
-                <h3 className="font-display font-bold text-base text-ink mb-1">
-                  1. بيانات الرحلة الجوية
-                </h3>
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light">
-                  جهّز رقم الرحلة وموعد الوصول المتوقع، مع تحديد ما إذا كانت الرحلة دولية أم داخلية ليقوم السائق بمتابعة الرادار تلقائياً.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-bg border border-border">
-                <h3 className="font-display font-bold text-base text-ink mb-1">
-                  2. تحديد موقع الوصول والوجهة
-                </h3>
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light">
-                  وضّح صالة الوصول في مطار جدة، وحدد وجهتك في مكة المكرمة بدقة مثل اسم الفندق أو البرج السكني لتجنب الالتباس.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-bg border border-border">
-                <h3 className="font-display font-bold text-base text-ink mb-1">
-                  3. عدد الركاب والأمتعة
-                </h3>
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light">
-                  سجل عدد المسافرين بدقة وعدد الحقائب الكبيرة، مع طلب مقعد الطفل مسبقاً في حال وجود أطفال.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-bg border border-border">
-                <h3 className="font-display font-bold text-base text-ink mb-1">
-                  4. تأكيد السعر والخدمات المشمولة
-                </h3>
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light">
-                  تأكد من شمول السعر لكافة الرسوم والضرائب والوقود وسياسة الانتظار المجانية (60 دقيقة) وسياسة الإلغاء.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* SECTION 4 */}
-          <div className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs">
-            <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-4">
-              النقل الفاخر بين مكة والمدينة وجدة
-            </h2>
-            <p className="text-ink-muted text-base leading-relaxed font-light mb-6">
-              لا تقتصر احتياجات ضيوف الرحمن على الانتقال من المطار إلى الفندق فحسب، بل تمتد لتشمل التنقلات بين المدن المقدسة وفقاً لبرنامج العمرة والزيارة.
-            </p>
-
-            <div className="space-y-4">
-              <div className="p-4 rounded-xl bg-bg border border-border">
-                <h3 className="font-display font-bold text-base text-ink mb-1">
-                  من جدة إلى مكة المكرمة
-                </h3>
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light">
-                  يختار المسافرون حجز سيارة خاصة مباشرة عبر{' '}
-                  <Link href={`/${locale}/routes/jeddah-airport-to-makkah`} className="text-gold-dark font-semibold hover:underline">
-                    مسار مطار جدة إلى مكة المكرمة
-                  </Link>{' '}
-                  للانتقال السريع بدون توقف أو تغيير مركبات، مع مراعاة أوقات الذروة المرورية.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-bg border border-border">
-                <h3 className="font-display font-bold text-base text-ink mb-1">
-                  من مكة المكرمة إلى المدينة المنورة
-                </h3>
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light">
-                  عند التخطيط للتنقل بين المدينتين عبر{' '}
-                  <Link href={`/${locale}/routes/makkah-to-madinah`} className="text-gold-dark font-semibold hover:underline">
-                    مسار مكة إلى المدينة المنورة
-                  </Link>، يتيح لك السائق الخاص التوقف في ميقات ذو الحليفة (آبار علي) للإحرام براحة تامة، وتوفير مساحة واسعة لجميع حقائب العائلة.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-bg border border-border">
-                <h3 className="font-display font-bold text-base text-ink mb-1">
-                  من مكة إلى جدة أو المطار
-                </h3>
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light">
-                  في رحلة العودة، نسق موعد الانطلاق قبل موعد إقلاع الطائرة بوقت كافٍ (3-4 ساعات للرحلات الدولية) لتفادي أي ازدحام مروري محتمل وإنهاء إجراءات السفر بهدوء.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* SECTION 5 */}
-          <div className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs">
-            <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-4">
-              ما الفرق بين الحجز بالرحلة والحجز بالساعة؟
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="p-5 rounded-xl bg-bg border border-border">
-                <h3 className="font-display font-bold text-base text-gold-dark mb-2">
-                  الحجز لرحلة واحدة (Point-to-Point)
-                </h3>
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light">
-                  مناسب عندما تحتاج إلى الانتقال المباشر من نقطة محددة إلى وجهة واضحة، مثل مطار جدة إلى فندق في مكة المكرمة، أو من الفندق إلى المطار. السعر هنا ثابت ويشمل المسار بالكامل.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-xl bg-bg border border-border">
-                <h3 className="font-display font-bold text-base text-gold-dark mb-2">
-                  الحجز بالساعة (Chauffeur by the Hour)
-                </h3>
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light">
-                  يناسبك إذا كنت ترغب في الاحتفاظ بسيارة وسائق خاص لعدة ساعات متتالية لإنجاز تنقلات متعددة، أو جولات المزارات الشريفة في مكة أو المدينة، أو التسوق وزيارة المعالم الدينية والتاريخية.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* SECTION 6 */}
-          <div className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs">
-            <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-4">
-              أخطاء شائعة عند حجز سيارة من المطار وكيف تتجنبها
-            </h2>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3 p-3 rounded-xl bg-red-50/50 border border-red-100 text-xs sm:text-sm text-ink">
-                <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                <div>
-                  <strong>أولاً: اختيار السيارة بناءً على السعر فقط.</strong> قد لا تتسع السيارة الأرخص لعدد الحقائب الكبيرة، مما يسبب إرباكاً عند بوابة المطار.
+              {/* CALLOUT (IF PRESENT) */}
+              {section.callout && (
+                <div
+                  className={`p-4 rounded-xl border mb-6 flex items-start gap-3 ${
+                    section.callout.type === 'warning'
+                      ? 'bg-amber-500/10 border-amber-500/30 text-amber-900 dark:text-amber-200'
+                      : 'bg-gold-soft border-gold-line text-ink'
+                  }`}
+                >
+                  <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="block font-semibold mb-1">{section.callout.title}</strong>
+                    <p className="text-xs sm:text-sm leading-relaxed">{section.callout.text}</p>
+                  </div>
                 </div>
-              </div>
+              )}
 
-              <div className="flex items-start gap-3 p-3 rounded-xl bg-red-50/50 border border-red-100 text-xs sm:text-sm text-ink">
-                <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                <div>
-                  <strong>ثانياً: إدخال بيانات ناقصة.</strong> الخطأ في رقم الرحلة الجوية أو توقيت الهبوط يحرم السائق من تتبع موعد وصولك بدقة.
+              {/* SUBSECTIONS (WITH CHECK ICONS) */}
+              {section.subsections && (
+                <div className="space-y-6">
+                  {section.subsections.map((sub, subIdx) => (
+                    <div key={subIdx}>
+                      <h3 className="font-display font-bold text-lg text-ink mb-2 flex items-center gap-2">
+                        <CheckCircle2 className="w-5 h-5 text-gold-dark shrink-0" />
+                        <span>{sub.title}</span>
+                      </h3>
+                      <p className="text-ink-muted text-sm md:text-base leading-relaxed font-light">
+                        {sub.text}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              </div>
+              )}
 
-              <div className="flex items-start gap-3 p-3 rounded-xl bg-red-50/50 border border-red-100 text-xs sm:text-sm text-ink">
-                <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                <div>
-                  <strong>ثالثاً: عدم مراجعة السعر الإجمالي.</strong> تأكد من أن السعر يشمل رسوم مواقف المطار وضريبة القيمة المضافة وبوابات الطرق السريعة.
+              {/* BULLETS */}
+              {section.bullets && (
+                <div className="space-y-4 mt-4">
+                  {section.bullets.map((b, bIdx) => (
+                    <div key={bIdx} className="p-4 rounded-xl bg-bg border border-border">
+                      <h4 className="font-display font-bold text-base text-ink mb-1">
+                        {b.title}
+                      </h4>
+                      <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light">
+                        {b.text}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              </div>
-
-              <div className="flex items-start gap-3 p-3 rounded-xl bg-red-50/50 border border-red-100 text-xs sm:text-sm text-ink">
-                <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                <div>
-                  <strong>رابعاً: تجاهل سياسة الانتظار.</strong> استوضح مدة الانتظار المجاني؛ ففي الرحلات الدولية يحتاج المعتمر غالباً من 45 إلى 60 دقيقة لإنهاء الجوازات واستلام الحقائب.
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3 p-3 rounded-xl bg-red-50/50 border border-red-100 text-xs sm:text-sm text-ink">
-                <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                <div>
-                  <strong>خامساً: تأجيل الحجز إلى وقت الهبوط.</strong> الاعتماد على إيجاد سيارة عائلية مناسبة فور الوصول قد يعرضك للانتظار الطويل أو الأسعار المتذبذبة خلال مواسم العمرة.
-                </div>
-              </div>
+              )}
             </div>
-          </div>
+          ))}
 
           {/* FAQS SECTION */}
           <section className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs">
-            <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-6 flex items-center gap-2">
+            <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-2 flex items-center gap-2">
               <HelpCircle className="w-6 h-6 text-gold-dark" />
-              <span>الأسئلة الشائعة حول نقل VIP لضيوف الرحمن</span>
+              <span>{content.faqTitle}</span>
             </h2>
+            <p className="text-xs sm:text-sm text-ink-muted mb-6 font-light">
+              {content.faqSubtitle}
+            </p>
 
             <div className="space-y-4">
               {post.faqs.map((faq, idx) => (
                 <div key={idx} className="p-5 rounded-xl bg-bg border border-border text-start">
                   <h3 className="font-display font-bold text-base md:text-lg text-ink mb-2">
-                    {faq.question[locale] || faq.question.ar}
+                    {faq.question[locale] || faq.question.en}
                   </h3>
                   <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light">
-                    {faq.answer[locale] || faq.answer.ar}
+                    {faq.answer[locale] || faq.answer.en}
                   </p>
                 </div>
               ))}
@@ -671,18 +468,30 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
           <section className="p-8 md:p-10 bg-charcoal text-cream rounded-2xl border border-gold-dark/40 shadow-lg text-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-60 h-60 bg-gold/10 rounded-full blur-3xl pointer-events-none" />
             <h2 className="font-display font-bold text-2xl md:text-3xl mb-3 text-gold">
-              احجز رحلتك مع ضيوف الرحمن VIP | Royal Umrah Cabs
+              {content.cta.title}
             </h2>
-            <p className="text-sm md:text-base text-cream/90 max-w-2xl mx-auto mb-8 font-light leading-relaxed">
-              تستحق رحلتك إلى الأراضي المقدسة أن تبدأ بترتيب مريح وواضح. سواء كنت تحتاج إلى سيارة خاصة من مطار جدة إلى مكة المكرمة، أو إلى تنقل بين مكة والمدينة المنورة، فإن اختيار خدمة نقل تناسب احتياجاتك يساعدك على التركيز على عبادتك بدلًا من الانشغال بتفاصيل الطريق.
+            <p className="text-sm md:text-base text-cream/90 max-w-2xl mx-auto mb-6 font-light leading-relaxed">
+              {content.cta.subtitle}
             </p>
+
+            {/* Badges */}
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8">
+              {content.cta.badges.map((b, bIdx) => (
+                <span
+                  key={bIdx}
+                  className="px-3 py-1 rounded-full bg-white/10 text-xs text-cream border border-white/15"
+                >
+                  {b}
+                </span>
+              ))}
+            </div>
 
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
                 href={`/${locale}/booking?route=jeddah-airport-to-makkah`}
                 className="px-8 py-3.5 rounded-full bg-gold hover:bg-gold-dark text-ink font-bold text-sm md:text-base shadow-md transition-all hover:scale-105"
               >
-                <span>احجز رحلتك الآن</span>
+                <span>{content.cta.primaryBtn}</span>
               </Link>
               <a
                 href={waUrl}
@@ -691,7 +500,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
                 className="px-8 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm md:text-base shadow-md transition-all hover:scale-105 inline-flex items-center gap-2"
               >
                 <MessageCircle className="w-5 h-5" />
-                <span>تواصل عبر واتساب</span>
+                <span>{content.cta.secondaryBtn}</span>
               </a>
             </div>
           </section>
