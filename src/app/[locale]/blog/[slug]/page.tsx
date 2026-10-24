@@ -98,16 +98,19 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
   const isMadinahRoute = slug.includes('makkah-to-madinah');
   const isMakkahToJeddah = slug.includes('makkah-to-jeddah');
   const isVipGuide = slug.includes('vip-car-with-driver');
+  const isCapacityGuide = slug.includes('vehicle-capacity');
   const routeKey = isMadinahRoute
     ? 'makkah-to-madinah'
     : isMakkahToJeddah
     ? 'makkah-to-jeddah-airport'
     : isVipGuide
     ? 'vip-car-with-driver-saudi-arabia'
+    : isCapacityGuide
+    ? 'vehicle-capacity-passengers-luggage'
     : 'jeddah-airport-to-makkah';
-  const effectivePricingKey = isVipGuide ? 'jeddah-airport-to-makkah' : routeKey;
+  const effectivePricingKey = (isVipGuide || isCapacityGuide) ? 'jeddah-airport-to-makkah' : routeKey;
   const routePrices = dbRates[effectivePricingKey] || AUTHORITATIVE_TRANSFER_RATES[effectivePricingKey];
-  const bookingHref = isVipGuide ? `/${locale}/booking` : `/${locale}/booking?route=${routeKey}`;
+  const bookingHref = (isVipGuide || isCapacityGuide) ? `/${locale}/booking` : `/${locale}/booking?route=${routeKey}`;
 
   const pricingCardContent: Record<
     string,
@@ -118,6 +121,56 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       btn: Record<Locale, string>;
     }
   > = {
+    'vehicle-capacity-passengers-luggage': {
+      badge: {
+        ar: 'الأسعار الرسمية المعتمدة لأسطول النقل الخاص',
+        en: 'Official Guaranteed Fleet Rates',
+        ms: 'Kadar Rasmi Dijamin Mengikut Kapasiti Armada',
+        id: 'Tarif Resmi Dijamin Berdasarkan Kapasitas Armada',
+        ur: 'گاڑیوں کی گنجائش کے مطابق سرکاری فکس ریٹس',
+        fr: 'Tarifs Officiels Garantis Selon la Capacité de la Flotte',
+        es: 'Tarifas Oficiales Garantizadas Según Capacidad de la Flota',
+        de: 'Garantierte Flottentarife nach Passagier- und Gepäckkapazität',
+        hi: 'यात्री एवं सामान क्षमता के अनुसार आधिकारिक दरें',
+        tr: 'Yolcu ve Bagaj Kapasitesine Göre Resmi Sabit Fiyatlar',
+      },
+      title: {
+        ar: 'أسعار فئات المركبات حسب سعة الركاب والحقائب',
+        en: 'Vehicle Category Rates by Passenger & Luggage Capacity',
+        ms: 'Kadar Kategori Kenderaan Mengikut Kapasiti Penumpang & Bagasi',
+        id: 'Tarif Kategori Kendaraan Menurut Kapasitas Penumpang & Koper',
+        ur: 'مسافروں اور سامان کی گنجائش کے مطابق گاڑیوں کے کرایے',
+        fr: 'Tarifs des Catégories de Véhicules Selon Passagers et Bagages',
+        es: 'Tarifas de Vehículos Según Capacidad de Pasajeros y Maletas',
+        de: 'Fahrzeugtarife nach Personen- und Gepäckkapazität',
+        hi: 'यात्री और सामान क्षमता के अनुसार वाहन श्रेणियों की दरें',
+        tr: 'Yolcu ve Bagaj Kapasitesine Göre Araç Sınıfı Fiyatları',
+      },
+      desc: {
+        ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم الطرق والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
+        id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
+        ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
+        fr: 'Tarif fixe par véhicule complet incluant chauffeur privé, carburant, péages et taxes. Aucun prépaiement — règlement au chauffeur à l\'arrivée.',
+        es: 'Precio fijo por vehículo completo que incluye chofer privado, combustible, peajes e impuestos. Sin pago por adelantado: pague al chofer al llegar.',
+        de: 'Festpreis pro Fahrzeug inklusive privatem Chauffeur, Kraftstoff, Maut und Steuern. Keine Vorauszahlung — Bezahlung beim Fahrer bei Ankunft.',
+        hi: 'निजी ड्राइवर, ईंधन, टोल और करों सहित पूरे वाहन के लिए निश्चित दर। कोई अग्रिम भुगतान नहीं — आगमन पर ड्राइवर को भुगतान करें।',
+        tr: 'Özel şoför, yakıt, otoyol geçişleri ve vergiler dahil sabit fiyat. Ön ödeme yok — varışta şoföre ödeme.',
+      },
+      btn: {
+        ar: 'اختر المركبة واحجز الآن',
+        en: 'Choose Vehicle & Book Now',
+        ms: 'Pilih Kenderaan & Tempah Sekarang',
+        id: 'Pilih Mobil & Pesan Sekarang',
+        ur: 'گاڑی منتخب کریں اور ابھی بک کریں',
+        fr: 'Choisir le Véhicule et Réserver',
+        es: 'Elegir Vehículo y Reservar Ahora',
+        de: 'Fahrzeug wählen und jetzt buchen',
+        hi: 'वाहन चुनें और अभी बुक करें',
+        tr: 'Aracınızı Seçin ve Şimdi Ayırtın',
+      },
+    },
     'vip-car-with-driver-saudi-arabia': {
       badge: {
         ar: 'الأسعار الرسمية المعتمدة لسيارات VIP في السعودية',
