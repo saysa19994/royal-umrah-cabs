@@ -98,6 +98,9 @@ export async function generateMetadata(
       description: dict.meta.seoDescription,
       images: [`${baseUrl}/icon-512.png`],
     },
+    verification: {
+      google: '8pd7FP8QmvXyHi6-R2uhh2tB5cAdgAdrHbBCDz9QMYE',
+    },
   };
 }
 
