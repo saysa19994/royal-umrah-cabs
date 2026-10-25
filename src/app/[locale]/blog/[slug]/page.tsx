@@ -233,6 +233,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
   const isPlanningGuide = slug.includes('transport-planning');
   const isAirportPickup = slug.includes('airport-pickup');
   const isHourlyGuide = slug.includes('hourly-vs-point-to-point');
+  const isChecklistGuide = slug.includes('umrah-car-booking-checklist');
   const routeKey = isMadinahRoute
     ? 'makkah-to-madinah'
     : isMakkahToJeddah
@@ -247,10 +248,12 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
     ? 'jeddah-airport-pickup-umrah'
     : isHourlyGuide
     ? 'hourly-vs-point-to-point-car-booking'
+    : isChecklistGuide
+    ? 'umrah-car-booking-checklist'
     : 'jeddah-airport-to-makkah';
-  const effectivePricingKey = (isVipGuide || isCapacityGuide || isPlanningGuide || isAirportPickup || isHourlyGuide) ? 'jeddah-airport-to-makkah' : routeKey;
+  const effectivePricingKey = (isVipGuide || isCapacityGuide || isPlanningGuide || isAirportPickup || isHourlyGuide || isChecklistGuide) ? 'jeddah-airport-to-makkah' : routeKey;
   const routePrices = dbRates[effectivePricingKey] || AUTHORITATIVE_TRANSFER_RATES[effectivePricingKey];
-  const bookingHref = (isVipGuide || isCapacityGuide || isPlanningGuide || isHourlyGuide) ? `/${locale}/booking` : isAirportPickup ? `/${locale}/booking?route=jeddah-airport-to-makkah` : `/${locale}/booking?route=${routeKey}`;
+  const bookingHref = (isVipGuide || isCapacityGuide || isPlanningGuide || isHourlyGuide || isChecklistGuide) ? `/${locale}/booking` : isAirportPickup ? `/${locale}/booking?route=jeddah-airport-to-makkah` : `/${locale}/booking?route=${routeKey}`;
 
   const pricingCardContent: Record<
     string,
@@ -261,6 +264,56 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       btn: Record<Locale, string>;
     }
   > = {
+    'umrah-car-booking-checklist': {
+      badge: {
+        ar: 'الأسعار الرسمية المعتمدة لسيارات العمرة الشاملة',
+        en: 'Official Guaranteed All-Inclusive Umrah Rates',
+        ms: 'Kadar Rasmi Dijamin Termasuk Semua untuk Umrah',
+        id: 'Tarif Resmi Dijamin Semua Termasuk untuk Umrah',
+        ur: 'عمرہ ٹرانسپورٹ کے سرکاری حتمی کرایے',
+        fr: 'Tarifs Officiels Garantis Tout Compris pour la Omra',
+        es: 'Tarifas Oficiales Garantizadas Todo Incluido para la Umrah',
+        de: 'Offizielle garantierte All-Inclusive-Tarife für die Umrah',
+        hi: 'उमराह के लिए आधिकारिक गारंटीकृत ऑल-इनक्लूसिव दरें',
+        tr: 'Umre İçin Resmi Garantili Her Şey Dahil Fiyatlar',
+      },
+      title: {
+        ar: 'أسعار سيارات نقل المعتمرين: أسعار ثابتة بدون دفع مسبق',
+        en: 'Umrah Transportation Vehicle Rates: Fixed Fares & Zero Prepayment',
+        ms: 'Kadar Kenderaan Pengangkutan Umrah: Tambang Tetap & Tanpa Bayaran Awal',
+        id: 'Tarif Kendaraan Transportasi Umrah: Harga Tetap & Tanpa Uang Muka',
+        ur: 'عمرہ گاڑیوں کے کرایے: فکس ریٹ اور بغیر ایڈوانس ادائیگی',
+        fr: 'Tarifs Véhicules Omra : Prix Fixes & Zéro Prépaiement',
+        es: 'Tarifas de Vehículos para la Umrah: Precios Fijos y Cero Anticipo',
+        de: 'Fahrzeugtarife für die Umrah: Feste Endpreise & Null Vorauszahlung',
+        hi: 'उमराह वाहन दरें: निश्चित किराया और शून्य अग्रिम भुगतान',
+        tr: 'Umre Araç Fiyatları: Sabit Fiyatlar ve Sıfır Ön Ödeme',
+      },
+      desc: {
+        ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم الطرق والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول بأمان.',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — pay driver only upon safe arrival.',
+        ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
+        id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir setelah tiba dengan selamat.',
+        ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ نجی ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — صرف بخیر و عافیت پہنچنے پر ڈرائیور کو ادائیگی۔',
+        fr: 'Tarif fixe par véhicule complet incluant chauffeur privé, carburant, péages et taxes. Aucun prépaiement — règlement au chauffeur à l’arrivée en sécurité.',
+        es: 'Precio fijo por vehículo completo que incluye chofer privado, combustible, peajes e impuestos. Cero pago por adelantado: pague al chofer al llegar seguro.',
+        de: 'Festpreis pro Fahrzeug inklusive privatem Chauffeur, Kraftstoff, Maut und Steuern. Keine Vorauszahlung — Zahlung erst nach sicherer Ankunft beim Fahrer.',
+        hi: 'निजी ड्राइवर, ईंधन, टोल और करों सहित पूरे वाहन के लिए निश्चित दर। कोई अग्रिम भुगतान नहीं — सुरक्षित पहुँचने पर ही ड्राइवर को भुगतान।',
+        tr: 'Özel şoför, yakıt, otoyol geçişleri ve vergiler dahil sabit fiyat. Ön ödeme yok — otele güvenle ulaştıktan sonra şoföre ödeme.',
+      },
+      btn: {
+        ar: 'احجز سيارة العمرة الآن مع الدفع عند الوصول',
+        en: 'Book Your Umrah Car Now with Pay on Arrival',
+        ms: 'Tempah Kereta Umrah Sekarang dengan Bayaran Semasa Tiba',
+        id: 'Pesan Mobil Umrah Sekarang dengan Bayar Saat Tiba',
+        ur: 'منزل پر ادائیگی کے ساتھ عمرہ گاڑی ابھی بک کریں',
+        fr: 'Réserver Votre Voiture Omra avec Paiement à l’Arrivée',
+        es: 'Reserve su Coche para la Umrah con Pago a la Llegada',
+        de: 'Umrah-Fahrzeug jetzt mit Bezahlung bei Ankunft buchen',
+        hi: 'पहुँचने पर भुगतान के साथ अभी उमराह कार बुक करें',
+        tr: 'Varışta Ödeme Güvencesiyle Umre Aracınızı Şimdi Ayırtın',
+      },
+    },
     'hourly-vs-point-to-point-car-booking': {
       badge: {
         ar: 'الأسعار الرسمية المعتمدة للرحلات المباشرة وباقات الساعات',
