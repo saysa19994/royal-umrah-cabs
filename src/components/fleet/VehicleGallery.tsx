@@ -97,7 +97,7 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
       </div>
 
       {/* 5-IMAGE THUMBNAIL SELECTOR STRIP */}
-      <div className="grid grid-cols-5 gap-2.5 sm:gap-4 mt-3 sm:mt-4">
+      <div className="grid grid-cols-5 gap-1.5 sm:gap-4 mt-2.5 sm:mt-4">
         {images.map((img, idx) => {
           const isSelected = idx === currentIndex;
           return (

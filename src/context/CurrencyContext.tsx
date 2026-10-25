@@ -22,18 +22,28 @@ export function CurrencyProvider({
   const [currency, setCurrencyState] = useState<CurrencyCode>(defaultCurrency);
 
   useEffect(() => {
-    const saved = localStorage.getItem('ruc_preferred_currency') as CurrencyCode;
-    if (saved && CURRENCIES[saved]) {
-      setCurrencyState(saved);
-    } else {
+    try {
+      const saved = localStorage.getItem('ruc_preferred_currency') as CurrencyCode;
+      // Strictly allow only SAR or USD; if old or unsupported currency found, safely fall back to default
+      if (saved && (saved === 'SAR' || saved === 'USD') && CURRENCIES[saved]) {
+        setCurrencyState(saved);
+      } else {
+        setCurrencyState(defaultCurrency);
+        if (saved && saved !== 'SAR' && saved !== 'USD') {
+          localStorage.removeItem('ruc_preferred_currency');
+        }
+      }
+    } catch {
       setCurrencyState(defaultCurrency);
     }
   }, [defaultCurrency]);
 
   const setCurrency = (code: CurrencyCode) => {
-    if (CURRENCIES[code]) {
+    if (code === 'SAR' || code === 'USD') {
       setCurrencyState(code);
-      localStorage.setItem('ruc_preferred_currency', code);
+      try {
+        localStorage.setItem('ruc_preferred_currency', code);
+      } catch {}
     }
   };
 

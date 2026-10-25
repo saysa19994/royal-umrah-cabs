@@ -4,13 +4,6 @@ import test from 'node:test';
 const SUPPORTED_CURRENCIES = {
   SAR: { rateFromSAR: 1.0 },
   USD: { rateFromSAR: 0.266 },
-  MYR: { rateFromSAR: 1.18 },
-  GBP: { rateFromSAR: 0.21 },
-  EUR: { rateFromSAR: 0.25 },
-  IDR: { rateFromSAR: 4350.0 },
-  INR: { rateFromSAR: 22.3 },
-  PKR: { rateFromSAR: 74.5 },
-  EGP: { rateFromSAR: 13.1 },
 };
 
 // Mock service client to test pricing logic and fail-closed guarantees

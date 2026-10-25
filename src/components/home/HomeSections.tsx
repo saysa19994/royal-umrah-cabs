@@ -361,7 +361,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
           {/* Grid Layout: 3-column grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-stretch">
             {/* Step 1 */}
-            <div className="bg-white rounded-2xl p-8 sm:p-10 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 text-center flex flex-col items-center group">
+            <div className="bg-white rounded-2xl p-5 sm:p-8 md:p-10 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center group">
               {/* Minimalist Route Map Outline SVG */}
               <div className="w-16 h-16 rounded-2xl bg-amber-50/80 border border-[#df9e38]/20 flex items-center justify-center mb-6 text-[#df9e38] group-hover:scale-105 transition-transform duration-200">
                 <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -388,7 +388,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             </div>
 
             {/* Step 2 */}
-            <div className="bg-white rounded-2xl p-8 sm:p-10 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 text-center flex flex-col items-center group">
+            <div className="bg-white rounded-2xl p-5 sm:p-8 md:p-10 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center group">
               {/* Minimalist Car Outline SVG */}
               <div className="w-16 h-16 rounded-2xl bg-amber-50/80 border border-[#df9e38]/20 flex items-center justify-center mb-6 text-[#df9e38] group-hover:scale-105 transition-transform duration-200">
                 <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -416,7 +416,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             </div>
 
             {/* Step 3 */}
-            <div className="bg-white rounded-2xl p-8 sm:p-10 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 text-center flex flex-col items-center group">
+            <div className="bg-white rounded-2xl p-5 sm:p-8 md:p-10 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center group">
               {/* Minimalist Calendar with Checkmark SVG */}
               <div className="w-16 h-16 rounded-2xl bg-amber-50/80 border border-[#df9e38]/20 flex items-center justify-center mb-6 text-[#df9e38] group-hover:scale-105 transition-transform duration-200">
                 <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -480,7 +480,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
           </div>
 
           {/* HARMAIN-STYLE FEATURED SHOWCASE CARD (Screenshots 1, 2, 3) */}
-          <div className="bg-gradient-to-br from-navy via-navy-light to-navy rounded-3xl border border-gold/30 shadow-2xl p-6 sm:p-10 md:p-12 mb-0 text-white relative overflow-hidden">
+          <div className="bg-gradient-to-br from-navy via-navy-light to-navy rounded-3xl border border-gold/30 shadow-2xl p-4 sm:p-8 md:p-12 mb-0 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-80 h-80 bg-gold/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -671,14 +671,14 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
           </div>
 
           {/* 4 FULL-BLEED PHOTOGRAPHY CARDS (From Screenshots 4 & 5) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12 overflow-x-auto sm:overflow-visible pb-4 sm:pb-0 snap-x snap-mandatory scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
             {SERVICE_SHOWCASE.map((item) => {
               const IconComponent = item.icon;
               return (
                 <Link
                   key={item.id}
                   href={item.href}
-                  className="group relative rounded-3xl overflow-hidden aspect-[3/4] bg-navy flex flex-col justify-end p-6 border border-border shadow-md hover:shadow-xl transition-all"
+                  className="group relative rounded-3xl overflow-hidden aspect-[3/4] bg-navy flex flex-col justify-end p-5 sm:p-6 border border-border shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 w-[78vw] max-w-[300px] sm:w-auto shrink-0 snap-center sm:snap-align-none"
                 >
                   <Image
                     src={item.img}

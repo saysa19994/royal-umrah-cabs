@@ -444,7 +444,7 @@ export function HeroSection({ locale }: HeroSectionProps) {
 
         {/* H1: Large serif headline in Playfair Display, semi-bold, white */}
         <h1
-          className={`text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] leading-[1.14] sm:leading-[1.08] tracking-tight max-w-3xl mx-auto text-[clamp(32px,5vw,64px)] font-semibold ${
+          className={`text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] leading-[1.14] sm:leading-[1.08] tracking-tight max-w-3xl lg:max-w-4xl mx-auto text-[clamp(26px,5vw,64px)] sm:text-[clamp(32px,5vw,60px)] font-semibold ${
             isArabic ? 'font-arabic font-bold' : isUrdu ? 'font-urdu font-bold' : 'font-display'
           }`}
         >
@@ -457,11 +457,11 @@ export function HeroSection({ locale }: HeroSectionProps) {
         </p>
 
         {/* TWO BUTTONS WITH GENEROUS SPACING & SUBTLE LUXURY SHINE */}
-        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 mt-6 sm:mt-7 mb-7 sm:mb-9">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-5 mt-5 sm:mt-7 mb-6 sm:mb-9 w-full sm:w-auto max-w-sm sm:max-w-none mx-auto">
           {/* Gold "Get Prices & Book" Button */}
           <Link
             href={`/${locale}/pricing`}
-            className="group relative overflow-hidden inline-flex items-center justify-center gap-2.5 min-h-[48px] h-12 px-8 rounded-[8px] bg-[#d4a72c] text-[#0a1224] font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-[#e8c766] transition-all shadow-[0_4px_25px_rgba(212,167,44,0.4)] hover:shadow-[0_4px_35px_rgba(212,167,44,0.6)] focus-visible:ring-2 focus-visible:ring-[#d4a72c]"
+            className="group relative overflow-hidden inline-flex items-center justify-center gap-2.5 min-h-[48px] h-12 px-6 sm:px-8 w-full sm:w-auto rounded-[8px] bg-[#d4a72c] text-[#0a1224] font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-[#e8c766] hover:-translate-y-0.5 active:translate-y-0 transition-all shadow-[0_4px_25px_rgba(212,167,44,0.4)] hover:shadow-[0_4px_35px_rgba(212,167,44,0.6)] focus-visible:ring-2 focus-visible:ring-[#d4a72c]"
           >
             <span className="relative z-10">{content.btnPrimary}</span>
             <ArrowRight className="w-4 h-4 rtl:rotate-180 relative z-10" />
@@ -475,7 +475,7 @@ export function HeroSection({ locale }: HeroSectionProps) {
           <button
             type="button"
             onClick={() => setIsWhatsAppModalOpen(true)}
-            className="inline-flex items-center justify-center gap-2 min-h-[48px] h-12 px-7 rounded-[8px] border border-[#25d366]/70 bg-[#0a1224]/30 backdrop-blur-sm hover:bg-[#25d366] text-[#25d366] hover:text-white font-semibold text-xs sm:text-sm transition-all focus-visible:ring-2 focus-visible:ring-[#25d366]"
+            className="inline-flex items-center justify-center gap-2 min-h-[48px] h-12 px-6 sm:px-7 w-full sm:w-auto rounded-[8px] border border-[#25d366]/70 bg-[#0a1224]/30 backdrop-blur-sm hover:bg-[#25d366] text-[#25d366] hover:text-white font-semibold text-xs sm:text-sm transition-all focus-visible:ring-2 focus-visible:ring-[#25d366]"
           >
             <MessageCircle className="w-4 h-4" />
             <span>{content.btnSecondary}</span>
@@ -515,7 +515,7 @@ export function HeroSection({ locale }: HeroSectionProps) {
           {/* Solid White Horizontal Container with Soft Elegant Shadow */}
           <form
             onSubmit={handleWidgetSubmit}
-            className="w-full bg-white rounded-2xl lg:rounded-full p-3 sm:p-3.5 border border-gray-100 shadow-[0_12px_45px_rgba(0,0,0,0.18)] text-gray-900"
+            className="w-full bg-white rounded-2xl lg:rounded-full p-3 sm:p-3.5 lg:p-3 border border-gray-100 shadow-[0_12px_45px_rgba(0,0,0,0.18)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.22)] transition-shadow text-gray-900"
           >
             <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-0 lg:divide-x lg:divide-gray-200 rtl:lg:divide-x-reverse">
               {/* Field 1: Pick-up location */}

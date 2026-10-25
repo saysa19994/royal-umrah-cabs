@@ -42,8 +42,10 @@ export function Header({ locale, dict }: HeaderProps) {
     };
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
+      if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('ruc_mobile_menu', { detail: { open: true } }));
     } else {
       document.body.style.overflow = '';
+      if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('ruc_mobile_menu', { detail: { open: false } }));
     }
     window.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -87,7 +89,7 @@ export function Header({ locale, dict }: HeaderProps) {
           : 'bg-[#0A1224]/95 backdrop-blur-lg border-b border-gold/20 shadow-[0_4px_25px_rgba(0,0,0,0.5)] py-2.5 sm:py-3'
       }`}
     >
-      <div className="container mx-auto px-4 max-w-7xl flex items-center justify-between">
+      <div className="container mx-auto px-3 sm:px-4 max-w-7xl flex items-center justify-between">
         {/* LOGO: DUYUF ALRAHMAN VIP MARK + ARABIC NAME */}
         <Link
           href={locale === 'en' ? '/' : `/${locale}`}
@@ -105,22 +107,22 @@ export function Header({ locale, dict }: HeaderProps) {
             />
           </div>
           <div className="flex flex-col text-start">
-            <span className="font-display font-bold text-base sm:text-lg md:text-xl tracking-wide uppercase text-white group-hover:text-gold transition-colors leading-tight">
+            <span className="font-display font-bold text-sm sm:text-lg md:text-xl tracking-tight sm:tracking-wide uppercase text-white group-hover:text-gold transition-colors leading-tight truncate max-w-[140px] sm:max-w-none">
               {locale === 'ar' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
             </span>
-            <span className="text-[10px] sm:text-[11px] font-semibold text-gold tracking-[0.12em] leading-none mt-0.5">
+            <span className="text-[9px] sm:text-[11px] font-semibold text-gold tracking-wider sm:tracking-[0.12em] leading-none mt-0.5 truncate max-w-[140px] sm:max-w-none">
               {locale === 'ar' ? 'Duyuf Alrahman VIP' : 'ضيوف الرحمن VIP'}
             </span>
           </div>
         </Link>
 
         {/* DESKTOP CENTER NAVIGATION LINKS */}
-        <nav aria-label="Main Navigation" className="hidden lg:flex items-center gap-6 font-medium text-sm">
+        <nav aria-label="Main Navigation" className="hidden lg:flex items-center gap-5 xl:gap-7 font-medium text-sm">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-white/85 hover:text-gold transition-colors py-1 relative text-sm tracking-wide font-sans after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gold after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
+              className="text-white/85 hover:text-gold transition-colors py-1 relative text-sm tracking-wide font-sans after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gold after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300"
             >
               {link.label}
             </Link>
@@ -128,14 +130,14 @@ export function Header({ locale, dict }: HeaderProps) {
         </nav>
 
         {/* RIGHT CONTROLS: LANGUAGE, CURRENCY, BOOK ONLINE CTA, MOBILE TOGGLE */}
-        <div className="flex items-center gap-2 sm:gap-2.5">
+        <div className="flex items-center gap-1.5 sm:gap-2.5">
           {/* CURRENCY SELECTOR */}
           <div className="relative">
             <select
               value={currency}
               onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
               aria-label="Currency Selector"
-              className="h-9 sm:h-10 px-2 sm:px-2.5 pr-5 rtl:pr-2 sm:rtl:pr-2.5 rtl:pl-5 text-xs font-semibold rounded-[8px] border border-white/20 bg-white/10 hover:bg-white/15 text-white cursor-pointer hover:border-gold focus:outline-none focus:ring-2 focus:ring-gold appearance-none backdrop-blur-md transition-colors"
+              className="h-8 sm:h-10 px-1.5 sm:px-2.5 pr-4 rtl:pr-1.5 sm:rtl:pr-2.5 rtl:pl-4 text-[11px] sm:text-xs font-semibold rounded-[8px] border border-white/20 bg-white/10 hover:bg-white/15 text-white cursor-pointer hover:border-gold focus:outline-none focus:ring-2 focus:ring-gold appearance-none backdrop-blur-md transition-colors max-w-[68px] sm:max-w-none truncate"
             >
               {Object.keys(CURRENCIES).map((c) => (
                 <option key={c} value={c} className="bg-[#0A1224] text-white">
@@ -154,7 +156,7 @@ export function Header({ locale, dict }: HeaderProps) {
               value={locale}
               onChange={(e) => handleLanguageChange(e.target.value as Locale)}
               aria-label="Language Selector"
-              className="h-9 sm:h-10 px-2 sm:px-2.5 pr-7 rtl:pr-2 sm:rtl:pr-2.5 rtl:pl-7 text-xs font-semibold rounded-[8px] border border-white/20 bg-white/10 hover:bg-white/15 text-white cursor-pointer hover:border-gold focus:outline-none focus:ring-2 focus:ring-gold appearance-none flex items-center backdrop-blur-md transition-colors"
+              className="h-8 sm:h-10 px-1.5 sm:px-2.5 pr-5 rtl:pr-1.5 sm:rtl:pr-2.5 rtl:pl-5 text-[11px] sm:text-xs font-semibold rounded-[8px] border border-white/20 bg-white/10 hover:bg-white/15 text-white cursor-pointer hover:border-gold focus:outline-none focus:ring-2 focus:ring-gold appearance-none flex items-center backdrop-blur-md transition-colors max-w-[72px] sm:max-w-none truncate"
             >
               {LOCALES.map((l) => (
                 <option key={l} value={l} className="bg-[#0A1224] text-white">
@@ -170,7 +172,7 @@ export function Header({ locale, dict }: HeaderProps) {
           {/* GOLD BOOK ONLINE CTA */}
           <Link
             href={`/${locale}/booking`}
-            className="hidden sm:inline-flex items-center gap-1.5 h-9 sm:h-10 px-4 text-xs font-bold uppercase tracking-wider rounded-[8px] bg-gold text-[#0A1224] hover:bg-[#E8C766] hover:text-[#0A1224] transition-all shadow-[0_2px_14px_rgba(212,175,55,0.35)] focus-visible:ring-2 focus-visible:ring-gold"
+            className="hidden sm:inline-flex items-center gap-1.5 h-9 sm:h-10 px-4 text-xs font-bold uppercase tracking-wider rounded-[8px] bg-gold text-[#0A1224] hover:bg-[#E8C766] hover:text-[#0A1224] hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(212,175,55,0.45)] active:translate-y-0 transition-all shadow-[0_2px_14px_rgba(212,175,55,0.35)] focus-visible:ring-2 focus-visible:ring-gold"
           >
             <span>{locale === 'ar' ? 'احجز أونلاين' : 'Book Online'}</span>
             <ArrowUpRight className="w-3.5 h-3.5 rtl:rotate-[-90deg]" />
@@ -183,7 +185,7 @@ export function Header({ locale, dict }: HeaderProps) {
             aria-label="Open Navigation Menu"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav-fullscreen"
-            className="lg:hidden w-10 h-10 rounded-[8px] border border-white/20 bg-white/10 hover:bg-white/20 text-white transition-colors flex items-center justify-center focus-visible:ring-2 focus-visible:ring-gold backdrop-blur-md"
+            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 min-w-[36px] sm:min-w-[40px] rounded-[8px] border border-white/20 bg-white/10 hover:bg-white/20 text-white transition-colors flex items-center justify-center focus-visible:ring-2 focus-visible:ring-gold backdrop-blur-md"
           >
             <Menu className="w-5 h-5 text-gold" />
           </button>

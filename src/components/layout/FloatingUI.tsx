@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
@@ -18,6 +19,38 @@ export function FloatingUI({ locale, dict }: FloatingUIProps) {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string>('verified_client');
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isBookingFormVisible, setIsBookingFormVisible] = useState(false);
+  const pathname = usePathname() || '';
+
+  // Hide sticky bar on dedicated booking page, confirmation, and admin
+  const isExcludedPage = pathname.includes('/booking') || pathname.includes('/confirmation') || pathname.startsWith('/admin');
+
+  // Listen to mobile menu custom event
+  useEffect(() => {
+    const handleMenu = (e: any) => {
+      setIsMobileMenuOpen(Boolean(e.detail?.open));
+    };
+    window.addEventListener('ruc_mobile_menu', handleMenu);
+    return () => window.removeEventListener('ruc_mobile_menu', handleMenu);
+  }, []);
+
+  // Observe if on-page booking form is currently in view
+  useEffect(() => {
+    const target = document.querySelector('#booking-card-form') || document.querySelector('[data-booking-form="true"]');
+    if (!target) {
+      setIsBookingFormVisible(false);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsBookingFormVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,27 +106,29 @@ export function FloatingUI({ locale, dict }: FloatingUIProps) {
       </aside>
 
       {/* MOBILE STICKY BOTTOM BAR (ACCOUNTS FOR SAFE-AREA INSET) */}
-      <nav
-        aria-label="Mobile Quick Booking"
-        style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
-        className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0A1224]/95 backdrop-blur-md border-t border-gold/20 px-4 pt-3 flex items-center gap-3 shadow-lg"
-      >
-        <button
-          type="button"
-          onClick={handleOpenWhatsApp}
-          aria-label="WhatsApp Contact"
-          className="flex items-center justify-center min-w-[48px] w-12 min-h-[48px] h-12 rounded-[8px] bg-[#25d366] text-white shrink-0 shadow-xs focus-visible:ring-2 focus-visible:ring-[#25d366] active:scale-95 transition-transform animate-pulse-soft-green"
+      {!(isExcludedPage || isMobileMenuOpen || isBookingFormVisible) && (
+        <nav
+          aria-label="Mobile Quick Booking"
+          style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+          className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0A1224]/95 backdrop-blur-md border-t border-gold/20 px-4 pt-3 flex items-center gap-3 shadow-lg"
         >
-          <MessageCircle className="w-6 h-6" />
-        </button>
-        <Link
-          href={`/${locale}/booking`}
-          className="flex-1 min-h-[48px] h-12 rounded-[8px] bg-gold text-[#0A1224] font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs hover:bg-[#E8C766] transition-colors focus-visible:ring-2 focus-visible:ring-gold active:scale-95"
-        >
-          <CalendarDays className="w-4 h-4" />
-          <span>{dict.nav.bookNow}</span>
-        </Link>
-      </nav>
+          <button
+            type="button"
+            onClick={handleOpenWhatsApp}
+            aria-label="WhatsApp Contact"
+            className="flex items-center justify-center min-w-[48px] w-12 min-h-[48px] h-12 rounded-[8px] bg-[#25d366] text-white shrink-0 shadow-xs focus-visible:ring-2 focus-visible:ring-[#25d366] active:scale-95 transition-transform animate-pulse-soft-green"
+          >
+            <MessageCircle className="w-6 h-6" />
+          </button>
+          <Link
+            href={`/${locale}/booking`}
+            className="flex-1 min-h-[48px] h-12 rounded-[8px] bg-gold text-[#0A1224] font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs hover:bg-[#E8C766] transition-colors focus-visible:ring-2 focus-visible:ring-gold active:scale-95"
+          >
+            <CalendarDays className="w-4 h-4" />
+            <span>{dict.nav.bookNow}</span>
+          </Link>
+        </nav>
+      )}
 
       {/* DUAL NUMBER WHATSAPP MODAL */}
       <WhatsAppModal

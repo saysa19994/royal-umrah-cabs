@@ -38,7 +38,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
 
       {/* 5-COLUMN MAIN GRID */}
       <div className="container mx-auto px-4 max-w-7xl pt-14 pb-10 md:pt-16 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8 text-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10 text-start">
           {/* COL 1: WORDMARK, SHORT TAGLINE, WHATSAPP & CALL BUTTONS */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">
             <Link href={locale === 'en' ? '/' : `/${locale}`} className="inline-flex items-center gap-2.5">
@@ -60,7 +60,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
                 </span>
               </div>
             </Link>
-            <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
+            <p className="text-xs text-slate-300 leading-relaxed max-w-sm">
               {locale === 'ar'
                 ? 'الخدمة الخاصة لنقل ضيوف الرحمن بين مطار جدة ومكة المكرمة والمدينة المنورة. أسطول VIP وسائقون محترفون لخدمتكم بأعلى معايير الراحة والالتزام.'
                 : 'Premier private chauffeur transport for Umrah pilgrims across Jeddah Airport, Makkah, and Madinah. Transparent fixed rates, zero deposit, and 24/7 assistance.'}
@@ -100,7 +100,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
             </div>
 
             {/* DEDICATED PILGRIM CARE BADGE */}
-            <div className="pt-2 text-[11px] text-slate-400 flex items-center gap-2">
+            <div className="pt-2 text-[11px] text-slate-300 flex items-center gap-2">
               <Car className="w-4 h-4 text-gold shrink-0" />
               <span>{locale === 'ar' ? 'خدمة نقل خاص مخصصة لضيوف الرحمن' : 'Dedicated Private Chauffeur for Umrah Pilgrims'}</span>
             </div>
@@ -111,7 +111,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
             <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-display text-sm border-b border-gold/20 pb-1.5">
               {dict.footer.popularRoutes}
             </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
+            <ul className="space-y-2 text-xs text-slate-300">
               <li>
                 <Link href={`/${locale}/routes/jeddah-airport-to-makkah`} className="hover:text-gold transition-colors inline-block py-1">
                   Jeddah Airport to Makkah
@@ -150,7 +150,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
             <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-display text-sm border-b border-gold/20 pb-1.5">
               {dict.footer.servicesFleet}
             </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
+            <ul className="space-y-2 text-xs text-slate-300">
               <li>
                 <Link href={`/${locale}/fleet/gmc-yukon-xl`} className="hover:text-gold transition-colors inline-block py-1">
                   GMC Yukon XL VIP (7 Seats)
@@ -194,7 +194,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
             <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-display text-sm border-b border-gold/20 pb-1.5">
               {locale === 'ar' ? 'أدلة المعتمرين والخدمات' : 'Pilgrim Guides & Tools'}
             </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
+            <ul className="space-y-2 text-xs text-slate-300">
               <li>
                 <Link href={`/${locale}/blog`} className="hover:text-gold transition-colors inline-block py-1 text-gold font-bold">
                   {locale === 'ar' ? '📖 مقالات ومدونة VIP' : '📖 VIP Umrah Blog'}
@@ -243,7 +243,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
             <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-display text-sm border-b border-gold/20 pb-1.5">
               {locale === 'ar' ? 'السياسات والضمانات' : 'Legal & Guarantees'}
             </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
+            <ul className="space-y-2 text-xs text-slate-300">
               <li>
                 <Link href={`/${locale}/cancellation`} className="hover:text-gold transition-colors inline-block py-1">
                   {dict.footer.refunds || (locale === 'ar' ? 'سياسة الإلغاء المجاني' : 'Cancellation & Refunds')}
@@ -311,7 +311,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
             </div>
           </div>
 
-          <div className="flex flex-col gap-1 text-xs text-slate-400">
+          <div className="flex flex-col gap-1 text-xs text-slate-300">
             <span className="font-semibold text-white">
               {locale === 'ar' ? 'ضمان ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP Assurance'}
             </span>
@@ -347,7 +347,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
       </div>
 
       {/* BOTTOM LEGAL & COPYRIGHT BAR */}
-      <div className="container mx-auto px-4 max-w-7xl py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 relative z-10">
+      <div className="container mx-auto px-4 max-w-7xl py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 relative z-10">
         <p>
           © {new Date().getFullYear()} {locale === 'ar' ? 'ضيوف الرحمن VIP (Duyuf Alrahman VIP). جميع الحقوق محفوظة.' : 'Duyuf Alrahman VIP. All rights reserved.'}
         </p>

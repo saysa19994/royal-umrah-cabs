@@ -8,7 +8,7 @@ export interface LocaleMeta {
   name: string;
   nativeName: string;
   dir: 'ltr' | 'rtl';
-  defaultCurrency: 'SAR' | 'USD' | 'MYR' | 'EUR' | 'GBP' | 'IDR' | 'INR' | 'PKR';
+  defaultCurrency: CurrencyCode;
   dateFormat: string;
   whatsappGreeting: string;
 }
@@ -37,7 +37,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     name: 'Malay',
     nativeName: 'Bahasa Melayu',
     dir: 'ltr',
-    defaultCurrency: 'MYR',
+    defaultCurrency: 'SAR',
     dateFormat: 'ms-MY',
     whatsappGreeting: 'Assalamu alaikum Duyuf Alrahman VIP, saya ingin membuat tempahan teksi VIP untuk perjalanan Umrah:',
   },
@@ -46,7 +46,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     name: 'Indonesian',
     nativeName: 'Bahasa Indonesia',
     dir: 'ltr',
-    defaultCurrency: 'IDR',
+    defaultCurrency: 'SAR',
     dateFormat: 'id-ID',
     whatsappGreeting: 'Assalamu alaikum Duyuf Alrahman VIP, saya ingin memesan layanan transportasi privat Umrah VIP:',
   },
@@ -55,7 +55,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     name: 'Urdu',
     nativeName: 'اردو',
     dir: 'rtl',
-    defaultCurrency: 'PKR',
+    defaultCurrency: 'SAR',
     dateFormat: 'ur-PK',
     whatsappGreeting: 'السلام علیکم ضيوف الرحمن VIP، میں عمرہ پرائیویٹ ٹرانسپورٹ بکنگ کے حوالے سے معلومات چاہتا ہوں:',
   },
@@ -64,7 +64,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     name: 'French',
     nativeName: 'Français',
     dir: 'ltr',
-    defaultCurrency: 'EUR',
+    defaultCurrency: 'SAR',
     dateFormat: 'fr-FR',
     whatsappGreeting: 'Bonjour Duyuf Alrahman VIP, je souhaite réserver un transfert privé VIP pour la Omra:',
   },
@@ -73,7 +73,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     name: 'Spanish',
     nativeName: 'Español',
     dir: 'ltr',
-    defaultCurrency: 'EUR',
+    defaultCurrency: 'SAR',
     dateFormat: 'es-ES',
     whatsappGreeting: 'Hola Duyuf Alrahman VIP, deseo reservar un traslado privado VIP para la Umrah:',
   },
@@ -82,7 +82,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     name: 'German',
     nativeName: 'Deutsch',
     dir: 'ltr',
-    defaultCurrency: 'EUR',
+    defaultCurrency: 'SAR',
     dateFormat: 'de-DE',
     whatsappGreeting: 'Hallo Duyuf Alrahman VIP, ich möchte einen privaten VIP-Transfer für die Umrah buchen:',
   },
@@ -91,7 +91,7 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
     name: 'Hindi',
     nativeName: 'हिन्दी',
     dir: 'ltr',
-    defaultCurrency: 'INR',
+    defaultCurrency: 'SAR',
     dateFormat: 'hi-IN',
     whatsappGreeting: 'अस्सलाम अलैकुम Duyuf Alrahman VIP, मैं निजी वीआईपी उमरा ट्रांसफर बुक करना चाहता हूँ:',
   },
@@ -109,13 +109,6 @@ export const LOCALE_CONFIG: Record<Locale, LocaleMeta> = {
 export const CURRENCIES = {
   SAR: { code: 'SAR', symbol: 'SAR ', name: 'Saudi Riyal', rateFromSAR: 1.0, isPrefix: true },
   USD: { code: 'USD', symbol: '$', name: 'US Dollar', rateFromSAR: 0.266, isPrefix: true },
-  MYR: { code: 'MYR', symbol: 'RM ', name: 'Malaysian Ringgit', rateFromSAR: 1.18, isPrefix: true },
-  GBP: { code: 'GBP', symbol: '£', name: 'British Pound', rateFromSAR: 0.21, isPrefix: true },
-  EUR: { code: 'EUR', symbol: '€', name: 'Euro', rateFromSAR: 0.25, isPrefix: true },
-  IDR: { code: 'IDR', symbol: 'Rp ', name: 'Indonesian Rupiah', rateFromSAR: 4350.0, isPrefix: true },
-  INR: { code: 'INR', symbol: '₹', name: 'Indian Rupee', rateFromSAR: 22.3, isPrefix: true },
-  PKR: { code: 'PKR', symbol: 'Rs ', name: 'Pakistani Rupee', rateFromSAR: 74.5, isPrefix: true },
-  EGP: { code: 'EGP', symbol: 'EGP ', name: 'Egyptian Pound', rateFromSAR: 13.1, isPrefix: true },
 } as const;
 
 export type CurrencyCode = keyof typeof CURRENCIES;

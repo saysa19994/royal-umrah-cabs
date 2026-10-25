@@ -84,7 +84,7 @@ export function PricingTable({ locale, dict, initialRates }: PricingTableProps) 
           <span className="text-xs text-ink-muted">
             {locale === 'ar' ? 'عرض الأسعار بـ:' : locale === 'ms' ? 'Mata Wang:' : 'Display Currency:'}
           </span>
-          <div className="flex flex-wrap items-center gap-1.5">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full flex-nowrap sm:flex-wrap scrollbar-none">
             {(Object.keys(CURRENCIES) as CurrencyCode[]).map((c) => (
               <button
                 key={c}

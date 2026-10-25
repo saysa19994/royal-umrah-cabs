@@ -334,7 +334,7 @@ export function BookingCard({ locale, dict, initialRates }: BookingCardProps) {
           </div>
 
           {/* Quick Currency Selector */}
-          <div className="flex items-center gap-1 self-end sm:self-auto bg-bg-alt p-1 rounded-lg border border-border">
+          <div className="flex items-center gap-1 self-stretch sm:self-auto bg-bg-alt p-1 rounded-lg border border-border max-w-full overflow-x-auto scrollbar-none py-1 px-1">
             {(Object.keys(CURRENCIES) as CurrencyCode[]).map((c) => (
               <button
                 key={c}
