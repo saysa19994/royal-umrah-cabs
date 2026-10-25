@@ -1,0 +1,25 @@
+import { Locale } from '@/i18n/config';
+import { LocalizedArticleBody } from '../types';
+import { ELDERLY_TRANSPORT_CONTENT_AR } from './ar';
+import { ELDERLY_TRANSPORT_CONTENT_EN } from './en';
+import { ELDERLY_TRANSPORT_CONTENT_MS } from './ms';
+import { ELDERLY_TRANSPORT_CONTENT_ID } from './id';
+import { ELDERLY_TRANSPORT_CONTENT_UR } from './ur';
+import { ELDERLY_TRANSPORT_CONTENT_FR } from './fr';
+import { ELDERLY_TRANSPORT_CONTENT_ES } from './es';
+import { ELDERLY_TRANSPORT_CONTENT_DE } from './de';
+import { ELDERLY_TRANSPORT_CONTENT_HI } from './hi';
+import { ELDERLY_TRANSPORT_CONTENT_TR } from './tr';
+
+export const ELDERLY_TRANSPORT_CONTENT: Record<Locale, LocalizedArticleBody> = {
+  ar: ELDERLY_TRANSPORT_CONTENT_AR,
+  en: ELDERLY_TRANSPORT_CONTENT_EN,
+  ms: ELDERLY_TRANSPORT_CONTENT_MS,
+  id: ELDERLY_TRANSPORT_CONTENT_ID,
+  ur: ELDERLY_TRANSPORT_CONTENT_UR,
+  fr: ELDERLY_TRANSPORT_CONTENT_FR,
+  es: ELDERLY_TRANSPORT_CONTENT_ES,
+  de: ELDERLY_TRANSPORT_CONTENT_DE,
+  hi: ELDERLY_TRANSPORT_CONTENT_HI,
+  tr: ELDERLY_TRANSPORT_CONTENT_TR,
+};

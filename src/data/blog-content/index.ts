@@ -19,6 +19,7 @@ import { AIRPORT_PICKUP_CONTENT } from './jeddah-airport-pickup';
 import { HOURLY_VS_TRANSFER_CONTENT } from './hourly-vs-point-to-point';
 import { UMRAH_CHECKLIST_CONTENT } from './umrah-car-booking-checklist';
 import { MADINAH_ZIYARAT_CONTENT } from './madinah-ziyarat-private-car-guide';
+import { ELDERLY_TRANSPORT_CONTENT } from './elderly-friendly-umrah-transport';
 
 export const BLOG_CONTENT_BY_LOCALE: Record<string, Record<Locale, LocalizedArticleBody>> = {
   'vip-umrah-transport-jeddah-to-makkah': {
@@ -42,6 +43,7 @@ export const BLOG_CONTENT_BY_LOCALE: Record<string, Record<Locale, LocalizedArti
   'hourly-vs-point-to-point-car-booking': HOURLY_VS_TRANSFER_CONTENT,
   'umrah-car-booking-checklist': UMRAH_CHECKLIST_CONTENT,
   'madinah-ziyarat-private-car-guide': MADINAH_ZIYARAT_CONTENT,
+  'elderly-friendly-umrah-transport': ELDERLY_TRANSPORT_CONTENT,
 };
 
 export function getBlogArticleContent(slug: string, locale: Locale): LocalizedArticleBody {
