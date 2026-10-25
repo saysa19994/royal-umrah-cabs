@@ -75,6 +75,7 @@ export function middleware(request: NextRequest) {
     pathname === '/sitemap.xml' ||
     pathname.startsWith('/sitemap') ||
     pathname === '/favicon.ico' ||
+    (pathname.startsWith('/google') && pathname.endsWith('.html')) ||
     (pathname.includes('.') && !pathname.endsWith('.html'))
   ) {
     return NextResponse.next();
