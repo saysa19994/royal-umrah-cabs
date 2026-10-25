@@ -232,6 +232,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
   const isCapacityGuide = slug.includes('vehicle-capacity');
   const isPlanningGuide = slug.includes('transport-planning');
   const isAirportPickup = slug.includes('airport-pickup');
+  const isHourlyGuide = slug.includes('hourly-vs-point-to-point');
   const routeKey = isMadinahRoute
     ? 'makkah-to-madinah'
     : isMakkahToJeddah
@@ -244,10 +245,12 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
     ? 'transport-planning-makkah-madinah-jeddah'
     : isAirportPickup
     ? 'jeddah-airport-pickup-umrah'
+    : isHourlyGuide
+    ? 'hourly-vs-point-to-point-car-booking'
     : 'jeddah-airport-to-makkah';
-  const effectivePricingKey = (isVipGuide || isCapacityGuide || isPlanningGuide || isAirportPickup) ? 'jeddah-airport-to-makkah' : routeKey;
+  const effectivePricingKey = (isVipGuide || isCapacityGuide || isPlanningGuide || isAirportPickup || isHourlyGuide) ? 'jeddah-airport-to-makkah' : routeKey;
   const routePrices = dbRates[effectivePricingKey] || AUTHORITATIVE_TRANSFER_RATES[effectivePricingKey];
-  const bookingHref = (isVipGuide || isCapacityGuide || isPlanningGuide) ? `/${locale}/booking` : isAirportPickup ? `/${locale}/booking?route=jeddah-airport-to-makkah` : `/${locale}/booking?route=${routeKey}`;
+  const bookingHref = (isVipGuide || isCapacityGuide || isPlanningGuide || isHourlyGuide) ? `/${locale}/booking` : isAirportPickup ? `/${locale}/booking?route=jeddah-airport-to-makkah` : `/${locale}/booking?route=${routeKey}`;
 
   const pricingCardContent: Record<
     string,
@@ -258,6 +261,56 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       btn: Record<Locale, string>;
     }
   > = {
+    'hourly-vs-point-to-point-car-booking': {
+      badge: {
+        ar: 'الأسعار الرسمية المعتمدة للرحلات المباشرة وباقات الساعات',
+        en: 'Official Guaranteed Rates for Transfers & Hourly Chauffeur',
+        ms: 'Kadar Rasmi Dijamin untuk Pemindahan & Pakej Jam',
+        id: 'Tarif Resmi Dijamin Rute Langsung & Sewa Per Jam',
+        ur: 'سنگل ٹرپ اور گھنٹوں کے پیکیجز کے سرکاری کرایے',
+        fr: 'Tarifs Officiels Garantis Transferts & Forfaits Horaires',
+        es: 'Tarifas Oficiales Garantizadas Traslados y Paquetes por Horas',
+        de: 'Garantierte Tarife für Transfers & Stundenpakete',
+        hi: 'सिंगल ट्रांसफर और घंटे के पैकेज के लिए आधिकारिक दरें',
+        tr: 'Doğrudan Transfer ve Saatlik Paketler Resmi Sabit Fiyatları',
+      },
+      title: {
+        ar: 'أسعار سيارات VIP: خيارات الرحلة الواحدة وباقات الساعات',
+        en: 'VIP Vehicle Rates: Point-to-Point & Hourly Chauffeur Options',
+        ms: 'Kadar Kenderaan VIP: Pilihan Pemindahan & Pakej Jam',
+        id: 'Tarif Kendaraan VIP: Pilihan Rute Langsung & Sewa Per Jam',
+        ur: 'وی آئی پی گاڑیوں کے کرایے: سنگل ٹرپ اور آورلی پیکیجز',
+        fr: 'Tarifs Véhicules VIP : Formules Transferts & Chauffeur à l’Heure',
+        es: 'Tarifas Vehículos VIP: Traslados y Opciones por Horas con Chófer',
+        de: 'VIP-Fahrzeugpreise: Transfer- und Stundenoptionen',
+        hi: 'वीआईपी वाहन दरें: सिंगल ट्रांसफर और प्रति घंटे विकल्प',
+        tr: 'VIP Araç Fiyatları: Tek Yön Transfer ve Saatlik Seçenekler',
+      },
+      desc: {
+        ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم الطرق والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
+        id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
+        ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
+        fr: 'Tarif fixe par véhicule complet incluant chauffeur privé, carburant, péages et taxes. Aucun prépaiement — règlement au chauffeur à l’arrivée.',
+        es: 'Precio fijo por vehículo completo que incluye chofer privado, combustible, peajes e impuestos. Sin pago por adelantado: pague al chofer al llegar.',
+        de: 'Festpreis pro Fahrzeug inklusive privatem Chauffeur, Kraftstoff, Maut und Steuern. Keine Vorauszahlung — Bezahlung beim Fahrer bei Ankunft.',
+        hi: 'निजी ड्राइवर, ईंधन, टोल और करों सहित पूरे वाहन के लिए निश्चित दर। कोई अग्रिम भुगतान नहीं — आगमन पर ड्राइवर को भुगतान करें।',
+        tr: 'Özel şoför, yakıt, otoyol geçişleri ve vergiler dahil sabit fiyat. Ön ödeme yok — varışta şoföre ödeme.',
+      },
+      btn: {
+        ar: 'اختر سيارتك ونوع الحجز الآن',
+        en: 'Choose Your Vehicle & Booking Type Now',
+        ms: 'Pilih Kenderaan & Jenis Tempahan Sekarang',
+        id: 'Pilih Mobil & Jenis Pemesanan Sekarang',
+        ur: 'گاڑی اور بکنگ کی قسم منتخب کریں',
+        fr: 'Choisir le Véhicule et le Type de Réservation',
+        es: 'Elegir Vehículo y Tipo de Reserva Ahora',
+        de: 'Fahrzeug und Buchungsart jetzt wählen',
+        hi: 'वाहन और बुकिंग का प्रकार अभी चुनें',
+        tr: 'Aracınızı ve Rezervasyon Türünü Şimdi Seçin',
+      },
+    },
     'jeddah-airport-pickup-umrah': {
       badge: {
         ar: 'الأسعار الرسمية المعتمدة لاستقبال مطار جدة للمعتمرين',
