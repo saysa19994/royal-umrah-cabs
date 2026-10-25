@@ -41,16 +41,18 @@ export const VIP_CAR_CONTENT_EN: LocalizedArticleBody = {
         '3. Full-Size Luxury SUVs (VIP Flagship):',
         'The GMC Yukon XL VIP offers maximum prestige, elevated ride height, and cavernous cargo capacity. Accommodates 7 VIP passengers with an extended trunk holding 6 to 8 large bags. Unrivaled highway stability between Jeddah, Makkah, and Madinah.',
         '4. Tourism Minibuses for Groups & Delegations:',
-        'The Toyota HiAce comfortably seats 10 to 11 passengers with an expansive luggage compartment for 8 to 10 suitcases, allowing extended family groups to travel together seamlessly.'
+        'The Toyota HiAce comfortably seats 10 to 11 passengers with an expansive luggage compartment for 8 to 10 suitcases, allowing extended family groups to travel together seamlessly.',
+        'For precise dimensional specifications, seat configurations, and bag allowances, consult our in-depth [Umrah Vehicle Capacity & Luggage Guide](/en/blog/vehicle-capacity-passengers-luggage).'
       ]
     },
     {
       title: 'Matching Vehicle & Chauffeur Services to Your Specific Destination',
       paragraphs: [
         'Transportation requirements vary depending on your itinerary across the Kingdom:',
-        '• Jeddah Airport to Makkah (~95 km): Requires a chauffeur familiar with Terminal 1 and North Terminal arrival gates, security checkpoints, and central Makkah hotel drop-off protocols.',
-        '• Makkah to Madinah Intercity Transfer (~430 km): A 4 to 4.5-hour highway journey along the historic Hijrah expressway requiring high-performance climate control, highway stability, and an optional stop at Miqat Dhul Hulayfah for pilgrims travelling in reverse.',
-        '• Makkah to Jeddah Airport Return Transfer: Demands precise timing calculations (4 hours prior to international flights) to ensure smooth check-in and Zamzam water logistics.',
+        '• Jeddah Airport to Makkah (~95 km): Requires a chauffeur familiar with terminal arrival gates and central Makkah hotel protocols. Learn more in our [VIP Transport from Jeddah Airport to Makkah Guide](/en/blog/vip-umrah-transport-jeddah-to-makkah).',
+        '• Makkah to Madinah Intercity Transfer (~430 km): A 4 to 4.5-hour highway journey along the Hijrah expressway. For route specifics and rest stops, read our [Private Transfer from Makkah to Madinah Guide](/en/blog/private-transfer-makkah-to-madinah).',
+        '• Makkah to Jeddah Airport Return Transfer: Demands precise timing calculations before international flights. Check our guide on [Booking a Car from Makkah to Jeddah Airport](/en/blog/makkah-to-jeddah-airport-transfer).',
+        '• Comprehensive Itinerary Coordination: To organize your entire intercity travel schedule and compare private cars with the train, explore our guide on [How to Plan Transportation Between Makkah, Madinah, and Jeddah](/en/blog/transport-planning-makkah-madinah-jeddah).',
         '• Ziyarat Historic Tours: Excursions to Cave Hira, Mount Thawr, Quba Mosque, and Mount Uhud benefit from knowledgeable chauffeurs who manage parking and waiting times gracefully.'
       ]
     },

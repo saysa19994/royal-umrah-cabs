@@ -51,6 +51,7 @@ export const VIP_CAR_CONTENT_DE: LocalizedArticleBody = {
         '• Flughafen Dschidda nach Mekka (~95 km): Erfordert Fahrer mit genauer Kenntnis der Terminals 1 und Nord sowie der Zufahrten zu den zentralen Hotels.',
         '• Fernstrecke Mekka nach Medina (~430 km): Eine 4- bis 4,5-stündige Autobahnfahrt auf der Hijrah-Schnellstraße mit kostenfreiem Stopp am Mīqāt Dhul Hulayfah bei Gegenrichtung.',
         '• Rückfahrt Mekka zum Flughafen Dschidda: Exakte Zeitberechnung (4 Stunden vor internationalen Flügen) für entspannten Check-in.',
+        '• Für die Gesamtplanung Ihrer Überlandfahrten beachten Sie unseren Ratgeber: [Wie Sie den Transport zwischen Mekka, Medina und Dschidda planen](/de/blog/transport-planning-makkah-madinah-jeddah).',
         '• Ziyarat-Besichtigungstouren: Fahrten zu Höhle Hira, Berg Thawr, Quba-Moschee und Berg Uhud mit Fahrern, die Parkplätze und Wartezeiten routiniert managen.'
       ]
     },

@@ -41,16 +41,18 @@ export const VIP_CAR_CONTENT_ID: LocalizedArticleBody = {
         '3. SUV Mewah Ukuran Penuh (VIP Flagship):',
         'GMC Yukon XL VIP menyajikan kemewahan dan kapasitas bagasi terluas. Memuat 7 penumpang VIP dengan bagasi ekstra panjang untuk 6 hingga 8 koper besar. Menghadirkan stabilitas prima di jalan tol antara Jeddah, Makkah, dan Madinah.',
         '4. Minibus Pariwisata untuk Rombongan Keluarga:',
-        'Toyota HiAce dapat menampung 10 hingga 11 penumpang dengan kapasitas 8 hingga 10 koper, sangat ideal bagi rombongan keluarga besar yang ingin bepergian bersama.'
+        'Toyota HiAce dapat menampung 10 hingga 11 penumpang dengan kapasitas 8 hingga 10 koper, sangat ideal bagi rombongan keluarga besar yang ingin bepergian bersama.',
+        'Untuk rincian kapasitas koper dan konfigurasi tempat duduk setiap tipe armada, baca [Panduan Kapasitas Armada & Ruang Koper Umrah](/id/blog/vehicle-capacity-passengers-luggage).'
       ]
     },
     {
       title: 'Menyesuaikan Layanan Mobil dengan Rute dan Tujuan Perjalanan',
       paragraphs: [
         'Kebutuhan transportasi bervariasi sesuai rencana perjalanan Anda:',
-        '• Bandara Jeddah ke Makkah (~95 km): Memerlukan sopir yang hafal Terminal 1 dan Terminal Utara serta izin masuk kawasan hotel pusat Makkah.',
-        '• Antar Kota Makkah ke Madinah (~430 km): Perjalanan tol selama 4 hingga 4,5 jam yang membutuhkan kendaraan prima ber-AC dingin, serta persinggahan di Miqat Dzul Hulaifah jika menempuh rute sebaliknya.',
-        '• Kepulangan dari Makkah ke Bandara Jeddah: Membutuhkan ketepatan jadwal keberangkatan (4 jam sebelum jadwal terbang internasional) untuk kelancaran check-in.',
+        '• Bandara Jeddah ke Makkah (~95 km): Memerlukan sopir yang hafal terminal dan akses hotel. Simak panduan kami di [Panduan Transportasi VIP Bandara Jeddah ke Makkah](/id/blog/vip-umrah-transport-jeddah-to-makkah).',
+        '• Antar Kota Makkah ke Madinah (~430 km): Perjalanan tol selama 4 hingga 4,5 jam dengan mobil prima. Pelajari lebih lanjut di [Sewa Mobil Privat Makkah ke Madinah](/id/blog/private-transfer-makkah-to-madinah).',
+        '• Kepulangan dari Makkah ke Bandara Jeddah: Membutuhkan ketepatan jadwal keberangkatan sebelum penerbangan internasional. Rujuk [Panduan Sewa Mobil Makkah ke Bandara Jeddah](/id/blog/makkah-to-jeddah-airport-transfer).',
+        '• Koordinasi Rute Lengkap: Untuk menyusun seluruh jadwal antar-kota dan membandingkan mobil privat dengan kereta cepat, baca [Panduan Perencanaan Transportasi Makkah, Madinah, dan Jeddah](/id/blog/transport-planning-makkah-madinah-jeddah).',
         '• Ziarah Tempat Bersejarah: Mengunjungi Gua Hira, Jabal Tsur, Masjid Quba, dan Jabal Uhud dengan sopir ramah yang siap mengatur waktu parkir dan menunggu.'
       ]
     },

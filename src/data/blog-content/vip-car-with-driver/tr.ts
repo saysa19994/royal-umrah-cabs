@@ -51,6 +51,7 @@ export const VIP_CAR_CONTENT_TR: LocalizedArticleBody = {
         '• Cidde Havalimanı - Mekke (~95 km): Terminal 1 ve Kuzey Terminali girişlerini ve Harem çevresindeki otel geçişlerini iyi bilen şoförler gerektirir.',
         '• Mekke - Medine Şehirlerarası Transfer (~430 km): Hicret otoyolunda 4 ila 4,5 saatlik konforlu bir yolculuk ve ters istikamette Zülhuleyfe Mikatında ihram molası imkanı sunar.',
         '• Mekke\'den Cidde Havalimanı\'na Dönüş: Uluslararası uçuşlardan 4 saat önce hareket edilerek telaşsız bir check-in yapılması sağlanır.',
+        '• Üç kutsal şehir arasındaki tüm seyahat planınızı koordine etmek için [Mekke, Medine ve Cidde Arasında Ulaşım Nasıl Planlanır?](/tr/blog/transport-planning-makkah-madinah-jeddah) rehberimizi okuyun.',
         '• Ziyaret Turları (Ziyarat): Sevr Dağı, Hira Mağarası, Kuba Mescidi ve Uhud Dağı ziyaretlerinde otopark ve bekleme yönetimini üstlenen tecrübeli şoför hizmeti.'
       ]
     },

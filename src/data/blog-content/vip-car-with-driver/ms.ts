@@ -41,16 +41,18 @@ export const VIP_CAR_CONTENT_MS: LocalizedArticleBody = {
         '3. SUV Mewah Bersaiz Penuh (VIP Flagship):',
         'GMC Yukon XL VIP menawarkan kemewahan dan ruang maksimum. Memuatkan 7 penumpang VIP dengan ruang but lanjutan untuk 6 hingga 8 beg besar. Kestabilan tiada tandingan di lebuh raya antara Jeddah, Makkah, dan Madinah.',
         '4. Minibus Pelancongan untuk Kumpulan & Delegasi:',
-        'Toyota HiAce memuatkan 10 hingga 11 penumpang dengan ruang 8 hingga 10 beg bagasi, membolehkan rombongan keluarga besar bergerak bersama secara teratur.'
+        'Toyota HiAce memuatkan 10 hingga 11 penumpang dengan ruang 8 hingga 10 beg bagasi, membolehkan rombongan keluarga besar bergerak bersama secara teratur.',
+        'Untuk perincian dimensi dan kapasiti beg setiap kenderaan, rujuk [Panduan Kapasiti Kenderaan & Ruang Bagasi Umrah](/ms/blog/vehicle-capacity-passengers-luggage).'
       ]
     },
     {
       title: 'Menyesuaikan Perkhidmatan Mengikut Laluan dan Destinasi Anda',
       paragraphs: [
         'Setiap laluan di Arab Saudi mempunyai ciri dan keperluan tersendiri:',
-        '• Lapangan Terbang Jeddah ke Makkah (~95 km): Memerlukan pemandu yang mahir dengan Terminal 1 dan Terminal Utara serta kawalan jalan masuk hotel Makkah.',
-        '• Pemindahan Antara Bandar Makkah ke Madinah (~430 km): Perjalanan lebuh raya 4 hingga 4.5 jam yang memerlukan kenderaan berhawa dingin mantap dan persinggahan di Miqat Dzul Hulaifah jika menempah arah sebaliknya.',
-        '• Perjalanan Balik dari Makkah ke Lapangan Terbang Jeddah: Memerlukan pengiraan masa yang tepat (4 jam sebelum penerbangan antarabangsa) bagi memastikan urusan daftar masuk berjalan lancar.',
+        '• Lapangan Terbang Jeddah ke Makkah (~95 km): Memerlukan pemandu yang mahir dengan pintu ketibaan dan laluan hotel. Lihat [Panduan Pengangkutan VIP Lapangan Terbang Jeddah ke Makkah](/ms/blog/vip-umrah-transport-jeddah-to-makkah).',
+        '• Pemindahan Antara Bandar Makkah ke Madinah (~430 km): Perjalanan lebuh raya 4 hingga 4.5 jam yang memerlukan kenderaan mantap. Baca [Panduan Pengangkutan Peribadi Makkah ke Madinah](/ms/blog/private-transfer-makkah-to-madinah).',
+        '• Perjalanan Balik dari Makkah ke Lapangan Terbang Jeddah: Memerlukan pengiraan masa yang tepat sebelum penerbangan. Rujuk [Panduan Tempah Kereta Makkah ke Lapangan Terbang Jeddah](/ms/blog/makkah-to-jeddah-airport-transfer).',
+        '• Perancangan Laluan Lengkap: Untuk menyelaraskan keseluruhan jadual pengangkutan dan membandingkan kereta dengan kereta api, baca [Panduan Perancangan Pengangkutan Antara Makkah, Madinah dan Jeddah](/ms/blog/transport-planning-makkah-madinah-jeddah).',
         '• Lawatan Ziarah Bersejarah: Lawatan ke Gua Hira, Jabal Tsur, Masjid Quba, dan Jabal Uhud memerlukan pemandu yang arif tentang kawasan parkir dan waktu menunggu.'
       ]
     },

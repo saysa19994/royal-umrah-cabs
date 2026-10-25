@@ -41,7 +41,8 @@ export const VIP_CAR_CONTENT_FR: LocalizedArticleBody = {
         '3. Grands SUV de Luxe (Véhicules VIP d\'Élite) :',
         'Le GMC Yukon XL VIP incarne le summum du prestige et de l\'espace. Il accueille 7 passagers VIP avec un coffre rallongé pour 6 à 8 valises. Stabilité remarquable sur l\'autoroute entre Djeddah, La Mecque et Médine.',
         '4. Minibus Touristiques pour Groupes :',
-        'Le Toyota HiAce transporte 10 à 11 passagers avec 8 à 10 valises, permettant aux grands groupes familiaux de voyager ensemble dans d\'excellentes conditions.'
+        'Le Toyota HiAce transporte 10 à 11 passagers avec 8 à 10 valises, permettant aux grands groupes familiaux de voyager ensemble dans d\'excellentes conditions.',
+        'Pour les dimensions de coffre et spécifications détaillées, consultez notre [Guide de Capacité des Véhicules Omra & Bagages](/fr/blog/vehicle-capacity-passengers-luggage).'
       ]
     },
     {

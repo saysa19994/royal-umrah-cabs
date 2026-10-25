@@ -41,7 +41,8 @@ export const VIP_CAR_CONTENT_ES: LocalizedArticleBody = {
         '3. Grandes SUV de Lujo (Gama VIP Superior):',
         'El GMC Yukon XL VIP representa el máximo confort y distinción. Aloja a 7 pasajeros VIP con un maletero espacioso para 6 a 8 maletas grandes. Máxima estabilidad en autopista entre Yeda, La Meca y Medina.',
         '4. Minibuses Turísticos para Grupos:',
-        'La Toyota HiAce permite viajar a 10-11 pasajeros con espacio para 8 a 10 maletas, permitiendo que grupos familiares numerosos viajen juntos de forma organizada.'
+        'La Toyota HiAce permite viajar a 10-11 pasajeros con espacio para 8 a 10 maletas, permitiendo que grupos familiares numerosos viajen juntos de forma organizada.',
+        'Para ver las medidas exactas de maletero y distribución de plazas, consulte nuestra [Guía de Capacidad de Vehículos para la Umrah y Equipaje](/es/blog/vehicle-capacity-passengers-luggage).'
       ]
     },
     {
