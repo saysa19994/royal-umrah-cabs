@@ -81,6 +81,137 @@ export async function generateMetadata(props: BlogPostPageProps): Promise<Metada
   };
 }
 
+function renderFormattedText(text: string, locale: Locale): React.ReactNode {
+  const parts: React.ReactNode[] = [];
+  const regex = /(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*)/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  let key = 0;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    const token = match[0];
+    if (token.startsWith('[')) {
+      const linkMatch = token.match(/\[([^\]]+)\]\(([^)]+)\)/);
+      if (linkMatch) {
+        const anchor = linkMatch[1];
+        const rawHref = linkMatch[2];
+        const slugMatch = rawHref.match(/(?:blog\/)([a-z0-9-]+)/);
+        const slug = slugMatch ? slugMatch[1] : '';
+        const href = slug ? `/${locale}/blog/${slug}` : rawHref;
+        parts.push(
+          <Link
+            key={`link-${key++}`}
+            href={href}
+            className="inline-flex items-center gap-1 font-semibold text-gold-dark hover:text-gold underline underline-offset-4 decoration-gold/60 transition-colors mx-1"
+          >
+            <span>{anchor}</span>
+            <ArrowRight className="w-3.5 h-3.5 inline-block rtl:rotate-180" />
+          </Link>
+        );
+      }
+    } else if (token.startsWith('**')) {
+      const boldText = token.slice(2, -2);
+      parts.push(
+        <strong key={`bold-${key++}`} className="font-semibold text-ink">
+          {boldText}
+        </strong>
+      );
+    }
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+}
+
+function renderParagraphsOrTable(paragraphs: string[], locale: Locale): React.ReactNode {
+  const elements: React.ReactNode[] = [];
+  let tableBuffer: string[] = [];
+  let elementIndex = 0;
+
+  const flushTable = () => {
+    if (tableBuffer.length === 0) return;
+    const rows = tableBuffer.map((line) =>
+      line
+        .split('|')
+        .map((cell) => cell.trim())
+        .filter((cell, i, arr) => i > 0 && i < arr.length - 1)
+    );
+    tableBuffer = [];
+
+    if (rows.length >= 2) {
+      const headerRow = rows[0];
+      const dataRows = rows.slice(1).filter((r) => !r.some((c) => c.includes('---')));
+
+      elements.push(
+        <div
+          key={`table-${elementIndex++}`}
+          className="overflow-x-auto my-6 rounded-2xl border border-border bg-bg/50 shadow-xs"
+        >
+          <table className="w-full text-sm text-start border-collapse">
+            <thead className="bg-surface border-b border-border">
+              <tr>
+                {headerRow.map((cell, cIdx) => (
+                  <th
+                    key={cIdx}
+                    className="p-3.5 text-xs md:text-sm font-bold text-ink whitespace-nowrap text-start bg-gold-soft/30"
+                  >
+                    {renderFormattedText(cell, locale)}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {dataRows.map((row, rIdx) => (
+                <tr
+                  key={rIdx}
+                  className={
+                    rIdx % 2 === 0
+                      ? 'bg-surface/60 hover:bg-gold-soft/20 transition-colors'
+                      : 'bg-surface hover:bg-gold-soft/20 transition-colors'
+                  }
+                >
+                  {row.map((cell, cIdx) => (
+                    <td
+                      key={cIdx}
+                      className="p-3.5 text-xs md:text-sm text-ink-muted leading-relaxed align-top text-start"
+                    >
+                      {renderFormattedText(cell, locale)}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+  };
+
+  for (let i = 0; i < paragraphs.length; i++) {
+    const p = paragraphs[i];
+    if (p.trim().startsWith('|')) {
+      tableBuffer.push(p);
+    } else {
+      flushTable();
+      elements.push(
+        <p key={`p-${elementIndex++}`} className="text-ink-muted text-base leading-relaxed font-light mb-4 last:mb-0">
+          {renderFormattedText(p, locale)}
+        </p>
+      );
+    }
+  }
+  flushTable();
+
+  return elements;
+}
+
 export default async function BlogPostDetailPage(props: BlogPostPageProps) {
   const params = await props.params;
   const { locale, slug } = params;
@@ -691,11 +822,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
             <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-4">
               {content.intro.title}
             </h2>
-            {content.intro.paragraphs.map((p, idx) => (
-              <p key={idx} className="text-ink-muted text-base md:text-lg leading-relaxed font-light mb-4 last:mb-0">
-                {p}
-              </p>
-            ))}
+            {renderParagraphsOrTable(content.intro.paragraphs, locale)}
           </div>
 
           {/* DYNAMIC SECTIONS */}
@@ -707,15 +834,11 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
 
               {section.lead && (
                 <p className="text-ink-muted text-base leading-relaxed font-light mb-6">
-                  {section.lead}
+                  {renderFormattedText(section.lead, locale)}
                 </p>
               )}
 
-              {section.paragraphs.map((p, pIdx) => (
-                <p key={pIdx} className="text-ink-muted text-base leading-relaxed font-light mb-4">
-                  {p}
-                </p>
-              ))}
+              {renderParagraphsOrTable(section.paragraphs, locale)}
 
               {/* CALLOUT (IF PRESENT) */}
               {section.callout && (
@@ -729,7 +852,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
                   <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                   <div>
                     <strong className="block font-semibold mb-1">{section.callout.title}</strong>
-                    <p className="text-xs sm:text-sm leading-relaxed">{section.callout.text}</p>
+                    <p className="text-xs sm:text-sm leading-relaxed">{renderFormattedText(section.callout.text, locale)}</p>
                   </div>
                 </div>
               )}
@@ -744,7 +867,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
                         <span>{sub.title}</span>
                       </h3>
                       <p className="text-ink-muted text-sm md:text-base leading-relaxed font-light">
-                        {sub.text}
+                        {renderFormattedText(sub.text, locale)}
                       </p>
                     </div>
                   ))}
@@ -760,7 +883,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
                         {b.title}
                       </h4>
                       <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light">
-                        {b.text}
+                        {renderFormattedText(b.text, locale)}
                       </p>
                     </div>
                   ))}
@@ -790,6 +913,69 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
                   </p>
                 </div>
               ))}
+            </div>
+          </section>
+
+          {/* RELATED ARTICLES / GUIDES */}
+          <section className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs">
+            <div className="flex items-center justify-between gap-4 mb-6">
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-widest text-gold-dark block mb-1">
+                  {locale === 'ar' ? 'أدلة إرشادية مقترحة' : 'Recommended Guides'}
+                </span>
+                <h2 className="font-display font-bold text-xl md:text-2xl text-ink">
+                  {locale === 'ar' ? 'مقالات وأدلة ذات صلة لضيوف الرحمن' : 'Related Umrah Transport Guides'}
+                </h2>
+              </div>
+              <Link
+                href={`/${locale}/blog`}
+                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold text-gold-dark hover:text-gold transition-colors"
+              >
+                <span>{locale === 'ar' ? 'جميع المقالات' : 'All Articles'}</span>
+                <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {BLOG_POSTS.filter((p) => p.slug !== slug)
+                .slice(0, 6)
+                .map((relatedPost) => (
+                  <Link
+                    key={relatedPost.slug}
+                    href={`/${locale}/blog/${relatedPost.slug}`}
+                    className="group flex flex-col rounded-xl border border-border bg-bg/50 hover:bg-gold-soft/20 hover:border-gold-line transition-all duration-200 overflow-hidden shadow-xs hover:shadow-md"
+                  >
+                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-900">
+                      <Image
+                        src={relatedPost.featuredImage}
+                        alt={relatedPost.imageAlt[locale] || relatedPost.imageAlt.en}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="p-4 flex flex-col flex-1 justify-between text-start">
+                      <div>
+                        <span className="inline-block text-[10px] uppercase font-bold text-gold-dark mb-1">
+                          {relatedPost.category[locale] || relatedPost.category.en}
+                        </span>
+                        <h3 className="font-display font-semibold text-sm text-ink group-hover:text-gold-dark transition-colors line-clamp-2 mb-2 leading-snug">
+                          {relatedPost.title[locale] || relatedPost.title.en}
+                        </h3>
+                      </div>
+                      <div className="flex items-center justify-between text-[11px] text-ink-muted pt-2 border-t border-border/50">
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3 text-gold-dark" />
+                          {relatedPost.readTime[locale] || relatedPost.readTime.en}
+                        </span>
+                        <span className="inline-flex items-center gap-1 font-semibold text-gold-dark group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform">
+                          <span>{locale === 'ar' ? 'اقرأ الدليل' : 'Read Guide'}</span>
+                          <ArrowRight className="w-3 h-3 rtl:rotate-180" />
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
             </div>
           </section>
 
