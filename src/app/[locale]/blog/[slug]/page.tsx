@@ -231,6 +231,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
   const isVipGuide = slug.includes('vip-car-with-driver');
   const isCapacityGuide = slug.includes('vehicle-capacity');
   const isPlanningGuide = slug.includes('transport-planning');
+  const isAirportPickup = slug.includes('airport-pickup');
   const routeKey = isMadinahRoute
     ? 'makkah-to-madinah'
     : isMakkahToJeddah
@@ -241,10 +242,12 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
     ? 'vehicle-capacity-passengers-luggage'
     : isPlanningGuide
     ? 'transport-planning-makkah-madinah-jeddah'
+    : isAirportPickup
+    ? 'jeddah-airport-pickup-umrah'
     : 'jeddah-airport-to-makkah';
-  const effectivePricingKey = (isVipGuide || isCapacityGuide || isPlanningGuide) ? 'jeddah-airport-to-makkah' : routeKey;
+  const effectivePricingKey = (isVipGuide || isCapacityGuide || isPlanningGuide || isAirportPickup) ? 'jeddah-airport-to-makkah' : routeKey;
   const routePrices = dbRates[effectivePricingKey] || AUTHORITATIVE_TRANSFER_RATES[effectivePricingKey];
-  const bookingHref = (isVipGuide || isCapacityGuide || isPlanningGuide) ? `/${locale}/booking` : `/${locale}/booking?route=${routeKey}`;
+  const bookingHref = (isVipGuide || isCapacityGuide || isPlanningGuide) ? `/${locale}/booking` : isAirportPickup ? `/${locale}/booking?route=jeddah-airport-to-makkah` : `/${locale}/booking?route=${routeKey}`;
 
   const pricingCardContent: Record<
     string,
@@ -255,6 +258,56 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       btn: Record<Locale, string>;
     }
   > = {
+    'jeddah-airport-pickup-umrah': {
+      badge: {
+        ar: 'الأسعار الرسمية المعتمدة لاستقبال مطار جدة للمعتمرين',
+        en: 'Official Guaranteed Rates for Jeddah Airport Umrah Pickup',
+        ms: 'Kadar Rasmi Dijamin untuk Sambutan Lapangan Terbang Jeddah Umrah',
+        id: 'Tarif Resmi Dijamin Penjemputan Bandara Jeddah untuk Umrah',
+        ur: 'جدہ ایئرپورٹ پر معتمرین کے استقبال کے سرکاری کرایے',
+        fr: 'Tarifs Officiels Garantis Accueil Aéroport Djeddah Omra',
+        es: 'Tarifas Oficiales Garantizadas Recepción Aeropuerto de Yeda Umrah',
+        de: 'Garantierte Tarife für Abholung am Flughafen Dschidda für Umrah',
+        hi: 'जेद्दा हवाई अड्डा उमरा पिकअप के लिए आधिकारिक निश्चित दरें',
+        tr: 'Cidde Havalimanı Umre Karşılama Resmi Sabit Fiyatları',
+      },
+      title: {
+        ar: 'أسعار سيارات الاستقبال الخاص من مطار جدة إلى فنادق مكة',
+        en: 'VIP Pickup Vehicle Rates: Jeddah Airport to Makkah Hotels',
+        ms: 'Kadar Kenderaan VIP Sambutan: Lapangan Terbang Jeddah ke Hotel Makkah',
+        id: 'Tarif Kendaraan VIP Penjemputan: Bandara Jeddah ke Hotel Makkah',
+        ur: 'جدہ ایئرپورٹ سے مکہ مکرمہ ہوٹلز تک وی آئی پی استقبالیہ گاڑیوں کے کرایے',
+        fr: 'Tarifs Véhicules VIP d’Accueil : Aéroport de Djeddah vers Hôtels de La Mecque',
+        es: 'Tarifas Vehículos VIP de Recepción: Aeropuerto de Yeda a Hoteles de La Meca',
+        de: 'VIP-Abholfahrzeugpreise: Flughafen Dschidda zu Mekka-Hotels',
+        hi: 'वीआईपी पिकअप वाहन दरें: जेद्दा हवाई अड्डा से मक्का होटल',
+        tr: 'VIP Karşılama Araç Fiyatları: Cidde Havalimanı - Mekke Otelleri',
+      },
+      desc: {
+        ar: 'السعر ثابت للمركبة بالكامل شامل تتبع الرحلة، الاستقبال والانتظار، السائق الخاص، الوقود ورسوم الطرق. لا دفع مسبق - الدفع للسائق عند الوصول',
+        en: 'Fixed rate per entire vehicle including flight tracking, meet & greet, waiting time, private chauffeur, fuel, and tolls. Zero prepayment — pay driver upon arrival.',
+        ms: 'Harga tetap satu kenderaan termasuk penjejakan penerbangan, sambutan, masa menunggu, pemandu peribadi, minyak, dan tol. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
+        id: 'Harga tetap per kendaraan termasuk pelacakan penerbangan, penjemputan, waktu tunggu, sopir pribadi, bensin, dan tol. Tanpa uang muka — bayar sopir saat tiba.',
+        ur: 'گاڑی کا حتمی طے شدہ کرایہ بمعہ فلائٹ ٹریکنگ، استقبالیہ انتظار، نجی ڈرائیور، ایندھن اور ٹول۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
+        fr: 'Tarif fixe par véhicule incluant suivi de vol, accueil, temps d’attente, chauffeur privé, carburant et péages. Aucun prépaiement — règlement au chauffeur à l’arrivée.',
+        es: 'Precio fijo por vehículo completo que incluye seguimiento de vuelo, bienvenida, tiempo de espera, chofer privado, combustible y peajes. Sin pago por adelantado: pague al chofer al llegar.',
+        de: 'Festpreis pro Fahrzeug inklusive Flugverfolgung, Empfang, Wartezeit, privatem Chauffeur, Kraftstoff und Maut. Keine Vorauszahlung — Bezahlung beim Fahrer bei Ankunft.',
+        hi: 'फ्लाइट ट्रैकिंग, स्वागत, प्रतीक्षा समय, निजी ड्राइवर, ईंधन और टोल सहित निश्चित दर। कोई अग्रिम भुगतान नहीं — आगमन पर ड्राइवर को भुगतान करें।',
+        tr: 'Uçuş takibi, karşılama, bekleme süresi, özel şoför, yakıt ve otoyol ücretleri dahil sabit fiyat. Ön ödeme yok — varışta şoföre ödeme.',
+      },
+      btn: {
+        ar: 'احجز استقبال مطار جدة إلى مكة الآن',
+        en: 'Book Jeddah Airport to Makkah Pickup Now',
+        ms: 'Tempah Sambutan Lapangan Terbang Jeddah ke Makkah Sekarang',
+        id: 'Pesan Penjemputan Bandara Jeddah ke Makkah Sekarang',
+        ur: 'جدہ ایئرپورٹ سے مکہ استقبالیہ گاڑی ابھی بک کریں',
+        fr: 'Réserver Votre Accueil Aéroport Djeddah vers La Mecque',
+        es: 'Reservar Recepción de Yeda a La Meca Ahora',
+        de: 'Jetzt Abholung am Flughafen Dschidda nach Mekka buchen',
+        hi: 'जेद्दा हवाई अड्डा से मक्का पिकअप अभी बुक करें',
+        tr: 'Cidde Havalimanı - Mekke Karşılama Rezervasyonu Yap',
+      },
+    },
     'transport-planning-makkah-madinah-jeddah': {
       badge: {
         ar: 'الأسعار الرسمية المعتمدة لرحلات مكة والمدينة وجدة',
