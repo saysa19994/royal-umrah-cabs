@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   description: 'Private Umrah taxi and luxury chauffeur transport in Makkah, Madinah, and Jeddah Airport (KAIA).',
   verification: {
     google: '8pd7FP8QmvXyHi6-R2uhh2tB5cAdgAdrHbBCDz9QMYE',
+    other: {
+      'msvalidate.01': 'C4DDA059F7EA445FDFCC5EB676171BFA',
+    },
   },
 };
 
