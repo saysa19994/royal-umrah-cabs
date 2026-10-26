@@ -23,6 +23,7 @@ const SettingsUpdateSchema = z.object({
   whatsapp_number: z.string().regex(/^\+?[0-9]{8,15}$/, 'Must be 8-15 digits').optional(),
   whatsapp_number_secondary: z.string().regex(/^\+?[0-9]{8,15}$/, 'Must be 8-15 digits').optional(),
   riyadh_enabled: z.boolean().optional(),
+  taif_enabled: z.boolean().optional(),
   address_cities: z.array(z.string().max(50)).optional(),
   google_reviews_link: z.string().url().max(255).optional().or(z.literal('')),
   google_reviews_rating: z.number().min(0).max(5).optional(),

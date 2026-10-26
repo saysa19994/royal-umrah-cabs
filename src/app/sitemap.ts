@@ -19,6 +19,8 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
     '/routes',
     '/fleet',
     '/services',
+    '/services/taif',
+    '/services/riyadh',
     '/pricing',
     '/about',
     '/team',

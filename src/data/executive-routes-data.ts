@@ -110,4 +110,42 @@ export const EXECUTIVE_ROUTES_DATA: RouteCardData[] = [
     priceSar: 350,
     customPricePrefix: 'From',
   },
+  {
+    slug: 'riyadh-airport-transfer',
+    image: '/assets/images/camry_exterior.webp',
+    imagePosition: 'object-[center_30%]',
+    timeEn: '35-50 mins',
+    timeAr: '35-50 دقيقة',
+    distanceEn: '45 km',
+    distanceAr: '45 كم',
+    titleEn: 'Riyadh Airport (RUH) ⇄ Hotels',
+    titleAr: 'من مطار الملك خالد إلى فنادق الرياض',
+    descEn:
+      'Executive private chauffeur transfers between King Khalid International Airport (RUH) and hotels across Riyadh.',
+    descAr:
+      'توصيل تنفيذي راقٍ بسائق خاص بين صالات مطار الملك خالد الدولي (RUH) وكافة فنادق ووجهات مدينة الرياض.',
+    badgesEn: ['EXECUTIVE MEET & GREET', 'FLIGHT RADAR TRACKING', 'ZERO DEPOSIT'],
+    badgesAr: ['استقبال تنفيذي', 'تتبع حي للطيران', 'بدون أي عربون'],
+    priceSar: 200,
+    customPricePrefix: 'From',
+  },
+  {
+    slug: 'riyadh-to-makkah',
+    image: '/assets/images/yukon_exterior.webp',
+    imagePosition: 'object-[center_35%]',
+    timeEn: '8-9 hours',
+    timeAr: '8-9 ساعات',
+    distanceEn: '870 km',
+    distanceAr: '870 كم',
+    titleEn: 'Riyadh ⇄ Makkah VIP Highway',
+    titleAr: 'من الرياض إلى مكة (سريع VIP)',
+    descEn:
+      'Long-distance luxury highway transfer across Route 40 with reclining seats, SASCO rest stops, and Miqat preparation.',
+    descAr:
+      'رحلة برية فاخرة لمسافات طويلة عبر طريق مكة السريع بمقاعد مريحة وتوقفات نموذجية ومحطة ميقات للإحرام.',
+    badgesEn: ['DOOR-TO-DOOR VIP', 'MIQAT STOP', 'PREMIUM LONG-HAUL'],
+    badgesAr: ['خدمة VIP من الباب للباب', 'توقف بالميقات', 'سيارات سفر فارهة'],
+    priceSar: 2200,
+    customPricePrefix: 'From',
+  },
 ];

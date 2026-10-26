@@ -800,4 +800,574 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
     ],
     relatedRouteIds: ['makkah-to-madinah', 'madinah-to-makkah', 'jeddah-to-madinah'],
   },
+
+  'makkah-to-taif': {
+    id: 'makkah-to-taif',
+    titleEn: 'Makkah Hotel to Taif (Al Hada & Rose Farms) Private Transfer',
+    titleAr: 'توصيل خاص وسائق VIP من مكة المكرمة إلى الطائف وجبال الهدا ومزارع الورد',
+    subtitleEn: 'Scenic Mountain Ascent via Al Hada Highway with Family Comfort and Cool Mountain Breezes',
+    subtitleAr: 'رحلة جبلية ساحرة عبر عقبة الهدا مع أقصى درجات الراحة العائلية والأجواء المعتدلة',
+    distanceKm: 85,
+    durationMinutesMin: 75,
+    durationMinutesMax: 90,
+    highway: 'Route 15 / Al Hada Mountain Highway (Dual Carriageway with Engineered Guardrails)',
+    highwayAr: 'طريق عقبة الهدا (طريق 15) - طريق مزدوج حديث ومجهز بحواجز أمان جبلية متطورة',
+    lastUpdated: 'October 2026',
+    verifiedSource: 'Saudi Transport General Authority (TGA) & Makkah-Taif Intercity Chauffeur Standards',
+    verifiedSourceAr: 'الهيئة العامة للنقل (TGA) ومعايير النقل السياحي والجبلي بمكة والطائف',
+    descriptionEn:
+      'Ascend from the Holy City of Makkah into the refreshing mountainous retreat of Taif, located at over 1,800 meters elevation. Our private chauffeur service picks your family up directly from your Makkah hotel lobby and navigates the scenic curves of the Al Hada highway in climate-controlled luxury, ideal for visiting world-famous rose water distilleries, mountain viewpoints, fruit orchards, and the Taif cable car.',
+    descriptionAr:
+      'انطلق من رحاب مكة المكرمة صعوداً نحو مصيف الطائف الجبلي البارد على ارتفاع يتجاوز 1800 متر. يوفر لك سائقنا الخاص استقبالاً مباشراً من بهو فندقك في مكة المكرمة لتستمتع برحلة جبلية مريحة وآمنة عبر عقبة الهدا بسيارات حديثة مكيفة بالكامل، لتجربة زيارة مزارع ومصانع الورد الطائفي الشهير، التلفريك، وحدائق الهدا والشفا الخلابة.',
+    highlightsEn: [
+      'Scenic climb up the dramatic Al Hada Escarpment in luxury air-conditioned SUVs & Vans',
+      'Door-to-door pickup from all Makkah central hotels (Ajyad, Clock Tower, Ibrahim Al-Khalil)',
+      'Flexible itineraries covering Al Hada viewpoints, rose factories, and Shubra Palace',
+      'Professional mountain-certified chauffeurs with safe, smooth driving habits',
+      'Pay directly to driver upon arrival in cash (SAR) or bank card — 0 advance payment',
+    ],
+    highlightsAr: [
+      'صعود جبلي بانورامي سلس عبر عقبة الهدا بسيارات فارهة مكيفة وعائلية',
+      'استقبال مباشر من بهو فندقك في مكة (أبراج البيت، أجياد، إبراهيم الخليل، العزيزية)',
+      'مرونة في التوقف عند مطلات الهدا، مصانع تقطير الورد، وقصر شبرا التاريخي',
+      'سائقون محترفون وذوو خبرة عالية في القيادة الجبلية الآمنة والسلسة',
+      'دفع آمن ومباشر للسائق عند الوصول نقداً أو بالبطاقة البنكية دون أي عربون مسبق',
+    ],
+    terminalNotes: [
+      {
+        terminal: 'Makkah Central Haram Hotel Lobbies',
+        terminalAr: 'ردهات وفنادق المنطقة المركزية بمكة المكرمة',
+        meetingPoint: 'Hotel Main Valet Entrance or Designated Concierge Pickup Bay',
+        meetingPointAr: 'المدخل الرئيسي للفندق أو منطقة وقوف سيارات الضيوف (فاليه)',
+        pickupInstructions:
+          'Your chauffeur coordinates with you 30 minutes prior to departure via WhatsApp and parks right in front of your hotel entrance to assist with family baggage.',
+        pickupInstructionsAr:
+          'يتواصل معك السائق قبل الموعد بـ 30 دقيقة عبر الواتساب ويقف أمام بوابة الفندق مباشرة للمساعدة في نقل الحقائب وصعود العائلة.',
+        landmarks: 'Clock Tower Complex, Abraj Al Bait, Ajyad Road, Jabal Omar Hotels',
+        landmarksAr: 'مجمع أبراج البيت، وقف الملك عبدالعزيز، طريق أجياد، وفنادق جبل عمر',
+      },
+    ],
+    milestones: [
+      {
+        title: 'Makkah Departure (Ring Road to Route 15)',
+        titleAr: 'الانطلاق من مكة المكرمة (الطريق الدائري نحو طريق 15)',
+        desc: 'Departing the central valley towards the eastern exit through Muzdalifah and Arafat plains.',
+        descAr: 'الخروج من وادي مكة عبر المخرج الشرقي بمحاذاة مشعري مزدلفة وعرفات.',
+      },
+      {
+        title: 'Al Hada Mountain Road Ascent',
+        titleAr: 'صعود عقبة الهدا البانورامية',
+        desc: 'Winding scenic climb with spectacular valley vistas, mountain baboon viewing stops, and cool mountain air.',
+        descAr: 'صعود جبلي شيق بين القمم الشاهقة مع إطلالات ساحرة على تهامة ونسمات الهواء العليل.',
+      },
+      {
+        title: 'Arrival in Taif & Al Hada District',
+        titleAr: 'الوصول إلى منطقة الهدا ومدينة الطائف',
+        desc: 'Smooth arrival at your chosen mountain resort, rose farm, or Taif city centre hotel.',
+        descAr: 'الوصول بسلامة الله إلى فندقك، المنتجع الجبلي، أو مزارع الورد في الهدا والشفا.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'How long does the drive from Makkah to Taif take?',
+        questionAr: 'كم تستغرق الرحلة بالسيارة من مكة المكرمة إلى الطائف؟',
+        answer:
+          'The drive typically takes 75 to 90 minutes (approx. 85 km) via the Al Hada mountain highway, depending on traffic and weather conditions.',
+        answerAr:
+          'تستغرق الرحلة عادة بين 75 إلى 90 دقيقة (حوالي 85 كم) عبر طريق عقبة الهدا السريع، بحسب حركة السير والظروف الجوية.',
+      },
+      {
+        question: 'Can we stop for photos or visit a Taif rose farm along the way?',
+        questionAr: 'هل يمكننا التوقف للتصوير أو زيارة مصنع ومزرعة للورد في الطريق؟',
+        answer:
+          'Yes. Our private chauffeur service is fully dedicated to your party. You can arrange scenic viewing stops or visits to famous rose water distilleries in Al Hada.',
+        answerAr:
+          'نعم بالتأكيد. سيارتك خاصة بالكامل مع سائقك، ويمكنك التنسيق للتوقف عند المطلات البانورامية أو زيارة معامل تقطير الورد الطائفي الشهيرة بالهدا.',
+      },
+      {
+        question: 'What happens if the Al Hada mountain road is temporarily closed due to rain?',
+        questionAr: 'ماذا لو أغلقت عقبة الهدا احترازياً بسبب الأمطار أو الضباب؟',
+        answer:
+          'During rare mountain weather closures, our chauffeurs seamlessly reroute via the As-Sayl Al-Kabeer Highway (Route 287), ensuring you reach Taif safely with minimal delay.',
+        answerAr:
+          'في الحالات النادرة التي تغلق فيها العقبة احترازياً لسلامة المسافرين، يسلك السائق طريق السيل الكبير البديل بكل أمان لضمان وصولكم دون تأخير.',
+      },
+    ],
+    relatedRouteIds: ['taif-to-makkah', 'jeddah-to-taif', 'makkah-to-madinah'],
+  },
+
+  'taif-to-makkah': {
+    id: 'taif-to-makkah',
+    titleEn: 'Taif to Makkah Hotel Private Transfer (Via Miqat Qarn al-Manazil)',
+    titleAr: 'توصيل خاص من الطائف إلى مكة المكرمة عبر ميقات قرن المنازل (السيل الكبير)',
+    subtitleEn: 'Seamless Descent from Taif Mountains to Makkah with Dedicated Miqat Stop for Umrah Ihram',
+    subtitleAr: 'انتقال سلس من مرتفعات الطائف إلى مكة المكرمة مع توقف مريح في الميقات للإحرام والعمرة',
+    distanceKm: 85,
+    durationMinutesMin: 75,
+    durationMinutesMax: 90,
+    highway: 'Route 15 (Al Hada) or Route 287 (As-Sayl Al-Kabeer Miqat Highway)',
+    highwayAr: 'طريق 15 (عقبة الهدا) أو طريق 287 (طريق ميقات السيل الكبير قرن المنازل)',
+    lastUpdated: 'October 2026',
+    verifiedSource: 'Ministry of Hajj and Umrah Guidelines & Saudi Transport General Authority',
+    verifiedSourceAr: 'إرشادات وزارة الحج والعمرة والهيئة العامة للنقل بالمملكة',
+    descriptionEn:
+      'Travel in utmost peace of mind from Taif to Makkah for Umrah or return travel. For pilgrims intending Umrah from Taif, our chauffeur facilitates a comfortable stop at Miqat Qarn al-Manazil (As-Sayl Al-Kabeer or Wadi Muharram) to perform ghusl, wear the Ihram garments, make the Umrah intention, and proceed directly to the Grand Mosque (Masjid al-Haram) without hurry.',
+    descriptionAr:
+      'سافر بأقصى درجات الطمأنينة والسكينة من الطائف إلى مكة المكرمة لأداء مناسك العمرة أو العودة. لضيوف الرحمن القادمين من الطائف، يوفر سائقنا الخاص وقتاً كافياً للتوقف في ميقات قرن المنازل (السيل الكبير أو وادي محرم) للاغتسال وارتداء ملابس الإحرام وعقد النية، ثم الانطلاق المباشر إلى باب فندقك بمكة وجوار المسجد الحرام.',
+    highlightsEn: [
+      'Dedicated 30-45 minute stop at Miqat Qarn al-Manazil for prayer and Ihram preparations',
+      'Luggage safely stored and secured in private vehicle during your Miqat stop',
+      'Direct drop-off at your Makkah hotel doorstep or Haram access point',
+      'Comfortable descending drive with seasoned chauffeurs prioritizing safety and smoothness',
+      'No prepayment needed — pay upon arrival in Makkah via cash or POS card machine',
+    ],
+    highlightsAr: [
+      'توقف مخصص لمدة 30-45 دقيقة في ميقات قرن المنازل للصلاة والاستعداد للإحرام',
+      'حقائبك ومقتنياتك محفوظة بأمان تام داخل السيارة الخاصة أثناء وجودك في الميقات',
+      'توصيل مباشر لباب فندقك بمكة المكرمة أو أقرب نقطة وصول للمسجد الحرام',
+      'نزول جبلي هادئ وآمن مع سائقين ذوي خبرة والتزام تام بالسرعات النظامية',
+      'بدون أي دفع مسبق — السداد عند الوصول لمكة نقداً أو بالبطاقة عبر جهاز نقاط البيع',
+    ],
+    terminalNotes: [
+      {
+        terminal: 'Taif Hotels & Mountain Resorts',
+        terminalAr: 'فنادق ومنتجعات مدينة الطائف والهدا والشفا',
+        meetingPoint: 'Resort or Hotel Front Lobby Entrance',
+        meetingPointAr: 'المدخل الرئيسي للفندق أو المنتجع في الطائف',
+        pickupInstructions:
+          'Your chauffeur arrives promptly at your requested pickup time and coordinates luggage loading before beginning the drive to Makkah.',
+        pickupInstructionsAr:
+          'يصل السائق في الموعد المحدد بدقة ويتولى ترتيب وتحميل الحقائب بالكامل قبل بدء الرحلة المباركة نحو مكة المكرمة.',
+        landmarks: 'InterContinental Taif, Swiss Blue, Al Hada Resorts, Shafa Valley',
+        landmarksAr: 'فندق إنتركونتيننتال الطائف، سويس بلو، منتجعات الهدا، ومنطقة الشفا',
+      },
+    ],
+    milestones: [
+      {
+        title: 'Taif Departure & Miqat Stop',
+        titleAr: 'الانطلاق من الطائف والتوقف في الميقات',
+        desc: 'Stopping at Miqat Qarn al-Manazil (As-Sayl Al-Kabeer or Wadi Muharram) for Ihram and Talbiyah.',
+        descAr: 'التوقف في ميقات قرن المنازل (السيل الكبير أو وادي محرم) للاغتسال ولبس الإحرام وترديد التلبية.',
+      },
+      {
+        title: 'Highway Journey to Makkah Checkpoint',
+        titleAr: 'المسار السريع نحو مدخل مكة ونقطة التفتيش',
+        desc: 'Comfortable highway transition with Talbiyah into the Makkah Haram boundary.',
+        descAr: 'مواصلة السير بخشوع وترديد التلبية وصولاً لحدود الحرم الشريف ونقطة التفتيش.',
+      },
+      {
+        title: 'Arrival at Makkah Hotel',
+        titleAr: 'الوصول إلى باب فندقك في مكة المكرمة',
+        desc: 'Doorstep drop-off at your hotel to check in and prepare for your Umrah Tawaf.',
+        descAr: 'التوصيل حتى باب الفندق مباشرة لاستلام الغرف والاستعداد لطواف العمرة والسعي.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Does the driver wait while we enter Ihram at the Miqat?',
+        questionAr: 'هل ينتظر السائق أثناء استعدادنا للإحرام وصلاة ركعتين في الميقات؟',
+        answer:
+          'Yes, absolutely. The Miqat stop is fully included in the service. Your driver waits patiently while your family uses the facilities, changes into Ihram, and offers prayers.',
+        answerAr:
+          'نعم بالتأكيد. التوقف في الميقات مشمول بالكامل في الخدمة، وينتظرك السائق بكل أريحية لحين الانتهاء من الاغتسال والصلاة والإحرام.',
+      },
+      {
+        question: 'Which Miqat do we stop at when traveling from Taif to Makkah?',
+        questionAr: 'أي ميقات نتوقف عنده عند السفر من الطائف إلى مكة؟',
+        answer:
+          'Depending on the route taken, we stop at either Qarn al-Manazil (As-Sayl Al-Kabeer) or Wadi Muharram on the Al Hada crest, both of which are the designated Miqat for travelers from Taif and the east.',
+        answerAr:
+          'حسب المسار المختار، نتوقف في ميقات قرن المنازل (السيل الكبير) أو ميقات وادي محرم أعلى عقبة الهدا، وكلاهما الميقات الشرعي المعتمد للقادمين من الطائف والشرق.',
+      },
+      {
+        question: 'Can we pay in cash or card upon arriving in Makkah?',
+        questionAr: 'هل يمكننا السداد نقداً أو بالبطاقة البنكية بعد الوصول إلى مكة؟',
+        answer:
+          'Yes. In accordance with our 100% Pay-the-Driver policy, you pay your chauffeur directly upon arrival in Makkah via Saudi Riyals (cash) or credit/debit card.',
+        answerAr:
+          'نعم. وفقاً لسياسة الدفع للسائق 100%، يمكنك سداد قيمة الرحلة مباشرة للسائق عند الوصول لمكة بالريال السعودي نقداً أو بالبطاقة البنكية (مدى/فيزا/ماستركارد).',
+      },
+    ],
+    relatedRouteIds: ['makkah-to-taif', 'jeddah-to-taif', 'makkah-to-jeddah-airport'],
+  },
+
+  'jeddah-to-taif': {
+    id: 'jeddah-to-taif',
+    titleEn: 'Jeddah Airport (KAIA) to Taif Mountain City VIP Transfer',
+    titleAr: 'توصيل مباشر وسائق VIP من مطار جدة (KAIA) إلى مدينة الطائف وجبال الهدا',
+    subtitleEn: 'Comfortable Express Chauffeur Transfer from the Red Sea to the Mountain Heights of Taif',
+    subtitleAr: 'رحلة سريعة ومريحة بسائق خاص من سواحل البحر الأحمر إلى قمم مرتفعات الطائف',
+    distanceKm: 175,
+    durationMinutesMin: 120,
+    durationMinutesMax: 135,
+    highway: 'Route 40 (Haramain Expressway) connected to Route 15 (Al Hada Mountain Road)',
+    highwayAr: 'طريق الحرمين السريع (طريق 40) متصلاً بطريق عقبة الهدا (طريق 15)',
+    lastUpdated: 'October 2026',
+    verifiedSource: 'General Authority of Civil Aviation (GACA) & Taif Tourism Chauffeur Logistics',
+    verifiedSourceAr: 'الهيئة العامة للطيران المدني والهيئة العامة للنقل',
+    descriptionEn:
+      'Arriving at King Abdulaziz International Airport (JED) and heading straight to the pleasant highlands of Taif? Avoid stressful public bus connections or multiple taxi changes. Our chauffeur greets you right at KAIA terminal arrivals with a personalized name card, assists with your heavy baggage, and whisks your family directly up to Taif in a spacious VIP vehicle.',
+    descriptionAr:
+      'هل هبطت رحلتك في مطار الملك عبدالعزيز الدولي بجدة (KAIA) وترغب بالتوجه مباشرة إلى أجواء الطائف المعتدلة؟ وفر عناء التبديل بين الحافلات أو سيارات الأجرة المتعددة. يستقبلك سائقنا الخاص في صالة الوصول بلوحة ترحيبية باسمك، ويتولى حقائبك بالكامل لتنطلق مع عائلتك مباشرة إلى وجهتك في الطائف بسيارة VIP مريحة.',
+    highlightsEn: [
+      'Airport Meet & Greet at KAIA Terminal 1 and North Terminal included',
+      'Real-time flight radar tracking ensures driver is waiting even if flight is delayed',
+      'Direct nonstop transfer from sea level to over 1,800 meters elevation in Taif',
+      'Spacious luggage capacity for large family suitcases and travel gear',
+      'Zero advance deposit — pay upon arrival at your Taif hotel or resort',
+    ],
+    highlightsAr: [
+      'استقبال شخصي من صالة الوصول بمطار جدة (الصالة 1 والصالة الشمالية)',
+      'تتبع حي للرحلات عبر الرادار لضمان وجود السائق في انتظارك حتى في حال تأخر الطائرة',
+      'توصيل مباشر بدون توقف من سواحل جدة حتى مرتفعات الطائف الشاهقة',
+      'مساحة واسعة تتسع لحقائب العائلة والأمتعة الكبيرة براحة تامة',
+      'صفر عربون أو دفع مسبق — السداد بعد الوصول لفندقك أو منتجعك بالطائف',
+    ],
+    terminalNotes: [
+      {
+        terminal: 'King Abdulaziz International Airport (KAIA) Terminal 1',
+        terminalAr: 'مطار الملك عبدالعزيز الدولي (KAIA) الصالة 1',
+        meetingPoint: 'Arrivals Hall beside the iconic central aquarium',
+        meetingPointAr: 'ردهة الوصول بجوار الحوض السمكي الأسطواني الشهير',
+        pickupInstructions:
+          'After customs clearance, step out into the greeting hall where your private chauffeur holds a digital tablet with your name.',
+        pickupInstructionsAr:
+          'بعد استلام الحقائب والتفتيش الجمركي، اخرج لردهة الاستقبال لتجد سائقك حاملاً لوحة رقمية باسمك الكريم.',
+        landmarks: 'Curbside VIP pickup zone gates 4 and 5',
+        landmarksAr: 'مسار الركوب التنفيذي أمام بوابتي 4 و 5',
+      },
+    ],
+    milestones: [
+      {
+        title: 'Jeddah Airport Pickup',
+        titleAr: 'الاستقبال من مطار جدة الدولي',
+        desc: 'Meet and greet outside customs and luggage loading into air-conditioned vehicle.',
+        descAr: 'الاستقبال بعد الجمارك وتحميل الحقائب داخل السيارة المكيفة الحديثة.',
+      },
+      {
+        title: 'Highway Transit past Makkah Bypass',
+        titleAr: 'عبور طريق الحرمين والمسار الالتفافي حول مكة',
+        desc: 'Smooth highway cruise transitioning from sea level towards the foothills.',
+        descAr: 'رحلة سريعة وسلسة عبر الخط السريع تجاوزاً لوادي مكة نحو السفوح الجبلية.',
+      },
+      {
+        title: 'Al Hada Mountain Ascent to Taif Hotel',
+        titleAr: 'صعود عقبة الهدا والوصول لفندقك بالطائف',
+        desc: 'Scenic climb through cool mountain air and doorstep drop-off at your Taif accommodation.',
+        descAr: 'الصعود الجبلي بين الأجواء العليلة والوصول لباب فندقك أو منتجعك بالطائف.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'How far is Taif from Jeddah Airport and how long does the drive take?',
+        questionAr: 'كم تبعد الطائف عن مطار جدة وكم تستغرق الرحلة بالسيارة؟',
+        answer:
+          'Taif is approximately 175 km from King Abdulaziz International Airport in Jeddah. In a private chauffeur vehicle, the trip takes about 2 hours to 2 hours and 15 minutes depending on highway traffic.',
+        answerAr:
+          'تبعد الطائف حوالي 175 كم عن مطار الملك عبدالعزيز بجدة، وتستغرق الرحلة بالسيارة الخاصة نحو ساعتين إلى ساعتين وربع بحسب حركة السير على الطريق السريع.',
+      },
+      {
+        question: 'Will our driver track our flight if our arrival is delayed?',
+        questionAr: 'هل يتابع السائق موعد هبوط الطائرة إذا تأخرت الرحلة؟',
+        answer:
+          'Yes. All airport pickups include automated live flight radar monitoring and 60 minutes of complimentary waiting after your flight actually touches down.',
+        answerAr:
+          'نعم. تشمل جميع خدمات الاستقبال بالمطار متابعة حية لموعد هبوط الطائرة الفعلي، مع فترة انتظار مجانية تصل إلى 60 دقيقة بعد الهبوط.',
+      },
+      {
+        question: 'Can we stop for coffee or refreshments during the drive to Taif?',
+        questionAr: 'هل يمكننا التوقف لشراء القهوة أو المرطبات في الطريق إلى الطائف؟',
+        answer:
+          'Certainly. Your chauffeur will gladly pull into a well-serviced highway rest stop or scenic mountain viewpoint whenever your family wishes.',
+        answerAr:
+          'بالتأكيد. يسعد سائقك بالتوقف عند أفضل الاستراحات ومحطات الخدمة النموذجية أو المطلات الجبلية متى رغبتم في ذلك.',
+      },
+    ],
+    relatedRouteIds: ['makkah-to-taif', 'taif-to-makkah', 'jeddah-airport-to-makkah'],
+  },
+
+  'riyadh-airport-transfer': {
+    id: 'riyadh-airport-transfer',
+    titleEn: 'King Khalid International Airport (RUH) to Riyadh Hotels VIP Chauffeur',
+    titleAr: 'خدمة سائق VIP وتوصيل من مطار الملك خالد الدولي (RUH) إلى فنادق ومدينة الرياض',
+    subtitleEn: 'Punctual Executive Chauffeur Service for Business Travelers, VIP Guests, and Families in Riyadh',
+    subtitleAr: 'خدمة استقبال وتنقلات تنفيذية فاخرة لرجال الأعمال وكبار الشخصيات والعائلات في الرياض',
+    distanceKm: 45,
+    durationMinutesMin: 35,
+    durationMinutesMax: 50,
+    highway: 'Airport Road / King Salman bin Abdulaziz Road / Northern Ring Road',
+    highwayAr: 'طريق المطار السريع - طريق الملك سلمان بن عبدالعزيز - الطريق الدائري الشمالي',
+    lastUpdated: 'October 2026',
+    verifiedSource: 'Riyadh Airports Company (RAC) & Saudi Transport General Authority (TGA)',
+    verifiedSourceAr: 'شركة مطارات الرياض (RAC) والهيئة العامة للنقل',
+    descriptionEn:
+      'Arrive in Saudi Arabia’s vibrant capital with prestige and zero stress. Our executive chauffeur service at King Khalid International Airport (RUH) covers Terminals 1, 2, 3, 4, and the Private Aviation Terminal. Your chauffeur greets you with a personalized digital sign, manages your luggage with care, and provides smooth, Wi-Fi-equipped transport to the King Abdullah Financial District (KAFD), Olaya, diplomatic quarter, or any luxury hotel across Riyadh.',
+    descriptionAr:
+      'ابدأ زيارتك للعاصمة السعودية الرياض بكل فخامة وراحة بال. توفر خدمة السائق التنفيذي الخاص بمطار الملك خالد الدولي (RUH) استقبالاً راقياً في الصالات 1 و 2 و 3 و 4 وصالة الطيران الخاص. يرحب بك السائق بلوحة رقمية باسمك، ويتولى حقائبك باهتمام، لتنطلق في رحلة هادئة ومكيفة نحو مركز الملك عبدالله المالي (KAFD)، العليا، الحي الدبلوماسي، أو أي فندق بالرياض.',
+    highlightsEn: [
+      'Executive airport meet & greet across Terminals 1, 2, 3, 4 and Private Aviation',
+      'Flight radar tracking with 60 minutes free waiting after actual wheels-down time',
+      'Premium fleet including Toyota Camry Executive, Hyundai Staria VIP, and GMC Yukon XL',
+      'Direct hotel lobby drop-off across KAFD, Olaya, Al Faisaliah, and Diplomatic Quarter',
+      'Pay driver directly upon arrival in cash (SAR) or corporate bank card — zero advance fees',
+    ],
+    highlightsAr: [
+      'استقبال تنفيذي من الصالات 1، 2، 3، 4 وصالة الطيران الخاص بمطار الملك خالد',
+      'متابعة حية لرادار الرحلات مع 60 دقيقة انتظار مجاني بعد هبوط الطائرة الفعلي',
+      'أسطول فاخر يشمل تويوتا كامري، هيونداي ستاريا VIP، وجي إم سي يوكون إكس إل',
+      'توصيل مباشر لباب الفندق في كافد (KAFD)، العليا، برج الفيصلية، والحي الدبلوماسي',
+      'سداد مباشر للسائق عند الوصول نقداً أو بالبطاقة البنكية للشركات بدون أي رسوم مسبقة',
+    ],
+    terminalNotes: [
+      {
+        terminal: 'King Khalid International Airport (RUH) Terminals 1 to 4',
+        terminalAr: 'مطار الملك خالد الدولي (RUH) الصالات من 1 إلى 4',
+        meetingPoint: 'Arrivals Concourse directly past customs exit gates',
+        meetingPointAr: 'ردهة صالة الوصول مباشرة أمام بوابات الخروج الجمركي',
+        pickupInstructions:
+          'Upon exiting customs, look for your chauffeur holding an electronic tablet displaying your full name or company logo.',
+        pickupInstructionsAr:
+          'فور خروجك من منطقة الجمارك، ستجد سائقك بانتظارك حاملاً لوحة رقمية باسمك الكريم أو شعار شركتك.',
+        landmarks: 'Curbside Executive Pickup Lane outside Arrivals Gate 2 & 3',
+        landmarksAr: 'مسار الاستقبال التنفيذي أمام بوابتي الوصول 2 و 3',
+      },
+    ],
+    milestones: [
+      {
+        title: 'Airport Meet & Greet at RUH',
+        titleAr: 'الاستقبال من صالة الوصول بمطار الملك خالد',
+        desc: 'Professional greeting, baggage assistance, and escort to your waiting private vehicle.',
+        descAr: 'استقبال راقٍ ومساعدة في حمل الحقائب ومرافقتك إلى السيارة الفاخرة المجهزة.',
+      },
+      {
+        title: 'Express Highway Transit to City Center',
+        titleAr: 'الانطلاق عبر طريق المطار السريع نحو قلب الرياض',
+        desc: 'Smooth highway drive connecting via King Salman Road to northern and central Riyadh business districts.',
+        descAr: 'رحلة سريعة عبر طريق الملك سلمان نحو مركز الملك عبدالله المالي ومناطق الأعمال الحيوية.',
+      },
+      {
+        title: 'Hotel Lobby / Office Drop-off',
+        titleAr: 'الوصول لباب الفندق أو مقر العمل',
+        desc: 'Direct curbside arrival at your hotel or residence with luggage assistance.',
+        descAr: 'الوصول مباشرة لمدخل الفندق أو المقر مع إنزال الحقائب بكل عناية.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'How far is Riyadh city center from King Khalid International Airport (RUH)?',
+        questionAr: 'كم تبعد مدينة الرياض ومناطقها الرئيسية عن مطار الملك خالد الدولي؟',
+        answer:
+          'RUH Airport is located about 35 to 45 km north of central Riyadh. The drive takes approximately 35 to 50 minutes depending on destination district and traffic flow.',
+        answerAr:
+          'يقع مطار الملك خالد على بعد 35 إلى 45 كم شمال الرياض، وتستغرق الرحلة حوالي 35 إلى 50 دقيقة بحسب الوجهة وحركة المرور في المدينة.',
+      },
+      {
+        question: 'Do you provide airport transfers from the Private Aviation Terminal in Riyadh?',
+        questionAr: 'هل توفرون خدمة التوصيل والاستقبال من صالة الطيران الخاص بالرياض؟',
+        answer:
+          'Yes. We regularly serve VIP and executive flights arriving at the Private Aviation Terminal at RUH with luxury GMC Yukon XL and Mercedes-level comfort.',
+        answerAr:
+          'نعم. نوفر خدمات الاستقبال لرحلات الطيران الخاص ورجال الأعمال بصالة الطيران الخاص بمطار الملك خالد بسيارات دفع رباعي فاخرة مثل يوكون XL VIP.',
+      },
+      {
+        question: 'Can we pay with a corporate card or receive an official receipt?',
+        questionAr: 'هل يمكن الدفع ببطاقة الشركة والحصول على إيصال رسمي معتمد؟',
+        answer:
+          'Yes. Chauffeurs are equipped with modern electronic POS terminals supporting Visa, Mastercard, and Mada. Official digital receipts are provided upon booking confirmation and payment.',
+        answerAr:
+          'نعم بالتأكيد. جميع السائقين مزودون بأجهزة نقاط بيع بنكية تقبل مدى وفيزا وماستركارد، ويتم إصدار إيصال إلكتروني رسمي وموثق لكافة الرحلات.',
+      },
+    ],
+    relatedRouteIds: ['riyadh-to-makkah', 'riyadh-to-madinah', 'jeddah-airport-to-makkah'],
+  },
+
+  'riyadh-to-makkah': {
+    id: 'riyadh-to-makkah',
+    titleEn: 'Riyadh to Makkah Long-Distance VIP Highway Chauffeur',
+    titleAr: 'خدمة نقل وسائق VIP لمسافات طويلة من الرياض إلى مكة المكرمة عبر طريق مكة السريع',
+    subtitleEn: 'Door-to-Door Private Chauffeur Across Route 40 for High-End Travelers, Diplomats & VIP Families',
+    subtitleAr: 'رحلة برية فاخرة وخاصة بالكامل من باب منزلك بالرياض إلى باب فندقك بمكة المكرمة عبر طريق 40',
+    distanceKm: 870,
+    durationMinutesMin: 480,
+    durationMinutesMax: 540,
+    highway: 'Route 40 / Riyadh-Taif-Makkah Expressway (Multi-Lane Grade-A National Highway)',
+    highwayAr: 'طريق الرياض - مكة المكرمة السريع (طريق 40) - طريق وطني دولي سريع متعدد المسارات',
+    lastUpdated: 'October 2026',
+    verifiedSource: 'Ministry of Transport and Logistic Services & Royal Umrah Chauffeur Safety Protocol',
+    verifiedSourceAr: 'وزارة النقل والخدمات اللوجستية ومعايير السلامة للرحلات الطويلة',
+    descriptionEn:
+      'For discerning travelers, diplomats, and VIP families seeking complete door-to-door privacy, avoid airport crowds, flight schedules, and train transfers with our long-distance intercity chauffeur service between Riyadh and Makkah. Travel in late-model GMC Yukon XL SUVs or Hyundai Staria VIP vans equipped with reclining captain chairs, dual climate control, tinted privacy glass, and curated prayer and rest stops along Route 40.',
+    descriptionAr:
+      'لكبار الشخصيات والدبلوماسيين والعائلات الباحثة عن الخصوصية التامة وتجنب عناء وتوقيتات المطارات ورحلات القطار، نقدم خدمة السائق الخاص لمسافات طويلة بين الرياض ومكة المكرمة. سافر في أحدث سيارات جي إم سي يوكون إكس إل أو هيونداي ستاريا VIP المزودة بمقاعد كابتن وثير قابلة للإمالة، تكييف متطور، وزجاج معتم للخصوصية، مع التوقف المريح للصلاة والوجبات في أفضل المحطات النموذجية على طريق 40.',
+    highlightsEn: [
+      'Direct doorstep pickup in Riyadh and hotel doorstep arrival in Makkah without luggage transfer',
+      'Luxury long-haul vehicles with premium reclining seating, USB ports, and acoustic insulation',
+      'Curated stops at top-rated SASCO Palm service stations for prayer, meals, and coffee',
+      'Dedicated stop at Miqat (Qarn al-Manazil / As-Sayl Al-Kabeer) for Umrah Ihram preparations',
+      'Strict Pay-the-Driver policy: settle the entire trip upon arrival in Makkah via cash or card',
+    ],
+    highlightsAr: [
+      'استقبال مباشر من باب منزلك أو قصرك بالرياض والتوصيل حتى باب فندقك بمكة دون نقل الأمتعة',
+      'سيارات فاخرة مجهزة للمسافات الطويلة بمقاعد مريحة وعزل صوتي ومنافذ شحن متعددة',
+      'توقفات مريحة في محطات ساسكو بالم النموذجية لأداء الصلوات وتناول الوجبات والقهوة',
+      'توقف مخصص في ميقات قرن المنازل (السيل الكبير) للاغتسال ولبس الإحرام لضيوف الرحمن',
+      'سياسة دفع آمنة 100%: السداد بالكامل للسائق عند الوصول إلى مكة نقداً أو بالبطاقة',
+    ],
+    terminalNotes: [
+      {
+        terminal: 'Riyadh Residences, Diplomatic Quarter & Luxury Hotels',
+        terminalAr: 'منازل وفنادق وقصور الرياض والحي الدبلوماسي',
+        meetingPoint: 'Private Residence Gate or Hotel Valet Entrance',
+        meetingPointAr: 'بوابة المنزل الخاصة أو مدخل الفندق الرئيسي بالرياض',
+        pickupInstructions:
+          'Your executive chauffeur arrives 20 minutes prior to scheduled departure, meticulously packs your luggage into the vehicle, and ensures full comfort before departure.',
+        pickupInstructionsAr:
+          'يصل السائق التنفيذي قبل الموعد بـ 20 دقيقة، ويتولى ترتيب الحقائب داخل السيارة بدقة والتأكد من جاهزية كافة سبل الراحة قبل بدء الرحلة.',
+        landmarks: 'Al Hada District, Diplomatic Quarter, Al Nakheel, Hittin, Olaya',
+        landmarksAr: 'حي الهدا، الحي الدبلوماسي، النخيل، حطين، والعليا بالرياض',
+      },
+    ],
+    milestones: [
+      {
+        title: 'Riyadh Departure via Route 40 West',
+        titleAr: 'الانطلاق من الرياض غرباً عبر طريق 40',
+        desc: 'Departing the capital through the Tuwaiq escarpment onto the high-speed desert expressway.',
+        descAr: 'الخروج من العاصمة عبر جبال طويق والانطلاق على الطريق السريع المعبد وفق أعلى المعايير.',
+      },
+      {
+        title: 'Midway Prayer & Refreshment Stop',
+        titleAr: 'استراحة منتصف الطريق للصلاة وتناول الطعام',
+        desc: 'Stopping at premium SASCO Palm rest stops (Al Quwayiyah / Halaban) for clean amenities.',
+        descAr: 'التوقف في محطات ساسكو بالم الحديثة (القويعية / حلبان) لمرافق نظيفة وطعام طازج وقهوة.',
+      },
+      {
+        title: 'Miqat Stop & Makkah Hotel Arrival',
+        titleAr: 'التوقف في الميقات والوصول لفندق مكة',
+        desc: 'Stop at Miqat Qarn al-Manazil for Ihram, followed by doorstep arrival at your Makkah hotel.',
+        descAr: 'التوقف في ميقات قرن المنازل للإحرام، ثم الوصول المباشر لباب فندقك بجوار الحرم المكي.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'How long does the private highway drive from Riyadh to Makkah take?',
+        questionAr: 'كم تستغرق الرحلة بالسيارة الخاصة والسائق من الرياض إلى مكة المكرمة؟',
+        answer:
+          'The 870 km highway drive typically takes 8 to 9 hours, including 2 to 3 comfortable stops for prayers, meals, and fuel.',
+        answerAr:
+          'تستغرق الرحلة البالغة 870 كم ما بين 8 إلى 9 ساعات تقريباً، ويتخللها 2 إلى 3 توقفات مريحة لأداء الصلوات وتناول الطعام والراحة.',
+      },
+      {
+        question: 'Can the driver stop at the Miqat before entering Makkah for Umrah?',
+        questionAr: 'هل يتوقف السائق في الميقات للإحرام قبل دخول مكة المكرمة؟',
+        answer:
+          'Yes, absolutely. The route passes directly near Miqat Qarn al-Manazil (As-Sayl Al-Kabeer). Your chauffeur stops there for 30 to 45 minutes so you can enter Ihram with complete ease.',
+        answerAr:
+          'نعم بالتأكيد. يمر المسار بميقات قرن المنازل (السيل الكبير)، ويتوقف السائق لمدة كافية تتيح لك الاغتسال وارتداء ملابس الإحرام وعقد النية بكل طمأنينة.',
+      },
+      {
+        question: 'Do we need to pay anything in advance for this long-distance journey?',
+        questionAr: 'هل يلزم دفع أي عربون أو مبلغ مسبق لهذه الرحلة الطويلة؟',
+        answer:
+          'No advance payment or credit card deposit is required. You pay the full fixed fare directly to your private chauffeur upon arriving at your destination in Makkah.',
+        answerAr:
+          'لا يتطلب الحجز أي عربون أو دفع مسبق. يتم سداد المبلغ الثابت المتفق عليه بالكامل مباشرة لسائقك الخاص عند الوصول بسلامة الله إلى وجهتك في مكة.',
+      },
+    ],
+    relatedRouteIds: ['riyadh-to-madinah', 'riyadh-airport-transfer', 'makkah-to-taif'],
+  },
+
+  'riyadh-to-madinah': {
+    id: 'riyadh-to-madinah',
+    titleEn: 'Riyadh to Madinah Long-Distance VIP Highway Chauffeur',
+    titleAr: 'خدمة نقل وسائق VIP لمسافات طويلة من الرياض إلى المدينة المنورة عبر طريق القصيم - المدينة',
+    subtitleEn: 'Comfortable VIP Highway Travel Across Central Arabia Directly to the Prophet’s Mosque',
+    subtitleAr: 'رحلة برية فاخرة عبر وسط المملكة من الرياض مباشرة إلى جوار المسجد النبوي الشريف',
+    distanceKm: 840,
+    durationMinutesMin: 480,
+    durationMinutesMax: 540,
+    highway: 'Route 65 (Riyadh-Qassim) & Route 60 (Qassim-Madinah Expressway)',
+    highwayAr: 'طريق الرياض - القصيم السريع (طريق 65) وطريق القصيم - المدينة المنورة (طريق 60)',
+    lastUpdated: 'October 2026',
+    verifiedSource: 'Ministry of Transport and Logistic Services & Royal Chauffeur Safety Guidelines',
+    verifiedSourceAr: 'وزارة النقل والخدمات اللوجستية وإرشادات السلامة للمسافات الطويلة',
+    descriptionEn:
+      'Experience unmatched tranquility traveling from Riyadh directly to Al-Madinah Al-Munawwarah in the luxury of your own private VIP vehicle. Avoid airport delays and rigid public schedules with a dedicated chauffeur at your service throughout the 840-kilometer modern highway journey across the Qassim region, arriving directly at your hotel doorstep in Madinah’s Central Markaziah.',
+    descriptionAr:
+      'عش تجربة سفر استثنائية تسودها السكينة والراحة من الرياض مباشرة إلى المدينة المنورة في سيارتك الخاصة الفارهة. تجنب انتظار الرحلات الجوية وجداول النقل الصارمة مع سائق خاص مكرس لخدمتك طوال مسار الرحلة الحديث عبر منطقة القصيم (840 كم)، لتصل بسلامة الله مباشرة إلى باب فندقك في المنطقة المركزية بجوار المسجد النبوي.',
+    highlightsEn: [
+      'Private long-haul executive transfer connecting Riyadh directly to Madinah hotel lobbies',
+      'Smooth cruise along grade-A expressways (Route 65 and Route 60) with zero transfers',
+      'Comfortable stops at modern rest stations (SASCO) for prayer, coffee, and dining',
+      'Spacious luggage capacity for all family bags, mobility aids, and purchases',
+      'Zero advance deposit — pay in full upon arriving at your Madinah hotel via cash or card',
+    ],
+    highlightsAr: [
+      'نقل تنفيذي خاص لمسافات طويلة يربط الرياض مباشرة بردهات فنادق المدينة المنورة',
+      'سير مريح وسلس عبر الطرق السريعة الحديثة (طريق 65 وطريق 60) دون أي تبديل للسيارات',
+      'استراحات مريحة في محطات الخدمة الحديثة (ساسكو) للصلاة وتناول الطعام والقهوة',
+      'مساحة تخزين رحبة تتسع لكافة حقائب العائلة والأجهزة المساعدة والمشتريات',
+      'بدون أي دفع مسبق — السداد بالكامل عند الوصول لفندقك بالمدينة نقداً أو بالبطاقة',
+    ],
+    terminalNotes: [
+      {
+        terminal: 'Riyadh Pickups (All Neighborhoods)',
+        terminalAr: 'كافة أحياء وفنادق ومنازل مدينة الرياض',
+        meetingPoint: 'Customer Residence Gate or Hotel Main Entrance',
+        meetingPointAr: 'بوابة المنزل أو المدخل الرئيسي للفندق بالرياض',
+        pickupInstructions:
+          'Your chauffeur arrives at the specified pickup time, assists with loading all luggage, and ensures vehicle temperature and seating are optimal before departure.',
+        pickupInstructionsAr:
+          'يصل سائقك في الموعد المحدد، ويساعد في تحميل الحقائب وضبط درجة حرارة التكييف والمقاعد لضمان أقصى درجات الراحة طوال الطريق.',
+        landmarks: 'Northern Riyadh, KAFD, Olaya, Al Malqa, Al Yasmin',
+        landmarksAr: 'شمال الرياض، مركز الملك عبدالله المالي، العليا، الملقا، والياسمين',
+      },
+    ],
+    milestones: [
+      {
+        title: 'Riyadh Departure via Route 65 North',
+        titleAr: 'الانطلاق من الرياض شمالاً عبر طريق 65',
+        desc: 'Smooth highway cruise towards Al-Majmaah and the Qassim region.',
+        descAr: 'رحلة سريعة وسلسة عبر طريق القصيم السريع مروراً بالمجمعة.',
+      },
+      {
+        title: 'Transition to Route 60 towards Madinah',
+        titleAr: 'الانتقال إلى طريق 60 السريع نحو المدينة المنورة',
+        desc: 'Scenic open desert and volcanic plains leading westward towards the Prophet’s City.',
+        descAr: 'سير مريح عبر طريق القصيم - المدينة السريع عبر هضاب نجد وصولاً لمشارف الحجاز.',
+      },
+      {
+        title: 'Arrival in Madinah Al-Munawwarah',
+        titleAr: 'الوصول إلى رحاب المدينة المنورة',
+        desc: 'Direct hotel drop-off in the Central Markaziah surrounding the Prophet’s Mosque.',
+        descAr: 'الوصول لباب فندقك في المنطقة المركزية بالقرب من المسجد النبوي الشريف.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'How long does the private drive from Riyadh to Madinah take?',
+        questionAr: 'كم تستغرق الرحلة بالسيارة الخاصة من الرياض إلى المدينة المنورة؟',
+        answer:
+          'The 840 km highway drive takes approximately 8 to 9 hours, including convenient prayer and meal breaks at modern service stations along the way.',
+        answerAr:
+          'تستغرق الرحلة البالغة 840 كم نحو 8 إلى 9 ساعات بالسيارة الخاصة، ويتخللها توقفات مريحة للصلوات والوجبات في محطات الخدمة الحديثة.',
+      },
+      {
+        question: 'What vehicle is recommended for the Riyadh to Madinah journey?',
+        questionAr: 'ما هي السيارة الموصى بها لرحلة الرياض إلى المدينة المنورة؟',
+        answer:
+          'For maximum comfort over long distances, we strongly recommend the GMC Yukon XL (luxury SUV) or Hyundai Staria VIP (luxury van with captain chairs). Both offer superior legroom, whisper-quiet cabin acoustics, and generous luggage capacity.',
+        answerAr:
+          'لضمان أقصى درجات الراحة في المسافات الطويلة، نوصي بشدة بسيارة جي إم سي يوكون إكس إل (SUV فاخر) أو هيونداي ستاريا VIP (فان فاخر بمقاعد كابتن)، حيث توفران مساحة رحبة للأرجل وعزلاً صوتياً ممتازاً ومساحة واسعة للحقائب.',
+      },
+      {
+        question: 'Can the driver take us directly to our hotel near the Prophet’s Mosque?',
+        questionAr: 'هل يوصلنا السائق مباشرة إلى باب فندقنا بالمنطقة المركزية بالمدينة؟',
+        answer:
+          'Yes. Our chauffeurs take you directly to your hotel entrance in the Northern or Southern Markaziah, assist with all your luggage, and ensure a seamless check-in experience.',
+        answerAr:
+          'نعم بالتأكيد. يتولى السائق توصيلكم مباشرة لمدخل فندقكم في المركزية الشمالية أو الجنوبية بجوار المسجد النبوي مع مساعدة كاملة في إنزال الحقائب.',
+      },
+    ],
+    relatedRouteIds: ['riyadh-to-makkah', 'riyadh-airport-transfer', 'makkah-to-madinah'],
+  },
 };

@@ -11,6 +11,7 @@ export interface SiteSettings {
   telegram_chat_id?: string;
   lead_alert_minutes: number;
   riyadh_enabled: boolean;
+  taif_enabled: boolean;
   address_cities: string[];
   google_reviews_link: string;
   google_reviews_rating: number;
@@ -42,7 +43,8 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   telegram_chat_id: '',
   lead_alert_minutes: 15,
   riyadh_enabled: false,
-  address_cities: ['Makkah', 'Madinah', 'Jeddah', 'Riyadh'],
+  taif_enabled: false,
+  address_cities: ['Makkah', 'Madinah', 'Jeddah', 'Taif', 'Riyadh'],
   google_reviews_link: '', // default empty; hides review block when empty
   google_reviews_rating: 0,
   google_reviews_count: 0,
@@ -107,6 +109,7 @@ const fetchSettingsCached = unstable_cache(
         telegram_chat_id: data.telegram_chat_id,
         lead_alert_minutes: Number(data.lead_alert_minutes) || undefined,
         riyadh_enabled: Boolean(data.riyadh_enabled),
+        taif_enabled: Boolean(data.taif_enabled),
         address_cities: data.address_cities,
         google_reviews_link: data.google_reviews_link,
         google_reviews_rating: Number(data.google_reviews_rating) || undefined,

@@ -34,11 +34,18 @@ interface BookingCardProps {
   locale: Locale;
   dict: Dictionary;
   initialRates?: Record<string, Record<string, number>>;
+  settings?: {
+    riyadh_enabled?: boolean;
+    taif_enabled?: boolean;
+  };
 }
 
 const BASE_RATES: Record<string, Record<string, number>> = AUTHORITATIVE_TRANSFER_RATES;
 
-const ROUTE_LABELS: Record<string, Partial<Record<Locale, string>>> = {
+const TAIF_ROUTE_KEYS = new Set(['makkah-to-taif', 'taif-to-makkah', 'jeddah-to-taif']);
+const RIYADH_ROUTE_KEYS = new Set(['riyadh-airport-transfer', 'riyadh-to-makkah', 'riyadh-to-madinah']);
+
+const ROUTE_LABELS: Record<string, Record<Locale, string>> = {
   'jeddah-airport-to-makkah': {
     en: 'Jeddah Airport (KAIA) → Makkah Hotel',
     ar: 'مطار جدة (KAIA) ← فندق مكة المكرمة',
@@ -46,6 +53,10 @@ const ROUTE_LABELS: Record<string, Partial<Record<Locale, string>>> = {
     tr: 'Cidde Havalimanı (KAIA) → Mekke Oteli',
     id: 'Bandara Jeddah (KAIA) → Hotel Makkah',
     ur: 'جدہ ایئرپورٹ (KAIA) ← مکہ ہوٹل',
+    fr: 'Aéroport de Djeddah (KAIA) → Hôtel La Mecque',
+    es: 'Aeropuerto de Yeda (KAIA) → Hotel La Meca',
+    de: 'Flughafen Dschidda (KAIA) → Hotel Mekka',
+    hi: 'जेद्दा हवाई अड्डा (KAIA) → मक्का होटल',
   },
   'makkah-to-jeddah-airport': {
     en: 'Makkah Hotel → Jeddah Airport (KAIA)',
@@ -54,6 +65,10 @@ const ROUTE_LABELS: Record<string, Partial<Record<Locale, string>>> = {
     tr: 'Mekke Oteli → Cidde Havalimanı (KAIA)',
     id: 'Hotel Makkah → Bandara Jeddah (KAIA)',
     ur: 'مکہ ہوٹل ← جدہ ایئرپورٹ (KAIA)',
+    fr: 'Hôtel La Mecque → Aéroport de Djeddah (KAIA)',
+    es: 'Hotel La Meca → Aeropuerto de Yeda (KAIA)',
+    de: 'Hotel Mekka → Flughafen Dschidda (KAIA)',
+    hi: 'मक्का होटल → जेद्दा हवाई अड्डा (KAIA)',
   },
   'makkah-to-madinah': {
     en: 'Makkah Hotel → Madinah Al-Munawwarah',
@@ -62,6 +77,10 @@ const ROUTE_LABELS: Record<string, Partial<Record<Locale, string>>> = {
     tr: 'Mekke Oteli → Medine-i Münevvere',
     id: 'Hotel Makkah → Madinah Al-Munawwarah',
     ur: 'مکہ ہوٹل ← مدینہ منورہ',
+    fr: 'Hôtel La Mecque → Médine Al-Munawwarah',
+    es: 'Hotel La Meca → Medina Al-Munawwarah',
+    de: 'Hotel Mekka → Medina Al-Munawwarah',
+    hi: 'मक्का होटल → मदीना अल-मुनव्वरह',
   },
   'madinah-to-makkah': {
     en: 'Madinah Hotel → Makkah (Via Miqat Bir Ali)',
@@ -70,6 +89,10 @@ const ROUTE_LABELS: Record<string, Partial<Record<Locale, string>>> = {
     tr: 'Medine Oteli → Mekke (Zülhuleyfe Mikat Noktası)',
     id: 'Hotel Madinah → Makkah (Via Miqat Bir Ali)',
     ur: 'مدینہ ہوٹل ← مکہ مکرمہ (براستہ میقات بئر علی)',
+    fr: 'Hôtel Médine → La Mecque (Via Miqat Bir Ali)',
+    es: 'Hotel Medina → La Meca (Vía Miqat Bir Ali)',
+    de: 'Hotel Medina → Mekka (Über Miqat Bir Ali)',
+    hi: 'मदीना होटल → मक्का (मीक़ात बीर अली होकर)',
   },
   'madinah-airport-to-hotel': {
     en: 'Madinah Airport (MED) → Madinah Hotel',
@@ -78,6 +101,10 @@ const ROUTE_LABELS: Record<string, Partial<Record<Locale, string>>> = {
     tr: 'Medine Havalimanı (MED) → Medine Oteli',
     id: 'Bandara Madinah (MED) → Hotel Madinah',
     ur: 'مدینہ ایئرپورٹ (MED) ← مدینہ ہوٹل',
+    fr: 'Aéroport de Médine (MED) → Hôtel Médine',
+    es: 'Aeropuerto de Medina (MED) → Hotel Medina',
+    de: 'Flughafen Medina (MED) → Hotel Medina',
+    hi: 'मदीना हवाई अड्डा (MED) → मदीना होटल',
   },
   'jeddah-to-madinah': {
     en: 'Jeddah City / Airport → Madinah Hotel',
@@ -86,6 +113,82 @@ const ROUTE_LABELS: Record<string, Partial<Record<Locale, string>>> = {
     tr: 'Cidde Şehir / Havalimanı → Medine Oteli',
     id: 'Kota / Bandara Jeddah → Hotel Madinah',
     ur: 'جدہ شہر / ایئرپورٹ ← مدینہ ہوٹل',
+    fr: 'Djeddah Ville / Aéroport → Hôtel Médine',
+    es: 'Yeda Ciudad / Aeropuerto → Hotel Medina',
+    de: 'Dschidda Stadt / Flughafen → Hotel Medina',
+    hi: 'जेद्दा शहर / हवाई अड्डा → मदीना होटल',
+  },
+  'makkah-to-taif': {
+    en: 'Makkah Hotel → Taif (Al Hada / City)',
+    ar: 'فندق مكة المكرمة ← الطائف (الهدا / المدينة)',
+    ms: 'Hotel Makkah → Taif (Al Hada / Bandar)',
+    tr: 'Mekke Oteli → Taif (Al Hada / Şehir)',
+    id: 'Hotel Makkah → Taif (Al Hada / Kota)',
+    ur: 'مکہ ہوٹل ← طائف (الھدا / شہر)',
+    fr: 'Hôtel La Mecque → Taïf (Al Hada / Ville)',
+    es: 'Hotel La Meca → Taif (Al Hada / Ciudad)',
+    de: 'Hotel Mekka → Taif (Al Hada / Stadt)',
+    hi: 'मक्का होटल → ताइफ़ (अल हदा / शहर)',
+  },
+  'taif-to-makkah': {
+    en: 'Taif → Makkah Hotel (Via Miqat Qarn al-Manazil)',
+    ar: 'الطائف ← فندق مكة المكرمة (عبر ميقات قرن المنازل)',
+    ms: 'Taif → Hotel Makkah (Singgah Miqat Qarnul Manazil)',
+    tr: 'Taif → Mekke Oteli (Karnülmenazil Mikat Noktası)',
+    id: 'Taif → Hotel Makkah (Via Miqat Qarnul Manazil)',
+    ur: 'طائف ← مکہ ہوٹل (براستہ میقات قرن المنازل)',
+    fr: 'Taïf → Hôtel La Mecque (Via Miqat Qarn al-Manazil)',
+    es: 'Taif → Hotel La Meca (Vía Miqat Qarn al-Manazil)',
+    de: 'Taif → Hotel Mekka (Über Miqat Qarn al-Manazil)',
+    hi: 'ताइफ़ → मक्का होटल (मीक़ात क़र्न अल-मनाज़िल होकर)',
+  },
+  'jeddah-to-taif': {
+    en: 'Jeddah Airport (KAIA) → Taif (Al Hada)',
+    ar: 'مطار جدة (KAIA) ← الطائف (الهدا)',
+    ms: 'Lapangan Terbang Jeddah (KAIA) → Taif (Al Hada)',
+    tr: 'Cidde Havalimanı (KAIA) → Taif (Al Hada)',
+    id: 'Bandara Jeddah (KAIA) → Taif (Al Hada)',
+    ur: 'جدہ ایئرپورٹ (KAIA) ← طائف (الھدا)',
+    fr: 'Aéroport de Djeddah (KAIA) → Taïf (Al Hada)',
+    es: 'Aeropuerto de Yeda (KAIA) → Taif (Al Hada)',
+    de: 'Flughafen Dschidda (KAIA) → Taif (Al Hada)',
+    hi: 'जेद्दा हवाई अड्डा (KAIA) → ताइफ़ (अल हदा)',
+  },
+  'riyadh-airport-transfer': {
+    en: 'Riyadh Airport (RUH) ⇄ Riyadh Hotels',
+    ar: 'مطار الرياض (RUH) ⇄ فنادق الرياض',
+    ms: 'Lapangan Terbang Riyadh (RUH) ⇄ Hotel Riyadh',
+    tr: 'Riyad Havalimanı (RUH) ⇄ Riyad Otelleri',
+    id: 'Bandara Riyadh (RUH) ⇄ Hotel Riyadh',
+    ur: 'ریاض ایئرپورٹ (RUH) ⇄ ریاض ہوٹلز',
+    fr: 'Aéroport de Riyad (RUH) ⇄ Hôtels de Riyad',
+    es: 'Aeropuerto de Riad (RUH) ⇄ Hoteles de Riad',
+    de: 'Flughafen Riad (RUH) ⇄ Hotels in Riad',
+    hi: 'रियाद हवाई अड्डा (RUH) ⇄ रियाद होटल',
+  },
+  'riyadh-to-makkah': {
+    en: 'Riyadh ⇄ Makkah Hotel (VIP Highway)',
+    ar: 'الرياض ⇄ مكة المكرمة (طريق سريع VIP)',
+    ms: 'Riyadh ⇄ Hotel Makkah (Lebuhraya VIP)',
+    tr: 'Riyad ⇄ Mekke Oteli (VIP Otoyol)',
+    id: 'Riyadh ⇄ Hotel Makkah (Jalan Tol VIP)',
+    ur: 'ریاض ⇄ مکہ مکرمہ (ہائی وے وی آئی پی)',
+    fr: 'Riyad ⇄ Hôtel La Mecque (Autoroute VIP)',
+    es: 'Riad ⇄ Hotel La Meca (Autopista VIP)',
+    de: 'Riad ⇄ Hotel Mekka (VIP-Fernstraße)',
+    hi: 'रियाद ⇄ मक्का होटल (वीआईपी हाईवे)',
+  },
+  'riyadh-to-madinah': {
+    en: 'Riyadh ⇄ Madinah Hotel (VIP Highway)',
+    ar: 'الرياض ⇄ المدينة المنورة (طريق سريع VIP)',
+    ms: 'Riyadh ⇄ Hotel Madinah (Lebuhraya VIP)',
+    tr: 'Riyad ⇄ Medine Oteli (VIP Otoyol)',
+    id: 'Riyadh ⇄ Hotel Madinah (Jalan Tol VIP)',
+    ur: 'ریاض ⇄ مدینہ منورہ (ہائی وے وی آئی پی)',
+    fr: 'Riyad ⇄ Hôtel Médine (Autoroute VIP)',
+    es: 'Riad ⇄ Hotel Medina (Autopista VIP)',
+    de: 'Riad ⇄ Hotel Medina (VIP-Fernstraße)',
+    hi: 'रियाद ⇄ मदीना होटल (वीआईपी हाईवे)',
   },
 };
 
@@ -147,7 +250,7 @@ const FLEET_OPTIONS: FleetOption[] = [
   },
 ];
 
-export function BookingCard({ locale, dict, initialRates }: BookingCardProps) {
+export function BookingCard({ locale, dict, initialRates, settings }: BookingCardProps) {
   const router = useRouter();
   const { currency, setCurrency, formatPrice } = useCurrency();
 
@@ -181,6 +284,12 @@ export function BookingCard({ locale, dict, initialRates }: BookingCardProps) {
   const baseSAR = activeRates[route]?.[vehicle] ?? BASE_RATES[route]?.[vehicle] ?? 260;
 
   const isAirportRoute = route.includes('airport');
+
+  const availableRouteKeys = Object.keys(ROUTE_LABELS).filter((key) => {
+    if (TAIF_ROUTE_KEYS.has(key) && !settings?.taif_enabled) return false;
+    if (RIYADH_ROUTE_KEYS.has(key) && !settings?.riyadh_enabled) return false;
+    return true;
+  });
 
   // STEP 1 VALIDATION & PROCEED
   const handleProceedToVehicles = (e: React.FormEvent) => {

@@ -1,6 +1,7 @@
 import { createServiceClient } from '@/lib/supabase/service';
 import { CURRENCIES, CurrencyCode } from '@/i18n/config';
 import { getDynamicPriceForRouteVehicle } from './dynamic-pricing-store';
+import { getMergedSiteSettings } from './dynamic-settings-store';
 import {
   AUTHORITATIVE_HOURLY_RATES_4H,
   AUTHORITATIVE_ZIYARAT_RATES,
@@ -22,6 +23,18 @@ const STANDARD_ROUTES: Record<string, boolean> = {
   'madinah-to-makkah': true,
   'madinah-airport-to-hotel': true,
   'jeddah-to-madinah': true,
+};
+
+export const TAIF_ROUTES: Record<string, boolean> = {
+  'makkah-to-taif': true,
+  'taif-to-makkah': true,
+  'jeddah-to-taif': true,
+};
+
+export const RIYADH_ROUTES: Record<string, boolean> = {
+  'riyadh-airport-transfer': true,
+  'riyadh-to-makkah': true,
+  'riyadh-to-madinah': true,
 };
 
 export interface PriceCalculationResult {
@@ -120,6 +133,18 @@ export async function calculateServerPrice(params: {
     if (routeData) {
       isRouteActive = true;
     } else if (STANDARD_ROUTES[routeId]) {
+      isRouteActive = true;
+    } else if (TAIF_ROUTES[routeId]) {
+      const settings = getMergedSiteSettings(null);
+      if (!settings.taif_enabled) {
+        throw new Error(`Taif transportation routes are currently disabled. Please contact operations via WhatsApp for custom booking assistance.`);
+      }
+      isRouteActive = true;
+    } else if (RIYADH_ROUTES[routeId]) {
+      const settings = getMergedSiteSettings(null);
+      if (!settings.riyadh_enabled) {
+        throw new Error(`Riyadh transportation routes are currently disabled. Please contact operations via WhatsApp for custom booking assistance.`);
+      }
       isRouteActive = true;
     }
 

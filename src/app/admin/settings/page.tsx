@@ -490,6 +490,23 @@ export default function AdminSettingsPage() {
                 <div className="w-10 h-5 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D9A031]"></div>
               </label>
             </div>
+
+            {/* Taif Chauffeur Area */}
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#262B33]">
+              <div className="pr-3">
+                <span className="font-semibold text-xs text-[#FAF9F6] block">Taif Hub &amp; Routes</span>
+                <span className="text-[10px] text-[#6C7584]">Taif mountain &amp; intercity routes</span>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={Boolean(settings.taif_enabled)}
+                  onChange={(e) => setSettings({ ...settings, taif_enabled: e.target.checked })}
+                  className="sr-only peer"
+                />
+                <div className="w-10 h-5 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D9A031]"></div>
+              </label>
+            </div>
           </div>
         </div>
 

@@ -51,6 +51,48 @@ export const AUTHORITATIVE_TRANSFER_RATES: Record<string, Record<string, number>
     hiace: 850,
     coaster: 1600,
   },
+  'makkah-to-taif': {
+    camry: 350,
+    staria: 450,
+    yukon: 600,
+    hiace: 550,
+    coaster: 950,
+  },
+  'taif-to-makkah': {
+    camry: 350,
+    staria: 450,
+    yukon: 600,
+    hiace: 550,
+    coaster: 950,
+  },
+  'jeddah-to-taif': {
+    camry: 550,
+    staria: 650,
+    yukon: 850,
+    hiace: 800,
+    coaster: 1400,
+  },
+  'riyadh-airport-transfer': {
+    camry: 200,
+    staria: 280,
+    yukon: 450,
+    hiace: 400,
+    coaster: 750,
+  },
+  'riyadh-to-makkah': {
+    camry: 2200,
+    staria: 2600,
+    yukon: 3500,
+    hiace: 3200,
+    coaster: 5500,
+  },
+  'riyadh-to-madinah': {
+    camry: 2200,
+    staria: 2600,
+    yukon: 3500,
+    hiace: 3200,
+    coaster: 5500,
+  },
 };
 
 export const AUTHORITATIVE_HOURLY_RATES_4H: Record<string, number> = {

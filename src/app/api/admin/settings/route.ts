@@ -49,6 +49,7 @@ const SettingsUpdateSchema = z.object({
   whatsapp_number: z.string().regex(/^\+?[0-9]{8,15}$/, 'Must be 8-15 digits').optional(),
   whatsapp_number_secondary: z.string().regex(/^\+?[0-9]{8,15}$/, 'Must be 8-15 digits').optional(),
   riyadh_enabled: z.boolean().optional(),
+  taif_enabled: z.boolean().optional(),
   address_cities: z.array(z.string().max(50)).optional(),
   google_reviews_link: z.string().url().max(255).optional().or(z.literal('')),
   google_reviews_rating: z.number().min(0).max(5).optional(),
@@ -108,6 +109,7 @@ export async function POST(request: Request) {
     if (validated.whatsapp_number !== undefined) updates.whatsapp_number = validated.whatsapp_number.replace(/[^0-9]/g, '');
     if (validated.whatsapp_number_secondary !== undefined) updates.whatsapp_number_secondary = validated.whatsapp_number_secondary.replace(/[^0-9]/g, '');
     if (validated.riyadh_enabled !== undefined) updates.riyadh_enabled = validated.riyadh_enabled;
+    if (validated.taif_enabled !== undefined) updates.taif_enabled = validated.taif_enabled;
     if (validated.address_cities !== undefined) updates.address_cities = validated.address_cities;
     if (validated.google_reviews_link !== undefined) updates.google_reviews_link = validated.google_reviews_link;
     if (validated.google_reviews_rating !== undefined) updates.google_reviews_rating = validated.google_reviews_rating;
