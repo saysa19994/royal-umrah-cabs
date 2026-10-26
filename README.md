@@ -1,8 +1,8 @@
 # Duyuf Alrahman VIP | ضيوف الرحمن VIP
 ## Executive VIP Chauffeur Transport Portal & Operations System
-### المملكة العربية السعودية (Jeddah • Makkah • Madinah)
+### المملكة العربية السعودية (Jeddah • Makkah • Madinah • Taif • Riyadh)
 
-منظومة متكاملة لخدمات النقل الفاخر والضيافة التنفيذية لضيوف الرحمن، مبنية بأحدث معايير الأمان والحماية السحابية باستخدام Next.js 14، TypeScript، Tailwind CSS، Supabase Auth & PostgreSQL، ونشر مباشر على Vercel.
+منظومة متكاملة لخدمات النقل الفاخر والضيافة التنفيذية لضيوف الرحمن، مبنية بأحدث معايير الأمان والحماية السحابية باستخدام Next.js 15، TypeScript، Tailwind CSS، Supabase Auth & PostgreSQL، ونشر مباشر على Vercel.
 
 ---
 
@@ -53,6 +53,7 @@
 - التحويل البنكي السعودي (`bank_transfer_payment_enabled`)
 - أسطول باصات كوستر (`coaster_enabled`)
 - تفعيل خدمات منطقة الرياض (`riyadh_enabled`)
+- تفعيل خدمات منطقة الطائف (`taif_enabled`)
 - شريط الإعلانات الذهبي العلوي (`promo_banner_enabled` & `promo_banner_text`)
 - وقت الانتظار المجاني في المطار (محدد بـ 60 دقيقة في الإعدادات)
 - أرقام الواتساب الأساسية والفرعية
@@ -134,7 +135,7 @@ RESEND_FROM="Duyuf Alrahman VIP Security <security@duyufalrahmanvip.com>"
 # 1. تثبيت الحزم / Install dependencies
 npm install
 
-# 2. فحص تطابق قواميس اللغات التسع / Strict i18n dictionary verification
+# 2. فحص تطابق قواميس اللغات العشر (10 اللغات) / Strict i18n 10-language dictionary verification
 npm run check-i18n
 
 # 3. فحص الأنماط والأنواع / TypeScript Type Checking
