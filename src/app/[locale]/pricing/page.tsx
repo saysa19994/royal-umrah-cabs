@@ -4,6 +4,7 @@ import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { PricingTable } from '@/components/pricing/PricingTable';
 import { getDbPricesCached } from '@/lib/pricing-db';
+import { getMergedSiteSettings } from '@/lib/dynamic-settings-store';
 
 interface PricingPageProps {
   params: Promise<{
@@ -35,6 +36,7 @@ export default async function PricingPage(props: PricingPageProps) {
 
   const dict = getDictionary(locale);
   const initialRates = await getDbPricesCached();
+  const settings = getMergedSiteSettings();
 
   return (
     <div className="py-16 md:py-24 bg-bg min-h-screen">
@@ -53,7 +55,13 @@ export default async function PricingPage(props: PricingPageProps) {
         </div>
 
         {/* Interactive Pricing Matrix */}
-        <PricingTable locale={locale} dict={dict} initialRates={initialRates} />
+        <PricingTable
+          locale={locale}
+          dict={dict}
+          initialRates={initialRates}
+          taifEnabled={settings.taif_enabled !== false}
+          riyadhEnabled={settings.riyadh_enabled !== false}
+        />
       </div>
     </div>
   );

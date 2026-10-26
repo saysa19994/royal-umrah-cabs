@@ -23,10 +23,31 @@ export const getDbPricesCached = unstable_cache(
 
       if (!error && data && data.length > 0) {
         for (const row of data) {
-          if (!rates[row.route_id]) {
-            rates[row.route_id] = {};
+          const price = Number(row.price_sar);
+          if (!isNaN(price) && price > 0) {
+            if (!rates[row.route_id]) {
+              rates[row.route_id] = {};
+            }
+            rates[row.route_id][row.vehicle_id] = price;
           }
-          rates[row.route_id][row.vehicle_id] = Number(row.price_sar);
+        }
+
+        // Sanity parity check: guard against inverted tiers in database
+        for (const [routeId, r] of Object.entries(rates)) {
+          const auth = AUTHORITATIVE_TRANSFER_RATES[routeId];
+          if (!auth) continue;
+
+          // If Staria is cheaper than Camry or Yukon is cheaper than Staria
+          if (r.camry && r.staria && r.staria < r.camry) {
+            console.warn(`[pricing-db] Inverted Camry (${r.camry}) vs Staria (${r.staria}) on '${routeId}'. Reverting to authoritative rates.`);
+            r.camry = auth.camry;
+            r.staria = auth.staria;
+          }
+          if (r.staria && r.yukon && r.yukon < r.staria) {
+            console.warn(`[pricing-db] Inverted Staria (${r.staria}) vs Yukon (${r.yukon}) on '${routeId}'. Reverting to authoritative rates.`);
+            r.staria = auth.staria;
+            r.yukon = auth.yukon;
+          }
         }
       }
     } catch (err) {
