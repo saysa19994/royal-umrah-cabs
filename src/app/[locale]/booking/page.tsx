@@ -29,61 +29,61 @@ const PAGE_TEXT: Record<Locale, { badge: string; title: string; subtitle: string
     badge: 'Direct VIP Chauffeur Reservation',
     title: 'Reserve Your Private Chauffeur',
     subtitle:
-      'Guaranteed fixed fares. Pay directly to your driver upon arrival in cash (SAR) or card — zero advance payment or deposit required.',
+      'Guaranteed fixed fares. Pay directly to your driver upon arrival in cash (SAR or USD) — zero advance payment or deposit required.',
   },
   ar: {
     badge: 'حجز مباشر لسائق VIP خاص',
     title: 'احجز رحلتك الخاصة وسائقك الشخصي',
     subtitle:
-      'أسعار ثابتة ومحددة بدقة. الدفع مباشرة للسائق عند الوصول نقداً (بالريال السعودي) أو بالبطاقة — لا يلزم أي دفع مسبق أو عربون.',
+      'أسعار ثابتة ومحددة بدقة. الدفع نقداً مباشرة للسائق عند الوصول (بالريال السعودي أو الدولار الأمريكي) — لا يلزم أي دفع مسبق أو عربون.',
   },
   fr: {
     badge: 'Réservation Directe de Chauffeur VIP',
     title: 'Réservez Votre Chauffeur Privé',
     subtitle:
-      "Tarifs fixes garantis. Paiement direct au chauffeur à l'arrivée en espèces (SAR) ou par carte — aucun paiement d'avance ni caution requis.",
+      "Tarifs fixes garantis. Paiement direct au chauffeur à l'arrivée en espèces (SAR ou USD) — aucun paiement d'avance ni caution requis.",
   },
   es: {
     badge: 'Reserva Directa de Chofer VIP',
     title: 'Reserve Su Chofer Privado',
     subtitle:
-      'Tarifas fijas garantizadas. Pago directo al chofer a la llegada en efectivo (SAR) o tarjeta — sin pagos por adelantado ni depósitos.',
+      'Tarifas fijas garantizadas. Pago directo al chofer a la llegada en efectivo (SAR o USD) — sin pagos por adelantado ni depósitos.',
   },
   id: {
     badge: 'Pemesanan Langsung Sopir VIP',
     title: 'Pesan Sopir Privat Anda',
     subtitle:
-      'Tarif pasti transparan. Bayar langsung ke sopir saat tiba secara tunai (SAR) atau kartu — tanpa uang muka atau deposit sama sekali.',
+      'Tarif pasti transparan. Bayar tunai langsung ke sopir saat tiba (SAR atau USD) — tanpa uang muka atau deposit sama sekali.',
   },
   hi: {
     badge: 'सीधा वीआईपी चौफर आरक्षण',
     title: 'अपना निजी चौफर बुक करें',
     subtitle:
-      'निश्चित गारंटीकृत किराया। पहुंचने पर सीधे ड्राइवर को नकद (SAR) या कार्ड से भुगतान करें — कोई अग्रिम भुगतान या जमा राशि आवश्यक नहीं है।',
+      'निश्चित गारंटीकृत किराया। पहुंचने पर सीधे ड्राइवर को नकद (SAR या USD) भुगतान करें — कोई अग्रिम भुगतान या जमा राशि आवश्यक नहीं है।',
   },
   de: {
     badge: 'Direkte VIP-Chauffeur-Reservierung',
     title: 'Reservieren Sie Ihren Privatchauffeur',
     subtitle:
-      'Garantierte Festpreise. Zahlung direkt beim Fahrer bei Ankunft in bar (SAR) oder mit Karte — keinerlei Vorauszahlung oder Kaution erforderlich.',
+      'Garantierte Festpreise. Zahlung direkt beim Fahrer bei Ankunft in bar (SAR oder USD) — keinerlei Vorauszahlung oder Kaution erforderlich.',
   },
   ur: {
     badge: 'براہ راست وی آئی پی ڈرائیور بکنگ',
     title: 'اپنا پرائیویٹ ڈرائیور بک کریں',
     subtitle:
-      'طے شدہ اور شفاف کرائے۔ آمد پر ڈرائیور کو نقد (سعودی ریال) یا کارڈ سے براہ راست ادائیگی — کسی پیشگی رقم یا ایڈوانس کی قطعاً ضرورت نہیں۔',
+      'طے شدہ اور شفاف کرائے۔ آمد پر ڈرائیور کو نقد (سعودی ریال یا امریکی ڈالر) براہ راست ادائیگی — کسی پیشگی رقم یا ایڈوانس کی قطعاً ضرورت نہیں۔',
   },
   ms: {
     badge: 'Tempahan Terus Pemandu VIP',
     title: 'Tempah Pemandu Peribadi Anda',
     subtitle:
-      'Kadar tetap terjamin. Bayar terus kepada pemandu semasa tiba secara tunai (SAR) atau kad — tiada bayaran pendahuluan atau deposit diperlukan.',
+      'Kadar tetap terjamin. Bayar tunai terus kepada pemandu semasa tiba (SAR atau USD) — tiada bayaran pendahuluan atau deposit diperlukan.',
   },
   tr: {
     badge: 'Doğrudan VIP Şoför Rezervasyonu',
     title: 'Özel Şoförünüzü Ayırtın',
     subtitle:
-      'Garantili sabit fiyatlar. Varışta şoföre doğrudan nakit (SAR) veya kartla ödeme yapın — ön ödeme veya depozito gerekmez.',
+      'Garantili sabit fiyatlar. Varışta şoföre doğrudan nakit (SAR veya USD) ödeme yapın — ön ödeme veya depozito gerekmez.',
   },
 };
 

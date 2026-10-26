@@ -101,12 +101,12 @@ export default async function MalaysiaGuidePage(props: MalaysiaGuideProps) {
         ? 'Adakah kami perlu membayar wang pendahuluan (deposit)?'
         : locale === 'ar'
         ? 'هل يجب دفع أي عربون مسبق للحجز؟'
-        : 'Do we need to pay a prepayment or credit card deposit?',
+        : 'Do we need to pay a prepayment or deposit in advance?',
       a: locale === 'ms'
-        ? 'Tidak perlu sebarang deposit atau kad kredit semasa menempah. Anda hanya membayar terus kepada pemandu secara tunai atau kad semasa tiba di hotel anda di Makkah atau Madinah.'
+        ? 'Tidak perlu sebarang deposit semasa menempah. Anda hanya membayar terus kepada pemandu secara tunai setibanya di hotel dalam Riyal Saudi (SAR) atau Dolar AS (USD). Kad bank, terminal POS, dan pindahan bank tidak diterima.'
         : locale === 'ar'
-        ? 'لا يلزم أي دفع مسبق. الدفع يتم مباشرة للسائق عند الوصول نقداً أو بالبطاقة.'
-        : 'No deposit is required upfront. You pay your chauffeur upon arrival at your hotel in cash or card.',
+        ? 'لا يلزم أي دفع مسبق أو عربون. الدفع يتم نقداً فقط مباشرة للسائق عند الوصول بالريال السعودي (SAR) أو الدولار الأمريكي (USD). لا نقبل البطاقات أو التحويلات.'
+        : 'No deposit or prepayment is required. You pay your chauffeur directly in cash upon arrival at your hotel in Saudi Riyals (SAR) or US Dollars (USD). Cards, POS terminals, and bank transfers are not accepted.',
     },
   ];
 

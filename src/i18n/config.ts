@@ -131,6 +131,7 @@ export const PAGE_SLUGS: Record<string, Partial<Record<Locale, string>>> = {
   privacy: {en: 'privacy', ar: 'privacy', ms: 'privasi', id: 'privasi', fr: 'confidentialite', es: 'privacidad', de: 'datenschutz', ur: 'privacy', hi: 'privacy', tr: 'gizlilik' },
   terms: {en: 'terms', ar: 'terms', ms: 'terma', id: 'syarat-ketentuan', fr: 'conditions', es: 'terminos', de: 'agb', ur: 'terms', hi: 'terms', tr: 'kosullar' },
   cancellationRefund: {en: 'cancellation', ar: 'cancellation', ms: 'pembatalan', id: 'pembatalan', fr: 'annulation', es: 'cancelacion', de: 'stornierung', ur: 'cancellation', hi: 'cancellation', tr: 'iptal' },
+  faq: { en: 'faq', ar: 'faq', ms: 'faq', id: 'faq', fr: 'faq', es: 'faq', de: 'faq', ur: 'faq', hi: 'faq', tr: 'faq' },
   partners: {en: 'partners', ar: 'partners', ms: 'rakan-kongsi', id: 'mitra', fr: 'partenaires', es: 'socios', de: 'partner', ur: 'partners', hi: 'partners', tr: 'ortaklar' },
 };
 

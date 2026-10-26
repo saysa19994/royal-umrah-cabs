@@ -84,16 +84,16 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Jeddah Terminal 1 features a long walking concourse; inform your chauffeur via WhatsApp as soon as your flight touches down.',
-      'Indonesian pilgrims can settle fares directly upon arrival at their hotel in Saudi Riyal (SAR), Indonesian Rupiah (IDR equivalent), or credit/debit card.',
+      'Indonesian pilgrims settle fares directly upon arrival at their hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and bank transfers are not accepted.',
       'Our dispatch team includes coordinators fluent in Bahasa Indonesia for smooth communication.',
     ],
     localTravelTipsNative: [
       'Terminal 1 Bandara Jeddah memiliki koridor yang panjang; hubungi supir Anda melalui WhatsApp segera setelah pesawat mendarat.',
-      'Jamaah Indonesia dapat membayar ongkos langsung saat tiba di hotel dalam Riyal (SAR) tunai, transfer Rupiah, atau kartu.',
+      'Jamaah Indonesia membayar ongkos langsung saat tiba di hotel secara tunai dalam Saudi Riyal (SAR) atau Dolar AS (USD). Kartu dan transfer bank tidak diterima.',
       'Tim koordinasi kami siap melayani komunikasi dalam Bahasa Indonesia untuk kemudahan Anda.',
     ],
-    paymentAndCurrencyEn: 'Fixed fares displayed in Saudi Riyals (SAR) and Indonesian Rupiah (IDR). No credit card deposit needed.',
-    paymentAndCurrencyNative: 'Tarif tetap transparan dalam Saudi Riyal (SAR) dan estimasi Rupiah (IDR). Tanpa uang muka.',
+    paymentAndCurrencyEn: 'Fixed fares displayed in Saudi Riyals (SAR). Zero advance deposit. Cash upon arrival (SAR or USD).',
+    paymentAndCurrencyNative: 'Tarif tetap transparan dalam Saudi Riyal (SAR). Tanpa uang muka. Bayar tunai saat tiba (SAR atau USD).',
     faqsEn: [
       {
         q: 'Do you provide Indonesian-speaking drivers?',
@@ -159,15 +159,15 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     localTravelTipsEn: [
       'Flight Tracking: We monitor Malaysia Airlines MH156/MH160 and Saudia SV831/SV841 arrivals in real time so your chauffeur is ready even if flights land early.',
       'Miqat Stops: For transfers from Madinah to Makkah, our drivers include a dedicated 45-minute stop at Masjid Dhu al-Hulayfah (Bir Ali) for Ihram and Niyyah.',
-      'Payment: Ringgit (MYR transfer) or Saudi Riyal (SAR cash/card) accepted upon arrival at your hotel.',
+      'Payment: Cash paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). Cards and bank transfers are not accepted.',
     ],
     localTravelTipsNative: [
       'Penjejakan Penerbangan: Kami memantau waktu ketibaan penerbangan seperti MH156/MH160 dan SV831/SV841 secara langsung.',
       'Persinggahan Miqat: Perjalanan dari Madinah ke Makkah merangkumi perhentian 45 minit di Miqat Bir Ali untuk berniat ihram dan solat sunat.',
-      'Pembayaran: Bayaran dibuat terus kepada pemandu setibanya di hotel dalam SAR atau kad debit/kredit tanpa caj tersembunyi.',
+      'Pembayaran: Bayaran dibuat secara tunai terus kepada pemandu setibanya di hotel dalam SAR atau USD. Kad dan pindahan bank tidak diterima.',
     ],
-    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR) and Malaysian Ringgit (MYR). Zero credit card pre-auth needed.',
-    paymentAndCurrencyNative: 'Kadar tambang tetap dalam Saudi Riyal (SAR) dan anggaran Ringgit Malaysia (MYR). Tanpa deposit kad.',
+    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash upon arrival (SAR or USD).',
+    paymentAndCurrencyNative: 'Kadar tambang tetap dalam Saudi Riyal (SAR). Tanpa sebarang deposit. Bayar tunai semasa tiba (SAR atau USD).',
     faqsEn: [
       {
         q: 'Can the driver assist elderly pilgrims with wheelchairs?',
@@ -233,15 +233,15 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     localTravelTipsEn: [
       'Both North Terminal and Terminal 1 at Jeddah Airport are served with personalized nameplate meet-and-greet.',
       'Our dispatch coordinators speak Urdu fluently to ensure clear guidance and phone coordination upon landing.',
-      'Zero advance payment required: Pay your chauffeur upon reaching your hotel in Saudi Riyals (cash or card).',
+      'Zero advance payment required: Pay your chauffeur upon reaching your hotel strictly in cash (SAR or USD). Cards are not accepted.',
     ],
     localTravelTipsNative: [
       'جدہ ایئرپورٹ کے دونوں ٹرمینلز (نارتھ ٹرمینل اور ٹرمینل 1) پر نیم پلیٹ کے ساتھ باوقار استقبال۔',
       'ہماری سپورٹ ٹیم مکمل طور پر اردو زبان میں رہنمائی فراہم کرتی ہے تاکہ ایئرپورٹ پہنچنے پر کوئی دشواری پیش نہ آئے۔',
       'پیشگی ادائیگی کی کوئی شرط نہیں؛ ہوٹل باحفاظت پہنچنے پر اپنے ڈرائیور کو نقد ریال یا کارڈ کے ذریعے کرایہ ادا کریں۔',
     ],
-    paymentAndCurrencyEn: 'Guaranteed fixed fares in Saudi Riyals (SAR) with Pakistani Rupee (PKR) estimates. No credit card required.',
-    paymentAndCurrencyNative: 'سعودی ریال (SAR) میں پہلے سے طے شدہ فکسڈ کرایہ۔ بغیر کسی ایڈوانس کارڈ کی کٹوتی کے۔',
+    paymentAndCurrencyEn: 'Guaranteed fixed fares in Saudi Riyals (SAR). No advance payment. Cash upon arrival (SAR or USD).',
+    paymentAndCurrencyNative: 'سعودی ریال (SAR) میں فکسڈ کرایہ۔ پیشگی ادائیگی کے بغیر۔ آمد پر نقد ادائیگی (سعودی ریال یا امریکی ڈالر)۔',
     faqsEn: [
       {
         q: 'Do you pick up from both Jeddah Airport Terminal 1 and North Terminal?',
@@ -307,15 +307,15 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     localTravelTipsEn: [
       'Our team tracks flight schedules across Indian departures: your driver will be waiting at arrivals even if your flight is rescheduled.',
       'Assistance available in Hindi, Urdu, and English through our 24/7 WhatsApp dispatch team.',
-      'Transparent payment: settle directly in SAR cash, international credit/debit card, or bank transfer upon arriving at your hotel.',
+      'Transparent payment: settle directly in cash (SAR or USD) upon arriving at your hotel. Cards and bank transfers are not accepted.',
     ],
     localTravelTipsNative: [
       'हमारी टीम आपकी फ्लाइट पर लाइव नजर रखती है; फ्लाइट लेट होने पर भी ड्राइवर आपका इंतजार करेगा बिना किसी अतिरिक्त चार्ज के।',
       'हिंदी और उर्दू में 24/7 व्हाट्सएप सपोर्ट उपलब्ध है।',
       'होटल पहुंचने पर सीधे सऊदी रियाल नकद या अंतरराष्ट्रीय कार्ड से भुगतान करें।',
     ],
-    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR) with Indian Rupee (INR) reference rates. Zero card pre-authorizations.',
-    paymentAndCurrencyNative: 'सऊदी रियाल (SAR) में तयशुदा किराया, बिना किसी अग्रिम कटौती के।',
+    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash upon arrival (SAR or USD).',
+    paymentAndCurrencyNative: 'सऊदी रियाल (SAR) में तयशुदा किराया। कोई अग्रिम भुगतान नहीं। आगमन पर नकद भुगतान (SAR या USD)।',
     faqsEn: [
       {
         q: 'Do drivers wait if there is a delay at Jeddah immigration?',
@@ -380,24 +380,24 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'UK flights via Saudia or British Airways land at Terminal 1. Your driver will meet you by the international arrivals exit.',
-      'Zero advance credit card charge: Settle your fixed fare on arrival at your hotel using GBP card (Mastercard/Visa) or SAR cash.',
+      'Zero advance deposit: Settle your fixed fare on arrival at your hotel strictly in cash (Saudi Riyals - SAR or US Dollars - USD). Cards are not accepted.',
       'English-speaking dispatch: Contact our UK-friendly operations desk on WhatsApp 24/7 for real-time tracking.',
     ],
     localTravelTipsNative: [
       'UK flights via Saudia or British Airways land at Terminal 1. Your driver will meet you by the international arrivals exit.',
-      'Zero advance credit card charge: Settle your fixed fare on arrival at your hotel using GBP card (Mastercard/Visa) or SAR cash.',
+      'Zero advance deposit: Settle your fixed fare on arrival at your hotel strictly in cash (Saudi Riyals - SAR or US Dollars - USD). Cards are not accepted.',
       'English-speaking dispatch: Contact our UK-friendly operations desk on WhatsApp 24/7 for real-time tracking.',
     ],
-    paymentAndCurrencyEn: 'Fixed fares quoted in SAR with British Pound (£) estimates. Pay on arrival by card or cash.',
-    paymentAndCurrencyNative: 'Fixed fares quoted in SAR with British Pound (£) estimates. Pay on arrival by card or cash.',
+    paymentAndCurrencyEn: 'Fixed fares quoted in SAR. Zero advance deposit. Pay cash on arrival (SAR or USD).',
+    paymentAndCurrencyNative: 'Fixed fares quoted in SAR. Zero advance deposit. Pay cash on arrival (SAR or USD).',
     faqsEn: [
       {
         q: 'Do you track flights from London Heathrow or Manchester if there is a delay?',
         a: 'Yes, our dispatch monitors flight radar feeds continuously. Pickup times adjust automatically with no waiting fees for airline delays.',
       },
       {
-        q: 'Can we pay with a UK debit card (Monzo, Revolut, Barclays, HSBC)?',
-        a: 'Yes, our chauffeurs carry wireless card terminals that accept contactless, Chip & PIN Visa and Mastercard with zero foreign surcharge.',
+        q: 'What payment methods are accepted upon arrival?',
+        a: 'We accept cash payments only, paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). We do not accept debit cards, credit cards, POS terminals, online payments, or bank transfers.',
       },
     ],
     faqsNative: [
@@ -406,8 +406,8 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
         a: 'Yes, our dispatch monitors flight radar feeds continuously. Pickup times adjust automatically with no waiting fees for airline delays.',
       },
       {
-        q: 'Can we pay with a UK debit card (Monzo, Revolut, Barclays, HSBC)?',
-        a: 'Yes, our chauffeurs carry wireless card terminals that accept contactless, Chip & PIN Visa and Mastercard with zero foreign surcharge.',
+        q: 'What payment methods are accepted upon arrival?',
+        a: 'We accept cash payments only, paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). We do not accept debit cards, credit cards, POS terminals, online payments, or bank transfers.',
       },
     ],
     status: 'draft, needs human review',
@@ -445,20 +445,20 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Direct Saudia flights land at Terminal 1; common 1-stop flights via Turkish, Qatar, or Emirates also land at Terminal 1.',
-      'Pay on arrival in USD cash or with major US credit cards (Visa, Mastercard, Amex via Apple Pay).',
+      'Pay on arrival in cash directly to your driver (USD or SAR). Credit cards, POS terminals, and online payments are not accepted.',
       'Chilled bottled water and climate-controlled cabins ensure immediate recovery after long trans-Atlantic flights.',
     ],
     localTravelTipsNative: [
       'Direct Saudia flights land at Terminal 1; common 1-stop flights via Turkish, Qatar, or Emirates also land at Terminal 1.',
-      'Pay on arrival in USD cash or with major US credit cards (Visa, Mastercard, Amex via Apple Pay).',
+      'Pay on arrival in cash directly to your driver (USD or SAR). Credit cards, POS terminals, and online payments are not accepted.',
       'Chilled bottled water and climate-controlled cabins ensure immediate recovery after long trans-Atlantic flights.',
     ],
-    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR) and US Dollars ($). Zero advance deposit or credit card pre-authorization.',
-    paymentAndCurrencyNative: 'Fixed fares in Saudi Riyals (SAR) and US Dollars ($). Zero advance deposit or credit card pre-authorization.',
+    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR) and US Dollars (USD). Zero advance deposit. Cash only to driver on arrival.',
+    paymentAndCurrencyNative: 'Fixed fares in Saudi Riyals (SAR) and US Dollars (USD). Zero advance deposit. Cash only to driver on arrival.',
     faqsEn: [
       {
-        q: 'Can we pay with a US credit card upon arrival?',
-        a: 'Yes, our drivers carry portable contactless POS terminals that support US Visa, Mastercard, and Apple Pay.',
+        q: 'Can we pay in US Dollars upon arrival?',
+        a: 'Yes! You can pay your driver directly in cash in US Dollars (USD) or Saudi Riyals (SAR) upon arrival. Cards, POS terminals, and electronic payments are not accepted.',
       },
       {
         q: 'What happens if our connecting flight in Doha, Istanbul, or Dubai is delayed?',
@@ -467,8 +467,8 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     faqsNative: [
       {
-        q: 'Can we pay with a US credit card upon arrival?',
-        a: 'Yes, our drivers carry portable contactless POS terminals that support US Visa, Mastercard, and Apple Pay.',
+        q: 'Can we pay in US Dollars upon arrival?',
+        a: 'Yes! You can pay your driver directly in cash in US Dollars (USD) or Saudi Riyals (SAR) upon arrival. Cards, POS terminals, and electronic payments are not accepted.',
       },
       {
         q: 'What happens if our connecting flight in Doha, Istanbul, or Dubai is delayed?',
@@ -510,16 +510,16 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Flight connections through European or Middle Eastern hubs are monitored in real time.',
-      'Settle your fare in SAR or CAD equivalent directly at your hotel with cash or card.',
+      'Settle your fare directly at your hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and bank transfers are not accepted.',
       'High-speed highway travel with courteous, professional chauffeurs.',
     ],
     localTravelTipsNative: [
       'Flight connections through European or Middle Eastern hubs are monitored in real time.',
-      'Settle your fare in SAR or CAD equivalent directly at your hotel with cash or card.',
+      'Settle your fare directly at your hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and bank transfers are not accepted.',
       'High-speed highway travel with courteous, professional chauffeurs.',
     ],
-    paymentAndCurrencyEn: 'Fixed fares displayed in SAR and Canadian Dollars (CAD). Zero advance deposit required.',
-    paymentAndCurrencyNative: 'Fixed fares displayed in SAR and Canadian Dollars (CAD). Zero advance deposit required.',
+    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash upon arrival (SAR or USD).',
+    paymentAndCurrencyNative: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash upon arrival (SAR or USD).',
     faqsEn: [
       {
         q: 'Do you offer child car seats for young children?',
@@ -623,14 +623,14 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Meet & Greet: Your chauffeur awaits you just outside the international arrival terminal with a clear nameboard.',
-      'Payment: Pay upon arrival at your hotel in EUR or SAR with cash or credit card.',
+      'Payment: Pay upon arrival at your hotel strictly in cash (SAR or USD). Cards and bank transfers are not accepted.',
     ],
     localTravelTipsNative: [
       'Accueil aéroport : Votre chauffeur vous attend directement à la sortie du terminal avec une pancarte à votre nom.',
       "Paiement : Réglez directement à l'arrivée à votre hôtel en espèces (EUR ou SAR) ou par carte bancaire.",
     ],
-    paymentAndCurrencyEn: 'Fixed fares displayed in Euros (€) and SAR. Zero prepayment required.',
-    paymentAndCurrencyNative: "Tarifs fixes transparents en Euros (€) et Riyals (SAR). Aucun paiement à l'avance.",
+    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash upon arrival (SAR or USD).',
+    paymentAndCurrencyNative: "Tarifs fixes transparents en Riyals (SAR). Aucun acompte requis. Paiement en espèces à l'arrivée (SAR ou USD).",
     faqsEn: [
       {
         q: 'Do drivers make stops for Miqat when travelling from Madinah to Makkah?',
@@ -684,8 +684,8 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
       'Precios fijos garantizados sin suplementos sorpresa.',
       'Pago a la llegada al hotel en efectivo o tarjeta.',
     ],
-    paymentAndCurrencyEn: 'Fixed fares in EUR and SAR. No advance deposit.',
-    paymentAndCurrencyNative: 'Tarifas fijas en EUR y SAR. Sin necesidad de anticipo.',
+    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). No advance deposit. Cash upon arrival (SAR or USD).',
+    paymentAndCurrencyNative: 'Tarifas fijas en Riyales Saudíes (SAR). Sin necesidad de anticipo. Pago en efectivo a la llegada (SAR أو USD).',
     faqsEn: [
       {
         q: 'Is flight tracking included for flights from Madrid and Barcelona?',
@@ -739,8 +739,8 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
       'Transfers available 24/7 matching flight arrivals into Jeddah Terminal 1.',
       'Settle in EUR or SAR directly with your chauffeur at your hotel.',
     ],
-    paymentAndCurrencyEn: 'Fixed fares in Euros (€) and SAR. Zero card pre-authorization.',
-    paymentAndCurrencyNative: 'Fixed fares in Euros (€) and SAR. Zero card pre-authorization.',
+    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash upon arrival (SAR or USD).',
+    paymentAndCurrencyNative: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash upon arrival (SAR or USD).',
     faqsEn: [
       {
         q: 'Where do we meet our driver at Jeddah Airport?',
@@ -798,16 +798,16 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Direct reception at the terminal with personal name sign.',
-      'Flexible payment: Cash in SAR or bank cards on arrival.',
+      'Cash payment on arrival: Settle directly with your driver in Saudi Riyals (SAR) or US Dollars (USD). Cards are not accepted.',
       'Complimentary Miqat stop included on Madinah to Makkah route.',
     ],
     localTravelTipsNative: [
       'استقبال رسمي ومباشر في صالة الوصول مع لوحة تحمل اسم الضيف الكريم.',
-      'مرونة كاملة في الدفع: كاش بالريال السعودي أو عبر أجهزة الدفع الإلكتروني (مدى، فيزا، ماستركارد) لدى السائق.',
+      'الدفع عند الوصول: كاش بالريال السعودي (SAR) أو الدولار الأمريكي (USD) مباشرة للسائق. لا نقبل البطاقات أو أجهزة الدفع الإلكتروني.',
       'التوقف في الميقات (مسجد الشجرة / بئر علي) لمدة 45 دقيقة مشمول في رحلات المدينة إلى مكة.',
     ],
-    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit required.',
-    paymentAndCurrencyNative: 'أسعار ثابتة ومحددة بالريال السعودي تشمل كافة الرسوم والضرائب دون أي زيادات.',
+    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash upon arrival (SAR or USD).',
+    paymentAndCurrencyNative: 'أسعار ثابتة ومحددة بالريال السعودي دون أي دفع مسبق. الدفع نقداً عند الوصول (بالريال أو الدولار).',
     faqsEn: [
       {
         q: 'Can the driver take us directly to our hotel in the central area?',
@@ -865,15 +865,15 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     localTravelTipsEn: [
       'We track all direct and connecting flights from Cairo, Alexandria, and regional Egyptian airports.',
       'Reception available at both Terminal 1 and the North Terminal at Jeddah Airport.',
-      'Direct payment upon hotel arrival in Saudi Riyals (cash or mada/credit card).',
+      'Direct payment upon hotel arrival in cash (Saudi Riyals - SAR or US Dollars - USD). Cards are not accepted.',
     ],
     localTravelTipsNative: [
       'نتابع مواعيد رحلات مصر للطيران والسعودية وطيران ناس وباقي الشركات لحظة بلحظة.',
       'استقبال مباشر في صالة الوصول مع لوحة اسم مخصصة لتفادي زحام المطار.',
-      'الدفع يتم عند الوصول للفندق بالريال السعودي نقداً أو بالفيزا والبطاقة البنكية دون أي عمولات إضافية.',
+      'الدفع يتم عند الوصول للفندق نقداً مباشرة للسائق بالريال السعودي (SAR) أو الدولار الأمريكي (USD). لا نقبل البطاقات البنكية.',
     ],
-    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR) with EGP estimates. Zero advance deposit required.',
-    paymentAndCurrencyNative: 'سعر محدد وثابت بالريال السعودي يشمل طريق الحرمين السريع ومواقف المطار، والدفع عند الفندق.',
+    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash upon arrival (SAR or USD).',
+    paymentAndCurrencyNative: 'سعر محدد وثابت بالريال السعودي، والدفع نقداً عند الوصول للسائق (بالريال أو الدولار) دون أي دفع مسبق.',
     faqsEn: [
       {
         q: 'Do you pick up from Jeddah North Terminal for Egyptian budget airlines?',
@@ -930,16 +930,16 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Frequent shuttle and direct flights from DXB and AUH arrive at Terminal 1.',
-      'Payment accepted via UAE credit/debit cards (Apple Pay, mada, Visa) or AED/SAR cash.',
+      'Payment accepted strictly in cash upon arrival (SAR or USD). Cards, POS terminals, and online payments are not accepted.',
       'Bottled cold water and phone charging available in all vehicles.',
     ],
     localTravelTipsNative: [
       'رحلات طيران الإمارات وفلاي دبي والسعودية والاتحاد تهبط بالصالة رقم 1 الحديثة.',
-      'السداد متاح ببطاقات البنوك الإماراتية (عبر Apple Pay وبطاقات فيزا وماستركارد) أو نقداً بالدرهم أو الريال.',
+      'السداد نقداً فقط مباشرة للسائق عند الوصول بالريال السعودي (SAR) أو الدولار الأمريكي (USD). لا نقبل البطاقات البنكية أو أجهزة الدفع.',
       'مياه باردة وشواحن لجميع أنواع الهواتف الذكية داخل السيارة.',
     ],
-    paymentAndCurrencyEn: 'Fixed pricing in SAR and AED. Zero advance prepayment.',
-    paymentAndCurrencyNative: 'أسعار ثابتة محددة بالريال والدرهم الإماراتي، دون الحاجة لأي دفع مسبق.',
+    paymentAndCurrencyEn: 'Fixed pricing in SAR. Zero advance prepayment. Cash upon arrival (SAR or USD).',
+    paymentAndCurrencyNative: 'أسعار ثابتة محددة بالريال السعودي، والدفع نقداً عند الوصول (ريال أو دولار) دون أي دفع مسبق.',
     faqsEn: [
       {
         q: 'Can we book intercity travel from Makkah to Madinah with a stop at Bir Ali?',
@@ -996,16 +996,16 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Meet & Greet outside the international arrivals gate.',
-      'Direct payment at the hotel in SAR or international card.',
+      'Direct payment at the hotel strictly in cash (SAR or USD). Cards are not accepted.',
       'Miqat stop included for journeys from Madinah to Makkah.',
     ],
     localTravelTipsNative: [
       'استقبال مباشر عند بوابة الخروج بصالة الوصول مع لوحة اسم واضحة.',
-      'الدفع يتم مباشرة عند الوصول إلى الفندق نقداً بالريال السعودي أو بالبطاقة.',
+      'الدفع يتم مباشرة عند الوصول إلى الفندق نقداً للسائق بالريال السعودي (SAR) أو الدولار الأمريكي (USD). لا نقبل البطاقات.',
       'رحلات مكة والمدينة تشمل التوقف المريح في الميقات.',
     ],
-    paymentAndCurrencyEn: 'Fixed fares in SAR with Algerian Dinar (DZD) estimates. No credit card required.',
-    paymentAndCurrencyNative: 'أسعار واضحة ومحددة مسبقاً بالريال السعودي دون أي دفع بالبطاقة مقدماً.',
+    paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). No advance payment. Cash upon arrival (SAR or USD).',
+    paymentAndCurrencyNative: 'أسعار واضحة ومحددة بالريال السعودي دون أي دفع مسبق. الدفع نقداً عند الوصول (ريال أو دولار).',
     faqsEn: [
       {
         q: 'Do you track flight delays from Algiers or Oran?',

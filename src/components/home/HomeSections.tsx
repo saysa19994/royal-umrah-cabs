@@ -2,6 +2,7 @@
 
 import { ExecutiveRouteCard } from '@/components/routes/ExecutiveRouteCard';
 import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
+import { FaqSection } from '@/components/faq/FaqSection';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -32,7 +33,6 @@ import {
   Fuel,
   ChevronLeft,
   ChevronRight,
-  CreditCard,
   Building2,
   Award,
 } from 'lucide-react';
@@ -44,14 +44,9 @@ interface HomeSectionsProps {
 }
 
 export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [activeFleetIndex, setActiveFleetIndex] = useState<number>(0);
   const [fleetView, setFleetView] = useState<Record<string, 'ext' | 'int'>>({});
   const { formatPrice } = useCurrency();
-
-  const toggleFaq = (index: number) => {
-    setOpenFaq(openFaq === index ? null : index);
-  };
 
   // Section 5: Popular Umrah Routes (Harmain Scenic Cards from Screenshots 6, 7, 9, 10)
   const POPULAR_ROUTES = [
@@ -299,46 +294,6 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
     },
   ];
 
-  // Section 9: FAQs
-  const FAQS = [
-    {
-      q: locale === 'ar' ? 'كيف أقابل سائقي الخاص في مطار جدة أو المدينة؟' : 'Where and how do I meet my private chauffeur at the airport?',
-      a: locale === 'ar'
-        ? 'يقوم منسق العمليات بإرسال بيانات السائق ورقم لوحة السيارة عبر واتساب فور هبوط الطائرة. ينتظرك سائقك في صالة القدوم حاملاً لوحة باسمك المكتوب في الحجز ويساعدك في نقل الأمتعة.'
-        : 'Our dispatch team sends your driver details and vehicle plate on WhatsApp upon landing. Your chauffeur greets you inside the arrivals hall holding a personalized name board and assists with baggage.',
-    },
-    {
-      q: locale === 'ar' ? 'ماذا لو تأخرت رحلة الطيران أو استغرقت الجوازات وقتاً طويلاً؟' : 'What happens if my flight is delayed or immigration takes time?',
-      a: locale === 'ar'
-        ? 'نحن نتتبع رقم رحلتك مباشرة عبر رادار الطيران، ويشمل حجزك ${settings.airport_waiting_minutes || 60} دقيقة انتظار مجاني بالمطارة كاملة تبدأ بعد هبوط الطائرة الفعلي، مع دعم متواصل عبر واتساب.'
-        : 'We track your flight live via international aviation radar. Your reservation includes 90 minutes of complimentary waiting time starting after actual touchdown.',
-    },
-    {
-      q: locale === 'ar' ? 'هل يشمل السعر التوقف في الميقات للإحرام؟' : 'Is a stop at the Miqat included for pilgrims heading to Makkah?',
-      a: locale === 'ar'
-        ? 'نعم، يشمل مسار المدينة إلى مكة توقفاً مجانياً مع انتظار كامل في ميقات ذو الحليفة (آبار علي) لتمكينك من الاغتسال والإحرام والصلاة دون أي رسوم إضافية.'
-        : 'Yes, transfers from Madinah to Makkah include a complimentary stop with generous wait time at Bir Ali Miqat for your Ihram and prayers at no extra cost.',
-    },
-    {
-      q: locale === 'ar' ? 'متى وكيف يتم سداد قيمة الرحلة؟' : 'When and how do I pay for my transfer?',
-      a: locale === 'ar'
-        ? 'الدفع 100% عند الوصول بعد إتمام الرحلة والوصول سالماً لباب فندقك. يمكنك الدفع نقداً بالريال السعودي أو عبر بطاقات مدى وفيزا وماستركارد مباشرة للسائق.'
-        : 'Payment is 100% on arrival after reaching your destination safely. You can settle in cash (SAR) or via Visa, Mastercard, or Mada card directly with the driver.',
-    },
-    {
-      q: locale === 'ar' ? 'هل تتوفر كراسي أطفال أو مساحة للكراسي المتحركة؟' : 'Are child safety seats and folding wheelchair space available?',
-      a: locale === 'ar'
-        ? 'نعم، نوفر مقاعد الأطفال عند الطلب المسبق، وتتسع سياراتنا من فئة ستاريا ويوكون وهايس للكراسي المتحركة بكل سهولة وأمان.'
-        : 'Yes, child car seats are provided upon request. Our Staria, Yukon, and HiAce fleet easily accommodate folding wheelchairs alongside baggage.',
-    },
-    {
-      q: locale === 'ar' ? 'هل الأسعار المعلنة تشمل رسوم الطرق السريعة وضريبة القيمة المضافة؟' : 'Do displayed prices include highway toll fees and taxes?',
-      a: locale === 'ar'
-        ? 'نعم، جميع الأسعار نهائية وثابتة للمركبة بالكامل وتشمل رسوم الطرق السريعة ومواقف المطار والوقود والضريبة، دون أي رسوم خفية إطلاقاً.'
-        : 'Yes, every rate is strictly all-inclusive per whole vehicle, covering highway tolls, airport terminal parking, fuel, and taxes with zero hidden fees.',
-    },
-  ];
-
   return (
     <div className="w-full">
       {/* ============================================================== */}
@@ -435,7 +390,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               </h3>
               <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-6 flex-1">
                 {locale === 'ar'
-                  ? 'استلم قسيمة الحجز وبيانات السائق فوراً عبر واتساب، واستمتع بالرحلة وادفع عند وصولك سالماً لوجهتك نقداً أو بالبطاقة.'
+                  ? 'استلم قسيمة الحجز وبيانات السائق فوراً عبر واتساب، واستمتع بالرحلة وادفع عند وصولك سالماً لوجهتك نقداً للسائق مباشرة.'
                   : 'Receive your instant confirmation and driver details on WhatsApp. Meet your driver and pay upon arriving at your hotel.'}
               </p>
               <div className="w-full pt-4 border-t border-gray-100 text-xs text-emerald-600 font-semibold flex items-center justify-center gap-1.5">
@@ -896,8 +851,8 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
                 {locale === 'ar'
-                  ? 'لا نطلب بطاقة ائتمان مسبقاً؛ ادفع لسائقك نقداً أو بالبطاقة البنكية عند الوصول سالماً.'
-                  : 'No credit card needed in advance; pay your chauffeur via cash or card upon safe arrival.'}
+                  ? 'لا نطلب أي دفع مسبق؛ ادفع لسائقك نقداً عند الوصول سالماً.'
+                  : 'No advance payment needed; pay your chauffeur in cash upon safe arrival (SAR or USD).'}
               </p>
             </div>
 
@@ -926,139 +881,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       {/* ============================================================== */}
       {/* SECTION: LATEST FROM OUR VIP BLOG & GUIDES                     */}
       {/* ============================================================== */}
-      <section id="blog-highlight" className="py-16 md:py-24 bg-[#0A1224] text-white border-t border-gold/20 relative overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="container mx-auto px-4 max-w-6xl relative z-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/40 bg-gold/10 text-gold text-xs font-semibold uppercase tracking-wider mb-3">
-                <span>{locale === 'ar' ? 'جديد المدونة لضيوف الرحمن' : 'Latest VIP Guide'}</span>
-              </div>
-              <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white">
-                {locale === 'ar' ? 'مقالات وأدلة السفر الحصرية' : 'Exclusive VIP Travel Articles'}
-              </h2>
-            </div>
-            <Link
-              href={`/${locale}/blog`}
-              className="inline-flex items-center gap-2 text-gold hover:text-amber-300 font-semibold text-sm transition-colors group self-start md:self-auto"
-            >
-              <span>{locale === 'ar' ? 'عرض جميع المقالات' : 'View All Articles'}</span>
-              <ArrowRight className="w-4 h-4 rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
-            </Link>
-          </div>
+            {/* SECTION 9: ACCESSIBLE MULTILINGUAL FAQ & CONVERSION CTA */}
+      <FaqSection locale={locale} dict={dict} settings={settings} />
 
-          {/* FEATURED ARTICLE CARD */}
-          <div className="bg-[#111A30] border border-gold/30 rounded-2xl overflow-hidden shadow-2xl hover:border-gold/60 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 gap-0 group">
-            <div className="lg:col-span-7 relative min-h-[260px] sm:min-h-[320px] lg:min-h-[400px] overflow-hidden">
-              <Image
-                src="/assets/images/vip-umrah-transport-jeddah-to-makkah.jpg"
-                alt={locale === 'ar' ? 'سيارة VIP لنقل ضيوف الرحمن من مطار جدة إلى مكة المكرمة' : 'VIP Umrah Transport Jeddah to Makkah'}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
-                sizes="(max-width: 1024px) 100vw, 55vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#111A30] via-transparent to-transparent lg:hidden" />
-            </div>
 
-            <div className="lg:col-span-5 p-6 sm:p-8 lg:p-10 flex flex-col justify-between text-start">
-              <div className="space-y-4">
-                <div className="flex flex-wrap items-center gap-2 text-xs">
-                  <span className="px-2.5 py-1 rounded-md bg-gold/20 text-gold font-bold">
-                    {locale === 'ar' ? 'نقل مطار جدة VIP' : 'Jeddah Airport VIP'}
-                  </span>
-                  <span className="text-gray-400">
-                    {locale === 'ar' ? '⏱ 8 دقائق قراءة' : '⏱ 8 min read'}
-                  </span>
-                </div>
-
-                <h3 className="font-display font-bold text-xl sm:text-2xl text-white group-hover:text-gold transition-colors leading-snug">
-                  {locale === 'ar'
-                    ? 'دليل اختيار سيارة VIP من مطار جدة إلى مكة المكرمة لضيوف الرحمن'
-                    : 'The Ultimate Guide to Choosing VIP Umrah Transport from Jeddah Airport to Makkah'}
-                </h3>
-
-                <p className="text-gray-300 text-sm leading-relaxed line-clamp-3">
-                  {locale === 'ar'
-                    ? 'الدليل الشامل لاختيار وسيلة المواصلات المثالية والفاخرة لرحلة العمرة، مع مقارنة تفصيلية بين أسطول السيارات والأسعار الثابتة، وتجنب أخطاء مطار الملك عبدالعزيز.'
-                    : 'A comprehensive guide on selecting executive chauffeur transport for Umrah, vehicle capacities, fixed rates, and avoiding common airport taxi traps.'}
-                </p>
-
-                <div className="flex flex-wrap gap-2 pt-2">
-                  <span className="text-[11px] px-2.5 py-1 rounded bg-white/5 border border-white/10 text-gray-300">
-                    {locale === 'ar' ? '✓ الدفع للسائق فقط' : '✓ Pay Chauffeur Directly'}
-                  </span>
-                  <span className="text-[11px] px-2.5 py-1 rounded bg-white/5 border border-white/10 text-gray-300">
-                    {locale === 'ar' ? '✓ استقبال بصالة المطار' : '✓ Terminal Meet & Greet'}
-                  </span>
-                </div>
-              </div>
-
-              <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between">
-                <Link
-                  href={`/${locale}/blog/vip-umrah-transport-jeddah-to-makkah`}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gold hover:bg-gold-light text-[#0A1224] font-bold text-sm transition-all shadow-md hover:shadow-gold/30"
-                >
-                  <span>{locale === 'ar' ? 'قراءة المقال كاملاً' : 'Read Full Guide'}</span>
-                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-                </Link>
-                <span className="text-xs text-gray-400">
-                  {locale === 'ar' ? 'محدّث لعام 2026' : 'Updated 2026'}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* SECTION 9: VERIFIED TESTIMONIALS & COMPREHENSIVE FAQS           */}
-      {/* ============================================================== */}
-      <section className="py-16 md:py-24 bg-alabaster border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          {/* COMPREHENSIVE FAQ ACCORDION */}
-          <div id="faq" className="max-w-4xl mx-auto pt-8">
-            <div className="text-center mb-12">
-              <h3 className="font-display font-bold text-2xl sm:text-3xl text-ink">
-                {locale === 'ar' ? 'الأسئلة الشائعة لضيوف الرحمن' : 'Frequently Asked Questions'}
-              </h3>
-              <p className="text-xs sm:text-sm text-ink-muted mt-2 font-light">
-                {locale === 'ar'
-                  ? 'إجابات واضحة وموثوقة عن إجراءات الاستقبال، وسياسة الدفع، وإلغاء الرحلات.'
-                  : 'Clear answers covering airport pickups, payment terms, and Miqat arrangements.'}
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              {FAQS.map((faq, index) => {
-                const isOpen = openFaq === index;
-                return (
-                  <div
-                    key={index}
-                    className="bg-surface rounded-2xl border border-border shadow-xs overflow-hidden transition-all"
-                  >
-                    <button
-                      type="button"
-                      onClick={() => toggleFaq(index)}
-                      className="w-full min-h-[56px] px-6 py-4 flex items-center justify-between gap-4 text-start font-display font-bold text-base sm:text-lg text-ink hover:text-gold-dark transition-colors"
-                      aria-expanded={isOpen}
-                    >
-                      <span>{faq.q}</span>
-                      <div className="w-8 h-8 rounded-full bg-bg-alt flex items-center justify-center shrink-0 text-ink-muted">
-                        {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                      </div>
-                    </button>
-                    {isOpen && (
-                      <div className="px-6 pb-6 pt-1 text-xs sm:text-sm text-ink-muted leading-relaxed font-light border-t border-border/50">
-                        {faq.a}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ============================================================== */}
       {/* FINAL EXECUTIVE CTA BAND (Screenshot 13 "Book with Confidence")*/}

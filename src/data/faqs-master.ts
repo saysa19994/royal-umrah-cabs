@@ -48,12 +48,11 @@ export const MASTER_FAQS_INITIAL: MasterFaqItem[] = [
   {
     id: 'home-3',
     category: 'home',
-    questionEn: 'What payment methods do you accept?',
-    questionAr: 'ما هي وسائل الدفع المقبولة لديكم؟',
-    answerEn:
-      'We operate on a zero-advance-deposit policy. You pay your chauffeur upon arrival at your hotel in Saudi Riyals (cash) or with major debit/credit cards (Visa, Mastercard, Mada) using the mobile POS machine in the vehicle [needs owner confirmation].',
+    questionEn: 'What payment methods and currencies do you accept?',
+    questionAr: 'ما طرق الدفع والعملات المقبولة لديكم؟',
+    answerEn: 'The only accepted payment method is cash paid directly to your private driver upon arrival at your destination for your trip. We operate on a zero-advance-deposit policy, and no prepayment is required.',
     answerAr:
-      'نعمل بسياسة عدم اشتراط أي دفع مسبق. يمكنك سداد القيمة لسائقك عند الوصول إلى الفندق نقداً بالريال السعودي أو ببطاقات الدفع (مدى، فيزا، ماستركارد) عبر جهاز الدفع بالسيارة [تحت تأكيد المالك].',
+      'نقبل الدفع نقداً فقط، ويتم سداده مباشرةً للسائق بعد انتهاء رحلتك ووصولك إلى وجهتك. يمكنك الدفع بالريال السعودي (SAR) أو الدولار الأمريكي (USD). لا نقبل بطاقات الائتمان أو بطاقات الخصم أو أجهزة نقاط البيع (POS) أو الدفع الإلكتروني أو التحويلات البنكية. لا يلزم أي دفع مسبق أو عربون.',
     isOperational: true,
     needsOwnerConfirmation: true,
     status: 'published',

@@ -69,7 +69,7 @@ export default async function CancellationPage(props: LegalPageProps) {
           <section className="space-y-2">
             <h2 className="font-display text-xl font-bold text-ink">2. No Prepayment Required = Immediate Peace of Mind</h2>
             <p>
-              Because Duyuf Alrahman VIP operates on a transparent "Pay Upon Arrival" model, you do not need to wait weeks for credit card refunds. If you cancel your reservation before the 24-hour window, your booking is simply cancelled in our dispatch system without any financial deduction.
+              Because Duyuf Alrahman VIP operates on a transparent cash-on-arrival model with zero advance deposit, you never experience refund processing delays or bank penalty deductions. If you cancel your reservation before the 24-hour window, your booking is simply cancelled in our dispatch system with zero cost.
             </p>
           </section>
 

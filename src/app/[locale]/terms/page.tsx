@@ -60,7 +60,7 @@ export default async function TermsPage(props: LegalPageProps) {
           <section className="space-y-2">
             <h2 className="font-display text-xl font-bold text-ink">2. Guaranteed Fixed Pricing &amp; Payment</h2>
             <p>
-              All prices quoted on the website or via our official WhatsApp dispatch are fixed and guaranteed. Fares include all highway expressway tolls, airport parking fees, fuel, and taxes. Payment is made directly to the chauffeur upon arrival at your destination in cash (SAR, USD, EUR, MYR) or by bank card (mada, Visa, Mastercard).
+              All prices quoted on the website or via our official WhatsApp dispatch are fixed and guaranteed. Fares include all highway expressway tolls, airport parking fees, fuel, and taxes. Payment is made strictly in cash directly to your chauffeur upon arrival at your destination after your journey is completed in Saudi Riyals (SAR) or US Dollars (USD). Credit cards, debit cards, POS terminals, online payments, and bank transfers are not accepted. No advance payment or deposit is required.
             </p>
           </section>
 

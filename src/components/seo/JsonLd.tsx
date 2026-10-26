@@ -38,8 +38,8 @@ export function JsonLd({
     telephone: settings?.phone || '+966567588261',
     email: settings?.email || 'info@duyufalrahmanvip.com',
     priceRange: '$$',
-    currenciesAccepted: 'SAR, USD, EUR, GBP, MYR, IDR, INR, PKR, EGP',
-    paymentAccepted: 'Cash, Pay Upon Arrival, Bank Transfer',
+    currenciesAccepted: 'SAR, USD',
+    paymentAccepted: 'Cash, Pay Upon Arrival',
     geo: {
       '@type': 'GeoCoordinates',
       latitude: 21.4225,

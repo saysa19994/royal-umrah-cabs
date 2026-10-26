@@ -265,8 +265,8 @@ export function Footer({ locale, dict, settings }: FooterProps) {
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}#faq`} className="hover:text-gold transition-colors inline-block py-1">
-                  {locale === 'ar' ? 'الأسئلة الشائعة' : 'FAQs'}
+                <Link href={`/${locale}/faq`} className="hover:text-gold transition-colors inline-block py-1">
+                  {dict.faq?.heading || (locale === 'ar' ? 'الأسئلة الشائعة' : 'FAQs')}
                 </Link>
               </li>
               <li>
@@ -282,33 +282,15 @@ export function Footer({ locale, dict, settings }: FooterProps) {
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-6">
           <div className="flex flex-col gap-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-gold">
-              {locale === 'ar' ? 'طريقة الدفع (100% الدفع عند الوصول)' : 'Payment Method (100% Pay on Arrival)'}
+              {locale === 'ar' ? 'طريقة الدفع (100% نقداً للسائق بالريال أو الدولار)' : 'Payment Method (100% Cash to Chauffeur in SAR or USD)'}
             </span>
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-3.5 py-1.5 rounded-lg bg-gold/15 border border-gold/40 text-gold text-xs font-bold inline-flex items-center gap-1.5">
                 <HandCoins className="w-3.5 h-3.5" />
-                <span>{locale === 'ar' ? 'الدفع نقداً للسائق عند الوصول (SAR / USD)' : 'Cash to Chauffeur on Arrival (SAR / USD)'}</span>
+                <span>{locale === 'ar' ? 'الدفع نقداً للسائق عند الوصول (ريال سعودي / دولار أمريكي)' : 'Cash Paid Directly to Chauffeur on Arrival (SAR / USD)'}</span>
               </span>
 
-              {/* Conditional Online Card / Mada (hidden by default behind flag) */}
-              {settings.online_card_payment_enabled && (
-                <>
-                  <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
-                    MADA مدى
-                  </span>
-                  <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
-                    Visa / Mastercard
-                  </span>
-                </>
-              )}
-
-              {/* Conditional Bank Transfer (hidden by default behind flag) */}
-              {settings.bank_transfer_payment_enabled && (
-                <span className="px-3 py-1 rounded bg-white/10 border border-white/15 text-white text-xs font-semibold">
-                  {locale === 'ar' ? 'تحويل بنكي سعودي' : 'Saudi Bank Transfer'}
-                </span>
-              )}
-            </div>
+              </div>
           </div>
 
           <div className="flex flex-col gap-1 text-xs text-slate-300">
@@ -317,8 +299,8 @@ export function Footer({ locale, dict, settings }: FooterProps) {
             </span>
             <span>
               {locale === 'ar'
-                ? 'لا نطلب أية بطاقة ائتمانية أو دفعة مقدمة قبل وصولك واستلام سيارتك.'
-                : 'Zero upfront credit card deposit required. Inspect your vehicle first.'}
+                ? 'لا نطلب أية دفعة مقدمة قبل وصولك واستلام سيارتك؛ الدفع نقداً للسائق (ريال سعودي أو دولار أمريكي).'
+                : 'Zero upfront deposit required. Pay your driver in cash upon arrival (SAR or USD).'}
             </span>
           </div>
         </div>
