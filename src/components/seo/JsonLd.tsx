@@ -8,9 +8,16 @@ interface JsonLdProps {
   dict: Dictionary;
   settings?: SiteSettings;
   includeFaq?: boolean;
+  includeBreadcrumbs?: boolean;
 }
 
-export function JsonLd({ locale, dict, settings, includeFaq = false }: JsonLdProps) {
+export function JsonLd({
+  locale,
+  dict,
+  settings,
+  includeFaq = false,
+  includeBreadcrumbs = false,
+}: JsonLdProps) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
   // 1. TaxiService / LocalBusiness Schema
@@ -29,7 +36,7 @@ export function JsonLd({ locale, dict, settings, includeFaq = false }: JsonLdPro
     image: `${baseUrl}/assets/images/og-image.jpg`,
     description: dict.meta.seoDescription,
     telephone: settings?.phone || '+966567588261',
-    email: settings?.email || 'info@royalumrahcabs.com',
+    email: settings?.email || 'info@duyufalrahmanvip.com',
     priceRange: '$$',
     currenciesAccepted: 'SAR, USD, EUR, GBP, MYR, IDR, INR, PKR, EGP',
     paymentAccepted: 'Cash, Pay Upon Arrival, Bank Transfer',
@@ -82,9 +89,16 @@ export function JsonLd({ locale, dict, settings, includeFaq = false }: JsonLdPro
           longitude: 39.1728,
         },
       },
+      {
+        '@type': 'City',
+        name: 'Taif',
+      },
+      {
+        '@type': 'City',
+        name: 'Riyadh',
+      },
     ],
   };
-
 
   // 2. FAQPage Schema (All 12 localized questions)
   const faqList = [
@@ -163,10 +177,12 @@ export function JsonLd({ locale, dict, settings, includeFaq = false }: JsonLdPro
           dangerouslySetInnerHTML={{ __html: safeJsonLd(faqSchema) }}
         />
       )}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
-      />
+      {includeBreadcrumbs && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }
@@ -209,7 +225,6 @@ export function HomepageFaqJsonLd({ dict }: { dict: Dictionary }) {
     />
   );
 }
-
 
 export function RoutePageJsonLd({
   route,
@@ -264,12 +279,29 @@ export function RoutePageJsonLd({
     })),
   };
 
-  const offerSchema = {
+  // Service Schema (accurately represents passenger transportation service, not physical eCommerce product)
+  const serviceSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Product',
+    '@type': 'Service',
+    '@id': `${pageUrl}#service`,
     name: title,
     description: desc,
-    image: `${baseUrl}/assets/images/og-image.jpg`,
+    serviceType: 'Private Chauffeur Airport & Intercity Transfer',
+    provider: {
+      '@type': 'LocalBusiness',
+      name: 'Duyuf Alrahman VIP',
+      url: baseUrl,
+      telephone: '+966567588261',
+      priceRange: '$$',
+      image: `${baseUrl}/assets/images/og-image.jpg`,
+    },
+    areaServed: [
+      { '@type': 'City', name: 'Jeddah' },
+      { '@type': 'City', name: 'Makkah' },
+      { '@type': 'City', name: 'Madinah' },
+      ...(route.id?.includes('taif') ? [{ '@type': 'City', name: 'Taif' }] : []),
+      ...(route.id?.includes('riyadh') ? [{ '@type': 'City', name: 'Riyadh' }] : []),
+    ],
     offers: {
       '@type': 'Offer',
       price: minPriceSAR || 200,
@@ -297,7 +329,7 @@ export function RoutePageJsonLd({
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: safeJsonLd(offerSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(serviceSchema) }}
       />
     </>
   );

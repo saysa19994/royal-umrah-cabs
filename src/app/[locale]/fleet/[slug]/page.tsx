@@ -549,8 +549,40 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
   );
   const whatsappUrl = `https://wa.me/966567554988?text=${whatsappMessage}`;
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
+  const pageUrl = `${baseUrl}/${locale}/fleet/${slug}`;
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: isAr ? 'الرئيسية' : 'Home',
+        item: `${baseUrl}/${locale}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: isAr ? 'أسطولنا' : 'Fleet',
+        item: `${baseUrl}/${locale}/fleet`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name,
+        item: pageUrl,
+      },
+    ],
+  };
+
   return (
     <div className="py-12 sm:py-16 md:py-20 bg-slate-50/70 min-h-screen text-start" dir={isRtl ? 'rtl' : 'ltr'}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }}
+      />
       <div className="container mx-auto px-4 max-w-5xl">
         {/* 1. HERO SECTION: BREADCRUMB */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-500 font-semibold mb-6 sm:mb-8">
