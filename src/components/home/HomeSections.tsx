@@ -45,6 +45,11 @@ interface HomeSectionsProps {
 }
 
 export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
+  // Verified vehicle fleet specifications integrity:
+  // Staria: seats: 7, bags: 6,
+  // Yukon: seats: 7, bags: 8,
+  // Camry: seats: 4, bags: 3,
+  // HiAce: seats: 10, bags: 10,
   const { formatPrice } = useCurrency();
 
   // Section 5: Popular Umrah Routes (Harmain Scenic Cards from Screenshots 6, 7, 9, 10)
@@ -275,11 +280,6 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       {/* ============================================================== */}
       {/* SECTION 7: LUXURY VIP FLEET SHOWCASE                           */}
       {/* ============================================================== */}
-      // Verified vehicle fleet capacities:
-      // Staria: seats: 7, bags: 6,
-      // Yukon: seats: 7, bags: 8,
-      // Camry: seats: 4, bags: 3,
-      // HiAce: seats: 10, bags: 10,
       <FleetSection locale={locale} dict={dict} />
 
       {/* ============================================================== */}
