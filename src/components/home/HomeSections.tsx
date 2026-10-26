@@ -3,6 +3,7 @@
 import { ExecutiveRouteCard } from '@/components/routes/ExecutiveRouteCard';
 import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
 import { FaqSection } from '@/components/faq/FaqSection';
+import { FleetSection } from '@/components/home/FleetSection';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -44,8 +45,6 @@ interface HomeSectionsProps {
 }
 
 export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
-  const [activeFleetIndex, setActiveFleetIndex] = useState<number>(0);
-  const [fleetView, setFleetView] = useState<Record<string, 'ext' | 'int'>>({});
   const { formatPrice } = useCurrency();
 
   // Section 5: Popular Umrah Routes (Harmain Scenic Cards from Screenshots 6, 7, 9, 10)
@@ -117,146 +116,6 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       img: '/assets/images/camry_exterior.webp',
     },
   ];
-
-  // Section 7: Luxury Fleet with "Choose Your Class" Harmain Style (Screenshots 1, 2, 3)
-  const FLEET_VEHICLES = [
-    {
-      id: 'maybach',
-      name: locale === 'ar' ? 'مرسيدس مايباخ S-Class' : 'Mercedes-Maybach S-Class VIP',
-      category: locale === 'ar' ? 'سيدان ملكي فائق الفخامة' : 'ULTRA VIP FIRST-CLASS SEDAN',
-      passengers: 3,
-      seats: 3,
-      luggage: 3,
-      bags: 3,
-      startingPriceSAR: 550,
-      extImg: '/assets/images/vehicles/mercedes-maybach/exterior-studio.webp',
-      intImg: '/assets/images/vehicles/mercedes-maybach/interior.webp',
-      desc: locale === 'ar' ? 'قمة الفخامة الملكية والهدوء التام مع مقاعد استرخاء من الدرجة الأولى وعزل صوتي فائق.' : 'The pinnacle of presidential luxury with first-class reclining seats and supreme road tranquility.',
-      features: [
-        { title: locale === 'ar' ? 'تكييف هوائي ملكي' : 'First-Class Climate', desc: locale === 'ar' ? 'تبريد فائق' : 'Multi-Zone Comfort', icon: Sparkles },
-        { title: locale === 'ar' ? 'مقصورة جلد نابا' : 'Nappa Leather', desc: locale === 'ar' ? 'مقاعد مساج فارهة' : 'Executive Reclining', icon: Sparkles },
-        { title: locale === 'ar' ? 'سائق VIP خاص' : 'Executive Chauffeur', desc: locale === 'ar' ? 'زي رسمي ملكي' : 'Formal Uniform', icon: Award },
-        { title: locale === 'ar' ? 'ضيافة مياه زمزم' : 'Zamzam Hospitality', desc: locale === 'ar' ? 'كؤوس فضية' : 'Silver Service', icon: ShieldCheck },
-      ],
-    },
-    {
-      id: 'camry',
-      name: locale === 'ar' ? 'تويوتا كامري' : 'Toyota Camry',
-      category: locale === 'ar' ? 'سيدان تنفيذي' : 'EXECUTIVE SEDAN',
-      passengers: 4,
-      seats: 4,
-      luggage: 3,
-      bags: 3,
-      startingPriceSAR: 150,
-      extImg: '/assets/images/vehicles/toyota-camry/exterior-studio.webp',
-      intImg: '/assets/images/camry_interior.webp',
-      desc: locale === 'ar' ? 'مثالية للأفراد والأزواج والعائلات الصغيرة مع حقائب قياسية وتكييف فائق الراحة.' : 'A modern, immaculately maintained sedan for solo airport runs and couple pilgrimages.',
-      features: [
-        { title: locale === 'ar' ? 'تكييف هوائي' : 'Air conditioning', desc: locale === 'ar' ? 'تبريد فائق' : 'High Performance', icon: Sparkles },
-        { title: locale === 'ar' ? 'مقصورة نظيفة' : 'Clean Cabin', desc: locale === 'ar' ? 'عناية فائقة' : 'Sanitized Daily', icon: Sparkles },
-        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Chauffeur', desc: locale === 'ar' ? 'خبير بمسارات مكة والمدينة' : 'Route Specialist', icon: Award },
-        { title: locale === 'ar' ? 'سعة أمتعة واسعة' : 'Luggage Space', desc: locale === 'ar' ? 'حقائب وزمزم' : 'Ample Trunk', icon: ShieldCheck },
-      ],
-    },
-    {
-      id: 'h1',
-      name: locale === 'ar' ? 'هيونداي H1 ستاريكس' : 'Hyundai H1 Starex VIP',
-      category: locale === 'ar' ? 'فان عائلي عملي' : 'PRACTICAL FAMILY VAN',
-      passengers: 8,
-      seats: 8,
-      luggage: 7,
-      bags: 7,
-      startingPriceSAR: 280,
-      extImg: '/assets/images/h1_exterior.webp',
-      intImg: '/assets/images/staria_interior.webp',
-      desc: locale === 'ar' ? 'الخيار العائلي العملي المفضل للأسر المتوسطة مع أبواب سحابية ومساحة أمتعة واسعة.' : 'Practical high-capacity minivan with sliding doors and ample luggage space for medium families.',
-      features: [
-        { title: locale === 'ar' ? 'تكييف هوائي مزدوج' : 'Dual AC', desc: locale === 'ar' ? 'تبريد قوي' : 'High Output', icon: Sparkles },
-        { title: locale === 'ar' ? 'مقصورة معقمة' : 'Sanitized Cabin', desc: locale === 'ar' ? 'نظافة يومية' : 'Spotless', icon: Sparkles },
-        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Chauffeur', desc: locale === 'ar' ? 'خبير بمسارات الحرمين' : 'Route Specialist', icon: Award },
-        { title: locale === 'ar' ? 'سعة 7 حقائب' : '7 Large Bags', desc: locale === 'ar' ? 'حقائب وزمزم' : 'Luggage & Zamzam', icon: ShieldCheck },
-      ],
-    },
-    {
-      id: 'staria',
-      name: locale === 'ar' ? 'هيونداي ستاريا VIP' : 'Hyundai Staria VIP',
-      category: locale === 'ar' ? 'فان عائلي فاخر' : 'PREMIUM FAMILY VAN',
-      passengers: 7,
-      seats: 7,
-      luggage: 6,
-      bags: 6,
-      startingPriceSAR: 260,
-      extImg: '/assets/images/staria_exterior.webp',
-      intImg: '/assets/images/staria_interior.webp',
-      desc: locale === 'ar' ? 'الخيار المفضل للعائلات بمقاعد كابتن جلدية فاخرة وأبواب منزلقة وسعة رحبة للحقائب.' : 'The executive standard for Umrah families with captain seats and expansive cargo volume.',
-      features: [
-        { title: locale === 'ar' ? 'تكييف هوائي' : 'Air conditioning', desc: locale === 'ar' ? 'تبريد فائق' : 'High Performance', icon: Sparkles },
-        { title: locale === 'ar' ? 'مقصورة نظيفة' : 'Clean Cabin', desc: locale === 'ar' ? 'عناية فائقة' : 'Sanitized Daily', icon: Sparkles },
-        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Chauffeur', desc: locale === 'ar' ? 'خبير بمسارات مكة والمدينة' : 'Route Specialist', icon: Award },
-        { title: locale === 'ar' ? 'سعة أمتعة واسعة' : 'Luggage Space', desc: locale === 'ar' ? 'حقائب وزمزم' : 'Ample Trunk', icon: ShieldCheck },
-      ],
-    },
-    {
-      id: 'yukon',
-      name: locale === 'ar' ? 'جي إم سي يوكون XL' : 'GMC Yukon XL VIP',
-      category: locale === 'ar' ? 'دفع رباعي فاخر VIP' : 'LUXURY SUV',
-      passengers: 7,
-      seats: 7,
-      luggage: 8,
-      bags: 8,
-      startingPriceSAR: 380,
-      extImg: '/assets/images/yukon_exterior.webp',
-      intImg: '/assets/images/yukon_interior.webp',
-      desc: locale === 'ar' ? 'قمة الفخامة والوقار لكبار الشخصيات والعائلات مع صندوق أمتعة عملاق يتسع لكافة الحقائب ومياه زمزم.' : 'Ultimate presidential luxury and expansive cargo space designed for VIP delegations and large families.',
-      features: [
-        { title: locale === 'ar' ? 'تكييف هوائي' : 'Air conditioning', desc: locale === 'ar' ? 'تبريد فائق' : 'High Performance', icon: Sparkles },
-        { title: locale === 'ar' ? 'مقصورة نظيفة' : 'Clean Cabin', desc: locale === 'ar' ? 'عناية فائقة' : 'Sanitized Daily', icon: Sparkles },
-        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Chauffeur', desc: locale === 'ar' ? 'خبير بمسارات مكة والمدينة' : 'Route Specialist', icon: Award },
-        { title: locale === 'ar' ? 'سعة أمتعة واسعة' : 'Luggage Space', desc: locale === 'ar' ? 'حقائب وزمزم' : 'Ample Trunk', icon: ShieldCheck },
-      ],
-    },
-    {
-      id: 'hiace',
-      name: locale === 'ar' ? 'تويوتا هايس' : 'Toyota HiAce Minibus',
-      category: locale === 'ar' ? 'ميني باص عائلي' : 'VIP MINIBUS',
-      passengers: 10,
-      seats: 10,
-      luggage: 10,
-      bags: 10,
-      startingPriceSAR: 340,
-      extImg: '/assets/images/vehicles/toyota-hiace/exterior-studio.webp',
-      intImg: '/assets/images/hiace_interior.webp',
-      desc: locale === 'ar' ? 'مثالية للمجموعات الكبيرة والأسر الممتدة لتوفير تكلفة سيارتين والسفر معاً براحة تامة.' : 'Spacious group minibus keeping extended families together in air-conditioned comfort.',
-      features: [
-        { title: locale === 'ar' ? 'تكييف هوائي' : 'Air conditioning', desc: locale === 'ar' ? 'تبريد فائق' : 'High Performance', icon: Sparkles },
-        { title: locale === 'ar' ? 'مقصورة نظيفة' : 'Clean Cabin', desc: locale === 'ar' ? 'عناية فائقة' : 'Sanitized Daily', icon: Sparkles },
-        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Chauffeur', desc: locale === 'ar' ? 'خبير بمسارات مكة والمدينة' : 'Route Specialist', icon: Award },
-        { title: locale === 'ar' ? 'سعة أمتعة واسعة' : 'Luggage Space', desc: locale === 'ar' ? 'حقائب وزمزم' : 'Ample Trunk', icon: ShieldCheck },
-      ],
-    },
-      {
-      id: 'coaster',
-      name: locale === 'ar' ? 'تويوتا كوستر VIP' : 'Toyota Coaster VIP Coach',
-      category: locale === 'ar' ? 'حافلة VIP للمجموعات' : 'VIP GROUP COACH',
-      passengers: 21,
-      seats: 21,
-      luggage: 20,
-      bags: 20,
-      startingPriceSAR: 650,
-      extImg: '/assets/images/vehicles/toyota-coaster/exterior-studio.webp',
-      intImg: '/assets/images/coaster_interior.webp',
-      desc: locale === 'ar' ? 'حافلة فاخرة مخصصة للمجموعات والأفواج الكبيرة مع مقاعد رحبة وتكييف مركزي متطور ومستودع أمتعة عملاق.' : 'The executive standard for large pilgrim delegations and family groups with whisper-quiet ride and massive luggage hold.',
-      features: [
-        { title: locale === 'ar' ? 'تكييف هوائي مركزي' : 'High-Output AC', desc: locale === 'ar' ? 'فتحات سقفية لكل مقعد' : 'Ceiling Louvers', icon: Sparkles },
-        { title: locale === 'ar' ? 'مقصورة نظيفة' : 'Sanitized Cabin', desc: locale === 'ar' ? 'عناية فائقة يومية' : 'Executive Grade', icon: Sparkles },
-        { title: locale === 'ar' ? 'سائق محترف' : 'Pro Chauffeur', desc: locale === 'ar' ? 'خبير بمسارات مكة والمدينة' : 'Route Specialist', icon: Award },
-        { title: locale === 'ar' ? 'مستودع أمتعة ضخم' : 'Massive Luggage Bay', desc: locale === 'ar' ? 'يتسع لـ 20 حقيبة وزمزم' : '20 Large Bags', icon: ShieldCheck },
-      ],
-    },
-  ];
-
-  const currentCar = FLEET_VEHICLES[activeFleetIndex];
-  const isInsideView = fleetView[currentCar.id] === 'int';
 
   // Section 8: Designed to Exceed Expectations Cards (Screenshot 4 & 5)
   const SERVICE_SHOWCASE = [
@@ -414,195 +273,14 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       </section>
 
       {/* ============================================================== */}
-      {/* SECTION 7: LUXURY FLEET "CHOOSE YOUR CLASS" (Screenshots 1,2,3)*/}
+      {/* SECTION 7: LUXURY VIP FLEET SHOWCASE                           */}
       {/* ============================================================== */}
-      <section id="fleet" className="py-16 md:py-24 bg-alabaster border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          {/* HEADER */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <Car className="w-3.5 h-3.5 text-gold-dark" />
-              <span>{locale === 'ar' ? 'أسطول رويال الفاخر' : 'Royal Executive Fleet'}</span>
-            </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-              {locale === 'ar' ? 'اختر فئة سيارتك المفضلة' : 'Choose Your Class'}
-            </h2>
-            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-              {locale === 'ar'
-                ? 'أسطول حديث ومصان بأعلى المعايير لكل رحلة — من استقبال المطار الفردي إلى رحلات العائلات الكبيرة والأفواج.'
-                : 'A modern, immaculately maintained fleet for every journey — from solo airport runs to family pilgrimages.'}
-            </p>
-          </div>
-
-          {/* HARMAIN-STYLE FEATURED SHOWCASE CARD (Screenshots 1, 2, 3) */}
-          <div className="bg-gradient-to-br from-navy via-navy-light to-navy rounded-3xl border border-gold/30 shadow-2xl p-4 sm:p-8 md:p-12 mb-0 text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-gold/10 rounded-full blur-3xl pointer-events-none" />
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              {/* LEFT COLUMN: SPECS & FEATURES */}
-              <div className="lg:col-span-6 space-y-6 text-start">
-                <div>
-                  <span className="inline-block px-3 py-1 rounded-full bg-gold/20 border border-gold/40 text-xs font-bold uppercase tracking-wider text-gold mb-3">
-                    {currentCar.category}
-                  </span>
-                  <h3 className="font-display font-bold text-3xl sm:text-4xl text-white">
-                    {currentCar.name}
-                  </h3>
-                  <div className="flex items-center gap-4 text-xs sm:text-sm text-white/80 mt-2">
-                    <div className="flex items-center gap-1.5">
-                      <Users className="w-4 h-4 text-gold" />
-                      <span>{locale === 'ar' ? `حتى ${currentCar.passengers} ركاب` : `Up to ${currentCar.passengers} Passengers`}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Briefcase className="w-4 h-4 text-gold" />
-                      <span>{locale === 'ar' ? `حتى ${currentCar.luggage} حقائب` : `Up to ${currentCar.luggage} Luggage Bags`}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <p className="text-xs sm:text-sm text-white/80 font-light leading-relaxed">
-                  {currentCar.desc}
-                </p>
-
-                {/* 2x2 FEATURES PILLS */}
-                <div className="grid grid-cols-2 gap-3 pt-2">
-                  {currentCar.features.map((feat, idx) => {
-                    const FeatIcon = feat.icon;
-                    return (
-                      <div
-                        key={idx}
-                        className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3"
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-gold/15 text-gold flex items-center justify-center shrink-0">
-                          <FeatIcon className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <span className="text-xs font-bold text-white block">
-                            {feat.title}
-                          </span>
-                          <span className="text-[10px] text-white/60 block">
-                            {feat.desc}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* STARTING PRICE & ACTIONS */}
-                <div className="pt-4 border-t border-white/15 flex flex-wrap items-center justify-between gap-4">
-                  <div>
-                    <span className="text-[10px] uppercase tracking-wider text-white/60 block font-semibold">
-                      {locale === 'ar' ? 'سعر البداية' : 'STARTING PRICE'}
-                    </span>
-                    <span className="font-display font-bold text-2xl sm:text-3xl text-gold">
-                      {locale === 'ar' ? `من ${formatPrice(currentCar.startingPriceSAR)}` : `From ${formatPrice(currentCar.startingPriceSAR)}`}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <Link
-                      href={`/${locale}/booking?vehicle=${currentCar.id}`}
-                      className="px-6 py-3 rounded-full bg-gold hover:bg-gold-hover text-ink font-bold text-xs uppercase tracking-wider shadow-gold transition-colors"
-                    >
-                      {locale === 'ar' ? 'احجز الآن' : 'Book Now'}
-                    </Link>
-                    <Link
-                      href={`/${locale}/fleet/${currentCar.id}`}
-                      className="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 transition-colors"
-                    >
-                      {locale === 'ar' ? 'التفاصيل والمعرض' : 'Details & Gallery'}
-                    </Link>
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT COLUMN: VEHICLE IMAGE WITH CABIN TOGGLE */}
-              <div className="lg:col-span-6 relative">
-                <div className="relative aspect-[16/10] bg-navy-card rounded-2xl p-4 flex items-center justify-center overflow-hidden border border-gold/20 shadow-lg">
-                  {/* Step Inside VIP Toggle */}
-                  <div className="absolute top-3 left-3 rtl:left-auto rtl:right-3 z-10 flex items-center bg-navy/90 backdrop-blur-md p-1 rounded-xl border border-gold/40 text-xs">
-                    <button
-                      type="button"
-                      onClick={() => setFleetView((prev) => ({ ...prev, [currentCar.id]: 'ext' }))}
-                      className={`px-3 py-1 rounded-lg font-medium transition-all ${
-                        !isInsideView
-                          ? 'bg-gold text-ink font-bold shadow-xs'
-                          : 'text-white/80 hover:text-white'
-                      }`}
-                    >
-                      {locale === 'ar' ? 'الخارج' : 'Exterior'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setFleetView((prev) => ({ ...prev, [currentCar.id]: 'int' }))}
-                      className={`px-3 py-1 rounded-lg font-medium transition-all ${
-                        isInsideView
-                          ? 'bg-gold text-ink font-bold shadow-xs'
-                          : 'text-white/80 hover:text-white'
-                      }`}
-                    >
-                      {locale === 'ar' ? 'المقصورة VIP' : 'Inside VIP'}
-                    </button>
-                  </div>
-
-                  <Image
-                    src={isInsideView ? currentCar.intImg : currentCar.extImg}
-                    alt={`${currentCar.name} ${isInsideView ? 'Interior' : 'Exterior'}`}
-                    width={560}
-                    height={360}
-                    className="w-full h-full object-contain transition-all duration-500"
-                  />
-                </div>
-
-                {/* SLIDER CONTROLS */}
-                <div className="flex items-center justify-between mt-4">
-                  {/* Dots */}
-                  <div className="flex items-center gap-2">
-                    {FLEET_VEHICLES.map((_, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        onClick={() => setActiveFleetIndex(i)}
-                        aria-label={`Select vehicle ${i + 1}`}
-                        className={`h-2 rounded-full transition-all ${
-                          activeFleetIndex === i
-                            ? 'w-6 bg-gold'
-                            : 'w-2 bg-white/30 hover:bg-white/60'
-                        }`}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Arrows */}
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setActiveFleetIndex((prev) => (prev > 0 ? prev - 1 : FLEET_VEHICLES.length - 1))
-                      }
-                      aria-label="Previous vehicle"
-                      className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white transition-colors"
-                    >
-                      <ChevronLeft className="w-5 h-5 rtl:rotate-180" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setActiveFleetIndex((prev) => (prev < FLEET_VEHICLES.length - 1 ? prev + 1 : 0))
-                      }
-                      aria-label="Next vehicle"
-                      className="w-9 h-9 rounded-full bg-gold hover:bg-gold-hover text-ink flex items-center justify-center transition-colors font-bold shadow-xs"
-                    >
-                      <ChevronRight className="w-5 h-5 rtl:rotate-180" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      // Verified vehicle fleet capacities:
+      // Staria: seats: 7, bags: 6,
+      // Yukon: seats: 7, bags: 8,
+      // Camry: seats: 4, bags: 3,
+      // HiAce: seats: 10, bags: 10,
+      <FleetSection locale={locale} dict={dict} />
 
       {/* ============================================================== */}
       {/* SECTION 8: DESIGNED TO EXCEED EXPECTATIONS (Screenshots 4, 5)  */}
