@@ -42,8 +42,8 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   owner_notification_email: 'info@duyufalrahmanvip.com',
   telegram_chat_id: '',
   lead_alert_minutes: 15,
-  riyadh_enabled: false,
-  taif_enabled: false,
+  riyadh_enabled: true,
+  taif_enabled: true,
   address_cities: ['Makkah', 'Madinah', 'Jeddah', 'Taif', 'Riyadh'],
   google_reviews_link: '', // default empty; hides review block when empty
   google_reviews_rating: 0,

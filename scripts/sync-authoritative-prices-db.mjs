@@ -176,6 +176,18 @@ async function main() {
     summary[p.route_id][p.vehicle_id] = p.price_sar;
   }
   console.table(summary);
+  console.log('\n--- Step 4: Ensure Riyadh Enabled in `site_settings` ---');
+  const { data: sData, error: sErr } = await supabase
+    .from('site_settings')
+    .update({ riyadh_enabled: true })
+    .eq('lock_id', true)
+    .select('riyadh_enabled');
+  if (sErr) {
+    console.warn('Notice updating site_settings:', sErr);
+  } else {
+    console.log('✓ Updated site_settings:', sData);
+  }
+
   console.log('✓ Supabase database synchronization complete!');
 }
 
