@@ -112,7 +112,7 @@ export const EXECUTIVE_ROUTES_DATA: RouteCardData[] = [
   },
   {
     slug: 'riyadh-airport-transfer',
-    image: '/assets/images/camry_exterior.webp',
+    image: '/assets/images/routes/riyadh-airport-transfer.webp',
     imagePosition: 'object-[center_30%]',
     timeEn: '35-50 mins',
     timeAr: '35-50 دقيقة',
@@ -131,7 +131,7 @@ export const EXECUTIVE_ROUTES_DATA: RouteCardData[] = [
   },
   {
     slug: 'riyadh-to-makkah',
-    image: '/assets/images/yukon_exterior.webp',
+    image: '/assets/images/routes/riyadh-to-makkah.webp',
     imagePosition: 'object-[center_35%]',
     timeEn: '8-9 hours',
     timeAr: '8-9 ساعات',
