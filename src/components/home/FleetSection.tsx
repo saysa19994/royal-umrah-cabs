@@ -121,7 +121,6 @@ const THREE_REAL_FEATURES = [
 
 export function FleetSection({ locale, dict }: FleetSectionProps) {
   const [activeVehicleIndex, setActiveVehicleIndex] = useState<number>(0);
-  const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
   const [isGalleryOpen, setIsGalleryOpen] = useState<boolean>(false);
   const [galleryActiveIndex, setGalleryActiveIndex] = useState<number>(0);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
@@ -143,32 +142,33 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
     prevVehicle: FLEET_SHOWCASE_UI.prevVehicle[locale] || FLEET_SHOWCASE_UI.prevVehicle.en,
     nextVehicle: FLEET_SHOWCASE_UI.nextVehicle[locale] || FLEET_SHOWCASE_UI.nextVehicle.en,
     vehicleDetails: locale === 'ar' ? 'تفاصيل المركبة' : 'VEHICLE DETAILS',
+    exteriorLabel: locale === 'ar' ? 'من الخارج' : 'EXTERIOR',
+    interiorLabel: locale === 'ar' ? 'المقصورة الداخلية' : 'INTERIOR',
   };
 
   const totalVehicles = FLEET_SHOWCASE_VEHICLES.length;
   const currentCar = FLEET_SHOWCASE_VEHICLES[activeVehicleIndex] || FLEET_SHOWCASE_VEHICLES[0];
   const nextCar = FLEET_SHOWCASE_VEHICLES[(activeVehicleIndex + 1) % totalVehicles];
-  const activeImage = currentCar.gallery[activeImageIndex] || currentCar.gallery[0];
 
-  const exteriorIndex = currentCar.gallery.findIndex((img) => img.type === 'exterior');
-  const interiorIndex = currentCar.gallery.findIndex((img) => img.type === 'interior');
-  const isInteriorActive = activeImage.type === 'interior';
-  const isExteriorActive = !isInteriorActive;
+  // Identify primary exterior and interior photos for Desktop Design 14 two-photo layout
+  const exteriorPhoto =
+    currentCar.gallery.find((img) => img.type === 'exterior') || currentCar.gallery[0];
+  const interiorPhoto =
+    currentCar.gallery.find((img) => img.type === 'interior') ||
+    currentCar.gallery[1] ||
+    currentCar.gallery[0];
 
   // Infinite carousel navigation
   const handlePrevVehicle = useCallback(() => {
     setActiveVehicleIndex((prev) => (prev > 0 ? prev - 1 : totalVehicles - 1));
-    setActiveImageIndex(0);
   }, [totalVehicles]);
 
   const handleNextVehicle = useCallback(() => {
     setActiveVehicleIndex((prev) => (prev < totalVehicles - 1 ? prev + 1 : 0));
-    setActiveImageIndex(0);
   }, [totalVehicles]);
 
   const handleSelectVehicle = useCallback((index: number) => {
     setActiveVehicleIndex(index);
-    setActiveImageIndex(0);
   }, []);
 
   // Keyboard navigation for vehicle switching and modal control
@@ -203,11 +203,6 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [isGalleryOpen, isRtl, handleNextVehicle, handlePrevVehicle, currentCar.gallery.length]);
-
-  // Gallery view switcher
-  const handleSelectImage = useCallback((index: number) => {
-    setActiveImageIndex(index);
-  }, []);
 
   const openLightbox = useCallback((initialIdx: number = 0) => {
     setGalleryActiveIndex(initialIdx);
@@ -249,13 +244,13 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
   return (
     <section
       id="fleet"
-      className="py-16 md:py-24 bg-[#0B1220] text-[#F7F5EF] text-start transition-colors relative overflow-hidden"
+      className="py-16 md:py-24 bg-[#090C14] text-[#F7F5EF] text-start transition-colors relative overflow-hidden"
       role="region"
       aria-roledescription="carousel"
       aria-label="Royal Luxury VIP Fleet Showcase"
     >
       {/* Background cinematic ambient warm gold glow */}
-      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[650px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#D4AF37]/15 via-[#101726]/40 to-transparent blur-[140px]" />
+      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[700px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#D4AF37]/12 via-[#101726]/30 to-transparent blur-[140px]" />
 
       {/* Preload next vehicle's primary image for instantaneous transition */}
       {nextCar && (
@@ -278,7 +273,7 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
                 : dict.fleet?.sectionPill || 'Royal Executive Fleet'}
             </span>
           </div>
-          <h2 className="font-display font-bold text-3xl md:text-5xl text-[#F7F5EF] tracking-tight">
+          <h2 className="font-serif font-bold text-3xl md:text-5xl text-[#F7F5EF] tracking-tight">
             {locale === 'ar'
               ? 'اختر فئة سيارتك المفضلة'
               : dict.fleet?.heading || 'Choose Your Class'}
@@ -291,153 +286,117 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
           </p>
         </div>
 
-        {/* ======================================================== */}
-        {/* MOBILE LAYOUT (< 768px): STRICTLY DESIGN 03 CINEMATIC   */}
-        {/* ======================================================== */}
+        {/* ========================================================================= */}
+        {/* MOBILE LAYOUT (< 768px): EXACTLY DESIGN 03 | CINEMATIC AMBIENT REFERENCE */}
+        {/* ========================================================================= */}
         <div
-          className="block md:hidden"
+          className="block md:hidden max-w-md mx-auto"
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
-          <div className="relative bg-[#0B1220]/95 rounded-[24px] border border-[#D4AF37]/35 shadow-2xl shadow-black/80 p-5 overflow-hidden">
-            {/* Subtle cinematic spotlight overlay */}
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#D4AF37]/10 via-transparent to-transparent" />
+          <div className="relative bg-[#0E121A] rounded-[28px] border-2 border-[#D4AF37]/50 shadow-[0_15px_40px_rgba(0,0,0,0.9),_inset_0_0_20px_rgba(212,175,55,0.06)] p-6 overflow-hidden">
+            {/* Ambient spotlight glow behind vehicle */}
+            <div className="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 w-72 h-72 bg-[radial-gradient(circle,_var(--tw-gradient-stops))] from-[#D4AF37]/25 via-transparent to-transparent blur-2xl" />
 
-            <div className="relative z-10 flex flex-col items-center text-center space-y-4">
-              {/* 1. Star Badge at Top */}
-              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/40 text-[11px] font-bold uppercase tracking-wider text-[#D4AF37]">
+            <div className="relative z-10 flex flex-col items-center text-center">
+              {/* 1. Star Badge at Top (Design 03) */}
+              <div className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-[#1A1820] border border-[#D4AF37]/50 text-[11px] font-bold uppercase tracking-wider text-[#E8D39A] mb-3">
                 <Sparkles className="w-3 h-3 text-[#D4AF37] fill-[#D4AF37]" />
                 <span>{currentCar.category[locale] || currentCar.category.en}</span>
               </div>
 
               {/* 2. Vehicle Name in Elegant Serif */}
-              <h3 className="font-display font-bold text-2xl text-[#F7F5EF] tracking-tight leading-tight">
+              <h3 className="font-serif font-bold text-2xl text-[#F7F5EF] tracking-tight leading-snug">
                 {currentCar.name[locale] || currentCar.name.en}
               </h3>
 
-              {/* 3. Large Car Image with Cinematic Spotlight Backdrop */}
-              <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-b from-[#131A2B] via-[#0E1524] to-[#0B1220] flex items-center justify-center shadow-inner group">
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#D4AF37]/20 via-[#121A2B]/40 to-transparent blur-md" />
-                <div className="relative w-full h-full p-2 flex items-center justify-center">
-                  <Image
-                    key={`mobile-${currentCar.id}-${activeImage.src}`}
-                    src={activeImage.src}
-                    alt={activeImage.alt[locale] || activeImage.alt.en}
-                    width={700}
-                    height={440}
-                    priority={activeVehicleIndex === 0}
-                    sizes="100vw"
-                    className="w-full h-full object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)]"
-                  />
-                </div>
-
-                {/* Floating Exterior / Inside VIP switcher on mobile */}
-                <div className="absolute top-2.5 left-2.5 rtl:left-auto rtl:right-2.5 z-20 flex items-center bg-black/60 backdrop-blur-md p-1 rounded-lg border border-white/15 text-[11px]">
-                  {exteriorIndex >= 0 && (
-                    <button
-                      type="button"
-                      onClick={() => handleSelectImage(exteriorIndex)}
-                      className={`px-2.5 py-1 rounded-md font-bold transition-all ${
-                        isExteriorActive
-                          ? 'bg-[#D4AF37] text-[#0A0D14]'
-                          : 'text-white/80 hover:text-white'
-                      }`}
-                    >
-                      {tUI.exterior}
-                    </button>
-                  )}
-                  {interiorIndex >= 0 && (
-                    <button
-                      type="button"
-                      onClick={() => handleSelectImage(interiorIndex)}
-                      className={`px-2.5 py-1 rounded-md font-bold transition-all ${
-                        isInteriorActive
-                          ? 'bg-[#D4AF37] text-[#0A0D14]'
-                          : 'text-white/80 hover:text-white'
-                      }`}
-                    >
-                      {tUI.insideVip}
-                    </button>
-                  )}
-                </div>
+              {/* 3. Large Cinematic Car Image with Ambient Spotlight */}
+              <div
+                className="relative w-full aspect-[16/10] my-3 flex items-center justify-center cursor-pointer group"
+                onClick={() => openLightbox(0)}
+              >
+                <Image
+                  key={`mobile-car-${currentCar.id}`}
+                  src={exteriorPhoto.src}
+                  alt={exteriorPhoto.alt[locale] || exteriorPhoto.alt.en}
+                  width={650}
+                  height={400}
+                  priority={activeVehicleIndex === 0}
+                  sizes="100vw"
+                  className="w-full h-full object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.9)] transition-transform duration-300 group-hover:scale-105"
+                />
               </div>
 
               {/* 4. Capacity Specs ("Up to X Passengers / X Luggage") */}
-              <div className="inline-flex items-center gap-2 text-xs text-[#E8D39A] font-medium pt-1">
-                <Users className="w-4 h-4 text-[#D4AF37] shrink-0" />
-                <span>{tUI.passengers.replace('{count}', String(currentCar.passengers))}</span>
-                <span className="text-white/30">/</span>
-                <Briefcase className="w-4 h-4 text-[#D4AF37] shrink-0" />
-                <span>{tUI.luggage.replace('{count}', String(currentCar.luggage))}</span>
+              <div className="text-xs text-[#E8D39A] font-medium tracking-wide my-1">
+                {tUI.passengers.replace('{count}', String(currentCar.passengers))} /{' '}
+                {tUI.luggage.replace('{count}', String(currentCar.luggage))}
               </div>
 
-              {/* 5. The Three Real Features Only (First-Class Climate, Executive Chauffeur, Nappa Leather) */}
-              <div className="w-full pt-1">
-                {/* Row 1: Two features side by side */}
-                <div className="grid grid-cols-2 gap-2 w-full">
-                  {THREE_REAL_FEATURES.slice(0, 2).map((feat) => {
-                    const FeatIcon = feat.icon;
-                    return (
-                      <div
-                        key={feat.key}
-                        className="p-2.5 rounded-xl bg-[#121927] border border-white/5 flex items-center gap-2.5 text-start"
-                      >
-                        <div className="w-7 h-7 rounded-lg bg-[#182236] border border-[#D4AF37]/30 text-[#D4AF37] flex items-center justify-center shrink-0">
-                          <FeatIcon className="w-3.5 h-3.5" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <span className="text-xs font-semibold text-[#F7F5EF] block truncate leading-snug">
-                            {feat.title[locale] || feat.title.en}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
+              {/* 5. Features Grid with Thin Gold Outline Icons (Design 03) */}
+              <div className="w-full my-4 grid grid-cols-2 gap-3 text-start">
+                {/* Feature 1: First-Class Climate */}
+                <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/[0.03]">
+                  <Wind className="w-5 h-5 text-[#D4AF37] shrink-0 stroke-[1.5]" />
+                  <div className="min-w-0">
+                    <span className="text-xs font-semibold text-[#F7F5EF] block leading-snug">
+                      {THREE_REAL_FEATURES[0].title[locale] || THREE_REAL_FEATURES[0].title.en}
+                    </span>
+                  </div>
                 </div>
 
-                {/* Row 2: Third feature centered */}
-                <div className="pt-2 w-full">
-                  {(() => {
-                    const feat = THREE_REAL_FEATURES[2];
-                    const FeatIcon = feat.icon;
-                    return (
-                      <div
-                        key={feat.key}
-                        className="p-2.5 rounded-xl bg-[#121927] border border-white/5 flex items-center justify-center gap-2.5 text-center"
-                      >
-                        <div className="w-7 h-7 rounded-lg bg-[#182236] border border-[#D4AF37]/30 text-[#D4AF37] flex items-center justify-center shrink-0">
-                          <FeatIcon className="w-3.5 h-3.5" />
-                        </div>
-                        <span className="text-xs font-semibold text-[#F7F5EF] truncate">
-                          {feat.title[locale] || feat.title.en}
-                        </span>
-                      </div>
-                    );
-                  })()}
+                {/* Feature 2: Executive Chauffeur */}
+                <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/[0.03]">
+                  <UserCheck className="w-5 h-5 text-[#D4AF37] shrink-0 stroke-[1.5]" />
+                  <div className="min-w-0">
+                    <span className="text-xs font-semibold text-[#F7F5EF] block leading-snug">
+                      {THREE_REAL_FEATURES[1].title[locale] || THREE_REAL_FEATURES[1].title.en}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Feature 3: Nappa Leather */}
+                <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/[0.03]">
+                  <Armchair className="w-5 h-5 text-[#D4AF37] shrink-0 stroke-[1.5]" />
+                  <div className="min-w-0">
+                    <span className="text-xs font-semibold text-[#F7F5EF] block leading-snug">
+                      {THREE_REAL_FEATURES[2].title[locale] || THREE_REAL_FEATURES[2].title.en}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Feature 4 / Capacity Feature */}
+                <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/[0.03]">
+                  <Briefcase className="w-5 h-5 text-[#D4AF37] shrink-0 stroke-[1.5]" />
+                  <div className="min-w-0">
+                    <span className="text-xs font-semibold text-[#F7F5EF] block leading-snug">
+                      {locale === 'ar' ? 'سعة أمتعة كافية' : 'Premium Luggage'}
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              {/* 6. Price & Action Block with NEXT ARROW & BOOK NOW */}
+              {/* 6. Price Block with "From" + Next-Arrow `>>` + "BOOK NOW" */}
               <div className="w-full pt-3 border-t border-white/10 flex items-center justify-between gap-3">
                 {/* Price Display */}
                 <div className="text-start shrink-0">
-                  <span className="text-[11px] text-[#B9BEC8] block leading-none mb-1">
+                  <span className="text-[11px] text-[#B9BEC8] block leading-none mb-0.5">
                     {tUI.from}
                   </span>
-                  <span className="font-display font-bold text-2xl text-[#D4AF37] tracking-tight">
+                  <span className="font-serif font-bold text-2xl text-[#E8D39A] tracking-tight">
                     {formatPrice(currentCar.startingPriceSAR)}
                   </span>
                 </div>
 
-                {/* Next Arrow and BOOK NOW button */}
+                {/* Next-Arrow button `>>` and Primary BOOK NOW */}
                 <div className="flex items-center gap-2 flex-1 justify-end">
-                  {/* Next Vehicle Arrow Button */}
+                  {/* Next Arrow Button */}
                   <button
                     type="button"
                     onClick={handleNextVehicle}
                     aria-label={tUI.nextVehicle}
-                    className="min-h-[48px] w-12 rounded-xl bg-[#141B28] hover:bg-[#1E273A] border border-[#D4AF37]/40 text-[#D4AF37] flex items-center justify-center transition-all active:scale-95 shrink-0"
+                    className="min-h-[48px] w-12 rounded-xl bg-[#1A1820] hover:bg-[#25222E] border border-[#D4AF37]/50 text-[#D4AF37] flex items-center justify-center transition-all active:scale-95 shrink-0 shadow-md"
                   >
                     {isRtl ? (
                       <ChevronsLeft className="w-5 h-5" />
@@ -449,7 +408,7 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
                   {/* Primary BOOK NOW */}
                   <Link
                     href={`/${locale}/booking?vehicle=${currentCar.bookingVehicleId}`}
-                    className="min-h-[48px] flex-1 px-4 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#E5C158] to-[#D4AF37] hover:brightness-105 active:scale-[0.98] text-[#0A0D14] font-bold text-xs uppercase tracking-wider shadow-lg shadow-[#D4AF37]/25 flex items-center justify-center gap-1.5 text-center whitespace-nowrap"
+                    className="min-h-[48px] flex-1 px-5 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#E8D39A] to-[#D4AF37] hover:brightness-110 active:scale-[0.98] text-[#141218] font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#D4AF37]/30 flex items-center justify-center gap-1.5 text-center whitespace-nowrap"
                   >
                     <span>{tUI.bookNow}</span>
                     <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
@@ -457,16 +416,14 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
                 </div>
               </div>
 
-              {/* 7. Secondary "Details & Gallery" button */}
-              <div className="w-full pt-1">
-                <button
-                  type="button"
-                  onClick={() => openLightbox(0)}
-                  className="min-h-[48px] w-full rounded-xl bg-transparent border border-[#D4AF37]/50 hover:bg-[#D4AF37]/10 text-[#E8D39A] font-semibold text-xs tracking-wider transition-all flex items-center justify-center"
-                >
-                  {tUI.detailsAndGallery}
-                </button>
-              </div>
+              {/* 7. Centered "Details & Gallery" button (Design 03) */}
+              <button
+                type="button"
+                onClick={() => openLightbox(0)}
+                className="text-xs text-[#E8D39A] hover:text-[#D4AF37] font-medium tracking-wide mt-3 py-2 transition-colors underline-offset-4 hover:underline"
+              >
+                {tUI.detailsAndGallery}
+              </button>
 
               {/* Pagination Dots */}
               <div
@@ -494,93 +451,136 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
           </div>
         </div>
 
-        {/* ======================================================== */}
-        {/* DESKTOP LAYOUT (>= 768px): TWO COLUMNS (DESIGN 14 STYLE) */}
-        {/* ======================================================== */}
+        {/* =========================================================================== */}
+        {/* DESKTOP LAYOUT (>= 768px): EXACTLY DESIGN 14 | TWO-PHOTO (EXTERIOR+INTERIOR) */}
+        {/* =========================================================================== */}
         <div className="hidden md:block">
-          <div className="relative bg-[#0B1220]/95 rounded-[24px] border border-[#D4AF37]/35 shadow-2xl shadow-black/80 p-8 lg:p-10 overflow-hidden">
+          <div className="relative bg-[#1A1820] text-[#F7F5EF] rounded-[28px] border-2 border-[#D4AF37]/50 shadow-[0_20px_50px_rgba(0,0,0,0.85),_inset_0_0_25px_rgba(212,175,55,0.08)] p-8 lg:p-10 overflow-hidden">
             {/* Ambient subtle spotlight inside desktop card */}
-            <div className="pointer-events-none absolute -top-20 -right-20 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#D4AF37]/10 via-transparent to-transparent blur-3xl" />
+            <div className="pointer-events-none absolute -top-20 -right-20 w-[550px] h-[550px] bg-[radial-gradient(circle,_var(--tw-gradient-stops))] from-[#D4AF37]/15 via-transparent to-transparent blur-3xl" />
 
-            <div className="relative z-10 grid grid-cols-12 gap-8 lg:gap-10 items-center">
-              {/* LEFT COLUMN (~46%): DETAILS, 3 REAL FEATURES & BOOKING ACTIONS */}
-              <div className="col-span-5 flex flex-col justify-between text-start space-y-5">
-                {/* Category & Name */}
+            <div className="relative z-10 grid grid-cols-12 gap-8 lg:gap-12 items-center">
+              {/* LEFT COLUMN (~52%): VEHICLE INFORMATION, 3 FEATURES & ACTIONS */}
+              <div className="col-span-6 flex flex-col justify-between text-start space-y-6">
                 <div>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/40 text-[11px] font-bold uppercase tracking-wider text-[#D4AF37] mb-2.5">
-                    <Sparkles className="w-3 h-3 text-[#D4AF37] fill-[#D4AF37]" />
-                    <span>{currentCar.category[locale] || currentCar.category.en}</span>
-                  </div>
-
-                  <h3 className="font-display font-bold text-3xl lg:text-4xl text-[#F7F5EF] tracking-tight leading-tight">
+                  {/* Vehicle Name in Large Editorial Serif */}
+                  <h3 className="font-serif font-bold text-3xl lg:text-4xl xl:text-[42px] text-[#E8D39A] tracking-tight leading-tight mb-3">
                     {currentCar.name[locale] || currentCar.name.en}
                   </h3>
 
-                  {/* Passengers & Luggage Capacity Specs */}
-                  <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-[#F7F5EF]/90">
-                    <div className="inline-flex items-center gap-2 bg-[#121927] border border-white/10 px-3.5 py-1.5 rounded-xl">
-                      <Users className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                  {/* Vehicle Details Subtitle */}
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#D4AF37]/80 block">
+                      {tUI.vehicleDetails}
+                    </span>
+                    <div className="flex items-center gap-2.5 text-[#F7F5EF] font-bold text-base sm:text-lg">
+                      <Car className="w-5 h-5 text-[#D4AF37] shrink-0" />
+                      <span>{currentCar.category[locale] || currentCar.category.en}</span>
+                    </div>
+                  </div>
+
+                  {/* Capacity Info */}
+                  <div className="flex items-center gap-3 mt-3 text-xs text-[#E8D39A]/90 font-medium">
+                    <div className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1 rounded-lg">
+                      <Users className="w-3.5 h-3.5 text-[#D4AF37]" />
                       <span>{tUI.passengers.replace('{count}', String(currentCar.passengers))}</span>
                     </div>
-                    <div className="inline-flex items-center gap-2 bg-[#121927] border border-white/10 px-3.5 py-1.5 rounded-xl">
-                      <Briefcase className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                    <div className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1 rounded-lg">
+                      <Briefcase className="w-3.5 h-3.5 text-[#D4AF37]" />
                       <span>{tUI.luggage.replace('{count}', String(currentCar.luggage))}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Thin Gold Decorative Divider */}
-                <div className="w-full h-px bg-gradient-to-r from-[#D4AF37]/40 via-[#D4AF37]/15 to-transparent my-2 rtl:bg-gradient-to-l" />
+                {/* Thin Bronze-Gold Divider Line (Design 14) */}
+                <div className="w-full h-px bg-gradient-to-r from-[#D4AF37]/60 via-[#D4AF37]/20 to-transparent rtl:bg-gradient-to-l" />
 
-                {/* The Three Real Features (Grid Layout) */}
-                <div className="grid grid-cols-1 gap-2.5">
-                  {THREE_REAL_FEATURES.map((feat) => {
-                    const FeatIcon = feat.icon;
-                    return (
-                      <div
-                        key={`desk-${feat.key}`}
-                        className="p-3 rounded-xl bg-[#121927] border border-white/5 hover:border-[#D4AF37]/30 transition-colors flex items-center gap-3.5"
-                      >
-                        <div className="w-9 h-9 rounded-lg bg-[#182236] border border-[#D4AF37]/30 text-[#D4AF37] flex items-center justify-center shrink-0">
-                          <FeatIcon className="w-4 h-4" />
-                        </div>
-                        <div className="min-w-0 flex-1 text-start">
-                          <span className="text-xs sm:text-sm font-semibold text-[#F7F5EF] block leading-snug">
-                            {feat.title[locale] || feat.title.en}
-                          </span>
-                          <span className="text-[11px] text-[#8E97A8] block leading-tight mt-0.5">
-                            {feat.subtitle[locale] || feat.subtitle.en}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
+                {/* The Features Grid (2x2 with Thin Gold Outline Icons) */}
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Feature 1: First-Class Climate */}
+                  <div className="flex items-start gap-3">
+                    <Wind className="w-6 h-6 text-[#D4AF37] shrink-0 stroke-[1.5] mt-0.5" />
+                    <div>
+                      <span className="text-sm font-semibold text-[#F7F5EF] block leading-snug">
+                        {THREE_REAL_FEATURES[0].title[locale] || THREE_REAL_FEATURES[0].title.en}
+                      </span>
+                      <span className="text-xs text-[#B9BEC8] block leading-tight mt-0.5">
+                        {THREE_REAL_FEATURES[0].subtitle[locale] ||
+                          THREE_REAL_FEATURES[0].subtitle.en}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Feature 2: Executive Chauffeur */}
+                  <div className="flex items-start gap-3">
+                    <UserCheck className="w-6 h-6 text-[#D4AF37] shrink-0 stroke-[1.5] mt-0.5" />
+                    <div>
+                      <span className="text-sm font-semibold text-[#F7F5EF] block leading-snug">
+                        {THREE_REAL_FEATURES[1].title[locale] || THREE_REAL_FEATURES[1].title.en}
+                      </span>
+                      <span className="text-xs text-[#B9BEC8] block leading-tight mt-0.5">
+                        {THREE_REAL_FEATURES[1].subtitle[locale] ||
+                          THREE_REAL_FEATURES[1].subtitle.en}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Feature 3: Nappa Leather */}
+                  <div className="flex items-start gap-3">
+                    <Armchair className="w-6 h-6 text-[#D4AF37] shrink-0 stroke-[1.5] mt-0.5" />
+                    <div>
+                      <span className="text-sm font-semibold text-[#F7F5EF] block leading-snug">
+                        {THREE_REAL_FEATURES[2].title[locale] || THREE_REAL_FEATURES[2].title.en}
+                      </span>
+                      <span className="text-xs text-[#B9BEC8] block leading-tight mt-0.5">
+                        {THREE_REAL_FEATURES[2].subtitle[locale] ||
+                          THREE_REAL_FEATURES[2].subtitle.en}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Feature 4: Premium Comfort */}
+                  <div className="flex items-start gap-3">
+                    <Sparkles className="w-6 h-6 text-[#D4AF37] shrink-0 stroke-[1.5] mt-0.5" />
+                    <div>
+                      <span className="text-sm font-semibold text-[#F7F5EF] block leading-snug">
+                        {locale === 'ar' ? 'راحة استثنائية' : 'Premium Comfort'}
+                      </span>
+                      <span className="text-xs text-[#B9BEC8] block leading-tight mt-0.5">
+                        {locale === 'ar' ? 'رحلة هادئة وسلسة' : 'Smooth & Quiet Ride'}
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Price & Primary/Secondary CTA Buttons */}
-                <div className="pt-4 border-t border-white/10 flex flex-col space-y-4">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-xs text-[#B9BEC8] font-normal">{tUI.from}</span>
-                    <span className="font-display font-bold text-3xl text-[#D4AF37] tracking-tight">
+                {/* Bottom Bar: Price + Pill BOOK NOW + Pill Details & Gallery */}
+                <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-4">
+                  {/* Price */}
+                  <div className="text-start shrink-0">
+                    <span className="text-xs text-[#B9BEC8] block leading-none mb-1">
+                      {tUI.from}
+                    </span>
+                    <span className="font-serif font-bold text-3xl lg:text-4xl text-[#E8D39A] tracking-tight">
                       {formatPrice(currentCar.startingPriceSAR)}
                     </span>
                   </div>
 
+                  {/* Pill Action Buttons (Design 14) */}
                   <div className="flex items-center gap-3">
-                    {/* Primary Solid Gold Button */}
+                    {/* Primary BOOK NOW Pill */}
                     <Link
                       href={`/${locale}/booking?vehicle=${currentCar.bookingVehicleId}`}
-                      className="min-h-[48px] flex-1 px-6 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#E5C158] to-[#D4AF37] hover:brightness-105 active:scale-[0.98] text-[#0A0D14] font-bold text-xs uppercase tracking-wider shadow-lg shadow-[#D4AF37]/25 flex items-center justify-center gap-2 text-center whitespace-nowrap transition-all"
+                      className="min-h-[48px] px-8 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#E8D39A] to-[#D4AF37] hover:brightness-110 active:scale-[0.98] text-[#141218] font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#D4AF37]/30 flex items-center justify-center gap-2 whitespace-nowrap transition-all"
                     >
                       <span>{tUI.bookNow}</span>
                       <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
                     </Link>
 
-                    {/* Secondary Gold Outline Button */}
+                    {/* Secondary Details & Gallery Pill */}
                     <button
                       type="button"
                       onClick={() => openLightbox(0)}
-                      className="min-h-[48px] px-5 rounded-xl bg-transparent border border-[#D4AF37]/60 hover:bg-[#D4AF37]/10 text-[#F7F5EF] font-semibold text-xs transition-all flex items-center justify-center whitespace-nowrap active:scale-[0.98]"
+                      className="min-h-[48px] px-6 rounded-full bg-transparent border border-[#D4AF37]/60 hover:bg-[#D4AF37]/15 text-[#E8D39A] font-semibold text-xs tracking-wider transition-all flex items-center justify-center whitespace-nowrap active:scale-[0.98]"
                     >
                       {tUI.detailsAndGallery}
                     </button>
@@ -588,97 +588,52 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
                 </div>
               </div>
 
-              {/* RIGHT COLUMN (~54%): CINEMATIC IMAGE SHOWCASE & CONTROLS */}
-              <div className="col-span-7 flex flex-col space-y-4">
-                {/* Showcase Container */}
-                <div className="relative aspect-[16/10] bg-gradient-to-b from-[#131A2B] via-[#0E1524] to-[#0B1220] rounded-2xl border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center group select-none">
-                  {/* Ambient spotlight glow behind car */}
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#D4AF37]/20 via-[#121A2B]/40 to-transparent blur-md" />
-
-                  {/* Floating Exterior vs Inside VIP Toggle */}
-                  <div className="absolute top-3.5 left-3.5 rtl:left-auto rtl:right-3.5 z-20 flex items-center bg-black/60 backdrop-blur-md p-1 rounded-xl border border-white/15 text-xs shadow-lg">
-                    {exteriorIndex >= 0 && (
-                      <button
-                        type="button"
-                        onClick={() => handleSelectImage(exteriorIndex)}
-                        className={`px-3 py-1.5 rounded-lg font-bold transition-all text-xs ${
-                          isExteriorActive
-                            ? 'bg-[#D4AF37] text-[#0A0D14] shadow-xs'
-                            : 'text-white/80 hover:text-white hover:bg-white/10'
-                        }`}
-                      >
-                        {tUI.exterior}
-                      </button>
-                    )}
-                    {interiorIndex >= 0 && (
-                      <button
-                        type="button"
-                        onClick={() => handleSelectImage(interiorIndex)}
-                        className={`px-3 py-1.5 rounded-lg font-bold transition-all text-xs ${
-                          isInteriorActive
-                            ? 'bg-[#D4AF37] text-[#0A0D14] shadow-xs'
-                            : 'text-white/80 hover:text-white hover:bg-white/10'
-                        }`}
-                      >
-                        {tUI.insideVip}
-                      </button>
-                    )}
-                  </div>
-
-                  {/* Image Counter (e.g., 01 / 07) */}
-                  <div className="absolute top-3.5 right-3.5 rtl:right-auto rtl:left-3.5 z-20 px-3 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-white/15 text-xs font-mono text-white/90 shadow-lg">
-                    <span className="text-[#D4AF37] font-bold">
-                      {String(activeVehicleIndex + 1).padStart(2, '0')}
-                    </span>
-                    <span className="text-white/40 mx-1">/</span>
-                    <span className="text-white/80">
-                      {String(totalVehicles).padStart(2, '0')}
-                    </span>
-                  </div>
-
-                  {/* Hero Vehicle Image */}
-                  <div className="relative w-full h-full flex items-center justify-center p-4">
+              {/* RIGHT COLUMN (~48%): THE TWO-PHOTO LAYOUT (EXTERIOR + INTERIOR) */}
+              <div className="col-span-6 flex flex-col space-y-4">
+                {/* 1. TOP PHOTO: EXTERIOR */}
+                <div
+                  className="group relative cursor-pointer"
+                  onClick={() => openLightbox(0)}
+                >
+                  <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border-2 border-[#D4AF37]/45 shadow-2xl bg-[#0E121A] transition-all duration-300 group-hover:border-[#D4AF37] group-hover:shadow-[0_0_25px_rgba(212,175,55,0.25)]">
                     <Image
-                      key={`desktop-${currentCar.id}-${activeImage.src}`}
-                      src={activeImage.src}
-                      alt={activeImage.alt[locale] || activeImage.alt.en}
-                      width={800}
-                      height={500}
+                      key={`desk-ext-${currentCar.id}`}
+                      src={exteriorPhoto.src}
+                      alt={exteriorPhoto.alt[locale] || exteriorPhoto.alt.en}
+                      fill
                       priority={activeVehicleIndex === 0}
-                      sizes="(max-width: 1024px) 50vw, 750px"
-                      className="w-full h-full object-contain transition-all duration-500 drop-shadow-[0_20px_35px_rgba(0,0,0,0.85)] group-hover:scale-[1.02]"
+                      sizes="500px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                   </div>
+                  <span className="block text-center text-xs font-bold uppercase tracking-[0.25em] text-[#E8D39A] mt-2 group-hover:text-[#D4AF37] transition-colors">
+                    {tUI.exteriorLabel}
+                  </span>
                 </div>
 
-                {/* Thumbnails Strip */}
-                {currentCar.gallery.length > 1 && (
-                  <div className="flex items-center gap-2.5 overflow-x-auto pb-1 scrollbar-none pt-1">
-                    {currentCar.gallery.map((item, imgIdx) => (
-                      <button
-                        key={`thumb-${imgIdx}`}
-                        type="button"
-                        onClick={() => handleSelectImage(imgIdx)}
-                        aria-label={item.label[locale] || item.label.en}
-                        className={`relative w-20 h-13 rounded-xl overflow-hidden shrink-0 border-2 transition-all ${
-                          activeImageIndex === imgIdx
-                            ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/40 scale-105 shadow-md'
-                            : 'border-white/15 opacity-60 hover:opacity-100 hover:border-white/30'
-                        }`}
-                      >
-                        <Image
-                          src={item.src}
-                          alt={item.alt[locale] || item.alt.en}
-                          fill
-                          sizes="80px"
-                          className="object-cover"
-                        />
-                      </button>
-                    ))}
+                {/* 2. BOTTOM PHOTO: INTERIOR */}
+                <div
+                  className="group relative cursor-pointer pt-1"
+                  onClick={() => openLightbox(1)}
+                >
+                  <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border-2 border-[#D4AF37]/45 shadow-2xl bg-[#0E121A] transition-all duration-300 group-hover:border-[#D4AF37] group-hover:shadow-[0_0_25px_rgba(212,175,55,0.25)]">
+                    <Image
+                      key={`desk-int-${currentCar.id}`}
+                      src={interiorPhoto.src}
+                      alt={interiorPhoto.alt[locale] || interiorPhoto.alt.en}
+                      fill
+                      sizes="500px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                   </div>
-                )}
+                  <span className="block text-center text-xs font-bold uppercase tracking-[0.25em] text-[#E8D39A] mt-2 group-hover:text-[#D4AF37] transition-colors">
+                    {tUI.interiorLabel}
+                  </span>
+                </div>
 
-                {/* Vehicle Navigation Carousel Controls (Dots + Circular Next/Prev Buttons) */}
+                {/* Carousel Navigation (Dots on Left, Circular Prev/Next on Right) */}
                 <div className="flex items-center justify-between pt-2">
                   {/* Indicator Dots */}
                   <div
@@ -703,13 +658,13 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
                     ))}
                   </div>
 
-                  {/* Circular Prev & Next Buttons (Prev Dark with Gold Outline, Next Solid Gold) */}
+                  {/* Circular Prev/Next Vehicle Arrows */}
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
                       onClick={handlePrevVehicle}
                       aria-label={tUI.prevVehicle}
-                      className="w-11 h-11 rounded-full bg-[#141B28] hover:bg-[#1E273A] border border-[#D4AF37]/50 hover:border-[#D4AF37] flex items-center justify-center text-[#D4AF37] transition-all shadow-md active:scale-95"
+                      className="w-11 h-11 rounded-full bg-[#1A1820] hover:bg-[#25222E] border border-[#D4AF37]/50 hover:border-[#D4AF37] flex items-center justify-center text-[#D4AF37] transition-all shadow-md active:scale-95"
                     >
                       <ChevronLeft className="w-5 h-5 rtl:rotate-180" />
                     </button>
@@ -717,7 +672,7 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
                       type="button"
                       onClick={handleNextVehicle}
                       aria-label={tUI.nextVehicle}
-                      className="w-11 h-11 rounded-full bg-[#D4AF37] hover:bg-[#E5C158] text-[#0A0D14] flex items-center justify-center transition-all font-bold shadow-md shadow-[#D4AF37]/30 active:scale-95"
+                      className="w-11 h-11 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#E8D39A] to-[#D4AF37] hover:brightness-110 text-[#141218] flex items-center justify-center transition-all font-bold shadow-md shadow-[#D4AF37]/30 active:scale-95"
                     >
                       <ChevronRight className="w-5 h-5 rtl:rotate-180" />
                     </button>
@@ -728,9 +683,9 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
           </div>
         </div>
 
-        {/* ======================================================== */}
-        {/* LIGHTBOX MODAL: FULL RESOLUTION VEHICLE GALLERY         */}
-        {/* ======================================================== */}
+        {/* ========================================================================= */}
+        {/* LIGHTBOX MODAL: FULL RESOLUTION VEHICLE GALLERY                          */}
+        {/* ========================================================================= */}
         {isGalleryOpen && (
           <div
             className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col justify-between p-4 sm:p-6 md:p-8 animate-fadeIn"
@@ -744,7 +699,7 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
                 <span className="text-[11px] font-bold text-[#D4AF37] uppercase tracking-wider block">
                   {currentCar.category[locale] || currentCar.category.en}
                 </span>
-                <h4 className="font-display font-bold text-lg sm:text-2xl text-white">
+                <h4 className="font-serif font-bold text-lg sm:text-2xl text-white">
                   {currentCar.name[locale] || currentCar.name.en}
                 </h4>
               </div>
@@ -781,7 +736,7 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
 
               <div className="relative w-full h-full max-w-5xl flex items-center justify-center p-2">
                 <Image
-                  src={currentCar.gallery[galleryActiveIndex]?.src || activeImage.src}
+                  src={currentCar.gallery[galleryActiveIndex]?.src || exteriorPhoto.src}
                   alt={
                     currentCar.gallery[galleryActiveIndex]?.alt[locale] ||
                     currentCar.gallery[galleryActiveIndex]?.alt.en ||
@@ -831,7 +786,7 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
               <Link
                 href={`/${locale}/booking?vehicle=${currentCar.bookingVehicleId}`}
                 onClick={() => setIsGalleryOpen(false)}
-                className="h-11 px-6 rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#E5C158] to-[#D4AF37] text-[#0A0D14] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shrink-0 shadow-md shadow-[#D4AF37]/30 hover:brightness-105 transition-all"
+                className="h-11 px-6 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#E8D39A] to-[#D4AF37] text-[#141218] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shrink-0 shadow-md shadow-[#D4AF37]/30 hover:brightness-105 transition-all"
               >
                 <span>{tUI.bookNow}</span>
                 <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
