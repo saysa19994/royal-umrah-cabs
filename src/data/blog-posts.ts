@@ -174,7 +174,7 @@ export const BLOG_POSTS: BlogPost[] = [
         'GMC Yukon Mekke transfer',
       ],
     },
-    featuredImage: '/assets/images/vip-umrah-transport-jeddah-to-makkah.jpg',
+    featuredImage: '/assets/images/blog/vip-umrah-transport-jeddah-to-makkah.webp',
     imageAlt: {
       ar: 'سيارة VIP لنقل ضيوف الرحمن من مطار جدة إلى مكة المكرمة',
       en: 'VIP Umrah chauffeur vehicle receiving pilgrims at Jeddah Airport terminal',
@@ -513,7 +513,7 @@ export const BLOG_POSTS: BlogPost[] = [
         'Hicret yolu özel şoförlü araç',
       ],
     },
-    featuredImage: '/assets/images/private-transfer-makkah-to-madinah.jpg',
+    featuredImage: '/assets/images/blog/private-transfer-makkah-to-madinah.webp',
     imageAlt: {
       ar: 'سيارة نقل VIP خاصة تسير على طريق الهجرة السريع بين مكة المكرمة والمدينة المنورة',
       en: 'Private VIP chauffeur vehicle traveling on the highway between Makkah and Madinah',
@@ -873,7 +873,7 @@ export const BLOG_POSTS: BlogPost[] = [
     hi: 'मक्का के होटल से जेद्दा हवाई अड्डे तक प्राइवेट कार बुक करने की पूरी गाइड: सही समय की गणना, उपयुक्त वाहन का चयन और केवल पहुंचने पर ड्राइवर को भुगतान।',
     tr: 'Mekke’deki otelinizden Cidde Havalimanı’na özel araç rezervasyonu için eksiksiz rehber: çıkış saati hesabı, doğru araç seçimi ve varışta şoföre ödeme kolaylığı.',
   },
-  featuredImage: '/assets/images/makkah-to-jeddah-airport-transfer.jpg',
+  featuredImage: '/assets/images/blog/makkah-to-jeddah-airport-transfer.webp',
   imageAlt: {
     ar: 'سيارة خاصة VIP تنقل المعتمرين من مكة المكرمة إلى مطار الملك عبدالعزيز بجدة عبر طريق الحرمين السريع',
     en: 'VIP private transfer vehicle transporting Umrah pilgrims from Makkah to King Abdulaziz Airport in Jeddah',
@@ -1225,7 +1225,7 @@ export const BLOG_POSTS: BlogPost[] = [
       'Mekke Medine çok bagajlı transfer',
     ],
   },
-  featuredImage: '/assets/images/vehicle-capacity-passengers-luggage.webp',
+  featuredImage: '/assets/images/blog/vehicle-capacity-passengers-luggage.webp',
   imageAlt: {
     ar: 'دليل سعة سيارات نقل المعتمرين ومساحة الحقائب والركاب في أسطول ضيوف الرحمن VIP',
     en: 'Umrah vehicle capacity and luggage space guide for Duyuf Alrahman VIP fleet',
@@ -1585,7 +1585,7 @@ export const BLOG_POSTS: BlogPost[] = [
         'Suudi Arabistan şehirlerarası transfer'
       ]
     },
-    featuredImage: '/assets/images/transport-planning-makkah-madinah-jeddah.webp',
+    featuredImage: '/assets/images/blog/transport-planning-makkah-madinah-jeddah.webp',
     imageAlt: {
       ar: 'التنقل بين مكة والمدينة وجدة - أسطول سيارات VIP فاخرة لضيوف الرحمن',
       en: 'Transportation between Makkah, Madinah and Jeddah - Luxury VIP fleet for Umrah pilgrims',
@@ -1963,7 +1963,7 @@ export const BLOG_POSTS: BlogPost[] = [
         'şoförlü VIP transfer'
       ]
     },
-    featuredImage: '/assets/images/vip-car-with-driver-saudi-arabia.webp',
+    featuredImage: '/assets/images/blog/vip-car-with-driver-saudi-arabia.webp',
     imageAlt: {
       ar: 'سيارة VIP مع سائق في السعودية - أسطول سيارات فاخرة لخدمة ضيوف الرحمن والزوار',
       en: 'VIP car with driver in Saudi Arabia - Luxury private chauffeur fleet for Umrah pilgrims and visitors',
@@ -2309,7 +2309,7 @@ export const BLOG_POSTS: BlogPost[] = [
         'Mekke otel özel transfer',
       ],
     },
-    featuredImage: '/assets/images/jeddah-airport-pickup-umrah.webp',
+    featuredImage: '/assets/images/blog/jeddah-airport-pickup-umrah.webp',
     imageAlt: {
       ar: 'سيارة VIP لاستقبال المعتمرين في مطار الملك عبدالعزيز الدولي بجدة والانطلاق إلى مكة',
       en: 'VIP chauffeur vehicle welcoming Umrah pilgrims at King Abdulaziz International Airport in Jeddah',
@@ -2695,7 +2695,7 @@ export const BLOG_POSTS: BlogPost[] = [
         'şehirlerarası özel transfer',
       ],
     },
-    featuredImage: '/assets/images/hourly-vs-point-to-point-car-booking.webp',
+    featuredImage: '/assets/images/blog/hourly-vs-point-to-point-car-booking.webp',
     imageAlt: {
       ar: 'مقارنة بين حجز سيارة VIP بالساعة وبالرحلة الواحدة في السعودية مع سائق خاص',
       en: 'Comparison between hourly chauffeur booking and point-to-point private transfers in Saudi Arabia',
@@ -3005,7 +3005,7 @@ export const BLOG_POSTS: BlogPost[] = [
       hi: ['उमराह ट्रांसपोर्ट टिप्स', 'मक्का मदीना प्राइवेट कार', 'जेद्दा एयरपोर्ट उमराह टैक्सी', 'वीआईपी उमराह ड्राइवर'],
       tr: ['umre ulaşım tavsiyeleri', 'mekke medine özel transfer', 'suudi arabistan vip şoför', 'cidde havalimanı karşılama'],
     },
-    featuredImage: '/assets/images/umrah-car-booking-checklist.webp',
+    featuredImage: '/assets/images/blog/umrah-car-booking-checklist.webp',
     imageAlt: {
       ar: 'قائمة مراجعة شاملة قبل حجز سيارة للعمرة لضيوف الرحمن',
       en: 'Comprehensive checklist before booking transportation for Umrah',
@@ -3405,7 +3405,7 @@ export const BLOG_POSTS: BlogPost[] = [
         'Yarım günlük Medine turu',
       ],
     },
-    featuredImage: '/assets/images/madinah-ziyarat-private-car-guide.webp',
+    featuredImage: '/assets/images/blog/madinah-ziyarat-private-car-guide.webp',
     imageAlt: {
       ar: 'جولة مزارات المدينة المنورة بسيارة خاصة مع سائق لزيارة مسجد قباء وجبل أحد',
       en: 'Madinah Ziyarat tour by private car with chauffeur visiting Masjid Quba and Mount Uhud',
@@ -3832,7 +3832,7 @@ export const BLOG_POSTS: BlogPost[] = [
         'yaşlılar için konforlu Mekke transferi',
       ],
     },
-    featuredImage: '/assets/images/elderly-friendly-umrah-transport.webp',
+    featuredImage: '/assets/images/blog/elderly-friendly-umrah-transport.webp',
     imageAlt: {
       ar: 'وسيلة نقل عائلية مريحة لكبار السن أثناء العمرة مع مساحة للكراسي المتحركة القابلة للطي',
       en: 'Comfortable family vehicle suitable for elderly pilgrims during Umrah with folding wheelchair trunk space',
@@ -4142,7 +4142,7 @@ export const BLOG_POSTS: BlogPost[] = [
       hi: ['ताइफ़ के लिए प्राइवेट कार', 'अल हदा मार्ग', 'मीक़ात क़र्न अल-मनाज़िल', 'ताइफ़ गुलाब कारखाने', 'मक्का ताइफ़ टैक्सी'],
       tr: ['Taif özel araç', 'El Hada dağ yolu', 'Karnülmenazil Mikat', 'Taif gül fabrikaları', 'Mekke Taif taksi'],
     },
-    featuredImage: '/assets/images/routes/makkah-to-taif.jpg',
+    featuredImage: '/assets/images/blog/makkah-to-taif-private-transfer.webp',
     imageAlt: {
       ar: 'سيارة خاصة وسائق VIP في طريق عقبة الهدا بين مكة المكرمة والطائف',
       en: 'VIP private chauffeur vehicle traveling on the scenic Al Hada mountain highway between Makkah and Taif',
@@ -4322,7 +4322,7 @@ export const BLOG_POSTS: BlogPost[] = [
       hi: ['रियाद मक्का रोड ट्रिप', 'रूट 40 हाईवे', 'जीएमसी यूकॉन मक्का', 'रियाद से हरम टैक्सी', 'लंबी दूरी चौफ़र सऊदी'],
       tr: ['Riyad Mekke karayolu', 'Route 40 otoyolu', 'GMC Yukon XL Mekke', 'Riyad Harem taksi', 'uzun mesafe şoför Suudi'],
     },
-    featuredImage: '/assets/images/yukon_exterior.webp',
+    featuredImage: '/assets/images/blog/riyadh-to-makkah-private-transfer.webp',
     imageAlt: {
       ar: 'سيارة جي إم سي يوكون XL فاخرة على طريق مكة المكرمة السريع المنطلق من الرياض',
       en: 'Luxury GMC Yukon XL VIP chauffeur SUV cruising along the Riyadh-Makkah highway',
