@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Locale } from '@/i18n/config';
@@ -9,16 +9,16 @@ import {
   MapPin,
   Car,
   Users,
-  ShieldCheck,
-  Plane,
+  ChevronLeft,
+  ChevronRight,
   ArrowRight,
-  Sparkles,
 } from 'lucide-react';
 import { useCurrency } from '@/context/CurrencyContext';
 
 export interface RouteCardData {
   slug: string;
   image: string;
+  images?: string[];
   imagePosition?: string;
   timeEn: string;
   timeAr: string;
@@ -52,93 +52,91 @@ const LABELS: Record<
     perTrip: string;
     bookNow: string;
     viewVehicles: string;
+    luxuryVipService: string;
+    serviceLine: string;
   }
 > = {
   ar: {
     startingFrom: 'يبدأ من',
-    perTrip: 'لكل رحلة',
+    perTrip: '/ لكل رحلة',
     bookNow: 'احجز الآن',
-    viewVehicles: 'عرض السيارات المتاحة',
+    viewVehicles: 'عرض السيارات',
+    luxuryVipService: 'خدمة VIP فاخرة',
+    serviceLine: 'خدمات نقل ليموزين وVIP',
   },
   en: {
     startingFrom: 'STARTING FROM',
-    perTrip: 'PER TRIP',
+    perTrip: '/ PER TRIP',
     bookNow: 'BOOK NOW',
     viewVehicles: 'View Vehicles',
+    luxuryVipService: 'LUXURY VIP SERVICE',
+    serviceLine: 'LIMO & VIP TRANSFER SERVICES',
   },
   ur: {
     startingFrom: 'شروع از',
-    perTrip: 'فی چکر',
+    perTrip: '/ فی چکر',
     bookNow: 'ابھی بک کریں',
     viewVehicles: 'گاڑیاں دیکھیں',
+    luxuryVipService: 'لگژری وی آئی پی سروس',
+    serviceLine: 'لیموزین اور وی آئی پی ٹرانسفر',
   },
   ms: {
     startingFrom: 'BERMULA DARI',
-    perTrip: 'SETIAP PERJALANAN',
+    perTrip: '/ SETIAP PERJALANAN',
     bookNow: 'TEMPAH SEKARANG',
     viewVehicles: 'Lihat Kenderaan',
+    luxuryVipService: 'PERKHIDMATAN VIP MEWAH',
+    serviceLine: 'PERKHIDMATAN LIMO & PEMINDAHAN VIP',
   },
   id: {
     startingFrom: 'MULAI DARI',
-    perTrip: 'PER PERJALANAN',
+    perTrip: '/ PER PERJALANAN',
     bookNow: 'PESAN SEKARANG',
     viewVehicles: 'Lihat Kendaraan',
+    luxuryVipService: 'LAYANAN VIP MEWAH',
+    serviceLine: 'LAYANAN LIMO & TRANSFER VIP',
   },
   fr: {
     startingFrom: 'À PARTIR DE',
-    perTrip: 'PAR TRAJET',
+    perTrip: '/ PAR TRAJET',
     bookNow: 'RÉSERVER',
     viewVehicles: 'Voir les Véhicules',
+    luxuryVipService: 'SERVICE VIP DE LUXE',
+    serviceLine: 'SERVICES DE LIMO & TRANSFERT VIP',
   },
   es: {
     startingFrom: 'DESDE',
-    perTrip: 'POR VIAJE',
+    perTrip: '/ POR VIAJE',
     bookNow: 'RESERVAR AHORA',
     viewVehicles: 'Ver Vehículos',
+    luxuryVipService: 'SERVICIO VIP DE LUJO',
+    serviceLine: 'SERVICIOS DE LIMUSINA Y TRASLADOS VIP',
   },
   de: {
     startingFrom: 'AB',
-    perTrip: 'PRO FAHRT',
+    perTrip: '/ PRO FAHRT',
     bookNow: 'JETZT BUCHEN',
     viewVehicles: 'Fahrzeuge ansehen',
+    luxuryVipService: 'LUXUS VIP SERVICE',
+    serviceLine: 'LIMO & VIP TRANSFER DIENSTE',
   },
   tr: {
     startingFrom: 'BAŞLANGIÇ',
-    perTrip: 'SEFER BAŞINA',
+    perTrip: '/ SEFER BAŞINA',
     bookNow: 'REZERVASYON YAP',
     viewVehicles: 'Araçları Gör',
+    luxuryVipService: 'LÜKS VIP HİZMET',
+    serviceLine: 'LİMUZİN VE VIP TRANSFER HİZMETLERİ',
   },
   hi: {
     startingFrom: 'शुरुआती दर',
-    perTrip: 'प्रति यात्रा',
+    perTrip: '/ प्रति यात्रा',
     bookNow: 'अभी बुक करें',
     viewVehicles: 'वाहन देखें',
+    luxuryVipService: 'लक्जरी वीआईपी सेवा',
+    serviceLine: 'लिमोसिन और वीआईपी ट्रांसफर सेवाएं',
   },
 };
-
-function renderBenefitIcon(badgeText: string, index: number) {
-  const lower = badgeText.toLowerCase();
-  const iconClass = 'w-3.5 h-3.5 text-[#E5C158] shrink-0';
-
-  if (lower.includes('24/7') || lower.includes('hour') || lower.includes('ساعة') || lower.includes('وقت')) {
-    return <Clock className={iconClass} />;
-  }
-  if (lower.includes('door') || lower.includes('car') || lower.includes('route') || lower.includes('باب') || lower.includes('سيار') || lower.includes('طريق')) {
-    return <Car className={iconClass} />;
-  }
-  if (lower.includes('family') || lower.includes('meet') || lower.includes('عوائل') || lower.includes('استقبال')) {
-    return <Users className={iconClass} />;
-  }
-  if (lower.includes('flight') || lower.includes('radar') || lower.includes('طيران') || lower.includes('رحلات')) {
-    return <Plane className={iconClass} />;
-  }
-  if (lower.includes('comfort') || lower.includes('vip') || lower.includes('safe') || lower.includes('راحة') || lower.includes('أمان')) {
-    return <ShieldCheck className={iconClass} />;
-  }
-  if (index === 0) return <Clock className={iconClass} />;
-  if (index === 1) return <Car className={iconClass} />;
-  return <Sparkles className={iconClass} />;
-}
 
 export function ExecutiveRouteCard({ route, locale }: ExecutiveRouteCardProps) {
   const { formatPrice } = useCurrency();
@@ -148,26 +146,41 @@ export function ExecutiveRouteCard({ route, locale }: ExecutiveRouteCardProps) {
   const time = isAr ? route.timeAr : route.timeEn;
   const distance = isAr ? route.distanceAr : route.distanceEn;
   const title = isAr ? route.titleAr : route.titleEn;
-  const desc = isAr ? route.descAr : route.descEn;
-  const categoryBadge =
-    (isAr ? route.categoryBadgeAr : route.categoryBadgeEn) ||
-    (isAr ? 'توصيل VIP فاخر' : 'EXECUTIVE VIP TRANSFER');
-  const serviceLine =
-    (isAr ? route.serviceLineAr : route.serviceLineEn) ||
-    (isAr ? 'خدمات نقل ليموزين وVIP' : 'LIMO & VIP TRANSFER SERVICES');
-  const badges = (isAr ? route.badgesAr : route.badgesEn) || [];
   const labels = LABELS[locale] || LABELS.en;
+  const serviceLine =
+    (isAr ? route.serviceLineAr : route.serviceLineEn) || labels.serviceLine;
+  const luxuryBadge =
+    (isAr ? route.categoryBadgeAr : route.categoryBadgeEn) || labels.luxuryVipService;
+
+  // Interactive Carousel Image Gallery (Matching the 4 dots and < > arrows in Image 2)
+  const imageList =
+    route.images && route.images.length > 0 ? route.images : [route.image];
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setActiveImageIndex((prev) => (prev === 0 ? imageList.length - 1 : prev - 1));
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setActiveImageIndex((prev) => (prev === imageList.length - 1 ? 0 : prev + 1));
+  };
+
+  const currentImage = imageList[activeImageIndex] || route.image;
 
   return (
     <article
-      className="relative w-full rounded-[26px] sm:rounded-[32px] overflow-hidden bg-[#0A0D14] border-2 border-[#C5A059]/70 shadow-[0_22px_55px_rgba(0,0,0,0.92),_0_0_25px_rgba(197,160,89,0.18)] transition-all duration-300 hover:border-[#E5C158] hover:shadow-[0_26px_65px_rgba(0,0,0,0.95),_0_0_30px_rgba(229,193,88,0.25)] text-start group"
+      className="relative w-full rounded-2xl md:rounded-[22px] overflow-hidden bg-black border-2 border-[#b89355] shadow-2xl transition-all duration-300 text-start group"
       dir={isRtl ? 'rtl' : 'ltr'}
     >
-      {/* 1. UPPER SECTION: CINEMATIC DESTINATION PHOTOGRAPH WITH OVERLAID TRANSLUCENT PANEL */}
-      <div className="relative w-full min-h-[320px] sm:min-h-[380px] md:min-h-[440px] lg:min-h-[460px] overflow-hidden">
-        {/* Full-bleed Scenic Photograph */}
+      {/* 1. UPPER SECTION: CINEMATIC DESTINATION PANORAMA WITH OVERLAID TRANSLUCENT PANEL */}
+      <div className="relative w-full aspect-[2.1/1] min-h-[280px] sm:min-h-[340px] md:min-h-[380px] lg:min-h-[420px] overflow-hidden bg-[#0A0D14]">
+        {/* Active Route Image */}
         <Image
-          src={route.image}
+          src={currentImage}
           alt={`${title} - Duyuf Alrahman VIP Chauffeur`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1200px"
@@ -177,103 +190,146 @@ export function ExecutiveRouteCard({ route, locale }: ExecutiveRouteCardProps) {
           priority={false}
         />
 
-        {/* Ambient Dark Gradient Overlays for High Contrast & Editorial Luxury */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0D14] via-[#0A0D14]/50 to-black/30 pointer-events-none z-[1]" />
+        {/* Ambient Dark Gradient for Contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/30 pointer-events-none z-[1]" />
+
+        {/* Top-Right Luxury Gold Badge (pinned to top-right of the photo) */}
         <div
-          className={`hidden md:block absolute inset-0 z-[1] pointer-events-none ${
-            isRtl
-              ? 'bg-gradient-to-l from-[#0A0D14]/95 via-[#0A0D14]/65 to-transparent w-[72%]'
-              : 'bg-gradient-to-r from-[#0A0D14]/95 via-[#0A0D14]/65 to-transparent w-[72%]'
+          className={`absolute top-0 end-0 z-20 ${
+            isRtl ? 'rounded-bl-xl' : 'rounded-bl-xl'
           }`}
-        />
-
-        {/* Overlaid Translucent Glassmorphic Information Panel */}
-        <div className="relative md:absolute inset-0 z-10 p-4 sm:p-6 md:p-8 flex flex-col justify-center">
-          <div className="w-full md:max-w-[480px] lg:max-w-[540px] bg-[#0A0E17]/88 backdrop-blur-md border border-[#C5A059]/45 rounded-[22px] sm:rounded-[26px] p-5 sm:p-6 lg:p-7 shadow-[0_15px_40px_rgba(0,0,0,0.85)] flex flex-col justify-between">
-            {/* Top Row: Duration & Distance + Metallic Category Badge */}
-            <div className="flex items-center justify-between gap-3 flex-wrap">
-              {/* Duration & Distance Chips */}
-              <div className="flex items-center gap-2 sm:gap-2.5">
-                <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-[#121722]/90 border border-[#C5A059]/35 text-[11px] sm:text-xs font-semibold text-[#F0EBE1] shadow-2xs">
-                  <Clock className="w-3.5 h-3.5 text-[#E5C158] shrink-0" />
-                  <span>{time}</span>
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-[#121722]/90 border border-[#C5A059]/35 text-[11px] sm:text-xs font-semibold text-[#F0EBE1] shadow-2xs">
-                  <MapPin className="w-3.5 h-3.5 text-[#E5C158] shrink-0" />
-                  <span>{distance}</span>
-                </div>
-              </div>
-
-              {/* Metallic Gold Category Ribbon */}
-              <span className="px-3 sm:px-3.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-wider sm:tracking-widest bg-gradient-to-r from-[#D4AF37] via-[#E5C158] to-[#C5A059] text-[#0A0D14] shadow-md shrink-0">
-                {categoryBadge}
-              </span>
-            </div>
-
-            {/* Main Route Title in Editorial Serif */}
-            <h3 className="font-playfair font-serif text-2xl sm:text-3xl lg:text-[34px] xl:text-[38px] font-normal text-[#FAF7F2] tracking-tight leading-[1.18] mt-3 sm:mt-4 mb-1.5">
-              {title}
-            </h3>
-
-            {/* Subtitle / Service Line */}
-            <p className="text-[10px] sm:text-[11px] font-bold tracking-[0.18em] text-[#D4AF37] uppercase mb-2 sm:mb-2.5">
-              {serviceLine}
-            </p>
-
-            {/* Route Description */}
-            <p className="text-xs sm:text-[13px] text-[#C9C2B5] leading-relaxed line-clamp-3 sm:line-clamp-none font-normal">
-              {desc}
-            </p>
+        >
+          <div className="bg-gradient-to-b from-[#bd9250] to-[#966d33] text-[#120d04] font-black text-[11px] sm:text-xs tracking-wider uppercase px-4 sm:px-5 py-2 sm:py-2.5 rounded-bl-xl shadow-md">
+            <span>{luxuryBadge}</span>
           </div>
+        </div>
+
+        {/* Carousel Navigation Arrow - Left */}
+        <button
+          type="button"
+          onClick={handlePrev}
+          aria-label="Previous photo"
+          className="absolute start-3 sm:start-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-black/45 hover:bg-black/70 border border-white/30 backdrop-blur-xs flex items-center justify-center text-white transition-all shadow-md active:scale-95"
+        >
+          {isRtl ? (
+            <ChevronRight className="w-5 h-5 text-white" />
+          ) : (
+            <ChevronLeft className="w-5 h-5 text-white" />
+          )}
+        </button>
+
+        {/* Carousel Navigation Arrow - Right */}
+        <button
+          type="button"
+          onClick={handleNext}
+          aria-label="Next photo"
+          className="absolute end-3 sm:end-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-black/45 hover:bg-black/70 border border-white/30 backdrop-blur-xs flex items-center justify-center text-white transition-all shadow-md active:scale-95"
+        >
+          {isRtl ? (
+            <ChevronLeft className="w-5 h-5 text-white" />
+          ) : (
+            <ChevronRight className="w-5 h-5 text-white" />
+          )}
+        </button>
+
+        {/* Overlaid Dark Glassmorphic Card (Positioned exactly as in Image 2) */}
+        <div className="absolute bottom-6 sm:bottom-7 start-4 sm:start-6 z-20 max-w-[90%] sm:max-w-md md:max-w-lg p-4 sm:p-5 rounded-2xl bg-[#14181f]/80 backdrop-blur-md border border-white/10 shadow-2xl">
+          {/* Row 1: Duration & Distance */}
+          <div className="flex items-center gap-3 sm:gap-4 text-slate-200">
+            <div className="flex items-center gap-1.5 text-xs sm:text-sm font-medium">
+              <Clock className="w-3.5 h-3.5 text-slate-300 shrink-0" />
+              <span>{time}</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-xs sm:text-sm font-medium">
+              <MapPin className="w-3.5 h-3.5 text-slate-300 shrink-0" />
+              <span>{distance}</span>
+            </div>
+          </div>
+
+          {/* Row 2: Route Title in Classic Editorial Serif */}
+          <h3 className="font-playfair font-serif text-2xl sm:text-3xl lg:text-[34px] font-normal text-white tracking-tight leading-tight my-1.5">
+            {title}
+          </h3>
+
+          {/* Row 3: Subtitle in Uppercase Clean Sans-Serif */}
+          <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">
+            {serviceLine}
+          </p>
+        </div>
+
+        {/* Carousel Dots at the Bottom-Center of the Image */}
+        <div className="absolute bottom-2.5 sm:bottom-3 inset-x-0 flex items-center justify-center gap-1.5 z-20">
+          {imageList.map((_, dotIdx) => (
+            <button
+              key={dotIdx}
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setActiveImageIndex(dotIdx);
+              }}
+              className={`transition-all duration-300 ${
+                dotIdx === activeImageIndex
+                  ? 'w-6 h-1.5 rounded-full bg-[#d4af37]'
+                  : 'w-1.5 h-1.5 rounded-full bg-white/50 hover:bg-white/80'
+              }`}
+              aria-label={`Slide ${dotIdx + 1}`}
+            />
+          ))}
         </div>
       </div>
 
-      {/* 2. BOTTOM INFORMATION BAR: SERVICE BENEFITS, ACCURATE PRICING & CALL-TO-ACTIONS */}
-      <div className="bg-[#0B0F19] border-t border-[#C5A059]/25 p-4 sm:p-5 md:p-6 lg:px-8 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 sm:gap-5 relative z-10">
-        {/* Service Benefits Chips */}
+      {/* 2. BOTTOM INFORMATION BAR: PURE WHITE WITH OUTLINE PILLS, BLACK PRICE & ACTION BUTTONS */}
+      <div className="bg-white px-4 sm:px-6 py-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 border-t border-slate-100">
+        {/* Left Side: 3 White Pill Badges with Thin Gray Border */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-          {badges.map((badge, idx) => (
-            <span
-              key={idx}
-              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-[10px] sm:text-[11px] font-semibold text-[#DDD7CC] border border-[#C5A059]/35 bg-[#121722]/90 backdrop-blur-xs shadow-2xs"
-            >
-              {renderBenefitIcon(badge, idx)}
-              <span>{badge}</span>
-            </span>
-          ))}
+          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white border border-slate-300 shadow-2xs">
+            <Clock className="w-3.5 h-3.5 text-slate-700 shrink-0" />
+            <span>{isAr ? 'خدمة 24/7' : '24/7 SERVICE'}</span>
+          </span>
+
+          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white border border-slate-300 shadow-2xs">
+            <Car className="w-3.5 h-3.5 text-slate-700 shrink-0" />
+            <span>{isAr ? 'من الباب للباب' : 'DOOR-TO-DOOR'}</span>
+          </span>
+
+          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white border border-slate-300 shadow-2xs">
+            <Users className="w-3.5 h-3.5 text-slate-700 shrink-0" />
+            <span>{isAr ? 'مناسب للعوائل' : 'FAMILY FRIENDLY'}</span>
+          </span>
         </div>
 
-        {/* Pricing Block & Action Buttons */}
-        <div className="flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-end gap-4 sm:gap-6 pt-2 lg:pt-0 border-t border-white/5 lg:border-t-0">
-          {/* Starting Price Display */}
-          <div className="text-start sm:text-end shrink-0">
-            <span className="block text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-[#9E9588]">
+        {/* Right Side: Starting Price & Action Buttons */}
+        <div className="flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-end gap-3 sm:gap-4 md:gap-5">
+          {/* Price Block: STARTING FROM on top line, SAR XXX / PER TRIP on bottom line */}
+          <div className="flex flex-col sm:items-end shrink-0">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block leading-tight">
               {labels.startingFrom}
             </span>
-            <div className="flex items-baseline gap-1">
-              <span className="font-playfair font-serif text-2xl sm:text-3xl font-bold text-[#E5C158] tracking-tight">
+            <div className="flex items-baseline gap-1.5">
+              <span className="font-sans text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                 {route.customPricePrefix
                   ? `${route.customPricePrefix} ${formatPrice(route.priceSar)}`
                   : formatPrice(route.priceSar)}
               </span>
+              <span className="text-xs font-bold text-slate-500">
+                {labels.perTrip}
+              </span>
             </div>
-            <span className="block text-[9px] sm:text-[10px] uppercase font-medium tracking-wider text-[#827A6E]">
-              {labels.perTrip}
-            </span>
           </div>
 
-          {/* Action Buttons: View Vehicles & Book Now */}
+          {/* Action Buttons: "View Vehicles" and "BOOK NOW →" */}
           <div className="flex items-center gap-2.5 shrink-0 w-full sm:w-auto">
             <Link
               href={`/${locale}/routes/${route.slug}`}
-              className="flex-1 sm:flex-none h-11 px-4 sm:px-5 rounded-full border border-[#C5A059]/50 hover:border-[#D4AF37] hover:bg-[#C5A059]/10 text-[#F5EADB] text-xs font-bold transition-all flex items-center justify-center text-center whitespace-nowrap shadow-xs active:scale-[0.98]"
+              className="flex-1 sm:flex-none border border-slate-900 hover:border-black hover:bg-slate-50 text-slate-900 text-xs sm:text-sm font-bold px-4 sm:px-5 py-2.5 rounded-lg transition-all text-center whitespace-nowrap shadow-2xs active:scale-[0.98]"
             >
               <span>{labels.viewVehicles}</span>
             </Link>
 
             <Link
               href={`/${locale}/booking?route=${route.slug}`}
-              className="flex-1 sm:flex-none h-11 px-5 sm:px-6 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#E5C158] to-[#C5A059] hover:from-[#E5C158] hover:to-[#D4AF37] text-[#0A0D14] text-xs font-black uppercase tracking-wider transition-all shadow-[0_4px_16px_rgba(212,175,55,0.35)] hover:shadow-[0_6px_22px_rgba(212,175,55,0.5)] flex items-center justify-center gap-1.5 sm:gap-2 text-center whitespace-nowrap active:scale-[0.98]"
+              className="flex-1 sm:flex-none bg-gradient-to-r from-[#d99f2b] via-[#e5b23d] to-[#f4c84f] hover:from-[#e5b23d] hover:to-[#d99f2b] text-slate-950 text-xs sm:text-sm font-black uppercase tracking-wider px-5 sm:px-6 py-2.5 rounded-lg transition-all shadow-[0_4px_14px_rgba(217,159,43,0.35)] hover:shadow-[0_6px_18px_rgba(217,159,43,0.45)] flex items-center justify-center gap-2 text-center whitespace-nowrap active:scale-[0.98]"
             >
               <span>{labels.bookNow}</span>
               <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
