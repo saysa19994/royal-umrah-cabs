@@ -14,12 +14,9 @@ interface PricingPageProps {
 
 export async function generateMetadata(props: PricingPageProps): Promise<Metadata> {
   const params = await props.params;
-
-  const {
-    locale
-  } = params;
-
+  const { locale } = params;
   const dict = getDictionary(locale);
+
   return {
     title: dict.page_pricing.title,
     description: dict.page_pricing.subtitle,
@@ -29,32 +26,15 @@ export async function generateMetadata(props: PricingPageProps): Promise<Metadat
 
 export default async function PricingPage(props: PricingPageProps) {
   const params = await props.params;
-
-  const {
-    locale
-  } = params;
-
+  const { locale } = params;
   const dict = getDictionary(locale);
   const initialRates = await getDbPricesCached();
   const settings = getMergedSiteSettings();
 
   return (
-    <div className="py-16 md:py-24 bg-bg min-h-screen">
-      <div className="container mx-auto px-4 max-w-6xl">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-            <span>{dict.nav.pricing}</span>
-          </div>
-          <h1 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-            {dict.page_pricing.title}
-          </h1>
-          <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-            {dict.page_pricing.subtitle}
-          </p>
-        </div>
-
-        {/* Interactive Pricing Matrix */}
+    <div className="py-10 sm:py-14 md:py-20 bg-[#060A12] min-h-screen text-start">
+      <div className="container mx-auto px-3 sm:px-4 max-w-7xl">
+        {/* Interactive Royal Luxury Pricing Matrix (Image 2) */}
         <PricingTable
           locale={locale}
           dict={dict}
