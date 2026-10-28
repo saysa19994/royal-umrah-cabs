@@ -1,11 +1,19 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Locale } from '@/i18n/config';
 import { WhatsAppModal } from '@/components/common/WhatsAppModal';
-import { ArrowRight, MessageCircle, ChevronDown, ChevronRight } from 'lucide-react';
+import { LocationAutocomplete, SAUDI_LOCATIONS } from '@/components/home/LocationAutocomplete';
+import {
+  ArrowRight,
+  MessageCircle,
+  Calendar,
+  Clock,
+  ChevronDown,
+  Clock3,
+} from 'lucide-react';
 
 interface HeroSectionProps {
   locale: Locale;
@@ -29,93 +37,76 @@ interface BookingWidgetTranslations {
   pickupTime: string;
   viewOptions: string;
   hoursSuffix: string;
-  locJeddahAirport: string;
-  locMakkahHotel: string;
-  locMadinahHotel: string;
-  locMadinahAirport: string;
-  locJeddahCity: string;
-  locMakkahZiyarat: string;
-  locMadinahZiyarat: string;
 }
 
 const HERO_CONTENT: Record<Locale, HeroLocalizedContent> = {
   en: {
-    badge: 'Executive VIP Chauffeur Service for Umrah Pilgrims',
-    h1: 'Premium Umrah Chauffeur & Luxury Pilgrim Transport',
-    description:
-      'Private Umrah taxi across Makkah, Madinah and Jeddah. Professional chauffeurs, fixed rates, and comfort for the Guests of Allah.',
+    badge: 'PREMIUM TRANSPORTATION',
+    h1: 'Your Journey, Our Priority',
+    description: 'Book your transfer with comfort and peace of mind',
     btnPrimary: 'Get Prices & Book',
     btnSecondary: 'Chat on WhatsApp',
   },
   ar: {
-    badge: 'خدمة سائق VIP خاص لضيوف الرحمن والمعتمرين',
-    h1: 'خدمة سائق خاص وسيارات فاخرة لنقل ضيوف الرحمن',
-    description:
-      'توصيل خاص بسيارات حديثة عبر مكة المكرمة والمدينة المنورة وجدة. سائقون محترفون، أسعار ثابتة ومحددة، وراحة تليق بضيوف الرحمن.',
+    badge: 'نقل فاخر لضيوف الرحمن',
+    h1: 'رحلتكم، أولويتنا الملكية',
+    description: 'احجز رحلتك الخاصة بكل طمأنينة وراحة بال وخدمة تليق بضيوف الرحمن',
     btnPrimary: 'عرض الأسعار والحجز',
     btnSecondary: 'محادثة عبر واتساب',
   },
   fr: {
-    badge: 'Service de Chauffeur VIP Privé pour les Pèlerins de la Omra',
-    h1: 'Chauffeur Privé Premium & Transport de Luxe pour la Omra',
-    description:
-      "Transport privé pour la Omra à La Mecque, Médine et Djeddah. Chauffeurs professionnels, tarifs fixes garantis et confort dédié aux Hôtes d'Allah.",
+    badge: 'TRANSPORT HAUT DE GAMME',
+    h1: 'Votre Voyage, Notre Priorité',
+    description: 'Réservez votre transfert en toute sérénité et confort absolu',
     btnPrimary: 'Voir les Tarifs & Réserver',
     btnSecondary: 'Discuter sur WhatsApp',
   },
   es: {
-    badge: 'Servicio de Chofer VIP Privado para Peregrinos de la Umrah',
-    h1: 'Chofer Privado Premium y Transporte de Lujo para la Umrah',
-    description:
-      'Transporte privado para la Umrah en La Meca, Medina y Yeda. Choferes profesionales, tarifas fijas y máxima comodidad para los Huéspedes de Alá.',
+    badge: 'TRANSPORTE PREMIUM VIP',
+    h1: 'Su Viaje, Nuestra Prioridad',
+    description: 'Reserve su traslado con total tranquilidad y máximo confort',
     btnPrimary: 'Ver Tarifas y Reservar',
     btnSecondary: 'Contactar por WhatsApp',
   },
   id: {
-    badge: 'Layanan Sopir VIP Privat untuk Jamaah Umrah',
-    h1: 'Sopir Privat Premium & Transportasi Mewah Jamaah Umrah',
-    description:
-      'Taksi privat Umrah melayani Makkah, Madinah, dan Jeddah. Sopir profesional, tarif pasti transparan, dan kenyamanan utama bagi Tamu Allah.',
+    badge: 'TRANSPORTASI PREMIUM VIP',
+    h1: 'Perjalanan Anda, Prioritas Kami',
+    description: 'Pesan antar-jemput privat Anda dengan tenang dan nyaman',
     btnPrimary: 'Lihat Tarif & Pesan',
     btnSecondary: 'Hubungi via WhatsApp',
   },
   hi: {
-    badge: 'उमरा यात्रियों के लिए विशेष वीआईपी निजी चौफर सेवा',
-    h1: 'प्रीमियम उमरा चौफर और तीर्थयात्रियों के लिए लक्जरी परिवहन',
-    description:
-      'मक्का, मदीना और जेद्दा में निजी उमरा टैक्सी। पेशेवर ड्राइवर, निश्चित दरें और अल्लाह के मेहमानों के लिए सर्वोच्च आराम।',
+    badge: 'प्रीमियम वीआईपी परिवहन',
+    h1: 'आपकी यात्रा, हमारी प्राथमिकता',
+    description: 'पूर्ण शांति और सर्वोच्च आराम के साथ अपनी यात्रा बुक करें',
     btnPrimary: 'किराया देखें और बुक करें',
     btnSecondary: 'व्हाट्सएप पर बात करें',
   },
   de: {
-    badge: 'Exklusiver VIP-Chauffeurservice für Umrah-Pilger',
-    h1: 'Premium Umrah-Chauffeur & Luxus-Pilgertransport',
-    description:
-      'Privater Umrah-Fahrdienst zwischen Mekka, Medina und Dschidda. Professionelle Chauffeure, garantierte Festpreise und maximaler Komfort für die Gäste Allahs.',
+    badge: 'PREMIUM VIP-TRANSPORT',
+    h1: 'Ihre Reise, Unsere Priorität',
+    description: 'Buchen Sie Ihren VIP-Transfer mit höchstem Komfort und Seelenfrieden',
     btnPrimary: 'Preise Ansehen & Buchen',
     btnSecondary: 'Auf WhatsApp chatten',
   },
   ur: {
-    badge: 'عمرہ زائرین کے لیے خصوصی وی آئی پی پرائیویٹ ڈرائیور سروس',
-    h1: 'پریمیم عمرہ پرائیویٹ ڈرائیور اور زائرین کے لیے لگژری ٹرانسپورٹ',
-    description:
-      'مکہ مکرمہ، مدینہ منورہ اور جدہ کے درمیان پرائیویٹ عمرہ ٹیکسی۔ پیشہ ور ڈرائیور، طے شدہ کرائے اور ضیوف الرحمن کے لیے پُرسکون سفر۔',
+    badge: 'پریمیم ٹرانسپورٹیشن سروس',
+    h1: 'آپ کا سفر، ہماری اولین ترجیح',
+    description: 'مکمل سکون، وقار اور اعلیٰ ترین معیار کے ساتھ اپنی گاڑی بک کریں',
     btnPrimary: 'کرائے دیکھیں اور بک کریں',
     btnSecondary: 'واٹس ایپ پر رابطہ کریں',
   },
   ms: {
-    badge: 'Perkhidmatan Pemandu VIP Khas untuk Jemaah Umrah',
-    h1: 'Pemandu Umrah Premium & Pengangkutan Mewah Jemaah',
-    description:
-      'Teksi Umrah peribadi meliputi Makkah, Madinah dan Jeddah. Pemandu profesional, kadar tetap terjamin, dan keselesaan khas untuk Tetamu Allah.',
+    badge: 'PENGANGKUTAN VIP PREMIUM',
+    h1: 'Perjalanan Anda, Keutamaan Kami',
+    description: 'Tempah pengangkutan peribadi anda dengan tenang dan selesa',
     btnPrimary: 'Lihat Harga & Tempah',
     btnSecondary: 'Hubungi WhatsApp',
   },
   tr: {
-    badge: 'Umre Ziyaretçileri İçin Özel VIP Şoför Hizmeti',
-    h1: 'Seçkin Umre Şoförü ve Lüks Ziyaretçi Ulaşımı',
-    description:
-      "Mekke, Medine ve Cidde arasında özel Umre transferi. Profesyonel şoförler, sabit garantili fiyatlar ve Allah'ın Misafirleri için üstün konfor.",
+    badge: 'BİRİNCİ SINIF VIP ULAŞIM',
+    h1: 'Yolculuğunuz, Önceliğimizdir',
+    description: 'Huzur ve üstün konforla özel transferinizi güvenle ayırtın',
     btnPrimary: 'Fiyatları Gör ve Rezervasyon Yap',
     btnSecondary: "WhatsApp'tan Yazın",
   },
@@ -132,13 +123,6 @@ const BOOKING_WIDGET_TRANSLATIONS: Record<Locale, BookingWidgetTranslations> = {
     pickupTime: 'Pickup time',
     viewOptions: 'View options',
     hoursSuffix: 'Hours',
-    locJeddahAirport: 'Jeddah Airport (KAIA)',
-    locMakkahHotel: 'Makkah Hotel / Haram',
-    locMadinahHotel: 'Madinah Hotel / Haram',
-    locMadinahAirport: 'Madinah Airport (MED)',
-    locJeddahCity: 'Jeddah City',
-    locMakkahZiyarat: 'Makkah Holy Sites / Ziyarat',
-    locMadinahZiyarat: 'Madinah Holy Sites / Ziyarat',
   },
   ar: {
     oneWay: 'اتجاه واحد',
@@ -150,49 +134,28 @@ const BOOKING_WIDGET_TRANSLATIONS: Record<Locale, BookingWidgetTranslations> = {
     pickupTime: 'وقت الانطلاق',
     viewOptions: 'عرض الخيارات',
     hoursSuffix: 'ساعات',
-    locJeddahAirport: 'مطار جدة (KAIA)',
-    locMakkahHotel: 'فندق بمكة / الحرم',
-    locMadinahHotel: 'فندق بالمدينة / الحرم',
-    locMadinahAirport: 'مطار المدينة (MED)',
-    locJeddahCity: 'مدينة جدة',
-    locMakkahZiyarat: 'مزارات مكة المكرمة',
-    locMadinahZiyarat: 'مزارات المدينة المنورة',
   },
   fr: {
     oneWay: 'Aller simple',
-    byTheHour: "À l'heure",
+    byTheHour: 'À l\'heure',
     pickupLocation: 'Lieu de prise en charge',
-    dropoffLocation: 'Lieu de destination',
+    dropoffLocation: 'Destination',
     duration: 'Durée',
-    pickupDate: 'Date de départ',
-    pickupTime: 'Heure de départ',
+    pickupDate: 'Date de prise en charge',
+    pickupTime: 'Heure de prise en charge',
     viewOptions: 'Voir les options',
     hoursSuffix: 'Heures',
-    locJeddahAirport: 'Aéroport de Djeddah (KAIA)',
-    locMakkahHotel: 'Hôtel La Mecque / Haram',
-    locMadinahHotel: 'Hôtel Médine / Haram',
-    locMadinahAirport: 'Aéroport de Médine (MED)',
-    locJeddahCity: 'Ville de Djeddah',
-    locMakkahZiyarat: 'Lieux saints de La Mecque',
-    locMadinahZiyarat: 'Lieux saints de Médine',
   },
   es: {
     oneWay: 'Solo ida',
     byTheHour: 'Por horas',
-    pickupLocation: 'Punto de recogida',
-    dropoffLocation: 'Punto de destino',
+    pickupLocation: 'Lugar de recogida',
+    dropoffLocation: 'Destino',
     duration: 'Duración',
     pickupDate: 'Fecha de recogida',
     pickupTime: 'Hora de recogida',
     viewOptions: 'Ver opciones',
     hoursSuffix: 'Horas',
-    locJeddahAirport: 'Aeropuerto de Yeda (KAIA)',
-    locMakkahHotel: 'Hotel en La Meca / Haram',
-    locMadinahHotel: 'Hotel en Medina / Haram',
-    locMadinahAirport: 'Aeropuerto de Medina (MED)',
-    locJeddahCity: 'Ciudad de Yeda',
-    locMakkahZiyarat: 'Lugares sagrados de La Meca',
-    locMadinahZiyarat: 'Lugares sagrados de Medina',
   },
   id: {
     oneWay: 'Sekali jalan',
@@ -204,13 +167,6 @@ const BOOKING_WIDGET_TRANSLATIONS: Record<Locale, BookingWidgetTranslations> = {
     pickupTime: 'Waktu jemput',
     viewOptions: 'Lihat opsi',
     hoursSuffix: 'Jam',
-    locJeddahAirport: 'Bandara Jeddah (KAIA)',
-    locMakkahHotel: 'Hotel Makkah / Masjidil Haram',
-    locMadinahHotel: 'Hotel Madinah / Nabawi',
-    locMadinahAirport: 'Bandara Madinah (MED)',
-    locJeddahCity: 'Kota Jeddah',
-    locMakkahZiyarat: 'Ziarah Makkah',
-    locMadinahZiyarat: 'Ziarah Madinah',
   },
   hi: {
     oneWay: 'एक तरफ',
@@ -222,13 +178,6 @@ const BOOKING_WIDGET_TRANSLATIONS: Record<Locale, BookingWidgetTranslations> = {
     pickupTime: 'पिक-अप समय',
     viewOptions: 'विकल्प देखें',
     hoursSuffix: 'घंटे',
-    locJeddahAirport: 'जेद्दा हवाई अड्डा (KAIA)',
-    locMakkahHotel: 'मक्का होटल / हरम',
-    locMadinahHotel: 'मदीना होटल / हरम',
-    locMadinahAirport: 'मदीना हवाई अड्डा (MED)',
-    locJeddahCity: 'जेद्दा शहर',
-    locMakkahZiyarat: 'मक्का ज़ियारत स्थल',
-    locMadinahZiyarat: 'मदीना ज़ियारत स्थल',
   },
   de: {
     oneWay: 'Einfache Fahrt',
@@ -240,49 +189,28 @@ const BOOKING_WIDGET_TRANSLATIONS: Record<Locale, BookingWidgetTranslations> = {
     pickupTime: 'Abholzeit',
     viewOptions: 'Optionen ansehen',
     hoursSuffix: 'Stunden',
-    locJeddahAirport: 'Flughafen Dschidda (KAIA)',
-    locMakkahHotel: 'Hotel Mekka / Haram',
-    locMadinahHotel: 'Hotel Medina / Haram',
-    locMadinahAirport: 'Flughafen Medina (MED)',
-    locJeddahCity: 'Stadt Dschidda',
-    locMakkahZiyarat: 'Heilige Stätten Mekka',
-    locMadinahZiyarat: 'Heilige Stätten Medina',
   },
   ur: {
-    oneWay: 'ایک طرفہ',
+    oneWay: 'ایک طرف',
     byTheHour: 'فی گھنٹہ',
-    pickupLocation: 'روانگی کا مقام',
+    pickupLocation: 'پک اپ کا مقام',
     dropoffLocation: 'منزل کا مقام',
     duration: 'مدت',
-    pickupDate: 'روانگی کی تاریخ',
-    pickupTime: 'روانگی کا وقت',
+    pickupDate: 'پک اپ کی تاریخ',
+    pickupTime: 'پک اپ کا وقت',
     viewOptions: 'اختیارات دیکھیں',
     hoursSuffix: 'گھنٹے',
-    locJeddahAirport: 'جدہ ایئرپورٹ (KAIA)',
-    locMakkahHotel: 'مکہ ہوٹل / حرم',
-    locMadinahHotel: 'مدینہ ہوٹل / حرم',
-    locMadinahAirport: 'مدینہ ایئرپورٹ (MED)',
-    locJeddahCity: 'جدہ شہر',
-    locMakkahZiyarat: 'مکہ زیارات',
-    locMadinahZiyarat: 'مدینہ زیارات',
   },
   ms: {
     oneWay: 'Satu hala',
     byTheHour: 'Mengikut jam',
-    pickupLocation: 'Lokasi pengambilan',
-    dropoffLocation: 'Lokasi destinasi',
+    pickupLocation: 'Lokasi ambil',
+    dropoffLocation: 'Lokasi hantar',
     duration: 'Tempoh',
     pickupDate: 'Tarikh ambil',
     pickupTime: 'Masa ambil',
     viewOptions: 'Lihat pilihan',
     hoursSuffix: 'Jam',
-    locJeddahAirport: 'Lapangan Terbang Jeddah (KAIA)',
-    locMakkahHotel: 'Hotel Makkah / Masjidil Haram',
-    locMadinahHotel: 'Hotel Madinah / Nabawi',
-    locMadinahAirport: 'Lapangan Terbang Madinah (MED)',
-    locJeddahCity: 'Bandar Jeddah',
-    locMakkahZiyarat: 'Ziarah Makkah',
-    locMadinahZiyarat: 'Ziarah Madinah',
   },
   tr: {
     oneWay: 'Tek yön',
@@ -294,19 +222,38 @@ const BOOKING_WIDGET_TRANSLATIONS: Record<Locale, BookingWidgetTranslations> = {
     pickupTime: 'Alış saati',
     viewOptions: 'Seçenekleri gör',
     hoursSuffix: 'Saat',
-    locJeddahAirport: 'Cidde Havalimanı (KAIA)',
-    locMakkahHotel: 'Mekke Oteli / Harem',
-    locMadinahHotel: 'Medine Oteli / Harem',
-    locMadinahAirport: 'Medine Havalimanı (MED)',
-    locJeddahCity: 'Cidde Şehir',
-    locMakkahZiyarat: 'Mekke Ziyaret Yerleri',
-    locMadinahZiyarat: 'Medine Ziyaret Yerleri',
   },
 };
 
+// Arabesque medallion flourish attached to the left/right border (Reference 2)
+function ArabesqueMedallion({ className = 'w-6 h-12 text-[#C5A059]' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 28 56"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      <path
+        d="M14 0 C22 14 26 22 14 28 C2 22 6 14 14 0 Z"
+        fill="currentColor"
+        opacity="0.85"
+      />
+      <path
+        d="M14 56 C22 42 26 34 14 28 C2 34 6 42 14 56 Z"
+        fill="currentColor"
+        opacity="0.85"
+      />
+      <circle cx="14" cy="28" r="4.5" fill="#090D14" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M4 23 L0 28 L4 33" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
 export function HeroSection({ locale }: HeroSectionProps) {
   const router = useRouter();
-  const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = React.useState(false);
+  const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef<HTMLElement>(null);
 
@@ -317,20 +264,43 @@ export function HeroSection({ locale }: HeroSectionProps) {
   const [durationHours, setDurationHours] = useState('4');
 
   // Dates
-  const tomorrowStr = React.useMemo(() => {
+  const tomorrowStr = useMemo(() => {
     const d = new Date();
     d.setDate(d.getDate() + 1);
     return d.toISOString().split('T')[0];
   }, []);
-  const todayStr = React.useMemo(() => new Date().toISOString().split('T')[0], []);
+  const todayStr = useMemo(() => new Date().toISOString().split('T')[0], []);
 
   const [pickupDate, setPickupDate] = useState(tomorrowStr);
   const [pickupTime, setPickupTime] = useState('14:00');
 
   const content = HERO_CONTENT[locale] || HERO_CONTENT.en;
   const bwt = BOOKING_WIDGET_TRANSLATIONS[locale] || BOOKING_WIDGET_TRANSLATIONS.en;
-  const isArabic = locale === 'ar';
-  const isUrdu = locale === 'ur';
+  const isRtl = locale === 'ar' || locale === 'ur';
+
+  // Format date display (e.g., 10/28/2026)
+  const formattedDateDisplay = useMemo(() => {
+    if (!pickupDate) return '';
+    try {
+      const [year, month, day] = pickupDate.split('-');
+      return `${month}/${day}/${year}`;
+    } catch {
+      return pickupDate;
+    }
+  }, [pickupDate]);
+
+  // Format time display (e.g., 02:00 PM)
+  const formattedTimeDisplay = useMemo(() => {
+    if (!pickupTime) return '';
+    try {
+      const [h, m] = pickupTime.split(':').map(Number);
+      const period = h >= 12 ? 'PM' : 'AM';
+      const hour12 = h % 12 === 0 ? 12 : h % 12;
+      return `${String(hour12).padStart(2, '0')}:${String(m).padStart(2, '0')} ${period}`;
+    } catch {
+      return pickupTime;
+    }
+  }, [pickupTime]);
 
   useEffect(() => {
     // 1. Force video to play muted
@@ -383,27 +353,49 @@ export function HeroSection({ locale }: HeroSectionProps) {
 
     if (tripType === 'one-way') {
       let routeSlug = 'jeddah-airport-to-makkah';
-      if (pickupLocation === 'jeddah-airport' && dropoffLocation === 'makkah-hotel') {
+
+      const pickItem = SAUDI_LOCATIONS.find((l) => l.id === pickupLocation);
+      const dropItem = SAUDI_LOCATIONS.find((l) => l.id === dropoffLocation);
+
+      const pickCity = pickItem?.city || 'jeddah';
+      const dropCity = dropItem?.city || 'makkah';
+
+      if (pickCity === 'jeddah' && dropCity === 'makkah') {
         routeSlug = 'jeddah-airport-to-makkah';
-      } else if (pickupLocation === 'makkah-hotel' && dropoffLocation === 'jeddah-airport') {
+      } else if (pickCity === 'makkah' && dropCity === 'jeddah') {
         routeSlug = 'makkah-to-jeddah-airport';
-      } else if (pickupLocation === 'makkah-hotel' && dropoffLocation === 'madinah-hotel') {
+      } else if (pickCity === 'makkah' && dropCity === 'madinah') {
         routeSlug = 'makkah-to-madinah';
-      } else if (pickupLocation === 'madinah-hotel' && dropoffLocation === 'makkah-hotel') {
+      } else if (pickCity === 'madinah' && dropCity === 'makkah') {
         routeSlug = 'madinah-to-makkah';
-      } else if (pickupLocation === 'madinah-airport' || dropoffLocation === 'madinah-airport') {
+      } else if (pickCity === 'madinah' && dropItem?.category === 'airport') {
         routeSlug = 'madinah-airport-to-hotel';
-      } else if (pickupLocation === 'jeddah-city' || dropoffLocation === 'madinah-hotel') {
+      } else if (pickItem?.category === 'airport' && dropCity === 'madinah') {
+        routeSlug = 'madinah-airport-to-hotel';
+      } else if (pickCity === 'jeddah' && dropCity === 'madinah') {
         routeSlug = 'jeddah-to-madinah';
+      } else if (pickCity === 'makkah' && dropCity === 'taif') {
+        routeSlug = 'makkah-to-taif';
+      } else if (pickCity === 'taif' && dropCity === 'makkah') {
+        routeSlug = 'taif-to-makkah';
+      } else if (pickCity === 'jeddah' && dropCity === 'taif') {
+        routeSlug = 'jeddah-to-taif';
+      } else if (pickCity === 'riyadh' || dropCity === 'riyadh') {
+        routeSlug = 'riyadh-airport-transfer';
       }
+
       query.set('route', routeSlug);
       query.set('date', pickupDate);
       query.set('time', pickupTime);
+      if (pickItem) query.set('pickup', pickItem.name[locale] || pickItem.name.en);
+      if (dropItem) query.set('dropoff', dropItem.name[locale] || dropItem.name.en);
     } else {
       query.set('type', 'hourly');
       query.set('duration', durationHours);
       query.set('date', pickupDate);
       query.set('time', pickupTime);
+      const pickItem = SAUDI_LOCATIONS.find((l) => l.id === pickupLocation);
+      if (pickItem) query.set('pickup', pickItem.name[locale] || pickItem.name.en);
     }
 
     router.push(`/${locale}/booking?${query.toString()}`);
@@ -412,7 +404,7 @@ export function HeroSection({ locale }: HeroSectionProps) {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-[100svh] py-20 lg:py-24 flex flex-col justify-center items-center overflow-hidden bg-[#0a1224] text-white select-none"
+      className="relative min-h-[100svh] py-16 sm:py-20 lg:py-24 flex flex-col justify-center items-center overflow-hidden bg-[#0A0D14] text-white select-none"
     >
       {/* 1) FULL-SCREEN CINEMATIC BACKGROUND VIDEO */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -425,75 +417,43 @@ export function HeroSection({ locale }: HeroSectionProps) {
           preload="auto"
           poster="/haram.jpg"
           className="w-full h-full object-cover object-[center_38%]"
-          aria-label="Masjid al-Haram, Holy Kaaba and Makkah Royal Clock Tower at night - Duyuf Alrahman VIP"
+          aria-label="Masjid al-Haram and Kaaba at night - Duyuf Alrahman VIP"
         >
           <source src="/haram.mp4" type="video/mp4" />
         </video>
 
-        {/* Balanced Dark Navy Gradient Overlays: keeps video vibrant while ensuring text has strong contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1224] via-[#0a1224]/50 to-[#0a1224]/20 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a1224]/50 via-transparent to-[#0a1224]/85 pointer-events-none" />
+        {/* Ambient Dark Luxury Gradient Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0D14] via-[#0A0D14]/60 to-[#0A0D14]/25 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0D14]/65 via-transparent to-[#0A0D14]/90 pointer-events-none" />
       </div>
 
-      {/* 2) SIMPLE, CLASSY, CENTERED CONTENT */}
-      <div className="container mx-auto px-4 sm:px-6 max-w-5xl relative z-10 flex flex-col items-center justify-center text-center my-auto">
-        {/* SMALL BADGE: Thin gold border, no heavy fill, refined letter-spacing */}
-        <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-[#d4a72c]/50 bg-[#0a1224]/30 backdrop-blur-sm text-[#d4a72c] text-xs sm:text-[13px] font-medium tracking-[0.14em] uppercase mb-5 sm:mb-6 animate-fadeIn">
-          <span>{content.badge}</span>
-        </div>
+      {/* 2) MAIN HERO CONTENT & BOOKING BAR (MATCHING REFERENCE 2) */}
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10 flex flex-col justify-center my-auto pt-10 sm:pt-14">
+        {/* TOP ROW: HEADLINE ON LEFT + TOGGLE PILL ON RIGHT (REFERENCE 2) */}
+        <div className="w-full flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 mb-6 sm:mb-8 text-start">
+          {/* LEFT: EDITORIAL TYPOGRAPHY */}
+          <div className="max-w-2xl">
+            <span className="text-[11px] sm:text-xs font-bold text-[#C5A059] uppercase tracking-[0.28em] block mb-2 drop-shadow-sm">
+              {content.badge}
+            </span>
+            <h1 className="font-serif font-normal text-3xl sm:text-4xl lg:text-5xl text-[#F0E2C8] tracking-tight leading-[1.12] drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+              {content.h1}
+            </h1>
+            <p className="mt-2 text-sm sm:text-base text-[#D0C7B8] font-light leading-relaxed drop-shadow-md">
+              {content.description}
+            </p>
+          </div>
 
-        {/* H1: Large serif headline in Playfair Display, semi-bold, white */}
-        <h1
-          className={`text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] leading-[1.14] sm:leading-[1.08] tracking-tight max-w-3xl lg:max-w-4xl mx-auto text-[clamp(26px,5vw,64px)] sm:text-[clamp(32px,5vw,60px)] font-semibold ${
-            isArabic ? 'font-arabic font-bold' : isUrdu ? 'font-urdu font-bold' : 'font-display'
-          }`}
-        >
-          {content.h1}
-        </h1>
-
-        {/* SHORT PARAGRAPH: Max 2 lines */}
-        <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-[#e2e8f0] drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] font-light leading-relaxed max-w-2xl mx-auto line-clamp-2">
-          {content.description}
-        </p>
-
-        {/* TWO BUTTONS WITH GENEROUS SPACING & SUBTLE LUXURY SHINE */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-5 mt-5 sm:mt-7 mb-6 sm:mb-9 w-full sm:w-auto max-w-sm sm:max-w-none mx-auto">
-          {/* Gold "Get Prices & Book" Button */}
-          <Link
-            href={`/${locale}/pricing`}
-            className="group relative overflow-hidden inline-flex items-center justify-center gap-2.5 min-h-[48px] h-12 px-6 sm:px-8 w-full sm:w-auto rounded-[8px] bg-[#d4a72c] text-[#0a1224] font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-[#e8c766] hover:-translate-y-0.5 active:translate-y-0 transition-all shadow-[0_4px_25px_rgba(212,167,44,0.4)] hover:shadow-[0_4px_35px_rgba(212,167,44,0.6)] focus-visible:ring-2 focus-visible:ring-[#d4a72c]"
-          >
-            <span className="relative z-10">{content.btnPrimary}</span>
-            <ArrowRight className="w-4 h-4 rtl:rotate-180 relative z-10" />
-            <span
-              aria-hidden="true"
-              className="absolute inset-0 pointer-events-none -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] animate-luxury-shine group-hover:translate-x-full transition-transform duration-700"
-            />
-          </Link>
-
-          {/* Thin Green-Outline "Chat on WhatsApp" Button */}
-          <button
-            type="button"
-            onClick={() => setIsWhatsAppModalOpen(true)}
-            className="inline-flex items-center justify-center gap-2 min-h-[48px] h-12 px-6 sm:px-7 w-full sm:w-auto rounded-[8px] border border-[#25d366]/70 bg-[#0a1224]/30 backdrop-blur-sm hover:bg-[#25d366] text-[#25d366] hover:text-white font-semibold text-xs sm:text-sm transition-all focus-visible:ring-2 focus-visible:ring-[#25d366]"
-          >
-            <MessageCircle className="w-4 h-4" />
-            <span>{content.btnSecondary}</span>
-          </button>
-        </div>
-
-        {/* 3) LUXURY LIGHT-THEME BOOKING WIDGET */}
-        <div className="w-full max-w-5xl mx-auto">
-          {/* Top Pill Toggle Switch: clean white with orange-gold active tab */}
-          <div className="flex justify-center mb-3">
-            <div className="inline-flex p-1 rounded-full bg-white/95 backdrop-blur-md border border-gray-200/90 shadow-md">
+          {/* RIGHT: DARK TOGGLE CAPSULE (REFERENCE 2) */}
+          <div className="shrink-0 self-start lg:self-end">
+            <div className="inline-flex p-1 rounded-full bg-[#0B0F17]/90 backdrop-blur-md border border-[#C5A059]/40 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
               <button
                 type="button"
                 onClick={() => setTripType('one-way')}
-                className={`px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                className={`px-5 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
                   tripType === 'one-way'
-                    ? 'bg-[#df9e38] text-gray-950 shadow-sm'
-                    : 'text-gray-700 hover:text-gray-950'
+                    ? 'bg-gradient-to-r from-[#D8A752] via-[#E8BE6D] to-[#C9973B] text-[#140E05] font-bold shadow-md shadow-[#C5A059]/30'
+                    : 'text-[#D0C7B8] hover:text-white'
                 }`}
               >
                 {bwt.oneWay}
@@ -501,159 +461,195 @@ export function HeroSection({ locale }: HeroSectionProps) {
               <button
                 type="button"
                 onClick={() => setTripType('hourly')}
-                className={`px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                className={`px-5 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
                   tripType === 'hourly'
-                    ? 'bg-[#df9e38] text-gray-950 shadow-sm'
-                    : 'text-gray-700 hover:text-gray-950'
+                    ? 'bg-gradient-to-r from-[#D8A752] via-[#E8BE6D] to-[#C9973B] text-[#140E05] font-bold shadow-md shadow-[#C5A059]/30'
+                    : 'text-[#D0C7B8] hover:text-white'
                 }`}
               >
                 {bwt.byTheHour}
               </button>
             </div>
           </div>
+        </div>
 
-          {/* Solid White Horizontal Container with Soft Elegant Shadow */}
+        {/* 3) THE ROYAL LUXURY BOOKING BAR (EXACT REFERENCE 2 GEOMETRY & STYLING) */}
+        <div className="relative w-full">
+          {/* Left Arabesque Medallion Flourish (Reference 2) */}
+          <div
+            className={`hidden xl:block absolute top-1/2 -translate-y-1/2 pointer-events-none z-20 ${
+              isRtl ? '-right-3.5 rotate-180' : '-left-3.5'
+            }`}
+          >
+            <ArabesqueMedallion className="w-6 h-12 text-[#C5A059] drop-shadow-[0_0_10px_rgba(197,160,89,0.5)]" />
+          </div>
+
+          {/* Chamfered Luxury Booking Container */}
           <form
             onSubmit={handleWidgetSubmit}
-            className="w-full bg-white rounded-2xl lg:rounded-full p-3 sm:p-3.5 lg:p-3 border border-gray-100 shadow-[0_12px_45px_rgba(0,0,0,0.18)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.22)] transition-shadow text-gray-900"
+            className="w-full relative bg-gradient-to-r from-[#0C1017] via-[#0E131C] to-[#0A0D14] rounded-2xl lg:rounded-[22px] border-2 border-[#C5A059]/75 shadow-[0_0_35px_rgba(197,160,89,0.22),_0_20px_50px_rgba(0,0,0,0.95)] p-2.5 sm:p-3 lg:p-2 text-[#F7F3EE] backdrop-blur-xl"
           >
-            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-0 lg:divide-x lg:divide-gray-200 rtl:lg:divide-x-reverse">
-              {/* Field 1: Pick-up location */}
-              <div className="flex-1 px-4 py-1.5 text-left rtl:text-right">
-                <label className="text-[10px] sm:text-[11px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
-                  {bwt.pickupLocation}
-                </label>
-                <div className="relative">
-                  <select
-                    value={pickupLocation}
-                    onChange={(e) => setPickupLocation(e.target.value)}
-                    className="w-full bg-transparent text-gray-950 font-semibold text-xs sm:text-sm focus:outline-none border-b border-gray-200 focus:border-[#df9e38] pb-1 pt-0.5 pr-6 rtl:pr-0 rtl:pl-6 appearance-none cursor-pointer transition-colors text-ellipsis overflow-hidden whitespace-nowrap"
-                  >
-                    <option value="jeddah-airport" className="bg-white text-gray-900">
-                      {bwt.locJeddahAirport}
-                    </option>
-                    <option value="makkah-hotel" className="bg-white text-gray-900">
-                      {bwt.locMakkahHotel}
-                    </option>
-                    <option value="madinah-hotel" className="bg-white text-gray-900">
-                      {bwt.locMadinahHotel}
-                    </option>
-                    <option value="madinah-airport" className="bg-white text-gray-900">
-                      {bwt.locMadinahAirport}
-                    </option>
-                    <option value="jeddah-city" className="bg-white text-gray-900">
-                      {bwt.locJeddahCity}
-                    </option>
-                  </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 pointer-events-none absolute right-1 rtl:right-auto rtl:left-1 bottom-1.5" />
-                </div>
-              </div>
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2 lg:gap-0">
+              {/* Field 1: PICK-UP LOCATION (with LocationAutocomplete) */}
+              <LocationAutocomplete
+                label={bwt.pickupLocation}
+                value={pickupLocation}
+                onChange={(locId) => setPickupLocation(locId)}
+                locale={locale}
+                excludeId={tripType === 'one-way' ? dropoffLocation : undefined}
+              />
 
-              {/* Dynamic Field 2: Drop-off location OR Duration */}
+              {/* Thin Vertical Gold Divider */}
+              <div className="hidden lg:block w-px h-10 bg-gradient-to-b from-transparent via-[#C5A059]/35 to-transparent mx-2 shrink-0" />
+
+              {/* Field 2: DROP-OFF LOCATION (One-Way) OR DURATION (Hourly) */}
               {tripType === 'one-way' ? (
-                <div className="flex-1 px-4 py-1.5 text-left rtl:text-right">
-                  <label className="text-[10px] sm:text-[11px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
-                    {bwt.dropoffLocation}
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={dropoffLocation}
-                      onChange={(e) => setDropoffLocation(e.target.value)}
-                      className="w-full bg-transparent text-gray-950 font-semibold text-xs sm:text-sm focus:outline-none border-b border-gray-200 focus:border-[#df9e38] pb-1 pt-0.5 pr-6 rtl:pr-0 rtl:pl-6 appearance-none cursor-pointer transition-colors text-ellipsis overflow-hidden whitespace-nowrap"
-                    >
-                      <option value="makkah-hotel" className="bg-white text-gray-900">
-                        {bwt.locMakkahHotel}
-                      </option>
-                      <option value="madinah-hotel" className="bg-white text-gray-900">
-                        {bwt.locMadinahHotel}
-                      </option>
-                      <option value="jeddah-airport" className="bg-white text-gray-900">
-                        {bwt.locJeddahAirport}
-                      </option>
-                      <option value="madinah-airport" className="bg-white text-gray-900">
-                        {bwt.locMadinahAirport}
-                      </option>
-                      <option value="makkah-ziyarat" className="bg-white text-gray-900">
-                        {bwt.locMakkahZiyarat}
-                      </option>
-                      <option value="madinah-ziyarat" className="bg-white text-gray-900">
-                        {bwt.locMadinahZiyarat}
-                      </option>
-                    </select>
-                    <ChevronDown className="w-3.5 h-3.5 text-gray-400 pointer-events-none absolute right-1 rtl:right-auto rtl:left-1 bottom-1.5" />
-                  </div>
-                </div>
+                <LocationAutocomplete
+                  label={bwt.dropoffLocation}
+                  value={dropoffLocation}
+                  onChange={(locId) => setDropoffLocation(locId)}
+                  locale={locale}
+                  excludeId={pickupLocation}
+                />
               ) : (
-                <div className="flex-1 px-4 py-1.5 text-left rtl:text-right">
-                  <label className="text-[10px] sm:text-[11px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
-                    {bwt.duration}
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={durationHours}
-                      onChange={(e) => setDurationHours(e.target.value)}
-                      className="w-full bg-transparent text-gray-950 font-semibold text-xs sm:text-sm focus:outline-none border-b border-gray-200 focus:border-[#df9e38] pb-1 pt-0.5 pr-6 rtl:pr-0 rtl:pl-6 appearance-none cursor-pointer transition-colors"
-                    >
-                      <option value="2" className="bg-white text-gray-900">
-                        2 {bwt.hoursSuffix}
-                      </option>
-                      <option value="4" className="bg-white text-gray-900">
-                        4 {bwt.hoursSuffix} (Standard)
-                      </option>
-                      <option value="6" className="bg-white text-gray-900">
-                        6 {bwt.hoursSuffix}
-                      </option>
-                      <option value="8" className="bg-white text-gray-900">
-                        8 {bwt.hoursSuffix} (Full Day)
-                      </option>
-                      <option value="12" className="bg-white text-gray-900">
-                        12 {bwt.hoursSuffix} (Executive)
-                      </option>
-                    </select>
-                    <ChevronDown className="w-3.5 h-3.5 text-gray-400 pointer-events-none absolute right-1 rtl:right-auto rtl:left-1 bottom-1.5" />
+                <div className="flex-1 min-w-0 relative">
+                  <div className="flex items-center gap-2.5 sm:gap-3 py-1 px-1 sm:px-2 rounded-xl">
+                    {/* Left Circular Golden Clock Badge */}
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-b from-[#1C181A] to-[#120F12] border border-[#C5A059]/60 flex items-center justify-center text-[#D8B174] shadow-inner shrink-0">
+                      <Clock3 className="w-5 h-5 text-[#C5A059]" />
+                    </div>
+
+                    <div className="flex-1 min-w-0 text-start">
+                      <label className="text-[10px] sm:text-[11px] font-bold text-[#8E8B85] uppercase tracking-wider block leading-none mb-1">
+                        {bwt.duration}
+                      </label>
+                      <div className="relative">
+                        <select
+                          value={durationHours}
+                          onChange={(e) => setDurationHours(e.target.value)}
+                          className="w-full bg-transparent text-[#F7F3EE] font-semibold text-xs sm:text-sm focus:outline-none appearance-none cursor-pointer pr-6 rtl:pr-0 rtl:pl-6 leading-tight"
+                        >
+                          <option value="2" className="bg-[#0D111A] text-white">
+                            2 {bwt.hoursSuffix}
+                          </option>
+                          <option value="4" className="bg-[#0D111A] text-white">
+                            4 {bwt.hoursSuffix} (Standard)
+                          </option>
+                          <option value="6" className="bg-[#0D111A] text-white">
+                            6 {bwt.hoursSuffix}
+                          </option>
+                          <option value="8" className="bg-[#0D111A] text-white">
+                            8 {bwt.hoursSuffix} (Full Day)
+                          </option>
+                          <option value="12" className="bg-[#0D111A] text-white">
+                            12 {bwt.hoursSuffix} (Executive VIP)
+                          </option>
+                        </select>
+                        <ChevronDown className="w-3.5 h-3.5 text-[#C5A059] pointer-events-none absolute right-1 rtl:right-auto rtl:left-1 top-1/2 -translate-y-1/2" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
 
-              {/* Field 3: Pick-up date */}
-              <div className="flex-1 px-4 py-1.5 text-left rtl:text-right">
-                <label className="text-[10px] sm:text-[11px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
-                  {bwt.pickupDate}
-                </label>
-                <input
-                  type="date"
-                  min={todayStr}
-                  value={pickupDate}
-                  onChange={(e) => setPickupDate(e.target.value)}
-                  className="w-full bg-transparent text-gray-950 font-semibold text-xs sm:text-sm focus:outline-none border-b border-gray-200 focus:border-[#df9e38] pb-1 pt-0.5 transition-colors cursor-pointer"
-                />
+              {/* Thin Vertical Gold Divider */}
+              <div className="hidden lg:block w-px h-10 bg-gradient-to-b from-transparent via-[#C5A059]/35 to-transparent mx-2 shrink-0" />
+
+              {/* Field 3: PICK-UP DATE (Reference 2 Styling) */}
+              <div className="flex-1 min-w-0 relative">
+                <div className="flex items-center gap-2.5 sm:gap-3 py-1 px-1 sm:px-2 rounded-xl group hover:bg-white/[0.04] transition-colors cursor-pointer">
+                  {/* Outline Calendar Icon in Gold */}
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-b from-[#1C181A] to-[#120F12] border border-[#C5A059]/60 flex items-center justify-center text-[#D8B174] shadow-inner shrink-0 group-hover:scale-105 transition-transform">
+                    <Calendar className="w-5 h-5 text-[#C5A059]" />
+                  </div>
+
+                  <div className="flex-1 min-w-0 text-start relative">
+                    <label className="text-[10px] sm:text-[11px] font-bold text-[#8E8B85] uppercase tracking-wider block leading-none mb-1">
+                      {bwt.pickupDate}
+                    </label>
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="font-semibold text-xs sm:text-sm text-[#F7F3EE] block leading-tight">
+                        {formattedDateDisplay}
+                      </span>
+                      <Calendar className="w-3.5 h-3.5 text-[#8E8B85] shrink-0" />
+                    </div>
+
+                    {/* Native Date Input Overlay */}
+                    <input
+                      type="date"
+                      min={todayStr}
+                      value={pickupDate}
+                      onChange={(e) => setPickupDate(e.target.value)}
+                      className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                    />
+                  </div>
+                </div>
               </div>
 
-              {/* Field 4: Pickup time */}
-              <div className="flex-1 px-4 py-1.5 text-left rtl:text-right">
-                <label className="text-[10px] sm:text-[11px] font-semibold text-gray-500 uppercase tracking-wider block mb-1">
-                  {bwt.pickupTime}
-                </label>
-                <input
-                  type="time"
-                  value={pickupTime}
-                  onChange={(e) => setPickupTime(e.target.value)}
-                  className="w-full bg-transparent text-gray-950 font-semibold text-xs sm:text-sm focus:outline-none border-b border-gray-200 focus:border-[#df9e38] pb-1 pt-0.5 transition-colors cursor-pointer"
-                />
+              {/* Thin Vertical Gold Divider */}
+              <div className="hidden lg:block w-px h-10 bg-gradient-to-b from-transparent via-[#C5A059]/35 to-transparent mx-2 shrink-0" />
+
+              {/* Field 4: PICKUP TIME (Reference 2 Styling) */}
+              <div className="flex-1 min-w-0 relative">
+                <div className="flex items-center gap-2.5 sm:gap-3 py-1 px-1 sm:px-2 rounded-xl group hover:bg-white/[0.04] transition-colors cursor-pointer">
+                  {/* Outline Clock Icon in Gold */}
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-b from-[#1C181A] to-[#120F12] border border-[#C5A059]/60 flex items-center justify-center text-[#D8B174] shadow-inner shrink-0 group-hover:scale-105 transition-transform">
+                    <Clock className="w-5 h-5 text-[#C5A059]" />
+                  </div>
+
+                  <div className="flex-1 min-w-0 text-start relative">
+                    <label className="text-[10px] sm:text-[11px] font-bold text-[#8E8B85] uppercase tracking-wider block leading-none mb-1">
+                      {bwt.pickupTime}
+                    </label>
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="font-semibold text-xs sm:text-sm text-[#F7F3EE] block leading-tight">
+                        {formattedTimeDisplay}
+                      </span>
+                      <Clock className="w-3.5 h-3.5 text-[#8E8B85] shrink-0" />
+                    </div>
+
+                    {/* Native Time Input Overlay */}
+                    <input
+                      type="time"
+                      value={pickupTime}
+                      onChange={(e) => setPickupTime(e.target.value)}
+                      className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                    />
+                  </div>
+                </div>
               </div>
 
-              {/* Submit Button: Solid orange-gold background with dark text */}
-              <div className="lg:pl-3 rtl:lg:pl-0 rtl:lg:pr-3 pt-2 lg:pt-0 shrink-0">
+              {/* Field 5: Action Button "View options →" (Chamfered Geometry matching Reference 2) */}
+              <div className="pt-2 lg:pt-0 lg:ps-2 shrink-0">
                 <button
                   type="submit"
-                  className="w-full lg:w-auto h-11 sm:h-12 px-6 sm:px-7 rounded-full bg-[#df9e38] hover:bg-[#c9892c] active:scale-[0.98] text-gray-950 font-bold text-xs sm:text-sm tracking-wider flex items-center justify-center gap-1.5 shadow-[0_4px_16px_rgba(223,158,56,0.35)] transition-all whitespace-nowrap cursor-pointer"
+                  className="w-full lg:w-auto min-h-[48px] h-12 px-7 sm:px-9 rounded-xl lg:rounded-2xl bg-gradient-to-r from-[#D8A752] via-[#E8BE6D] to-[#C9973B] hover:brightness-110 active:scale-[0.98] text-[#140E05] font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-[#C5A059]/35 flex items-center justify-center gap-2 transition-all whitespace-nowrap cursor-pointer"
                 >
                   <span>{bwt.viewOptions}</span>
-                  <ChevronRight className="w-4 h-4 rtl:rotate-180" />
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                 </button>
               </div>
             </div>
           </form>
+        </div>
+
+        {/* BOTTOM QUICK ACTIONS: GET PRICES & WHATSAPP */}
+        <div className="flex items-center justify-center gap-4 mt-6">
+          <Link
+            href={`/${locale}/pricing`}
+            className="text-xs sm:text-sm text-[#D8B174] hover:text-white font-medium underline-offset-4 hover:underline transition-colors"
+          >
+            {content.btnPrimary}
+          </Link>
+          <span className="text-white/20">•</span>
+          <button
+            type="button"
+            onClick={() => setIsWhatsAppModalOpen(true)}
+            className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-[#25D366] hover:text-[#4ADE80] font-medium transition-colors"
+          >
+            <MessageCircle className="w-3.5 h-3.5" />
+            <span>{content.btnSecondary}</span>
+          </button>
         </div>
       </div>
 
