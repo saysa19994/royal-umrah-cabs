@@ -22,14 +22,19 @@ export interface RouteCardData {
   imagePosition?: string;
   timeEn: string;
   timeAr: string;
+  times?: Partial<Record<Locale, string>>;
   distanceEn: string;
   distanceAr: string;
+  distances?: Partial<Record<Locale, string>>;
   titleEn: string;
   titleAr: string;
+  titles?: Partial<Record<Locale, string>>;
   subtitleEn?: string;
   subtitleAr?: string;
+  subtitles?: Partial<Record<Locale, string>>;
   categoryBadgeEn?: string;
   categoryBadgeAr?: string;
+  categoryBadges?: Partial<Record<Locale, string>>;
   serviceLineEn?: string;
   serviceLineAr?: string;
   descEn: string;
@@ -46,7 +51,7 @@ interface ExecutiveRouteCardProps {
 }
 
 const LABELS: Record<
-  string,
+  Locale,
   {
     startingFrom: string;
     perTrip: string;
@@ -54,6 +59,9 @@ const LABELS: Record<
     viewVehicles: string;
     luxuryVipService: string;
     serviceLine: string;
+    badge247: string;
+    badgeDoorToDoor: string;
+    badgeFamilyFriendly: string;
   }
 > = {
   ar: {
@@ -63,6 +71,9 @@ const LABELS: Record<
     viewVehicles: 'عرض السيارات',
     luxuryVipService: 'خدمة VIP فاخرة',
     serviceLine: 'خدمات نقل ليموزين وVIP',
+    badge247: 'خدمة 24/7',
+    badgeDoorToDoor: 'من الباب للباب',
+    badgeFamilyFriendly: 'مناسب للعوائل',
   },
   en: {
     startingFrom: 'STARTING FROM',
@@ -71,14 +82,9 @@ const LABELS: Record<
     viewVehicles: 'View Vehicles',
     luxuryVipService: 'LUXURY VIP SERVICE',
     serviceLine: 'LIMO & VIP TRANSFER SERVICES',
-  },
-  ur: {
-    startingFrom: 'شروع از',
-    perTrip: '/ فی چکر',
-    bookNow: 'ابھی بک کریں',
-    viewVehicles: 'گاڑیاں دیکھیں',
-    luxuryVipService: 'لگژری وی آئی پی سروس',
-    serviceLine: 'لیموزین اور وی آئی پی ٹرانسفر',
+    badge247: '24/7 SERVICE',
+    badgeDoorToDoor: 'DOOR-TO-DOOR',
+    badgeFamilyFriendly: 'FAMILY FRIENDLY',
   },
   ms: {
     startingFrom: 'BERMULA DARI',
@@ -87,6 +93,9 @@ const LABELS: Record<
     viewVehicles: 'Lihat Kenderaan',
     luxuryVipService: 'PERKHIDMATAN VIP MEWAH',
     serviceLine: 'PERKHIDMATAN LIMO & PEMINDAHAN VIP',
+    badge247: 'PERKHIDMATAN 24/7',
+    badgeDoorToDoor: 'PINTU KE PINTU',
+    badgeFamilyFriendly: 'MESRA KELUARGA',
   },
   id: {
     startingFrom: 'MULAI DARI',
@@ -95,6 +104,20 @@ const LABELS: Record<
     viewVehicles: 'Lihat Kendaraan',
     luxuryVipService: 'LAYANAN VIP MEWAH',
     serviceLine: 'LAYANAN LIMO & TRANSFER VIP',
+    badge247: 'LAYANAN 24/7',
+    badgeDoorToDoor: 'PINTU KE PINTU',
+    badgeFamilyFriendly: 'RAMAH KELUARGA',
+  },
+  ur: {
+    startingFrom: 'شروع از',
+    perTrip: '/ فی چکر',
+    bookNow: 'ابھی بک کریں',
+    viewVehicles: 'گاڑیاں دیکھیں',
+    luxuryVipService: 'لگژری وی آئی پی سروس',
+    serviceLine: 'لیموزین اور وی آئی پی ٹرانسفر',
+    badge247: '24/7 سروس',
+    badgeDoorToDoor: 'ڈور ٹو ڈور',
+    badgeFamilyFriendly: 'خاندانی سہولت',
   },
   fr: {
     startingFrom: 'À PARTIR DE',
@@ -103,6 +126,9 @@ const LABELS: Record<
     viewVehicles: 'Voir les Véhicules',
     luxuryVipService: 'SERVICE VIP DE LUXE',
     serviceLine: 'SERVICES DE LIMO & TRANSFERT VIP',
+    badge247: 'SERVICE 24/7',
+    badgeDoorToDoor: 'PORTE-À-PORTE',
+    badgeFamilyFriendly: 'FAMILIAL',
   },
   es: {
     startingFrom: 'DESDE',
@@ -111,6 +137,9 @@ const LABELS: Record<
     viewVehicles: 'Ver Vehículos',
     luxuryVipService: 'SERVICIO VIP DE LUJO',
     serviceLine: 'SERVICIOS DE LIMUSINA Y TRASLADOS VIP',
+    badge247: 'SERVICIO 24/7',
+    badgeDoorToDoor: 'PUERTA A PUERTA',
+    badgeFamilyFriendly: 'FAMILIAR',
   },
   de: {
     startingFrom: 'AB',
@@ -119,6 +148,9 @@ const LABELS: Record<
     viewVehicles: 'Fahrzeuge ansehen',
     luxuryVipService: 'LUXUS VIP SERVICE',
     serviceLine: 'LIMO & VIP TRANSFER DIENSTE',
+    badge247: '24/7 SERVICE',
+    badgeDoorToDoor: 'TÜR-ZU-TÜR',
+    badgeFamilyFriendly: 'FAMILIENFREUNDLICH',
   },
   tr: {
     startingFrom: 'BAŞLANGIÇ',
@@ -127,6 +159,9 @@ const LABELS: Record<
     viewVehicles: 'Araçları Gör',
     luxuryVipService: 'LÜKS VIP HİZMET',
     serviceLine: 'LİMUZİN VE VIP TRANSFER HİZMETLERİ',
+    badge247: '7/24 HİZMET',
+    badgeDoorToDoor: 'KAPIDAN KAPIYA',
+    badgeFamilyFriendly: 'AİLE DOSTU',
   },
   hi: {
     startingFrom: 'शुरुआती दर',
@@ -135,6 +170,9 @@ const LABELS: Record<
     viewVehicles: 'वाहन देखें',
     luxuryVipService: 'लक्जरी वीआईपी सेवा',
     serviceLine: 'लिमोसिन और वीआईपी ट्रांसफर सेवाएं',
+    badge247: '24/7 सेवा',
+    badgeDoorToDoor: 'डोर-टू-डोर',
+    badgeFamilyFriendly: 'पारिवारिक सुविधा',
   },
 };
 
@@ -143,14 +181,12 @@ export function ExecutiveRouteCard({ route, locale }: ExecutiveRouteCardProps) {
   const isAr = locale === 'ar';
   const isRtl = isAr || locale === 'ur';
 
-  const time = isAr ? route.timeAr : route.timeEn;
-  const distance = isAr ? route.distanceAr : route.distanceEn;
-  const title = isAr ? route.titleAr : route.titleEn;
   const labels = LABELS[locale] || LABELS.en;
-  const serviceLine =
-    (isAr ? route.serviceLineAr : route.serviceLineEn) || labels.serviceLine;
-  const luxuryBadge =
-    (isAr ? route.categoryBadgeAr : route.categoryBadgeEn) || labels.luxuryVipService;
+  const time = route.times?.[locale] || (isAr ? route.timeAr : route.timeEn);
+  const distance = route.distances?.[locale] || (isAr ? route.distanceAr : route.distanceEn);
+  const title = route.titles?.[locale] || (isAr ? route.titleAr : route.titleEn);
+  const serviceLine = route.subtitles?.[locale] || labels.serviceLine;
+  const luxuryBadge = route.categoryBadges?.[locale] || labels.luxuryVipService;
 
   // Interactive Carousel Image Gallery (Matching the 4 dots and < > arrows in Image 2)
   const imageList =
@@ -281,21 +317,21 @@ export function ExecutiveRouteCard({ route, locale }: ExecutiveRouteCardProps) {
 
       {/* 2. BOTTOM INFORMATION BAR: PURE WHITE WITH OUTLINE PILLS, BLACK PRICE & ACTION BUTTONS */}
       <div className="bg-white px-4 sm:px-6 py-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 border-t border-slate-100">
-        {/* Left Side: 3 White Pill Badges with Thin Gray Border */}
+        {/* Left Side: 3 White Pill Badges with Thin Gray Border in the Active Language */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
           <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white border border-slate-300 shadow-2xs">
             <Clock className="w-3.5 h-3.5 text-slate-700 shrink-0" />
-            <span>{isAr ? 'خدمة 24/7' : '24/7 SERVICE'}</span>
+            <span>{labels.badge247}</span>
           </span>
 
           <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white border border-slate-300 shadow-2xs">
             <Car className="w-3.5 h-3.5 text-slate-700 shrink-0" />
-            <span>{isAr ? 'من الباب للباب' : 'DOOR-TO-DOOR'}</span>
+            <span>{labels.badgeDoorToDoor}</span>
           </span>
 
           <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white border border-slate-300 shadow-2xs">
             <Users className="w-3.5 h-3.5 text-slate-700 shrink-0" />
-            <span>{isAr ? 'مناسب للعوائل' : 'FAMILY FRIENDLY'}</span>
+            <span>{labels.badgeFamilyFriendly}</span>
           </span>
         </div>
 
