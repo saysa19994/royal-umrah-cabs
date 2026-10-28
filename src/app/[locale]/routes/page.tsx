@@ -4,6 +4,7 @@ import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { Compass, ShieldCheck } from 'lucide-react';
 import { ExecutiveRouteCard } from '@/components/routes/ExecutiveRouteCard';
+import { PricingTable } from '@/components/pricing/PricingTable';
 import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
 
 interface RoutesPageProps {
@@ -53,10 +54,15 @@ export default async function RoutesPage(props: RoutesPageProps) {
         </div>
 
         {/* RESPONSIVE ROUTE CARDS LIST (Horizontal on Desktop, Vertical on Mobile) */}
-        <div className="flex flex-col gap-6 sm:gap-8">
+        <div className="flex flex-col gap-6 sm:gap-8 mb-16">
           {EXECUTIVE_ROUTES_DATA.map((route) => (
             <ExecutiveRouteCard key={route.slug} route={route} locale={locale} />
           ))}
+        </div>
+
+        {/* MASTER ROYAL TRANSFER RATES TABLE (Image 2) */}
+        <div className="mt-12">
+          <PricingTable locale={locale} dict={dict} />
         </div>
       </div>
     </div>

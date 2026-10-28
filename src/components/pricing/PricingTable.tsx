@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Locale } from '@/i18n/config';
@@ -8,7 +8,6 @@ import type { Dictionary } from '@/i18n/get-dictionary';
 import { useCurrency } from '@/context/CurrencyContext';
 import { CURRENCIES, CurrencyCode } from '@/i18n/config';
 import {
-  Compass,
   Plane,
   Building,
   Palmtree,
@@ -533,7 +532,7 @@ const CITY_SUBTITLES: Record<string, Record<Locale, string>> = {
     es: 'Yeda • Medina',
     de: 'Dschidda • Medina',
     tr: 'Cidde • Medine',
-    hi: 'जेद्दा • मदीना',
+    hi: 'जेद्दा • मदीنا',
   },
   'makkah-to-taif': {
     en: 'Makkah • Taif',
@@ -641,24 +640,24 @@ export function PricingTable({
     label: string;
     icon: React.ReactNode;
   }[] = [
-    { id: 'all', label: t.tabAll, icon: <RouteIcon className="w-4 h-4" /> },
-    { id: 'jeddah', label: t.tabJeddah, icon: <Plane className="w-4 h-4" /> },
-    { id: 'makkah', label: t.tabMakkah, icon: <Building className="w-4 h-4" /> },
-    { id: 'madinah', label: t.tabMadinah, icon: <Building className="w-4 h-4" /> },
+    { id: 'all', label: t.tabAll, icon: <RouteIcon className="w-3.5 h-3.5" /> },
+    { id: 'jeddah', label: t.tabJeddah, icon: <Plane className="w-3.5 h-3.5" /> },
+    { id: 'makkah', label: t.tabMakkah, icon: <Building className="w-3.5 h-3.5" /> },
+    { id: 'madinah', label: t.tabMadinah, icon: <Building className="w-3.5 h-3.5" /> },
   ];
 
   if (taifEnabled) {
     cityTabs.push({
       id: 'taif',
       label: t.tabTaif,
-      icon: <Palmtree className="w-4 h-4" />,
+      icon: <Palmtree className="w-3.5 h-3.5" />,
     });
   }
   if (riyadhEnabled) {
     cityTabs.push({
       id: 'riyadh',
       label: t.tabRiyadh,
-      icon: <Building className="w-4 h-4" />,
+      icon: <Building className="w-3.5 h-3.5" />,
     });
   }
 
@@ -668,28 +667,61 @@ export function PricingTable({
     return t.badgeRiyadh;
   };
 
+  const calligraphyLines = useMemo(() => {
+    const text = t.calligraphy || '';
+    if (text.includes('...')) {
+      const parts = text.split('...');
+      return [parts[0] + '...', parts[1]?.trim() || ''];
+    }
+    if (text.includes(',')) {
+      const parts = text.split(',');
+      return [parts[0].trim(), parts[1]?.trim() || ''];
+    }
+    if (text.includes('،')) {
+      const parts = text.split('،');
+      return [parts[0].trim(), parts[1]?.trim() || ''];
+    }
+    const words = text.split(' ');
+    if (words.length >= 2) {
+      const mid = Math.ceil(words.length / 2);
+      return [words.slice(0, mid).join(' '), words.slice(mid).join(' ')];
+    }
+    return [text, ''];
+  }, [t.calligraphy]);
+
   return (
     <div className="w-full text-start" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* ========================================================================= */}
-      {/* 1. HERO HEADER WITH ATMOSPHERIC SKYLINE & GOLD CALLIGRAPHY (Image 2)     */}
+      {/* 1. SPECTACULAR HERO ARTWORK MATCHING IMAGE 2 EXACTLY                      */}
       {/* ========================================================================= */}
-      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#070B14] via-[#090E1A] to-[#0D1526] border border-[#C5A059]/30 p-6 sm:p-8 md:p-10 mb-8 sm:mb-10 shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
-        {/* Ambient Gold Radial Glows */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#C5A059]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-500/5 rounded-full blur-2xl pointer-events-none" />
+      <div className="relative rounded-[28px] overflow-hidden mb-6 lg:mb-8 border border-[#C5A059]/30 shadow-[0_20px_50px_rgba(0,0,0,0.9)] bg-[#070B14]">
+        {/* Real Illuminated Makkah Clock Tower Skyline Background */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/assets/images/haram_hero.webp"
+            alt="Makkah Holy Mosque and Clock Tower Skyline"
+            fill
+            className="object-cover object-[center_35%] opacity-40 brightness-75 scale-105"
+            priority
+          />
+          {/* Deep Navy/Black Luxury Gradients to match Image 2 */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#060A14] via-[#070B16]/90 to-[#0A1020]/65" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#060A14] via-transparent to-black/50" />
+        </div>
 
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          {/* Left: Titles & City Filter Pills */}
+        {/* Foreground Content */}
+        <div className="relative z-10 px-6 sm:px-8 md:px-10 py-8 md:py-10 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-8">
+          {/* Left Side: Headline, Subtitle & 6 Filter Tabs */}
           <div className="max-w-2xl">
-            <h2 className="font-playfair font-serif text-3xl sm:text-4xl md:text-5xl text-white font-normal tracking-tight leading-tight mb-2">
+            <h1 className="font-playfair font-serif text-3xl sm:text-4xl md:text-[44px] text-white font-normal tracking-tight leading-[1.15] mb-2 drop-shadow-md">
               {t.heroTitle}
-            </h2>
-            <p className="text-sm sm:text-base text-slate-300 font-light leading-relaxed mb-6">
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed mb-6">
               {t.heroSubtitle}
             </p>
 
-            {/* City Filter Pills */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+            {/* City Filter Tabs (Image 2) */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
               {cityTabs.map((tab) => {
                 const isActive = selectedCity === tab.id;
                 return (
@@ -697,10 +729,10 @@ export function PricingTable({
                     key={tab.id}
                     type="button"
                     onClick={() => setSelectedCity(tab.id)}
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all shrink-0 active:scale-95 ${
+                    className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 active:scale-95 ${
                       isActive
-                        ? 'bg-[#151D2E] text-[#F4C84F] border border-[#C5A059] shadow-[0_0_15px_rgba(197,160,89,0.25)]'
-                        : 'bg-[#0D1322]/80 text-slate-400 border border-white/10 hover:border-[#C5A059]/40 hover:text-white'
+                        ? 'bg-[#151D2E] text-[#F4C84F] border border-[#C5A059] shadow-[0_0_15px_rgba(197,160,89,0.3)]'
+                        : 'bg-[#0B101E]/80 text-slate-300 border border-white/10 hover:border-[#C5A059]/40 hover:text-white'
                     }`}
                   >
                     <span className={isActive ? 'text-[#F4C84F]' : 'text-slate-400'}>
@@ -713,30 +745,69 @@ export function PricingTable({
             </div>
           </div>
 
-          {/* Right: Signature Gold Script & Currency Controls */}
-          <div className="flex flex-col lg:items-end justify-between gap-4">
-            {/* Script Text: "Your Journey, Our Priority" */}
-            <div className="hidden sm:block text-start lg:text-end">
-              <span className="font-serif italic text-xl sm:text-2xl text-[#E5B23D] tracking-wide block drop-shadow-sm">
-                &ldquo;{t.calligraphy}&rdquo;
+          {/* Right Side: Gold Script Calligraphy & VIP Van with Golden Road (Image 2) */}
+          <div className="flex flex-col items-start lg:items-end justify-between gap-1 shrink-0 relative">
+            {/* Script Text in Gold: "Your Journey Our Priority" (Image 2 Top Right) */}
+            <div className="text-start lg:text-end mb-1">
+              <span className="font-serif italic text-xl sm:text-2xl md:text-3xl text-[#F4C84F] tracking-wide font-normal leading-[1.15] block drop-shadow-[0_2px_12px_rgba(244,200,79,0.35)]">
+                <span className="block">{calligraphyLines[0]}</span>
+                {calligraphyLines[1] && <span className="block">{calligraphyLines[1]}</span>}
               </span>
             </div>
 
-            {/* Currency Switcher Buttons */}
-            <div className="flex flex-col sm:flex-row items-start lg:items-end gap-2">
-              <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+            {/* VIP Chauffeur Van Visual & Glowing Sweeping Golden Road */}
+            <div className="relative w-64 sm:w-72 md:w-84 h-24 sm:h-28 md:h-32 -mt-1">
+              {/* Sweeping Golden Road Glow SVG underneath van matching Image 2 */}
+              <svg
+                className="absolute bottom-1 -left-12 w-[130%] h-12 pointer-events-none opacity-85"
+                viewBox="0 0 320 60"
+                fill="none"
+              >
+                <path
+                  d="M0 46 C 90 42, 180 22, 320 26"
+                  stroke="url(#goldRoadGrad)"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M10 50 C 100 46, 190 26, 320 29"
+                  stroke="#E5B23D"
+                  strokeWidth="1.2"
+                  strokeOpacity="0.4"
+                />
+                <defs>
+                  <linearGradient id="goldRoadGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#C5A059" stopOpacity="0" />
+                    <stop offset="35%" stopColor="#F4C84F" stopOpacity="0.75" />
+                    <stop offset="75%" stopColor="#FFF2B2" stopOpacity="0.95" />
+                    <stop offset="100%" stopColor="#C5A059" stopOpacity="0.5" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <Image
+                src="/assets/images/luxury_studio.webp"
+                alt="VIP Chauffeur Fleet"
+                fill
+                className="object-contain object-right drop-shadow-[0_15px_25px_rgba(0,0,0,0.9)]"
+                priority
+              />
+            </div>
+
+            {/* Currency Selector */}
+            <div className="flex items-center gap-1.5 pt-1">
+              <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
                 {t.currencyLabel}
               </span>
-              <div className="flex items-center gap-1.5 flex-wrap">
-                {(Object.keys(CURRENCIES) as CurrencyCode[]).map((c) => (
+              <div className="flex items-center gap-1">
+                {(['SAR', 'USD', 'EUR', 'GBP', 'AED'] as CurrencyCode[]).map((c) => (
                   <button
                     key={c}
                     type="button"
                     onClick={() => setCurrency(c)}
-                    className={`px-2.5 py-1 text-xs font-bold rounded-lg border transition-all ${
+                    className={`px-2 py-0.5 text-[11px] font-bold rounded border transition-all ${
                       currency === c
-                        ? 'bg-[#C5A059] text-black border-[#C5A059] shadow-sm font-extrabold'
-                        : 'bg-[#0D1322]/80 text-slate-400 border-white/10 hover:border-[#C5A059]/40 hover:text-white'
+                        ? 'bg-[#C5A059] text-black border-[#C5A059] font-extrabold shadow-2xs'
+                        : 'bg-[#0D1322]/80 text-slate-300 border-white/10 hover:border-[#C5A059]/40'
                     }`}
                   >
                     {c}
@@ -749,27 +820,29 @@ export function PricingTable({
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. MAIN RATES TABLE CARD (Faithful to Image 2)                            */}
+      {/* 2. THE MASTER TRANSFER RATES TABLE CARD (Image 2)                         */}
       {/* ========================================================================= */}
-      <div className="relative rounded-[24px] sm:rounded-[28px] overflow-hidden bg-[#0A0E18] border border-[#C5A059]/40 shadow-[0_25px_60px_rgba(0,0,0,0.85),_0_0_30px_rgba(197,160,89,0.12)]">
-        {/* --- DESKTOP & TABLET VIEW (TABLE) --- */}
+      <div className="relative rounded-[22px] overflow-hidden bg-[#0A0F1D] border border-[#C5A059]/40 shadow-[0_25px_60px_rgba(0,0,0,0.9),_0_0_25px_rgba(197,160,89,0.15)]">
+        {/* --- DESKTOP & TABLET VIEW (FULL MASTER TABLE) --- */}
         <div className="hidden md:block overflow-x-auto scrollbar-thin scrollbar-thumb-[#C5A059]/30">
-          <table className="w-full text-start text-xs border-collapse min-w-[980px]">
-            {/* TABLE HEADER WITH VEHICLE PHOTOGRAPHS (Image 2) */}
+          <table className="w-full text-start text-xs border-collapse min-w-[1020px]">
+            {/* TABLE HEADER WITH 5 VEHICLE CARDS (Image 2) */}
             <thead>
-              <tr className="bg-[#0D1424] border-b border-[#C5A059]/25 text-white font-bold">
+              <tr className="bg-[#0C1222] border-b border-[#C5A059]/25 text-white">
                 {/* Column 1: Route / Journey */}
-                <th className="py-6 px-6 text-start w-[280px]">
-                  <div className="flex items-center gap-2 text-sm font-bold text-[#E5B23D]">
-                    <RouteIcon className="w-4 h-4 text-[#E5B23D]" />
-                    <span>{t.colRoute}</span>
+                <th className="py-6 px-6 text-start w-[290px] align-middle">
+                  <div className="flex items-center gap-2.5 text-sm font-bold text-[#F4C84F]">
+                    <div className="w-7 h-7 rounded-lg bg-[#141E33] border border-[#C5A059]/40 flex items-center justify-center shrink-0">
+                      <RouteIcon className="w-4 h-4 text-[#F4C84F]" />
+                    </div>
+                    <span className="tracking-wide">{t.colRoute}</span>
                   </div>
                 </th>
 
-                {/* Column 2: Toyota Camry */}
-                <th className="py-5 px-3 text-center">
-                  <div className="flex flex-col items-center">
-                    <div className="relative w-24 h-12 mb-1.5">
+                {/* Column 2: Toyota Camry Card */}
+                <th className="py-4 px-2.5 text-center w-[140px] align-bottom">
+                  <div className="rounded-xl bg-[#0D1527] border border-white/10 p-2.5 flex flex-col items-center">
+                    <div className="relative w-24 h-12 mb-1">
                       <Image
                         src="/assets/images/camry_studio.webp"
                         alt="Toyota Camry"
@@ -778,8 +851,8 @@ export function PricingTable({
                         sizes="100px"
                       />
                     </div>
-                    <span className="text-xs font-bold text-white block">
-                      {dict.page_pricing.colCamry}
+                    <span className="text-xs font-bold text-white block leading-tight">
+                      Toyota Camry
                     </span>
                     <span className="text-[10px] text-slate-400 font-normal">
                       (1-4 Pax)
@@ -787,10 +860,10 @@ export function PricingTable({
                   </div>
                 </th>
 
-                {/* Column 3: Hyundai Staria (HIGHLIGHTED COLUMN in Image 2) */}
-                <th className="py-5 px-3 text-center bg-[#151F33]/80 border-x border-[#C5A059]/30">
-                  <div className="flex flex-col items-center">
-                    <div className="relative w-24 h-12 mb-1.5">
+                {/* Column 3: Hyundai Staria Card (HIGHLIGHTED WITH GOLD BORDER in Image 2) */}
+                <th className="py-4 px-2.5 text-center w-[145px] align-bottom bg-[#121C30]/70 border-x border-[#C5A059]/30">
+                  <div className="rounded-xl bg-[#142038] border-2 border-[#C5A059] p-2.5 flex flex-col items-center shadow-[0_0_15px_rgba(197,160,89,0.35)]">
+                    <div className="relative w-24 h-12 mb-1">
                       <Image
                         src="/assets/images/vehicles/hyundai-staria/exterior-studio.webp"
                         alt="Hyundai Staria"
@@ -799,8 +872,8 @@ export function PricingTable({
                         sizes="100px"
                       />
                     </div>
-                    <span className="text-xs font-extrabold text-[#F4C84F] block">
-                      {dict.page_pricing.colStaria}
+                    <span className="text-xs font-extrabold text-[#F4C84F] block leading-tight">
+                      Hyundai Staria
                     </span>
                     <span className="text-[10px] text-[#F4C84F]/80 font-medium">
                       (1-7 Pax)
@@ -808,10 +881,10 @@ export function PricingTable({
                   </div>
                 </th>
 
-                {/* Column 4: GMC Yukon XL */}
-                <th className="py-5 px-3 text-center">
-                  <div className="flex flex-col items-center">
-                    <div className="relative w-24 h-12 mb-1.5">
+                {/* Column 4: GMC Yukon XL Card */}
+                <th className="py-4 px-2.5 text-center w-[140px] align-bottom">
+                  <div className="rounded-xl bg-[#0D1527] border border-white/10 p-2.5 flex flex-col items-center">
+                    <div className="relative w-24 h-12 mb-1">
                       <Image
                         src="/assets/images/yukon_studio.webp"
                         alt="GMC Yukon XL"
@@ -820,8 +893,8 @@ export function PricingTable({
                         sizes="100px"
                       />
                     </div>
-                    <span className="text-xs font-bold text-white block">
-                      {dict.page_pricing.colYukon}
+                    <span className="text-xs font-bold text-white block leading-tight">
+                      GMC Yukon XL
                     </span>
                     <span className="text-[10px] text-slate-400 font-normal">
                       (VIP 1-7 Pax)
@@ -829,10 +902,10 @@ export function PricingTable({
                   </div>
                 </th>
 
-                {/* Column 5: Toyota HiAce */}
-                <th className="py-5 px-3 text-center">
-                  <div className="flex flex-col items-center">
-                    <div className="relative w-24 h-12 mb-1.5">
+                {/* Column 5: Toyota HiAce Card */}
+                <th className="py-4 px-2.5 text-center w-[140px] align-bottom">
+                  <div className="rounded-xl bg-[#0D1527] border border-white/10 p-2.5 flex flex-col items-center">
+                    <div className="relative w-24 h-12 mb-1">
                       <Image
                         src="/assets/images/hiace_studio.webp"
                         alt="Toyota HiAce"
@@ -841,8 +914,8 @@ export function PricingTable({
                         sizes="100px"
                       />
                     </div>
-                    <span className="text-xs font-bold text-white block">
-                      {dict.page_pricing.colHiace}
+                    <span className="text-xs font-bold text-white block leading-tight">
+                      Toyota HiAce
                     </span>
                     <span className="text-[10px] text-slate-400 font-normal">
                       (1-10 Pax)
@@ -850,10 +923,10 @@ export function PricingTable({
                   </div>
                 </th>
 
-                {/* Column 6: Toyota Coaster */}
-                <th className="py-5 px-3 text-center">
-                  <div className="flex flex-col items-center">
-                    <div className="relative w-24 h-12 mb-1.5">
+                {/* Column 6: Toyota Coaster Card */}
+                <th className="py-4 px-2.5 text-center w-[140px] align-bottom">
+                  <div className="rounded-xl bg-[#0D1527] border border-white/10 p-2.5 flex flex-col items-center">
+                    <div className="relative w-24 h-12 mb-1">
                       <Image
                         src="/assets/images/coaster_studio.webp"
                         alt="Toyota Coaster"
@@ -862,8 +935,8 @@ export function PricingTable({
                         sizes="100px"
                       />
                     </div>
-                    <span className="text-xs font-bold text-white block">
-                      {dict.page_pricing.colCoaster}
+                    <span className="text-xs font-bold text-white block leading-tight">
+                      Toyota Coaster
                     </span>
                     <span className="text-[10px] text-slate-400 font-normal">
                       (1-21 Pax)
@@ -872,7 +945,7 @@ export function PricingTable({
                 </th>
 
                 {/* Column 7: Action */}
-                <th className="py-5 px-5 text-center w-[120px]">
+                <th className="py-4 px-5 text-center w-[125px] align-middle">
                   <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                     {t.colAction}
                   </span>
@@ -880,7 +953,7 @@ export function PricingTable({
               </tr>
             </thead>
 
-            {/* TABLE ROWS */}
+            {/* TABLE ROWS (Exact Match to Image 2) */}
             <tbody className="divide-y divide-[#C5A059]/15">
               {availableRoutes.map((row) => {
                 const rates = initialRates?.[row.id];
@@ -904,10 +977,10 @@ export function PricingTable({
                     key={row.id}
                     className="hover:bg-[#121B2F]/60 transition-colors group"
                   >
-                    {/* Route Details with Region Capsule & City Subtitle */}
+                    {/* Route Details with Region Pill & City Subtitle */}
                     <td className="py-4 px-6">
-                      <div className="flex items-start gap-2.5">
-                        <span className="inline-block mt-0.5 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider border border-[#C5A059]/40 text-[#D4AF37] bg-[#C5A059]/5 shrink-0 whitespace-nowrap">
+                      <div className="flex items-start gap-3">
+                        <span className="inline-block mt-0.5 text-[9px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider border border-[#C5A059]/40 text-[#D4AF37] bg-[#C5A059]/5 shrink-0 whitespace-nowrap">
                           {getRegionBadge(row.region)}
                         </span>
                         <div>
@@ -915,7 +988,7 @@ export function PricingTable({
                             {localizedTitle}
                           </span>
                           {citySubtitle && (
-                            <span className="text-[10px] font-medium text-slate-400 block mt-0.5">
+                            <span className="text-[11px] font-medium text-slate-400 block mt-0.5">
                               {citySubtitle}
                             </span>
                           )}
@@ -923,36 +996,36 @@ export function PricingTable({
                       </div>
                     </td>
 
-                    {/* Camry Price */}
+                    {/* Camry Price (White) */}
                     <td className="py-4 px-3 text-center text-xs sm:text-sm font-bold text-slate-200">
                       {formatPrice(camryFare)}
                     </td>
 
-                    {/* Staria Price (Highlighted Column) */}
-                    <td className="py-4 px-3 text-center text-xs sm:text-sm font-black text-[#F4C84F] bg-[#151F33]/80 border-x border-[#C5A059]/30">
+                    {/* Staria Price (RADIANT GOLD in Image 2) */}
+                    <td className="py-4 px-3 text-center text-xs sm:text-sm font-black text-[#F4C84F] bg-[#121C30]/70 border-x border-[#C5A059]/30">
                       {formatPrice(stariaFare)}
                     </td>
 
-                    {/* Yukon Price */}
+                    {/* Yukon Price (White) */}
                     <td className="py-4 px-3 text-center text-xs sm:text-sm font-bold text-slate-200">
                       {formatPrice(yukonFare)}
                     </td>
 
-                    {/* HiAce Price */}
+                    {/* HiAce Price (White) */}
                     <td className="py-4 px-3 text-center text-xs sm:text-sm font-bold text-slate-200">
                       {formatPrice(hiaceFare)}
                     </td>
 
-                    {/* Coaster Price */}
+                    {/* Coaster Price (White) */}
                     <td className="py-4 px-3 text-center text-xs sm:text-sm font-bold text-slate-200">
                       {formatPrice(coasterFare)}
                     </td>
 
-                    {/* Book Now Button */}
+                    {/* Golden Book Now Button (Image 2) */}
                     <td className="py-4 px-5 text-center">
                       <Link
                         href={`/${locale}/booking?route=${row.id}`}
-                        className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-gradient-to-r from-[#d99f2b] via-[#e5b23d] to-[#f4c84f] hover:from-[#e5b23d] hover:to-[#d99f2b] text-slate-950 font-black text-xs uppercase tracking-wider shadow-[0_2px_8px_rgba(217,159,43,0.35)] hover:shadow-[0_4px_12px_rgba(217,159,43,0.5)] transition-all whitespace-nowrap active:scale-95"
+                        className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg bg-gradient-to-r from-[#d99f2b] via-[#e5b23d] to-[#f4c84f] hover:from-[#e5b23d] hover:to-[#d99f2b] text-slate-950 font-black text-xs uppercase tracking-wider shadow-[0_2px_8px_rgba(217,159,43,0.35)] hover:shadow-[0_4px_12px_rgba(217,159,43,0.5)] transition-all whitespace-nowrap active:scale-95"
                       >
                         <span>{t.bookNow}</span>
                         <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
@@ -1064,10 +1137,13 @@ export function PricingTable({
         </div>
 
         {/* ========================================================================= */}
-        {/* 3. BOTTOM TRUST BAR (Faithful to Image 2)                                 */}
+        {/* 3. BOTTOM TRUST BAR (Faithful to Image 2 with Islamic Skyline Silhouette) */}
         {/* ========================================================================= */}
-        <div className="bg-[#080C16] border-t border-[#C5A059]/30 px-6 py-6 md:py-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className="relative bg-[#080C16] border-t border-[#C5A059]/30 px-6 py-6 md:py-8 overflow-hidden">
+          {/* Subtle Ambient Gold Glow & Mosque Silhouette on Right (Image 2) */}
+          <div className="absolute bottom-0 right-0 w-80 h-full pointer-events-none opacity-20 bg-gradient-to-l from-[#C5A059]/30 via-transparent to-transparent" />
+
+          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {/* Trust Item 1: Luxury Fleet */}
             <div className="flex items-center gap-3.5">
               <div className="w-10 h-10 rounded-xl bg-[#131B2E] border border-[#C5A059]/40 flex items-center justify-center shrink-0 shadow-xs">
