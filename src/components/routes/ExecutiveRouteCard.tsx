@@ -4,7 +4,16 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Locale } from '@/i18n/config';
-import { Clock, MapPin, CheckCircle2, ArrowRight, Car } from 'lucide-react';
+import {
+  Clock,
+  MapPin,
+  Car,
+  Users,
+  ShieldCheck,
+  Plane,
+  ArrowRight,
+  Sparkles,
+} from 'lucide-react';
 import { useCurrency } from '@/context/CurrencyContext';
 
 export interface RouteCardData {
@@ -19,6 +28,10 @@ export interface RouteCardData {
   titleAr: string;
   subtitleEn?: string;
   subtitleAr?: string;
+  categoryBadgeEn?: string;
+  categoryBadgeAr?: string;
+  serviceLineEn?: string;
+  serviceLineAr?: string;
   descEn: string;
   descAr: string;
   badgesEn: string[];
@@ -32,6 +45,101 @@ interface ExecutiveRouteCardProps {
   locale: Locale;
 }
 
+const LABELS: Record<
+  string,
+  {
+    startingFrom: string;
+    perTrip: string;
+    bookNow: string;
+    viewVehicles: string;
+  }
+> = {
+  ar: {
+    startingFrom: 'يبدأ من',
+    perTrip: 'لكل رحلة',
+    bookNow: 'احجز الآن',
+    viewVehicles: 'عرض السيارات المتاحة',
+  },
+  en: {
+    startingFrom: 'STARTING FROM',
+    perTrip: 'PER TRIP',
+    bookNow: 'BOOK NOW',
+    viewVehicles: 'View Vehicles',
+  },
+  ur: {
+    startingFrom: 'شروع از',
+    perTrip: 'فی چکر',
+    bookNow: 'ابھی بک کریں',
+    viewVehicles: 'گاڑیاں دیکھیں',
+  },
+  ms: {
+    startingFrom: 'BERMULA DARI',
+    perTrip: 'SETIAP PERJALANAN',
+    bookNow: 'TEMPAH SEKARANG',
+    viewVehicles: 'Lihat Kenderaan',
+  },
+  id: {
+    startingFrom: 'MULAI DARI',
+    perTrip: 'PER PERJALANAN',
+    bookNow: 'PESAN SEKARANG',
+    viewVehicles: 'Lihat Kendaraan',
+  },
+  fr: {
+    startingFrom: 'À PARTIR DE',
+    perTrip: 'PAR TRAJET',
+    bookNow: 'RÉSERVER',
+    viewVehicles: 'Voir les Véhicules',
+  },
+  es: {
+    startingFrom: 'DESDE',
+    perTrip: 'POR VIAJE',
+    bookNow: 'RESERVAR AHORA',
+    viewVehicles: 'Ver Vehículos',
+  },
+  de: {
+    startingFrom: 'AB',
+    perTrip: 'PRO FAHRT',
+    bookNow: 'JETZT BUCHEN',
+    viewVehicles: 'Fahrzeuge ansehen',
+  },
+  tr: {
+    startingFrom: 'BAŞLANGIÇ',
+    perTrip: 'SEFER BAŞINA',
+    bookNow: 'REZERVASYON YAP',
+    viewVehicles: 'Araçları Gör',
+  },
+  hi: {
+    startingFrom: 'शुरुआती दर',
+    perTrip: 'प्रति यात्रा',
+    bookNow: 'अभी बुक करें',
+    viewVehicles: 'वाहन देखें',
+  },
+};
+
+function renderBenefitIcon(badgeText: string, index: number) {
+  const lower = badgeText.toLowerCase();
+  const iconClass = 'w-3.5 h-3.5 text-[#E5C158] shrink-0';
+
+  if (lower.includes('24/7') || lower.includes('hour') || lower.includes('ساعة') || lower.includes('وقت')) {
+    return <Clock className={iconClass} />;
+  }
+  if (lower.includes('door') || lower.includes('car') || lower.includes('route') || lower.includes('باب') || lower.includes('سيار') || lower.includes('طريق')) {
+    return <Car className={iconClass} />;
+  }
+  if (lower.includes('family') || lower.includes('meet') || lower.includes('عوائل') || lower.includes('استقبال')) {
+    return <Users className={iconClass} />;
+  }
+  if (lower.includes('flight') || lower.includes('radar') || lower.includes('طيران') || lower.includes('رحلات')) {
+    return <Plane className={iconClass} />;
+  }
+  if (lower.includes('comfort') || lower.includes('vip') || lower.includes('safe') || lower.includes('راحة') || lower.includes('أمان')) {
+    return <ShieldCheck className={iconClass} />;
+  }
+  if (index === 0) return <Clock className={iconClass} />;
+  if (index === 1) return <Car className={iconClass} />;
+  return <Sparkles className={iconClass} />;
+}
+
 export function ExecutiveRouteCard({ route, locale }: ExecutiveRouteCardProps) {
   const { formatPrice } = useCurrency();
   const isAr = locale === 'ar';
@@ -40,132 +148,134 @@ export function ExecutiveRouteCard({ route, locale }: ExecutiveRouteCardProps) {
   const time = isAr ? route.timeAr : route.timeEn;
   const distance = isAr ? route.distanceAr : route.distanceEn;
   const title = isAr ? route.titleAr : route.titleEn;
-  const subtitle = isAr ? route.titleEn : route.titleAr;
-  const descPrimary = isAr ? route.descAr : route.descEn;
-  const descSecondary = isAr ? route.descEn : route.descAr;
-  const badgesPrimary = isAr ? route.badgesAr : route.badgesEn;
-  const badgesSecondary = isAr ? route.badgesEn : route.badgesAr;
+  const desc = isAr ? route.descAr : route.descEn;
+  const categoryBadge =
+    (isAr ? route.categoryBadgeAr : route.categoryBadgeEn) ||
+    (isAr ? 'توصيل VIP فاخر' : 'EXECUTIVE VIP TRANSFER');
+  const serviceLine =
+    (isAr ? route.serviceLineAr : route.serviceLineEn) ||
+    (isAr ? 'خدمات نقل ليموزين وVIP' : 'LIMO & VIP TRANSFER SERVICES');
+  const badges = (isAr ? route.badgesAr : route.badgesEn) || [];
+  const labels = LABELS[locale] || LABELS.en;
 
   return (
     <article
-      className="bg-white rounded-3xl p-4 sm:p-5 md:p-6 lg:p-7 border border-slate-200/90 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row items-stretch gap-5 lg:gap-8 text-start overflow-hidden group"
+      className="relative w-full rounded-[26px] sm:rounded-[32px] overflow-hidden bg-[#0A0D14] border-2 border-[#C5A059]/70 shadow-[0_22px_55px_rgba(0,0,0,0.92),_0_0_25px_rgba(197,160,89,0.18)] transition-all duration-300 hover:border-[#E5C158] hover:shadow-[0_26px_65px_rgba(0,0,0,0.95),_0_0_30px_rgba(229,193,88,0.25)] text-start group"
       dir={isRtl ? 'rtl' : 'ltr'}
     >
-      {/* 1. SCENIC PHOTOGRAPH (Optimized for Mobile, Tablet, Laptop, and Desktop screens) */}
-      <div className="relative w-full md:w-[320px] lg:w-[360px] xl:w-[380px] aspect-[16/10] sm:aspect-[16/10] md:aspect-[3/4] md:h-auto min-h-[200px] sm:min-h-[240px] md:min-h-[350px] rounded-2xl overflow-hidden shrink-0 bg-slate-100 shadow-xs">
+      {/* 1. UPPER SECTION: CINEMATIC DESTINATION PHOTOGRAPH WITH OVERLAID TRANSLUCENT PANEL */}
+      <div className="relative w-full min-h-[320px] sm:min-h-[380px] md:min-h-[440px] lg:min-h-[460px] overflow-hidden">
+        {/* Full-bleed Scenic Photograph */}
         <Image
           src={route.image}
-          alt={`${title} - Duyuf Alrahman VIP`}
+          alt={`${title} - Duyuf Alrahman VIP Chauffeur`}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 300px, (max-width: 1280px) 340px, 360px"
-          className={`object-cover ${route.imagePosition || 'object-center'} group-hover:scale-105 transition-transform duration-500`}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1200px"
+          className={`object-cover ${
+            route.imagePosition || 'object-center'
+          } group-hover:scale-105 transition-transform duration-700 ease-out`}
           priority={false}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none md:hidden" />
-      </div>
 
-      {/* 2. CARD CONTENT & DETAILS */}
-      <div className="flex-1 flex flex-col justify-between py-1">
-        <div>
-          {/* TOP META: DURATION & DISTANCE */}
-          <div className="flex items-center gap-4 text-xs font-semibold text-slate-700 mb-2.5">
-            <div className="flex items-center gap-1.5 text-amber-600">
-              <Clock className="w-4 h-4 text-amber-500 shrink-0" />
-              <span className="text-slate-700 font-semibold">{time}</span>
-            </div>
-            <div className="flex items-center gap-1.5 text-amber-600">
-              <MapPin className="w-4 h-4 text-amber-500 shrink-0" />
-              <span className="text-slate-700 font-semibold">{distance}</span>
-            </div>
-          </div>
+        {/* Ambient Dark Gradient Overlays for High Contrast & Editorial Luxury */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0D14] via-[#0A0D14]/50 to-black/30 pointer-events-none z-[1]" />
+        <div
+          className={`hidden md:block absolute inset-0 z-[1] pointer-events-none ${
+            isRtl
+              ? 'bg-gradient-to-l from-[#0A0D14]/95 via-[#0A0D14]/65 to-transparent w-[72%]'
+              : 'bg-gradient-to-r from-[#0A0D14]/95 via-[#0A0D14]/65 to-transparent w-[72%]'
+          }`}
+        />
 
-          {/* MAIN TITLES (Primary + Secondary Subtitle) */}
-          <div className="mb-3">
-            <h3 className="text-2xl sm:text-[26px] font-extrabold text-slate-900 tracking-tight leading-snug">
+        {/* Overlaid Translucent Glassmorphic Information Panel */}
+        <div className="relative md:absolute inset-0 z-10 p-4 sm:p-6 md:p-8 flex flex-col justify-center">
+          <div className="w-full md:max-w-[480px] lg:max-w-[540px] bg-[#0A0E17]/88 backdrop-blur-md border border-[#C5A059]/45 rounded-[22px] sm:rounded-[26px] p-5 sm:p-6 lg:p-7 shadow-[0_15px_40px_rgba(0,0,0,0.85)] flex flex-col justify-between">
+            {/* Top Row: Duration & Distance + Metallic Category Badge */}
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              {/* Duration & Distance Chips */}
+              <div className="flex items-center gap-2 sm:gap-2.5">
+                <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-[#121722]/90 border border-[#C5A059]/35 text-[11px] sm:text-xs font-semibold text-[#F0EBE1] shadow-2xs">
+                  <Clock className="w-3.5 h-3.5 text-[#E5C158] shrink-0" />
+                  <span>{time}</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-[#121722]/90 border border-[#C5A059]/35 text-[11px] sm:text-xs font-semibold text-[#F0EBE1] shadow-2xs">
+                  <MapPin className="w-3.5 h-3.5 text-[#E5C158] shrink-0" />
+                  <span>{distance}</span>
+                </div>
+              </div>
+
+              {/* Metallic Gold Category Ribbon */}
+              <span className="px-3 sm:px-3.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-wider sm:tracking-widest bg-gradient-to-r from-[#D4AF37] via-[#E5C158] to-[#C5A059] text-[#0A0D14] shadow-md shrink-0">
+                {categoryBadge}
+              </span>
+            </div>
+
+            {/* Main Route Title in Editorial Serif */}
+            <h3 className="font-playfair font-serif text-2xl sm:text-3xl lg:text-[34px] xl:text-[38px] font-normal text-[#FAF7F2] tracking-tight leading-[1.18] mt-3 sm:mt-4 mb-1.5">
               {title}
             </h3>
-            <p className="text-sm font-bold text-slate-500 mt-0.5">
-              {subtitle}
-            </p>
-          </div>
 
-          {/* DUAL LANGUAGE DESCRIPTIONS */}
-          <div className="space-y-1.5 mb-5">
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              {descPrimary}
+            {/* Subtitle / Service Line */}
+            <p className="text-[10px] sm:text-[11px] font-bold tracking-[0.18em] text-[#D4AF37] uppercase mb-2 sm:mb-2.5">
+              {serviceLine}
             </p>
-            <p
-              className={`text-xs text-slate-500 leading-relaxed font-light ${
-                isRtl ? 'text-start' : 'text-slate-500'
-              }`}
-            >
-              {descSecondary}
+
+            {/* Route Description */}
+            <p className="text-xs sm:text-[13px] text-[#C9C2B5] leading-relaxed line-clamp-3 sm:line-clamp-none font-normal">
+              {desc}
             </p>
-          </div>
-
-          {/* TRIP FEATURES & BADGES (Rounded Pills with Checkmarks) */}
-          <div className="space-y-2 mb-6">
-            {/* Primary Language Badges */}
-            <div className="flex flex-wrap items-center gap-2">
-              {badgesPrimary.map((badge, idx) => (
-                <span
-                  key={idx}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-slate-50 border border-slate-200 text-slate-700 shadow-2xs"
-                >
-                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                  <span>{badge}</span>
-                </span>
-              ))}
-            </div>
-
-            {/* Secondary Language Badges */}
-            <div className="flex flex-wrap items-center gap-2">
-              {badgesSecondary.map((badge, idx) => (
-                <span
-                  key={`sec-${idx}`}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium bg-amber-50/60 border border-amber-200/70 text-slate-700"
-                >
-                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                  <span>{badge}</span>
-                </span>
-              ))}
-            </div>
           </div>
         </div>
+      </div>
 
-        {/* BOTTOM PRICE & ACTION BUTTONS */}
-        <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          {/* Price Block */}
-          <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block">
-              {isAr ? 'يبدأ من' : 'STARTING FROM'}
+      {/* 2. BOTTOM INFORMATION BAR: SERVICE BENEFITS, ACCURATE PRICING & CALL-TO-ACTIONS */}
+      <div className="bg-[#0B0F19] border-t border-[#C5A059]/25 p-4 sm:p-5 md:p-6 lg:px-8 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 sm:gap-5 relative z-10">
+        {/* Service Benefits Chips */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+          {badges.map((badge, idx) => (
+            <span
+              key={idx}
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-[10px] sm:text-[11px] font-semibold text-[#DDD7CC] border border-[#C5A059]/35 bg-[#121722]/90 backdrop-blur-xs shadow-2xs"
+            >
+              {renderBenefitIcon(badge, idx)}
+              <span>{badge}</span>
             </span>
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          ))}
+        </div>
+
+        {/* Pricing Block & Action Buttons */}
+        <div className="flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-end gap-4 sm:gap-6 pt-2 lg:pt-0 border-t border-white/5 lg:border-t-0">
+          {/* Starting Price Display */}
+          <div className="text-start sm:text-end shrink-0">
+            <span className="block text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-[#9E9588]">
+              {labels.startingFrom}
+            </span>
+            <div className="flex items-baseline gap-1">
+              <span className="font-playfair font-serif text-2xl sm:text-3xl font-bold text-[#E5C158] tracking-tight">
                 {route.customPricePrefix
                   ? `${route.customPricePrefix} ${formatPrice(route.priceSar)}`
                   : formatPrice(route.priceSar)}
               </span>
             </div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block">
-              {isAr ? 'لكل رحلة' : 'PER TRIP'}
+            <span className="block text-[9px] sm:text-[10px] uppercase font-medium tracking-wider text-[#827A6E]">
+              {labels.perTrip}
             </span>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
+          {/* Action Buttons: View Vehicles & Book Now */}
+          <div className="flex items-center gap-2.5 shrink-0 w-full sm:w-auto">
             <Link
               href={`/${locale}/routes/${route.slug}`}
-              className="flex-1 sm:flex-none h-11 px-4 sm:px-5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 hover:border-slate-400 text-slate-800 text-xs font-bold transition-all flex items-center justify-center text-center shadow-2xs hover:shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+              className="flex-1 sm:flex-none h-11 px-4 sm:px-5 rounded-full border border-[#C5A059]/50 hover:border-[#D4AF37] hover:bg-[#C5A059]/10 text-[#F5EADB] text-xs font-bold transition-all flex items-center justify-center text-center whitespace-nowrap shadow-xs active:scale-[0.98]"
             >
-              <span>{isAr ? 'عرض السيارات المتاحة' : 'View Available Vehicles'}</span>
+              <span>{labels.viewVehicles}</span>
             </Link>
 
             <Link
               href={`/${locale}/booking?route=${route.slug}`}
-              className="flex-1 sm:flex-none h-11 px-5 sm:px-6 rounded-xl bg-[#D4A017] hover:bg-[#c49313] hover:shadow-[0_4px_14px_rgba(212,160,23,0.35)] text-slate-950 text-xs font-extrabold uppercase tracking-wider transition-all shadow-xs flex items-center justify-center gap-1.5 text-center active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+              className="flex-1 sm:flex-none h-11 px-5 sm:px-6 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#E5C158] to-[#C5A059] hover:from-[#E5C158] hover:to-[#D4AF37] text-[#0A0D14] text-xs font-black uppercase tracking-wider transition-all shadow-[0_4px_16px_rgba(212,175,55,0.35)] hover:shadow-[0_6px_22px_rgba(212,175,55,0.5)] flex items-center justify-center gap-1.5 sm:gap-2 text-center whitespace-nowrap active:scale-[0.98]"
             >
-              <span>{isAr ? 'احجز الآن' : 'Book Now'}</span>
+              <span>{labels.bookNow}</span>
               <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
             </Link>
           </div>
