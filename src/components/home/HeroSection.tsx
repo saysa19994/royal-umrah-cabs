@@ -633,23 +633,35 @@ export function HeroSection({ locale }: HeroSectionProps) {
           </form>
         </div>
 
-        {/* BOTTOM QUICK ACTIONS: GET PRICES & WHATSAPP */}
-        <div className="flex items-center justify-center gap-4 mt-6">
-          <Link
-            href={`/${locale}/pricing`}
-            className="text-xs sm:text-sm text-[#D8B174] hover:text-white font-medium underline-offset-4 hover:underline transition-colors"
-          >
-            {content.btnPrimary}
-          </Link>
-          <span className="text-white/20">•</span>
-          <button
-            type="button"
-            onClick={() => setIsWhatsAppModalOpen(true)}
-            className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-[#25D366] hover:text-[#4ADE80] font-medium transition-colors"
-          >
-            <MessageCircle className="w-3.5 h-3.5" />
-            <span>{content.btnSecondary}</span>
-          </button>
+        {/* BOTTOM QUICK ACTIONS: LUXURY GOLD-FRAMED CAPSULE (MATCHING REFERENCE 2) */}
+        <div className="flex justify-center mt-7">
+          <div className="inline-flex items-center gap-4 sm:gap-6 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-[#0C1017]/95 via-[#131824]/95 to-[#0A0D14]/95 border-2 border-[#C5A059] shadow-[0_0_25px_rgba(197,160,89,0.35),_0_10px_30px_rgba(0,0,0,0.85),_inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-xl transition-all hover:shadow-[0_0_35px_rgba(197,160,89,0.5),_0_12px_35px_rgba(0,0,0,0.9)]">
+            {/* WhatsApp Action */}
+            <button
+              type="button"
+              onClick={() => setIsWhatsAppModalOpen(true)}
+              className="inline-flex items-center gap-2.5 text-xs sm:text-sm font-bold text-[#25D366] hover:brightness-110 active:scale-95 transition-all cursor-pointer"
+            >
+              <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-md shadow-[#25D366]/40 shrink-0">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.043.072.043.419-.101.824z" />
+                </svg>
+              </span>
+              <span>{content.btnSecondary}</span>
+            </button>
+
+            {/* Glowing Golden Bullet Dot */}
+            <span className="w-1.5 h-1.5 rounded-full bg-[#E5B564] shadow-[0_0_8px_#E5B564] shrink-0" />
+
+            {/* Pricing & Booking Link */}
+            <Link
+              href={`/${locale}/pricing`}
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#F0C068] hover:text-white active:scale-95 transition-all cursor-pointer"
+            >
+              <span>{content.btnPrimary}</span>
+              <ArrowRight className="w-4 h-4 rtl:rotate-180 text-[#F0C068]" />
+            </Link>
+          </div>
         </div>
       </div>
 
