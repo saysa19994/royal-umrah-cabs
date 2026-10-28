@@ -65,14 +65,14 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       '60-90 minutes complimentary flight delay buffer included',
       'Automated flight tracking against live ATC radar',
       'Direct hotel lobby drop-off across all Central, Ajyad, and Aziziyah zones',
-      'Zero deposit required — pay cash or card upon arrival at your hotel',
+      'Zero deposit required — pay cash (SAR or USD) directly to your chauffeur upon arrival at your hotel',
       '5-liter Zamzam containers accommodated securely in trunk',
     ],
     highlightsAr: [
       'فترة انتظار مجانية تمتد من 60 إلى 90 دقيقة بعد هبوط الطائرة [تحت تأكيد المالك]',
       'متابعة حية لرقم الرحلة عبر رادار الطيران للتعامل مع أي تأخير تلقائياً',
       'توصيل مباشر لباب الفندق في المنطقة المركزية، أجياد، والعزيزية',
-      'بدون دفع مسبق — الدفع عند الوصول نقداً أو بالبطاقة البنكية',
+      'بدون أي دفع مسبق — الدفع نقداً (ريال سعودي أو دولار) مباشرة للسائق عند الوصول إلى فندقك',
       'مساحة مخصصة وآمنة لحمل عبوات مياه زمزم 5 لتر',
     ],
     terminalNotes: [
@@ -170,9 +170,9 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
         question: 'How do we pay for our transfer, and is any advance deposit required?',
         questionAr: 'كيف يتم سداد قيمة الرحلة، وهل يشترط دفع عربون مسبق؟',
         answer:
-          'No advance deposit is required to secure your booking. You pay your chauffeur upon arrival at your Makkah hotel in Saudi Riyals (cash) or with debit/credit card (Visa, Mastercard, Mada) via the in-car POS machine [needs owner confirmation].',
+          'No advance deposit is required to secure your booking. In accordance with our official payment policy, you pay your chauffeur directly upon arrival at your Makkah hotel in cash (Saudi Riyals - SAR or US Dollars - USD). We do not accept credit cards, debit cards, POS terminals, online payments, or bank transfers.',
         answerAr:
-          'لا نشترط أي دفع مسبق لتأكيد حجزك. يتم سداد المبلغ لسائقك عند الوصول الآمن إلى فندقك بمكة المكرمة إما نقداً بالريال السعودي أو ببطاقات الدفع (مدى، فيزا، ماستركارد) عبر جهاز الدفع بالسيارة [تحت تأكيد المالك].',
+          'لا نشترط أي دفع مسبق لتأكيد حجزك. وفقاً لسياسة السداد الرسمية، يتم دفع الأجرة نقداً كاش (بالريال السعودي أو الدولار الأمريكي) مباشرة للسائق عند وصولك سالماً إلى فندقك بمكة المكرمة. لا نقبل البطاقات البنكية أو أجهزة نقاط البيع أو الدفع الإلكتروني.',
         isOperational: true,
         needsConfirmation: true,
       },
@@ -588,14 +588,14 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       'Door-to-door arrival at any hotel in Madinah Northern or Southern Markaziah',
       'Freedom to schedule prayer, dining, and restroom stops at clean SASCO complexes',
       'Zero baggage limits within the vehicle class selected',
-      'Pay upon arrival to driver — cash or credit card',
+      'Pay upon arrival to driver — cash only (SAR or USD), zero advance payment',
     ],
     highlightsAr: [
       'استقبال مباشر من صالة المطار والانطلاق الفوري إلى طريق المدينة السريع',
       'توصيل حتى باب فندقكم في المنطقة المركزية الشمالية أو الجنوبية بالمدينة',
       'حرية التوقف للصلاة وتناول الطعام في أرقى محطات واستراحات ساسكو',
       'بدون أي قيود على وزن أو عدد الحقائب ضمن سعة السيارة المختارة',
-      'الدفع عند الوصول الآمن لسائقك نقداً أو بالبطاقة البنكية',
+      'الدفع عند الوصول نقداً كاش للسائق (ريال سعودي أو دولار) — بدون أي دفع مسبق',
     ],
     terminalNotes: [
       {
@@ -824,14 +824,14 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       'Door-to-door pickup from all Makkah central hotels (Ajyad, Clock Tower, Ibrahim Al-Khalil)',
       'Flexible itineraries covering Al Hada viewpoints, rose factories, and Shubra Palace',
       'Professional mountain-certified chauffeurs with safe, smooth driving habits',
-      'Pay directly to driver upon arrival in cash (SAR) or bank card — 0 advance payment',
+      'Pay directly to driver upon arrival in cash (SAR or USD) — zero advance payment',
     ],
     highlightsAr: [
       'صعود جبلي بانورامي سلس عبر عقبة الهدا بسيارات فارهة مكيفة وعائلية',
       'استقبال مباشر من بهو فندقك في مكة (أبراج البيت، أجياد، إبراهيم الخليل، العزيزية)',
       'مرونة في التوقف عند مطلات الهدا، مصانع تقطير الورد، وقصر شبرا التاريخي',
       'سائقون محترفون وذوو خبرة عالية في القيادة الجبلية الآمنة والسلسة',
-      'دفع آمن ومباشر للسائق عند الوصول نقداً أو بالبطاقة البنكية دون أي عربون مسبق',
+      'دفع مباشر للسائق عند الوصول نقداً (ريال سعودي أو دولار) دون أي عربون مسبق',
     ],
     terminalNotes: [
       {
@@ -919,14 +919,14 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       'Luggage safely stored and secured in private vehicle during your Miqat stop',
       'Direct drop-off at your Makkah hotel doorstep or Haram access point',
       'Comfortable descending drive with seasoned chauffeurs prioritizing safety and smoothness',
-      'No prepayment needed — pay upon arrival in Makkah via cash or POS card machine',
+      'No prepayment needed — pay upon arrival in Makkah directly to your driver in cash (SAR or USD)',
     ],
     highlightsAr: [
       'توقف مخصص لمدة 30-45 دقيقة في ميقات قرن المنازل للصلاة والاستعداد للإحرام',
       'حقائبك ومقتنياتك محفوظة بأمان تام داخل السيارة الخاصة أثناء وجودك في الميقات',
       'توصيل مباشر لباب فندقك بمكة المكرمة أو أقرب نقطة وصول للمسجد الحرام',
       'نزول جبلي هادئ وآمن مع سائقين ذوي خبرة والتزام تام بالسرعات النظامية',
-      'بدون أي دفع مسبق — السداد عند الوصول لمكة نقداً أو بالبطاقة عبر جهاز نقاط البيع',
+      'بدون أي دفع مسبق — السداد عند الوصول لمكة المكرمة نقداً كاش (ريال سعودي أو دولار) مباشرة للسائق',
     ],
     terminalNotes: [
       {
@@ -980,12 +980,12 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
           'حسب المسار المختار، نتوقف في ميقات قرن المنازل (السيل الكبير) أو ميقات وادي محرم أعلى عقبة الهدا، وكلاهما الميقات الشرعي المعتمد للقادمين من الطائف والشرق.',
       },
       {
-        question: 'Can we pay in cash or card upon arriving in Makkah?',
-        questionAr: 'هل يمكننا السداد نقداً أو بالبطاقة البنكية بعد الوصول إلى مكة؟',
+        question: 'How do we pay for our transfer?',
+        questionAr: 'كيف ومتى يتم سداد قيمة الرحلة عند الوصول؟',
         answer:
-          'Yes. In accordance with our 100% Pay-the-Driver policy, you pay your chauffeur directly upon arrival in Makkah via Saudi Riyals (cash) or credit/debit card.',
+          'In accordance with our 100% Pay-the-Driver policy, you pay your chauffeur directly upon arrival in Makkah in cash (Saudi Riyals - SAR or US Dollars - USD). We do not require any advance deposit and do not accept credit cards, debit cards, POS machines, or online transactions.',
         answerAr:
-          'نعم. وفقاً لسياسة الدفع للسائق 100%، يمكنك سداد قيمة الرحلة مباشرة للسائق عند الوصول لمكة بالريال السعودي نقداً أو بالبطاقة البنكية (مدى/فيزا/ماستركارد).',
+          'نعم. وفقاً لسياسة الدفع للسائق 100%، يتم سداد قيمة الرحلة بالكامل نقداً (بالريال السعودي أو الدولار الأمريكي) مباشرة للسائق عند الوصول لمكة المكرمة، دون أي دفع مسبق أو بطاقات بنكية.',
       },
     ],
     relatedRouteIds: ['makkah-to-taif', 'jeddah-to-taif', 'makkah-to-jeddah-airport'],
@@ -1109,14 +1109,14 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       'Flight radar tracking with 60 minutes free waiting after actual wheels-down time',
       'Premium fleet including Toyota Camry Executive, Hyundai Staria VIP, and GMC Yukon XL',
       'Direct hotel lobby drop-off across KAFD, Olaya, Al Faisaliah, and Diplomatic Quarter',
-      'Pay driver directly upon arrival in cash (SAR) or corporate bank card — zero advance fees',
+      'Pay driver directly upon arrival in cash (SAR or USD) — zero advance fees or deposits',
     ],
     highlightsAr: [
       'استقبال تنفيذي من الصالات 1، 2، 3، 4 وصالة الطيران الخاص بمطار الملك خالد',
       'متابعة حية لرادار الرحلات مع 60 دقيقة انتظار مجاني بعد هبوط الطائرة الفعلي',
       'أسطول فاخر يشمل تويوتا كامري، هيونداي ستاريا VIP، وجي إم سي يوكون إكس إل',
       'توصيل مباشر لباب الفندق في كافد (KAFD)، العليا، برج الفيصلية، والحي الدبلوماسي',
-      'سداد مباشر للسائق عند الوصول نقداً أو بالبطاقة البنكية للشركات بدون أي رسوم مسبقة',
+      'سداد مباشر للسائق عند الوصول نقداً (ريال سعودي أو دولار) بدون أي رسوم مسبقة',
     ],
     terminalNotes: [
       {
@@ -1170,10 +1170,10 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
           'نعم. نوفر خدمات الاستقبال لرحلات الطيران الخاص ورجال الأعمال بصالة الطيران الخاص بمطار الملك خالد بسيارات دفع رباعي فاخرة مثل يوكون XL VIP.',
       },
       {
-        question: 'Can we pay with a corporate card or receive an official receipt?',
-        questionAr: 'هل يمكن الدفع ببطاقة الشركة والحصول على إيصال رسمي معتمد؟',
+        question: 'What payment methods are accepted and do you provide an official receipt?',
+        questionAr: 'ما هي طرق الدفع المعتمدة وهل تقدمون إيصالاً رسمياً معتمداً؟',
         answer:
-          'Yes. Chauffeurs are equipped with modern electronic POS terminals supporting Visa, Mastercard, and Mada. Official digital receipts are provided upon booking confirmation and payment.',
+          'Yes. All trips are settled strictly in cash (Saudi Riyals - SAR or US Dollars - USD) directly with your chauffeur upon arrival at your destination. We do not accept credit cards, debit cards, POS terminals, online payments, or bank transfers.',
         answerAr:
           'نعم بالتأكيد. جميع السائقين مزودون بأجهزة نقاط بيع بنكية تقبل مدى وفيزا وماستركارد، ويتم إصدار إيصال إلكتروني رسمي وموثق لكافة الرحلات.',
       },
@@ -1204,14 +1204,14 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       'Luxury long-haul vehicles with premium reclining seating, USB ports, and acoustic insulation',
       'Curated stops at top-rated SASCO Palm service stations for prayer, meals, and coffee',
       'Dedicated stop at Miqat (Qarn al-Manazil / As-Sayl Al-Kabeer) for Umrah Ihram preparations',
-      'Strict Pay-the-Driver policy: settle the entire trip upon arrival in Makkah via cash or card',
+      'Strict Pay-the-Driver policy: settle the entire trip upon arrival in Makkah in cash (SAR or USD)',
     ],
     highlightsAr: [
       'استقبال مباشر من باب منزلك أو قصرك بالرياض والتوصيل حتى باب فندقك بمكة دون نقل الأمتعة',
       'سيارات فاخرة مجهزة للمسافات الطويلة بمقاعد مريحة وعزل صوتي ومنافذ شحن متعددة',
       'توقفات مريحة في محطات ساسكو بالم النموذجية لأداء الصلوات وتناول الوجبات والقهوة',
       'توقف مخصص في ميقات قرن المنازل (السيل الكبير) للاغتسال ولبس الإحرام لضيوف الرحمن',
-      'سياسة دفع آمنة 100%: السداد بالكامل للسائق عند الوصول إلى مكة نقداً أو بالبطاقة',
+      'سياسة دفع آمنة 100%: السداد بالكامل للسائق عند الوصول إلى مكة نقداً كاش (ريال سعودي أو دولار)',
     ],
     terminalNotes: [
       {
@@ -1268,7 +1268,7 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
         question: 'Do we need to pay anything in advance for this long-distance journey?',
         questionAr: 'هل يلزم دفع أي عربون أو مبلغ مسبق لهذه الرحلة الطويلة؟',
         answer:
-          'No advance payment or credit card deposit is required. You pay the full fixed fare directly to your private chauffeur upon arriving at your destination in Makkah.',
+          'No advance payment or deposit is required. You pay the full fixed fare directly in cash (SAR or USD) to your private chauffeur upon arriving at your destination in Makkah.',
         answerAr:
           'لا يتطلب الحجز أي عربون أو دفع مسبق. يتم سداد المبلغ الثابت المتفق عليه بالكامل مباشرة لسائقك الخاص عند الوصول بسلامة الله إلى وجهتك في مكة.',
       },
@@ -1299,14 +1299,14 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       'Smooth cruise along grade-A expressways (Route 65 and Route 60) with zero transfers',
       'Comfortable stops at modern rest stations (SASCO) for prayer, coffee, and dining',
       'Spacious luggage capacity for all family bags, mobility aids, and purchases',
-      'Zero advance deposit — pay in full upon arriving at your Madinah hotel via cash or card',
+      'Zero advance deposit — pay in full upon arriving at your Madinah hotel in cash (SAR or USD)',
     ],
     highlightsAr: [
       'نقل تنفيذي خاص لمسافات طويلة يربط الرياض مباشرة بردهات فنادق المدينة المنورة',
       'سير مريح وسلس عبر الطرق السريعة الحديثة (طريق 65 وطريق 60) دون أي تبديل للسيارات',
       'استراحات مريحة في محطات الخدمة الحديثة (ساسكو) للصلاة وتناول الطعام والقهوة',
       'مساحة تخزين رحبة تتسع لكافة حقائب العائلة والأجهزة المساعدة والمشتريات',
-      'بدون أي دفع مسبق — السداد بالكامل عند الوصول لفندقك بالمدينة نقداً أو بالبطاقة',
+      'بدون أي دفع مسبق — السداد بالكامل عند الوصول لفندقك بالمدينة نقداً كاش (ريال أو دولار)',
     ],
     terminalNotes: [
       {

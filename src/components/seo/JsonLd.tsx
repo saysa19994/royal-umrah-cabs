@@ -230,16 +230,26 @@ export function RoutePageJsonLd({
   route,
   locale,
   minPriceSAR,
+  localizedContent,
 }: {
   route: any;
   locale: Locale;
   minPriceSAR: number;
+  localizedContent?: {
+    seoTitle?: string;
+    seoDescription?: string;
+    h1?: string;
+    faqs?: { question: string; answer: string }[];
+  };
 }) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   const isAr = locale === 'ar';
-  const title = isAr ? route.titleAr : route.titleEn;
-  const desc = isAr ? route.descriptionAr : route.descriptionEn;
+  const title = localizedContent?.h1 || (isAr ? route.titleAr : route.titleEn);
+  const desc = localizedContent?.seoDescription || (isAr ? route.descriptionAr : route.descriptionEn);
   const pageUrl = `${baseUrl}/${locale}/routes/${route.id}`;
+
+  const homeLabel = locale === 'ar' ? 'الرئيسية' : locale === 'ur' ? 'صفحۂ اول' : (locale === 'id' || locale === 'ms') ? 'Beranda' : locale === 'tr' ? 'Ana Sayfa' : locale === 'fr' ? 'Accueil' : locale === 'es' ? 'Inicio' : locale === 'de' ? 'Startseite' : locale === 'hi' ? 'होम' : 'Home';
+  const routesLabel = locale === 'ar' ? 'المسارات' : locale === 'ur' ? 'راستے' : (locale === 'id' || locale === 'ms') ? 'Rute' : locale === 'tr' ? 'Güzergahlar' : locale === 'fr' ? 'Itinéraires' : locale === 'es' ? 'Rutas' : locale === 'de' ? 'Routen' : locale === 'hi' ? 'रूट्स' : 'Routes';
 
   const breadcrumbList = {
     '@context': 'https://schema.org',
@@ -248,13 +258,13 @@ export function RoutePageJsonLd({
       {
         '@type': 'ListItem',
         position: 1,
-        name: isAr ? 'الرئيسية' : 'Home',
+        name: homeLabel,
         item: `${baseUrl}/${locale}`,
       },
       {
         '@type': 'ListItem',
         position: 2,
-        name: isAr ? 'المسارات' : 'Routes',
+        name: routesLabel,
         item: `${baseUrl}/${locale}/routes`,
       },
       {
@@ -266,15 +276,22 @@ export function RoutePageJsonLd({
     ],
   };
 
+  const faqItems = localizedContent?.faqs && localizedContent.faqs.length > 0
+    ? localizedContent.faqs
+    : (route.faqs || []).map((f: any) => ({
+        question: isAr ? f.questionAr : f.question,
+        answer: isAr ? f.answerAr : f.answer,
+      }));
+
   const faqPage = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: (route.faqs || []).map((f: any) => ({
+    mainEntity: faqItems.map((f: any) => ({
       '@type': 'Question',
-      name: isAr ? f.questionAr : f.question,
+      name: f.question,
       acceptedAnswer: {
         '@type': 'Answer',
-        text: isAr ? f.answerAr : f.answer,
+        text: f.answer,
       },
     })),
   };
@@ -292,7 +309,7 @@ export function RoutePageJsonLd({
       name: 'Duyuf Alrahman VIP',
       url: baseUrl,
       telephone: '+966567588261',
-      priceRange: '$$',
+      priceRange: '$',
       image: `${baseUrl}/assets/images/og-image.jpg`,
     },
     areaServed: [
@@ -310,6 +327,12 @@ export function RoutePageJsonLd({
       url: pageUrl,
       validFrom: '2026-01-01',
       priceValidUntil: '2026-12-31',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        price: minPriceSAR || 200,
+        priceCurrency: 'SAR',
+        valueAddedTaxIncluded: true,
+      },
     },
   };
 

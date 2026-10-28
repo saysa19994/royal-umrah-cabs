@@ -3,6 +3,7 @@ import { LOCALES, Locale, getLocalizedAlternates } from '@/i18n/config';
 import { ZIYARAT_SITES, ZIYARAT_TOURS, ZIYARAT_GUIDES } from '@/data/ziyarat';
 import { PILGRIM_COUNTRIES } from '@/data/pilgrims';
 import { BLOG_POSTS } from '@/data/blog-posts';
+import { ROUTES_COMPREHENSIVE_DATA } from '@/data/routes-data';
 
 export async function generateSitemaps() {
   return LOCALES.map((locale) => ({ id: locale }));
@@ -43,14 +44,9 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
     '/ziyarat/madinah',
   ];
 
-  const dynamicRoutes = [
-    '/routes/jeddah-airport-to-makkah',
-    '/routes/makkah-to-jeddah-airport',
-    '/routes/makkah-to-madinah',
-    '/routes/madinah-to-makkah',
-    '/routes/madinah-airport-to-hotel',
-    '/routes/jeddah-to-madinah',
-  ];
+  const dynamicRoutes = Object.keys(ROUTES_COMPREHENSIVE_DATA).map(
+    (slug) => '/routes/' + slug
+  );
 
   const dynamicVehicles = [
     '/fleet/hyundai-staria',

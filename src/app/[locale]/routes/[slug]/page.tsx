@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
-import { getDictionary } from '@/i18n/get-dictionary';
 import {
   MapPin,
   Clock,
@@ -19,6 +18,11 @@ import {
 } from 'lucide-react';
 import { getDbPricesCached } from '@/lib/pricing-db';
 import { ROUTES_COMPREHENSIVE_DATA, RouteData } from '@/data/routes-data';
+import {
+  getLocalizedRouteContent,
+  ROUTE_UI_LABELS,
+  getRouteContextualLinks,
+} from '@/data/localized-routes-content';
 import { RoutePageJsonLd } from '@/components/seo/JsonLd';
 
 interface RouteDetailPageProps {
@@ -41,17 +45,15 @@ export async function generateMetadata(props: RouteDetailPageProps): Promise<Met
     return { title: 'Route Not Found' };
   }
 
-  const isAr = locale === 'ar';
-  const title = isAr ? route.titleAr : route.titleEn;
-  const desc = isAr ? route.descriptionAr.slice(0, 160) : route.descriptionEn.slice(0, 160);
+  const content = getLocalizedRouteContent(slug, locale, route);
 
   return {
-    title: `${title} | Duyuf Alrahman VIP`,
-    description: desc,
+    title: content.seoTitle,
+    description: content.seoDescription,
     alternates: getLocalizedAlternates(locale, `/routes/${slug}`),
     openGraph: {
-      title,
-      description: desc,
+      title: content.seoTitle,
+      description: content.seoDescription,
       url: `${baseUrl}/${locale}/routes/${slug}`,
       siteName: 'Duyuf Alrahman VIP',
       type: 'website',
@@ -108,16 +110,18 @@ const VEHICLE_META: Record<
 export default async function RouteDetailPage(props: RouteDetailPageProps) {
   const { locale, slug } = await props.params;
   const isAr = locale === 'ar';
-  const dict = getDictionary(locale);
   const route: RouteData | undefined = ROUTES_COMPREHENSIVE_DATA[slug];
 
   if (!route) {
     notFound();
   }
 
+  const content = getLocalizedRouteContent(slug, locale, route);
+  const labels = ROUTE_UI_LABELS[locale] || ROUTE_UI_LABELS.en;
+  const contextualLinks = getRouteContextualLinks(slug, locale);
+
   const dbRates = await getDbPricesCached();
   const routeRates = dbRates[slug] || {};
-
   const minPriceSAR = Math.min(
     ...Object.values(routeRates).filter((v) => typeof v === 'number' && v > 0),
     200
@@ -126,7 +130,12 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
   return (
     <div className="py-12 md:py-20 bg-bg min-h-screen text-start">
       {/* Schema.org Structured Data */}
-      <RoutePageJsonLd route={route} locale={locale} minPriceSAR={minPriceSAR} />
+      <RoutePageJsonLd
+        route={route}
+        locale={locale}
+        minPriceSAR={minPriceSAR}
+        localizedContent={content}
+      />
 
       <div className="container mx-auto px-4 max-w-5xl">
         {/* BREADCRUMB */}
@@ -135,15 +144,15 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
           className="flex items-center gap-2 text-xs text-ink-muted mb-6 flex-wrap"
         >
           <Link href={`/${locale}`} className="hover:text-gold-dark transition-colors">
-            {isAr ? 'الرئيسية' : 'Home'}
+            {labels.breadcrumbHome}
           </Link>
           <span className="opacity-40">/</span>
           <Link href={`/${locale}/routes`} className="hover:text-gold-dark transition-colors">
-            {isAr ? 'المسارات' : 'Routes'}
+            {labels.breadcrumbRoutes}
           </Link>
           <span className="opacity-40">/</span>
           <span className="text-ink font-semibold truncate max-w-[280px] sm:max-w-none">
-            {isAr ? route.titleAr : route.titleEn}
+            {content.h1}
           </span>
         </nav>
 
@@ -152,7 +161,7 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
           <div className="flex flex-wrap items-center gap-2.5 mb-3">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-wider">
               <Compass className="w-3.5 h-3.5" />
-              <span>{isAr ? `${route.distanceKm} كم` : `${route.distanceKm} km`}</span>
+              <span>{route.distanceKm} {isAr ? 'كم' : 'km'}</span>
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface border border-border text-xs font-semibold text-ink-muted">
               <Clock className="w-3.5 h-3.5 text-gold-dark" />
@@ -165,16 +174,16 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-bg-alt border border-border text-[11px] text-ink-muted">
               <Calendar className="w-3 h-3 text-gold-dark" />
               <span>
-                {isAr ? `آخر تدقيق: ${route.lastUpdated}` : `Verified: ${route.lastUpdated}`}
+                {labels.verifiedLabel} {route.lastUpdated}
               </span>
             </span>
           </div>
 
           <h1 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-ink mb-3 tracking-tight">
-            {isAr ? route.titleAr : route.titleEn}
+            {content.h1}
           </h1>
           <p className="text-base sm:text-lg text-ink-muted font-light leading-relaxed max-w-3xl">
-            {isAr ? route.subtitleAr : route.subtitleEn}
+            {content.subtitle}
           </p>
 
           {/* HIGHWAY & VERIFIED AUTHORITY NOTE */}
@@ -182,16 +191,16 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
             <div className="flex items-center gap-2 text-ink">
               <ShieldCheck className="w-4 h-4 text-gold-dark shrink-0" />
               <span className="font-medium">
-                {isAr ? 'المسار السريع المعتمد:' : 'Designated Expressway:'}{' '}
+                {labels.expresswayLabel}{' '}
                 <strong className="font-semibold text-ink">
-                  {isAr ? route.highwayAr : route.highway}
+                  {content.highwayNote}
                 </strong>
               </span>
             </div>
             <div className="text-[11px] text-ink-muted">
-              {isAr ? 'المرجع الرسمي:' : 'Authority Source:'}{' '}
+              {labels.authorityLabel}{' '}
               <span className="text-ink font-medium">
-                {isAr ? route.verifiedSourceAr : route.verifiedSource}
+                {content.authoritySource}
               </span>
             </div>
           </div>
@@ -200,17 +209,17 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
         {/* OVERVIEW & INCLUSIONS */}
         <section className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs mb-8">
           <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-3">
-            {isAr ? 'نظرة عامة على الخدمة' : 'Service & Route Overview'}
+            {labels.overviewHeading}
           </h2>
           <p className="text-sm md:text-base text-body leading-relaxed mb-6 font-light">
-            {isAr ? route.descriptionAr : route.descriptionEn}
+            {content.overview}
           </p>
 
           <h3 className="font-display font-bold text-base md:text-lg text-ink mb-3">
-            {isAr ? 'المزايا المشمولة في هذا المسار' : 'What is Included on this Route'}
+            {labels.inclusionsHeading}
           </h3>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-body">
-            {(isAr ? route.highlightsAr : route.highlightsEn).map((item, idx) => (
+            {content.inclusions.map((item, idx) => (
               <li key={idx} className="flex items-start gap-2.5">
                 <Check className="w-4 h-4 text-gold-dark shrink-0 mt-0.5" />
                 <span>{item}</span>
@@ -219,19 +228,17 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
           </ul>
         </section>
 
-        {/* TERMINAL-BY-TERMINAL PICKUP NOTES (Phase 4.1 Requirement) */}
+        {/* TERMINAL-BY-TERMINAL PICKUP NOTES */}
         {route.terminalNotes && route.terminalNotes.length > 0 && (
           <section className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs mb-8">
             <div className="flex items-center gap-2 mb-2">
               <Plane className="w-5 h-5 text-gold-dark" />
               <h2 className="font-display font-bold text-xl md:text-2xl text-ink">
-                {isAr ? 'إرشادات الاستقبال في الصالات والمحطات' : 'Terminal-by-Terminal Pickup Points'}
+                {labels.terminalsHeading}
               </h2>
             </div>
             <p className="text-xs sm:text-sm text-ink-muted mb-6 font-light">
-              {isAr
-                ? 'إرشادات دقيقة للقاء السائق بعد الخروج من الجوازات والتفتيش الجمركي مباشرة:'
-                : 'Accurate step-by-step meeting points to find your chauffeur directly after baggage claim:'}
+              {labels.terminalsSubtitle}
             </p>
 
             <div className="space-y-4">
@@ -245,7 +252,7 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
                       {isAr ? note.terminalAr : note.terminal}
                     </h3>
                     <span className="px-2.5 py-0.5 rounded-full bg-gold/15 text-gold-dark text-[11px] font-bold">
-                      {isAr ? 'نقطة الالتقاء' : 'Meeting Spot'}
+                      {labels.meetingSpotBadge}
                     </span>
                   </div>
 
@@ -259,7 +266,7 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
 
                   <div className="text-[11px] text-ink-muted flex items-center gap-1.5 pt-2 border-t border-border/60">
                     <strong className="text-gold-dark">
-                      {isAr ? 'علامة مميزة:' : 'Landmark:'}
+                      {labels.landmarkLabel}
                     </strong>
                     <span>{isAr ? note.landmarksAr : note.landmarks}</span>
                   </div>
@@ -273,12 +280,10 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
         {route.milestones && route.milestones.length > 0 && (
           <section className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs mb-8">
             <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-2">
-              {isAr ? 'المسار الزمني ومحطات التوقف النموذجية' : 'Highway Roadmap & Travel Milestones'}
+              {labels.milestonesHeading}
             </h2>
             <p className="text-xs sm:text-sm text-ink-muted mb-6 font-light">
-              {isAr
-                ? 'المسافة الإجمالية ونقاط الطريق والاستراحات النموذجية المكيفة للصلاة والراحة:'
-                : 'Travel stages and designated clean service plazas along the route:'}
+              {labels.milestonesSubtitle}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -291,7 +296,7 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
                     0{idx + 1}
                   </span>
                   <span className="block text-xs font-bold text-gold-dark uppercase tracking-wider mb-1">
-                    {isAr ? `المحطة ${idx + 1}` : `Stage ${idx + 1}`}
+                    {labels.stageLabel} {idx + 1}
                   </span>
                   <h3 className="font-semibold text-sm text-ink mb-1.5">
                     {isAr ? m.titleAr : m.title}
@@ -310,17 +315,21 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
             <div>
               <h2 className="font-display font-bold text-xl md:text-2xl text-ink">
-                {isAr ? 'الأسعار الثابتة لكافة فئات الأسطول' : 'Guaranteed Fixed Rates by Vehicle'}
+                {labels.pricingHeading}
               </h2>
               <p className="text-xs text-ink-muted mt-1 font-light">
-                {isAr
-                  ? 'أسعار مباشرة من قاعدة البيانات، شاملة الوقود ورسوم الطرق وضريبة القيمة المضافة:'
-                  : 'Live database prices including all fuel, highway tolls, and VAT with zero surge fees:'}
+                {labels.pricingSubtitle}
               </p>
             </div>
             <span className="self-start sm:self-auto px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-bold border border-emerald-200">
-              {isAr ? '✓ بدون دفع مسبق' : '✓ Zero Upfront Deposit'}
+              {labels.zeroDepositBadge}
             </span>
+          </div>
+
+          {/* OFFICIAL CASH-ONLY PAYMENT POLICY ALERT */}
+          <div className="mb-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-ink flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+            <span>{labels.paymentPolicyNote}</span>
           </div>
 
           <div className="divide-y divide-border">
@@ -344,22 +353,20 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
                       {isAr ? meta.descAr : meta.descEn}
                     </p>
                     <div className="flex items-center gap-3 text-xs text-ink-muted">
-                      <span>{isAr ? `حتى ${meta.pax} ركاب` : `Up to ${meta.pax} Pax`}</span>
+                      <span>{meta.pax} {labels.paxLabel}</span>
                       <span>•</span>
-                      <span>{isAr ? `حتى ${meta.bags} حقائب` : `Up to ${meta.bags} Bags`}</span>
+                      <span>{meta.bags} {labels.bagsLabel}</span>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0">
                     <div className="text-start sm:text-end">
                       <span className="text-[10px] uppercase tracking-wider text-ink-muted block font-semibold">
-                        {isAr ? 'السعر الثابت' : 'Fixed Fare'}
+                        {labels.fixedFareLabel}
                       </span>
                       <span className="font-display font-bold text-xl text-ink">
                         {typeof displayPrice === 'number'
-                          ? isAr
-                            ? `${displayPrice} ر.س`
-                            : `SAR ${displayPrice}`
+                          ? `${displayPrice} ${labels.currencySAR}`
                           : displayPrice}
                       </span>
                     </div>
@@ -368,7 +375,7 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
                       href={`/${locale}/booking?route=${slug}&vehicle=${vKey}`}
                       className="h-10 px-5 rounded-btn bg-gold text-ink text-xs font-bold uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs flex items-center justify-center shrink-0"
                     >
-                      {isAr ? 'احجز الآن' : 'Book'}
+                      {labels.bookButton}
                     </Link>
                   </div>
                 </div>
@@ -377,49 +384,30 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
           </div>
         </section>
 
-        {/* 5 VERIFIED ROUTE FAQS (Phase 4.1 & 4.2 Requirement) */}
-        {route.faqs && route.faqs.length > 0 && (
+        {/* VERIFIED ROUTE FAQS */}
+        {content.faqs && content.faqs.length > 0 && (
           <section className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs mb-8">
             <div className="flex items-center gap-2 mb-2">
               <HelpCircle className="w-5 h-5 text-gold-dark" />
               <h2 className="font-display font-bold text-xl md:text-2xl text-ink">
-                {isAr
-                  ? 'الأسئلة الشائعة حول هذا المسار'
-                  : 'Frequently Asked Questions about this Route'}
+                {labels.faqHeading}
               </h2>
             </div>
             <p className="text-xs sm:text-sm text-ink-muted mb-6 font-light">
-              {isAr
-                ? 'إجابات موثقة ومطابقة لتوجيهات الطيران المدني ووزارة الحج والعمرة:'
-                : 'Verified operational and transit answers addressing common pilgrim questions:'}
+              {labels.faqSubtitle}
             </p>
 
             <div className="space-y-4">
-              {route.faqs.map((faq, idx) => (
+              {content.faqs.map((faq, idx) => (
                 <div
                   key={idx}
                   className="p-5 rounded-xl bg-bg-alt border border-border/80 space-y-2"
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-semibold text-sm sm:text-base text-ink leading-snug">
-                      {isAr ? faq.questionAr : faq.question}
-                    </h3>
-                    {faq.needsConfirmation && (
-                      <span
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 text-[10px] font-bold shrink-0"
-                        title={
-                          isAr
-                            ? 'سياسة تشغيلية معتمدة تحت تأكيد المالك'
-                            : 'Operational policy subject to owner confirmation'
-                        }
-                      >
-                        <AlertCircle className="w-3 h-3" />
-                        <span>{isAr ? 'تأكيد تشغيلي' : 'Needs Confirmation'}</span>
-                      </span>
-                    )}
-                  </div>
+                  <h3 className="font-semibold text-sm sm:text-base text-ink leading-snug">
+                    {faq.question}
+                  </h3>
                   <p className="text-xs sm:text-sm text-body font-light leading-relaxed">
-                    {isAr ? faq.answerAr : faq.answer}
+                    {faq.answer}
                   </p>
                 </div>
               ))}
@@ -427,11 +415,44 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
           </section>
         )}
 
-        {/* RELATED COMPLEMENTARY ROUTES (Phase 4.1 Requirement) */}
+        {/* CONTEXTUAL INTERNAL LINKS: FLEET, GUIDES, ZIYARAT, PRICING */}
+        {contextualLinks && contextualLinks.length > 0 && (
+          <section className="bg-surface rounded-2xl p-6 md:p-8 border border-border shadow-xs mb-8">
+            <h2 className="font-display font-bold text-lg md:text-xl text-ink mb-2">
+              {isAr ? 'خدمات، أسطول وأدلة مرتبطة بهذا المسار' : 'Related Vehicles, Guides & Sacred Ziyarat'}
+            </h2>
+            <p className="text-xs text-ink-muted mb-5 font-light">
+              {isAr
+                ? 'استكشف المركبات المعتمدة لهذا المسار، وأدلة الوصول للمطارات وجولات المزارات:'
+                : 'Explore dedicated vehicles, terminal arrival guides, and sacred historical ziyarat tours:'}
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {contextualLinks.map((link, idx) => (
+                <Link
+                  key={idx}
+                  href={link.href}
+                  className="p-3.5 rounded-xl bg-bg-alt border border-border/80 hover:border-gold/50 transition-all flex items-center justify-between group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="px-2.5 py-0.5 rounded-full bg-gold/15 text-gold-dark text-[10px] font-bold">
+                      {link.badge}
+                    </span>
+                    <span className="text-xs sm:text-sm font-medium text-ink group-hover:text-gold-dark transition-colors">
+                      {link.label}
+                    </span>
+                  </div>
+                  <ArrowRight className="w-3.5 h-3.5 text-gold-dark shrink-0 rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* RELATED COMPLEMENTARY ROUTES */}
         {route.relatedRouteIds && route.relatedRouteIds.length > 0 && (
           <section className="mb-10">
             <h2 className="font-display font-bold text-xl text-ink mb-4">
-              {isAr ? 'مسارات رحلات مرتبطة ومكملة' : 'Related Pilgrimage Routes'}
+              {labels.relatedHeading}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {route.relatedRouteIds.map((relId) => {
@@ -451,7 +472,7 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
                   >
                     <div>
                       <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-1">
-                        {isAr ? `${relRoute.distanceKm} كم` : `${relRoute.distanceKm} km`}
+                        {relRoute.distanceKm} {isAr ? 'كم' : 'km'}
                       </span>
                       <h3 className="font-display font-bold text-base text-ink group-hover:text-gold-dark transition-colors line-clamp-2 mb-2">
                         {isAr ? relRoute.titleAr : relRoute.titleEn}
@@ -463,10 +484,10 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
 
                     <div className="pt-3 border-t border-border flex items-center justify-between text-xs">
                       <span className="font-semibold text-ink">
-                        {isAr ? `من ${relMin} ر.س` : `From SAR ${relMin}`}
+                        {isAr ? `من ${relMin} ر.س` : `From ${labels.currencySAR} ${relMin}`}
                       </span>
                       <span className="text-gold-dark flex items-center gap-1 font-bold group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform">
-                        <span>{isAr ? 'تفاصيل' : 'View'}</span>
+                        <span>{labels.viewButton}</span>
                         <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
                       </span>
                     </div>
@@ -481,29 +502,27 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
         <div className="bg-gradient-to-br from-navy via-navy-light to-navy rounded-3xl p-8 md:p-12 border border-gold/30 text-white text-center shadow-xl relative overflow-hidden">
           <div className="max-w-2xl mx-auto space-y-4">
             <span className="inline-block px-3.5 py-1 rounded-full bg-gold/20 text-gold text-xs font-bold uppercase tracking-wider border border-gold/40">
-              {isAr ? 'حجز فوري ومؤكد' : 'Direct Chauffeur Dispatch'}
+              {labels.ctaBadge}
             </span>
             <h2 className="font-display font-bold text-2xl sm:text-4xl text-white">
-              {isAr ? 'جاهز لحجز رحلتك الخاصة الآن؟' : 'Ready to Reserve Your Chauffeur?'}
+              {labels.ctaHeading}
             </h2>
             <p className="text-xs sm:text-sm text-white/80 font-light leading-relaxed">
-              {isAr
-                ? 'أسعار ثابتة، سيارات نظيفة ومعقمة، وسائقون خبراء معتمدون بخدمتكم على مدار 24 ساعة بدون دفع مسبق.'
-                : 'Guaranteed fixed fares, pristine air-conditioned vehicles, and professional chauffeurs ready 24/7 with zero advance deposit.'}
+              {labels.ctaText}
             </p>
             <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
               <Link
                 href={`/${locale}/booking?route=${slug}`}
                 className="h-12 px-8 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-gold flex items-center gap-2"
               >
-                <span>{isAr ? 'احجز هذا المسار الآن' : 'Book This Route Now'}</span>
+                <span>{labels.ctaButton}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180" />
               </Link>
               <Link
                 href={`/${locale}/routes`}
                 className="h-12 px-6 rounded-btn bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 transition-all flex items-center"
               >
-                {isAr ? 'تصفح كافة المسارات' : 'View All Routes'}
+                {labels.ctaAllRoutesButton}
               </Link>
             </div>
           </div>
