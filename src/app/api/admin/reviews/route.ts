@@ -27,10 +27,21 @@ export async function GET(req: NextRequest) {
 
     const supabase = createServiceClient();
 
-    // 1. Fetch counts breakdown
-    const { data: allRows } = await supabase
+    // 1. Fetch counts breakdown with backward-compatibility for status column
+    let allRows: any[] = [];
+    const countsQuery = await supabase
       .from('reviews')
       .select('status, is_approved, rating');
+
+    if (countsQuery.error) {
+      // Fallback if status column does not exist yet before migration 004
+      const legacyCountsQuery = await supabase
+        .from('reviews')
+        .select('is_approved, rating');
+      allRows = legacyCountsQuery.data || [];
+    } else {
+      allRows = countsQuery.data || [];
+    }
 
     const counts = {
       all: 0,
@@ -42,7 +53,7 @@ export async function GET(req: NextRequest) {
     let totalRatingSum = 0;
     let publishedCount = 0;
 
-    (allRows || []).forEach((row) => {
+    allRows.forEach((row) => {
       counts.all++;
       const s = row.status || (row.is_approved ? 'published' : 'pending');
       if (s === 'published') {
@@ -82,12 +93,48 @@ export async function GET(req: NextRequest) {
 
     if (search && search.trim()) {
       const term = `%${search.trim()}%`;
-      query = query.or(`customer_name.ilike.${term},comment.ilike.${term},route.ilike.${term},booking_reference.ilike.${term}`);
+      query = query.or(`customer_name.ilike.${term},comment.ilike.${term},route.ilike.${term}`);
     }
 
     query = query.range(offset, offset + limit - 1);
 
-    const { data: reviews, count, error } = await query;
+    let { data: reviews, count, error } = await query;
+
+    // Fallback if query failed (e.g. status filter on legacy schema without status column)
+    if (error && status && status !== 'all') {
+      let fallbackQuery = supabase
+        .from('reviews')
+        .select('*', { count: 'exact' })
+        .order('created_at', { ascending: false });
+
+      if (status === 'published') {
+        fallbackQuery = fallbackQuery.eq('is_approved', true);
+      } else if (status === 'pending') {
+        fallbackQuery = fallbackQuery.eq('is_approved', false);
+      } else if (status === 'rejected') {
+        return NextResponse.json({
+          success: true,
+          reviews: [],
+          counts,
+          averageRating,
+          total: 0,
+          page,
+          limit,
+        });
+      }
+
+      if (rating && rating !== 'all') {
+        fallbackQuery = fallbackQuery.eq('rating', parseInt(rating, 10));
+      }
+
+      fallbackQuery = fallbackQuery.range(offset, offset + limit - 1);
+      const fallbackRes = await fallbackQuery;
+      if (!fallbackRes.error) {
+        reviews = fallbackRes.data;
+        count = fallbackRes.count;
+        error = null;
+      }
+    }
 
     if (error) {
       console.error('Admin reviews query error:', error);
@@ -156,17 +203,43 @@ export async function PATCH(req: NextRequest) {
     if (route) updates.route = route.trim();
 
     const supabase = createServiceClient();
-    const { data: updatedReview, error } = await supabase
+    
+    // 1. Attempt update with extended columns
+    let updateResult = await supabase
       .from('reviews')
       .update(updates)
       .eq('id', id)
       .select('*')
-      .single();
+      .maybeSingle();
 
-    if (error) {
-      console.error('Admin review update error:', error);
-      return NextResponse.json({ success: false, error: 'Failed to update review in database' }, { status: 500 });
+    // 2. If column error occurs (prior to migration 004 execution in Supabase Dashboard), fallback to legacy columns
+    if (updateResult.error) {
+      console.warn('Initial admin review update failed, retrying with legacy schema:', updateResult.error.message);
+
+      const legacyUpdates: Record<string, any> = {};
+      if (typeof updates.is_approved !== 'undefined') {
+        legacyUpdates.is_approved = updates.is_approved;
+      }
+      if (customer_name) legacyUpdates.customer_name = customer_name.trim();
+      if (comment) legacyUpdates.comment = comment.trim();
+      if (route) legacyUpdates.route = route.trim();
+
+      const fallbackResult = await supabase
+        .from('reviews')
+        .update(legacyUpdates)
+        .eq('id', id)
+        .select('*')
+        .maybeSingle();
+
+      if (fallbackResult.error) {
+        console.error('Admin review fallback update error:', fallbackResult.error);
+        return NextResponse.json({ success: false, error: 'Failed to update review in database' }, { status: 500 });
+      }
+
+      updateResult = fallbackResult;
     }
+
+    const updatedReview = updateResult.data;
 
     await logAuditEvent({
       userEmail: currentUser.email,
