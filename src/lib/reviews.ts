@@ -81,12 +81,33 @@ export async function getPublishedReviews(options: GetReviewsOptions = {}): Prom
     const supabase = createServiceClient();
 
     // 1. Fetch total published reviews and statistics
-    const statsQuery = supabase
-      .from('reviews')
-      .select('rating, is_approved, status')
-      .or('status.eq.published,is_approved.eq.true');
+    let statsData: any[] | null = null;
+    let statsError: any = null;
 
-    const { data: statsData, error: statsError } = await statsQuery;
+    try {
+      const statsQuery = await supabase
+        .from('reviews')
+        .select('rating, is_approved, status')
+        .or('status.eq.published,is_approved.eq.true');
+      statsData = statsQuery.data;
+      statsError = statsQuery.error;
+    } catch (e: any) {
+      statsError = e;
+    }
+
+    // Fallback if status column does not exist yet before migration 004 is applied:
+    if (statsError) {
+      try {
+        const fallbackStats = await supabase
+          .from('reviews')
+          .select('rating, is_approved')
+          .eq('is_approved', true);
+        statsData = fallbackStats.data;
+        statsError = fallbackStats.error;
+      } catch (fallbackStatsErr) {
+        // preserve statsError
+      }
+    }
 
     let totalPublished = 0;
     let sumRating = 0;
@@ -108,30 +129,75 @@ export async function getPublishedReviews(options: GetReviewsOptions = {}): Prom
       : 0;
 
     // 2. Fetch paginated list of published reviews
-    let query = supabase
-      .from('reviews')
-      .select('id, customer_name, country, rating, comment, route, service_type, language, is_verified_booking, created_at')
-      .or('status.eq.published,is_approved.eq.true');
+    let reviewsData: any[] | null = null;
+    let reviewsError: any = null;
 
-    if (route && route !== 'all') {
-      query = query.eq('route', route);
+    try {
+      let query = supabase
+        .from('reviews')
+        .select('id, customer_name, country, rating, comment, route, service_type, language, is_verified_booking, created_at')
+        .or('status.eq.published,is_approved.eq.true');
+
+      if (route && route !== 'all') {
+        query = query.eq('route', route);
+      }
+
+      if (language && language !== 'all') {
+        query = query.eq('language', language);
+      }
+
+      if (sort === 'highest') {
+        query = query
+          .order('rating', { ascending: false })
+          .order('created_at', { ascending: false });
+      } else {
+        query = query.order('created_at', { ascending: false });
+      }
+
+      query = query.range(offset, offset + validLimit - 1);
+
+      const res = await query;
+      reviewsData = res.data;
+      reviewsError = res.error;
+    } catch (e: any) {
+      reviewsError = e;
     }
 
-    if (language && language !== 'all') {
-      query = query.eq('language', language);
+    // Fallback if extended columns do not exist yet before migration 004 is applied:
+    if (reviewsError) {
+      try {
+        let legacyQuery = supabase
+          .from('reviews')
+          .select('id, customer_name, country, rating, comment, route, language, created_at')
+          .eq('is_approved', true);
+
+        if (route && route !== 'all') {
+          legacyQuery = legacyQuery.eq('route', route);
+        }
+
+        if (language && language !== 'all') {
+          legacyQuery = legacyQuery.eq('language', language);
+        }
+
+        if (sort === 'highest') {
+          legacyQuery = legacyQuery
+            .order('rating', { ascending: false })
+            .order('created_at', { ascending: false });
+        } else {
+          legacyQuery = legacyQuery.order('created_at', { ascending: false });
+        }
+
+        legacyQuery = legacyQuery.range(offset, offset + validLimit - 1);
+
+        const legacyRes = await legacyQuery;
+        if (!legacyRes.error) {
+          reviewsData = legacyRes.data;
+          reviewsError = null;
+        }
+      } catch (legacyErr) {
+        // preserve reviewsError
+      }
     }
-
-    if (sort === 'highest') {
-      query = query
-        .order('rating', { ascending: false })
-        .order('created_at', { ascending: false });
-    } else {
-      query = query.order('created_at', { ascending: false });
-    }
-
-    query = query.range(offset, offset + validLimit - 1);
-
-    const { data: reviewsData, error: reviewsError } = await query;
 
     if (reviewsError) {
       console.warn('Notice: Error querying reviews from Supabase:', reviewsError.message);
