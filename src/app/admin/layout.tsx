@@ -8,6 +8,9 @@ import { manrope } from '@/app/fonts';
 import { OWNER_EMAIL, verifyOwnerSessionToken } from '@/lib/auth/owner-session';
 import { UserProfile } from '@/types/auth';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata = {
   title: 'Admin Operations Portal | Duyuf Alrahman VIP',
   robots: {
