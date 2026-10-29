@@ -25,6 +25,97 @@ export interface FaqSectionProps {
   showCta?: boolean;
 }
 
+
+const FAQ_TRUST_I18N: Record<Locale, {
+  payTitle: string;
+  paySub: string;
+  cancelTitle: string;
+  cancelSub: string;
+  supportTitle: string;
+  supportSub: string;
+}> = {
+  ar: {
+    payTitle: 'الدفع نقدًا بعد انتهاء الرحلة',
+    paySub: 'الدفع نقدًا للسائق بعد وصول الوجهة',
+    cancelTitle: 'إلغاء مجاني مرن',
+    cancelSub: 'تعديل الرحلة بدون غرامات',
+    supportTitle: 'دعم متواصل واتساب',
+    supportSub: 'متابعة وتأكيد فوري لرحلتك',
+  },
+  en: {
+    payTitle: 'Cash Paid After Journey Completion',
+    paySub: 'Paid to driver at destination',
+    cancelTitle: 'Free 24h Cancellation',
+    cancelSub: 'Zero penalties prior to 24h',
+    supportTitle: 'WhatsApp Support',
+    supportSub: 'Instant live coordination',
+  },
+  ms: {
+    payTitle: 'Bayaran Tunai Selepas Perjalanan Selesai',
+    paySub: 'Dibayar kepada pemandu di destinasi',
+    cancelTitle: 'Pembatalan Percuma 24 Jam',
+    cancelSub: 'Tiada penalti sebelum 24 jam',
+    supportTitle: 'Sokongan WhatsApp',
+    supportSub: 'Penyelarasan langsung serta-merta',
+  },
+  id: {
+    payTitle: 'Pembayaran Tunai Setelah Perjalanan Selesai',
+    paySub: 'Dibayar kepada pengemudi di tujuan',
+    cancelTitle: 'Pembatalan Gratis 24 Jam',
+    cancelSub: 'Bebas denda sebelum 24 jam',
+    supportTitle: 'Layanan WhatsApp',
+    supportSub: 'Koordinasi langsung cepat',
+  },
+  ur: {
+    payTitle: 'سفر مکمل ہونے کے بعد نقد ادائیگی',
+    paySub: 'منزل پر پہنچنے پر ڈرائیور کو ادائیگی',
+    cancelTitle: '24 گھنٹے مفت منسوخی',
+    cancelSub: '24 گھنٹے قبل بلا معاوضہ تبدیلی',
+    supportTitle: 'واٹس ایپ سپورٹ',
+    supportSub: 'فوری اور لائیو رابطہ',
+  },
+  fr: {
+    payTitle: 'Paiement en Espèces en Fin de Trajet',
+    paySub: 'Payé au chauffeur à destination',
+    cancelTitle: 'Annulation Gratuite 24h',
+    cancelSub: 'Sans pénalité avant 24h',
+    supportTitle: 'Assistance WhatsApp',
+    supportSub: 'Coordination immédiate en direct',
+  },
+  es: {
+    payTitle: 'Pago en Efectivo al Finalizar el Viaje',
+    paySub: 'Pagado al chófer en el destino',
+    cancelTitle: 'Cancelación Gratuita 24h',
+    cancelSub: 'Sin penalizaciones antes de 24h',
+    supportTitle: 'Soporte WhatsApp',
+    supportSub: 'Coordinación directa al instante',
+  },
+  de: {
+    payTitle: 'Barzahlung nach Beendigung der Fahrt',
+    paySub: 'Zahlung an den Fahrer am Zielort',
+    cancelTitle: 'Kostenlose Stornierung 24h',
+    cancelSub: 'Keine Gebühren bis 24 Std. vorher',
+    supportTitle: 'WhatsApp-Support',
+    supportSub: 'Sofortige Live-Koordination',
+  },
+  tr: {
+    payTitle: 'Yolculuk Tamamlandıktan Sonra Nakit Ödeme',
+    paySub: 'Varış noktasında şoföre ödenir',
+    cancelTitle: '24 Saat Ücretsiz İptal',
+    cancelSub: '24 saat öncesine kadar cezasız',
+    supportTitle: 'WhatsApp Desteği',
+    supportSub: 'Anında canlı koordinasyon',
+  },
+  hi: {
+    payTitle: 'यात्रा पूरी होने के बाद नकद भुगतान',
+    paySub: 'गंतव्य पर ड्राइवर को भुगतान',
+    cancelTitle: '24 घंटे नि:शुल्क रद्दीकरण',
+    cancelSub: '24 घंटे पहले कोई शुल्क नहीं',
+    supportTitle: 'व्हाट्सएप सहायता',
+    supportSub: 'तत्काल लाइव समन्वय',
+  },
+};
+
 export function FaqSection({
   locale,
   dict,
@@ -170,10 +261,10 @@ export function FaqSection({
             </div>
             <div>
               <p className="text-xs font-bold text-ink">
-                {locale === 'ar' ? 'الدفع نقدًا بعد انتهاء الرحلة' : 'Cash Paid After Journey Completion'}
+                {(FAQ_TRUST_I18N[locale] || FAQ_TRUST_I18N.en).payTitle}
               </p>
               <p className="text-[11px] text-ink-muted">
-                {locale === 'ar' ? 'الدفع نقدًا للسائق بعد وصول الوجهة' : 'Paid to driver at destination'}
+                {(FAQ_TRUST_I18N[locale] || FAQ_TRUST_I18N.en).paySub}
               </p>
             </div>
           </div>
@@ -184,10 +275,10 @@ export function FaqSection({
             </div>
             <div>
               <p className="text-xs font-bold text-ink">
-                {locale === 'ar' ? 'إلغاء مجاني مرن' : 'Free 24h Cancellation'}
+                {(FAQ_TRUST_I18N[locale] || FAQ_TRUST_I18N.en).cancelTitle}
               </p>
               <p className="text-[11px] text-ink-muted">
-                {locale === 'ar' ? 'تعديل الرحلة بدون غرامات' : 'Zero penalties prior to 24h'}
+                {(FAQ_TRUST_I18N[locale] || FAQ_TRUST_I18N.en).cancelSub}
               </p>
             </div>
           </div>
@@ -198,10 +289,10 @@ export function FaqSection({
             </div>
             <div>
               <p className="text-xs font-bold text-ink">
-                {locale === 'ar' ? 'دعم متواصل واتساب' : 'WhatsApp Support'}
+                {(FAQ_TRUST_I18N[locale] || FAQ_TRUST_I18N.en).supportTitle}
               </p>
               <p className="text-[11px] text-ink-muted">
-                {locale === 'ar' ? 'متابعة وتأكيد فوري لرحلتك' : 'Instant live coordination'}
+                {(FAQ_TRUST_I18N[locale] || FAQ_TRUST_I18N.en).supportSub}
               </p>
             </div>
           </div>

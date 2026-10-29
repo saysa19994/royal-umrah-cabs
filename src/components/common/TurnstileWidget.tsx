@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState, useImperativeHandle, forwardRef } from 'react';
+import { Locale } from '@/i18n/config';
 
 declare global {
   interface Window {
@@ -40,6 +41,32 @@ interface TurnstileWidgetProps {
 
 // Cloudflare Turnstile Always-Pass test key for development/staging
 const DEV_TEST_SITE_KEY = '1x00000000000000000000AA';
+
+const EXPIRED_MESSAGES: Record<Locale, string> = {
+  ar: 'انتهت صلاحية رمز التحقق الأمني. يرجى إعادة التحقق.',
+  en: 'Security check expired. Please verify again.',
+  ms: 'Pengesahan keselamatan tamat tempoh. Sila sahkan semula.',
+  id: 'Verifikasi keamanan kedaluwarsa. Silakan verifikasi ulang.',
+  ur: 'سیکیورٹی تصدیق کی میعاد ختم ہوگئی۔ برائے مہربانی دوبارہ تصدیق کریں۔',
+  fr: 'Vérification de sécurité expirée. Veuillez réessayer.',
+  es: 'Verificación de seguridad expirada. Por favor, verifique de nuevo.',
+  de: 'Sicherheitsprüfung abgelaufen. Bitte erneut bestätigen.',
+  tr: 'Güvenlik doğrulaması süresi doldu. Lütfen tekrar deneyin.',
+  hi: 'सुरक्षा सत्यापन समाप्त हो गया। कृपया पुन: सत्यापित करें।',
+};
+
+const ERROR_MESSAGES: Record<Locale, string> = {
+  ar: 'تعذر إكمال التحقق الأمني. يرجى المحاولة مرة أخرى.',
+  en: 'Security challenge failed. Please try again.',
+  ms: 'Cabaran keselamatan gagal. Sila cuba lagi.',
+  id: 'Tantangan keamanan gagal. Silakan coba lagi.',
+  ur: 'سیکیورٹی تصدیق مکمل نہ ہو سکی۔ برائے مہربانی دوبارہ کوشش کریں۔',
+  fr: 'Le contrôle de sécurité a échoué. Veuillez réessayer.',
+  es: 'Falló el desafío de seguridad. Por favor, inténtelo de nuevo.',
+  de: 'Sicherheitsüberprüfung fehlgeschlagen. Bitte erneut versuchen.',
+  tr: 'Güvenlik doğrulaması başarısız oldu. Lütfen tekrar deneyin.',
+  hi: 'सुरक्षा सत्यापन विफल रहा। कृपया पुन: प्रयास करें।',
+};
 
 export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetProps>(
   ({ onSuccess, onVerify, onExpire, onError, locale = 'en', theme = 'auto', className = '' }, ref) => {
@@ -92,21 +119,13 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
             },
             'expired-callback': () => {
               if (!isMounted) return;
-              setStatusMessage(
-                locale === 'ar'
-                  ? 'انتهت صلاحية رمز التحقق الأمني. يرجى إعادة التحقق.'
-                  : 'Security check expired. Please verify again.'
-              );
+              setStatusMessage(EXPIRED_MESSAGES[locale as Locale] || EXPIRED_MESSAGES.en);
               onExpire?.();
               resetWidget();
             },
             'error-callback': (err: any) => {
               if (!isMounted) return;
-              setStatusMessage(
-                locale === 'ar'
-                  ? 'تعذر إكمال التحقق الأمني. يرجى المحاولة مرة أخرى.'
-                  : 'Security challenge failed. Please try again.'
-              );
+              setStatusMessage(ERROR_MESSAGES[locale as Locale] || ERROR_MESSAGES.en);
               onError?.(err);
               resetWidget();
             },

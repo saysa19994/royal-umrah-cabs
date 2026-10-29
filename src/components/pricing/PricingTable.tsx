@@ -608,6 +608,20 @@ const CITY_SUBTITLES: Record<string, Record<Locale, string>> = {
   },
 };
 
+
+const TOLLS_INCLUDED_MAP: Record<Locale, string> = {
+  ar: 'شامل الرسوم وضريبة القيمة المضافة',
+  en: 'All tolls included',
+  ms: 'Semua tol disertakan',
+  id: 'Semua tol sudah termasuk',
+  ur: 'تمام ٹول ٹیکس شامل ہیں',
+  fr: 'Tous les péages inclus',
+  es: 'Todos los peajes incluidos',
+  de: 'Alle Mautgebühren inbegriffen',
+  tr: 'Tüm otoyol ücretleri dahil',
+  hi: 'सभी टोल शुल्क शामिल हैं',
+};
+
 export function PricingTable({
   locale,
   dict,
@@ -1120,7 +1134,7 @@ export function PricingTable({
 
                   <div className="pt-2 border-t border-white/5 flex items-center justify-between gap-2">
                     <span className="text-[10px] text-slate-400">
-                      {isAr ? 'شامل الرسوم وضريبة القيمة المضافة' : 'All tolls included'}
+                      (TOLLS_INCLUDED_MAP[locale] || TOLLS_INCLUDED_MAP.en)
                     </span>
                     <Link
                       href={`/${locale}/booking?route=${row.id}`}

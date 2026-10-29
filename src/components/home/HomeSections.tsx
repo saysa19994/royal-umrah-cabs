@@ -46,6 +46,189 @@ interface HomeSectionsProps {
   settings: SiteSettings;
 }
 
+
+const WHY_US_8_ITEMS: Record<
+  Locale,
+  Array<{ title: string; desc: string }>
+> = {
+  ar: [
+    { title: 'مرخصون ومؤمنون', desc: 'سائقون مرخصون ومركبات مؤمنة في كل رحلة لضمان أمانكم واطمئنانكم.' },
+    { title: 'تتبع آلي لرحلات الطيران', desc: 'نتابع طائرتك بالرادار الملاحي لنتواجد في الموعد تماماً، تقدمت أو تأخرت.' },
+    { title: 'استقبال مجاني بالمطار', desc: 'سائقك ينتظرك بلوحة باسمك مع 60 دقيقة انتظار مجانية بعد الهبوط.' },
+    { title: 'سعر ثابت وشامل', desc: 'السعر المعلن يشمل الوقود، رسوم الطرق، والضرائب دون أية رسوم خفية.' },
+    { title: 'توقف مجاني بالميقات', desc: 'توقف في ميقات ذو الحليفة (آبار علي) للإحرام والصلاة دون أي رسوم إضافية.' },
+    { title: 'سيارات خاصة وحديثة', desc: 'سيارات فخمة ومكيفة مخصصة لك ولعائلتك بالكامل لضمان أقصى درجات الخصوصية.' },
+    { title: 'الدفع نقدًا بعد انتهاء الرحلة', desc: 'لا نطلب أية دفعة مقدمة؛ الدفع نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل (ريال سعودي أو دولار أمريكي).' },
+    { title: 'دعم على مدار الساعة', desc: 'تواصلوا مع فريقنا عبر واتساب في أي وقت ليلاً أو نهاراً لتلبية كافة متطلباتكم.' },
+  ],
+  en: [
+    { title: 'Licensed & Insured', desc: 'Licensed professional chauffeurs and fully insured vehicles on every journey for your peace of mind.' },
+    { title: 'Live Flight Radar Tracking', desc: 'We track your flight via live radar to arrive right on schedule, whether early or delayed.' },
+    { title: 'Free Airport Meet & Greet', desc: 'Your chauffeur greets you with a personalized name board with 60 minutes of complimentary wait time.' },
+    { title: 'Fixed All-Inclusive Price', desc: 'The quoted fare covers fuel, expressway tolls, and taxes with zero hidden fees.' },
+    { title: 'Complimentary Miqat Stop', desc: 'Free stopover at Dhul Hulayfah (Bir Ali Miqat) for Ihram and prayer with zero extra surcharge.' },
+    { title: 'Modern Private Vehicles', desc: 'Air-conditioned luxury vehicles dedicated entirely to your family for maximum privacy and comfort.' },
+    { title: 'Cash Paid to Driver After Journey Completion', desc: 'Zero upfront deposit required. Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD).' },
+    { title: '24/7 Dedicated Support', desc: 'Connect with our dispatch team on WhatsApp at any time, day or night, for all your inquiries.' },
+  ],
+  ms: [
+    { title: 'Berlesen & Diinsuranskan', desc: 'Pemandu profesional berlesen dan kenderaan diinsuranskan sepenuhnya dalam setiap perjalanan.' },
+    { title: 'Penjejakan Radar Penerbangan Langsung', desc: 'Kami menjejaki penerbangan anda melalui radar langsung untuk tiba tepat pada masanya.' },
+    { title: 'Sambutan Lapangan Terbang Percuma', desc: 'Pemandu menyambut anda dengan papan tanda nama berserta 60 minit masa menunggu percuma.' },
+    { title: 'Harga Tetap Termasuk Semua', desc: 'Tambang yang dinyatakan merangkumi bahan api, tol lebuh raya, dan cukai tanpa caj tersembunyi.' },
+    { title: 'Singgah Miqat Percuma', desc: 'Persinggahan percuma di Miqat Dzul Hulaifah (Bir Ali) untuk niat Ihram dan solat tanpa bayaran tambahan.' },
+    { title: 'Kenderaan Persendirian Moden', desc: 'Kenderaan mewah berhawa dingin dikhaskan sepenuhnya untuk keluarga anda demi privasi maksimum.' },
+    { title: 'Bayaran Tunai Selepas Perjalanan Selesai', desc: 'Tiada bayaran pendahuluan diperlukan. Bayaran tunai kepada pemandu selepas perjalanan selesai dan tiba di destinasi (SAR / USD).' },
+    { title: 'Sokongan 24/7 Tanpa Henti', desc: 'Hubungi pasukan operasi kami di WhatsApp pada bila-bila masa, siang atau malam.' },
+  ],
+  id: [
+    { title: 'Resmi & Berasuransi', desc: 'Pengemudi berlisensi dan armada berasuransi penuh di setiap perjalanan demi ketenangan ibadah Anda.' },
+    { title: 'Pelacakan Radar Pesawat Langsung', desc: 'Kami melacak penerbangan Anda via radar langsung untuk hadir tepat waktu, baik lebih awal maupun tertunda.' },
+    { title: 'Penyambutan Bandara Gratis', desc: 'Sopir menyambut dengan papan nama dan 60 menit waktu tunggu gratis setelah mendarat.' },
+    { title: 'Tarif Pasti Tanpa Biaya Tersembunyi', desc: 'Tarif mencakup bbm, tol jalan raya, dan pajak tanpa biaya tersembunyi apa pun.' },
+    { title: 'Singgah Miqat Gratis', desc: 'Persinggahan di Miqat Dzul Hulaifah (Bir Ali) untuk Ihram dan shalat tanpa biaya tambahan.' },
+    { title: 'Armada Privat Modern', desc: 'Kenderaan mewah ber-AC khusus untuk Anda dan keluarga demi kenyamanan dan privasi penuh.' },
+    { title: 'Pembayaran Tunai Setelah Perjalanan Selesai', desc: 'Tanpa uang muka atau deposit. Pembayaran tunai kepada pengemudi setelah perjalanan selesai dan tiba di tujuan (SAR / USD).' },
+    { title: 'Layanan Siaga 24/7', desc: 'Hubungi tim kami di WhatsApp kapan saja, siang maupun malam, untuk segala kebutuhan Anda.' },
+  ],
+  ur: [
+    { title: 'مستند اور بیمہ شدہ', desc: 'ہر سفر میں مستند شافر اور مکمل انشورڈ گاڑیاں آپ کے ذہنی سکون کی ضامن ہیں۔' },
+    { title: 'فلائٹ ریڈار ٹریکنگ', desc: 'ہم لائیو ریڈار کے ذریعے پرواز کی نگرانی کرتے ہیں تاکہ وقت پر پہنچ سکیں، چاہے پرواز جلد ہو یا تاخیر سے۔' },
+    { title: 'ائیرپورٹ پر مفت استقبال', desc: 'شافر آپ کے نام کے بورڈ اور لینڈنگ کے بعد 60 منٹ مفت انتظار کے ساتھ استقبال کرتا ہے۔' },
+    { title: 'مکمل فکسڈ کرایہ', desc: 'طے شدہ کرایہ میں پیٹرول، ٹول ٹیکس اور تمام چارجز شامل ہیں، کوئی پوشیدہ فیس نہیں۔' },
+    { title: 'میقات پر اعزازی قیام', desc: 'احرام اور نماز کے لیے میقات ذو الحلیفہ (بئر علی) پر بغیر کسی اضافی چارجز کے توقف۔' },
+    { title: 'جدید اور نجی گاڑیاں', desc: 'مکمل پرائیویسی اور آرام دہ سفر کے لیے آپ اور آپ کے خاندان کے لیے مخصوص لگژری گاڑیاں۔' },
+    { title: 'سفر مکمل ہونے پر نقد ادائیگی', desc: 'کوئی پیشگی ادائیگی ضروری نہیں۔ سفر مکمل ہونے اور منزل پر پہنچنے کے بعد ڈرائیور کو نقد ادائیگی (سعودی ریال یا امریکی ڈالر)۔' },
+    { title: '24/7 چوبیس گھنٹے سپورٹ', desc: 'اپنی تمام تر ضروریات کے لیے واٹس ایپ پر کسی بھی وقت ہماری ٹیم سے رابطہ کریں۔' },
+  ],
+  fr: [
+    { title: 'Agréé & Assuré', desc: 'Chauffeurs professionnels agréés et véhicules assurés sur chaque trajet pour votre sérénité.' },
+    { title: 'Suivi des Vols par Radar', desc: 'Nous suivons votre vol en direct par radar pour être présents à l’heure exacte, en avance ou en retard.' },
+    { title: 'Accueil Gratuit à l’Aéroport', desc: 'Votre chauffeur vous attend avec une pancarte à votre nom et 60 minutes d’attente gratuite.' },
+    { title: 'Tarif Fixe Tout Compris', desc: 'Le tarif annoncé comprend le carburant, les péages et les taxes sans aucun frais caché.' },
+    { title: 'Arrêt Gratuit au Miqat', desc: 'Arrêt offert au Miqat Dhul Hulayfah (Bir Ali) pour l’Ihram et la prière sans aucun supplément.' },
+    { title: 'Véhicules Privés et Modernes', desc: 'Véhicules de luxe climatisés réservés exclusivement à votre famille pour une totale intimité.' },
+    { title: 'Paiement en Espèces en Fin de Trajet', desc: 'Aucun acompte requis. Paiement en espèces au chauffeur après l’achèvement du trajet et l’arrivée à destination (SAR ou USD).' },
+    { title: 'Assistance Dédiée 24/7', desc: 'Contactez notre équipe de coordination sur WhatsApp à toute heure, jour et nuit.' },
+  ],
+  es: [
+    { title: 'Autorizado y Asegurado', desc: 'Chóferes profesionales certificados y vehículos asegurados en cada trayecto para su tranquilidad.' },
+    { title: 'Rastreo de Vuelos en Tiempo Real', desc: 'Monitoreamos su vuelo vía radar en vivo para recibirle puntualmente, llegue antes o con retraso.' },
+    { title: 'Recepción Gratuita en Aeropuerto', desc: 'Su chófer le espera con cartel con su nombre y 60 minutos de espera de cortesía tras aterrizar.' },
+    { title: 'Tarifa Fija Todo Incluido', desc: 'El precio confirmado incluye combustible, peajes y tasas sin ningún cargo oculto.' },
+    { title: 'Parada de Cortesía en Miqat', desc: 'Parada sin costo en Dhul Hulayfah (Bir Ali Miqat) para el Ihram y la oración sin recargos.' },
+    { title: 'Vehículos Privados y Modernos', desc: 'Flota de lujo con aire acondicionado dedicada por completo a su familia para máxima privacidad.' },
+    { title: 'Pago en Efectivo al Finalizar el Viaje', desc: 'Sin pagos por adelantado. Pago en efectivo al conductor una vez finalizado el viaje y llegado al destino (SAR o USD).' },
+    { title: 'Atención Continua 24/7', desc: 'Comuníquese con nosotros por WhatsApp en cualquier momento del día o de la noche.' },
+  ],
+  de: [
+    { title: 'Lizenziert & Versichert', desc: 'Zertifizierte VIP-Chauffeure und vollkaskoversicherte Fahrzeuge für Ihre unbeschwerte Reise.' },
+    { title: 'Echtzeit-Flugradar-Tracking', desc: 'Wir verfolgen Ihren Flug live via Radar und sind pünktlich vor Ort, egal ob verfrüht oder verspätet.' },
+    { title: 'Kostenlose Flughafen-Begrüßung', desc: 'Ihr Chauffeur erwartet Sie mit Namensschild und 60 Minuten kostenloser Wartezeit ab Landung.' },
+    { title: 'Garantierter All-Inclusive-Festpreis', desc: 'Der angegebene Festpreis deckt Kraftstoff, Autobahnmaut und Steuern ohne versteckte Kosten ab.' },
+    { title: 'Kostenfreier Miqat-Halt', desc: 'Kostenloser Zwischenstopp am Miqat Dhul Hulayfah (Bir Ali) für Ihram und Gebet ohne Aufpreis.' },
+    { title: 'Moderne VIP-Privatfahrzeuge', desc: 'Klimatisierte Luxusfahrzeuge exklusiv für Ihre Familie für maximale Privatsphäre und Ruhe.' },
+    { title: 'Barzahlung nach Fahrtende', desc: 'Keine Vorauszahlung erforderlich. Barzahlung an den Fahrer nach Beendigung der Fahrt und Ankunft am Zielort (SAR oder USD).' },
+    { title: '24/7 Rund-um-die-Uhr Support', desc: 'Erreichen Sie unser Dispositionsteam per WhatsApp jederzeit, Tag und Nacht.' },
+  ],
+  tr: [
+    { title: 'Lisanslı ve Sigortalı', desc: 'Huzurunuz için her yolculukta lisanslı şoförler ve tam kaskolu özel araçlar.' },
+    { title: 'Canlı Uçuş Radarı Takibi', desc: 'Uçağınızı canlı radar ile takip ediyor, erken veya rötarlı inişlerde tam vaktinde karşılıyoruz.' },
+    { title: 'Ücretsiz Havalimanı Karşılama', desc: 'Şoförünüz sizi isminizin yazılı olduğu pano ile karşılar ve 60 dakika ücretsiz bekleme sunulur.' },
+    { title: 'Her Şey Dahil Sabit Fiyat', desc: 'Belirtilen ücret yakıt, otoyol geçişleri ve vergileri kapsar; hiçbir gizli ücret yoktur.' },
+    { title: 'Ücretsiz Mikat Durağı', desc: 'İhram ve namaz için Zülhuleyfe (Bir Ali) Mikatında ek ücret alınmaksızın bekleme ve mola.' },
+    { title: 'Modern Özel Araçlar', desc: 'Maksimum konfor ve mahremiyet için ailenize tahsis edilmiş klimalı lüks araçlar.' },
+    { title: 'Yolculuk Sonunda Nakit Ödeme', desc: 'Ön ödeme veya depozito gerekmez. Yolculuk tamamlandıktan ve varış noktasına ulaştıktan sonra şoföre nakit ödeme (SAR veya USD).' },
+    { title: '7/24 Kesintisiz Destek', desc: 'Tüm sorularınız ve koordinasyon için ekibimize gece gündüz WhatsApp üzerinden ulaşabilirsiniz.' },
+  ],
+  hi: [
+    { title: 'लाइसेंस प्राप्त और बीमाकृत', desc: 'आपकी मन की शांति के लिए हर यात्रा पर लाइसेंस प्राप्त पेशेवर ड्राइवर और पूरी तरह से बीमाकृत वाहन।' },
+    { title: 'लाइव उड़ान रडार ट्रैकिंग', desc: 'हम रडार के माध्यम से आपकी उड़ान को ट्रैक करते हैं ताकि समय पर उपस्थित रह सकें, चाहे जल्दी हो या देर।' },
+    { title: 'हवाई अड्डे पर निःशुल्क स्वागत', desc: 'आपका ड्राइवर आपके नाम के बोर्ड और लैंडिंग के बाद 60 मिनट की मुफ्त प्रतीक्षा के साथ स्वागत करता है।' },
+    { title: 'निश्चित सर्वसमावेशी मूल्य', desc: 'उद्धृत किराया ईंधन, टोल टैक्स और करों को बिना किसी छिपे शुल्क के कवर करता है।' },
+    { title: 'निःशुल्क मीक़ात ठहराव', desc: 'एहराम और नमाज़ के लिए धुल हुलैफ़ाह (बीर अली मीक़ात) पर बिना किसी अतिरिक्त शुल्क के ठहराव।' },
+    { title: 'आधुनिक निजी वाहन', desc: 'पूर्ण गोपनीयता और आराम के लिए आपके परिवार को पूरी तरह समर्पित वातानुकूलित लक्जरी वाहन।' },
+    { title: 'यात्रा पूरी होने पर नकद भुगतान', desc: 'किसी अग्रिम भुगतान की आवश्यकता नहीं। यात्रा पूरी होने और गंतव्य पर पहुंचने के बाद ड्राइवर को नकद भुगतान (SAR या USD)।' },
+    { title: '24/7 समर्पित सहायता', desc: 'अपनी सभी पूछताछ के लिए दिन या रात किसी भी समय व्हाट्सएप पर हमारी टीम से संपर्क करें।' },
+  ],
+};
+
+const FINAL_CTA_I18N: Record<
+  Locale,
+  { badge: string; title: string; desc: string; btnBook: string; btnWa: string }
+> = {
+  ar: {
+    badge: 'احجز بثقة تامة',
+    title: 'جاهز لرحلة عمرة ميسرة ومريحة؟',
+    desc: 'احجز سيارتك الخاصة الآن بسعر ثابت وبدون أي دفعة مقدمة؛ الدفع نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل.',
+    btnBook: 'احجز رحلتك الآن',
+    btnWa: 'محادثة وتأكيد واتساب',
+  },
+  en: {
+    badge: 'Book with Confidence',
+    title: 'Ready for a Peaceful & Dignified Umrah?',
+    desc: 'Reserve your private chauffeur with zero advance deposit, guaranteed fixed rates. Cash paid to the driver after the journey is completed and the customer reaches the requested destination.',
+    btnBook: 'Book Your Chauffeur',
+    btnWa: 'Book on WhatsApp',
+  },
+  ms: {
+    badge: 'Tempah dengan Penuh Keyakinan',
+    title: 'Bersedia untuk Perjalanan Umrah yang Tenang?',
+    desc: 'Tempah pemandu peribadi anda tanpa bayaran pendahuluan dan kadar tetap dijamin. Bayaran tunai kepada pemandu selepas perjalanan selesai dan tiba di destinasi.',
+    btnBook: 'Tempah Perjalanan Anda',
+    btnWa: 'Tempah di WhatsApp',
+  },
+  id: {
+    badge: 'Pesan dengan Penuh Keyakinan',
+    title: 'Siap untuk Perjalanan Umrah yang Nyaman & Tenang?',
+    desc: 'Pesan armada privat Anda tanpa deposit dan tarif pasti terjamin. Pembayaran tunai kepada pengemudi setelah perjalanan selesai dan tiba di tujuan.',
+    btnBook: 'Pesan Perjalanan Sekarang',
+    btnWa: 'Pesan via WhatsApp',
+  },
+  ur: {
+    badge: 'مکمل اعتماد کے ساتھ بک کریں',
+    title: 'کیا آپ پرسکون اور باوقار عمرہ سفر کے لیے تیار ہیں؟',
+    desc: 'بغیر کسی پیشگی ادائیگی کے اور ضمانت شدہ کرایوں پر اپنی گاڑی بک کریں۔ سفر مکمل ہونے اور منزل پر پہنچنے کے بعد ڈرائیور کو نقد ادائیگی۔',
+    btnBook: 'ابھی سفر بک کریں',
+    btnWa: 'واٹس ایپ پر بکنگ',
+  },
+  fr: {
+    badge: 'Réservez en Toute Sérénité',
+    title: 'Prêt pour une Omra Paisible et Confortable ?',
+    desc: 'Réservez votre chauffeur privé sans aucun acompte et au tarif fixe garanti. Paiement en espèces au chauffeur après l’achèvement du trajet et l’arrivée à destination.',
+    btnBook: 'Réserver Votre Chauffeur',
+    btnWa: 'Réserver sur WhatsApp',
+  },
+  es: {
+    badge: 'Reserve con Plena Confianza',
+    title: '¿Listo para una Umrah Cómoda y Espiritual?',
+    desc: 'Reserve su chófer privado sin adelanto alguno y con tarifas fijas garantizadas. Pago en efectivo al conductor una vez finalizado el viaje y llegado al destino.',
+    btnBook: 'Reserve su Chófer Ahora',
+    btnWa: 'Reservar por WhatsApp',
+  },
+  de: {
+    badge: 'Mit vollem Vertrauen buchen',
+    title: 'Bereit für eine friedvolle und würdevolle Umrah?',
+    desc: 'Buchen Sie Ihren privaten Chauffeur ohne Vorauszahlung zu garantierten Festpreisen. Barzahlung an den Fahrer nach Beendigung der Fahrt und Ankunft am Zielort.',
+    btnBook: 'Jetzt Chauffeur Buchen',
+    btnWa: 'Per WhatsApp Buchen',
+  },
+  tr: {
+    badge: 'Güvenle Rezervasyon Yapın',
+    title: 'Huzurlu ve Konforlu Bir Umre Yolculuğuna Hazır mısınız?',
+    desc: 'Ön ödemesiz ve garantili sabit fiyatlarla özel aracınızı ayırtın. Yolculuk tamamlandıktan ve varış noktasına ulaştıktan sonra şoföre nakit ödeme.',
+    btnBook: 'Aracınızı Şimdi Ayırtın',
+    btnWa: 'WhatsApp ile Rezervasyon',
+  },
+  hi: {
+    badge: 'पूरे विश्वास के साथ बुक करें',
+    title: 'क्या आप एक शांतिपूर्ण और सम्मानित उमरा यात्रा के लिए तैयार हैं?',
+    desc: 'बिना किसी अग्रिम भुगतान और गारंटीकृत निश्चित दरों के साथ अपने निजी ड्राइवर को बुक करें। यात्रा पूरी होने और गंतव्य पर पहुंचने के बाद ड्राइवर को नकद भुगतान।',
+    btnBook: 'अपनी यात्रा अभी बुक करें',
+    btnWa: 'व्हाट्सएप पर बुक करें',
+  },
+};
+
 export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
   // Verified vehicle fleet specifications integrity:
   // Staria: seats: 7, bags: 6,
@@ -53,6 +236,8 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
   // Camry: seats: 4, bags: 3,
   // HiAce: seats: 10, bags: 10,
   const { formatPrice } = useCurrency();
+  const whyUsItems = WHY_US_8_ITEMS[locale] || WHY_US_8_ITEMS.en;
+  const finalCta = FINAL_CTA_I18N[locale] || FINAL_CTA_I18N.en;
 
   // Section 5: Popular Umrah Routes (Harmain Scenic Cards from Screenshots 6, 7, 9, 10)
   const POPULAR_ROUTES = [
@@ -170,7 +355,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
-              {locale === 'ar' ? 'احجز رحلتك في 3 خطوات بسيطة' : 'Book your ride in 3 simple steps'}
+              {dict.steps.heading} {dict.steps.headingHighlight}
             </h2>
             <p className="mt-3 text-base md:text-lg text-gray-500 leading-relaxed font-normal">
               {locale === 'ar'
@@ -192,10 +377,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 </svg>
               </div>
               <span className="text-sm font-bold tracking-wider text-[#df9e38] uppercase mb-2">
-                {locale === 'ar' ? 'الخطوة 1' : 'STEP 1'}
+                {dict.steps.step1Title}
               </span>
               <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3">
-                {locale === 'ar' ? 'حدد المسار وموعد الوصول' : 'Enter your trip'}
+                {dict.steps.step1Title}
               </h3>
               <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-6 flex-1">
                 {locale === 'ar'
@@ -220,10 +405,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 </svg>
               </div>
               <span className="text-sm font-bold tracking-wider text-[#df9e38] uppercase mb-2">
-                {locale === 'ar' ? 'الخطوة 2' : 'STEP 2'}
+                {dict.steps.step2Title}
               </span>
               <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3">
-                {locale === 'ar' ? 'اختر السيارة الفاخرة المناسبة' : 'Choose your vehicle'}
+                {dict.steps.step2Title}
               </h3>
               <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-6 flex-1">
                 {locale === 'ar'
@@ -249,10 +434,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 </svg>
               </div>
               <span className="text-sm font-bold tracking-wider text-[#df9e38] uppercase mb-2">
-                {locale === 'ar' ? 'الخطوة 3' : 'STEP 3'}
+                {dict.steps.step3Title}
               </span>
               <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3">
-                {locale === 'ar' ? 'تأكيد فوري والدفع عند الوصول' : 'Get your confirmation'}
+                {dict.steps.step3Title}
               </h3>
               <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-6 flex-1">
                 {locale === 'ar'
@@ -261,7 +446,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               </p>
               <div className="w-full pt-4 border-t border-gray-100 text-xs text-emerald-600 font-semibold flex items-center justify-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
-                <span>{locale === 'ar' ? 'دفع آمن 100% عند الوصول' : '100% Pay On Arrival Safe'}</span>
+                <span>{dict.steps.noPrepayNotice}</span>
               </div>
             </div>
           </div>
@@ -272,7 +457,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               href={`/${locale}/booking`}
               className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#df9e38] hover:bg-[#c9892c] active:scale-[0.98] text-gray-950 font-bold text-sm md:text-base tracking-wide shadow-[0_4px_16px_rgba(223,158,56,0.35)] hover:shadow-[0_6px_22px_rgba(223,158,56,0.45)] transition-all duration-200 cursor-pointer"
             >
-              <span>{locale === 'ar' ? 'احجز رحلتك الآن' : 'Book your ride now'}</span>
+              <span>{dict.steps.ctaButton}</span>
               <ArrowRight className="w-4 h-4 rtl:rotate-180 transition-transform" />
             </Link>
           </div>
@@ -428,12 +613,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 </svg>
               </div>
               <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {locale === 'ar' ? 'مرخصون ومؤمنون' : 'Licensed & Insured'}
+                {whyUsItems[0].title}
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {locale === 'ar'
-                  ? 'سائقون مرخصون ومركبات مؤمنة في كل رحلة لضمان أمانكم.'
-                  : 'Licensed chauffeurs and fully insured vehicles on every journey for your peace of mind.'}
+                {whyUsItems[0].desc}
               </p>
             </div>
 
@@ -445,12 +628,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 </svg>
               </div>
               <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {locale === 'ar' ? 'تتبع آلي لرحلات الطيران' : 'Live Flight Radar Tracking'}
+                {whyUsItems[1].title}
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {locale === 'ar'
-                  ? 'نتابع طائرتك بالرادار الملاحي لنتواجد في الموعد تماماً، تقدمت أو تأخرت.'
-                  : 'We track your flight via live radar to arrive right on time, whether early or delayed.'}
+                {whyUsItems[1].desc}
               </p>
             </div>
 
@@ -463,12 +644,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 </svg>
               </div>
               <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {locale === 'ar' ? 'استقبال مجاني بالمطار' : 'Free Airport Meet & Greet'}
+                {whyUsItems[2].title}
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {locale === 'ar'
-                  ? 'سائقك ينتظرك بلوحة باسمك مع 60 دقيقة انتظار مجانية بعد الهبوط.'
-                  : 'Your chauffeur greets you with a personalized name board with 60 minutes of free waiting time.'}
+                {whyUsItems[2].desc}
               </p>
             </div>
 
@@ -481,12 +660,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 </svg>
               </div>
               <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {locale === 'ar' ? 'سعر ثابت وشامل' : 'Fixed All-Inclusive Price'}
+                {whyUsItems[3].title}
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {locale === 'ar'
-                  ? 'السعر المعلن يشمل الوقود، رسوم الطرق، والضرائب. لا توجد أي رسوم خفية.'
-                  : 'The quoted fare covers fuel, highway toll charges, and taxes with zero hidden fees.'}
+                {whyUsItems[3].desc}
               </p>
             </div>
 
@@ -498,12 +675,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 </svg>
               </div>
               <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {locale === 'ar' ? 'توقف مجاني بالميقات' : 'Complimentary Miqat Stop'}
+                {whyUsItems[4].title}
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {locale === 'ar'
-                  ? 'توقف مجاني في ميقات ذو الحليفة (آبار علي) للإحرام والصلاة دون أي رسوم إضافية.'
-                  : 'Free stopover at Dhul Hulayfah (Bir Ali Miqat) for Ihram and prayer with zero extra surcharge.'}
+                {whyUsItems[4].desc}
               </p>
             </div>
 
@@ -518,12 +693,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 </svg>
               </div>
               <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {locale === 'ar' ? 'سيارات خاصة وحديثة' : 'Modern Private Vehicles'}
+                {whyUsItems[5].title}
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {locale === 'ar'
-                  ? 'سيارات فخمة ومكيفة مخصصة لك ولعائلتك بالكامل لضمان أقصى درجات الخصوصية.'
-                  : 'Air-conditioned luxury vehicles dedicated entirely to your family for maximum privacy.'}
+                {whyUsItems[5].desc}
               </p>
             </div>
 
@@ -537,12 +710,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 </svg>
               </div>
               <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {locale === 'ar' ? 'دفع آمن عند الوصول' : 'Safe Pay on Arrival'}
+                {whyUsItems[6].title}
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {locale === 'ar'
-                  ? 'لا نطلب أي دفع مسبق؛ ادفع لسائقك نقداً عند الوصول سالماً.'
-                  : 'No advance payment needed; pay your chauffeur in cash upon safe arrival (SAR or USD).'}
+                {whyUsItems[6].desc}
               </p>
             </div>
 
@@ -555,12 +726,10 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
                 </svg>
               </div>
               <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {locale === 'ar' ? 'دعم على مدار الساعة' : '24/7 Dedicated Support'}
+                {whyUsItems[7].title}
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {locale === 'ar'
-                  ? 'تواصلوا مع فريقنا عبر واتساب في أي وقت ليلاً أو نهاراً لتلبية احتياجاتكم.'
-                  : 'Connect with our team on WhatsApp at any time, day or night, for all your requests.'}
+                {whyUsItems[7].desc}
               </p>
             </div>
           </div>
@@ -585,11 +754,11 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/40 text-xs font-bold text-gold uppercase tracking-widest mb-4">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>{locale === 'ar' ? 'احجز بثقة تامة' : 'Book with Confidence'}</span>
+            <span>{finalCta.badge}</span>
           </div>
 
           <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-white mb-4">
-            {locale === 'ar' ? 'جاهز لرحلة عمرة ميسرة ومريحة؟' : 'Ready for a Peaceful & Dignified Umrah?'}
+            {finalCta.title}
           </h2>
 
           <p className="text-sm sm:text-base text-white/80 max-w-2xl mx-auto mb-8 font-light leading-relaxed">
@@ -603,7 +772,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               href={`/${locale}/booking`}
               className="inline-flex items-center justify-center gap-2 min-h-[48px] px-8 py-3.5 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-gold"
             >
-              <span>{locale === 'ar' ? 'احجز رحلتك الآن' : 'Book Your Chauffeur'}</span>
+              <span>{finalCta.btnBook}</span>
               <ArrowRight className="w-4 h-4 rtl:rotate-180" />
             </Link>
             <a
@@ -613,7 +782,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
               className="inline-flex items-center justify-center gap-2 min-h-[48px] px-7 py-3.5 rounded-btn bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>{locale === 'ar' ? 'محادثة وتأكيد واتساب' : 'Book on WhatsApp'}</span>
+              <span>{finalCta.btnWa}</span>
             </a>
           </div>
         </div>

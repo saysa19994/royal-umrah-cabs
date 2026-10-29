@@ -16,6 +16,20 @@ interface HeaderProps {
   settings?: SiteSettings;
 }
 
+
+const HEADER_I18N: Record<Locale, { blog: string; bookOnline: string }> = {
+  ar: { blog: 'المدونة', bookOnline: 'احجز أونلاين' },
+  en: { blog: 'Blog', bookOnline: 'Book Online' },
+  ms: { blog: 'Blog', bookOnline: 'Tempah Dalam Talian' },
+  id: { blog: 'Blog', bookOnline: 'Pesan Online' },
+  ur: { blog: 'بلاگ', bookOnline: 'آن لائن بک کریں' },
+  fr: { blog: 'Blog', bookOnline: 'Réserver en Ligne' },
+  es: { blog: 'Blog', bookOnline: 'Reservar Online' },
+  de: { blog: 'Blog', bookOnline: 'Online Buchen' },
+  tr: { blog: 'Blog', bookOnline: 'Online Rezervasyon' },
+  hi: { blog: 'ब्लॉग', bookOnline: 'ऑनलाइन बुक करें' },
+};
+
 export function Header({ locale, dict, settings }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -74,7 +88,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
     { href: `/${locale}/services`, label: dict.nav.services },
     { href: `/${locale}/fleet`, label: dict.nav.fleet },
     { href: `/${locale}/pricing`, label: dict.nav.pricing },
-    { href: `/${locale}/blog`, label: locale === 'ar' ? 'المدونة' : 'Blog' },
+    { href: `/${locale}/blog`, label: (HEADER_I18N[locale] || HEADER_I18N.en).blog },
     { href: `/${locale}/guides`, label: dict.nav.guides },
     { href: `/${locale}/about`, label: dict.nav.about },
     { href: `/${locale}/contact`, label: dict.nav.contact },
@@ -181,7 +195,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
             href={`/${locale}/booking`}
             className="hidden sm:inline-flex items-center gap-1.5 h-9 sm:h-10 px-4 text-xs font-bold uppercase tracking-wider rounded-[8px] bg-gold text-[#0A1224] hover:bg-[#E8C766] hover:text-[#0A1224] hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(212,175,55,0.45)] active:translate-y-0 transition-all shadow-[0_2px_14px_rgba(212,175,55,0.35)] focus-visible:ring-2 focus-visible:ring-gold"
           >
-            <span>{locale === 'ar' ? 'احجز أونلاين' : 'Book Online'}</span>
+            <span>{(HEADER_I18N[locale] || HEADER_I18N.en).bookOnline}</span>
             <ArrowUpRight className="w-3.5 h-3.5 rtl:rotate-[-90deg]" />
           </Link>
 
@@ -268,7 +282,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
               className="w-full min-h-[48px] rounded-[8px] bg-gold text-[#0A1224] font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(212,175,55,0.4)] hover:bg-[#E8C766] transition-colors"
             >
               <CalendarDays className="w-4 h-4" />
-              <span>{locale === 'ar' ? 'احجز أونلاين' : 'Book Online'}</span>
+              <span>{(HEADER_I18N[locale] || HEADER_I18N.en).bookOnline}</span>
             </Link>
 
             <div className="flex items-center justify-between text-xs text-white/60 px-1 pt-1">

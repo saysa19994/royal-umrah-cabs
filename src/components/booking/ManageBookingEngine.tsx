@@ -14,6 +14,50 @@ interface ManageBookingEngineProps {
   dict: Dictionary;
 }
 
+
+const MANAGE_I18N: Record<Locale, { enterRefPhone: string; confirmCancelSecurity: string }> = {
+  ar: {
+    enterRefPhone: 'يرجى إدخال رقم الحجز ورقم الهاتف وإكمال التحقق الأمني.',
+    confirmCancelSecurity: 'يرجى إكمال التحقق الأمني لتأكيد الإلغاء.',
+  },
+  en: {
+    enterRefPhone: 'Please enter booking reference, phone number, and complete security verification.',
+    confirmCancelSecurity: 'Please complete security verification to confirm cancellation.',
+  },
+  ms: {
+    enterRefPhone: 'Sila masukkan rujukan tempahan, nombor telefon, dan lengkapkan pengesahan keselamatan.',
+    confirmCancelSecurity: 'Sila lengkapkan pengesahan keselamatan untuk mengesahkan pembatalan.',
+  },
+  id: {
+    enterRefPhone: 'Silakan masukkan referensi pemesanan, nomor telepon, dan selesaikan verifikasi keamanan.',
+    confirmCancelSecurity: 'Silakan selesaikan verifikasi keamanan untuk mengonfirmasi pembatalan.',
+  },
+  ur: {
+    enterRefPhone: 'برائے مہربانی بکنگ کا حوالہ، فون نمبر درج کریں اور سیکیورٹی تصدیق مکمل کریں۔',
+    confirmCancelSecurity: 'منسوخی کی تصدیق کے لیے برائے مہربانی سیکیورٹی تصدیق مکمل کریں۔',
+  },
+  fr: {
+    enterRefPhone: 'Veuillez saisir la référence de réservation, le numéro de téléphone et effectuer le contrôle de sécurité.',
+    confirmCancelSecurity: 'Veuillez effectuer le contrôle de sécurité pour confirmer l\'annulation.',
+  },
+  es: {
+    enterRefPhone: 'Por favor, introduzca la referencia de reserva, el teléfono y complete la verificación de seguridad.',
+    confirmCancelSecurity: 'Por favor, complete la verificación de seguridad para confirmar la cancelación.',
+  },
+  de: {
+    enterRefPhone: 'Bitte Buchungsnummer und Telefonnummer eingeben sowie die Sicherheitsprüfung abschließen.',
+    confirmCancelSecurity: 'Bitte die Sicherheitsüberprüfung abschließen, um die Stornierung zu bestätigen.',
+  },
+  tr: {
+    enterRefPhone: 'Lütfen rezervasyon kodunu, telefon numarasını girin ve güvenlik doğrulamasını tamamlayın.',
+    confirmCancelSecurity: 'İptali onaylamak için lütfen güvenlik doğrulamasını tamamlayın.',
+  },
+  hi: {
+    enterRefPhone: 'कृपया बुकिंग संदर्भ, फोन नंबर दर्ज करें और सुरक्षा सत्यापन पूरा करें।',
+    confirmCancelSecurity: 'रद्दीकरण की पुष्टि के लिए कृपया सुरक्षा सत्यापन पूरा करें।',
+  },
+};
+
 export function ManageBookingEngine({ locale, dict }: ManageBookingEngineProps) {
   const searchParams = useSearchParams();
   const initialRef = searchParams.get('ref') || '';
@@ -31,11 +75,7 @@ export function ManageBookingEngine({ locale, dict }: ManageBookingEngineProps) 
 
   const fetchBooking = async (refVal: string, phoneVal: string) => {
     if (!refVal || !phoneVal || !turnstileToken) {
-      setError(
-        locale === 'ar'
-          ? 'يرجى إدخال رقم الحجز ورقم الهاتف وإكمال التحقق الأمني.'
-          : 'Please enter booking reference, phone number, and complete security verification.'
-      );
+      setError(MANAGE_I18N[locale]?.enterRefPhone || MANAGE_I18N.en.enterRefPhone);
       return;
     }
     setLoading(true);
@@ -73,11 +113,7 @@ export function ManageBookingEngine({ locale, dict }: ManageBookingEngineProps) 
 
   const handleCancel = async () => {
     if (!booking || !phone || !turnstileToken) {
-      setError(
-        locale === 'ar'
-          ? 'يرجى إكمال التحقق الأمني لتأكيد الإلغاء.'
-          : 'Please complete security verification to confirm cancellation.'
-      );
+      setError(MANAGE_I18N[locale]?.confirmCancelSecurity || MANAGE_I18N.en.confirmCancelSecurity);
       return;
     }
     setCancelling(true);

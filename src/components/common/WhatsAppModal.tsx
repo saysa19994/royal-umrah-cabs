@@ -12,6 +12,165 @@ interface WhatsAppModalProps {
   source: 'booking_card' | 'booking_engine' | 'floating_ui' | 'contact_form' | 'header' | 'hero_cta';
 }
 
+const MODAL_I18N: Record<
+  Locale,
+  {
+    close: string;
+    modalTitle: string;
+    modalSubtitle: string;
+    primaryTag: string;
+    primaryTitle: string;
+    primaryDesc: string;
+    secondaryTag: string;
+    secondaryTitle: string;
+    secondaryDesc: string;
+    connectAction: string;
+    trustOfficial: string;
+    trust247: string;
+  }
+> = {
+  ar: {
+    close: 'إغلاق',
+    modalTitle: 'محادثة مباشرة عبر واتساب',
+    modalSubtitle: 'اختر خط الاتصال المناسب للتواصل الفوري مع الفريق:',
+    primaryTag: 'الخط الأساسي • حجز فوري',
+    primaryTitle: 'إدارة حجوزات وسائقي VIP',
+    primaryDesc: 'تأكيد الحجز الفوري، تنسيق السيارات، وتعيين السائق الخاص',
+    secondaryTag: 'خط المساندة • خدمة 24/7',
+    secondaryTitle: 'خدمة العملاء ومتابعة الرحلات',
+    secondaryDesc: 'متابعة مواعيد رحلات الطيران، استفسارات المطار والمزارات',
+    connectAction: 'فتح المحادثة الفورية',
+    trustOfficial: 'خصوصية كاملة وأسعار معتمدة',
+    trust247: 'خدمة على مدار 24 ساعة',
+  },
+  en: {
+    close: 'Close',
+    modalTitle: 'Direct WhatsApp Concierge',
+    modalSubtitle: 'Select your preferred line for immediate private assistance:',
+    primaryTag: 'Primary Line • Instant Booking',
+    primaryTitle: 'VIP Chauffeur & Dispatch',
+    primaryDesc: 'Instant booking confirmation, luxury vehicle dispatch & chauffeur assignment',
+    secondaryTag: 'Secondary Line • 24/7 Support',
+    secondaryTitle: 'Customer Care & Flight Support',
+    secondaryDesc: 'Live flight tracking, airport meeting point assistance & general inquiries',
+    connectAction: 'Connect on WhatsApp',
+    trustOfficial: '100% Private & Official Rates',
+    trust247: '24/7 Availability',
+  },
+  ms: {
+    close: 'Tutup',
+    modalTitle: 'Bantuan Langsung WhatsApp VIP',
+    modalSubtitle: 'Pilih talian pilihan anda untuk bantuan peribadi segera:',
+    primaryTag: 'Talian Utama • Tempahan Segera',
+    primaryTitle: 'Pemandu & Penghantaran VIP',
+    primaryDesc: 'Pengesahan tempahan segera, penghantaran armada mewah & penetapan pemandu peribadi',
+    secondaryTag: 'Talian Sokongan • Bantuan 24/7',
+    secondaryTitle: 'Khidmat Pelanggan & Sokongan Penerbangan',
+    secondaryDesc: 'Penjejakan penerbangan langsung, bantuan titik pertemuan lapangan terbang & pertanyaan umum',
+    connectAction: 'Buka WhatsApp Segera',
+    trustOfficial: 'Privasi Penuh & Kadar Rasmi',
+    trust247: 'Ketersediaan 24/7',
+  },
+  id: {
+    close: 'Tutup',
+    modalTitle: 'Layanan Langsung WhatsApp VIP',
+    modalSubtitle: 'Pilih jalur komunikasi untuk bantuan privat segera:',
+    primaryTag: 'Jalur Utama • Pemesanan Cepat',
+    primaryTitle: 'Pengemudi & Pengiriman VIP',
+    primaryDesc: 'Konfirmasi pemesanan instan, koordinasi armada mewah & penetapan sopir privat',
+    secondaryTag: 'Jalur Dukungan • Layanan 24/7',
+    secondaryTitle: 'Layanan Tamu & Dukungan Penerbangan',
+    secondaryDesc: 'Pelacakan penerbangan langsung, titik temu bandara & panduan ziarah',
+    connectAction: 'Mulai Chat WhatsApp',
+    trustOfficial: '100% Privat & Tarif Resmi',
+    trust247: 'Layanan 24/7 Non-stop',
+  },
+  ur: {
+    close: 'بند کریں',
+    modalTitle: 'براہ راست واٹس ایپ سروس',
+    modalSubtitle: 'فوری اور نجی معاونت کے لیے اپنی پسندیدہ لائن منتخب کریں:',
+    primaryTag: 'پرائمری لائن • فوری بکنگ',
+    primaryTitle: 'وی آئی پی شافر اور ڈسپیچ',
+    primaryDesc: 'فوری بکنگ تصدیق، لگژری گاڑیوں کی فراہمی اور پرائیویٹ شافر کی تعیناتی',
+    secondaryTag: 'سپورٹ لائن • 24/7 سروس',
+    secondaryTitle: 'کسٹمر کیئر اور پروازوں کی نگرانی',
+    secondaryDesc: 'براہ راست پروازوں کی نگرانی، ائیرپورٹ پر ملاقات اور زیارات کی رہنمائی',
+    connectAction: 'فوری واٹس ایپ کھولیں',
+    trustOfficial: 'مکمل رازداری اور مستند کرائے',
+    trust247: '24/7 چوبیس گھنٹے دستیابی',
+  },
+  fr: {
+    close: 'Fermer',
+    modalTitle: 'Conciergerie WhatsApp Directe',
+    modalSubtitle: 'Sélectionnez votre ligne pour une assistance privée immédiate :',
+    primaryTag: 'Ligne Principale • Réservation Immédiate',
+    primaryTitle: 'Chauffeur VIP et Régulation',
+    primaryDesc: 'Confirmation immédiate, affectation de véhicule de prestige et chauffeur privé',
+    secondaryTag: 'Ligne d’Assistance • Support 24/7',
+    secondaryTitle: 'Service Client & Suivi des Vols',
+    secondaryDesc: 'Suivi de vol en direct, accueil à l’aéroport et assistance pèlerinage',
+    connectAction: 'Ouvrir sur WhatsApp',
+    trustOfficial: '100% Privé & Tarifs Officiels',
+    trust247: 'Disponibilité 24h/24 et 7j/7',
+  },
+  es: {
+    close: 'Cerrar',
+    modalTitle: 'Conserjería Directa por WhatsApp',
+    modalSubtitle: 'Seleccione su línea preferida para asistencia privada inmediata:',
+    primaryTag: 'Línea Principal • Reserva Inmediata',
+    primaryTitle: 'Chófer VIP y Asignación',
+    primaryDesc: 'Confirmación instantánea de reserva, asignación de vehículo de lujo y chófer privado',
+    secondaryTag: 'Línea de Soporte • Atención 24/7',
+    secondaryTitle: 'Atención al Cliente y Rastreo de Vuelos',
+    secondaryDesc: 'Seguimiento de vuelos en tiempo real, punto de encuentro en aeropuerto y consultas',
+    connectAction: 'Conectar por WhatsApp',
+    trustOfficial: '100% Privado y Tarifas Oficiales',
+    trust247: 'Disponibilidad 24/7',
+  },
+  de: {
+    close: 'Schließen',
+    modalTitle: 'Direkter WhatsApp-Concierge',
+    modalSubtitle: 'Wählen Sie Ihre bevorzugte Rufnummer für sofortige persönliche Betreuung:',
+    primaryTag: 'Hauptlinie • Sofortbuchung',
+    primaryTitle: 'VIP-Chauffeur & Disposition',
+    primaryDesc: 'Sofortige Buchungsbestätigung, VIP-Fahrzeugbereitstellung und Chauffeur-Zuweisung',
+    secondaryTag: 'Support-Linie • 24/7 Betreuung',
+    secondaryTitle: 'Kundenservice & Flugverfolgung',
+    secondaryDesc: 'Live-Flugverfolgung, Treffpunkt-Koordination am Flughafen & allgemeine Auskünfte',
+    connectAction: 'WhatsApp Chat starten',
+    trustOfficial: '100% Privat & Offizielle Tarife',
+    trust247: '24/7 Erreichbarkeit',
+  },
+  tr: {
+    close: 'Kapat',
+    modalTitle: 'Doğrudan WhatsApp İletişimi',
+    modalSubtitle: 'Anında özel destek için tercih ettiğiniz hattı seçin:',
+    primaryTag: 'Ana Hat • Anında Rezervasyon',
+    primaryTitle: 'VIP Şoför ve Koordinasyon',
+    primaryDesc: 'Anında rezervasyon onayı, lüks araç tahsisi ve özel şoför yönlendirme',
+    secondaryTag: 'Destek Hattı • 7/24 Hizmet',
+    secondaryTitle: 'Müşteri Hizmetleri ve Uçuş Takibi',
+    secondaryDesc: 'Canlı uçuş takibi, havalimanı karşılama noktası yardımı ve genel danışmanlık',
+    connectAction: 'WhatsApp ile Bağlan',
+    trustOfficial: '%100 Özel & Resmi Tarifeler',
+    trust247: '7/24 Kesintisiz Hizmet',
+  },
+  hi: {
+    close: 'बंद करें',
+    modalTitle: 'सीधी व्हाट्सएप दरबान सेवा',
+    modalSubtitle: 'तत्काल निजी सहायता के लिए अपनी पसंदीदा लाइन चुनें:',
+    primaryTag: 'प्राथमिक लाइन • त्वरित बुकिंग',
+    primaryTitle: 'वीआईपी ड्राइवर और प्रेषण',
+    primaryDesc: 'त्वरित बुकिंग पुष्टि, लक्जरी वाहन प्रेषण और निजी ड्राइवर आवंटन',
+    secondaryTag: 'सहायता लाइन • 24/7 सेवा',
+    secondaryTitle: 'ग्राहक सेवा और उड़ान सहायता',
+    secondaryDesc: 'लाइव उड़ान ट्रैकिंग, हवाई अड्डा मीटिंग पॉइंट सहायता और सामान्य पूछताछ',
+    connectAction: 'व्हाट्सएप पर चैट शुरू करें',
+    trustOfficial: '100% निजी और आधिकारिक दरें',
+    trust247: '24/7 चौबीसों घंटे उपलब्धता',
+  },
+};
+
 export function WhatsAppModal({ isOpen, onClose, locale, source }: WhatsAppModalProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -25,49 +184,42 @@ export function WhatsAppModal({ isOpen, onClose, locale, source }: WhatsAppModal
 
   if (!isOpen) return null;
 
+  const t = MODAL_I18N[locale] || MODAL_I18N.en;
+
   const numbers = [
     {
       id: 'primary',
       number: '966567588261',
       formatted: '+966 56 758 8261',
-      tag: locale === 'ar' ? 'الخط الأساسي • حجز فوري' : 'Primary Line • Instant Booking',
-      title: locale === 'ar' ? 'إدارة حجوزات وسائقي VIP' : 'VIP Chauffeur & Dispatch',
-      desc:
-        locale === 'ar'
-          ? 'تأكيد الحجز الفوري، تنسيق السيارات، وتعيين السائق الخاص'
-          : 'Instant booking confirmation, luxury vehicle dispatch & chauffeur assignment',
+      tag: t.primaryTag,
+      title: t.primaryTitle,
+      desc: t.primaryDesc,
       isPrimary: true,
     },
     {
       id: 'secondary',
       number: '966505316971',
       formatted: '+966 50 531 6971',
-      tag: locale === 'ar' ? 'خط المساندة • خدمة 24/7' : 'Secondary Line • 24/7 Support',
-      title: locale === 'ar' ? 'خدمة العملاء ومتابعة الرحلات' : 'Customer Care & Flight Support',
-      desc:
-        locale === 'ar'
-          ? 'متابعة مواعيد رحلات الطيران، استفسارات المطار والمزارات'
-          : 'Live flight tracking, airport meeting point assistance & general inquiries',
+      tag: t.secondaryTag,
+      title: t.secondaryTitle,
+      desc: t.secondaryDesc,
       isPrimary: false,
     },
   ];
 
   const handleSelectNumber = async (num: string, lineId: string) => {
-    // 1. Log analytics event with chosen number
     trackEvent({
       event: 'whatsapp_handoff_initiated',
       source,
       assigned_number: num,
     });
 
-    // 2. Prepare localized pre-filled message with high-entropy reference
     const greeting = LOCALE_CONFIG[locale]?.whatsappGreeting || LOCALE_CONFIG.en.whatsappGreeting;
     const randomHex = Math.random().toString(36).substring(2, 7).toUpperCase();
     const refCode = lineId === 'secondary' ? `REF-B-${randomHex}` : `REF-A-${randomHex}`;
     const fullMessage = `${greeting} [${refCode}]`;
     const targetUrl = `https://wa.me/${num}?text=${encodeURIComponent(fullMessage)}`;
 
-    // 3. Asynchronously record lead to backend
     try {
       fetch('/api/leads', {
         method: 'POST',
@@ -88,7 +240,6 @@ export function WhatsAppModal({ isOpen, onClose, locale, source }: WhatsAppModal
       // Non-blocking
     }
 
-    // 4. Open WhatsApp and close modal
     window.open(targetUrl, '_blank', 'noopener,noreferrer');
     onClose();
   };
@@ -109,7 +260,7 @@ export function WhatsAppModal({ isOpen, onClose, locale, source }: WhatsAppModal
         <button
           type="button"
           onClick={onClose}
-          aria-label={locale === 'ar' ? 'إغلاق' : 'Close'}
+          aria-label={t.close}
           className="absolute top-4 right-4 rtl:right-auto rtl:left-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white flex items-center justify-center transition-colors focus-visible:ring-2 focus-visible:ring-gold"
         >
           <X className="w-5 h-5" />
@@ -122,12 +273,10 @@ export function WhatsAppModal({ isOpen, onClose, locale, source }: WhatsAppModal
           </div>
           <div>
             <h3 id="whatsapp-modal-title" className="text-lg sm:text-xl font-bold font-display text-white">
-              {locale === 'ar' ? 'محادثة مباشرة عبر واتساب' : 'Direct WhatsApp Concierge'}
+              {t.modalTitle}
             </h3>
             <p className="text-xs text-mutedText mt-0.5">
-              {locale === 'ar'
-                ? 'اختر خط الاتصال المناسب للتواصل الفوري مع الفريق:'
-                : 'Select your preferred line for immediate private assistance:'}
+              {t.modalSubtitle}
             </p>
           </div>
         </div>
@@ -161,7 +310,7 @@ export function WhatsAppModal({ isOpen, onClose, locale, source }: WhatsAppModal
               <div className="pt-2 mt-1 border-t border-white/10 flex items-center justify-between text-xs font-semibold text-[#25d366]">
                 <span className="flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-[#25d366] animate-pulse" />
-                  {locale === 'ar' ? 'فتح المحادثة الفورية' : 'Connect on WhatsApp'}
+                  {t.connectAction}
                 </span>
                 <span className="text-white/60 text-[11px]">Duyuf Alrahman VIP</span>
               </div>
@@ -173,11 +322,11 @@ export function WhatsAppModal({ isOpen, onClose, locale, source }: WhatsAppModal
         <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-between text-[11px] text-white/70">
           <span className="flex items-center gap-1.5">
             <ShieldCheck className="w-3.5 h-3.5 text-gold" />
-            {locale === 'ar' ? 'خصوصية كاملة وأسعار معتمدة' : '100% Private & Official Rates'}
+            {t.trustOfficial}
           </span>
           <span className="flex items-center gap-1.5">
             <Headphones className="w-3.5 h-3.5 text-gold" />
-            {locale === 'ar' ? 'خدمة على مدار 24 ساعة' : '24/7 Availability'}
+            {t.trust247}
           </span>
         </div>
       </div>

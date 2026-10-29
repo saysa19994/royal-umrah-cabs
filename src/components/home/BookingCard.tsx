@@ -250,8 +250,367 @@ const FLEET_OPTIONS: FleetOption[] = [
   },
 ];
 
+
+const BC_I18N: Record<
+  Locale,
+  {
+    step1Error: string;
+    pillTitle: string;
+    pillSub: string;
+    step1Tab: string;
+    step2Tab: string;
+    step3Tab: string;
+    popularRoutes: string;
+    flightLabel: string;
+    flightOptional: string;
+    continueVehicles: string;
+    editTrip: string;
+    selectedBadge: string;
+    overCapacityWarning: string;
+    fixedFareLabel: string;
+    btnSelected: string;
+    btnSelect: string;
+    backToStep1: string;
+    continueToStep3: string;
+    summaryTitle: string;
+    payNotice: string;
+    tollsNotice: string;
+    passengerNameLabel: string;
+    passengerNamePlaceholder: string;
+    whatsappLabel: string;
+    specialRequestsLabel: string;
+    specialRequestsPlaceholder: string;
+    backToVehicles: string;
+    continueWa: string;
+    popupNotice: string;
+    openWaNow: string;
+  }
+> = {
+  ar: {
+    step1Error: 'يرجى اختيار تاريخ وموعد الرحلة للمتابعة',
+    pillTitle: 'حاسبة الأسعار وحجز الرحلة الفوري',
+    pillSub: 'ثلاث خطوات يسيرة: أدخل تفاصيل الرحلة • اختر السيارة والسعر الثابت • أكد حجزك مع السائق فوراً',
+    step1Tab: '1. تفاصيل الرحلة',
+    step2Tab: '2. اختيار السيارة والسعر',
+    step3Tab: '3. تأكيد الحجز',
+    popularRoutes: 'المسارات الشائعة السريعة:',
+    flightLabel: 'رقم الرحلة الجوية (تتبع المطار)',
+    flightOptional: 'اختياري',
+    continueVehicles: 'متابعة لاختيار السيارة وعرض الأسعار',
+    editTrip: 'تعديل الرحلة',
+    selectedBadge: 'الخيار المحدد',
+    overCapacityWarning: 'تنبيه: يتجاوز عدد الركاب/الحقائب المختار سعة هذه السيارة.',
+    fixedFareLabel: 'السعر الثابت شامل الضريبة',
+    btnSelected: 'تم الاختيار',
+    btnSelect: 'اختيار',
+    backToStep1: 'الرجوع لتعديل الرحلة',
+    continueToStep3: 'متابعة لتفاصيل المسافر والتأكيد',
+    summaryTitle: 'ملخص الرحلة المعتمد',
+    payNotice: 'الدفع نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل 100%',
+    tollsNotice: 'شامل رسوم الطرق السريعة ومواقف المطار والوقود • إلغاء مجاني',
+    passengerNameLabel: 'اسم المسافر / المتواصل',
+    passengerNamePlaceholder: 'الاسم بالكامل',
+    whatsappLabel: 'رقم الواتساب مع مفتاح الدولة',
+    specialRequestsLabel: 'ملاحظات خاصة (مقعد طفل، مساعدة حقائب، إلخ)',
+    specialRequestsPlaceholder: 'أي متطلبات إضافية لرحلتك...',
+    backToVehicles: 'الرجوع لاختيار سيارة أخرى',
+    continueWa: 'تأكيد الحجز عبر واتساب',
+    popupNotice: 'تم تجهيز بيانات حجزك بنجاح؛ انقر للمتابعة عبر واتساب مباشرة:',
+    openWaNow: 'فتح محادثة واتساب الآن',
+  },
+  en: {
+    step1Error: 'Please select your pickup date to view available vehicles',
+    pillTitle: 'Instant Booking & Fixed-Fare Calculator',
+    pillSub: '3 simple steps: enter trip details, choose your vehicle & fare, and confirm on WhatsApp.',
+    step1Tab: '1. Enter Trip',
+    step2Tab: '2. Select Vehicle & Fare',
+    step3Tab: '3. Customer & Confirm',
+    popularRoutes: 'Popular Routes:',
+    flightLabel: 'Flight Number (Delay Tracking)',
+    flightOptional: 'Optional',
+    continueVehicles: 'Continue to Vehicles & Fares',
+    editTrip: 'Edit Trip',
+    selectedBadge: 'Selected',
+    overCapacityWarning: "Note: Your group or bag count exceeds this car's recommended capacity.",
+    fixedFareLabel: 'Fixed Total Fare',
+    btnSelected: 'Selected',
+    btnSelect: 'Select',
+    backToStep1: 'Back to Trip Details',
+    continueToStep3: 'Continue to Booking Details',
+    summaryTitle: 'Confirmed Journey Summary',
+    payNotice: '100% Cash paid to the driver after journey completion and destination reached',
+    tollsNotice: 'Tolls, airport parking & fuel included • Free cancellation',
+    passengerNameLabel: 'Passenger Full Name',
+    passengerNamePlaceholder: 'e.g. Abdullah Rahman',
+    whatsappLabel: 'WhatsApp Number (with country code)',
+    specialRequestsLabel: 'Special Requests (Child seat, luggage assistance, etc.)',
+    specialRequestsPlaceholder: 'Any additional requirements for your pilgrimage...',
+    backToVehicles: 'Back to Vehicles',
+    continueWa: 'Continue on WhatsApp',
+    popupNotice: 'Your booking details are ready; click below to continue on WhatsApp:',
+    openWaNow: 'Open WhatsApp Now',
+  },
+  ms: {
+    step1Error: 'Sila pilih tarikh perjalanan untuk melihat kenderaan yang tersedia',
+    pillTitle: 'Kalkulator Tambang Tetap & Tempahan Segera',
+    pillSub: '3 langkah mudah: masukkan maklumat perjalanan, pilih kenderaan & tambang, dan sahkan di WhatsApp.',
+    step1Tab: '1. Butiran Perjalanan',
+    step2Tab: '2. Pilih Kenderaan & Tambang',
+    step3Tab: '3. Butiran & Pengesahan',
+    popularRoutes: 'Laluan Popular:',
+    flightLabel: 'Nombor Penerbangan (Penjejakan Kelewatan)',
+    flightOptional: 'Pilihan',
+    continueVehicles: 'Teruskan ke Pilihan Kenderaan',
+    editTrip: 'Ubah Perjalanan',
+    selectedBadge: 'Dipilih',
+    overCapacityWarning: 'Perhatian: Jumlah penumpang/bagasi melebihi kapasiti kenderaan ini.',
+    fixedFareLabel: 'Tambang Tetap Termasuk Cukai',
+    btnSelected: 'Dipilih',
+    btnSelect: 'Pilih',
+    backToStep1: 'Kembali ke Butiran Perjalanan',
+    continueToStep3: 'Teruskan ke Butiran Penumpang',
+    summaryTitle: 'Ringkasan Perjalanan Disahkan',
+    payNotice: '100% Bayaran tunai kepada pemandu selepas perjalanan selesai dan tiba di destinasi',
+    tollsNotice: 'Tol lebuh raya, tempat letak kereta lapangan terbang & bahan api termasuk • Pembatalan percuma',
+    passengerNameLabel: 'Nama Penuh Penumpang',
+    passengerNamePlaceholder: 'cth. Muhammad Ali',
+    whatsappLabel: 'Nombor WhatsApp (dengan kod negara)',
+    specialRequestsLabel: 'Permintaan Khas (Kerusi kanak-kanak, bantuan bagasi, dll.)',
+    specialRequestsPlaceholder: 'Sebarang keperluan tambahan untuk perjalanan umrah anda...',
+    backToVehicles: 'Kembali ke Pilihan Kenderaan',
+    continueWa: 'Teruskan di WhatsApp',
+    popupNotice: 'Butiran tempahan anda telah sedia; klik di bawah untuk terus ke WhatsApp:',
+    openWaNow: 'Buka WhatsApp Sekarang',
+  },
+  id: {
+    step1Error: 'Silakan pilih tanggal perjalanan untuk melihat kendaraan yang tersedia',
+    pillTitle: 'Kalkulator Tarif Tetap & Pemesanan Instan',
+    pillSub: '3 langkah mudah: isi rute, pilih armada & tarif pasti, konfirmasi via WhatsApp.',
+    step1Tab: '1. Detail Perjalanan',
+    step2Tab: '2. Pilih Mobil & Tarif',
+    step3Tab: '3. Konfirmasi Pemesanan',
+    popularRoutes: 'Rute Populer:',
+    flightLabel: 'Nomor Penerbangan (Pelacakan Keterlambatan)',
+    flightOptional: 'Opsional',
+    continueVehicles: 'Lanjut ke Pilihan Kendaraan',
+    editTrip: 'Ubah Rute',
+    selectedBadge: 'Terpilih',
+    overCapacityWarning: 'Perhatian: Jumlah penumpang/koper melebihi kapasitas mobil ini.',
+    fixedFareLabel: 'Tarif Total Termasuk Pajak',
+    btnSelected: 'Terpilih',
+    btnSelect: 'Pilih',
+    backToStep1: 'Kembali ke Detail Perjalanan',
+    continueToStep3: 'Lanjut ke Data Penumpang',
+    summaryTitle: 'Ringkasan Perjalanan Resmi',
+    payNotice: '100% Pembayaran tunai kepada pengemudi setelah perjalanan selesai dan tiba di tujuan',
+    tollsNotice: 'Tol jalan raya, parkir bandara & bbm sudah termasuk • Pembatalan gratis',
+    passengerNameLabel: 'Nama Lengkap Penumpang',
+    passengerNamePlaceholder: 'cth. Ahmad Fauzi',
+    whatsappLabel: 'Nomor WhatsApp (dengan kode negara)',
+    specialRequestsLabel: 'Permintaan Khusus (Kursi bayi, bantuan koper, dll.)',
+    specialRequestsPlaceholder: 'Kebutuhan tambahan untuk perjalanan ziarah/umrah Anda...',
+    backToVehicles: 'Kembali ke Pilihan Mobil',
+    continueWa: 'Konfirmasi via WhatsApp',
+    popupNotice: 'Detail pemesanan Anda sudah siap; klik tombol di bawah untuk lanjut ke WhatsApp:',
+    openWaNow: 'Buka WhatsApp Sekarang',
+  },
+  ur: {
+    step1Error: 'دستیاب گاڑیاں دیکھنے کے لیے برائے مہربانی سفر کی تاریخ منتخب کریں',
+    pillTitle: 'فوری کرایہ کیلکولیٹر اور بکنگ',
+    pillSub: 'تین آسان مراحل: سفر کی تفصیلات درج کریں • گاڑی اور متعین کرایہ منتخب کریں • واٹس ایپ پر تصدیق کریں',
+    step1Tab: '1. سفر کی تفصیلات',
+    step2Tab: '2. گاڑی اور کرایہ',
+    step3Tab: '3. بکنگ تصدیق',
+    popularRoutes: 'مشہور روٹس:',
+    flightLabel: 'پرواز نمبر (فلائٹ ٹریکنگ)',
+    flightOptional: 'اختیاری',
+    continueVehicles: 'گاڑیوں اور کرایوں کا انتخاب',
+    editTrip: 'سفر میں تبدیلی',
+    selectedBadge: 'منتخب کردہ',
+    overCapacityWarning: 'توجہ فرمائیں: مسافروں یا سامان کی تعداد اس گاڑی کی گنجائش سے زیادہ ہے۔',
+    fixedFareLabel: 'مکمل متعین کرایہ بشمول ٹیکس',
+    btnSelected: 'منتخب شدہ',
+    btnSelect: 'منتخب کریں',
+    backToStep1: 'سفر کی تفصیلات پر واپس',
+    continueToStep3: 'مسافر کی تفصیلات اور تصدیق',
+    summaryTitle: 'تصدیق شدہ سفر کا خلاصہ',
+    payNotice: '100% سفر مکمل ہونے اور منزل پر پہنچنے کے بعد ڈرائیور کو نقد ادائیگی',
+    tollsNotice: 'ٹول ٹیکس، ائیرپورٹ پارکنگ اور فیول شامل ہے • مفت منسوخی',
+    passengerNameLabel: 'مسافر کا مکمل نام',
+    passengerNamePlaceholder: 'مثلاً عبداللہ رحمن',
+    whatsappLabel: 'واٹس ایپ نمبر (ملکی کوڈ کے ساتھ)',
+    specialRequestsLabel: 'خصوصی درخواستیں (چائلڈ سیٹ، سامان میں مدد وغیرہ)',
+    specialRequestsPlaceholder: 'اپنے عمرہ سفر کے لیے کوئی اضافی تقاضے...',
+    backToVehicles: 'گاڑیوں کے انتخاب پر واپس',
+    continueWa: 'واٹس ایپ پر تصدیق کریں',
+    popupNotice: 'آپ کی بکنگ کی تفصیلات تیار ہیں، واٹس ایپ پر جاری رکھنے کے لیے نیچے کلک کریں:',
+    openWaNow: 'ابھی واٹس ایپ کھولیں',
+  },
+  fr: {
+    step1Error: 'Veuillez sélectionner votre date pour voir les véhicules disponibles',
+    pillTitle: 'Calculateur de Tarif Fixe & Réservation Immédiate',
+    pillSub: '3 étapes simples : saisissez le trajet, choisissez votre véhicule et confirmez sur WhatsApp.',
+    step1Tab: '1. Trajet',
+    step2Tab: '2. Véhicule & Tarif',
+    step3Tab: '3. Confirmation',
+    popularRoutes: 'Itinéraires Populaires :',
+    flightLabel: 'Numéro de Vol (Suivi des Retards)',
+    flightOptional: 'Facultatif',
+    continueVehicles: 'Continuer vers les Véhicules',
+    editTrip: 'Modifier le Trajet',
+    selectedBadge: 'Sélectionné',
+    overCapacityWarning: 'Attention : le nombre de passagers ou bagages dépasse la capacité recommandée.',
+    fixedFareLabel: 'Tarif Fixe Tout Inclus',
+    btnSelected: 'Sélectionné',
+    btnSelect: 'Sélectionner',
+    backToStep1: 'Retour aux Détails',
+    continueToStep3: 'Continuer vers la Confirmation',
+    summaryTitle: 'Récapitulatif de Trajet Confirmé',
+    payNotice: '100% Paiement en espèces au chauffeur après l\'achèvement du trajet et l\'arrivée à destination',
+    tollsNotice: 'Péages, parking aéroport et carburant inclus • Annulation gratuite',
+    passengerNameLabel: 'Nom Complet du Passager',
+    passengerNamePlaceholder: 'ex. Jean Dupont',
+    whatsappLabel: 'Numéro WhatsApp (avec indicatif pays)',
+    specialRequestsLabel: 'Demandes Spéciales (Siège enfant, aide bagages...)',
+    specialRequestsPlaceholder: 'Précisions supplémentaires pour votre pèlerinage...',
+    backToVehicles: 'Retour aux Véhicules',
+    continueWa: 'Continuer sur WhatsApp',
+    popupNotice: 'Vos coordonnées sont prêtes ; cliquez ci-dessous pour ouvrir WhatsApp :',
+    openWaNow: 'Ouvrir WhatsApp',
+  },
+  es: {
+    step1Error: 'Por favor seleccione la fecha de viaje para ver los vehículos disponibles',
+    pillTitle: 'Calculadora de Tarifa Fija y Reserva Inmediata',
+    pillSub: '3 sencillos pasos: ingrese el viaje, elija vehículo y tarifa, y confirme por WhatsApp.',
+    step1Tab: '1. Detalles del Viaje',
+    step2Tab: '2. Vehículo y Tarifa',
+    step3Tab: '3. Confirmar Reserva',
+    popularRoutes: 'Rutas Populares:',
+    flightLabel: 'Número de Vuelo (Seguimiento de Retrasos)',
+    flightOptional: 'Opcional',
+    continueVehicles: 'Continuar a Vehículos y Tarifas',
+    editTrip: 'Editar Viaje',
+    selectedBadge: 'Seleccionado',
+    overCapacityWarning: 'Atención: El número de pasajeros o maletas supera la capacidad recomendada.',
+    fixedFareLabel: 'Tarifa Fija Todo Incluido',
+    btnSelected: 'Seleccionado',
+    btnSelect: 'Seleccionar',
+    backToStep1: 'Volver a Detalles del Viaje',
+    continueToStep3: 'Continuar a Datos del Pasajero',
+    summaryTitle: 'Resumen de Viaje Confirmado',
+    payNotice: '100% Pago en efectivo al conductor una vez finalizado el viaje y llegado al destino',
+    tollsNotice: 'Peajes, estacionamiento de aeropuerto y combustible incluidos • Cancelación gratuita',
+    passengerNameLabel: 'Nombre Completo del Pasajero',
+    passengerNamePlaceholder: 'ej. Carlos Mendoza',
+    whatsappLabel: 'Número de WhatsApp (con código de país)',
+    specialRequestsLabel: 'Peticiones Especiales (Silla de bebé, asistencia con maletas...)',
+    specialRequestsPlaceholder: 'Requisitos adicionales para su peregrinación...',
+    backToVehicles: 'Volver a Vehículos',
+    continueWa: 'Continuar por WhatsApp',
+    popupNotice: 'Sus datos de reserva están listos; haga clic abajo para continuar en WhatsApp:',
+    openWaNow: 'Abrir WhatsApp Ahora',
+  },
+  de: {
+    step1Error: 'Bitte wählen Sie das Abholdatum, um verfügbare Fahrzeuge anzuzeigen',
+    pillTitle: 'Festpreis-Rechner & Sofortbuchung',
+    pillSub: '3 einfache Schritte: Reisedetails eingeben, Fahrzeug wählen & per WhatsApp bestätigen.',
+    step1Tab: '1. Reisedetails',
+    step2Tab: '2. Fahrzeug & Tarif',
+    step3Tab: '3. Buchung Bestätigen',
+    popularRoutes: 'Beliebte Routen:',
+    flightLabel: 'Flugnummer (Verspätungs-Tracking)',
+    flightOptional: 'Optional',
+    continueVehicles: 'Weiter zu Fahrzeugen & Tarifen',
+    editTrip: 'Fahrt Bearbeiten',
+    selectedBadge: 'Ausgewählt',
+    overCapacityWarning: 'Hinweis: Ihre Gruppen- oder Gepäckgröße übersteigt die empfohlene Kapazität.',
+    fixedFareLabel: 'Fester Gesamtpreis inkl. Steuern',
+    btnSelected: 'Ausgewählt',
+    btnSelect: 'Auswählen',
+    backToStep1: 'Zurück zu den Reisedetails',
+    continueToStep3: 'Weiter zu den Passagierdaten',
+    summaryTitle: 'Bestätigte Fahrtübersicht',
+    payNotice: '100% Barzahlung an den Fahrer nach Beendigung der Fahrt und Ankunft am Zielort',
+    tollsNotice: 'Mautgebühren, Flughafenparkgebühren & Kraftstoff inbegriffen • Kostenlose Stornierung',
+    passengerNameLabel: 'Vollständiger Name des Passagiers',
+    passengerNamePlaceholder: 'z.B. Thomas Müller',
+    whatsappLabel: 'WhatsApp-Nummer (mit Ländervorwahl)',
+    specialRequestsLabel: 'Besondere Wünsche (Kindersitz, Gepäckhilfe etc.)',
+    specialRequestsPlaceholder: 'Zusätzliche Anforderungen für Ihre Pilgerreise...',
+    backToVehicles: 'Zurück zu den Fahrzeugen',
+    continueWa: 'Weiter auf WhatsApp',
+    popupNotice: 'Ihre Buchungsdaten sind bereit; klicken Sie unten, um direkt auf WhatsApp fortzufahren:',
+    openWaNow: 'Jetzt WhatsApp Öffnen',
+  },
+  tr: {
+    step1Error: 'Müsait araçları görmek için lütfen alış tarihinizi seçin',
+    pillTitle: 'Sabit Fiyat Hesaplayıcı ve Hızlı Rezervasyon',
+    pillSub: '3 kolay adım: seyahat bilgilerini girin, aracı ve sabit fiyatı seçin, WhatsApp ile onaylayın.',
+    step1Tab: '1. Seyahat Detayları',
+    step2Tab: '2. Araç & Fiyat Seçimi',
+    step3Tab: '3. Rezervasyon Onayı',
+    popularRoutes: 'Popüler Güzergahlar:',
+    flightLabel: 'Uçuş Numarası (Rötar Takibi)',
+    flightOptional: 'İsteğe bağlı',
+    continueVehicles: 'Araç Seçimine Devam Et',
+    editTrip: 'Seyahati Düzenle',
+    selectedBadge: 'Seçildi',
+    overCapacityWarning: 'Dikkat: Yolcu veya bagaj sayısı bu aracın kapasitesini aşıyor.',
+    fixedFareLabel: 'Sabit Toplam Ücret (Vergiler Dahil)',
+    btnSelected: 'Seçildi',
+    btnSelect: 'Seç',
+    backToStep1: 'Seyahat Detaylarına Dön',
+    continueToStep3: 'Yolcu Bilgilerine Devam Et',
+    summaryTitle: 'Onaylanmış Seyahat Özeti',
+    payNotice: '100% Yolculuk tamamlandıktan ve varış noktasına ulaştıktan sonra şoföre nakit ödeme',
+    tollsNotice: 'Otoyol ücretleri, havalimanı otoparkı ve yakıt dahil • Ücretsiz iptal',
+    passengerNameLabel: 'Yolcunun Adı ve Soyadı',
+    passengerNamePlaceholder: 'örn. Mehmet Yılmaz',
+    whatsappLabel: 'WhatsApp Numarası (Ülke kodu ile)',
+    specialRequestsLabel: 'Özel İstekler (Çocuk koltuğu, bagaj yardımı vb.)',
+    specialRequestsPlaceholder: 'Umre seyahatiniz için ek talepleriniz...',
+    backToVehicles: 'Araç Seçimine Dön',
+    continueWa: 'WhatsApp ile Devam Et',
+    popupNotice: 'Rezervasyon bilgileriniz hazırlandı; WhatsApp üzerinden devam etmek için tıklayın:',
+    openWaNow: 'Şimdi WhatsApp Aç',
+  },
+  hi: {
+    step1Error: 'उपलब्ध वाहनों को देखने के लिए कृपया पिकअप तिथि चुनें',
+    pillTitle: 'निश्चित किराया कैलकुलेटर और त्वरित बुकिंग',
+    pillSub: '3 आसान चरण: यात्रा विवरण दर्ज करें, वाहन और निश्चित किराया चुनें, व्हाट्सएप पर पुष्टि करें।',
+    step1Tab: '1. यात्रा विवरण',
+    step2Tab: '2. वाहन और किराया',
+    step3Tab: '3. बुकिंग पुष्टि',
+    popularRoutes: 'लोकप्रिय मार्ग:',
+    flightLabel: 'उड़ान संख्या (देरी ट्रैकिंग)',
+    flightOptional: 'वैकल्पिक',
+    continueVehicles: 'वाहनों और किरायों पर जाएं',
+    editTrip: 'यात्रा बदलें',
+    selectedBadge: 'चयनित',
+    overCapacityWarning: 'सूचना: आपके समूह या बैग की संख्या इस कार की अनुशंसित क्षमता से अधिक है।',
+    fixedFareLabel: 'कुल निश्चित किराया (कर सहित)',
+    btnSelected: 'चयनित',
+    btnSelect: 'चुनें',
+    backToStep1: 'यात्रा विवरण पर वापस',
+    continueToStep3: 'यात्री विवरण पर आगे बढ़ें',
+    summaryTitle: 'पुष्ट यात्रा सारांश',
+    payNotice: '100% यात्रा पूरी होने और गंतव्य पर पहुंचने के बाद ड्राइवर को नकद भुगतान',
+    tollsNotice: 'टोल, हवाई अड्डा पार्किंग और ईंधन शामिल • नि:शुल्क रद्दीकरण',
+    passengerNameLabel: 'यात्री का पूरा नाम',
+    passengerNamePlaceholder: 'उदा. मोहम्मद खान',
+    whatsappLabel: 'व्हाट्सएप नंबर (देश कोड सहित)',
+    specialRequestsLabel: 'विशेष अनुरोध (बाल सीट, सामान सहायता आदि)',
+    specialRequestsPlaceholder: 'आपकी तीर्थयात्रा के लिए कोई अतिरिक्त आवश्यकताएं...',
+    backToVehicles: 'वाहनों के चयन पर वापस',
+    continueWa: 'व्हाट्सएप पर जारी रखें',
+    popupNotice: 'आपका बुकिंग विवरण तैयार है; व्हाट्सएप पर सीधे जारी रखने के लिए नीचे क्लिक करें:',
+    openWaNow: 'अब व्हाट्सएप खोलें',
+  },
+};
+
 export function BookingCard({ locale, dict, initialRates, settings }: BookingCardProps) {
   const router = useRouter();
+  const t = BC_I18N[locale] || BC_I18N.en;
   const { currency, setCurrency, formatPrice } = useCurrency();
 
   // Wizard Step: 1 = Trip Details, 2 = Vehicle & Fare Selection, 3 = Confirmation & Contact
@@ -308,11 +667,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
   const handleProceedToVehicles = (e: React.FormEvent) => {
     e.preventDefault();
     if (!date) {
-      setStep1Error(
-        locale === 'ar'
-          ? 'يرجى اختيار تاريخ وموعد الرحلة للمتابعة'
-          : 'Please select your pickup date to view available vehicles'
-      );
+      setStep1Error(t.step1Error);
       return;
     }
     setStep1Error(null);
@@ -396,10 +751,13 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
       const refPrefix = isNumB ? 'REF-B' : 'REF-A';
       const fallbackRef = `${refPrefix}-` + Math.floor(10000 + Math.random() * 90000);
       const formattedPrice = baseSAR ? `${baseSAR} SAR` : 'Quote';
-      const fallbackMsg =
-        locale === 'ar'
-          ? `السلام عليكم، أود حجز سيارة خاصة مع ضيوف الرحمن VIP [${fallbackRef}]:\n• المسار: ${routeText}\n• السيارة: ${vehicleText}\n• التاريخ: ${date || 'اليوم'}\n• الوقت: ${time}\n• رقم الرحلة: ${flightNumber || 'غير محدد'}\n• المسافر: ${customerName || 'غير مسجل'}\n• الركاب: ${passengers} | الأمتعة: ${luggage}\n• السعر الإجمالي: ${formattedPrice} (الدفع عند الوصول 100%)`
-          : `Salam, I would like to reserve private chauffeur transport with Duyuf Alrahman VIP [${fallbackRef}]:\n• Route: ${routeText}\n• Vehicle: ${vehicleText}\n• Date: ${date || 'Today'}\n• Time: ${time}\n• Flight: ${flightNumber || 'TBD'}\n• Passenger: ${customerName || 'Guest'}\n• Pax: ${passengers} | Luggage: ${luggage}\n• Total Fare: ${formattedPrice} (100% Pay on Arrival)`;
+      const isArLocale = locale === 'ar';
+      const paymentRuleNotice = isArLocale
+        ? 'الدفع نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل (ريال سعودي أو دولار أمريكي)'
+        : 'Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD)';
+      const fallbackMsg = isArLocale
+        ? `السلام عليكم، أود حجز سيارة خاصة مع ضيوف الرحمن VIP [${fallbackRef}]:\n• المسار: ${routeText}\n• السيارة: ${vehicleText}\n• التاريخ: ${date || 'اليوم'}\n• الوقت: ${time}\n• رقم الرحلة: ${flightNumber || 'غير محدد'}\n• المسافر: ${customerName || 'غير مسجل'}\n• الركاب: ${passengers} | الأمتعة: ${luggage}\n• السعر الإجمالي: ${formattedPrice}\n• سياسة الدفع: ${paymentRuleNotice}`
+        : `Salam, I would like to reserve private chauffeur transport with Duyuf Alrahman VIP [${fallbackRef}]:\n• Route: ${routeText}\n• Vehicle: ${vehicleText}\n• Date: ${date || 'Today'}\n• Time: ${time}\n• Flight: ${flightNumber || 'TBD'}\n• Passenger: ${customerName || 'Guest'}\n• Pax: ${passengers} | Luggage: ${luggage}\n• Total Fare: ${formattedPrice}\n• Payment Policy: ${paymentRuleNotice}`;
       targetUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(fallbackMsg)}`;
     }
 
@@ -442,16 +800,14 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="text-[11px] font-bold text-gold-dark uppercase tracking-widest bg-gold-soft px-2.5 py-0.5 rounded-full border border-gold-line">
-                {locale === 'ar' ? 'حاسبة الأسعار وحجز الرحلة الفوري' : 'Instant Booking & Fixed-Fare Calculator'}
+                {t.pillTitle}
               </span>
             </div>
             <h2 className="font-display font-bold text-xl sm:text-2xl md:text-3xl text-ink">
               {dict.booking_card.title}
             </h2>
             <p className="text-xs sm:text-sm text-ink-muted mt-0.5 font-light">
-              {locale === 'ar'
-                ? 'ثلاث خطوات يسيرة: أدخل تفاصيل الرحلة • اختر السيارة والسعر الثابت • أكد حجزك مع السائق فوراً'
-                : '3 simple steps: enter trip details, choose your vehicle & fare, and confirm on WhatsApp.'}
+              {t.pillSub}
             </p>
           </div>
 
@@ -495,7 +851,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
               {currentStep > 1 ? '✓' : '1'}
             </span>
             <span className="hidden sm:inline">
-              {locale === 'ar' ? '1. تفاصيل الرحلة' : '1. Enter Trip'}
+              {t.step1Tab}
             </span>
           </button>
 
@@ -519,7 +875,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
               {currentStep > 2 ? '✓' : '2'}
             </span>
             <span className="hidden sm:inline">
-              {locale === 'ar' ? '2. اختيار السيارة والسعر' : '2. Select Vehicle & Fare'}
+              {t.step2Tab}
             </span>
           </button>
 
@@ -543,7 +899,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
               3
             </span>
             <span className="hidden sm:inline">
-              {locale === 'ar' ? '3. تأكيد الحجز' : '3. Customer & Confirm'}
+              {t.step3Tab}
             </span>
           </button>
         </div>
@@ -556,7 +912,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
             {/* POPULAR ROUTE SHORTCUT PILLS */}
             <div className="flex flex-wrap items-center gap-2 pb-2 text-start">
               <span className="text-[11px] font-bold text-ink-muted uppercase tracking-wider">
-                {locale === 'ar' ? 'المسارات الشائعة السريعة:' : 'Popular Routes:'}
+                {t.popularRoutes}
               </span>
               <button
                 type="button"
@@ -567,7 +923,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                     : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
                 }`}
               >
-                {locale === 'ar' ? `مطار جدة ← مكة (${formatPrice(200)})` : `Jeddah KAIA → Makkah (${formatPrice(200)})`}
+                `${ROUTE_LABELS['jeddah-airport-to-makkah']?.[locale] || 'Jeddah KAIA → Makkah'} (${formatPrice(200)})`
               </button>
               <button
                 type="button"
@@ -578,7 +934,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                     : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
                 }`}
               >
-                {locale === 'ar' ? `مكة ← المدينة (${formatPrice(450)})` : `Makkah → Madinah (${formatPrice(450)})`}
+                `${ROUTE_LABELS['makkah-to-madinah']?.[locale] || 'Makkah → Madinah'} (${formatPrice(450)})`
               </button>
               <button
                 type="button"
@@ -589,7 +945,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                     : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
                 }`}
               >
-                {locale === 'ar' ? `مطار المدينة ← الفندق (${formatPrice(150)})` : `Madinah Airport (${formatPrice(150)})`}
+                `${ROUTE_LABELS['madinah-airport-to-hotel']?.[locale] || 'Madinah Airport'} (${formatPrice(150)})`
               </button>
               <button
                 type="button"
@@ -600,7 +956,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                     : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
                 }`}
               >
-                {locale === 'ar' ? `جدة ← المدينة (${formatPrice(680)})` : `Jeddah → Madinah (${formatPrice(680)})`}
+                `${ROUTE_LABELS['jeddah-to-madinah']?.[locale] || 'Jeddah → Madinah'} (${formatPrice(680)})`
               </button>
             </div>
 
@@ -672,13 +1028,13 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
               {/* FLIGHT NUMBER (FOR AIRPORT TRIPS) */}
               <div>
                 <label htmlFor="card-flight-input" className="block text-xs font-bold text-ink mb-1.5">
-                  {locale === 'ar' ? 'رقم الرحلة الجوية (تتبع المطار)' : 'Flight Number (Delay Tracking)'}
+                  {t.flightLabel}
                 </label>
                 <div className="relative">
                   <input
                     id="card-flight-input"
                     type="text"
-                    placeholder={isAirportRoute ? 'e.g. SV 124 / MH 150' : (locale === 'ar' ? 'اختياري' : 'Optional')}
+                    placeholder={isAirportRoute ? 'e.g. SV 124 / MH 150' : t.flightOptional}
                     value={flightNumber}
                     onChange={(e) => setFlightNumber(e.target.value)}
                     className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium hover:border-gold-dark focus:outline-none focus:ring-2 focus:ring-gold"
@@ -763,7 +1119,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                 type="submit"
                 className="w-full sm:w-auto min-h-[48px] h-12 px-8 rounded-btn bg-gold text-slate-950 font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-gold"
               >
-                <span>{locale === 'ar' ? 'متابعة لاختيار السيارة وعرض الأسعار' : 'Continue to Vehicles & Fares'}</span>
+                <span>{t.continueVehicles}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180" />
               </button>
             </div>
@@ -797,7 +1153,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                 className="text-xs font-bold text-gold-dark hover:underline flex items-center gap-1 shrink-0 self-end sm:self-auto"
               >
                 <Edit2 className="w-3 h-3" />
-                <span>{locale === 'ar' ? 'تعديل الرحلة' : 'Edit Trip'}</span>
+                <span>{t.editTrip}</span>
               </button>
             </div>
 
@@ -822,7 +1178,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                     {isSelected && (
                       <div className="absolute top-3 right-3 rtl:right-auto rtl:left-3 bg-gold text-slate-950 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest flex items-center gap-1 shadow-xs">
                         <Check className="w-3 h-3" />
-                        <span>{locale === 'ar' ? 'الخيار المحدد' : 'Selected'}</span>
+                        <span>{t.selectedBadge}</span>
                       </div>
                     )}
 
@@ -874,9 +1230,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                       {/* WARNING IF PASSENGERS EXCEED CAPACITY */}
                       {(isOverPax || isOverBags) && (
                         <p className="text-[11px] text-amber-700 bg-amber-50 p-2 rounded-lg mb-3 font-medium">
-                          {locale === 'ar'
-                            ? `تنبيه: يتجاوز عدد الركاب/الحقائب المختار سعة هذه السيارة.`
-                            : `Note: Your group or bag count exceeds this car's recommended capacity.`}
+                          {t.overCapacityWarning}
                         </p>
                       )}
                     </div>
@@ -885,7 +1239,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                     <div className="pt-3 border-t border-border mt-2 flex items-center justify-between">
                       <div>
                         <span className="text-[10px] text-ink-muted uppercase block">
-                          {locale === 'ar' ? 'السعر الثابت شامل الضريبة' : 'Fixed Total Fare'}
+                          {t.fixedFareLabel}
                         </span>
                         <div className="flex items-baseline gap-1">
                           <span className="font-display font-bold text-xl sm:text-2xl text-ink">
@@ -909,7 +1263,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                             : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
                         }`}
                       >
-                        {isSelected ? (locale === 'ar' ? 'تم الاختيار' : 'Selected') : (locale === 'ar' ? 'اختيار' : 'Select')}
+                        {isSelected ? t.btnSelected : t.btnSelect}
                       </button>
                     </div>
                   </div>
@@ -925,7 +1279,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                 className="w-full sm:w-auto min-h-[48px] h-12 px-6 rounded-btn border border-border text-ink text-xs font-semibold hover:bg-bg-alt transition-colors flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-gold"
               >
                 <ArrowLeft className="w-4 h-4 rtl:rotate-180" />
-                <span>{locale === 'ar' ? 'الرجوع لتعديل الرحلة' : 'Back to Trip Details'}</span>
+                <span>{t.backToStep1}</span>
               </button>
 
               <button
@@ -933,7 +1287,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                 onClick={handleProceedToReview}
                 className="w-full sm:w-auto min-h-[48px] h-12 px-8 rounded-btn bg-gold text-slate-950 font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-gold"
               >
-                <span>{locale === 'ar' ? 'متابعة لتفاصيل المسافر والتأكيد' : 'Continue to Booking Details'}</span>
+                <span>{t.continueToStep3}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180" />
               </button>
             </div>
@@ -949,7 +1303,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
             <div className="bg-bg-alt/80 rounded-2xl p-5 border border-border grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2 text-xs">
                 <span className="text-[11px] font-bold text-gold-dark uppercase tracking-widest block">
-                  {locale === 'ar' ? 'ملخص الرحلة المعتمد' : 'Confirmed Journey Summary'}
+                  {t.summaryTitle}
                 </span>
                 <div className="flex items-center gap-2 text-ink font-bold text-sm">
                   <MapPin className="w-4 h-4 text-gold-dark shrink-0" />
@@ -987,11 +1341,11 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                   </div>
                   <p className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1.5 mt-1">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>{locale === 'ar' ? '100% الدفع نقدًا للسائق بعد انتهاء الرحلة ووصول الوجهة' : '100% Cash paid to the driver after journey completion and destination reached'}</span>
+                    <span>{t.payNotice}</span>
                   </p>
                 </div>
                 <div className="text-[11px] text-ink-muted pt-2 border-t border-border/60 mt-2">
-                  <span>{locale === 'ar' ? 'شامل رسوم الطرق السريعة ومواقف المطار والوقود • إلغاء مجاني' : 'Tolls, airport parking & fuel included • Free cancellation'}</span>
+                  <span>{t.tollsNotice}</span>
                 </div>
               </div>
             </div>
@@ -1000,14 +1354,14 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="card-cust-name" className="block text-xs font-bold text-ink mb-1.5">
-                  {locale === 'ar' ? 'اسم المسافر / المتواصل' : 'Passenger Full Name'} <span className="text-gold-dark">*</span>
+                  {t.passengerNameLabel} <span className="text-gold-dark">*</span>
                 </label>
                 <div className="relative">
                   <input
                     id="card-cust-name"
                     type="text"
                     required
-                    placeholder={locale === 'ar' ? 'الاسم بالكامل' : 'e.g. Abdullah Rahman'}
+                    placeholder={t.passengerNamePlaceholder}
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
                     className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
@@ -1018,7 +1372,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
 
               <div>
                 <label htmlFor="card-cust-phone" className="block text-xs font-bold text-ink mb-1.5">
-                  {locale === 'ar' ? 'رقم الواتساب مع مفتاح الدولة' : 'WhatsApp Number (with country code)'} <span className="text-gold-dark">*</span>
+                  {t.whatsappLabel} <span className="text-gold-dark">*</span>
                 </label>
                 <div className="relative">
                   <input
@@ -1037,12 +1391,12 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
 
             <div>
               <label htmlFor="card-cust-notes" className="block text-xs font-bold text-ink mb-1.5">
-                {locale === 'ar' ? 'ملاحظات خاصة (مقعد طفل، مساعدة حقائب، إلخ)' : 'Special Requests (Child seat, luggage assistance, etc.)'}
+                {t.specialRequestsLabel}
               </label>
               <textarea
                 id="card-cust-notes"
                 rows={2}
-                placeholder={locale === 'ar' ? 'أي متطلبات إضافية لرحلتك...' : 'Any additional requirements for your pilgrimage...'}
+                placeholder={t.specialRequestsPlaceholder}
                 value={customerNotes}
                 onChange={(e) => setCustomerNotes(e.target.value)}
                 className="w-full p-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold resize-none"
@@ -1064,7 +1418,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                 className="w-full sm:w-auto min-h-[48px] h-12 px-6 rounded-btn border border-border text-ink text-xs font-semibold hover:bg-bg-alt transition-colors flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-gold order-3 sm:order-1"
               >
                 <ArrowLeft className="w-4 h-4 rtl:rotate-180" />
-                <span>{locale === 'ar' ? 'الرجوع لاختيار سيارة أخرى' : 'Back to Vehicles'}</span>
+                <span>{t.backToVehicles}</span>
               </button>
 
               <div className="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto order-1 sm:order-2">
@@ -1079,7 +1433,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                   <span>
                     {isSubmittingWa
                       ? '...'
-                      : (locale === 'ar' ? 'تأكيد الحجز عبر واتساب' : 'Continue on WhatsApp')}
+                      : t.continueWa}
                   </span>
                 </button>
 
@@ -1099,9 +1453,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
             {waPopupUrl && (
               <div className="p-3 bg-gold-soft border border-gold-line rounded-lg text-center mt-2 animate-fadeIn">
                 <p className="text-xs text-ink mb-1.5 font-medium">
-                  {locale === 'ar'
-                    ? 'تم تجهيز بيانات حجزك بنجاح؛ انقر للمتابعة عبر واتساب مباشرة:'
-                    : 'Your booking details are ready; click below to continue on WhatsApp:'}
+                  {t.popupNotice}
                 </p>
                 <a
                   href={waPopupUrl}
@@ -1110,7 +1462,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                   className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded shadow-xs hover:bg-emerald-700"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
-                  <span>{locale === 'ar' ? 'فتح محادثة واتساب الآن' : 'Open WhatsApp Now'}</span>
+                  <span>{t.openWaNow}</span>
                 </a>
               </div>
             )}

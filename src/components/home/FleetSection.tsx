@@ -294,6 +294,77 @@ const LUXURY_FLEET_FEATURES = [
   },
 ];
 
+const FLEET_LABELS_10: Record<
+  Locale,
+  {
+    vehicleDetails: string;
+    exteriorLabel: string;
+    interiorLabel: string;
+    ultraVipBadge: string;
+  }
+> = {
+  ar: {
+    vehicleDetails: 'تفاصيل المركبة',
+    exteriorLabel: 'من الخارج',
+    interiorLabel: 'المقصورة الداخلية',
+    ultraVipBadge: '★ فئة كبار الشخصيات • درجة أولى',
+  },
+  en: {
+    vehicleDetails: 'VEHICLE DETAILS',
+    exteriorLabel: 'EXTERIOR',
+    interiorLabel: 'INTERIOR',
+    ultraVipBadge: '★ ULTRA VIP • FIRST CLASS',
+  },
+  ms: {
+    vehicleDetails: 'BUTIRAN KENDERAAN',
+    exteriorLabel: 'LUARAN',
+    interiorLabel: 'DALAMAN',
+    ultraVipBadge: '★ ULTRA VIP • KELAS PERTAMA',
+  },
+  id: {
+    vehicleDetails: 'DETAIL KENDARAAN',
+    exteriorLabel: 'EKSTERIOR',
+    interiorLabel: 'INTERIOR',
+    ultraVipBadge: '★ ULTRA VIP • KELAS SATU',
+  },
+  ur: {
+    vehicleDetails: 'گاڑی کی تفصیلات',
+    exteriorLabel: 'بیرونی منظر',
+    interiorLabel: 'اندرونی کیبن',
+    ultraVipBadge: '★ الٹرا وی آئی پی • فرسٹ کلاس',
+  },
+  fr: {
+    vehicleDetails: 'DÉTAILS DU VÉHICULE',
+    exteriorLabel: 'EXTÉRIEUR',
+    interiorLabel: 'INTÉRIEUR',
+    ultraVipBadge: '★ ULTRA VIP • PREMIÈRE CLASSE',
+  },
+  es: {
+    vehicleDetails: 'DETALLES DEL VEHÍCULO',
+    exteriorLabel: 'EXTERIOR',
+    interiorLabel: 'INTERIOR',
+    ultraVipBadge: '★ ULTRA VIP • PRIMERA CLASE',
+  },
+  de: {
+    vehicleDetails: 'FAHRZEUGDETAILS',
+    exteriorLabel: 'AUSSEN',
+    interiorLabel: 'INNENRAUM',
+    ultraVipBadge: '★ ULTRA VIP • ERSTE KLASSE',
+  },
+  tr: {
+    vehicleDetails: 'ARAÇ DETAYLARI',
+    exteriorLabel: 'DIŞ GÖRÜNÜM',
+    interiorLabel: 'İÇ MEKAN',
+    ultraVipBadge: '★ ULTRA VIP • BİRİNCİ SINIF',
+  },
+  hi: {
+    vehicleDetails: 'वाहन विवरण',
+    exteriorLabel: 'बाहरी',
+    interiorLabel: 'आंतरिक',
+    ultraVipBadge: '★ अल्ट्रा वीआईपी • प्रथम श्रेणी',
+  },
+};
+
 interface FleetSectionProps {
   locale: Locale;
   dict: Dictionary;
@@ -319,10 +390,10 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
     luggage: FLEET_SHOWCASE_UI.luggage[locale] || FLEET_SHOWCASE_UI.luggage.en,
     prevVehicle: FLEET_SHOWCASE_UI.prevVehicle[locale] || FLEET_SHOWCASE_UI.prevVehicle.en,
     nextVehicle: FLEET_SHOWCASE_UI.nextVehicle[locale] || FLEET_SHOWCASE_UI.nextVehicle.en,
-    vehicleDetails: locale === 'ar' ? 'تفاصيل المركبة' : 'VEHICLE DETAILS',
-    exteriorLabel: locale === 'ar' ? 'من الخارج' : 'EXTERIOR',
-    interiorLabel: locale === 'ar' ? 'المقصورة الداخلية' : 'INTERIOR',
-    ultraVipBadge: locale === 'ar' ? '★ فئة كبار الشخصيات • درجة أولى' : '★ ULTRA VIP • FIRST CLASS',
+    vehicleDetails: (FLEET_LABELS_10[locale] || FLEET_LABELS_10.en).vehicleDetails,
+    exteriorLabel: (FLEET_LABELS_10[locale] || FLEET_LABELS_10.en).exteriorLabel,
+    interiorLabel: (FLEET_LABELS_10[locale] || FLEET_LABELS_10.en).interiorLabel,
+    ultraVipBadge: (FLEET_LABELS_10[locale] || FLEET_LABELS_10.en).ultraVipBadge,
   };
 
   const totalVehicles = FLEET_SHOWCASE_VEHICLES.length;
@@ -421,19 +492,7 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
   };
 
   // Model detail title (e.g., "Maybach VIP", "Yukon XL VIP", etc.)
-  const modelShortName = currentCar.id === 'maybach'
-    ? (locale === 'ar' ? 'مايباخ VIP' : 'Maybach VIP')
-    : currentCar.id === 'yukon'
-    ? (locale === 'ar' ? 'يوكون XL VIP' : 'Yukon XL VIP')
-    : currentCar.id === 'staria'
-    ? (locale === 'ar' ? 'ستاريا VIP' : 'Staria VIP')
-    : currentCar.id === 'camry'
-    ? (locale === 'ar' ? 'كامري إكزكتيف' : 'Camry Executive')
-    : currentCar.id === 'hiace'
-    ? (locale === 'ar' ? 'هايس VIP' : 'HiAce VIP')
-    : currentCar.id === 'coaster'
-    ? (locale === 'ar' ? 'كوستر VIP' : 'Coaster VIP')
-    : (locale === 'ar' ? 'إتش 1 رويال' : 'H1 Royal');
+  const modelShortName = currentCar.name[locale] || currentCar.name.en;
 
   return (
     <section

@@ -32,6 +32,35 @@ export default function AdminSettingsPage() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [sendingTestEmail, setSendingTestEmail] = useState(false);
   const [testEmailResult, setTestEmailResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [purgingCache, setPurgingCache] = useState(false);
+  const [cacheSyncResult, setCacheSyncResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  const handlePurgeCache = async () => {
+    setPurgingCache(true);
+    setCacheSyncResult(null);
+    try {
+      const res = await fetch('/api/admin/sync', { method: 'POST' });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setCacheSyncResult({
+          type: 'success',
+          message: `All ${data.revalidatedTags?.length || 7} cache tags purged and resynced across all 10 locales!`,
+        });
+      } else {
+        setCacheSyncResult({
+          type: 'error',
+          message: data.error || 'Failed to purge cache tags',
+        });
+      }
+    } catch {
+      setCacheSyncResult({
+        type: 'error',
+        message: 'Network error communicating with cache sync engine',
+      });
+    } finally {
+      setPurgingCache(false);
+    }
+  };
 
   const handleSendTestEmail = async () => {
     setSendingTestEmail(true);
@@ -568,6 +597,45 @@ export default function AdminSettingsPage() {
               />
             </div>
           </div>
+        </div>
+
+        {/* SECTION 6: CACHE REVALIDATION & PROPAGATION */}
+        <div className="bg-[#121622] rounded-2xl border border-[#232A3B] p-6 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-[#232A3B]">
+            <div className="flex items-center gap-2.5">
+              <RefreshCw className="w-4 h-4 text-[#D9A031] shrink-0" />
+              <div>
+                <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+                  Single Source of Truth &amp; Cache Engine
+                </h2>
+                <p className="text-xs text-[#A0A6B2] mt-0.5">
+                  Force on-demand revalidation of database tags across all 10 locales and edge ISR within seconds.
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handlePurgeCache}
+              disabled={purgingCache}
+              className="px-4 py-2 rounded-xl bg-[#1A2130] hover:bg-[#252E40] border border-[#D9A031]/40 text-[#E5B842] font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all disabled:opacity-50 self-start sm:self-auto"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${purgingCache ? 'animate-spin' : ''}`} />
+              <span>{purgingCache ? 'Purging Cache...' : 'Purge & Resync Stale Cache'}</span>
+            </button>
+          </div>
+
+          {cacheSyncResult && (
+            <div
+              className={`p-3 rounded-xl border text-xs font-semibold flex items-center gap-2 ${
+                cacheSyncResult.type === 'success'
+                  ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
+                  : 'bg-red-950/40 border-red-500/40 text-red-300'
+              }`}
+            >
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              <span>{cacheSyncResult.message}</span>
+            </div>
+          )}
         </div>
 
         {/* SUBMIT BUTTON */}

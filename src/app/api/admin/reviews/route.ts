@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidateTag } from 'next/cache';
 import { requireRole } from '@/lib/auth/server-auth';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
@@ -257,7 +258,10 @@ export async function PATCH(req: NextRequest) {
 
       if (fallbackResult.error) {
         console.error('Admin review fallback update error:', fallbackResult.error);
-        return NextResponse.json({ success: false, error: 'Failed to update review in database' }, { status: 500 });
+        return NextResponse.json({
+          success: false,
+          error: `Failed to update review in database: ${fallbackResult.error.message || 'unknown error'}`
+        }, { status: 500 });
       }
 
       updateResult = fallbackResult;
@@ -270,6 +274,20 @@ export async function PATCH(req: NextRequest) {
           status: rawUpdated.status || (rawUpdated.is_approved ? 'published' : (status === 'rejected' ? 'rejected' : 'pending')),
         }
       : rawUpdated;
+
+    try {
+      revalidateTag('site_reviews');
+      revalidateTag('site_settings');
+    } catch (tagErr) {
+      console.warn('Review cache tag revalidation notice:', tagErr);
+    }
+
+    try {
+      revalidateTag('site_reviews');
+      revalidateTag('site_settings');
+    } catch (tagErr) {
+      console.warn('Review delete cache tag revalidation notice:', tagErr);
+    }
 
     await logAuditEvent({
       userEmail: currentUser.email,
@@ -326,6 +344,13 @@ export async function DELETE(req: NextRequest) {
     if (error) {
       console.error('Admin review delete error:', error);
       return NextResponse.json({ success: false, error: 'Failed to delete review from database' }, { status: 500 });
+    }
+
+    try {
+      revalidateTag('site_reviews');
+      revalidateTag('site_settings');
+    } catch (tagErr) {
+      console.warn('Review delete cache tag revalidation notice:', tagErr);
     }
 
     await logAuditEvent({
