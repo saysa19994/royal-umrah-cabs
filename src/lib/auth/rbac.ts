@@ -13,6 +13,7 @@ export const DEFAULT_PERMISSIONS_MATRIX: RolePermission[] = [
   { role: 'owner', resource: 'roles', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: true },
   { role: 'owner', resource: 'audit_log', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: true },
   { role: 'owner', resource: 'page_content', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: true },
+  { role: 'owner', resource: 'reviews', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: true },
 
   // ADMIN: High-level operations, cannot delete owner or edit role permissions
   { role: 'admin', resource: 'bookings', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: false, can_export: true },
@@ -25,6 +26,7 @@ export const DEFAULT_PERMISSIONS_MATRIX: RolePermission[] = [
   { role: 'admin', resource: 'roles', can_view: true, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
   { role: 'admin', resource: 'audit_log', can_view: true, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: true },
   { role: 'admin', resource: 'page_content', can_view: true, can_create: true, can_edit: true, can_delete: false, can_publish: true, can_export: true },
+  { role: 'admin', resource: 'reviews', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: true },
 
   // OPERATOR (Dispatcher): Scoped exclusively to assigned leads and bookings
   { role: 'operator', resource: 'bookings', can_view: true, can_create: false, can_edit: true, can_delete: false, can_publish: false, can_export: false },
@@ -37,6 +39,7 @@ export const DEFAULT_PERMISSIONS_MATRIX: RolePermission[] = [
   { role: 'operator', resource: 'roles', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
   { role: 'operator', resource: 'audit_log', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
   { role: 'operator', resource: 'page_content', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
+  { role: 'operator', resource: 'reviews', can_view: true, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
 
   // DRIVER: View assigned bookings only
   { role: 'driver', resource: 'bookings', can_view: true, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },

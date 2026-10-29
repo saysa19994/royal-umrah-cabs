@@ -5,6 +5,7 @@ import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
 import { FaqSection } from '@/components/faq/FaqSection';
 import { FleetSection } from '@/components/home/FleetSection';
 import { PricingTable } from '@/components/pricing/PricingTable';
+import { ReviewsSection } from '@/components/reviews/ReviewsSection';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -571,6 +572,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       {/* SECTION: LATEST FROM OUR VIP BLOG & GUIDES                     */}
       {/* ============================================================== */}
             {/* SECTION 9: ACCESSIBLE MULTILINGUAL FAQ & CONVERSION CTA */}
+      <ReviewsSection locale={locale} dict={dict} />
       <FaqSection locale={locale} dict={dict} settings={settings} />
 
 

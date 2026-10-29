@@ -17,7 +17,8 @@ export type Resource =
   | 'users'
   | 'roles'
   | 'audit_log'
-  | 'page_content';
+  | 'page_content'
+  | 'reviews';
 
 export type Action = 'view' | 'create' | 'edit' | 'delete' | 'publish' | 'export';
 

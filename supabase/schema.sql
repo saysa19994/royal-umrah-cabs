@@ -142,9 +142,15 @@ CREATE TABLE IF NOT EXISTS public.reviews (
     comment TEXT NOT NULL,
     route TEXT,
     language TEXT NOT NULL DEFAULT 'en',
+    status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'published', 'rejected')),
     is_approved BOOLEAN NOT NULL DEFAULT FALSE,
     google_review_id TEXT,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+    service_type TEXT DEFAULT 'airport_transfer',
+    booking_reference TEXT,
+    is_verified_booking BOOLEAN NOT NULL DEFAULT FALSE,
+    admin_notes TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
 
 -- 10. PAGE CONTENT TABLE (CMS - Public readable)
@@ -418,11 +424,13 @@ CREATE POLICY "Public read active addons" ON public.addons
 CREATE POLICY "Staff manage addons" ON public.addons
     FOR ALL TO authenticated USING (public.is_staff_role(ARRAY['owner', 'admin']));
 
--- reviews: Public read approved only, staff manage all
-CREATE POLICY "Public read approved reviews" ON public.reviews
-    FOR SELECT TO anon, authenticated USING (is_approved = TRUE);
+-- reviews: Public read published only, staff manage all, public insert pending
+CREATE POLICY "Public read published reviews" ON public.reviews
+    FOR SELECT TO anon, authenticated USING (status = 'published' AND is_approved = TRUE);
 CREATE POLICY "Staff manage reviews" ON public.reviews
     FOR ALL TO authenticated USING (public.is_staff_role(ARRAY['owner', 'admin']));
+CREATE POLICY "Public submit pending reviews" ON public.reviews
+    FOR INSERT TO anon, authenticated WITH CHECK ((status = 'pending' OR status IS NULL) AND (is_approved = FALSE OR is_approved IS NULL));
 
 -- page_content: Public read, staff manage
 CREATE POLICY "Public read page_content" ON public.page_content

@@ -265,6 +265,11 @@ export function Footer({ locale, dict, settings }: FooterProps) {
                 </Link>
               </li>
               <li>
+                <Link href={`/${locale}/reviews`} className="hover:text-gold transition-colors inline-block py-1">
+                  {dict.reviews?.heading || (locale === 'ar' ? 'آراء وتقييمات المعتمرين' : 'Pilgrim Reviews')}
+                </Link>
+              </li>
+              <li>
                 <Link href={`/${locale}/faq`} className="hover:text-gold transition-colors inline-block py-1">
                   {dict.faq?.heading || (locale === 'ar' ? 'الأسئلة الشائعة' : 'FAQs')}
                 </Link>
