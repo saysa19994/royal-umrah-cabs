@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
+import { getPublicFaqsCached } from '@/lib/faq-service';
 import { FaqSection } from '@/components/faq/FaqSection';
 import { HomepageFaqJsonLd } from '@/components/seo/JsonLd';
 import { ChevronRight, Home, HelpCircle } from 'lucide-react';
@@ -48,7 +49,10 @@ export default async function FaqPage(props: FaqPageProps) {
   const { locale } = params;
 
   const dict = getDictionary(locale);
-  const settings = await getSiteSettings();
+  const [settings, dbFaqs] = await Promise.all([
+    getSiteSettings(),
+    getPublicFaqsCached(locale).catch(() => []),
+  ]);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
   const breadcrumbsSchema = {
@@ -108,6 +112,7 @@ export default async function FaqPage(props: FaqPageProps) {
         locale={locale}
         dict={dict}
         settings={settings}
+        items={dbFaqs && dbFaqs.length > 0 ? dbFaqs : undefined}
         id="faq"
         className="!border-t-0"
         showCta={true}

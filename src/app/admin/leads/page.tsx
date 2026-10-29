@@ -189,7 +189,7 @@ export default function AdminLeadsPage() {
         </div>
         <button
           onClick={fetchLeads}
-          className="px-4 py-2 rounded-xl bg-[#14171C] border border-[#262B33] hover:border-[#D9A031]/40 text-[#FAF9F6] text-xs font-semibold flex items-center gap-2 transition-colors"
+          className="px-4 py-2 rounded-xl bg-[#121622] border border-[#232A3B] hover:border-[#D9A031]/40 text-[#FAF9F6] text-xs font-semibold flex items-center gap-2 transition-colors"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#D9A031]' : ''}`} />
           <span>Refresh Leads</span>
@@ -201,7 +201,7 @@ export default function AdminLeadsPage() {
           <div className="flex items-center gap-2.5">
             <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping flex-shrink-0" />
             <span>
-              <strong>Attention Required:</strong> {unattendedLeadsCount} pilgrim inquiry has been waiting for over 15 minutes without a response!
+              <strong>Attention Required:</strong> {unattendedLeadsCount} {unattendedLeadsCount === 1 ? 'pilgrim inquiry has' : 'pilgrim inquiries have'} been waiting for over 15 minutes without a response!
             </span>
           </div>
           <button
@@ -229,7 +229,7 @@ export default function AdminLeadsPage() {
 
       {/* KPI METRIC CARDS */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-[#14171C] p-5 rounded-2xl border border-[#262B33]">
+        <div className="bg-[#121622] p-5 rounded-2xl border border-[#232A3B]">
           <span className="text-[11px] font-bold text-[#A0A6B2] uppercase tracking-wider block mb-1">
             Total Leads
           </span>
@@ -239,7 +239,7 @@ export default function AdminLeadsPage() {
           </div>
         </div>
 
-        <div className="bg-[#14171C] p-5 rounded-2xl border border-[#262B33]">
+        <div className="bg-[#121622] p-5 rounded-2xl border border-[#232A3B]">
           <div className="flex items-center justify-between mb-1">
             <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">
               New / Unanswered
@@ -256,7 +256,7 @@ export default function AdminLeadsPage() {
           </div>
         </div>
 
-        <div className="bg-[#14171C] p-5 rounded-2xl border border-[#262B33]">
+        <div className="bg-[#121622] p-5 rounded-2xl border border-[#232A3B]">
           <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider block mb-1">
             Converted to Bookings
           </span>
@@ -266,7 +266,7 @@ export default function AdminLeadsPage() {
           </div>
         </div>
 
-        <div className="bg-[#14171C] p-5 rounded-2xl border border-[#262B33]">
+        <div className="bg-[#121622] p-5 rounded-2xl border border-[#232A3B]">
           <span className="text-[11px] font-bold text-[#D9A031] uppercase tracking-wider block mb-1">
             Quoted Pipeline
           </span>
@@ -278,14 +278,14 @@ export default function AdminLeadsPage() {
       </div>
 
       {/* FILTERS & SEARCH */}
-      <div className="bg-[#14171C] p-4 rounded-2xl border border-[#262B33] flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-[#121622] p-4 rounded-2xl border border-[#232A3B] flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative w-full md:w-80">
           <input
             type="text"
             placeholder="Search by Ref (RUC-), Name, Phone, Route..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-10 pl-9 pr-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] focus:border-[#D9A031] focus:ring-1 focus:ring-[#D9A031] outline-none"
+            className="w-full h-10 pl-9 pr-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] focus:border-[#D9A031] focus:ring-1 focus:ring-[#D9A031] outline-none"
           />
           <Search className="w-4 h-4 text-[#6C7584] absolute left-3 top-3 pointer-events-none" />
         </div>
@@ -298,7 +298,7 @@ export default function AdminLeadsPage() {
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize whitespace-nowrap transition-colors ${
                 statusFilter === st
                   ? 'bg-[#D9A031] text-[#0D0F12]'
-                  : 'bg-[#0D0F12] text-[#A0A6B2] hover:text-[#FAF9F6] border border-[#262B33]'
+                  : 'bg-[#0D0F12] text-[#A0A6B2] hover:text-[#FAF9F6] border border-[#232A3B]'
               }`}
             >
               {st}
@@ -308,11 +308,11 @@ export default function AdminLeadsPage() {
       </div>
 
       {/* LEADS TABLE */}
-      <div className="bg-[#14171C] rounded-2xl border border-[#262B33] overflow-hidden">
+      <div className="bg-[#121622] rounded-2xl border border-[#232A3B] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-start text-xs">
             <thead>
-              <tr className="border-b border-[#262B33] bg-[#101317] text-[#A0A6B2]">
+              <tr className="border-b border-[#232A3B] bg-[#101317] text-[#A0A6B2]">
                 <th className="py-3.5 px-4 font-semibold">Ref Code</th>
                 <th className="py-3.5 px-4 font-semibold">Pilgrim / Contact</th>
                 <th className="py-3.5 px-4 font-semibold">Route &amp; Vehicle</th>
@@ -365,7 +365,7 @@ export default function AdminLeadsPage() {
                           {lead.customer_name || 'Pilgrim Inquiry'}
                         </div>
                         <div className="text-[11px] font-mono text-[#A0A6B2]">
-                          {lead.customer_phone || lead.whatsapp_number}
+                          {lead.customer_phone || (lead.whatsapp_number ? `Line: ${lead.whatsapp_number === '966567588261' ? 'Main (261)' : lead.whatsapp_number}` : 'Web')}
                         </div>
                       </td>
                       <td className="py-3.5 px-4">
@@ -476,7 +476,7 @@ export default function AdminLeadsPage() {
       {/* NOTES MODAL */}
       {selectedLead && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#14171C] border border-[#262B33] rounded-2xl p-6 max-w-md w-full shadow-2xl text-start">
+          <div className="bg-[#121622] border border-[#232A3B] rounded-2xl p-6 max-w-md w-full shadow-2xl text-start">
             <h3 className="font-display font-bold text-lg text-[#FAF9F6] mb-1">
               Lead Notes: {selectedLead.ref_code || selectedLead.reference}
             </h3>
@@ -489,13 +489,13 @@ export default function AdminLeadsPage() {
                 value={editingNotes}
                 onChange={(e) => setEditingNotes(e.target.value)}
                 placeholder="e.g. Requested child seat, arriving on Qatar Airways flight QR1180..."
-                className="w-full p-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] focus:border-[#D9A031] outline-none resize-none"
+                className="w-full p-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] focus:border-[#D9A031] outline-none resize-none"
               />
               <div className="flex items-center justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setSelectedLead(null)}
-                  className="px-4 py-2 rounded-xl border border-[#262B33] text-xs text-[#A0A6B2] hover:text-[#FAF9F6]"
+                  className="px-4 py-2 rounded-xl border border-[#232A3B] text-xs text-[#A0A6B2] hover:text-[#FAF9F6]"
                 >
                   Cancel
                 </button>

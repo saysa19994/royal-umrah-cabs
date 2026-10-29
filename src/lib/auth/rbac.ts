@@ -14,8 +14,11 @@ export const DEFAULT_PERMISSIONS_MATRIX: RolePermission[] = [
   { role: 'owner', resource: 'audit_log', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: true },
   { role: 'owner', resource: 'page_content', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: true },
   { role: 'owner', resource: 'reviews', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: true },
+  { role: 'owner', resource: 'faqs', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: true },
+  { role: 'owner', resource: 'cms', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: true },
+  { role: 'owner', resource: 'media', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: true },
 
-  // ADMIN: High-level operations, cannot delete owner or edit role permissions
+  // ADMIN: High-level operations
   { role: 'admin', resource: 'bookings', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: false, can_export: true },
   { role: 'admin', resource: 'leads', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: false, can_export: true },
   { role: 'admin', resource: 'pricing', can_view: true, can_create: true, can_edit: true, can_delete: false, can_publish: false, can_export: true },
@@ -27,19 +30,25 @@ export const DEFAULT_PERMISSIONS_MATRIX: RolePermission[] = [
   { role: 'admin', resource: 'audit_log', can_view: true, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: true },
   { role: 'admin', resource: 'page_content', can_view: true, can_create: true, can_edit: true, can_delete: false, can_publish: true, can_export: true },
   { role: 'admin', resource: 'reviews', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: true },
+  { role: 'admin', resource: 'faqs', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: true },
+  { role: 'admin', resource: 'cms', can_view: true, can_create: true, can_edit: true, can_delete: false, can_publish: true, can_export: true },
+  { role: 'admin', resource: 'media', can_view: true, can_create: true, can_edit: true, can_delete: false, can_publish: true, can_export: true },
 
-  // OPERATOR (Dispatcher): Scoped exclusively to assigned leads and bookings
-  { role: 'operator', resource: 'bookings', can_view: true, can_create: false, can_edit: true, can_delete: false, can_publish: false, can_export: false },
-  { role: 'operator', resource: 'leads', can_view: true, can_create: false, can_edit: true, can_delete: false, can_publish: false, can_export: false },
+  // OPERATOR (Dispatcher): Scoped exclusively to assigned leads and bookings + WhatsApp Routing view
+  { role: 'operator', resource: 'bookings', can_view: true, can_create: true, can_edit: true, can_delete: false, can_publish: false, can_export: false },
+  { role: 'operator', resource: 'leads', can_view: true, can_create: true, can_edit: true, can_delete: false, can_publish: false, can_export: false },
   { role: 'operator', resource: 'pricing', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
   { role: 'operator', resource: 'fleet', can_view: true, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
-  { role: 'operator', resource: 'whatsapp', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
+  { role: 'operator', resource: 'whatsapp', can_view: true, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
   { role: 'operator', resource: 'settings', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
   { role: 'operator', resource: 'users', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
   { role: 'operator', resource: 'roles', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
   { role: 'operator', resource: 'audit_log', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
   { role: 'operator', resource: 'page_content', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
   { role: 'operator', resource: 'reviews', can_view: true, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
+  { role: 'operator', resource: 'faqs', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
+  { role: 'operator', resource: 'cms', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
+  { role: 'operator', resource: 'media', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
 
   // DRIVER: View assigned bookings only
   { role: 'driver', resource: 'bookings', can_view: true, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
@@ -52,13 +61,22 @@ export const DEFAULT_PERMISSIONS_MATRIX: RolePermission[] = [
   { role: 'driver', resource: 'roles', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
   { role: 'driver', resource: 'audit_log', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
   { role: 'driver', resource: 'page_content', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
+  { role: 'driver', resource: 'reviews', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
+  { role: 'driver', resource: 'faqs', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
+  { role: 'driver', resource: 'cms', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
+  { role: 'driver', resource: 'media', can_view: false, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
 
-  // CONTENT EDITOR: Marketing & CMS
+  // CONTENT EDITOR: Marketing, CMS & Media
   { role: 'content_editor', resource: 'page_content', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: false },
+  { role: 'content_editor', resource: 'cms', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: false },
+  { role: 'content_editor', resource: 'faqs', can_view: true, can_create: true, can_edit: true, can_delete: false, can_publish: true, can_export: false },
+  { role: 'content_editor', resource: 'media', can_view: true, can_create: true, can_edit: true, can_delete: true, can_publish: true, can_export: false },
   { role: 'content_editor', resource: 'fleet', can_view: true, can_create: false, can_edit: false, can_delete: false, can_publish: false, can_export: false },
 
   // TRANSLATOR: Multilingual Content
   { role: 'translator', resource: 'page_content', can_view: true, can_create: false, can_edit: true, can_delete: false, can_publish: false, can_export: false },
+  { role: 'translator', resource: 'cms', can_view: true, can_create: false, can_edit: true, can_delete: false, can_publish: false, can_export: false },
+  { role: 'translator', resource: 'faqs', can_view: true, can_create: false, can_edit: true, can_delete: false, can_publish: false, can_export: false },
 
   // PARTNER: Referral Bookings
   { role: 'partner', resource: 'bookings', can_view: true, can_create: true, can_edit: false, can_delete: false, can_publish: false, can_export: false },
@@ -71,7 +89,17 @@ export async function getRolePermissions(): Promise<RolePermission[]> {
     const supabase = createServiceClient();
     const { data, error } = await supabase.from('role_permissions').select('*');
     if (!error && data && data.length > 0) {
-      return data as RolePermission[];
+      // Merge DB records with defaults so missing resources still resolve safely
+      const merged = [...DEFAULT_PERMISSIONS_MATRIX];
+      data.forEach((dbRule) => {
+        const idx = merged.findIndex((m) => m.role === dbRule.role && m.resource === dbRule.resource);
+        if (idx !== -1) {
+          merged[idx] = dbRule as RolePermission;
+        } else {
+          merged.push(dbRule as RolePermission);
+        }
+      });
+      return merged;
     }
   } catch (e) {
     console.warn('Using memory permissions fallback:', e);
@@ -102,23 +130,4 @@ export async function hasPermission(role: Role, resource: Resource, action: Acti
     default:
       return false;
   }
-}
-
-export function canModifyUser(callerRole: Role, targetRole: Role): boolean {
-  if (callerRole === 'owner') return true;
-  if (targetRole === 'owner') return false; // Non-owner can NEVER modify owner
-  if (callerRole === 'admin') {
-    return targetRole !== 'admin';
-  }
-  return false;
-}
-
-export function getScopeFilter(profile: UserProfile): { whatsapp_number?: string } | null {
-  if (profile.role === 'owner' || profile.role === 'admin') {
-    return null; // Unrestricted access
-  }
-  if (profile.role === 'operator' && profile.assigned_whatsapp_number) {
-    return { whatsapp_number: profile.assigned_whatsapp_number };
-  }
-  return null;
 }

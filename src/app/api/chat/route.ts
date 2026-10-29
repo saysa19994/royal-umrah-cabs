@@ -46,7 +46,16 @@ export async function POST(request: Request) {
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
     const model = process.env.ANTHROPIC_MODEL || 'claude-3-5-haiku-20241022';
-    const systemPrompt = getSystemPromptGrounding(locale);
+    const basePrompt = getSystemPromptGrounding(locale);
+    const dbPrices = await getDbPricesCached().catch(() => null);
+    let livePricingGrounding = '';
+    if (dbPrices) {
+      livePricingGrounding = '\n\nLIVE DATABASE RATES (Authoritative):\n' +
+        Object.entries(dbPrices)
+          .map(([rk, rates]: [string, any]) => `• ${rk}: ${Object.entries(rates).map(([v, p]) => `${v}=${p} SAR`).join(', ')}`)
+          .join('\n');
+    }
+    const systemPrompt = basePrompt + livePricingGrounding;
 
     // If Anthropic API key is available, stream via Anthropic API
     if (apiKey) {

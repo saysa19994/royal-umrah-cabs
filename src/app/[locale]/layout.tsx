@@ -138,7 +138,7 @@ export default async function LocaleLayout(props: LocaleLayoutProps) {
       <body className="min-h-screen flex flex-col font-sans bg-bg text-body antialiased selection:bg-gold-soft selection:text-ink">
         <JsonLd locale={validLocale} dict={dict} settings={settings} />
         <CurrencyProvider defaultCurrency={defaultCurrency}>
-          <Header locale={validLocale} dict={dict} />
+          <Header locale={validLocale} dict={dict} settings={settings} />
           <main className="flex-1">{children}</main>
           <Footer locale={validLocale} dict={dict} settings={settings} />
           <FloatingUI

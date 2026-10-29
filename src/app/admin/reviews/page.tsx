@@ -137,7 +137,7 @@ export default function AdminReviewsPage() {
         <button
           onClick={() => fetchReviews()}
           disabled={loading}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1A1F26] border border-[#262B33] text-xs font-semibold text-[#FAF9F6] hover:bg-[#20252D] hover:border-[#D9A031]/40 transition-colors self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1A1F26] border border-[#232A3B] text-xs font-semibold text-[#FAF9F6] hover:bg-[#20252D] hover:border-[#D9A031]/40 transition-colors self-start sm:self-auto"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#D9A031]' : ''}`} />
           <span>Refresh</span>
@@ -173,7 +173,7 @@ export default function AdminReviewsPage() {
       {/* KPI Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
         {/* Total */}
-        <div className="p-4 rounded-2xl bg-[#14171C] border border-[#262B33] flex flex-col justify-between">
+        <div className="p-4 rounded-2xl bg-[#121622] border border-[#232A3B] flex flex-col justify-between">
           <span className="text-xs text-[#A0A6B2] font-semibold">Total Reviews</span>
           <div className="flex items-baseline justify-between mt-2">
             <span className="text-2xl font-bold text-[#FAF9F6]">{counts.all}</span>
@@ -187,7 +187,7 @@ export default function AdminReviewsPage() {
           className={`p-4 rounded-2xl border cursor-pointer transition-all ${
             statusFilter === 'pending'
               ? 'bg-amber-500/10 border-amber-500/50'
-              : 'bg-[#14171C] border-[#262B33] hover:border-amber-500/30'
+              : 'bg-[#121622] border-[#232A3B] hover:border-amber-500/30'
           }`}
         >
           <span className="text-xs text-amber-400 font-semibold flex items-center gap-1.5">
@@ -210,7 +210,7 @@ export default function AdminReviewsPage() {
           className={`p-4 rounded-2xl border cursor-pointer transition-all ${
             statusFilter === 'published'
               ? 'bg-emerald-500/10 border-emerald-500/50'
-              : 'bg-[#14171C] border-[#262B33] hover:border-emerald-500/30'
+              : 'bg-[#121622] border-[#232A3B] hover:border-emerald-500/30'
           }`}
         >
           <span className="text-xs text-emerald-400 font-semibold flex items-center gap-1.5">
@@ -229,7 +229,7 @@ export default function AdminReviewsPage() {
           className={`p-4 rounded-2xl border cursor-pointer transition-all ${
             statusFilter === 'rejected'
               ? 'bg-red-500/10 border-red-500/50'
-              : 'bg-[#14171C] border-[#262B33] hover:border-red-500/30'
+              : 'bg-[#121622] border-[#232A3B] hover:border-red-500/30'
           }`}
         >
           <span className="text-xs text-red-400 font-semibold flex items-center gap-1.5">
@@ -243,7 +243,7 @@ export default function AdminReviewsPage() {
         </div>
 
         {/* Average Rating */}
-        <div className="p-4 rounded-2xl bg-[#14171C] border border-[#262B33] col-span-2 md:col-span-1">
+        <div className="p-4 rounded-2xl bg-[#121622] border border-[#232A3B] col-span-2 md:col-span-1">
           <span className="text-xs text-[#D9A031] font-semibold flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Avg Rating</span>
@@ -262,9 +262,9 @@ export default function AdminReviewsPage() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="p-4 rounded-2xl bg-[#14171C] border border-[#262B33] flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
+      <div className="p-4 rounded-2xl bg-[#121622] border border-[#232A3B] flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
         {/* Status Tabs */}
-        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#0D0F12] border border-[#262B33] overflow-x-auto">
+        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#0D0F12] border border-[#232A3B] overflow-x-auto">
           {(['all', 'pending', 'published', 'rejected'] as const).map((tab) => (
             <button
               key={tab}
@@ -286,7 +286,7 @@ export default function AdminReviewsPage() {
             <select
               value={ratingFilter}
               onChange={(e) => { setRatingFilter(e.target.value); setPage(1); }}
-              className="px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#262B33] text-xs text-[#FAF9F6] focus:outline-hidden focus:border-[#D9A031]"
+              className="px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-hidden focus:border-[#D9A031]"
             >
               <option value="all">All Star Ratings</option>
               <option value="5">5 Stars ★★★★★</option>
@@ -304,7 +304,7 @@ export default function AdminReviewsPage() {
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(1); }}
               placeholder="Search name, route, comment..."
-              className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#0D0F12] border border-[#262B33] text-xs text-[#FAF9F6] placeholder-[#6C7584] focus:outline-hidden focus:border-[#D9A031]"
+              className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] placeholder-[#6C7584] focus:outline-hidden focus:border-[#D9A031]"
             />
           </div>
         </div>
@@ -312,13 +312,13 @@ export default function AdminReviewsPage() {
 
       {/* Reviews Content Area */}
       {loading ? (
-        <div className="p-16 rounded-2xl bg-[#14171C] border border-[#262B33] flex flex-col items-center justify-center gap-3 text-center">
+        <div className="p-16 rounded-2xl bg-[#121622] border border-[#232A3B] flex flex-col items-center justify-center gap-3 text-center">
           <RefreshCw className="w-6 h-6 text-[#D9A031] animate-spin" />
           <p className="text-xs text-[#A0A6B2]">Loading customer reviews...</p>
         </div>
       ) : reviews.length === 0 ? (
-        <div className="p-16 rounded-2xl bg-[#14171C] border border-[#262B33] text-center flex flex-col items-center justify-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-[#1A1F26] border border-[#262B33] flex items-center justify-center text-[#A0A6B2]">
+        <div className="p-16 rounded-2xl bg-[#121622] border border-[#232A3B] text-center flex flex-col items-center justify-center gap-3">
+          <div className="w-12 h-12 rounded-full bg-[#1A1F26] border border-[#232A3B] flex items-center justify-center text-[#A0A6B2]">
             <MessageSquare className="w-6 h-6" />
           </div>
           <h3 className="text-base font-bold text-[#FAF9F6]">No Reviews Found</h3>
@@ -339,7 +339,7 @@ export default function AdminReviewsPage() {
                 key={review.id}
                 className={`p-5 rounded-2xl border transition-all ${
                   currentStatus === 'published'
-                    ? 'bg-[#14171C] border-[#262B33]'
+                    ? 'bg-[#121622] border-[#232A3B]'
                     : currentStatus === 'pending'
                     ? 'bg-amber-950/15 border-amber-500/30'
                     : 'bg-red-950/10 border-red-500/20'
@@ -368,7 +368,7 @@ export default function AdminReviewsPage() {
 
                       {/* Country */}
                       {review.country && (
-                        <span className="px-2 py-0.5 rounded-md bg-[#1A1F26] border border-[#262B33] text-[10px] text-[#A0A6B2] flex items-center gap-1">
+                        <span className="px-2 py-0.5 rounded-md bg-[#1A1F26] border border-[#232A3B] text-[10px] text-[#A0A6B2] flex items-center gap-1">
                           <MapPin className="w-2.5 h-2.5" />
                           <span>{review.country}</span>
                         </span>
@@ -411,7 +411,7 @@ export default function AdminReviewsPage() {
                   </div>
 
                   {/* Actions & Status Controls */}
-                  <div className="flex md:flex-col items-center md:items-end justify-between gap-2.5 border-t md:border-t-0 pt-3 md:pt-0 border-[#262B33]">
+                  <div className="flex md:flex-col items-center md:items-end justify-between gap-2.5 border-t md:border-t-0 pt-3 md:pt-0 border-[#232A3B]">
                     {/* Status Badge */}
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
@@ -477,7 +477,7 @@ export default function AdminReviewsPage() {
 
           {/* Pagination Controls */}
           {total > 20 && (
-            <div className="flex items-center justify-between p-4 rounded-2xl bg-[#14171C] border border-[#262B33] text-xs text-[#A0A6B2]">
+            <div className="flex items-center justify-between p-4 rounded-2xl bg-[#121622] border border-[#232A3B] text-xs text-[#A0A6B2]">
               <span>
                 Showing {(page - 1) * 20 + 1} to {Math.min(page * 20, total)} of {total} reviews
               </span>

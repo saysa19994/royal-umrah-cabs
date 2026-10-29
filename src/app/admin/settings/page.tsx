@@ -30,6 +30,26 @@ export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [sendingTestEmail, setSendingTestEmail] = useState(false);
+  const [testEmailResult, setTestEmailResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  const handleSendTestEmail = async () => {
+    setSendingTestEmail(true);
+    setTestEmailResult(null);
+    try {
+      const res = await fetch('/api/admin/email/test', { method: 'POST' });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setTestEmailResult({ type: 'success', message: data.message || 'Test email dispatched successfully!' });
+      } else {
+        setTestEmailResult({ type: 'error', message: data.error || 'Failed to dispatch test email' });
+      }
+    } catch {
+      setTestEmailResult({ type: 'error', message: 'Network error triggering test email' });
+    } finally {
+      setSendingTestEmail(false);
+    }
+  };
 
   const fetchSettings = async () => {
     setLoading(true);
@@ -104,7 +124,7 @@ export default function AdminSettingsPage() {
         </div>
         <button
           onClick={fetchSettings}
-          className="px-4 py-2 rounded-xl bg-[#14171C] border border-[#262B33] hover:border-[#D9A031]/40 text-[#FAF9F6] text-xs font-semibold flex items-center gap-2 transition-colors"
+          className="px-4 py-2 rounded-xl bg-[#121622] border border-[#232A3B] hover:border-[#D9A031]/40 text-[#FAF9F6] text-xs font-semibold flex items-center gap-2 transition-colors"
         >
           <RefreshCw className="w-3.5 h-3.5" />
           <span>Reload</span>
@@ -141,8 +161,8 @@ export default function AdminSettingsPage() {
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* SECTION 1: CORE CONTACT & MULTI-WHATSAPP */}
-        <div className="bg-[#14171C] rounded-2xl border border-[#262B33] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#262B33]">
+        <div className="bg-[#121622] rounded-2xl border border-[#232A3B] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#232A3B]">
             <Phone className="w-4 h-4 text-[#D9A031]" />
             <h2 className="font-display font-bold text-base text-[#FAF9F6]">
               Contact Channels &amp; Dual WhatsApp Dispatch
@@ -160,7 +180,7 @@ export default function AdminSettingsPage() {
                 value={settings.whatsapp_number || ''}
                 onChange={(e) => setSettings({ ...settings, whatsapp_number: e.target.value })}
                 placeholder="966567588261"
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
               />
               <span className="text-[10px] text-[#6C7584] mt-1 block">
                 Digits only (e.g. 966567588261)
@@ -177,7 +197,7 @@ export default function AdminSettingsPage() {
                 value={settings.whatsapp_number_secondary || ''}
                 onChange={(e) => setSettings({ ...settings, whatsapp_number_secondary: e.target.value })}
                 placeholder="966505316971"
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
               />
               <span className="text-[10px] text-[#6C7584] mt-1 block">
                 Digits only (e.g. 966505316971)
@@ -194,7 +214,7 @@ export default function AdminSettingsPage() {
                 value={settings.phone || ''}
                 onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
                 placeholder="+966 50 531 6971"
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
               />
               <span className="text-[10px] text-[#6C7584] mt-1 block">
                 Displayed in Contact cards (distinct from WhatsApp Line 1)
@@ -211,15 +231,15 @@ export default function AdminSettingsPage() {
                 value={settings.email || ''}
                 onChange={(e) => setSettings({ ...settings, email: e.target.value })}
                 placeholder="info@duyufalrahmanvip.com"
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
               />
             </div>
           </div>
         </div>
 
         {/* SECTION 2: OPERATIONAL POLICIES & AIRPORT WAITING TIME */}
-        <div className="bg-[#14171C] rounded-2xl border border-[#262B33] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#262B33]">
+        <div className="bg-[#121622] rounded-2xl border border-[#232A3B] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#232A3B]">
             <Clock className="w-4 h-4 text-[#D9A031]" />
             <h2 className="font-display font-bold text-base text-[#FAF9F6]">
               Operational Policies &amp; Airport Waiting
@@ -237,7 +257,7 @@ export default function AdminSettingsPage() {
                 max={180}
                 value={settings.airport_waiting_minutes ?? 60}
                 onChange={(e) => setSettings({ ...settings, airport_waiting_minutes: Number(e.target.value) })}
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
               />
               <span className="text-[10px] text-[#6C7584] mt-1 block">
                 Standardised across public site (default 60 minutes)
@@ -254,7 +274,7 @@ export default function AdminSettingsPage() {
                 max={168}
                 value={settings.free_cancellation_hours ?? 24}
                 onChange={(e) => setSettings({ ...settings, free_cancellation_hours: Number(e.target.value) })}
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
               />
               <span className="text-[10px] text-[#6C7584] mt-1 block">
                 Hours allowed before pickup for 100% free cancellation (default 24h)
@@ -264,8 +284,8 @@ export default function AdminSettingsPage() {
         </div>
 
         {/* SECTION 3: PROMO ANNOUNCEMENT BAR */}
-        <div className="bg-[#14171C] rounded-2xl border border-[#262B33] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#262B33]">
+        <div className="bg-[#121622] rounded-2xl border border-[#232A3B] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#232A3B]">
             <Bell className="w-4 h-4 text-[#D9A031]" />
             <h2 className="font-display font-bold text-base text-[#FAF9F6]">
               Top Executive Announcement Bar
@@ -273,7 +293,7 @@ export default function AdminSettingsPage() {
           </div>
 
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 rounded-xl bg-[#0D0F12] border border-[#262B33]">
+            <div className="flex items-center justify-between p-4 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
               <div>
                 <span className="font-bold text-sm text-[#FAF9F6] block">
                   Enable Announcement Bar
@@ -302,15 +322,15 @@ export default function AdminSettingsPage() {
                 value={settings.promo_banner_text || ''}
                 onChange={(e) => setSettings({ ...settings, promo_banner_text: e.target.value })}
                 placeholder="Fixed 2026 Umrah Season Rates Available • Free Cancellation up to 24h Before Arrival"
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none"
               />
             </div>
           </div>
         </div>
 
         {/* SECTION 4: FEATURE FLAGS & VERIFIABLE INCLUSIONS */}
-        <div className="bg-[#14171C] rounded-2xl border border-[#262B33] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#262B33]">
+        <div className="bg-[#121622] rounded-2xl border border-[#232A3B] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#232A3B]">
             <Sliders className="w-4 h-4 text-[#D9A031]" />
             <h2 className="font-display font-bold text-base text-[#FAF9F6]">
               Feature Flags &amp; Service Inclusions (Default False)
@@ -322,7 +342,7 @@ export default function AdminSettingsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
             {/* Flight tracking */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#262B33]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
               <div className="pr-3">
                 <span className="font-semibold text-xs text-[#FAF9F6] block">Flight Radar Tracking</span>
                 <span className="text-[10px] text-[#6C7584]">Live arrival delay tracking</span>
@@ -339,7 +359,7 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Complimentary Water */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#262B33]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
               <div className="pr-3">
                 <span className="font-semibold text-xs text-[#FAF9F6] block">Complimentary Cold Water</span>
                 <span className="text-[10px] text-[#6C7584]">Free chilled water bottles</span>
@@ -356,7 +376,7 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Zamzam Water */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#262B33]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
               <div className="pr-3">
                 <span className="font-semibold text-xs text-[#FAF9F6] block">Zamzam Water Provision</span>
                 <span className="text-[10px] text-[#6C7584]">Blessed Zamzam onboard</span>
@@ -373,7 +393,7 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Child Seat */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#262B33]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
               <div className="pr-3">
                 <span className="font-semibold text-xs text-[#FAF9F6] block">Complimentary Child Seat</span>
                 <span className="text-[10px] text-[#6C7584]">Free infant/toddler seat</span>
@@ -390,7 +410,7 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Malay-speaking Chauffeur */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#262B33]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
               <div className="pr-3">
                 <span className="font-semibold text-xs text-[#FAF9F6] block">Malay-Speaking Chauffeur</span>
                 <span className="text-[10px] text-[#6C7584]">Dedicated option for Southeast Asia</span>
@@ -407,7 +427,7 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Free Miqat Stop */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#262B33]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
               <div className="pr-3">
                 <span className="font-semibold text-xs text-[#FAF9F6] block">Free Miqat Stop</span>
                 <span className="text-[10px] text-[#6C7584]">Ihram stop without surcharge</span>
@@ -424,7 +444,7 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Online Card Gateway */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#262B33]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
               <div className="pr-3">
                 <span className="font-semibold text-xs text-[#FAF9F6] block">Online Card Gateway</span>
                 <span className="text-[10px] text-[#6C7584]">Mada / Visa / Mastercard online</span>
@@ -441,7 +461,7 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Bank Transfer */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#262B33]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
               <div className="pr-3">
                 <span className="font-semibold text-xs text-[#FAF9F6] block">Saudi Bank Transfer</span>
                 <span className="text-[10px] text-[#6C7584]">Direct IBAN wire transfer</span>
@@ -458,7 +478,7 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Coaster Fleet */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#262B33]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
               <div className="pr-3">
                 <span className="font-semibold text-xs text-[#FAF9F6] block">Toyota Coaster Fleet</span>
                 <span className="text-[10px] text-[#6C7584]">20-passenger minibus booking</span>
@@ -475,7 +495,7 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Riyadh Chauffeur Area */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#262B33]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
               <div className="pr-3">
                 <span className="font-semibold text-xs text-[#FAF9F6] block">Riyadh Hub &amp; Routes</span>
                 <span className="text-[10px] text-[#6C7584]">Riyadh airport &amp; intercity routes</span>
@@ -492,7 +512,7 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Taif Chauffeur Area */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#262B33]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
               <div className="pr-3">
                 <span className="font-semibold text-xs text-[#FAF9F6] block">Taif Hub &amp; Routes</span>
                 <span className="text-[10px] text-[#6C7584]">Taif mountain &amp; intercity routes</span>
@@ -511,8 +531,8 @@ export default function AdminSettingsPage() {
         </div>
 
         {/* SECTION 5: GOOGLE REVIEWS SETTINGS */}
-        <div className="bg-[#14171C] rounded-2xl border border-[#262B33] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#262B33]">
+        <div className="bg-[#121622] rounded-2xl border border-[#232A3B] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#232A3B]">
             <Star className="w-4 h-4 text-[#D9A031]" />
             <h2 className="font-display font-bold text-base text-[#FAF9F6]">
               Verified Google Reviews Integration
@@ -529,7 +549,7 @@ export default function AdminSettingsPage() {
                 value={settings.google_reviews_link || ''}
                 onChange={(e) => setSettings({ ...settings, google_reviews_link: e.target.value })}
                 placeholder="https://g.page/r/..."
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none"
               />
               <span className="text-[10px] text-[#6C7584] mt-1 block">
                 Leave empty to completely hide reviews section until official link is confirmed
@@ -544,7 +564,7 @@ export default function AdminSettingsPage() {
                 type="number"
                 value={settings.google_reviews_count ?? 0}
                 onChange={(e) => setSettings({ ...settings, google_reviews_count: Number(e.target.value) })}
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
               />
             </div>
           </div>

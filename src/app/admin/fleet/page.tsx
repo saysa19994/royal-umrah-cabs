@@ -13,7 +13,9 @@ interface VehicleRecord {
 }
 
 const DEFAULT_FLEET: VehicleRecord[] = [
-  { id: 'staria', name: 'Hyundai Staria VIP', category: 'Family Van', seats: 7, bags: 6, is_active: true },
+  { id: 'maybach', name: 'Mercedes-Maybach VIP', category: 'Ultra-Luxury VIP Sedan', seats: 3, bags: 3, is_active: true },
+  { id: 'staria', name: 'Hyundai Staria VIP', category: 'Family Luxury Minivan', seats: 7, bags: 6, is_active: true },
+  { id: 'h1', name: 'Hyundai H1 VIP', category: 'Spacious Family Minivan', seats: 7, bags: 7, is_active: true },
   { id: 'yukon', name: 'GMC Yukon XL', category: 'Luxury VIP SUV', seats: 7, bags: 8, is_active: true },
   { id: 'camry', name: 'Toyota Camry Sedan', category: 'Standard Sedan', seats: 4, bags: 3, is_active: true },
   { id: 'hiace', name: 'Toyota HiAce Minibus', category: 'Group Minibus', seats: 10, bags: 10, is_active: true },
@@ -97,8 +99,8 @@ export default function AdminFleetPage() {
         {fleet.map((veh) => (
           <div
             key={veh.id}
-            className={`bg-[#14171C] border rounded-2xl p-6 transition-all ${
-              veh.is_active ? 'border-[#262B33]' : 'border-rose-900/40 opacity-70'
+            className={`bg-[#121622] border rounded-2xl p-6 transition-all ${
+              veh.is_active ? 'border-[#232A3B]' : 'border-rose-900/40 opacity-70'
             }`}
           >
             <div className="flex items-center justify-between mb-4">
@@ -122,7 +124,7 @@ export default function AdminFleetPage() {
             </div>
 
             <div className="grid grid-cols-2 gap-3 mb-6">
-              <div className="bg-[#0D0F12] border border-[#262B33] rounded-xl p-3">
+              <div className="bg-[#0D0F12] border border-[#232A3B] rounded-xl p-3">
                 <span className="text-[11px] text-[#A0A6B2] flex items-center gap-1.5 mb-1.5">
                   <Users className="w-3.5 h-3.5 text-[#D9A031]" />
                   <span>Max Passengers</span>
@@ -131,11 +133,11 @@ export default function AdminFleetPage() {
                   type="number"
                   value={veh.seats}
                   onChange={(e) => handleCapacityChange(veh.id, 'seats', e.target.value)}
-                  className="w-full h-8 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#262B33] bg-[#14171C] text-[#FAF9F6] outline-none"
+                  className="w-full h-8 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#232A3B] bg-[#121622] text-[#FAF9F6] outline-none"
                 />
               </div>
 
-              <div className="bg-[#0D0F12] border border-[#262B33] rounded-xl p-3">
+              <div className="bg-[#0D0F12] border border-[#232A3B] rounded-xl p-3">
                 <span className="text-[11px] text-[#A0A6B2] flex items-center gap-1.5 mb-1.5">
                   <Luggage className="w-3.5 h-3.5 text-[#D9A031]" />
                   <span>Max Luggage Bags</span>
@@ -144,7 +146,7 @@ export default function AdminFleetPage() {
                   type="number"
                   value={veh.bags}
                   onChange={(e) => handleCapacityChange(veh.id, 'bags', e.target.value)}
-                  className="w-full h-8 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#262B33] bg-[#14171C] text-[#FAF9F6] outline-none"
+                  className="w-full h-8 px-2 text-center text-xs font-mono font-bold rounded-lg border border-[#232A3B] bg-[#121622] text-[#FAF9F6] outline-none"
                 />
               </div>
             </div>

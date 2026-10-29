@@ -19,6 +19,7 @@ export interface FaqSectionProps {
   locale: Locale;
   dict: Dictionary;
   settings?: SiteSettings;
+  items?: Array<{ q: string; a: string }>;
   id?: string;
   className?: string;
   showCta?: boolean;
@@ -28,6 +29,7 @@ export function FaqSection({
   locale,
   dict,
   settings,
+  items,
   id = 'faq',
   className = '',
   showCta = true,
@@ -41,7 +43,7 @@ export function FaqSection({
   const isRtl = locale === 'ar' || locale === 'ur';
 
   // Extract all 12 questions and answers from dict.faq
-  const faqItems = [
+  const fallbackItems = [
     { q: dict.faq.q1, a: dict.faq.a1 },
     { q: dict.faq.q2, a: dict.faq.a2 },
     { q: dict.faq.q3, a: dict.faq.a3 },
@@ -55,6 +57,8 @@ export function FaqSection({
     { q: dict.faq.q11, a: dict.faq.a11 },
     { q: dict.faq.q12, a: dict.faq.a12 },
   ].filter((item) => Boolean(item.q && item.a));
+
+  const faqItems = items && items.length > 0 ? items : fallbackItems;
 
   const whatsappNumber = settings?.whatsapp_number || '966567588261';
 

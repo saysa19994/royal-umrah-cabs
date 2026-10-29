@@ -6,15 +6,17 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { Locale, LOCALES, LOCALE_CONFIG, CURRENCIES, CurrencyCode } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
+import type { SiteSettings } from '@/lib/settings';
 import { useCurrency } from '@/context/CurrencyContext';
 import { Globe, Menu, X, ArrowUpRight, CalendarDays } from 'lucide-react';
 
 interface HeaderProps {
   locale: Locale;
   dict: Dictionary;
+  settings?: SiteSettings;
 }
 
-export function Header({ locale, dict }: HeaderProps) {
+export function Header({ locale, dict, settings }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -89,6 +91,11 @@ export function Header({ locale, dict }: HeaderProps) {
           : 'bg-[#0A1224]/95 backdrop-blur-lg border-b border-gold/20 shadow-[0_4px_25px_rgba(0,0,0,0.5)] py-2.5 sm:py-3'
       }`}
     >
+      {Boolean(settings?.promo_banner_enabled) && (
+        <div className="bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-[#0A1224] text-[11px] sm:text-xs font-semibold py-1 px-3 text-center tracking-wide shadow-sm">
+          <span>{settings?.announcement_translations?.[locale] || settings?.promo_banner_text || ''}</span>
+        </div>
+      )}
       <div className="container mx-auto px-3 sm:px-4 max-w-7xl flex items-center justify-between">
         {/* LOGO: DUYUF ALRAHMAN VIP MARK + ARABIC NAME */}
         <Link

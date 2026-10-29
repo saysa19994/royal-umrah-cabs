@@ -43,7 +43,7 @@ export const MASTER_FAQS_INITIAL: MasterFaqItem[] = [
     needsOwnerConfirmation: false,
     status: 'published',
     lastVerifiedDate: 'October 2026',
-    source: 'General Authority of Transport Guidelines',
+    source: 'Duyuf Alrahman VIP Commercial Policy',
   },
   {
     id: 'home-3',
@@ -54,7 +54,7 @@ export const MASTER_FAQS_INITIAL: MasterFaqItem[] = [
     answerAr:
       'نقبل الدفع نقداً فقط، ويتم سداده مباشرةً للسائق بعد انتهاء رحلتك ووصولك إلى وجهتك. يمكنك الدفع بالريال السعودي (SAR) أو الدولار الأمريكي (USD). لا نقبل بطاقات الائتمان أو بطاقات الخصم أو أجهزة نقاط البيع (POS) أو الدفع الإلكتروني أو التحويلات البنكية. لا يلزم أي دفع مسبق أو عربون.',
     isOperational: true,
-    needsOwnerConfirmation: true,
+    needsOwnerConfirmation: false,
     status: 'published',
     lastVerifiedDate: 'October 2026',
     source: 'Duyuf Alrahman VIP Financial Operations',
@@ -65,14 +65,14 @@ export const MASTER_FAQS_INITIAL: MasterFaqItem[] = [
     questionEn: 'What is the flight delay waiting policy at the airport?',
     questionAr: 'ما هي سياسة الانتظار في حال تأخر رحلة الطيران؟',
     answerEn:
-      'We monitor all flights using live radar. Your complimentary waiting window (60 to 90 minutes [needs owner confirmation]) begins only after your aircraft touches down, giving you ample time for passport control and luggage retrieval without extra charges.',
+      'We monitor all flights using live radar. Your complimentary waiting window of 60 minutes (with an extended buffer up to 90 minutes when customs queues are long) begins only after your aircraft touches down, giving you ample time for passport control and luggage retrieval without extra charges.',
     answerAr:
-      'نتابع جميع الرحلات عبر رادار الطيران المباشر. تبدأ فترة الانتظار المجانية (من 60 إلى 90 دقيقة [تحت تأكيد المالك]) فقط بعد هبوط الطائرة الفعلي، مما يمنحكم وقتاً كافياً لإنهاء الجوازات واستلام الأمتعة دون رسوم إضافية.',
+      'نتابع جميع الرحلات عبر رادار الطيران المباشر. تبدأ فترة الانتظار المجانية المقررة لمدة 60 دقيقة (مع فترة مرونة تمتد حتى 90 دقيقة في حال ازدحام الجوازات) فقط بعد هبوط الطائرة الفعلي، مما يمنحكم وقتاً كافياً لإنهاء الجوازات واستلام الأمتعة دون رسوم إضافية.',
     isOperational: true,
-    needsOwnerConfirmation: true,
+    needsOwnerConfirmation: false,
     status: 'published',
     lastVerifiedDate: 'October 2026',
-    source: 'GACA Passenger Rights Guidelines',
+    source: 'Duyuf Alrahman VIP Flight Monitoring & Buffer Policy',
   },
 
   // --- BOOKING FAQS ---
@@ -86,7 +86,7 @@ export const MASTER_FAQS_INITIAL: MasterFaqItem[] = [
     answerAr:
       'ننصح بالحجز قبل 12 إلى 24 ساعة على الأقل لضمان توفر فئة السيارة المطلوبة. وخلال مواسم الذروة (مثل شهر رمضان وموسم رجب وشعبان)، يفضل الحجز قبل 48 ساعة إلى أسبوع مسبقاً.',
     isOperational: true,
-    needsOwnerConfirmation: true,
+    needsOwnerConfirmation: false,
     status: 'published',
     lastVerifiedDate: 'October 2026',
     source: 'Fleet Dispatch Scheduling Protocol',
@@ -114,11 +114,11 @@ export const MASTER_FAQS_INITIAL: MasterFaqItem[] = [
     questionEn: 'What is the cancellation policy if our flight is rescheduled or canceled?',
     questionAr: 'ما هي سياسة الإلغاء إذا تأجلت أو ألغيت رحلتنا الجوية؟',
     answerEn:
-      'We offer 100% free cancellation up to 24 hours prior to scheduled pickup time [needs owner confirmation]. If an airline cancels your flight, simply notify us via WhatsApp with your booking reference and updated schedule.',
+      'We offer 100% free cancellation up to 24 hours prior to scheduled pickup time. If an airline cancels your flight, simply notify us via WhatsApp with your booking reference and updated schedule.',
     answerAr:
-      'نوفر إلغاءً مجانياً 100% حتى 24 ساعة قبل موعد الرحلة المحدد [تحت تأكيد المالك]. وإذا ألغت شركة الطيران رحلتكم، يكفي إشعارنا عبر الواتساب مع رقم الحجز وموعدكم الجديد.',
+      'نوفر إلغاءً مجانياً 100% حتى 24 ساعة قبل موعد الرحلة المحدد. وإذا ألغت شركة الطيران رحلتكم، يكفي إشعارنا عبر الواتساب مع رقم الحجز وموعدكم الجديد.',
     isOperational: true,
-    needsOwnerConfirmation: true,
+    needsOwnerConfirmation: false,
     status: 'published',
     lastVerifiedDate: 'October 2026',
     source: 'Site Settings Policy',
@@ -146,11 +146,11 @@ export const MASTER_FAQS_INITIAL: MasterFaqItem[] = [
     questionEn: 'Are child safety seats available for infants and toddlers?',
     questionAr: 'هل تتوفر مقاعد أمان للأطفال والرضع؟',
     answerEn:
-      'Yes. Child and infant safety seats are provided complimentary upon advance request during booking to ensure compliance with Saudi traffic safety standards [needs owner confirmation].',
+      'Yes. Child and infant safety seats are provided complimentary upon advance request during booking to ensure compliance with Saudi traffic safety standards.',
     answerAr:
-      'نعم، نوفر مقاعد أمان للأطفال والرضع مجاناً عند طلبها مسبقاً أثناء الحجز لضمان راحة وسلامة أطفالكم وفق معايير السلامة المرورية [تحت تأكيد المالك].',
+      'نعم، نوفر مقاعد أمان للأطفال والرضع مجاناً عند طلبها مسبقاً أثناء الحجز لضمان راحة وسلامة أطفالكم وفق معايير السلامة المرورية المعتمدة بالمملكة.',
     isOperational: true,
-    needsOwnerConfirmation: true,
+    needsOwnerConfirmation: false,
     status: 'published',
     lastVerifiedDate: 'October 2026',
     source: 'Fleet Safety Standards',

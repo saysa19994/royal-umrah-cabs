@@ -1,16 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth/server-auth';
-import { logAuditEvent } from '@/lib/audit';
+import { getAllFaqsAdmin, upsertFaqAdmin, deleteFaqAdmin } from '@/lib/faq-service';
 import { getClientIp } from '@/lib/rate-limit';
-import { MASTER_FAQS_INITIAL, MasterFaqItem } from '@/data/faqs-master';
-import { createServiceClient } from '@/lib/supabase/service';
+import { FaqItem } from '@/types/content';
 
-// In-memory runtime store with persistence fallback
-let runtimeFaqs: MasterFaqItem[] = JSON.parse(JSON.stringify(MASTER_FAQS_INITIAL));
+export const dynamic = 'force-dynamic';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
-    const authResult = await requireRole(request, ['owner', 'admin', 'operator']);
+    const authResult = await requireRole(request, ['owner', 'admin', 'operator', 'content_editor', 'translator']);
     if (authResult.errorResponse) {
       return authResult.errorResponse;
     }
@@ -19,17 +17,7 @@ export async function GET(request: Request) {
     const category = searchParams.get('category');
     const status = searchParams.get('status');
 
-    let faqs = runtimeFaqs;
-
-    // Attempt to read custom overrides from Supabase site_settings if available
-    try {
-      const serviceClient = createServiceClient();
-      const { data } = await serviceClient.from('site_settings').select('custom_faqs').maybeSingle();
-      if (data?.custom_faqs && Array.isArray(data.custom_faqs) && data.custom_faqs.length > 0) {
-        faqs = data.custom_faqs;
-        runtimeFaqs = data.custom_faqs;
-      }
-    } catch {}
+    let faqs = await getAllFaqsAdmin();
 
     if (category && category !== 'all') {
       faqs = faqs.filter((f) => f.category === category);
@@ -45,11 +33,58 @@ export async function GET(request: Request) {
     });
   } catch (err: any) {
     console.error('Admin FAQs GET error:', err);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'Internal server error retrieving FAQs' }, { status: 500 });
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  try {
+    const clientIp = getClientIp(request);
+    const authResult = await requireRole(request, ['owner', 'admin', 'content_editor']);
+    if (authResult.errorResponse) {
+      return authResult.errorResponse;
+    }
+
+    const { user: currentUser } = authResult;
+    const body = await request.json();
+
+    const faqPayload: FaqItem = {
+      id: body.id,
+      category: body.category || 'general',
+      question_translations: body.question_translations || {
+        en: body.questionEn || '',
+        ar: body.questionAr || '',
+      },
+      answer_translations: body.answer_translations || {
+        en: body.answerEn || '',
+        ar: body.answerAr || '',
+      },
+      feature_flag_key: body.feature_flag_key || null,
+      answer_flag_off_translations: body.answer_flag_off_translations || null,
+      status: body.status || 'published',
+      sort_order: Number(body.sort_order) || 1,
+      is_operational: typeof body.is_operational === 'boolean' ? body.is_operational : true,
+      last_verified_date: body.last_verified_date || 'October 2026',
+      source: body.source || 'Duyuf Alrahman VIP Charter',
+    };
+
+    if (!faqPayload.id || (!faqPayload.question_translations.en && !faqPayload.question_translations.ar)) {
+      return NextResponse.json({ success: false, error: 'Missing required FAQ fields' }, { status: 400 });
+    }
+
+    const result = await upsertFaqAdmin(faqPayload, currentUser.email, currentUser.role, clientIp);
+    if (!result.success) {
+      return NextResponse.json({ success: false, error: result.error }, { status: 400 });
+    }
+
+    return NextResponse.json({ success: true, faq: result.faq });
+  } catch (err: any) {
+    console.error('Admin FAQs POST error:', err);
+    return NextResponse.json({ success: false, error: 'Internal server error saving FAQ' }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
   try {
     const clientIp = getClientIp(request);
     const authResult = await requireRole(request, ['owner', 'admin']);
@@ -58,64 +93,17 @@ export async function POST(request: Request) {
     }
 
     const { user: currentUser } = authResult;
-    const body = await request.json();
-    const { id, category, questionEn, questionAr, answerEn, answerAr, status, needsOwnerConfirmation } = body;
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
 
-    if (!id || !questionEn || !answerEn) {
-      return NextResponse.json({ error: 'Missing required FAQ fields' }, { status: 400 });
+    if (!id) {
+      return NextResponse.json({ success: false, error: 'FAQ ID is required' }, { status: 400 });
     }
 
-    const existingIndex = runtimeFaqs.findIndex((f) => f.id === id);
-    const updatedItem: MasterFaqItem = {
-      id,
-      category: category || 'general',
-      questionEn,
-      questionAr: questionAr || questionEn,
-      answerEn,
-      answerAr: answerAr || answerEn,
-      isOperational: Boolean(body.isOperational),
-      needsOwnerConfirmation: Boolean(needsOwnerConfirmation),
-      status: status === 'draft' ? 'draft' : 'published',
-      lastVerifiedDate: body.lastVerifiedDate || 'October 2026',
-      source: body.source || 'Admin Edited',
-    };
-
-    if (existingIndex !== -1) {
-      runtimeFaqs[existingIndex] = updatedItem;
-    } else {
-      runtimeFaqs.unshift(updatedItem);
-    }
-
-    // Persist to Supabase site_settings if column exists or in site_settings
-    try {
-      const serviceClient = createServiceClient();
-      await serviceClient
-        .from('site_settings')
-        .update({ custom_faqs: runtimeFaqs, updated_at: new Date().toISOString() })
-        .eq('lock_id', true);
-    } catch (e) {
-      console.warn('Notice persisting custom_faqs to DB:', e);
-    }
-
-    // Audit log
-    try {
-      await logAuditEvent({
-        userEmail: currentUser.email,
-        userRole: currentUser.role,
-        action: existingIndex !== -1 ? 'faq_update' : 'faq_create',
-        resource: 'faqs',
-        resourceId: id,
-        newValues: updatedItem,
-        ip: clientIp,
-      });
-    } catch {}
-
-    return NextResponse.json({
-      success: true,
-      faq: updatedItem,
-    });
+    const result = await deleteFaqAdmin(id, currentUser.email, currentUser.role, clientIp);
+    return NextResponse.json(result);
   } catch (err: any) {
-    console.error('Admin FAQs POST error:', err);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Admin FAQs DELETE error:', err);
+    return NextResponse.json({ success: false, error: 'Internal server error deleting FAQ' }, { status: 500 });
   }
 }

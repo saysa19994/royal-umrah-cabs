@@ -18,7 +18,10 @@ export type Resource =
   | 'roles'
   | 'audit_log'
   | 'page_content'
-  | 'reviews';
+  | 'reviews'
+  | 'faqs'
+  | 'cms'
+  | 'media';
 
 export type Action = 'view' | 'create' | 'edit' | 'delete' | 'publish' | 'export';
 
@@ -59,12 +62,7 @@ export interface AuditLogEntry {
   created_at: string;
 }
 
-export interface OwnershipTransferRecord {
-  id: string;
-  current_owner_email: string;
-  target_owner_email: string;
-  confirmation_token: string;
-  status: 'pending' | 'confirmed' | 'expired' | 'cancelled';
-  expires_at: string;
-  created_at: string;
+export interface SessionData {
+  user: UserProfile;
+  expiresAt: number;
 }

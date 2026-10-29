@@ -57,13 +57,17 @@ export default async function AdminLayout({
 
     return (
       <AdminShell>
-        <div className="min-h-screen bg-[#0D0F12] text-[#F3EEE6] flex flex-col font-sans">
+        <div className="min-h-screen bg-[#0A0D14] text-[#FAF9F6] flex flex-col font-sans selection:bg-[#D9A031]/30 selection:text-white">
           <AdminNavbar initialUser={ownerProfile} />
           <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
             {children}
           </main>
-          <footer className="border-t border-[#262B33] py-4 px-6 text-center text-xs text-[#6C7584]">
-            <span>Duyuf Alrahman VIP Operations Portal • Protected Root Access</span>
+          <footer className="border-t border-[#1F2636] py-5 px-6 text-center text-xs text-[#7C879B] flex flex-col sm:flex-row items-center justify-between max-w-7xl mx-auto w-full gap-2">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <span>Duyuf Alrahman VIP Operations Portal • Protected Root Access</span>
+            </div>
+            <span className="font-mono text-[11px] text-[#556075]">Single Source of Truth • 10 Locales Active</span>
           </footer>
         </div>
       </AdminShell>
@@ -166,7 +170,7 @@ export default async function AdminLayout({
 
   return (
     <AdminShell>
-      <div className="min-h-screen bg-[#0D0F12] text-[#F3EEE6] flex flex-col font-sans">
+      <div className="min-h-screen bg-[#0A0D14] text-[#FAF9F6] flex flex-col font-sans selection:bg-[#D9A031]/30 selection:text-white">
         <AdminNavbar initialUser={profile} />
         {/* TURNSTILE CONFIGURATION WARNING IN PRODUCTION */}
         {process.env.NODE_ENV === 'production' && (!process.env.TURNSTILE_SECRET_KEY || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || process.env.TURNSTILE_SECRET_KEY.includes('placeholder')) && (
@@ -177,8 +181,12 @@ export default async function AdminLayout({
         <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
           {children}
         </main>
-        <footer className="border-t border-[#262B33] py-4 px-6 text-center text-xs text-[#6C7584]">
-          <span>Duyuf Alrahman VIP Operations Portal • Protected with RBAC &amp; Mandatory TOTP</span>
+        <footer className="border-t border-[#1F2636] py-5 px-6 text-center text-xs text-[#7C879B] flex flex-col sm:flex-row items-center justify-between max-w-7xl mx-auto w-full gap-2">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            <span>Duyuf Alrahman VIP Operations Portal • Protected with RBAC &amp; Mandatory TOTP</span>
+          </div>
+          <span className="font-mono text-[11px] text-[#556075]">Single Source of Truth • 10 Locales Active</span>
         </footer>
       </div>
     </AdminShell>

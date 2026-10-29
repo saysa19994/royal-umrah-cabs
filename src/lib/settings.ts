@@ -32,6 +32,7 @@ export interface SiteSettings {
   airport_waiting_minutes: number;
   promo_banner_enabled: boolean;
   promo_banner_text: string;
+  announcement_translations?: Record<string, string>;
 }
 
 export const DEFAULT_SETTINGS: SiteSettings = {
@@ -141,3 +142,5 @@ const fetchSettingsCached = unstable_cache(
 export async function getSiteSettings(): Promise<SiteSettings> {
   return fetchSettingsCached();
 }
+
+export const getSiteSettingsCached = getSiteSettings;

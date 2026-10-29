@@ -144,12 +144,36 @@ export async function GET(req: NextRequest) {
       );
     }
 
+    const normalizedReviews = (reviews || []).map((row: any) => ({
+      ...row,
+      status: row.status || (row.is_approved ? 'published' : 'pending'),
+    }));
+
+    if (counts.all === 0 && normalizedReviews.length > 0) {
+      normalizedReviews.forEach((row: any) => {
+        counts.all++;
+        if (row.status === 'published') {
+          counts.published++;
+          publishedCount++;
+          totalRatingSum += Number(row.rating) || 5;
+        } else if (row.status === 'rejected') {
+          counts.rejected++;
+        } else {
+          counts.pending++;
+        }
+      });
+    }
+
+    const effectiveAverageRating = publishedCount > 0
+      ? Math.round((totalRatingSum / publishedCount) * 10) / 10
+      : averageRating;
+
     return NextResponse.json({
       success: true,
-      reviews: reviews || [],
+      reviews: normalizedReviews,
       counts,
-      averageRating,
-      total: count ?? (reviews?.length || 0),
+      averageRating: effectiveAverageRating,
+      total: count ?? normalizedReviews.length,
       page,
       limit,
     });
@@ -239,7 +263,13 @@ export async function PATCH(req: NextRequest) {
       updateResult = fallbackResult;
     }
 
-    const updatedReview = updateResult.data;
+    const rawUpdated = updateResult.data;
+    const updatedReview = rawUpdated
+      ? {
+          ...rawUpdated,
+          status: rawUpdated.status || (rawUpdated.is_approved ? 'published' : (status === 'rejected' ? 'rejected' : 'pending')),
+        }
+      : rawUpdated;
 
     await logAuditEvent({
       userEmail: currentUser.email,

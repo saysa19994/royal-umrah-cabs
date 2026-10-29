@@ -15,21 +15,24 @@ import {
   Eye,
   EyeOff,
   RefreshCw,
+  Trash2,
+  Flag,
 } from 'lucide-react';
+import { FaqItem, ContentStatus } from '@/types/content';
+import { Locale, LOCALES, LOCALE_CONFIG } from '@/i18n/config';
 
-interface FaqItem {
-  id: string;
-  category: string;
-  questionEn: string;
-  questionAr: string;
-  answerEn: string;
-  answerAr: string;
-  isOperational: boolean;
-  needsOwnerConfirmation: boolean;
-  status: 'published' | 'draft';
-  lastVerifiedDate: string;
-  source: string;
-}
+const FEATURE_FLAGS_OPTIONS = [
+  { key: '', label: 'None (Always active / Independent)' },
+  { key: 'flight_tracking_enabled', label: 'Flight Radar Tracking' },
+  { key: 'free_miqat_stop', label: 'Free Miqat Stop' },
+  { key: 'complimentary_child_seat', label: 'Complimentary Child Seat' },
+  { key: 'complimentary_water', label: 'Complimentary Cold Water' },
+  { key: 'zamzam_water', label: 'Zamzam Water Provision' },
+  { key: 'malay_speaking_chauffeur', label: 'Malay-Speaking Chauffeur' },
+  { key: 'coaster_enabled', label: 'Toyota Coaster Fleet' },
+  { key: 'online_card_payment_enabled', label: 'Online Card Gateway' },
+  { key: 'bank_transfer_payment_enabled', label: 'Saudi Bank Transfer' },
+];
 
 export default function AdminFaqsPage() {
   const [faqs, setFaqs] = useState<FaqItem[]>([]);
@@ -38,10 +41,9 @@ export default function AdminFaqsPage() {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
   const [editingFaq, setEditingFaq] = useState<FaqItem | null>(null);
+  const [editorLocale, setEditorLocale] = useState<Locale>('en');
   const [saving, setSaving] = useState(false);
-  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(
-    null
-  );
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const fetchFaqs = async () => {
     setLoading(true);
@@ -66,6 +68,16 @@ export default function AdminFaqsPage() {
     e.preventDefault();
     if (!editingFaq) return;
 
+    // Check placeholder
+    const raw = JSON.stringify(editingFaq);
+    if (/\[needs owner confirmation\]/i.test(raw) && editingFaq.status === 'published') {
+      setFeedback({
+        type: 'error',
+        message: 'Cannot publish FAQ with "[needs owner confirmation]". Remove placeholder or save as Draft / Needs Owner Confirmation.',
+      });
+      return;
+    }
+
     setSaving(true);
     setFeedback(null);
     try {
@@ -76,362 +88,418 @@ export default function AdminFaqsPage() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        setFeedback({ type: 'success', message: '✓ تم حفظ السؤال والإجابة بنجاح!' });
-        setFaqs((prev) =>
-          prev.map((f) => (f.id === editingFaq.id ? editingFaq : f))
-        );
+        setFeedback({ type: 'success', message: 'FAQ successfully saved & revalidated live!' });
+        fetchFaqs();
         setTimeout(() => {
           setEditingFaq(null);
           setFeedback(null);
         }, 1200);
       } else {
-        setFeedback({ type: 'error', message: data.error || 'فشل في حفظ التعديل' });
+        setFeedback({ type: 'error', message: data.error || 'Failed to save FAQ' });
       }
     } catch {
-      setFeedback({ type: 'error', message: 'خطأ أثناء الاتصال بالخادم' });
+      setFeedback({ type: 'error', message: 'Network error saving FAQ' });
     } finally {
       setSaving(false);
     }
   };
 
-  const handleToggleStatus = async (item: FaqItem) => {
-    const nextStatus: 'published' | 'draft' = item.status === 'published' ? 'draft' : 'published';
-    const updated: FaqItem = { ...item, status: nextStatus };
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to permanently delete this FAQ?')) return;
     try {
-      const res = await fetch('/api/admin/faqs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updated),
-      });
-      if (res.ok) {
-        setFaqs((prev) => prev.map((f) => (f.id === item.id ? updated : f)));
+      const res = await fetch(`/api/admin/faqs?id=${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        fetchFaqs();
       }
-    } catch (err) {
-      console.error('Error toggling status:', err);
+    } catch (e) {
+      console.error('Delete FAQ error:', e);
     }
   };
 
-  const handleToggleConfirmation = async (item: FaqItem) => {
-    const updated = { ...item, needsOwnerConfirmation: !item.needsOwnerConfirmation };
-    try {
-      const res = await fetch('/api/admin/faqs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updated),
-      });
-      if (res.ok) {
-        setFaqs((prev) => prev.map((f) => (f.id === item.id ? updated : f)));
-      }
-    } catch (err) {
-      console.error('Error toggling confirmation:', err);
-    }
+  const handleCreateNew = () => {
+    const newFaq: FaqItem = {
+      id: `faq-${Date.now()}`,
+      category: 'general',
+      question_translations: { en: '', ar: '' },
+      answer_translations: { en: '', ar: '' },
+      feature_flag_key: null,
+      answer_flag_off_translations: { en: '', ar: '' },
+      status: 'draft',
+      sort_order: faqs.length + 1,
+      is_operational: true,
+      last_verified_date: 'October 2026',
+      source: 'Duyuf Alrahman VIP Charter',
+    };
+    setEditingFaq(newFaq);
+    setEditorLocale('en');
   };
 
   const filteredFaqs = faqs.filter((f) => {
+    const qEn = f.question_translations?.en || '';
+    const qAr = f.question_translations?.ar || '';
     const matchesSearch =
-      f.questionEn.toLowerCase().includes(search.toLowerCase()) ||
-      f.questionAr.includes(search) ||
-      f.answerEn.toLowerCase().includes(search.toLowerCase()) ||
-      f.answerAr.includes(search);
+      !search ||
+      qEn.toLowerCase().includes(search.toLowerCase()) ||
+      qAr.includes(search) ||
+      f.id.toLowerCase().includes(search.toLowerCase());
+
     const matchesCategory = categoryFilter === 'all' || f.category === categoryFilter;
     const matchesStatus = statusFilter === 'all' || f.status === statusFilter;
+
     return matchesSearch && matchesCategory && matchesStatus;
   });
 
   return (
-    <div className="space-y-6 text-start">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#262B33]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <HelpCircle className="w-5 h-5 text-[#D9A031]" />
-            <h1 className="text-xl font-bold text-[#FAF9F6]">إدارة وتدقيق الأسئلة الشائعة (FAQ CMS)</h1>
+            <span className="w-2 h-2 rounded-full bg-[#D9A031]" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#D9A031]">Database Source of Truth</span>
           </div>
-          <p className="text-xs text-[#A0A6B2]">
-            تعديل وتدقيق الأسئلة والأجوبة التشغيلية لجميع صفحات الموقع (الرئيسية، المسارات، الحجز، والمزارات).
+          <h1 className="text-2xl md:text-3xl font-bold font-display text-[#FAF9F6]">
+            FAQ Content &amp; Verification Editor
+          </h1>
+          <p className="text-sm text-[#A0A6B2] mt-0.5">
+            10-locale translation management, gated feature flag linkage, and source citation governance.
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() =>
-            setEditingFaq({
-              id: `faq-custom-${Date.now()}`,
-              category: 'general',
-              questionEn: '',
-              questionAr: '',
-              answerEn: '',
-              answerAr: '',
-              isOperational: true,
-              needsOwnerConfirmation: true,
-              status: 'published',
-              lastVerifiedDate: 'October 2026',
-              source: 'Admin Created',
-            })
-          }
-          className="h-9 px-4 rounded-xl bg-[#D9A031] text-[#0D0F12] text-xs font-bold hover:bg-[#E5B24E] transition-colors flex items-center gap-1.5 shrink-0"
-        >
-          <Plus className="w-4 h-4" />
-          <span>إضافة سؤال جديد</span>
-        </button>
+        <div className="flex items-center gap-2 self-start sm:self-auto">
+          <button
+            onClick={handleCreateNew}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#D9A031] hover:bg-[#B88422] text-[#0D0F12] text-xs font-bold transition-colors shadow-lg shadow-[#D9A031]/10"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add FAQ</span>
+          </button>
+          <button
+            onClick={fetchFaqs}
+            disabled={loading}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1A1F26] border border-[#232A3B] text-xs font-semibold text-[#FAF9F6] hover:bg-[#20252D] hover:border-[#D9A031]/40 transition-colors"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#D9A031]' : ''}`} />
+            <span>Refresh</span>
+          </button>
+        </div>
       </div>
 
-      {/* Filters & Search */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="relative">
+      {feedback && (
+        <div
+          className={`p-4 rounded-xl border flex items-center justify-between gap-3 text-xs font-medium animate-in fade-in duration-200 ${
+            feedback.type === 'success'
+              ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
+              : 'bg-red-950/40 border-red-500/40 text-red-300'
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            {feedback.type === 'success' ? (
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            ) : (
+              <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+            )}
+            <span>{feedback.message}</span>
+          </div>
+          <button onClick={() => setFeedback(null)} className="text-white/60 hover:text-white transition-colors">
+            ✕
+          </button>
+        </div>
+      )}
+
+      {/* Filter Bar */}
+      <div className="flex flex-col md:flex-row items-center gap-3 bg-[#121622] border border-[#232A3B] p-3 rounded-2xl">
+        <div className="relative flex-1 w-full">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#A0A6B2]" />
           <input
             type="text"
-            placeholder="بحث في الأسئلة أو الأجوبة..."
+            placeholder="Search FAQs by question or ID..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-10 pl-9 pr-3 rounded-xl bg-[#13171F] border border-[#262B33] text-xs text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+            className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none focus:border-[#D9A031]"
           />
-          <Search className="w-4 h-4 text-[#6C7584] absolute left-3 top-1/2 -translate-y-1/2" />
         </div>
 
         <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
-          className="h-10 px-3 rounded-xl bg-[#13171F] border border-[#262B33] text-xs text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+          className="px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none w-full md:w-auto"
         >
-          <option value="all">جميع الأقسام (All Categories)</option>
-          <option value="home">الرئيسية (Home)</option>
-          <option value="booking">الحجز (Booking)</option>
-          <option value="cancellation">الإلغاء (Cancellation)</option>
-          <option value="vehicles">الأسطول (Vehicles & Luggage)</option>
-          <option value="routes">المسارات والمطارات (Routes & Terminals)</option>
-          <option value="ziyarat">المزارات (Ziyarat Tours)</option>
+          <option value="all">All Categories</option>
+          <option value="home">Home / General</option>
+          <option value="booking">Booking</option>
+          <option value="cancellation">Cancellation</option>
+          <option value="vehicles">Fleet / Vehicles</option>
+          <option value="routes">Routes / Miqat</option>
+          <option value="ziyarat">Ziyarat</option>
         </select>
 
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="h-10 px-3 rounded-xl bg-[#13171F] border border-[#262B33] text-xs text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+          className="px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none w-full md:w-auto"
         >
-          <option value="all">جميع الحالات (All Status)</option>
-          <option value="published">منشور فقط (Published)</option>
-          <option value="draft">مسودة فقط (Draft)</option>
+          <option value="all">All Statuses</option>
+          <option value="published">Published</option>
+          <option value="draft">Draft</option>
+          <option value="needs_owner_confirmation">Needs Confirmation</option>
         </select>
       </div>
 
-      {/* FAQs List Table */}
-      {loading ? (
-        <div className="p-12 text-center text-xs text-[#6C7584]">
-          <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#D9A031]" />
-          <span>جاري تحميل الأسئلة الشائعة...</span>
-        </div>
-      ) : filteredFaqs.length === 0 ? (
-        <div className="p-12 text-center text-xs text-[#6C7584] bg-[#13171F] rounded-2xl border border-[#262B33]">
-          لا توجد نتائج تطابق معايير البحث.
-        </div>
-      ) : (
-        <div className="bg-[#13171F] border border-[#262B33] rounded-2xl overflow-hidden divide-y divide-[#262B33]">
-          {filteredFaqs.map((faq) => (
+      {/* FAQs List */}
+      <div className="space-y-3">
+        {filteredFaqs.map((faq) => {
+          const qEn = faq.question_translations?.en || 'Untitled Question';
+          const aEn = faq.answer_translations?.en || '';
+          const hasPlaceholder = /\[needs owner confirmation\]/i.test(JSON.stringify(faq));
+
+          return (
             <div
               key={faq.id}
-              className="p-4 sm:p-5 hover:bg-[#1A202C]/40 transition-colors space-y-3"
+              className={`p-5 rounded-2xl border transition-all ${
+                hasPlaceholder
+                  ? 'bg-amber-950/20 border-amber-500/40'
+                  : faq.status === 'published'
+                  ? 'bg-[#121622] border-[#232A3B]'
+                  : 'bg-[#121622]/60 border-[#232A3B]/60 opacity-75'
+              }`}
             >
-              <div className="flex items-start justify-between gap-3 flex-wrap">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="px-2.5 py-0.5 rounded-full bg-[#D9A031]/15 text-[#D9A031] text-[10px] font-bold uppercase tracking-wider">
-                    {faq.category}
-                  </span>
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                <div className="space-y-2 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-[#0D0F12] text-[#D9A031]">
+                      {faq.category}
+                    </span>
+                    <span
+                      className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                        faq.status === 'published'
+                          ? 'bg-emerald-500/20 text-emerald-400'
+                          : faq.status === 'needs_owner_confirmation'
+                          ? 'bg-amber-500/20 text-amber-300'
+                          : 'bg-red-500/20 text-red-400'
+                      }`}
+                    >
+                      {faq.status.replace(/_/g, ' ')}
+                    </span>
+                    {faq.feature_flag_key && (
+                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/15 text-blue-300 flex items-center gap-1">
+                        <Flag className="w-2.5 h-2.5" />
+                        <span>Flag: {faq.feature_flag_key}</span>
+                      </span>
+                    )}
+                    {hasPlaceholder && (
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500 text-black">
+                        Placeholder Detected
+                      </span>
+                    )}
+                  </div>
 
+                  <h3 className="font-bold text-sm text-[#FAF9F6]">{qEn}</h3>
+                  <p className="text-xs text-[#A0A6B2] line-clamp-2 leading-relaxed">{aEn}</p>
+
+                  <div className="text-[11px] text-[#6C7584]">
+                    Source Citation: <span className="text-[#A0A6B2]">{faq.source || 'Standard Policy'}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 self-end md:self-start">
                   <button
+                    onClick={() => {
+                      setEditingFaq(faq);
+                      setEditorLocale('en');
+                    }}
+                    className="p-2 rounded-xl bg-[#1A1F26] hover:bg-[#20252D] text-[#D9A031] text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                  >
+                    <Edit2 className="w-3.5 h-3.5" />
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    onClick={() => handleDelete(faq.id)}
+                    className="p-2 rounded-xl bg-red-950/30 hover:bg-red-950/60 text-red-400 text-xs transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Edit Modal */}
+      {editingFaq && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#121622] border border-[#232A3B] max-w-2xl w-full rounded-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-[#232A3B] pb-3">
+              <div>
+                <h3 className="font-bold text-sm text-[#FAF9F6]">Edit FAQ: {editingFaq.id}</h3>
+                <span className="text-[11px] text-[#A0A6B2]">Edit localized variants and feature-flag gates</span>
+              </div>
+              <button onClick={() => setEditingFaq(null)} className="text-[#A0A6B2] hover:text-white">✕</button>
+            </div>
+
+            {/* Language tabs */}
+            <div className="space-y-1.5">
+              <span className="text-xs font-semibold text-[#A0A6B2]">Active Language</span>
+              <div className="flex flex-wrap items-center gap-1 bg-[#0D0F12] p-1.5 rounded-xl border border-[#232A3B]">
+                {LOCALES.map((loc) => (
+                  <button
+                    key={loc}
                     type="button"
-                    onClick={() => handleToggleStatus(faq)}
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold transition-colors ${
-                      faq.status === 'published'
-                        ? 'bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25'
-                        : 'bg-amber-500/15 text-amber-400 hover:bg-amber-500/25'
+                    onClick={() => setEditorLocale(loc)}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
+                      editorLocale === loc
+                        ? 'bg-[#D9A031] text-[#0D0F12] font-bold'
+                        : 'text-[#A0A6B2] hover:text-[#FAF9F6]'
                     }`}
                   >
-                    {faq.status === 'published' ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
-                    <span>{faq.status === 'published' ? 'منشور (Published)' : 'مسودة (Draft)'}</span>
+                    {loc.toUpperCase()}
                   </button>
-
-                  {faq.needsOwnerConfirmation && (
-                    <button
-                      type="button"
-                      onClick={() => handleToggleConfirmation(faq)}
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-500/15 text-rose-400 text-[10px] font-bold hover:bg-rose-500/25 transition-colors"
-                      title="اضغط للتبديل إذا تم التأكيد من المالك"
-                    >
-                      <AlertCircle className="w-3 h-3" />
-                      <span>تحت تأكيد المالك (Needs Owner Confirmation)</span>
-                    </button>
-                  )}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setEditingFaq(faq)}
-                  className="h-7 px-3 rounded-lg bg-[#262B33] hover:bg-[#343B47] text-[#FAF9F6] text-xs font-semibold flex items-center gap-1.5 transition-colors"
-                >
-                  <Edit2 className="w-3 h-3 text-[#D9A031]" />
-                  <span>تعديل</span>
-                </button>
-              </div>
-
-              {/* Questions preview */}
-              <div className="space-y-1">
-                <p className="text-xs font-bold text-[#FAF9F6]">{faq.questionAr}</p>
-                <p className="text-[11px] font-medium text-[#A0A6B2]">{faq.questionEn}</p>
-              </div>
-
-              {/* Answers preview */}
-              <div className="space-y-1 pt-1 border-t border-[#262B33]/60 text-xs text-[#A0A6B2] font-light">
-                <p className="line-clamp-2">{faq.answerAr}</p>
-                <p className="line-clamp-2 text-[11px] text-[#6C7584]">{faq.answerEn}</p>
-              </div>
-
-              {/* Footer source badge */}
-              <div className="text-[10px] text-[#6C7584] flex items-center gap-2">
-                <span>المصدر: {faq.source}</span>
-                <span>•</span>
-                <span>آخر تدقيق: {faq.lastVerifiedDate}</span>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      )}
 
-      {/* Edit / Create Modal */}
-      {editingFaq && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs">
-          <div className="bg-[#13171F] border border-[#262B33] rounded-3xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-[#262B33]">
-              <h2 className="font-bold text-base text-[#FAF9F6]">
-                {editingFaq.id.startsWith('faq-custom') ? 'إضافة سؤال جديد' : 'تعديل السؤال الشائع'}
-              </h2>
-              <button
-                type="button"
-                onClick={() => setEditingFaq(null)}
-                className="text-[#A0A6B2] hover:text-[#FAF9F6]"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {feedback && (
-              <div
-                className={`p-3 rounded-xl text-xs font-semibold ${
-                  feedback.type === 'success'
-                    ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                    : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
-                }`}
-              >
-                {feedback.message}
+            <form onSubmit={handleSave} className="space-y-3">
+              <div>
+                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+                  Question ({editorLocale.toUpperCase()}) <span className="text-rose-400">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editingFaq.question_translations?.[editorLocale] || ''}
+                  onChange={(e) =>
+                    setEditingFaq({
+                      ...editingFaq,
+                      question_translations: {
+                        ...editingFaq.question_translations,
+                        [editorLocale]: e.target.value,
+                      },
+                    })
+                  }
+                  className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none focus:border-[#D9A031]"
+                />
               </div>
-            )}
 
-            <form onSubmit={handleSave} className="space-y-4 text-xs">
-              <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+                  Answer When Flag is ON / Default ({editorLocale.toUpperCase()}) <span className="text-rose-400">*</span>
+                </label>
+                <textarea
+                  rows={3}
+                  required
+                  value={editingFaq.answer_translations?.[editorLocale] || ''}
+                  onChange={(e) =>
+                    setEditingFaq({
+                      ...editingFaq,
+                      answer_translations: {
+                        ...editingFaq.answer_translations,
+                        [editorLocale]: e.target.value,
+                      },
+                    })
+                  }
+                  className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none focus:border-[#D9A031]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 border-t border-[#232A3B] pt-3">
                 <div>
-                  <label className="block text-[#A0A6B2] mb-1">القسم (Category):</label>
+                  <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">Linked Feature Flag</label>
                   <select
-                    value={editingFaq.category}
-                    onChange={(e) => setEditingFaq({ ...editingFaq, category: e.target.value })}
-                    className="w-full h-9 px-3 rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none"
+                    value={editingFaq.feature_flag_key || ''}
+                    onChange={(e) =>
+                      setEditingFaq({
+                        ...editingFaq,
+                        feature_flag_key: e.target.value || null,
+                      })
+                    }
+                    className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none"
                   >
-                    <option value="home">الرئيسية (Home)</option>
-                    <option value="booking">الحجز (Booking)</option>
-                    <option value="cancellation">الإلغاء (Cancellation)</option>
-                    <option value="vehicles">الأسطول (Vehicles)</option>
-                    <option value="routes">المسارات (Routes)</option>
-                    <option value="ziyarat">المزارات (Ziyarat)</option>
-                    <option value="general">عام (General)</option>
+                    {FEATURE_FLAGS_OPTIONS.map((opt) => (
+                      <option key={opt.key} value={opt.key}>{opt.label}</option>
+                    ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-[#A0A6B2] mb-1">الحالة (Status):</label>
+                  <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">Status</label>
                   <select
                     value={editingFaq.status}
-                    onChange={(e) =>
-                      setEditingFaq({ ...editingFaq, status: e.target.value as 'published' | 'draft' })
+                    onChange={(e: any) =>
+                      setEditingFaq({
+                        ...editingFaq,
+                        status: e.target.value as ContentStatus,
+                      })
                     }
-                    className="w-full h-9 px-3 rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none"
+                    className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none"
                   >
-                    <option value="published">منشور (Published)</option>
-                    <option value="draft">مسودة (Draft)</option>
+                    <option value="published">Published</option>
+                    <option value="draft">Draft</option>
+                    <option value="needs_owner_confirmation">Needs Owner Confirmation</option>
                   </select>
                 </div>
               </div>
 
-              <div>
-                <label className="block text-[#A0A6B2] mb-1">السؤال بالعربية:</label>
-                <input
-                  type="text"
-                  required
-                  value={editingFaq.questionAr}
-                  onChange={(e) => setEditingFaq({ ...editingFaq, questionAr: e.target.value })}
-                  className="w-full h-9 px-3 rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[#A0A6B2] mb-1">السؤال بالإنجليزية:</label>
-                <input
-                  type="text"
-                  required
-                  value={editingFaq.questionEn}
-                  onChange={(e) => setEditingFaq({ ...editingFaq, questionEn: e.target.value })}
-                  className="w-full h-9 px-3 rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[#A0A6B2] mb-1">الإجابة بالعربية:</label>
-                <textarea
-                  rows={3}
-                  required
-                  value={editingFaq.answerAr}
-                  onChange={(e) => setEditingFaq({ ...editingFaq, answerAr: e.target.value })}
-                  className="w-full p-3 rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none leading-relaxed"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[#A0A6B2] mb-1">الإجابة بالإنجليزية:</label>
-                <textarea
-                  rows={3}
-                  required
-                  value={editingFaq.answerEn}
-                  onChange={(e) => setEditingFaq({ ...editingFaq, answerEn: e.target.value })}
-                  className="w-full p-3 rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none leading-relaxed"
-                />
-              </div>
-
-              <div className="flex items-center gap-4 pt-2">
-                <label className="flex items-center gap-2 cursor-pointer text-[#FAF9F6]">
-                  <input
-                    type="checkbox"
-                    checked={editingFaq.needsOwnerConfirmation}
+              {editingFaq.feature_flag_key && (
+                <div>
+                  <label className="block text-xs font-semibold text-amber-300 mb-1">
+                    Neutral Answer When Feature Flag is OFF ({editorLocale.toUpperCase()})
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={editingFaq.answer_flag_off_translations?.[editorLocale] || ''}
                     onChange={(e) =>
-                      setEditingFaq({ ...editingFaq, needsOwnerConfirmation: e.target.checked })
+                      setEditingFaq({
+                        ...editingFaq,
+                        answer_flag_off_translations: {
+                          ...(editingFaq.answer_flag_off_translations || {}),
+                          [editorLocale]: e.target.value,
+                        },
+                      })
                     }
-                    className="w-4 h-4 accent-[#D9A031]"
+                    placeholder="e.g. Available upon request. Our team confirms availability and terms via WhatsApp before booking confirmation."
+                    className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none"
                   />
-                  <span>تمييز كـ "تحت تأكيد المالك" (Needs Owner Confirmation)</span>
-                </label>
+                </div>
+              )}
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">Source Citation</label>
+                  <input
+                    type="text"
+                    value={editingFaq.source || ''}
+                    onChange={(e) => setEditingFaq({ ...editingFaq, source: e.target.value })}
+                    placeholder="e.g. Duyuf Alrahman VIP Charter"
+                    className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">Sort Order</label>
+                  <input
+                    type="number"
+                    value={editingFaq.sort_order}
+                    onChange={(e) => setEditingFaq({ ...editingFaq, sort_order: Number(e.target.value) || 1 })}
+                    className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none"
+                  />
+                </div>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#262B33]">
+              <div className="pt-3 flex justify-end gap-2 border-t border-[#232A3B]">
                 <button
                   type="button"
                   onClick={() => setEditingFaq(null)}
-                  className="h-9 px-4 rounded-xl bg-[#262B33] hover:bg-[#343B47] text-[#FAF9F6] transition-colors"
+                  className="px-4 py-2 rounded-xl bg-[#1A1F26] text-xs font-semibold text-[#FAF9F6]"
                 >
-                  إلغاء
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="h-9 px-6 rounded-xl bg-[#D9A031] hover:bg-[#E5B24E] text-[#0D0F12] font-bold flex items-center gap-1.5 transition-colors"
+                  className="px-5 py-2 rounded-xl bg-[#D9A031] text-xs font-bold text-[#0D0F12]"
                 >
-                  <Save className="w-4 h-4" />
-                  <span>{saving ? 'جاري الحفظ...' : 'حفظ التعديلات'}</span>
+                  {saving ? 'Saving...' : 'Save & Revalidate'}
                 </button>
               </div>
             </form>

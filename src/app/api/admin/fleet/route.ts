@@ -1,12 +1,15 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { requireRole } from '@/lib/auth/server-auth';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
 import { getClientIp } from '@/lib/rate-limit';
 
-export async function GET(request: Request) {
+export const dynamic = 'force-dynamic';
+
+export async function GET(request: NextRequest) {
   try {
-    const authResult = await requireRole(request, ['owner', 'admin']);
+    const authResult = await requireRole(request, ['owner', 'admin', 'operator', 'content_editor']);
     if (authResult.errorResponse) {
       return authResult.errorResponse;
     }
@@ -15,7 +18,7 @@ export async function GET(request: Request) {
     const { data, error } = await serviceClient
       .from('vehicles')
       .select('*')
-      .order('display_order');
+      .order('display_order', { ascending: true });
 
     if (error) {
       console.error('Fleet DB error:', error);
@@ -29,26 +32,32 @@ export async function GET(request: Request) {
   }
 }
 
-export async function PATCH(request: Request) {
+export async function PATCH(request: NextRequest) {
   try {
     const clientIp = getClientIp(request);
-    const authResult = await requireRole(request, ['owner', 'admin']);
+    const authResult = await requireRole(request, ['owner', 'admin', 'content_editor']);
     if (authResult.errorResponse) {
       return authResult.errorResponse;
     }
 
     const { user: currentUser } = authResult;
-    const { id, is_active, seats, bags } = await request.json();
+    const body = await request.json();
+    const { id, is_active, seats, bags, name, category, display_order, photos, translations } = body;
 
     if (!id) {
       return NextResponse.json({ error: 'Vehicle ID required' }, { status: 400 });
     }
 
     const serviceClient = createServiceClient();
-    const updates: any = { updated_at: new Date().toISOString() };
+    const updates: Record<string, any> = { updated_at: new Date().toISOString() };
     if (is_active !== undefined) updates.is_active = is_active;
-    if (seats !== undefined) updates.seats = seats;
-    if (bags !== undefined) updates.bags = bags;
+    if (seats !== undefined) updates.seats = Number(seats);
+    if (bags !== undefined) updates.bags = Number(bags);
+    if (name !== undefined) updates.name = name;
+    if (category !== undefined) updates.category = category;
+    if (display_order !== undefined) updates.display_order = Number(display_order);
+    if (photos !== undefined) updates.photos = photos;
+    if (translations !== undefined) updates.translations = translations;
 
     const { data, error } = await serviceClient
       .from('vehicles')
@@ -71,6 +80,9 @@ export async function PATCH(request: Request) {
       newValues: updates,
       ip: clientIp,
     });
+
+    revalidateTag('site_fleet');
+    revalidatePath('/', 'layout');
 
     return NextResponse.json({ success: true, vehicle: data });
   } catch (err: any) {

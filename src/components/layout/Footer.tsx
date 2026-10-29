@@ -17,6 +17,32 @@ import {
   HandCoins,
 } from 'lucide-react';
 
+const LOCALIZED_PAY_TITLE: Record<string, string> = {
+  ar: 'طريقة الدفع (100% نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل بالريال أو الدولار)',
+  en: 'Payment Method (100% Cash paid to the driver after the journey is completed and the customer reaches the requested destination in SAR or USD)',
+  ms: 'Kaedah Pembayaran (100% Tunai kepada pemandu selepas perjalanan selesai dan tiba di destinasi dalam SAR atau USD)',
+  id: 'Metode Pembayaran (100% Tunai kepada pengemudi setelah perjalanan selesai dan tiba di tujuan dalam SAR atau USD)',
+  ur: 'طریقہ ادائیگی (سفر مکمل ہونے اور منزل پر پہنچنے کے بعد ڈرائیور کو نقد ادائیگی، ریال یا ڈالر)',
+  fr: 'Mode de paiement (100% en espèces au chauffeur une fois le trajet terminé à destination en SAR ou USD)',
+  es: 'Método de pago (100% en efectivo al conductor una vez completado el trayecto en el destino en SAR o USD)',
+  de: 'Zahlungsmethode (100% Barzahlung an den Fahrer nach Abschluss der Fahrt am Zielort in SAR oder USD)',
+  tr: 'Ödeme Yöntemi (Yolculuk varış noktasına ulaştıktan sonra şoföre %100 nakit, SAR veya USD)',
+  hi: 'भुगतान का तरीका (यात्रा पूरी होने और गंतव्य पर पहुंचने के बाद चालक को 100% नकद, SAR या USD)',
+};
+
+const LOCALIZED_PAY_NOTICE: Record<string, string> = {
+  ar: 'الدفع نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل (ريال سعودي / دولار أمريكي)',
+  en: 'Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR / USD)',
+  ms: 'Bayaran tunai kepada pemandu selepas perjalanan selesai dan tiba di destinasi (SAR / USD)',
+  id: 'Pembayaran tunai kepada pengemudi setelah perjalanan selesai dan tiba di tujuan (SAR / USD)',
+  ur: 'سفر مکمل ہونے اور منزل پر پہنچنے کے بعد ڈرائیور کو نقد ادائیگی (SAR / USD)',
+  fr: 'Espèces remises au chauffeur à destination après la fin du trajet (SAR / USD)',
+  es: 'Efectivo pagado al conductor en destino tras finalizar el trayecto (SAR / USD)',
+  de: 'Bargeld an den Fahrer am Zielort nach Beendigung der Fahrt (SAR / USD)',
+  tr: 'Yolculuk varış noktasına ulaştıktan sonra şoföre nakit ödeme (SAR / USD)',
+  hi: 'यात्रा पूरी होने और गंतव्य पर पहुंचने के बाद चालक को नकद भुगतान (SAR / USD)',
+};
+
 interface FooterProps {
   locale: Locale;
   dict: Dictionary;
@@ -287,12 +313,12 @@ export function Footer({ locale, dict, settings }: FooterProps) {
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-6">
           <div className="flex flex-col gap-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-gold">
-              {locale === 'ar' ? 'طريقة الدفع (100% نقداً للسائق بالريال أو الدولار)' : 'Payment Method (100% Cash to Chauffeur in SAR or USD)'}
+              {LOCALIZED_PAY_TITLE[locale] || LOCALIZED_PAY_TITLE.en}
             </span>
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-3.5 py-1.5 rounded-lg bg-gold/15 border border-gold/40 text-gold text-xs font-bold inline-flex items-center gap-1.5">
                 <HandCoins className="w-3.5 h-3.5" />
-                <span>{locale === 'ar' ? 'الدفع نقداً للسائق عند الوصول (ريال سعودي / دولار أمريكي)' : 'Cash Paid Directly to Chauffeur on Arrival (SAR / USD)'}</span>
+                <span>{LOCALIZED_PAY_NOTICE[locale] || LOCALIZED_PAY_NOTICE.en}</span>
               </span>
 
               </div>
@@ -336,7 +362,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
       {/* BOTTOM LEGAL & COPYRIGHT BAR */}
       <div className="container mx-auto px-4 max-w-7xl py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 relative z-10">
         <p>
-          © {new Date().getFullYear()} {locale === 'ar' ? 'ضيوف الرحمن VIP (Duyuf Alrahman VIP). جميع الحقوق محفوظة.' : 'Duyuf Alrahman VIP. All rights reserved.'}
+          {dict.footer.copyright || `© ${new Date().getFullYear()} Duyuf Alrahman VIP. All rights reserved.`}
         </p>
         <div className="flex flex-wrap items-center gap-4 text-slate-400">
           <Link href={`/${locale}/privacy`} className="hover:text-gold transition-colors py-1">
