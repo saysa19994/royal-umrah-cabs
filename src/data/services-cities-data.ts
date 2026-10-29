@@ -136,7 +136,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
   en: {
     metaTitle: 'VIP Private Chauffeur & Transfers in Taif & Al Hada | Duyuf Alrahman',
     metaDescription:
-      'Book private VIP chauffeur transfers between Makkah, Jeddah, and Taif. Guaranteed fixed fares, mountain scenic routes, Miqat stop, and 100% pay upon arrival.',
+      'Book private VIP chauffeur transfers between Makkah, Jeddah, and Taif. Guaranteed fixed fares, mountain scenic routes, Miqat stop, and 100% cash paid after journey completion.',
     heroBadge: 'Service Expansion • Taif & Al Hada Mountain Hub',
     heroTitle: 'VIP Private Chauffeur Transfers in Taif, Al Hada & Rose Farms',
     heroSubtitle:
@@ -191,8 +191,8 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
         desc: 'Comfortable waiting time at Miqat Qarn al-Manazil or Wadi Muharram for ghusl, prayer, and Ihram donning.',
       },
       {
-        title: '100% Pay Upon Arrival',
-        desc: 'No advance credit card charges or deposits required. Pay your driver upon arrival strictly in cash (SAR or USD).',
+        title: '100% Cash Paid After Journey Completion',
+        desc: 'No advance credit card charges or deposits required. Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD).',
       },
       {
         title: 'Generous Luggage Capacity',
@@ -223,7 +223,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
     ],
     ctaTitle: 'Reserve Your Private Chauffeur to Taif Today',
-    ctaSubtitle: 'Guaranteed fixed fares • Zero advance deposit • Pay your driver upon arrival strictly in cash (SAR or USD)',
+    ctaSubtitle: 'Guaranteed fixed fares • Zero advance deposit • Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD)',
     ctaBtn: 'Book Taif Transfer Now',
     ctaSecondaryBtn: 'Chat on WhatsApp',
   },
@@ -1046,7 +1046,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
   en: {
     metaTitle: 'VIP Chauffeur & Executive Transfers in Riyadh & RUH Airport | Duyuf Alrahman',
     metaDescription:
-      'Book executive VIP chauffeur transfers in Riyadh. King Khalid Airport (RUH) meet & greet, long-distance luxury travel to Makkah & Madinah, and 100% pay upon arrival.',
+      'Book executive VIP chauffeur transfers in Riyadh. King Khalid Airport (RUH) meet & greet, long-distance luxury travel to Makkah & Madinah, and 100% cash paid after journey completion.',
     heroBadge: 'Service Expansion • Capital City Riyadh Hub',
     heroTitle: 'VIP Chauffeur & Executive Transfers in Riyadh & RUH Airport',
     heroSubtitle:
@@ -1101,8 +1101,8 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
         desc: 'Avoid airport security lines and train luggage limits with door-to-door private highway travel.',
       },
       {
-        title: '100% Pay Upon Arrival',
-        desc: 'Zero advance deposits or online card holds. Settle upon destination arrival strictly in cash (SAR or USD).',
+        title: '100% Cash Paid After Journey Completion',
+        desc: 'Zero advance deposits or online card holds. Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD).',
       },
       {
         title: 'Hourly Corporate Chauffeurs',
@@ -1124,7 +1124,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       {
         question: 'Can we pay with a corporate card or receive an official receipt?',
         answer:
-          'Yes. Payment is cash only (SAR or USD) paid directly to your chauffeur upon arrival. No credit cards, POS machines, or bank transfers are accepted.',
+          'Yes. Payment is cash only (SAR or USD) paid to the driver after the journey is completed and the customer reaches the requested destination. No credit cards, POS machines, or bank transfers are accepted.',
       },
       {
         question: 'Does the driver monitor our flight if delayed into Riyadh?',
@@ -1133,7 +1133,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
     ],
     ctaTitle: 'Book Your Executive Chauffeur in Riyadh',
-    ctaSubtitle: 'Fixed rates • Premium fleet • 100% pay upon arrival to your driver strictly in cash (SAR or USD)',
+    ctaSubtitle: 'Fixed rates • Premium fleet • 100% cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD)',
     ctaBtn: 'Reserve Riyadh Chauffeur',
     ctaSecondaryBtn: 'Chat on WhatsApp',
   },

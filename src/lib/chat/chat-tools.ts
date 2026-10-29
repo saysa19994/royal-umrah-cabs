@@ -93,7 +93,7 @@ export async function executeChatTool(toolName: string, args: Record<string, any
         vehicle_id: args.vehicle_id,
         price_sar: price,
         currency: 'SAR',
-        payment_policy: 'Pay upon arrival to driver. No advance deposit required.',
+        payment_policy: 'Cash paid to the driver after the journey is completed and the customer reaches the requested destination. No advance deposit required.',
       };
     }
 

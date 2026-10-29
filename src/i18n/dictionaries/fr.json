@@ -17,7 +17,8 @@
     "contact": "Nous Contacter",
     "bookNow": "Réserver",
     "trackBooking": "Suivre Réservation",
-    "account": "Partenaires Agences"
+    "account": "Partenaires Agences",
+    "payOnArrival": "Espèces au chauffeur après la fin du trajet (SAR / USD)"
   },
   "trust_strip": {
     "googleReviews": "Avis Vérifiés Google Reviews",
@@ -35,7 +36,7 @@
     "description": "Accueil à l'aéroport de Djeddah et transferts interurbains vers La Mecque et Médine. Aucun prépaiement requis, annulation gratuite.",
     "ctaBook": "Consulter le Tarif & Réserver",
     "ctaFleet": "Voir Notre Flotte",
-    "payOnArrivalNotice": "Aucun paiement d'avance requis · Paiement en espèces directement au chauffeur à l'arrivée (SAR / USD)"
+    "payOnArrivalNotice": "Aucun paiement d'avance · Paiement en espèces réglé au chauffeur une fois le trajet terminé et la destination atteinte (SAR / USD)"
   },
   "booking_card": {
     "title": "Calculer le Tarif & Réserver",
@@ -50,15 +51,16 @@
     "buttonCalculate": "Calculer le Tarif & Réserver",
     "buttonBookNow": "Confirmation Immédiate",
     "totalFare": "Tarif Total Fixe (Taxes Incluses)",
-    "payOnArrivalNotice": "Aucun acompte requis · Paiement en espèces au chauffeur à l'arrivée (SAR ou USD)",
+    "payOnArrivalNotice": "Aucun acompte requis · Espèces réglées au chauffeur après la fin du trajet et l'arrivée à destination (SAR ou USD)",
     "luggageLabel": "Nombre de Bagages",
     "bookOnline": "Réserver en Ligne",
     "continueWhatsApp": "Continuer sur WhatsApp",
     "quoteNeeded": "Contactez-nous pour un devis",
     "microCancellation": "Annulation gratuite (24h)",
-    "microPayArrival": "Paiement à l'arrivée à l'hôtel",
+    "microPayArrival": "Paiement au chauffeur après fin de trajet",
     "microNoHidden": "Zéro frais cachés",
-    "microAllTolls": "Tous péages inclus"
+    "microAllTolls": "Tous péages inclus",
+    "noPrepayNotice": "Aucun prépaiement requis • Paiement au chauffeur après fin de trajet"
   },
   "steps": {
     "sectionPill": "Simple & Ponctuel",
@@ -88,7 +90,8 @@
     "amenityZamzam": "Eau de Zamzam Fraîche Incluse",
     "amenityCharging": "Recharge Rapide pour Téléphones",
     "amenityComfort": "Sièges Confortables & Spacieux",
-    "amenityLuggage": "Espace Bagages Généreux"
+    "amenityLuggage": "Espace Bagages Généreux",
+    "feature4": "Zéro acompte · Paiement au chauffeur après fin de trajet"
   },
   "services": {
     "sectionPill": "Nos Services Principaux",
@@ -136,7 +139,7 @@
     "q1": "Comment réserver un transfert privé avec Duyuf Al Rahman VIP ?",
     "a1": "Vous pouvez réserver directement via notre formulaire en ligne ou en contactant notre équipe sur WhatsApp (+966 56 758 8261). Choisissez votre point de départ, votre destination, la date, le numéro de vol (pour une arrivée à l'aéroport) et le véhicule souhaité. Notre équipe opérationnelle vérifie la disponibilité et vous envoie instantanément la confirmation avec les coordonnées du chauffeur par WhatsApp et e-mail.",
     "q2": "Quels sont les modes de paiement et les devises acceptés ?",
-    "a2": "Nous acceptons uniquement les paiements en espèces, réglés directement à votre chauffeur une fois votre trajet terminé. Vous pouvez payer en Riyals saoudiens (SAR) ou en Dollars américains (USD). Nous n'acceptons pas les cartes de crédit, cartes de débit, paiements par TPE, paiements en ligne ni virements bancaires. Aucun paiement d'avance ni acompte n'est requis.",
+    "a2": "Nous acceptons uniquement les paiements en espèces. Le paiement est réglé directement au chauffeur uniquement une fois le trajet entièrement terminé et le client arrivé à sa destination demandée. Vous pouvez payer en Riyals saoudiens (SAR) ou en Dollars américains (USD). Nous n'acceptons pas les cartes de crédit, cartes de débit, paiements par TPE, paiements en ligne ni virements bancaires. Aucun acompte requis.",
     "q3": "Tous les frais de route et suppléments sont-ils inclus dans le prix affiché ?",
     "a3": "Oui, tous nos tarifs affichés sont 100 % fixes et pour le véhicule privé entier (non par personne). Le prix inclut les péages autoroutiers (notamment la voie rapide Haramain), les frais d'accès à l'aéroport, le carburant et la TVA. Le tarif confirmé à la réservation correspond au montant exact à régler, sans frais cachés ni majoration d'embouteillage.",
     "q4": "Où et comment vais-je rencontrer mon chauffeur à l'aéroport ?",

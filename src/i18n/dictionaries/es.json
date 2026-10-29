@@ -17,7 +17,8 @@
     "contact": "Contacto",
     "bookNow": "Reservar",
     "trackBooking": "Seguir Reserva",
-    "account": "Agencias Colaboradoras"
+    "account": "Agencias Colaboradoras",
+    "payOnArrival": "Efectivo al conductor tras finalizar el viaje (SAR / USD)"
   },
   "trust_strip": {
     "googleReviews": "Reseñas Verificadas en Google",
@@ -35,7 +36,7 @@
     "description": "Recepción en el aeropuerto de Yeda y traslados directos hacia La Meca y Medina. Sin prepago requerido, cancelación gratuita.",
     "ctaBook": "Calcular Precio y Reservar",
     "ctaFleet": "Ver Nuestra Flota",
-    "payOnArrivalNotice": "Sin pago por adelantado · Pague en efectivo directamente a su chofer a la llegada (SAR / USD)"
+    "payOnArrivalNotice": "Sin pago por adelantado · Pago en efectivo abonado al conductor tras finalizar el viaje y llegar al destino (SAR / USD)"
   },
   "booking_card": {
     "title": "Calcular Precio y Reservar al Instante",
@@ -50,15 +51,16 @@
     "buttonCalculate": "Ver Precios y Reservar",
     "buttonBookNow": "Confirmación Inmediata",
     "totalFare": "Tarifa Fija Total (Impuestos Incluidos)",
-    "payOnArrivalNotice": "Sin depósito requerido · Pague al chofer a la llegada en efectivo (SAR o USD)",
+    "payOnArrivalNotice": "Sin depósito · Pago en efectivo abonado al conductor tras finalizar el viaje y llegar al destino (SAR o USD)",
     "luggageLabel": "Maletas Grandes",
     "bookOnline": "Reservar Online",
     "continueWhatsApp": "Continuar en WhatsApp",
     "quoteNeeded": "Contáctenos para presupuesto",
     "microCancellation": "Cancelación gratuita (24h)",
-    "microPayArrival": "Pago al llegar al hotel",
+    "microPayArrival": "Pago al conductor tras finalizar el viaje",
     "microNoHidden": "Sin costes ocultos",
-    "microAllTolls": "Todos los peajes incluidos"
+    "microAllTolls": "Todos los peajes incluidos",
+    "noPrepayNotice": "Sin pago por adelantado • Pago al conductor tras finalizar el viaje"
   },
   "steps": {
     "sectionPill": "Sencillo y Puntual",
@@ -88,7 +90,8 @@
     "amenityZamzam": "Agua de Zamzam Fresca Incluida",
     "amenityCharging": "Carga Rápida de Teléfonos",
     "amenityComfort": "Asientos Cómodos y Espaciosos",
-    "amenityLuggage": "Amplio Espacio para Equipaje"
+    "amenityLuggage": "Amplio Espacio para Equipaje",
+    "feature4": "Sin depósito · Pago al conductor tras finalizar el viaje"
   },
   "services": {
     "sectionPill": "Nuestros Servicios Principales",
@@ -136,7 +139,7 @@
     "q1": "¿Cómo puedo reservar un traslado privado con Duyuf Al Rahman VIP?",
     "a1": "Puede reservar directamente a través de nuestro formulario en línea o enviando un mensaje a nuestro equipo por WhatsApp (+966 56 758 8261). Elija el punto de recogida, destino, fecha, número de vuelo (para llegadas al aeropuerto) y vehículo preferido. Nuestro equipo verifica la disponibilidad y le envía de inmediato la confirmación junto con los datos del chofer por WhatsApp y correo electrónico.",
     "q2": "¿Qué métodos de pago y divisas aceptan?",
-    "a2": "Aceptamos únicamente pagos en efectivo, abonados directamente a su chofer una vez finalizado su viaje. Puede pagar en Riyales Saudíes (SAR) o Dólares Estadounidenses (USD). No aceptamos tarjetas de crédito, tarjetas de débito, pagos con TPV, pagos en línea ni transferencias bancarias. No se requiere ningún pago por adelantado ni depósito.",
+    "a2": "Aceptamos únicamente pagos en efectivo. El pago se abona directamente al conductor únicamente después de que el viaje haya finalizado por completo y el cliente llegue a su destino solicitado. Puede pagar en Riyales Saudíes (SAR) o Dólares Estadounidenses (USD). No aceptamos tarjetas de crédito, tarjetas de débito, pagos con TPV, pagos en línea ni transferencias bancarias. No se requiere fianza ni depósito.",
     "q3": "¿Están incluidos todos los peajes y costos adicionales en el precio mostrado?",
     "a3": "Sí, todas nuestras tarifas publicadas son 100 % fijas por vehículo completo privado (no por pasajero). El precio incluye peajes de autopista (como la vía rápida Haramain), tasas de acceso al aeropuerto, combustible e impuestos aplicables. La tarifa acordada al reservar es el importe exacto a pagar a la llegada, sin costes ocultos ni recargos por tráfico.",
     "q4": "¿Dónde y cómo me reuniré con mi chofer en el aeropuerto?",

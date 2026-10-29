@@ -3,7 +3,7 @@
     "brand": "Duyuf Alrahman VIP",
     "brandSub": "Luxury Pilgrim Transport",
     "seoTitle": "Duyuf Alrahman VIP | Private Umrah Chauffeur & Pilgrim Transport",
-    "seoDescription": "Private Umrah taxi and chauffeur transport in Makkah, Madinah, and Jeddah Airport (KAIA). Fixed transparent fares, pay upon arrival, complimentary flight schedule monitoring."
+    "seoDescription": "Private Umrah taxi and chauffeur transport in Makkah, Madinah, and Jeddah Airport (KAIA). Fixed transparent fares, cash paid to the driver after journey completion, complimentary flight schedule monitoring."
   },
   "nav": {
     "home": "Home",
@@ -17,7 +17,8 @@
     "contact": "Contact",
     "bookNow": "Book Now",
     "trackBooking": "Track Booking",
-    "account": "Partner Portal"
+    "account": "Partner Portal",
+    "payOnArrival": "Cash Paid to Driver After Journey Completion (SAR / USD)"
   },
   "trust_strip": {
     "googleReviews": "Verified Google Reviews",
@@ -35,7 +36,7 @@
     "description": "Experience peace of mind with our dedicated private Umrah taxi service across Makkah, Madinah, Jeddah. Professional chauffeurs, guaranteed fixed rates, and comfort tailored for the Guests of Allah.",
     "ctaBook": "Book Your Journey",
     "ctaFleet": "Explore Fleet",
-    "payOnArrivalNotice": "No advance payment required · Pay cash directly to your driver upon arrival (SAR / USD)"
+    "payOnArrivalNotice": "No advance payment required · Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR / USD)"
   },
   "booking_card": {
     "title": "Calculate Fare & Book Instantly",
@@ -50,15 +51,16 @@
     "buttonCalculate": "Get Prices & Book",
     "buttonBookNow": "Instant Confirmation",
     "totalFare": "Total Fixed Fare (Taxes Included)",
-    "payOnArrivalNotice": "No deposit required · Pay driver upon arrival in cash (SAR or USD)",
+    "payOnArrivalNotice": "No deposit required · Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD)",
     "luggageLabel": "Luggage Bags",
     "bookOnline": "Book Online",
     "continueWhatsApp": "Continue on WhatsApp",
     "quoteNeeded": "Contact us for a quote",
     "microCancellation": "Free cancellation (24h)",
-    "microPayArrival": "Pay upon arrival",
+    "microPayArrival": "Pay driver after journey completion",
     "microNoHidden": "Zero hidden fees",
-    "microAllTolls": "All tolls included"
+    "microAllTolls": "All tolls included",
+    "noPrepayNotice": "No prepayment required • Pay driver after journey completion"
   },
   "steps": {
     "sectionPill": "Simple & Punctual",
@@ -70,9 +72,9 @@
     "step2Title": "Select Your Vehicle",
     "step2Desc": "Choose from our modern private fleet: VIP GMC Yukon XL, Family Hyundai Staria, Toyota Camry, or Toyota HiAce.",
     "step3Title": "Instant Confirmation",
-    "step3Desc": "Receive immediate booking confirmation via WhatsApp with direct WhatsApp dispatch coordination. Pay securely upon arrival.",
+    "step3Desc": "Receive immediate booking confirmation via WhatsApp with direct WhatsApp dispatch coordination. Cash paid to the driver after the journey is completed and the customer reaches the requested destination.",
     "ctaButton": "Book Your Ride Now",
-    "noPrepayNotice": "No prepayment required • Pay upon arrival"
+    "noPrepayNotice": "No prepayment required • Pay driver after journey completion"
   },
   "fleet": {
     "sectionPill": "The Interior Experience",
@@ -88,7 +90,8 @@
     "amenityZamzam": "Chilled Zamzam Water Included",
     "amenityCharging": "Fast Phone Charging",
     "amenityComfort": "Comfortable Seating",
-    "amenityLuggage": "Generous Luggage Space"
+    "amenityLuggage": "Generous Luggage Space",
+    "feature4": "Zero deposit required · Pay driver after journey completion"
   },
   "services": {
     "sectionPill": "Our Core Services",
@@ -136,9 +139,9 @@
     "q1": "How can I book a private transfer with Duyuf Al Rahman VIP?",
     "a1": "You can book directly through our online reservation form or by messaging our dispatch team on WhatsApp (+966 56 758 8261). Simply select your pickup location, destination, date, flight number (for airport arrivals), and preferred vehicle. Our dispatch team reviews your request and sends an instant booking confirmation along with driver details via WhatsApp and email.",
     "q2": "What payment methods and currencies do you accept?",
-    "a2": "We accept cash payments only, paid directly to your driver after your journey is completed. You may pay in Saudi Riyals (SAR) or US Dollars (USD). We do not accept credit cards, debit cards, POS payments, online payments, or bank transfers. No advance payment or deposit is required.",
+    "a2": "We accept cash payments only. Cash paid to the driver after the journey is completed and the customer reaches the requested destination. You may pay in Saudi Riyals (SAR) or US Dollars (USD). We do not accept credit cards, debit cards, POS payments, online payments, or bank transfers. No advance payment or deposit is required.",
     "q3": "Are all transportation fees and additional charges included in the displayed price?",
-    "a3": "Yes, all our displayed fares are 100% fixed and private per vehicle, not per passenger. The price includes all highway tolls (such as the Haramain expressway), airport access fees, fuel, and applicable taxes. The rate quoted at booking is the exact amount you pay upon arrival, with zero hidden charges or traffic surcharges.",
+    "a3": "Yes, all our displayed fares are 100% fixed and private per vehicle, not per passenger. The price includes all highway tolls (such as the Haramain expressway), airport access fees, fuel, and applicable taxes. The rate quoted at booking is the exact amount you pay in cash after your journey is completed and you reach your requested destination, with zero hidden charges or traffic surcharges.",
     "q4": "Where and how will I meet my driver at the airport?",
     "a4": "For arrivals at Jeddah (KAIA), Madinah (MED), or Riyadh (RUH) airports, our dispatch team tracks your flight and contacts you on WhatsApp upon touchdown. Your private chauffeur waits inside the arrivals terminal holding a personalized name board, or coordinates directly at the designated pickup curbside to assist with your luggage and guide you to your vehicle.",
     "q5": "What happens if my flight is delayed or airport procedures take longer than expected?",
@@ -218,7 +221,7 @@
     "feature1": "Live flight tracking & 60-min complimentary wait time",
     "feature2": "Professional, courteous Arabic & English speaking chauffeurs",
     "feature3": "Luggage assistance & chilled bottled water",
-    "feature4": "Zero deposit required · Pay upon arrival",
+    "feature4": "Zero deposit required · Pay driver after journey completion",
     "bookService": "Book This Service"
   },
   "page_pricing": {
@@ -233,7 +236,7 @@
     "actionBook": "Book Now",
     "noteTitle": "Price Guarantee & Policies",
     "note1": "All fares are private per vehicle (taxes and highway toll fees included).",
-    "note2": "Payment is made strictly in cash paid directly to your chauffeur upon arrival (SAR or USD).",
+    "note2": "Payment is made strictly in cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD).",
     "note3": "Free cancellation up to 24 hours prior to scheduled pickup time.",
     "note4": "Airport transfers include complimentary 60 minutes waiting time from actual flight touchdown."
   },
@@ -314,8 +317,8 @@
     "section2Desc": "For pilgrims starting their journey in Madinah Al-Munawwarah, our chauffeurs provide a dedicated stop at Masjid Miqat Dhu al-Hulayfah (Bir Ali). You will have ample time to prepare, perform two rak'ahs for Ihram, and make your intention (Niat Umrah) without feeling rushed.",
     "section3Title": "Luggage Space for Malaysian Pilgrims & Zamzam Water",
     "section3Desc": "Malaysian pilgrims frequently travel with large hard suitcases and require space for official 5-liter Zamzam water boxes on their return journey. Our Hyundai Staria VIP accommodates up to 6 large bags, while our Toyota HiAce minibus carries up to 10 bags with absolute ease.",
-    "section4Title": "Fixed Guaranteed Rates · Pay Cash Upon Arrival",
-    "section4Desc": "Transparent fixed rates with zero hidden charges. No advance deposit required. You pay your chauffeur in cash upon arrival after your journey is completed in Saudi Riyals (SAR) or US Dollars (USD). Cards, bank transfers, and electronic payments are not accepted.",
+    "section4Title": "Fixed Guaranteed Rates · Cash Paid After Journey Completion",
+    "section4Desc": "Transparent fixed rates with zero hidden charges. No advance deposit required. Cash paid to the driver after the journey is completed and the customer reaches the requested destination in Saudi Riyals (SAR) or US Dollars (USD). Cards, bank transfers, and electronic payments are not accepted.",
     "badgeKLIA": "KLIA Direct Pilgrims",
     "ctaBookVan": "Book Your Private Van Now",
     "faqTitle": "Common Questions from Malaysian Pilgrims"

@@ -40,7 +40,8 @@ export function JsonLd({
     email: settings?.email || 'info@duyufalrahmanvip.com',
     priceRange: '$',
     currenciesAccepted: 'SAR, USD',
-    paymentAccepted: 'Cash upon arrival (SAR, USD)',
+    paymentAccepted:
+      'Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR, USD)',
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',

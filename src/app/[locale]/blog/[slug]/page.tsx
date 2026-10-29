@@ -341,7 +341,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       },
       desc: {
         ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم الطرق والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
-        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — cash paid to the driver after the journey is completed and destination is reached.',
         ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
         id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
         ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
@@ -391,7 +391,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       },
       desc: {
         ar: 'السعر ثابت للمركبة بالكامل شامل تتبع الرحلة، الاستقبال والانتظار، السائق الخاص، الوقود ورسوم الطرق. لا دفع مسبق - الدفع للسائق عند الوصول',
-        en: 'Fixed rate per entire vehicle including flight tracking, meet & greet, waiting time, private chauffeur, fuel, and tolls. Zero prepayment — pay driver upon arrival.',
+        en: 'Fixed rate per entire vehicle including flight tracking, meet & greet, waiting time, private chauffeur, fuel, and tolls. Zero prepayment — cash paid to the driver after the journey is completed and destination is reached.',
         ms: 'Harga tetap satu kenderaan termasuk penjejakan penerbangan, sambutan, masa menunggu, pemandu peribadi, minyak, dan tol. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
         id: 'Harga tetap per kendaraan termasuk pelacakan penerbangan, penjemputan, waktu tunggu, sopir pribadi, bensin, dan tol. Tanpa uang muka — bayar sopir saat tiba.',
         ur: 'گاڑی کا حتمی طے شدہ کرایہ بمعہ فلائٹ ٹریکنگ، استقبالیہ انتظار، نجی ڈرائیور، ایندھن اور ٹول۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
@@ -441,7 +441,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       },
       desc: {
         ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم الطرق السريعة والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
-        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, expressway tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, expressway tolls, and taxes. Zero prepayment — cash paid to the driver after the journey is completed and destination is reached.',
         ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
         id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
         ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
@@ -491,7 +491,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       },
       desc: {
         ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم الطرق والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
-        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — cash paid to the driver after the journey is completed and destination is reached.',
         ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
         id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
         ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
@@ -541,7 +541,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       },
       desc: {
         ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم الطرق والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
-        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — cash paid to the driver after the journey is completed and destination is reached.',
         ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
         id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
         ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
@@ -591,7 +591,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       },
       desc: {
         ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم طريق الحرمين والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
-        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — cash paid to the driver after the journey is completed and destination is reached.',
         ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
         id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
         ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
@@ -641,7 +641,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       },
       desc: {
         ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم طريق الهجرة السريع والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
-        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, expressway tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, expressway tolls, and taxes. Zero prepayment — cash paid to the driver after the journey is completed and destination is reached.',
         ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
         id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
         ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',
@@ -691,7 +691,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       },
       desc: {
         ar: 'السعر ثابت للمركبة بالكامل شامل السائق الخاص والوقود ورسوم طريق الحرمين والضرائب. لا دفع مسبق - الدفع للسائق عند الوصول',
-        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — pay driver upon arrival.',
+        en: 'Fixed rate per entire vehicle including private chauffeur, fuel, road tolls, and taxes. Zero prepayment — cash paid to the driver after the journey is completed and destination is reached.',
         ms: 'Harga tetap bagi sebuah kenderaan termasuk pemandu peribadi, minyak, tol, dan cukai. Tiada bayaran pendahuluan — bayar pemandu semasa tiba.',
         id: 'Harga tetap per kendaraan termasuk sopir pribadi, bensin, tol, dan pajak. Tanpa uang muka — bayar sopir saat tiba.',
         ur: 'گاڑی کا حتمی طے شدہ کرایہ، بمعہ ڈرائیور، ایندھن، ٹول اور ٹیکس۔ کوئی ایڈوانس نہیں — ادائیگی منزل پر ڈرائیور کو۔',

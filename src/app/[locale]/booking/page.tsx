@@ -29,7 +29,7 @@ const PAGE_TEXT: Record<Locale, { badge: string; title: string; subtitle: string
     badge: 'Direct VIP Chauffeur Reservation',
     title: 'Reserve Your Private Chauffeur',
     subtitle:
-      'Guaranteed fixed fares. Pay directly to your driver upon arrival in cash (SAR or USD) — zero advance payment or deposit required.',
+      'Guaranteed fixed fares. Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD) — zero advance payment or deposit required.',
   },
   ar: {
     badge: 'حجز مباشر لسائق VIP خاص',

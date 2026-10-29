@@ -299,8 +299,8 @@ export function Footer({ locale, dict, settings }: FooterProps) {
             </span>
             <span>
               {locale === 'ar'
-                ? 'لا نطلب أية دفعة مقدمة قبل وصولك واستلام سيارتك؛ الدفع نقداً للسائق (ريال سعودي أو دولار أمريكي).'
-                : 'Zero upfront deposit required. Pay your driver in cash upon arrival (SAR or USD).'}
+                ? 'لا نطلب أية دفعة مقدمة؛ الدفع نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل (ريال سعودي أو دولار أمريكي).'
+                : 'Zero upfront deposit required. Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD).'}
             </span>
           </div>
         </div>

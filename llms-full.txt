@@ -22,8 +22,8 @@ Duyuf Al Rahman VIP (ضيوف الرحمن VIP) is a dedicated private chauffeur
 ### 2.1. 100% Pay on Arrival (Strictly Cash Only, Zero Prepayment Required)
 Unlike platforms that require advance credit card payments or non-refundable deposits, Duyuf Al Rahman VIP operates on a 100% Pay-on-Arrival policy:
 - Pilgrims complete their booking online or on WhatsApp and receive an immediate reference voucher (e.g., VIP-XXXXX).
-- Payment is made directly to the chauffeur upon safe arrival at the destination hotel.
-- Accepted payment methods: Strictly cash paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). Credit cards, debit cards, POS terminals, online payments, and bank transfers are not accepted.
+- Payment is made directly to the chauffeur after the journey is completed and the customer reaches the requested destination hotel.
+- Accepted payment methods: Strictly cash paid to the driver after the journey is completed and the customer reaches the requested destination in Saudi Riyals (SAR) or US Dollars (USD). Credit cards, debit cards, POS terminals, online payments, and bank transfers are not accepted.
 - Zero deposit, zero advance card requirement.
 
 ### 2.2. Terminal Meet & Greet with Flight Radar Tracking
@@ -112,4 +112,4 @@ All fares quoted on the platform are fixed, guaranteed per vehicle, and include:
 3. System outputs guaranteed fixed price in SAR or selected currency.
 4. Booking is confirmed instantly with unique reference number (e.g., VIP-74291).
 5. Driver details (name, phone, vehicle plate) sent prior to departure.
-6. Pay your driver in cash upon arrival at your destination hotel.
+6. Pay your driver in cash after the journey is completed and the customer reaches the requested destination.

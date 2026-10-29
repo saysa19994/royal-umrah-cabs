@@ -17,7 +17,8 @@
     "contact": "Kontakt",
     "bookNow": "Jetzt Buchen",
     "trackBooking": "Buchung Verfolgen",
-    "account": "Reiseagentur-Portal"
+    "account": "Reiseagentur-Portal",
+    "payOnArrival": "Barzahlung an den Fahrer nach Fahrtende (SAR / USD)"
   },
   "trust_strip": {
     "googleReviews": "Verifizierte Google-Bewertungen",
@@ -35,7 +36,7 @@
     "description": "Terminalabholung am Flughafen Dschidda und Transfers zwischen Mekka und Medina. Keine Vorauszahlung erforderlich, kostenlose Stornierung.",
     "ctaBook": "Preis Berechnen & Buchen",
     "ctaFleet": "Flotte Ansehen",
-    "payOnArrivalNotice": "Keine Anzahlung erforderlich · Barzahlung direkt beim Fahrer bei Ankunft (SAR / USD)"
+    "payOnArrivalNotice": "Keine Vorauszahlung erforderlich · Barzahlung direkt an den Fahrer erst nach vollständigem Abschluss der Fahrt und Ankunft am Zielort (SAR / USD)"
   },
   "booking_card": {
     "title": "Preis Berechnen & Sofort Buchen",
@@ -50,15 +51,16 @@
     "buttonCalculate": "Preise berechnen & buchen",
     "buttonBookNow": "Sofortige Bestätigung",
     "totalFare": "Gesamter Festpreis (inkl. Steuern)",
-    "payOnArrivalNotice": "Keine Kaution erforderlich · Barzahlung beim Fahrer bei Ankunft (SAR oder USD)",
+    "payOnArrivalNotice": "Keine Anzahlung · Barzahlung an den Fahrer erst nach vollständigem Abschluss der Fahrt und Ankunft am Zielort (SAR oder USD)",
     "luggageLabel": "Gepäckstücke",
     "bookOnline": "Online Buchen",
     "continueWhatsApp": "Über WhatsApp Fortfahren",
     "quoteNeeded": "Angebot Anfordern",
     "microCancellation": "Kostenlose Stornierung (24h)",
-    "microPayArrival": "Zahlung bei Ankunft am Hotel",
+    "microPayArrival": "Zahlung an den Fahrer nach Fahrtende",
     "microNoHidden": "Keine versteckten Gebühren",
-    "microAllTolls": "Alle Mautgebühren inklusive"
+    "microAllTolls": "Alle Mautgebühren inklusive",
+    "noPrepayNotice": "Keine Vorauszahlung • Zahlung an den Fahrer nach Fahrtende"
   },
   "steps": {
     "sectionPill": "Einfach & Pünktlich",
@@ -88,7 +90,8 @@
     "amenityZamzam": "Gekühltes Zamzam-Wasser inklusive",
     "amenityCharging": "Schnellladefunktion für Smartphones",
     "amenityComfort": "Bequeme Sitze",
-    "amenityLuggage": "Großzügiger Gepäckraum"
+    "amenityLuggage": "Großzügiger Gepäckraum",
+    "feature4": "Keine Anzahlung · Zahlung an den Fahrer nach Fahrtende"
   },
   "services": {
     "sectionPill": "Unsere Kernleistungen",
@@ -136,7 +139,7 @@
     "q1": "Wie kann ich einen privaten Chauffeurtransfer bei Duyuf Al Rahman VIP buchen?",
     "a1": "Sie können bequem über unser Online-Buchungsformular auf der Website oder per WhatsApp (+966 56 758 8261) buchen. Wählen Sie Abholort, Ziel, Datum, Flugnummer (für Flughafenankünfte) und Ihr gewünschtes Fahrzeug aus. Unser Dispositionsteam prüft die Buchung und sendet Ihnen unverzüglich eine Bestätigung mit Fahrerdetails per WhatsApp und E-Mail.",
     "q2": "Welche Zahlungsmethoden und Währungen akzeptieren Sie?",
-    "a2": "Wir akzeptieren ausschließlich Barzahlungen, die nach Beendigung Ihrer Fahrt direkt an Ihren Fahrer entrichtet werden. Sie können in Saudi-Riyal (SAR) oder US-Dollar (USD) bezahlen. Wir akzeptieren keine Kreditkarten, Debitkarten, POS-Terminalzahlungen, Online-Zahlungen oder Banküberweisungen. Es ist keinerlei Anzahlung oder Vorauszahlung erforderlich.",
+    "a2": "Wir akzeptieren ausschließlich Barzahlungen. Die Barzahlung erfolgt direkt an den Fahrer erst nach vollständigem Abschluss der Fahrt und Ankunft des Kunden am gewünschten Zielort. Sie können in Saudi-Riyal (SAR) oder US-Dollar (USD) bezahlen. Wir akzeptieren keine Kreditkarten, Debitkarten, POS-Terminalzahlungen, Online-Zahlungen oder Banküberweisungen. Es ist keinerlei Vorauszahlung erforderlich.",
     "q3": "Sind Autobahngebühren, Steuern und Zusatzkosten im angezeigten Preis enthalten?",
     "a3": "Ja, alle unsere angegebenen Preise sind 100 % feste Pauschalpreise pro Fahrzeug (nicht pro Person). Der Preis beinhaltet sämtliche Autobahnmauten (wie den Haramain-Expressway), Flughafengebühren, Kraftstoff und Mehrwertsteuer. Der bei der Buchung vereinbarte Betrag ist der tatsächliche Endpreis ohne versteckte Gebühren oder Stauzuschläge.",
     "q4": "Wo und wie treffe ich meinen Chauffeur am Flughafen?",

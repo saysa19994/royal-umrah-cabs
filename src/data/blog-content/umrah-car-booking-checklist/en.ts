@@ -45,7 +45,7 @@ export const UMRAH_CHECKLIST_CONTENT_EN: LocalizedArticleBody = {
         'Financial transparency is the bedrock of trustworthy transportation. Always ensure your quoted price is complete:',
         '• Quoted Per Whole Vehicle: Verify that the rate applies to the entire private vehicle and dedicated chauffeur exclusively for your party, not a per-person charge.',
         '• All-Inclusive Coverage: Confirm that the agreed price covers fuel, Haramain Expressway tolls, airport parking fees, and applicable VAT taxes.',
-        '• Zero Hidden Surcharges: Avoid vague estimates that lead to drivers demanding extra cash upon arrival for road tolls or luggage handling. All Duyuf Alrahman VIP rates are 100% fixed and all-inclusive.'
+        '• Zero Hidden Surcharges: Avoid vague estimates that lead to drivers demanding extra cash at the destination for road tolls or luggage handling. All Duyuf Alrahman VIP rates are 100% fixed and all-inclusive.'
       ]
     },
     {

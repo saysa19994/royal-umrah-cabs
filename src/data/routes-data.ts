@@ -65,7 +65,7 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       '60-90 minutes complimentary flight delay buffer included',
       'Automated flight tracking against live ATC radar',
       'Direct hotel lobby drop-off across all Central, Ajyad, and Aziziyah zones',
-      'Zero deposit required — pay cash (SAR or USD) directly to your chauffeur upon arrival at your hotel',
+      'Zero deposit required — cash paid to the driver after journey completion and destination reached (SAR or USD)',
       '5-liter Zamzam containers accommodated securely in trunk',
     ],
     highlightsAr: [
@@ -170,7 +170,7 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
         question: 'How do we pay for our transfer, and is any advance deposit required?',
         questionAr: 'كيف يتم سداد قيمة الرحلة، وهل يشترط دفع عربون مسبق؟',
         answer:
-          'No advance deposit is required to secure your booking. In accordance with our official payment policy, you pay your chauffeur directly upon arrival at your Makkah hotel in cash (Saudi Riyals - SAR or US Dollars - USD). We do not accept credit cards, debit cards, POS terminals, online payments, or bank transfers.',
+          'No advance deposit is required to secure your booking. In accordance with our official payment policy, cash is paid to the driver after the journey is completed and the customer reaches the requested destination in Makkah in cash (Saudi Riyals - SAR or US Dollars - USD). We do not accept credit cards, debit cards, POS terminals, online payments, or bank transfers.',
         answerAr:
           'لا نشترط أي دفع مسبق لتأكيد حجزك. وفقاً لسياسة السداد الرسمية، يتم دفع الأجرة نقداً كاش (بالريال السعودي أو الدولار الأمريكي) مباشرة للسائق عند وصولك سالماً إلى فندقك بمكة المكرمة. لا نقبل البطاقات البنكية أو أجهزة نقاط البيع أو الدفع الإلكتروني.',
         isOperational: true,
@@ -588,7 +588,7 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       'Door-to-door arrival at any hotel in Madinah Northern or Southern Markaziah',
       'Freedom to schedule prayer, dining, and restroom stops at clean SASCO complexes',
       'Zero baggage limits within the vehicle class selected',
-      'Pay upon arrival to driver — cash only (SAR or USD), zero advance payment',
+      'Cash paid to the driver after the journey is completed and destination reached — cash only (SAR or USD), zero advance payment',
     ],
     highlightsAr: [
       'استقبال مباشر من صالة المطار والانطلاق الفوري إلى طريق المدينة السريع',
@@ -824,7 +824,7 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       'Door-to-door pickup from all Makkah central hotels (Ajyad, Clock Tower, Ibrahim Al-Khalil)',
       'Flexible itineraries covering Al Hada viewpoints, rose factories, and Shubra Palace',
       'Professional mountain-certified chauffeurs with safe, smooth driving habits',
-      'Pay directly to driver upon arrival in cash (SAR or USD) — zero advance payment',
+      'Cash paid to the driver after journey completion and destination reached (SAR or USD) — zero advance payment',
     ],
     highlightsAr: [
       'صعود جبلي بانورامي سلس عبر عقبة الهدا بسيارات فارهة مكيفة وعائلية',
@@ -919,7 +919,7 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       'Luggage safely stored and secured in private vehicle during your Miqat stop',
       'Direct drop-off at your Makkah hotel doorstep or Haram access point',
       'Comfortable descending drive with seasoned chauffeurs prioritizing safety and smoothness',
-      'No prepayment needed — pay upon arrival in Makkah directly to your driver in cash (SAR or USD)',
+      'No prepayment needed — cash paid to the driver after journey completion and destination reached in Makkah (SAR or USD)',
     ],
     highlightsAr: [
       'توقف مخصص لمدة 30-45 دقيقة في ميقات قرن المنازل للصلاة والاستعداد للإحرام',
@@ -983,7 +983,7 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
         question: 'How do we pay for our transfer?',
         questionAr: 'كيف ومتى يتم سداد قيمة الرحلة عند الوصول؟',
         answer:
-          'In accordance with our 100% Pay-the-Driver policy, you pay your chauffeur directly upon arrival in Makkah in cash (Saudi Riyals - SAR or US Dollars - USD). We do not require any advance deposit and do not accept credit cards, debit cards, POS machines, or online transactions.',
+          'In accordance with our 100% Pay-the-Driver policy, cash is paid to the driver after the journey is completed and the customer reaches the requested destination in Makkah in cash (Saudi Riyals - SAR or US Dollars - USD). We do not require any advance deposit and do not accept credit cards, debit cards, POS machines, or online transactions.',
         answerAr:
           'نعم. وفقاً لسياسة الدفع للسائق 100%، يتم سداد قيمة الرحلة بالكامل نقداً (بالريال السعودي أو الدولار الأمريكي) مباشرة للسائق عند الوصول لمكة المكرمة، دون أي دفع مسبق أو بطاقات بنكية.',
       },
@@ -1014,7 +1014,7 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       'Real-time flight radar tracking ensures driver is waiting even if flight is delayed',
       'Direct nonstop transfer from sea level to over 1,800 meters elevation in Taif',
       'Spacious luggage capacity for large family suitcases and travel gear',
-      'Zero advance deposit — pay upon arrival at your Taif hotel or resort',
+      'Zero advance deposit — cash paid to the driver after journey completion and destination reached in Taif',
     ],
     highlightsAr: [
       'استقبال شخصي من صالة الوصول بمطار جدة (الصالة 1 والصالة الشمالية)',
@@ -1109,7 +1109,7 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       'Flight radar tracking with 60 minutes free waiting after actual wheels-down time',
       'Premium fleet including Toyota Camry Executive, Hyundai Staria VIP, and GMC Yukon XL',
       'Direct hotel lobby drop-off across KAFD, Olaya, Al Faisaliah, and Diplomatic Quarter',
-      'Pay driver directly upon arrival in cash (SAR or USD) — zero advance fees or deposits',
+      'Cash paid to the driver after journey completion and destination reached (SAR or USD) — zero advance fees or deposits',
     ],
     highlightsAr: [
       'استقبال تنفيذي من الصالات 1، 2، 3، 4 وصالة الطيران الخاص بمطار الملك خالد',
@@ -1173,7 +1173,7 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
         question: 'What payment methods are accepted and do you provide an official receipt?',
         questionAr: 'ما هي طرق الدفع المعتمدة وهل تقدمون إيصالاً رسمياً معتمداً؟',
         answer:
-          'Yes. All trips are settled strictly in cash (Saudi Riyals - SAR or US Dollars - USD) directly with your chauffeur upon arrival at your destination. We do not accept credit cards, debit cards, POS terminals, online payments, or bank transfers.',
+          'Yes. All trips are settled strictly in cash (Saudi Riyals - SAR or US Dollars - USD) paid to the driver after the journey is completed and the customer reaches the requested destination. We do not accept credit cards, debit cards, POS terminals, online payments, or bank transfers.',
         answerAr:
           'نعم بالتأكيد. جميع السائقين مزودون بأجهزة نقاط بيع بنكية تقبل مدى وفيزا وماستركارد، ويتم إصدار إيصال إلكتروني رسمي وموثق لكافة الرحلات.',
       },
@@ -1204,7 +1204,7 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       'Luxury long-haul vehicles with premium reclining seating, USB ports, and acoustic insulation',
       'Curated stops at top-rated SASCO Palm service stations for prayer, meals, and coffee',
       'Dedicated stop at Miqat (Qarn al-Manazil / As-Sayl Al-Kabeer) for Umrah Ihram preparations',
-      'Strict Pay-the-Driver policy: settle the entire trip upon arrival in Makkah in cash (SAR or USD)',
+      'Strict Pay-the-Driver policy: cash paid to the driver after the journey is completed and destination reached in Makkah (SAR or USD)',
     ],
     highlightsAr: [
       'استقبال مباشر من باب منزلك أو قصرك بالرياض والتوصيل حتى باب فندقك بمكة دون نقل الأمتعة',

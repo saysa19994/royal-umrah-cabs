@@ -17,7 +17,8 @@
     "contact": "Kontak",
     "bookNow": "Pesan Sekarang",
     "trackBooking": "Lacak Pesanan",
-    "account": "Mitra Travel"
+    "account": "Mitra Travel",
+    "payOnArrival": "Bayar Tunai Setelah Perjalanan Selesai (SAR / USD)"
   },
   "trust_strip": {
     "googleReviews": "Ulasan Terverifikasi di Google",
@@ -35,7 +36,7 @@
     "description": "Layanan penjemputan terminal bandara dan transportasi antarkota di Jeddah, Makkah, dan Madinah. Tanpa uang muka, pembatalan gratis.",
     "ctaBook": "Cek Tarif & Pesan",
     "ctaFleet": "Lihat Armada",
-    "payOnArrivalNotice": "Tanpa uang muka (DP) · Bayar tunai langsung ke sopir saat tiba (SAR / USD)"
+    "payOnArrivalNotice": "Tanpa uang muka (DP) · Pembayaran tunai langsung ke sopir setelah perjalanan selesai dan tiba di tujuan (SAR / USD)"
   },
   "booking_card": {
     "title": "Hitung Tarif & Pesan Langsung",
@@ -50,15 +51,16 @@
     "buttonCalculate": "Kira Tambang & Tempah",
     "buttonBookNow": "Pengesahan Segera",
     "totalFare": "Jumlah Tambang Tetap (Termasuk Cukai)",
-    "payOnArrivalNotice": "Tanpa uang muka (DP) · Bayar sopir saat tiba secara tunai (SAR atau USD)",
+    "payOnArrivalNotice": "Tanpa uang muka (DP) · Pembayaran tunai langsung ke sopir setelah perjalanan selesai dan tiba di tujuan (SAR / USD)",
     "luggageLabel": "Jumlah Koper",
     "bookOnline": "Pesan Online",
     "continueWhatsApp": "Lanjut via WhatsApp",
     "quoteNeeded": "Hubungi kami untuk penawaran",
     "microCancellation": "Pembatalan gratis (24 jam)",
-    "microPayArrival": "Bayar saat tiba di hotel",
+    "microPayArrival": "Bayar sopir setelah perjalanan selesai",
     "microNoHidden": "Tanpa biaya tersembunyi",
-    "microAllTolls": "Semua biaya tol termasuk"
+    "microAllTolls": "Semua biaya tol termasuk",
+    "noPrepayNotice": "Tanpa uang muka (DP) • Bayar sopir setelah perjalanan selesai"
   },
   "steps": {
     "sectionPill": "Proses Mudah",
@@ -88,7 +90,8 @@
     "amenityZamzam": "Air Zamzam Sejuk Disediakan Percuma",
     "amenityCharging": "Pengecas Telefon Pantas",
     "amenityComfort": "Kursi Nyaman & Luas",
-    "amenityLuggage": "Kapasitas Bagasi Koper Besar"
+    "amenityLuggage": "Kapasitas Bagasi Koper Besar",
+    "feature4": "Tanpa deposit · Bayar sopir setelah perjalanan selesai"
   },
   "services": {
     "sectionPill": "Perkhidmatan Utama Kami",
@@ -136,7 +139,7 @@
     "q1": "Bagaimana cara memesan transportasi privat dengan Duyuf Al Rahman VIP?",
     "a1": "Anda dapat memesan langsung melalui formulir reservasi online di situs kami atau menghubungi tim kami melalui WhatsApp (+966 56 758 8261). Cukup pilih lokasi penjemputan, tujuan, tanggal, nomor penerbangan (untuk penjemputan bandara), dan tipe kendaraan. Tim operasional kami akan memeriksa jadwal dan segera mengirimkan konfirmasi reservasi beserta rincian sopir melalui WhatsApp dan email.",
     "q2": "Apa metode pembayaran dan mata uang yang diterima?",
-    "a2": "Kami hanya menerima pembayaran tunai yang dibayarkan langsung kepada sopir Anda setelah perjalanan Anda selesai. Anda dapat membayar dalam Riyal Saudi (SAR) atau Dolar AS (USD). Kami tidak menerima kartu kredit, kartu debit, pembayaran mesin POS, pembayaran online, atau transfer bank. Tidak ada uang muka (DP) atau deposit yang diperlukan.",
+    "a2": "Kami hanya menerima pembayaran tunai. Pembayaran tunai dilakukan langsung kepada sopir hanya setelah perjalanan selesai sepenuhnya dan pelanggan tiba di tujuan yang diminta. Anda dapat membayar dalam Riyal Saudi (SAR) atau Dolar AS (USD). Kami tidak menerima kartu kredit, kartu debit, pembayaran mesin POS, pembayaran online, atau transfer bank. Tidak ada uang muka (DP) atau deposit yang diperlukan.",
     "q3": "Apakah harga yang tertera sudah termasuk tol dan biaya tambahan lainnya?",
     "a3": "Ya, semua tarif yang ditampilkan adalah harga pasti (fixed) untuk satu kendaraan privat secara utuh, bukan per penumpang. Tarif tersebut sudah termasuk biaya jalan tol (seperti Tol Haramain), biaya masuk bandara, bahan bakar, dan pajak terkait. Biaya yang disepakati saat pemesanan adalah jumlah riil yang Anda bayarkan tanpa biaya tersembunyi.",
     "q4": "Di mana dan bagaimana saya akan bertemu sopir di bandara?",

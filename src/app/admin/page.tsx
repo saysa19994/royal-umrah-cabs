@@ -181,7 +181,7 @@ export default function AdminDashboardPage() {
         (b.driver_name
           ? `\n*Assigned Chauffeur:*\nName: ${b.driver_name}\nPhone: ${b.driver_phone}\nVehicle Plate: ${b.vehicle_plate || 'VIP Luxury'}\n`
           : '') +
-        `\nTotal Fixed Fare: *${b.final_price_sar} SAR* (Pay upon arrival).\n\n` +
+        `\nTotal Fixed Fare: *${b.final_price_sar} SAR* (Pay driver after journey completion).\n\n` +
         `Our team is tracking your schedule. Have a blessed journey!`;
     }
 

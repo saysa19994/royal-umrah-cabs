@@ -108,7 +108,7 @@ export const enContent: LocalizedArticleBody = {
         },
         {
           title: 'Paying Advance Deposits to Unverified Brokers:',
-          text: 'Protect your peace of mind by insisting on the official Duyuf Alrahman VIP policy: Pay the Driver Only upon arrival at your hotel destination.',
+          text: 'Protect your peace of mind by insisting on the official Duyuf Alrahman VIP policy: Cash paid to the driver after the journey is completed and the customer reaches the requested destination.',
         },
       ],
     },
@@ -116,7 +116,7 @@ export const enContent: LocalizedArticleBody = {
       title: 'Conclusion: Peace of Mind Begins with Careful Planning',
       paragraphs: [
         'Performing Umrah is a sacred milestone of faith and devotion. Streamlining your arrival transfer from Jeddah Airport to holy Makkah is a simple yet transformative investment in your spiritual focus, ensuring you step onto the blessed grounds refreshed and at ease.',
-        'With Duyuf Alrahman VIP, we provide a welcoming reception befitting the Guests of Allah, a pristine modern fleet, fixed transparent fares, and the unmatched security of paying your chauffeur directly upon arrival.',
+        'With Duyuf Alrahman VIP, we provide a welcoming reception befitting the Guests of Allah, a pristine modern fleet, fixed transparent fares, and the unmatched security of cash paid to the driver after the journey is completed and destination reached.',
       ],
     },
   ],

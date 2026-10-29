@@ -166,10 +166,10 @@ export function FaqSection({
             </div>
             <div>
               <p className="text-xs font-bold text-ink">
-                {locale === 'ar' ? 'دفع نقداً عند الوصول' : 'Cash Upon Arrival'}
+                {locale === 'ar' ? 'الدفع نقدًا بعد انتهاء الرحلة' : 'Cash Paid After Journey Completion'}
               </p>
               <p className="text-[11px] text-ink-muted">
-                {locale === 'ar' ? 'الدفع نقداً للسائق مباشرة' : 'Pay cash directly to driver'}
+                {locale === 'ar' ? 'الدفع نقدًا للسائق بعد وصول الوجهة' : 'Paid to driver at destination'}
               </p>
             </div>
           </div>

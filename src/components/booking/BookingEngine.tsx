@@ -234,7 +234,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     paymentTitle: 'Payment Method: Pay the Driver',
     paymentBadge: '100% Zero Advance Fees',
     paymentDesc:
-      'Payment is made strictly in cash paid directly to your private chauffeur upon arrival at your destination after your journey is completed. You may pay in Saudi Riyals (SAR) or US Dollars (USD). Credit cards, debit cards, POS terminals, online payments, and bank transfers are not accepted. No advance payment or deposit is required.',
+      'Payment is made strictly in cash paid to the driver after the journey is completed and the customer reaches the requested destination. You may pay in Saudi Riyals (SAR) or US Dollars (USD). Credit cards, debit cards, POS terminals, online payments, and bank transfers are not accepted. No advance payment or deposit is required.',
     summaryTitle: 'Booking Summary',
     summaryBadge: 'Guaranteed Fixed Fare',
     summaryItinerary: 'Itinerary',
@@ -243,7 +243,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     summaryPaymentMethod: 'Payment Method',
     summaryPaymentValue: 'Pay Cash to Driver (SAR / USD)',
     summaryTotalFare: 'Total Fare',
-    summaryZeroAdvance: 'Zero advance payment • Pay upon arrival',
+    summaryZeroAdvance: 'Zero advance payment • Pay driver after journey completion',
     summaryTrust1: 'Free cancellation up to 24 hours',
     summaryTrust2: '60-min complimentary airport waiting',
     summaryTrust3: '24/7 dedicated dispatch coordination',

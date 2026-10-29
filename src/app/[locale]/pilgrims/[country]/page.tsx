@@ -271,8 +271,8 @@ export default async function PilgrimCountryPage(props: PilgrimCountryPageProps)
             <div className="p-3.5 rounded-xl bg-gold-soft/30 border border-gold-line text-xs text-ink font-medium">
               <span>
                 {isMatchLocale
-                  ? `Bayaran Diterima: Tunai semasa tiba dalam SAR atau USD · Tiada kad atau deposit.`
-                  : `Accepted Payment: Cash upon arrival in SAR or USD · No cards or advance deposit.`}
+                  ? `Bayaran Diterima: Tunai kepada pemandu selepas perjalanan selesai dan tiba di destinasi (SAR / USD) · Tiada kad atau deposit.`
+                  : `Accepted Payment: Cash paid to the driver after journey completion and destination reached (SAR or USD) · No cards or advance deposit.`}
               </span>
             </div>
           </div>

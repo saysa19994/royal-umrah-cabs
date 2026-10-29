@@ -17,7 +17,8 @@
     "contact": "İletişim",
     "bookNow": "Hemen Rezervasyon Yap",
     "trackBooking": "Rezervasyon Takibi",
-    "account": "Giriş Yap"
+    "account": "Giriş Yap",
+    "payOnArrival": "Yolculuk Sonrası Şoföre Nakit Ödeme (SAR / USD)"
   },
   "trust_strip": {
     "googleReviews": "4.9/5 Değerlendirme (Doğrulanmış Misafirler)",
@@ -35,7 +36,7 @@
     "description": "Cidde Havalimanı (KAIA) karşılamalarından Mekke ve Medine otellerine doğrudan kapıdan kapıya transfer. Son model GMC Yukon XL, Hyundai Staria VIP ve geniş aile araçlarıyla konforlu yolculuk.",
     "ctaBook": "Anında Fiyat Hesapla ve Rezerve Et",
     "ctaFleet": "VIP Filoyu İncele",
-    "payOnArrivalNotice": "Ön ödeme gerekmez · Varışta şoföre doğrudan nakit ödeyin (SAR / USD)"
+    "payOnArrivalNotice": "Ön ödeme gerekmez · Ödeme yolculuk tamamlanıp varış noktasına ulaşıldıktan sonra doğrudan şoföre nakit yapılır (SAR / USD)"
   },
   "booking_card": {
     "title": "Özel VIP Transferinizi Rezerve Edin",
@@ -50,15 +51,16 @@
     "buttonCalculate": "Fiyatı Göster",
     "buttonBookNow": "Hemen Rezervasyon Yap",
     "totalFare": "Toplam Sabit Ücret:",
-    "payOnArrivalNotice": "Depozito gerekmez · Varışta şoföre nakit ödeyin (SAR veya USD)",
+    "payOnArrivalNotice": "Depozito gerekmez · Ödeme yolculuk tamamlanıp varış noktasına ulaşıldıktan sonra şoföre nakit yapılır (SAR veya USD)",
     "luggageLabel": "Büyük Boy Bagaj Sayısı",
     "bookOnline": "Online Rezerve Et",
     "continueWhatsApp": "WhatsApp ile Onayla",
     "quoteNeeded": "Özel Talep / Fiyat Teklifi Al",
     "microCancellation": "24 Saate Kadar Ücretsiz İptal",
-    "microPayArrival": "Varışta Ödeme",
+    "microPayArrival": "Yolculuk bitiminde şoföre ödeme",
     "microNoHidden": "Net Fiyat Garantisi",
-    "microAllTolls": "Tüm Otoyol Ücretleri Dahil"
+    "microAllTolls": "Tüm Otoyol Ücretleri Dahil",
+    "noPrepayNotice": "Ön ödeme gerekmez • Yolculuk bitiminde şoföre ödeme"
   },
   "steps": {
     "sectionPill": "Rezervasyon Adımları",
@@ -88,7 +90,8 @@
     "amenityZamzam": "Ücretsiz İkram & Zemzem Suyu",
     "amenityCharging": "USB & Telefon Şarj Girişleri",
     "amenityComfort": "Yatar VIP Deri Kaptan Koltukları",
-    "amenityLuggage": "Genişletilmiş Bagaj Hacmi"
+    "amenityLuggage": "Genişletilmiş Bagaj Hacmi",
+    "feature4": "Depozito gerekmez · Yolculuk bitiminde şoföre ödeme"
   },
   "services": {
     "sectionPill": "Hizmet Alanlarımız",
@@ -136,9 +139,9 @@
     "q1": "Duyuf Al Rahman VIP ile özel transfer rezervasyonunu nasıl yapabilirim?",
     "a1": "Web sitemizdeki online rezervasyon formunu doldurarak veya WhatsApp hattımızdan (+966 56 758 8261) ekibimize yazarak kolayca rezervasyon yapabilirsiniz. Alış noktası, varış yeri, tarih, uçuş numarası (havalimanı karşılamaları için) ve tercih ettiğiniz aracı seçmeniz yeterlidir. Operasyon ekibimiz talebinizi inceler ve şoför bilgileriyle birlikte onay mesajını WhatsApp ve e-posta ile anında iletir.",
     "q2": "Hangi ödeme yöntemlerini ve para birimlerini kabul ediyorsunuz?",
-    "a2": "Yalnızca yolculuğunuz tamamlandıktan sonra doğrudan şoförünüze yapılan nakit ödemeleri kabul ediyoruz. Ödemenizi Suudi Arabistan Riyali (SAR) veya ABD Doları (USD) olarak yapabilirsiniz. Kredi kartı, banka kartı, POS cihazı, çevrim içi ödeme veya banka havalesi kabul etmiyoruz. Ön ödeme veya depozito gerekmez.",
+    "a2": "Yalnızca nakit ödemeleri kabul ediyoruz. Ödeme, yalnızca yolculuk tamamen tamamlandıktan ve müşteri talep edilen varış noktasına ulaştıktan sonra doğrudan şoföre nakit olarak yapılır. Ödemenizi Suudi Arabistan Riyali (SAR) veya ABD Doları (USD) olarak yapabilirsiniz. Kredi kartı, banka kartı, POS cihazı, çevrim içi ödeme veya banka havalesi kabul etmiyoruz. Ön ödeme veya depozito gerekmez.",
     "q3": "Tüm otoyol geçiş ücretleri ve ek masraflar belirtilen fiyata dahil midir?",
-    "a3": "Evet, web sitemizde belirtilen tüm fiyatlar özel araç bazında %100 sabittir (kişi başı değildir). Fiyatlara otoyol geçiş ücretleri (Haremeyn Hızlı Yolu dahil), havalimanı giriş ücretleri, yakıt ve vergiler dahildir. Rezervasyon sırasında anlaşılan fiyat varışta ödeyeceğiniz net tutardır; gizli masraf veya trafik zammı uygulanmaz.",
+    "a3": "Evet, web sitemizde belirtilen tüm fiyatlar özel araç bazında %100 sabittir (kişi başı değildir). Fiyatlara otoyol geçiş ücretleri (Haremeyn Hızlı Yolu dahil), havalimanı giriş ücretleri, yakıt ve vergiler dahildir. Rezervasyon sırasında anlaşılan fiyat yolculuk tamamlanıp varış noktasına ulaşıldığında şoföre nakit olarak ödeyeceğiniz net tutardır; gizli masraf veya trafik zammı uygulanmaz.",
     "q4": "Havalimanında şoförümle nerede ve nasıl buluşacağım?",
     "a4": "Cidde (KAIA), Medine (MED) veya Riyad (RUH) havalimanlarına inişinizde operasyon ekibimiz uçuşunuzu takip eder ve iniş anında WhatsApp üzerinden sizinle iletişime geçer. Özel şoförünüz geliş terminalinde isminizin yazılı olduğu bir karşılama panosuyla bekler veya belirlenen karşılama alanında valizlerinize yardımcı olarak sizi araca yönlendirir.",
     "q5": "Uçuşum rötar yaparsa veya havalimanı işlemleri uzun sürerse ne olur?",

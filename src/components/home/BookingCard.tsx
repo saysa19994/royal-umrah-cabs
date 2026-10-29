@@ -987,7 +987,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                   </div>
                   <p className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1.5 mt-1">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>{locale === 'ar' ? '100% الدفع عند الوصول نقداً للسائق' : '100% Pay upon arrival in cash to chauffeur'}</span>
+                    <span>{locale === 'ar' ? '100% الدفع نقدًا للسائق بعد انتهاء الرحلة ووصول الوجهة' : '100% Cash paid to the driver after journey completion and destination reached'}</span>
                   </p>
                 </div>
                 <div className="text-[11px] text-ink-muted pt-2 border-t border-border/60 mt-2">

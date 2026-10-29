@@ -17,7 +17,8 @@
     "contact": "Hubungi Kami",
     "bookNow": "Tempah Sekarang",
     "trackBooking": "Kesan Tempahan",
-    "account": "Portal Rakan Agensi"
+    "account": "Portal Rakan Agensi",
+    "payOnArrival": "Bayar Tunai Selepas Perjalanan Selesai (SAR / USD)"
   },
   "trust_strip": {
     "googleReviews": "Ulasan Sahih Google Reviews",
@@ -35,7 +36,7 @@
     "description": "Rasai ketenangan ibadah dengan perkhidmatan teksi persendirian kami di Makkah, Madinah, Jeddah. Pemandu profesional berpengalaman, kadar tambang tetap terjamin, dan keselesaan penuh untuk tetamu Allah.",
     "ctaBook": "Tempah Perjalanan Anda",
     "ctaFleet": "Lihat Pilihan Kereta",
-    "payOnArrivalNotice": "Tiada bayaran pendahuluan · Bayar tunai terus kepada pemandu semasa tiba (SAR / USD)"
+    "payOnArrivalNotice": "Tiada bayaran pendahuluan · Bayaran tunai diserahkan kepada pemandu selepas perjalanan selesai dan tiba di destinasi (SAR / USD)"
   },
   "booking_card": {
     "title": "Kira Tambang & Tempah Serta-Merta",
@@ -50,15 +51,16 @@
     "buttonCalculate": "Kira Tambang & Tempah",
     "buttonBookNow": "Pengesahan Segera",
     "totalFare": "Jumlah Tambang Tetap (Termasuk Cukai)",
-    "payOnArrivalNotice": "Tiada deposit diperlukan · Bayar pemandu semasa tiba secara tunai (SAR atau USD)",
+    "payOnArrivalNotice": "Tiada deposit diperlukan · Bayaran tunai diserahkan kepada pemandu selepas perjalanan selesai dan tiba di destinasi (SAR / USD)",
     "luggageLabel": "Bilangan Bagasi",
     "bookOnline": "Tempah Dalam Talian",
     "continueWhatsApp": "Teruskan di WhatsApp",
     "quoteNeeded": "Hubungi kami untuk sebut harga",
     "microCancellation": "Pembatalan percuma (24 jam)",
-    "microPayArrival": "Bayar semasa tiba",
+    "microPayArrival": "Bayar pemandu selepas perjalanan selesai",
     "microNoHidden": "Sifar caj tersembunyi",
-    "microAllTolls": "Termasuk tol lebuh raya"
+    "microAllTolls": "Termasuk tol lebuh raya",
+    "noPrepayNotice": "Tiada bayaran pendahuluan • Bayar pemandu selepas perjalanan selesai"
   },
   "steps": {
     "sectionPill": "Mudah & Teratur",
@@ -88,7 +90,8 @@
     "amenityZamzam": "Air Zamzam Sejuk Disediakan Percuma",
     "amenityCharging": "Pengecas Telefon Pantas",
     "amenityComfort": "Tempat Duduk Selesa",
-    "amenityLuggage": "Ruang Bagasi Luas"
+    "amenityLuggage": "Ruang Bagasi Luas",
+    "feature4": "Tiada deposit diperlukan · Bayar pemandu selepas perjalanan selesai"
   },
   "services": {
     "sectionPill": "Perkhidmatan Utama Kami",
@@ -136,7 +139,7 @@
     "q1": "Bagaimanakah cara menempah pengangkutan peribadi dengan Duyuf Al Rahman VIP?",
     "a1": "Anda boleh membuat tempahan secara terus melalui borang tempahan dalam talian di laman web kami atau dengan menghantar mesej kepada pasukan kami di WhatsApp (+966 56 758 8261). Pilih lokasi pengambilan, destinasi, tarikh, nombor penerbangan (untuk ketibaan lapangan terbang), dan kenderaan pilihan. Pasukan operasi kami akan mengesahkan jadual dan menghantar pengesahan segera beserta butiran pemandu melalui WhatsApp dan e-mel.",
     "q2": "Apakah kaedah pembayaran dan mata wang yang diterima?",
-    "a2": "Kami hanya menerima pembayaran tunai yang dibayar terus kepada pemandu anda selepas perjalanan anda selesai. Anda boleh membayar dalam Riyal Saudi (SAR) atau Dolar AS (USD). Kami tidak menerima kad kredit, kad debit, pembayaran POS, pembayaran dalam talian, atau pindahan bank. Tiada bayaran pendahuluan atau deposit diperlukan.",
+    "a2": "Kami hanya menerima pembayaran tunai. Bayaran tunai diserahkan terus kepada pemandu hanya selepas perjalanan selesai sepenuhnya dan pelanggan tiba di destinasi yang diminta. Anda boleh membayar dalam Riyal Saudi (SAR) atau Dolar AS (USD). Kami tidak menerima kad kredit, kad debit, pembayaran POS, pembayaran dalam talian, atau pindahan bank. Tiada bayaran pendahuluan atau deposit diperlukan.",
     "q3": "Adakah semua bayaran tol dan caj tambahan termasuk dalam harga yang dipaparkan?",
     "a3": "Ya, semua tambang yang dipaparkan adalah 100% tetap bagi sebuah kenderaan peribadi (bukan setiap penumpang). Harga ini sudah merangkumi tol lebuh raya (seperti Lebuhraya Haramain), caj akses lapangan terbang, minyak, dan cukai berkaitan. Tambang yang dipersetujui semasa tempahan adalah jumlah sebenar yang anda bayar tanpa sebarang caj tersembunyi.",
     "q4": "Di manakah dan bagaimanakah saya akan berjumpa dengan pemandu di lapangan terbang?",

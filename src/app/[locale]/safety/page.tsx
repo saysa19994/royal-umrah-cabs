@@ -162,7 +162,7 @@ export default async function SafetyPage(props: SafetyPageProps) {
             Travel with Total Peace of Mind
           </h3>
           <p className="text-white/80 text-sm max-w-xl mx-auto font-light mb-6">
-            Book your private Umrah transfer today with fixed pricing, no prepayment required, and pay strictly in cash (SAR or USD) to your chauffeur upon arrival.
+            Book your private Umrah transfer today with fixed pricing, no prepayment required, and cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD).
           </p>
           <Link
             href={`/${locale}/booking`}

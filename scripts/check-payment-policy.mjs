@@ -93,3 +93,78 @@ test('Payment Policy: public/llms.txt strictly defines Cash-Only and zero prepay
   assert.ok(content.includes('Zero Advance Prepayment'), 'llms.txt must state Zero Advance Prepayment');
   assert.ok(content.includes('Excluded Payment Methods'), 'llms.txt must list Excluded Payment Methods');
 });
+
+test('Payment Policy: Zero ambiguous "Cash upon arrival" phrasing across all user-facing content and manifests', () => {
+  const filesToCheck = [
+    ...SCANNED_FILES,
+    'src/components/seo/JsonLd.tsx',
+    'src/lib/chat/knowledge-base.ts',
+    'src/lib/chat/payment-intent.ts',
+    'llms.txt',
+    'llms-full.txt'
+  ];
+
+  const ambiguousMatches = [];
+  const ambiguousRegex = /\bCash upon arrival\b/i;
+
+  for (const relPath of filesToCheck) {
+    const fullPath = path.join(rootDir, relPath);
+    if (!fs.existsSync(fullPath)) continue;
+
+    const content = fs.readFileSync(fullPath, 'utf8');
+    const lines = content.split('\n');
+
+    lines.forEach((line, idx) => {
+      if (ambiguousRegex.test(line)) {
+        ambiguousMatches.push(`${relPath}:${idx + 1}: ${line.trim()}`);
+      }
+    });
+  }
+
+  assert.strictEqual(
+    ambiguousMatches.length,
+    0,
+    `Found ambiguous "Cash upon arrival" wording in files:\n` + ambiguousMatches.join('\n')
+  );
+});
+
+test('Payment Policy: Explicit journey and destination completion wording is enforced in JsonLd, llms.txt, and chatbot', () => {
+  // 1. JsonLd
+  const jsonLdContent = fs.readFileSync(path.join(rootDir, 'src/components/seo/JsonLd.tsx'), 'utf8');
+  assert.ok(
+    jsonLdContent.includes('Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR, USD)'),
+    'JsonLd.tsx must contain explicit completion payment wording'
+  );
+
+  // 2. public/llms.txt
+  const llmsContent = fs.readFileSync(path.join(rootDir, 'public/llms.txt'), 'utf8');
+  assert.ok(
+    llmsContent.includes('Cash paid to the driver after the journey is completed and the customer reaches the requested destination.'),
+    'public/llms.txt must contain explicit completion payment wording in English'
+  );
+
+  // 3. payment-intent.ts
+  const chatIntentContent = fs.readFileSync(path.join(rootDir, 'src/lib/chat/payment-intent.ts'), 'utf8');
+  assert.ok(
+    chatIntentContent.includes('Cash paid to the driver after the journey is completed and the customer reaches the requested destination.'),
+    'payment-intent.ts must contain explicit English wording'
+  );
+  assert.ok(
+    chatIntentContent.includes('الدفع نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل.'),
+    'payment-intent.ts must contain explicit Arabic wording'
+  );
+
+  // 4. en.json dictionary
+  const enDict = JSON.parse(fs.readFileSync(path.join(rootDir, 'src/i18n/dictionaries/en.json'), 'utf8'));
+  assert.ok(
+    enDict.faq.a2.includes('Cash paid to the driver after the journey is completed and the customer reaches the requested destination.'),
+    'en.json faq.a2 must contain explicit completion payment wording'
+  );
+
+  // 5. ar.json dictionary
+  const arDict = JSON.parse(fs.readFileSync(path.join(rootDir, 'src/i18n/dictionaries/ar.json'), 'utf8'));
+  assert.ok(
+    arDict.faq.a2.includes('الدفع نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل.'),
+    'ar.json faq.a2 must contain explicit Arabic completion payment wording'
+  );
+});
