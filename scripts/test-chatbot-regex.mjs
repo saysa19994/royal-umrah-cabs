@@ -7,6 +7,8 @@ test('Chatbot Regex: Payment Questions MUST Trigger', () => {
     { text: 'Can I pay with credit card?', lang: 'EN' },
     { text: 'هل تقبلون بطاقة مدى؟', lang: 'AR' },
     { text: 'هل الدفع كاش عند الوصول؟', lang: 'AR' },
+    { text: 'هل أقدر أدفع بالفيزا أو مدى؟', lang: 'AR' },
+    { text: 'كيف طريقة الدفع؟', lang: 'AR' },
     { text: 'Bagaimana cara bayar tunai?', lang: 'ID' },
     { text: 'Kredi kartı ile ödeme yapabilir miyim?', lang: 'TR' },
     { text: 'کیا میں بینک ٹرانسفر کے ذریعے ادائیگی کر سکتا ہوں؟', lang: 'UR' },

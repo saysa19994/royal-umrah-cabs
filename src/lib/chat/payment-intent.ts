@@ -8,7 +8,7 @@ export const PAYMENT_INTENT_TERMS = [
   'espèces', 'carte\\s*bancaire', 'carte\\s*de\\s*crédit', 'virement', 'payer', 'paiement',
   'efectivo', 'tarjeta\\s*de\\s*crédito', 'tarjeta\\s*de\\s*débito', 'transferencia', 'pagar', 'pago',
   'barzahlung', 'kreditkarte', 'kartenzahlung', 'überweisung', 'bezahlen', 'zahlung',
-  'كاش', 'نقد[ااً]?', 'الدفع', 'سداد', 'بطاقة\\s*ائتمان', 'بطاقة\\s*مدى', 'بطاقة\\s*فيزا', 'شبكة\\s*مدى', 'تحويل\\s*بنكي', 'عربون', 'تقبلون\\s*بطاق[ةه]',
+  'كاش', 'نقد[ااً]?', '[أإاني]?دفع', 'الدفع', 'سداد', 'بطاقة\\s*ائتمان', 'بطاقة\\s*مدى', 'بطاقة\\s*فيزا', 'شبكة\\s*مدى', 'تحويل\\s*بنكي', 'عربون', 'تقبلون\\s*بطاق[ةه]',
   'ادائیگی', 'نقدی', 'بینک\\s*ٹرانسفر', 'کریڈٹ\\s*کارڈ',
   'भुगतान', 'नकद', 'क्रेडिट\\s*कार्ड'
 ];
