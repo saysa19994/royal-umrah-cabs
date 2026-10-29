@@ -82,7 +82,7 @@ export const MAKKAH_JEDDAH_CONTENT_FR: LocalizedArticleBody = {
       paragraphs: [
         'Nous appliquons une transparence irréprochable :',
         '• Tarif Fixe Garanti : Le prix convenu inclut l\'ensemble du véhicule, le chauffeur privé, le carburant, les péages et la TVA.',
-        '• Aucun Prépaiement Requis : Pas d\'acompte ni de carte bancaire demandée. Vous réglez directement le chauffeur en espèces ou par virement une fois arrivé en toute sécurité à l\'aéroport.',
+        '• Aucun Prépaiement Requis : Pas d\'acompte ni de carte bancaire demandée. Vous réglez directement le chauffeur strictement en espèces (SAR ou USD) une fois arrivé en toute sécurité à l\'aéroport. Les cartes bancaires, terminaux POS et virements bancaires ne sont pas acceptés.',
         '• Modification Sans Frais : Votre vol est décalé ? Prévenez-nous simplement sur WhatsApp pour ajuster l\'heure sans pénalité.'
       ]
     },

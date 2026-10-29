@@ -57,8 +57,8 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     metaDescNative: 'Layanan transportasi umrah dan sewa mobil privat untuk jamaah Indonesia di Jeddah, Mekah, dan Madinah. Armada Staria & HiAce, pembayaran saat tiba.',
     h1En: 'Private Umrah Chauffeur Services for Indonesian Pilgrims',
     h1Native: 'Layanan Transportasi Umrah & Mobil Privat untuk Jamaah Indonesia',
-    introEn: 'Arrive at King Abdulaziz Airport (JED) or Madinah Airport (MED) with absolute peace of mind. Royal Umrah Cabs provides dedicated VIP chauffeurs, spacious luggage capacity for Indonesian family groups and 5-liter Zamzam containers, and direct hotel drop-offs with zero advance payment required.',
-    introNative: 'Sambut ibadah Umrah Anda dengan ketenangan sejak tiba di Bandara Jeddah (KAIA) atau Madinah (MED). Royal Umrah Cabs menyediakan layanan supir privat terpercaya, kapasitas bagasi luas untuk koper besar dan air Zamzam 5 liter, serta pembayaran langsung saat tiba di hotel.',
+    introEn: 'Arrive at King Abdulaziz Airport (JED) or Madinah Airport (MED) with absolute peace of mind. Duyuf Alrahman VIP provides dedicated VIP chauffeurs, spacious luggage capacity for Indonesian family groups and 5-liter Zamzam containers, and direct hotel drop-offs with zero advance payment required.',
+    introNative: 'Sambut ibadah Umrah Anda dengan ketenangan sejak tiba di Bandara Jeddah (KAIA) atau Madinah (MED). Duyuf Alrahman VIP menyediakan layanan supir privat terpercaya, kapasitas bagasi luas untuk koper besar dan air Zamzam 5 liter, serta pembayaran langsung saat tiba di hotel.',
     departureAirportsEn: ['Jakarta Soekarno-Hatta (CGK)', 'Surabaya Juanda (SUB)', 'Medan Kualanamu (KNO)', 'Makassar Sultan Hasanuddin (UPG)', 'Solo Adi Soemarmo (SOC)'],
     departureAirportsNative: ['Jakarta Soekarno-Hatta (CGK)', 'Surabaya Juanda (SUB)', 'Medan Kualanamu (KNO)', 'Makassar Sultan Hasanuddin (UPG)', 'Solo Adi Soemarmo (SOC)'],
     airlinesEn: ['Garuda Indonesia', 'Saudia', 'Lion Air', 'Batik Air', 'Qatar Airways', 'Emirates'],
@@ -84,12 +84,12 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Jeddah Terminal 1 features a long walking concourse; inform your chauffeur via WhatsApp as soon as your flight touches down.',
-      'Indonesian pilgrims settle fares directly upon arrival at their hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and bank transfers are not accepted.',
+      'Indonesian pilgrims settle fares directly upon arrival at their hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and cash (SAR or USD)s are not accepted.',
       'Our dispatch team includes coordinators fluent in Bahasa Indonesia for smooth communication.',
     ],
     localTravelTipsNative: [
       'Terminal 1 Bandara Jeddah memiliki koridor yang panjang; hubungi supir Anda melalui WhatsApp segera setelah pesawat mendarat.',
-      'Jamaah Indonesia membayar ongkos langsung saat tiba di hotel secara tunai dalam Saudi Riyal (SAR) atau Dolar AS (USD). Kartu dan transfer bank tidak diterima.',
+      'Jamaah Indonesia membayar ongkos langsung saat tiba di hotel secara tunai dalam Saudi Riyal (SAR) atau Dolar AS (USD). Kartu dan cash (SAR or USD) tidak diterima.',
       'Tim koordinasi kami siap melayani komunikasi dalam Bahasa Indonesia untuk kemudahan Anda.',
     ],
     paymentAndCurrencyEn: 'Fixed fares displayed in Saudi Riyals (SAR). Zero advance deposit. Cash upon arrival (SAR or USD).',
@@ -159,7 +159,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     localTravelTipsEn: [
       'Flight Tracking: We monitor Malaysia Airlines MH156/MH160 and Saudia SV831/SV841 arrivals in real time so your chauffeur is ready even if flights land early.',
       'Miqat Stops: For transfers from Madinah to Makkah, our drivers include a dedicated 45-minute stop at Masjid Dhu al-Hulayfah (Bir Ali) for Ihram and Niyyah.',
-      'Payment: Cash paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). Cards and bank transfers are not accepted.',
+      'Payment: Cash paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). Cards and cash (SAR or USD)s are not accepted.',
     ],
     localTravelTipsNative: [
       'Penjejakan Penerbangan: Kami memantau waktu ketibaan penerbangan seperti MH156/MH160 dan SV831/SV841 secara langsung.',
@@ -238,7 +238,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     localTravelTipsNative: [
       'جدہ ایئرپورٹ کے دونوں ٹرمینلز (نارتھ ٹرمینل اور ٹرمینل 1) پر نیم پلیٹ کے ساتھ باوقار استقبال۔',
       'ہماری سپورٹ ٹیم مکمل طور پر اردو زبان میں رہنمائی فراہم کرتی ہے تاکہ ایئرپورٹ پہنچنے پر کوئی دشواری پیش نہ آئے۔',
-      'پیشگی ادائیگی کی کوئی شرط نہیں؛ ہوٹل باحفاظت پہنچنے پر اپنے ڈرائیور کو نقد ریال یا کارڈ کے ذریعے کرایہ ادا کریں۔',
+      'پیشگی ادائیگی کی کوئی شرط نہیں؛ ہوٹل باحفاظت پہنچنے پر اپنے ڈرائیور کو صرف نقد (سعودی ریال یا امریکی ڈالر) میں کرایہ ادا کریں۔',
     ],
     paymentAndCurrencyEn: 'Guaranteed fixed fares in Saudi Riyals (SAR). No advance payment. Cash upon arrival (SAR or USD).',
     paymentAndCurrencyNative: 'سعودی ریال (SAR) میں فکسڈ کرایہ۔ پیشگی ادائیگی کے بغیر۔ آمد پر نقد ادائیگی (سعودی ریال یا امریکی ڈالر)۔',
@@ -307,7 +307,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     localTravelTipsEn: [
       'Our team tracks flight schedules across Indian departures: your driver will be waiting at arrivals even if your flight is rescheduled.',
       'Assistance available in Hindi, Urdu, and English through our 24/7 WhatsApp dispatch team.',
-      'Transparent payment: settle directly in cash (SAR or USD) upon arriving at your hotel. Cards and bank transfers are not accepted.',
+      'Transparent payment: settle directly in cash (SAR or USD) upon arriving at your hotel. Cards and cash (SAR or USD)s are not accepted.',
     ],
     localTravelTipsNative: [
       'हमारी टीम आपकी फ्लाइट पर लाइव नजर रखती है; फ्लाइट लेट होने पर भी ड्राइवर आपका इंतजार करेगा बिना किसी अतिरिक्त चार्ज के।',
@@ -397,7 +397,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
       },
       {
         q: 'What payment methods are accepted upon arrival?',
-        a: 'We accept cash payments only, paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). We do not accept debit cards, credit cards, POS terminals, online payments, or bank transfers.',
+        a: 'We accept cash payments only, paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). We do not accept debit cards, cash (SAR or USD)s, cash (SAR or USD), online payments, or cash (SAR or USD)s.',
       },
     ],
     faqsNative: [
@@ -407,7 +407,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
       },
       {
         q: 'What payment methods are accepted upon arrival?',
-        a: 'We accept cash payments only, paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). We do not accept debit cards, credit cards, POS terminals, online payments, or bank transfers.',
+        a: 'We accept cash payments only, paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). We do not accept debit cards, cash (SAR or USD)s, cash (SAR or USD), online payments, or cash (SAR or USD)s.',
       },
     ],
     status: 'draft, needs human review',
@@ -427,8 +427,8 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     metaDescNative: 'Executive private Umrah chauffeur transfers for US pilgrims arriving from New York (JFK), Washington (IAD), Chicago (ORD), Houston & California.',
     h1En: 'Private Umrah Chauffeur Services for US Pilgrims',
     h1Native: 'Private Umrah Chauffeur Services for US Pilgrims',
-    introEn: 'After a demanding 12-to-16 hour journey from North America, avoid the exhaustion of negotiating airport taxis. Royal Umrah Cabs provides verified executive chauffeurs, pristine GMC Yukon XL and Hyundai Staria vehicles, and door-to-door comfort directly to your hotel doorstep in Makkah or Madinah.',
-    introNative: 'After a demanding 12-to-16 hour journey from North America, avoid the exhaustion of negotiating airport taxis. Royal Umrah Cabs provides verified executive chauffeurs, pristine GMC Yukon XL and Hyundai Staria vehicles, and door-to-door comfort directly to your hotel doorstep in Makkah or Madinah.',
+    introEn: 'After a demanding 12-to-16 hour journey from North America, avoid the exhaustion of negotiating airport taxis. Duyuf Alrahman VIP provides verified executive chauffeurs, pristine GMC Yukon XL and Hyundai Staria vehicles, and door-to-door comfort directly to your hotel doorstep in Makkah or Madinah.',
+    introNative: 'After a demanding 12-to-16 hour journey from North America, avoid the exhaustion of negotiating airport taxis. Duyuf Alrahman VIP provides verified executive chauffeurs, pristine GMC Yukon XL and Hyundai Staria vehicles, and door-to-door comfort directly to your hotel doorstep in Makkah or Madinah.',
     departureAirportsEn: ['New York JFK (JFK)', 'Washington Dulles (IAD)', "Chicago O'Hare (ORD)", 'Houston George Bush (IAH)', 'Los Angeles (LAX)', 'Dallas/Fort Worth (DFW)'],
     departureAirportsNative: ['New York JFK (JFK)', 'Washington Dulles (IAD)', "Chicago O'Hare (ORD)", 'Houston George Bush (IAH)', 'Los Angeles (LAX)', 'Dallas/Fort Worth (DFW)'],
     airlinesEn: ['Saudia (Direct from JFK, IAD, LAX)', 'Qatar Airways', 'Emirates', 'Turkish Airlines', 'Etihad Airways'],
@@ -445,12 +445,12 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Direct Saudia flights land at Terminal 1; common 1-stop flights via Turkish, Qatar, or Emirates also land at Terminal 1.',
-      'Pay on arrival in cash directly to your driver (USD or SAR). Credit cards, POS terminals, and online payments are not accepted.',
+      'Pay on arrival in cash directly to your driver (USD or SAR). cash (SAR or USD)s, cash (SAR or USD), and online payments are not accepted.',
       'Chilled bottled water and climate-controlled cabins ensure immediate recovery after long trans-Atlantic flights.',
     ],
     localTravelTipsNative: [
       'Direct Saudia flights land at Terminal 1; common 1-stop flights via Turkish, Qatar, or Emirates also land at Terminal 1.',
-      'Pay on arrival in cash directly to your driver (USD or SAR). Credit cards, POS terminals, and online payments are not accepted.',
+      'Pay on arrival in cash directly to your driver (USD or SAR). cash (SAR or USD)s, cash (SAR or USD), and online payments are not accepted.',
       'Chilled bottled water and climate-controlled cabins ensure immediate recovery after long trans-Atlantic flights.',
     ],
     paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR) and US Dollars (USD). Zero advance deposit. Cash only to driver on arrival.',
@@ -458,7 +458,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     faqsEn: [
       {
         q: 'Can we pay in US Dollars upon arrival?',
-        a: 'Yes! You can pay your driver directly in cash in US Dollars (USD) or Saudi Riyals (SAR) upon arrival. Cards, POS terminals, and electronic payments are not accepted.',
+        a: 'Yes! You can pay your driver directly in cash in US Dollars (USD) or Saudi Riyals (SAR) upon arrival. Cards, cash (SAR or USD), and electronic payments are not accepted.',
       },
       {
         q: 'What happens if our connecting flight in Doha, Istanbul, or Dubai is delayed?',
@@ -468,7 +468,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     faqsNative: [
       {
         q: 'Can we pay in US Dollars upon arrival?',
-        a: 'Yes! You can pay your driver directly in cash in US Dollars (USD) or Saudi Riyals (SAR) upon arrival. Cards, POS terminals, and electronic payments are not accepted.',
+        a: 'Yes! You can pay your driver directly in cash in US Dollars (USD) or Saudi Riyals (SAR) upon arrival. Cards, cash (SAR or USD), and electronic payments are not accepted.',
       },
       {
         q: 'What happens if our connecting flight in Doha, Istanbul, or Dubai is delayed?',
@@ -510,12 +510,12 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Flight connections through European or Middle Eastern hubs are monitored in real time.',
-      'Settle your fare directly at your hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and bank transfers are not accepted.',
+      'Settle your fare directly at your hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and cash (SAR or USD)s are not accepted.',
       'High-speed highway travel with courteous, professional chauffeurs.',
     ],
     localTravelTipsNative: [
       'Flight connections through European or Middle Eastern hubs are monitored in real time.',
-      'Settle your fare directly at your hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and bank transfers are not accepted.',
+      'Settle your fare directly at your hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and cash (SAR or USD)s are not accepted.',
       'High-speed highway travel with courteous, professional chauffeurs.',
     ],
     paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash upon arrival (SAR or USD).',
@@ -549,8 +549,8 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     metaDescNative: 'Zuverlässiger Flughafentransfer und Fahrdienst für Umra-Pilger aus Deutschland. Fahrten von Dschidda nach Mekka und Medina mit festen Preisen.',
     h1En: 'Private Umrah Chauffeur Services for Pilgrims from Germany',
     h1Native: 'Privater Umra-Fahrdienst für Pilger aus Deutschland',
-    introEn: 'Royal Umrah Cabs provides reliable, punctual private chauffeur transport for pilgrims departing from Frankfurt, Munich, Berlin, and Dusseldorf to Jeddah and Madinah. Transparent fixed fares in EUR and SAR with zero hidden fees.',
-    introNative: 'Royal Umrah Cabs bietet pünktlichen und verlässlichen Fahrdienst für Pilger aus Frankfurt, München, Berlin und Düsseldorf nach Dschidda und Medina. Transparente Festpreise in EUR und SAR ohne versteckte Kosten.',
+    introEn: 'Duyuf Alrahman VIP provides reliable, punctual private chauffeur transport for pilgrims departing from Frankfurt, Munich, Berlin, and Dusseldorf to Jeddah and Madinah. Transparent fixed fares in EUR and SAR with zero hidden fees.',
+    introNative: 'Duyuf Alrahman VIP bietet pünktlichen und verlässlichen Fahrdienst für Pilger aus Frankfurt, München, Berlin und Düsseldorf nach Dschidda und Medina. Transparente Festpreise in EUR und SAR ohne versteckte Kosten.',
     departureAirportsEn: ['Frankfurt (FRA)', 'Munich (MUC)', 'Berlin (BER)', 'Dusseldorf (DUS)', 'Hamburg (HAM)'],
     departureAirportsNative: ['Frankfurt am Main (FRA)', 'München (MUC)', 'Berlin Brandenburg (BER)', 'Düsseldorf (DUS)', 'Hamburg (HAM)'],
     airlinesEn: ['Saudia', 'Lufthansa', 'Turkish Airlines', 'Qatar Airways', 'Emirates', 'Pegasus'],
@@ -570,7 +570,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
       'Complimentary chilled bottled water provided in all vehicles.',
     ],
     localTravelTipsNative: [
-      'Zahlung bequem bei Ankunft am Hotel in SAR bar oder mit EC-/Kreditkarte.',
+      'Zahlung bequem bei Ankunft am Hotel ausschließlich in bar (SAR oder USD).',
       'Gekühltes Trinkwasser auf allen Fahrten kostenfrei inklusive.',
     ],
     paymentAndCurrencyEn: 'Fixed transparent rates in EUR and SAR. No prepayment required.',
@@ -623,11 +623,11 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Meet & Greet: Your chauffeur awaits you just outside the international arrival terminal with a clear nameboard.',
-      'Payment: Pay upon arrival at your hotel strictly in cash (SAR or USD). Cards and bank transfers are not accepted.',
+      'Payment: Pay upon arrival at your hotel strictly in cash (SAR or USD). Cards and cash (SAR or USD)s are not accepted.',
     ],
     localTravelTipsNative: [
       'Accueil aéroport : Votre chauffeur vous attend directement à la sortie du terminal avec une pancarte à votre nom.',
-      "Paiement : Réglez directement à l'arrivée à votre hôtel en espèces (EUR ou SAR) ou par carte bancaire.",
+      "Paiement : Réglez directement à l'arrivée à votre hôtel uniquement en espèces (SAR ou USD).",
     ],
     paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash upon arrival (SAR or USD).',
     paymentAndCurrencyNative: "Tarifs fixes transparents en Riyals (SAR). Aucun acompte requis. Paiement en espèces à l'arrivée (SAR ou USD).",
@@ -682,7 +682,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsNative: [
       'Precios fijos garantizados sin suplementos sorpresa.',
-      'Pago a la llegada al hotel en efectivo o tarjeta.',
+      'Pago a la llegada al hotel exclusivamente en efectivo.',
     ],
     paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). No advance deposit. Cash upon arrival (SAR or USD).',
     paymentAndCurrencyNative: 'Tarifas fijas en Riyales Saudíes (SAR). Sin necesidad de anticipo. Pago en efectivo a la llegada (SAR أو USD).',
@@ -930,7 +930,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Frequent shuttle and direct flights from DXB and AUH arrive at Terminal 1.',
-      'Payment accepted strictly in cash upon arrival (SAR or USD). Cards, POS terminals, and online payments are not accepted.',
+      'Payment accepted strictly in cash upon arrival (SAR or USD). Cards, cash (SAR or USD), and online payments are not accepted.',
       'Bottled cold water and phone charging available in all vehicles.',
     ],
     localTravelTipsNative: [

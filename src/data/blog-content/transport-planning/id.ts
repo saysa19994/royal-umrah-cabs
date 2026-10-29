@@ -138,7 +138,7 @@ export const TRANSPORT_PLANNING_CONTENT_ID: LocalizedArticleBody = {
       title: 'Rencanakan Perjalanan Anda Bersama Duyuf Alrahman VIP',
       paragraphs: [
         'Duyuf Alrahman VIP menghadirkan sistem transportasi mewah dan aman yang menghubungkan Makkah, Madinah, dan Jeddah. Kami menjamin armada modern yang bersih, sopir profesional yang hafal rute hotel di kedua Tanah Suci, serta tarif pasti all-inclusive tanpa biaya tersembunyi.',
-        'Yang terpenting, kami berpegang teguh pada kebijakan Wajib Bayar Langsung ke Sopir saat tiba di tujuan tanpa uang muka atau kartu kredit. Hubungi kami hari ini untuk menyusun seluruh jadwal transportasi ibadah Umrah Anda dan nikmati perjalanan ibadah yang tenang dan menyenangkan.'
+        'Yang terpenting, kami berpegang teguh pada kebijakan Wajib Bayar Langsung ke Sopir saat tiba di tujuan tanpa uang muka secara tunai saja kredit. Hubungi kami hari ini untuk menyusun seluruh jadwal transportasi ibadah Umrah Anda dan nikmati perjalanan ibadah yang tenang dan menyenangkan.'
       ]
     }
   ],

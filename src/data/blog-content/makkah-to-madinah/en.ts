@@ -121,7 +121,7 @@ export const enMakkahMadinahContent: LocalizedArticleBody = {
         },
         {
           title: 'Mandatory Policy: Pay the Driver Only Upon Safe Arrival:',
-          text: 'No credit card prepayment or advance deposits required. You pay your chauffeur directly in cash or transfer only upon arriving safely at your Madinah hotel.',
+          text: 'No credit card prepayment or advance deposits required. You pay your chauffeur directly in cash (SAR or USD) only upon arriving safely at your Madinah hotel.',
         },
         {
           title: 'Free Schedule Modification & Cancellation:',

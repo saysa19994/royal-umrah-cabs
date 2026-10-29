@@ -56,7 +56,7 @@ export const HOURLY_VS_TRANSFER_CONTENT_TR: LocalizedArticleBody = {
         '| Bekleme Ücreti | İlk alışta ücretsiz bekleme; sonrasında ek ücret | Tüm bekleme süreleri paket saatlerinin içindedir |',
         '| Trafik Yoğunluğu | Fiyat sabittir; trafikten dolayı ek ücret çıkmaz | Trafikte geçen süre toplam kiralama süresine dahildir |',
         '| En İyi Kullanım | Havalimanı karşılama/dönüş, şehirlerarası yolculuk | Alışveriş, çok duraklı ziyaretler, iş toplantıları |',
-        '| Ödeme Şartları | Varışta şoföre nakit veya kartla ödeme (ön ödemesiz) | Hizmet tamamlandığında şoföre ödeme (ön ödemesiz) |'
+        '| Ödeme Şartları | Varışta şoföre yalnızca nakit (SAR veya USD)la ödeme (ön ödemesiz) | Hizmet tamamlandığında şoföre ödeme (ön ödemesiz) |'
       ]
     },
     {

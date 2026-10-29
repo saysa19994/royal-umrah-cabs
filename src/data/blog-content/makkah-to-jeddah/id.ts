@@ -82,7 +82,7 @@ export const MAKKAH_JEDDAH_CONTENT_ID: LocalizedArticleBody = {
       paragraphs: [
         'Kami memegang teguh prinsip kejujuran dan perlindungan jamaah:',
         '• Tarif Pasti All-Inclusive: Harga yang disepakati adalah harga final untuk satu mobil penuh, termasuk sopir, bensin, tol, dan pajak.',
-        '• Bayar Sopir Hanya Saat Tiba di Bandara: Tanpa uang muka, tanpa gesek kartu kredit, dan tanpa transfer deposit. Anda membayar langsung kepada sopir secara tunai atau transfer setelah tiba dengan selamat di terminal.',
+        '• Bayar Sopir Hanya Saat Tiba di Bandara: Tanpa uang muka, tanpa gesek kartu kredit, dan tanpa transfer deposit. Anda membayar langsung kepada sopir secara tunai saja (SAR atau USD) setelah tiba dengan selamat di terminal. Kami tidak menerima kartu kredit, kartu debit, mesin EDC, maupun transfer bank.',
         '• Perubahan Jadwal Bebas Biaya: Jam terbang bergeser? Cukup beri tahu kami melalui WhatsApp untuk penyesuaian jadwal tanpa penalti.'
       ]
     },

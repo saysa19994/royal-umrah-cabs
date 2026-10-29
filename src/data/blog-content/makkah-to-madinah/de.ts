@@ -121,7 +121,7 @@ export const deMakkahMadinahContent: LocalizedArticleBody = {
         },
         {
           title: 'Zahlung Erst bei Sicherer Ankunft in Medina:',
-          text: 'Keine Online-Vorauszahlung oder Kaution. Sie bezahlen den Fahrer erst nach Ankunft an Ihrem Hotel in bar oder per Überweisung.',
+          text: 'Keine Online-Vorauszahlung oder Kaution. Sie bezahlen Ihren Chauffeur erst nach Ankunft an Ihrem Hotel ausschließlich in bar (SAR oder USD). Kreditkarten, Debitkarten, POS-Terminals und Banküberweisungen werden nicht akzeptiert.',
         },
         {
           title: 'Kostenlose Änderung und Stornierung:',

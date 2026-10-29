@@ -107,7 +107,7 @@ export const MADINAH_ZIYARAT_CONTENT_DE: LocalizedArticleBody = {
         '2. Vereinbarte Tourdauer: Stellen Sie sicher, dass das Zeitfenster 3 bis 3,5 Stunden umfasst.',
         '3. Festgelegte Haltepunkte: Nennen Sie bei der Buchung die gewünschten Stätten (Quba, Uhud, Qiblatayn).',
         '4. All-Inclusive-Festpreis: Vergewissern Sie sich, dass keine verdeckten Zusatzkosten für Benzin oder Wartezeiten anfallen.',
-        '5. Bezahlung erst bei Ankunft beim Fahrer (Zero Prepayment): Schützen Sie sich vor Online-Betrug und zahlen Sie bar (SAR) oder mit Karte erst nach Abschluss der Tour.',
+        '5. Bezahlung erst bei Ankunft beim Fahrer (Zero Prepayment): Schützen Sie sich vor Online-Betrug und zahlen Sie ausschließlich bar (SAR oder USD) erst nach Abschluss der Tour. Keine Kartenzahlung oder Vorauszahlung.',
         '6. Kontaktdaten per WhatsApp: Bestehen Sie darauf, Name, Handynummer und Kennzeichen des Fahrers vorab per WhatsApp zu erhalten.'
       ]
     },

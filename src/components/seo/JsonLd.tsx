@@ -2,6 +2,7 @@ import React from 'react';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import type { SiteSettings } from '@/lib/settings';
+import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
 
 interface JsonLdProps {
   locale: Locale;
@@ -20,16 +21,16 @@ export function JsonLd({
 }: JsonLdProps) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
-  // 1. TaxiService / LocalBusiness Schema
+  // 1. Single Authoritative TravelAgency Entity Schema (No storefront geo coordinates falsely placed at the Holy Mosque)
   const businessSchema: Record<string, any> = {
     '@context': 'https://schema.org',
-    '@type': 'TaxiService',
-    '@id': `${baseUrl}/#taxiservice`,
-    name: dict.meta.brand,
+    '@type': 'TravelAgency',
+    '@id': `${baseUrl}/#organization`,
+    name: dict.meta.brand || 'Duyuf Al Rahman VIP',
     alternateName: [
-      'Royal Umrah Cabs',
-      'رويال كاب للعمرة',
-      'Teksi Umrah VIP Jeddah Makkah',
+      'Duyuf Alrahman VIP',
+      'ضيوف الرحمن VIP',
+      'Duyuf Al-Rahman VIP',
     ],
     url: `${baseUrl}/${locale}`,
     logo: `${baseUrl}/logo.png`,
@@ -37,14 +38,9 @@ export function JsonLd({
     description: dict.meta.seoDescription,
     telephone: settings?.phone || '+966567588261',
     email: settings?.email || 'info@duyufalrahmanvip.com',
-    priceRange: '$$',
+    priceRange: '$',
     currenciesAccepted: 'SAR, USD',
-    paymentAccepted: 'Cash, Pay Upon Arrival',
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: 21.4225,
-      longitude: 39.8262,
-    },
+    paymentAccepted: 'Cash upon arrival (SAR, USD)',
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
@@ -61,46 +57,57 @@ export function JsonLd({
         closes: '23:59',
       },
     ],
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        telephone: '+966567588261',
+        contactType: 'customer service',
+        contactOption: 'WhatsApp',
+        availableLanguage: [
+          'Arabic',
+          'English',
+          'Malay',
+          'Indonesian',
+          'Urdu',
+          'French',
+          'Spanish',
+          'German',
+          'Turkish',
+          'Hindi',
+        ],
+      },
+      {
+        '@type': 'ContactPoint',
+        telephone: settings?.phone || '+966505316971',
+        contactType: 'reservations',
+        contactOption: 'WhatsApp',
+        availableLanguage: ['Arabic', 'English', 'Urdu'],
+      },
+    ],
     areaServed: [
-      {
-        '@type': 'City',
-        name: 'Makkah',
-        geo: {
-          '@type': 'GeoCoordinates',
-          latitude: 21.4225,
-          longitude: 39.8262,
-        },
-      },
-      {
-        '@type': 'City',
-        name: 'Madinah',
-        geo: {
-          '@type': 'GeoCoordinates',
-          latitude: 24.4672,
-          longitude: 39.6111,
-        },
-      },
-      {
-        '@type': 'City',
-        name: 'Jeddah',
-        geo: {
-          '@type': 'GeoCoordinates',
-          latitude: 21.5433,
-          longitude: 39.1728,
-        },
-      },
-      {
-        '@type': 'City',
-        name: 'Taif',
-      },
-      {
-        '@type': 'City',
-        name: 'Riyadh',
-      },
+      { '@type': 'City', name: 'Makkah' },
+      { '@type': 'City', name: 'Madinah' },
+      { '@type': 'City', name: 'Jeddah' },
+      { '@type': 'City', name: 'Taif' },
+      { '@type': 'City', name: 'Riyadh' },
     ],
   };
 
-  // 2. FAQPage Schema (All 12 localized questions)
+  // 2. WebSite Schema linking to Organization
+  const websiteSchema: Record<string, any> = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${baseUrl}/#website`,
+    url: baseUrl,
+    name: 'Duyuf Al Rahman VIP',
+    alternateName: 'ضيوف الرحمن VIP',
+    publisher: {
+      '@id': `${baseUrl}/#organization`,
+    },
+    inLanguage: ['ar', 'en', 'ms', 'id', 'ur', 'fr', 'es', 'de', 'tr', 'hi'],
+  };
+
+  // 3. FAQPage Schema (All 12 localized questions)
   const faqList = [
     { q: dict.faq.q1, a: dict.faq.a1 },
     { q: dict.faq.q2, a: dict.faq.a2 },
@@ -129,7 +136,7 @@ export function JsonLd({
     })),
   };
 
-  // 3. BreadcrumbList Schema
+  // 4. BreadcrumbList Schema
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -171,23 +178,28 @@ export function JsonLd({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLd(businessSchema) }}
       />
-      {includeFaq && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: safeJsonLd(faqSchema) }}
-        />
-      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(websiteSchema) }}
+      />
       {includeBreadcrumbs && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
+      {includeFaq && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(faqSchema) }}
+        />
+      )}
     </>
   );
 }
 
-export function HomepageFaqJsonLd({ dict }: { dict: Dictionary }) {
+export const HomepageFaqJsonLd = FaqJsonLd;
+export function FaqJsonLd({ dict }: { dict: Dictionary }) {
   const faqList = [
     { q: dict.faq.q1, a: dict.faq.a1 },
     { q: dict.faq.q2, a: dict.faq.a2 },
@@ -305,8 +317,9 @@ export function RoutePageJsonLd({
     description: desc,
     serviceType: 'Private Chauffeur Airport & Intercity Transfer',
     provider: {
-      '@type': 'LocalBusiness',
-      name: 'Duyuf Alrahman VIP',
+      '@type': 'TravelAgency',
+      '@id': `${baseUrl}/#organization`,
+      name: 'Duyuf Al Rahman VIP',
       url: baseUrl,
       telephone: '+966567588261',
       priceRange: '$',
@@ -319,21 +332,24 @@ export function RoutePageJsonLd({
       ...(route.id?.includes('taif') ? [{ '@type': 'City', name: 'Taif' }] : []),
       ...(route.id?.includes('riyadh') ? [{ '@type': 'City', name: 'Riyadh' }] : []),
     ],
-    offers: {
-      '@type': 'Offer',
-      price: minPriceSAR || 200,
-      priceCurrency: 'SAR',
-      availability: 'https://schema.org/InStock',
-      url: pageUrl,
-      validFrom: '2026-01-01',
-      priceValidUntil: '2026-12-31',
-      priceSpecification: {
-        '@type': 'PriceSpecification',
-        price: minPriceSAR || 200,
+    offers: (() => {
+      const routeFares = AUTHORITATIVE_TRANSFER_RATES[route.id]
+        ? Object.values(AUTHORITATIVE_TRANSFER_RATES[route.id])
+        : [minPriceSAR || 200];
+      const lowPrice = Math.min(...routeFares);
+      const highPrice = Math.max(...routeFares);
+      const offerCount = routeFares.length;
+
+      return {
+        '@type': 'AggregateOffer',
+        lowPrice,
+        highPrice,
+        offerCount,
         priceCurrency: 'SAR',
-        valueAddedTaxIncluded: true,
-      },
-    },
+        availability: 'https://schema.org/InStock',
+        url: pageUrl,
+      };
+    })(),
   };
 
   function safeJsonLd(data: unknown): string {

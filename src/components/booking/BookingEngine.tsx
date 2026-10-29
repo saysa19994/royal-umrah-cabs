@@ -944,14 +944,22 @@ export function BookingEngine({
       if (passengers > spec.seats) setPassengers(spec.seats);
       if (luggage > spec.bags) setLuggage(spec.bags);
     }
+    trackEvent({
+      event: 'vehicle_selected',
+      vehicle_id: id,
+      route_id: routeId,
+      route: routeId,
+      price: calculateCurrentPriceSAR(id),
+      currency: 'SAR',
+    });
   };
 
   // Authoritative Price Calculation synced with database
-  const calculateCurrentPriceSAR = () => {
+  const calculateCurrentPriceSAR = (overrideVehicleId?: string) => {
     const calculated = getEstimatedBasePriceSAR({
       bookingType,
       routeId: bookingType === 'transfer' ? routeId : null,
-      vehicleId,
+      vehicleId: overrideVehicleId || vehicleId,
       durationHours: bookingType === 'hourly' ? durationHours : undefined,
       customRates: initialRates,
     });

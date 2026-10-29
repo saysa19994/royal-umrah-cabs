@@ -102,7 +102,7 @@ export const HOURLY_VS_TRANSFER_CONTENT_EN: LocalizedArticleBody = {
       ]
     },
     {
-      title: 'Select Your Ideal Transportation with Royal Umrah Cabs / Duyuf Alrahman VIP',
+      title: 'Select Your Ideal Transportation with Duyuf Alrahman VIP',
       paragraphs: [
         'Whether your travel schedule requires a swift, direct airport pickup from King Abdulaziz International Airport to your hotel in Makkah, or a premium vehicle and dedicated chauffeur on standby by the hour, Duyuf Alrahman VIP delivers world-class service.',
         'We combine a modern, fully air-conditioned luxury fleet with exceptional punctuality, transparent fixed pricing, and the total peace of mind of paying the driver only upon safe arrival without credit cards or advance deposits.',

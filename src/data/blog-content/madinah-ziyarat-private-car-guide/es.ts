@@ -107,7 +107,7 @@ export const MADINAH_ZIYARAT_CONTENT_ES: LocalizedArticleBody = {
         '2. Duración concertada: Verifique que el servicio garantice entre 3 y 3,5 horas de disponibilidad del chofer.',
         '3. Lista de monumentos acordada: Indique con claridad los lugares a visitar (Quba, Uhud, Qiblatayn) al hacer la reserva.',
         '4. Precio cerrado sin costes ocultos: Asegúrese de que el importe cubra combustible, peajes y esperas sin sorpresas posteriores.',
-        '5. Pago directo al chofer al llegar (Zero Prepayment): Protéjase frente a estafas online eligiendo compañías que cobran al finalizar el servicio en efectivo (SAR) o tarjeta.',
+        '5. Pago directo al chofer al llegar (Zero Prepayment): Protéjase frente a estafas online eligiendo compañías que cobran al finalizar el servicio en efectivo (SAR) .',
         '6. Datos del chofer por WhatsApp: Solicite el nombre, teléfono directo y matrícula del chofer antes de la hora fijada para la recogida.'
       ]
     },

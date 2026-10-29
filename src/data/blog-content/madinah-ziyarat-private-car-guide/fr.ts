@@ -107,7 +107,7 @@ export const MADINAH_ZIYARAT_CONTENT_FR: LocalizedArticleBody = {
         '2. Durée convenue du circuit : Confirmez que le forfait prévoit 3 à 3,5 heures de mise à disposition.',
         '3. Liste précise des monuments : Indiquez dès la réservation les arrêts désirés (Quba, Uhud, Qiblatayn).',
         '4. Prix tout compris (All-Inclusive) : Assurez-vous que le montant inclut l’essence, les parkings et l’attente sans frais imprévus.',
-        '5. Paiement direct au chauffeur (Zero Prepayment) : Évitez les fraudes en ligne en privilégiant le paiement direct au chauffeur à l’arrivée en espèces (SAR) ou par carte bancaire.',
+        '5. Paiement direct au chauffeur (Zero Prepayment) : Évitez les fraudes en ligne en privilégiant le paiement direct au chauffeur à l’arrivée en espèces (SAR) ou en espèces.',
         '6. Coordonnées du chauffeur via WhatsApp : Exigez de recevoir le nom du chauffeur, son numéro direct et la plaque d’immatriculation avant le départ.'
       ]
     },

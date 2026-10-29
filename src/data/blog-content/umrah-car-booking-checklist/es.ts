@@ -61,8 +61,8 @@ export const UMRAH_CHECKLIST_CONTENT_ES: LocalizedArticleBody = {
       title: '6. Exija una política sin pago anticipado: pague únicamente al llegar',
       paragraphs: [
         'Las condiciones de pago son el principal seguro frente a fraudes y servicios informales:',
-        '• Pago directo al conductor tras llegar a salvo (cero anticipo): Nunca facilite datos de tarjetas en sitios no verificados ni transfiera anticipos a intermediarios desconocidos. Nuestra política exige cero pago previo: usted abona la tarifa acordada directamente al conductor en efectivo o con tarjeta al llegar a su hotel.',
-        '• Métodos de pago disponibles a bordo: Los conductores aceptan efectivo en riyales saudíes (SAR), así como tarjetas Mada, Visa y Mastercard a través de terminales bancarios móviles.',
+        '• Pago directo al conductor tras llegar a salvo (cero anticipo): Nunca facilite datos de tarjetas en sitios no verificados ni transfiera anticipos a intermediarios desconocidos. Nuestra política exige cero pago previo: usted abona la tarifa acordada directamente al conductor estrictamente en efectivo (SAR o USD) al llegar a su hotel.',
+        '• Política estricta de pago en efectivo: El pago se realiza únicamente en efectivo en riyales saudíes (SAR) o dólares estadounidenses (USD) directamente al conductor al llegar. No se aceptan tarjetas de crédito, débito, Mada, transferencias bancarias ni terminales POS.',
         '• Confirmación formal por escrito: Reciba un mensaje oficial con el resumen del trayecto y el precio cerrado para garantizar total coherencia en el servicio.'
       ]
     },
@@ -109,7 +109,7 @@ export const UMRAH_CHECKLIST_CONTENT_ES: LocalizedArticleBody = {
       ]
     },
     {
-      title: 'Organice su traslado para la Umrah con Royal Umrah Cabs / Duyuf Alrahman VIP',
+      title: 'Organice su traslado para la Umrah con Duyuf Alrahman VIP',
       paragraphs: [
         'En Duyuf Alrahman VIP, servir a los Huéspedes del Misericordioso es nuestro compromiso fundamental. Nuestra moderna flota con climatización completa y nuestros conductores profesionales le garantizan un viaje cómodo, puntual y digno por los Santos Lugares.',
         'Tanto si precisa un traslado VIP desde el Aeropuerto de Yeda, un viaje interurbano entre La Meca y Medina, o un vehículo con conductor a su entera disposición, le ofrecemos transparencia total y la seguridad de abonar su servicio únicamente al llegar a su hotel.',

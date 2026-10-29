@@ -61,8 +61,8 @@ export const UMRAH_CHECKLIST_CONTENT_MS: LocalizedArticleBody = {
       title: '6. Sahkan Kaedah Pembayaran: Utamakan Dasar Tanpa Bayaran Pendahuluan',
       paragraphs: [
         'Syarat pembayaran adalah benteng utama bagi melindungi hak jemaah daripada sebarang penipuan dalam talian:',
-        '• Bayar kepada Pemandu Sahaja Semasa Tiba (Zero Prepayment): Jangan sesekali berkongsi maklumat kad kredit dalam talian atau memindahkan deposit kepada pihak tidak sah. Dasar kami tidak memerlukan sebarang bayaran awal; anda membayar terus kepada pemandu secara tunai (SAR) atau kad setelah tiba dengan selamat di hotel.',
-        '• Kaedah Pembayaran yang Diterima: Pemandu kami menerima bayaran tunai dalam Riyal Saudi serta kad Mada, Visa, dan Mastercard melalui terminal pembayaran mudah alih.',
+        '• Bayar kepada Pemandu Sahaja Semasa Tiba (Zero Prepayment): Jangan sesekali berkongsi maklumat kad kredit dalam talian atau memindahkan deposit kepada pihak tidak sah. Dasar kami tidak memerlukan sebarang bayaran awal; anda membayar terus kepada pemandu secara tunai sahaja (SAR atau USD) terus kepada pemandu setelah tiba dengan selamat di hotel. Tiada kad kredit atau deposit.',
+        '• Kaedah Pembayaran: Bayaran dibuat secara tunai sahaja (SAR atau USD) terus kepada pemandu setibanya di hotel. Kami tidak menerima sebarang kad kredit, terminal POS, atau pembayaran dalam talian.',
         '• Pengesahan Bertulis Rasmi: Terima mesej pengesahan bertulis yang mengandungi butiran perjalanan dan kadar harga tetap yang dipersetujui.'
       ]
     },

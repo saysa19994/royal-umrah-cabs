@@ -98,7 +98,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: 'الدفع للسائق عند الوصول 100%',
-        desc: 'لا حاجة لبطاقات ائتمان مسبقة أو دفع أي عربون — السداد نقداً أو بالبطاقة عند بلوغ وجهتك.',
+        desc: 'لا حاجة لبطاقات ائتمان مسبقة أو دفع أي عربون — السداد نقداً كاش فقط (بالريال السعودي أو الدولار) عند بلوغ وجهتك.',
       },
       {
         title: 'مساحة وفيرة للأمتعة العائلية',
@@ -129,7 +129,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
     ],
     ctaTitle: 'احجز رحلتك الخاصة إلى الطائف الآن',
-    ctaSubtitle: 'سائقك الخاص بانتظارك • أسعار ثابتة ومؤكدة • الدفع عند الوصول نقداً أو بالبطاقة',
+    ctaSubtitle: 'سائقك الخاص بانتظارك • أسعار ثابتة ومؤكدة • الدفع عند الوصول نقداً كاش فقط (ريال سعودي أو دولار)',
     ctaBtn: 'احجز سيارتك للطائف الآن',
     ctaSecondaryBtn: 'تواصل عبر واتساب',
   },
@@ -192,7 +192,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: '100% Pay Upon Arrival',
-        desc: 'No advance credit card charges or deposits required. Pay your driver upon arrival in cash (SAR) or card.',
+        desc: 'No advance credit card charges or deposits required. Pay your driver upon arrival strictly in cash (SAR or USD).',
       },
       {
         title: 'Generous Luggage Capacity',
@@ -223,7 +223,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
     ],
     ctaTitle: 'Reserve Your Private Chauffeur to Taif Today',
-    ctaSubtitle: 'Guaranteed fixed fares • Zero advance deposit • Pay your driver upon arrival in cash or card',
+    ctaSubtitle: 'Guaranteed fixed fares • Zero advance deposit • Pay your driver upon arrival strictly in cash (SAR or USD)',
     ctaBtn: 'Book Taif Transfer Now',
     ctaSecondaryBtn: 'Chat on WhatsApp',
   },
@@ -286,7 +286,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: 'Bayar Terus kepada Pemandu 100%',
-        desc: 'Tiada deposit atau kad kredit diperlukan dalam talian. Bayar tunai (SAR) atau kad semasa tiba.',
+        desc: 'Tiada deposit secara tunai sahaja kredit diperlukan dalam talian. Bayar tunai sahaja (SAR atau USD) semasa tiba.',
       },
       {
         title: 'Ruang Bagasi Luas',
@@ -376,7 +376,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: 'Bayar ke Sopir 100% Saat Tiba',
-        desc: 'Tanpa DP atau kartu kredit online. Bayar tunai (SAR) atau kartu langsung ke sopir saat sampai.',
+        desc: 'Tanpa DP secara tunai saja kredit online. Bayar tunai saja (SAR atau USD) langsung ke sopir saat sampai.',
       },
       {
         title: 'Kapasitas Bagasi Luas',
@@ -466,7 +466,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: 'منزل پر ڈرائیور کو 100% ادائیگی',
-        desc: 'کوئی پیشگی رقم یا ایڈوانس نہیں — رقم منزل پر پہنچ کر نقد یا کارڈ سے ادا کریں۔',
+        desc: 'کوئی پیشگی رقم یا ایڈوانس نہیں — رقم منزل پر پہنچ کر صرف نقد میں ادا کریں۔',
       },
       {
         title: 'سامان کی وسیع گنجائش',
@@ -493,7 +493,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
     ],
     ctaTitle: 'طائف کے لیے اپنی پرائیویٹ کار ابھی بک کریں',
-    ctaSubtitle: 'طے شدہ کرائے • کوئی ایڈوانس نہیں • منزل پر نقد یا کارڈ سے ادائیگی',
+    ctaSubtitle: 'طے شدہ کرائے • کوئی ایڈوانس نہیں • منزل پر صرف نقد (سعودی ریال یا امریکی ڈالر) سے ادائیگی',
     ctaBtn: 'طائف کی سواری بک کریں',
     ctaSecondaryBtn: 'واٹس ایپ پر رابطہ کریں',
   },
@@ -556,7 +556,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: '100% Paiement au Chauffeur',
-        desc: 'Aucun paiement en ligne ni avance requise. Réglez à l’arrivée en espèces ou par carte.',
+        desc: 'Aucun paiement en ligne ni avance requise. Réglez à l’arrivée uniquement en espèces.',
       },
       {
         title: 'Grand Espace Bagages',
@@ -646,7 +646,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: '100% Pago a la Llegada',
-        desc: 'Sin depósitos ni cargos en línea. Pague al chofer al llegar en efectivo o tarjeta.',
+        desc: 'Sin depósitos ni cargos en línea. Pague al chofer al llegar exclusivamente en efectivo.',
       },
       {
         title: 'Amplio Espacio para Maletas',
@@ -736,7 +736,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: '100% Zahlung beim Fahrer',
-        desc: 'Keine Vorauszahlung nötig. Zahlen Sie bei Ankunft in bar (SAR) oder per EC-/Kreditkarte.',
+        desc: 'Keine Vorauszahlung nötig. Zahlen Sie bei Ankunft ausschließlich in bar (SAR oder USD).',
       },
       {
         title: 'Großzügiger Gepäckraum',
@@ -826,7 +826,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: 'पहुंचने पर 100% भुगतान',
-        desc: 'कोई अग्रिम भुगतान या ऑनलाइन कार्ड की आवश्यकता नहीं। पहुंचने पर नकद या कार्ड से दें।',
+        desc: 'कोई अग्रिम भुगतान या ऑनलाइन कार्ड की आवश्यकता नहीं। पहुंचने पर केवल नकद से दें।',
       },
       {
         title: 'सामान के लिए पर्याप्त स्थान',
@@ -853,7 +853,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
     ],
     ctaTitle: 'ताइफ़ के लिए अपनी प्राइवेट गाड़ी अभी बुक करें',
-    ctaSubtitle: 'निश्चित किराया • शून्य अग्रिम भुगतान • पहुंचने पर नकद या कार्ड से भुगतान करें',
+    ctaSubtitle: 'निश्चित किराया • शून्य अग्रिम भुगतान • पहुंचने पर केवल नकद से भुगतान करें',
     ctaBtn: 'ताइफ़ यात्रा बुक करें',
     ctaSecondaryBtn: 'व्हाट्सएप पर बात करें',
   },
@@ -916,7 +916,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: '%100 Varışta Şoföre Ödeme',
-        desc: 'Ön ödeme veya kredi kartı gerekmez. Ücreti varışta nakit (SAR) veya kartla ödeyin.',
+        desc: 'Ön ödeme veya kredi kartı gerekmez. Ücreti varışta yalnızca nakit (SAR veya USD) olarak ödeyin.',
       },
       {
         title: 'Geniş Bagaj Hacmi',
@@ -943,7 +943,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
     ],
     ctaTitle: 'Taif İçin Özel Şoförünüzü Şimdi Ayırtın',
-    ctaSubtitle: 'Garantili sabit fiyatlar • Sıfır ön ödeme • Varışta nakit veya kartla ödeyin',
+    ctaSubtitle: 'Garantili sabit fiyatlar • Sıfır ön ödeme • Varışta yalnızca nakit (SAR veya USD) olarak ödeyin',
     ctaBtn: 'Taif Transferi Ayırtın',
     ctaSecondaryBtn: "WhatsApp'tan Yazın",
   },
@@ -1029,9 +1029,8 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
           'تستغرق الرحلة ما بين 8 إلى 9 ساعات عبر طريق مكة السريع (طريق 40)، ويتخللها توقفات مريحة للصلاة والطعام والتوقف في الميقات.',
       },
       {
-        question: 'هل يمكن الدفع ببطاقات الشركات أو بطاقات الائتمان؟',
-        answer:
-          'نعم، جميع سياراتنا مجهزة بأجهزة نقاط بيع بنكية تقبل بطاقات مدى، فيزا، وماستركارد، ويتم إصدار إيصال رسمي فوري.',
+        question: 'ما هي طريقة الدفع المعتمدة لدى ضيوف الرحمن VIP؟',
+        answer: 'الدفع نقداً كاش فقط (بالريال السعودي أو الدولار الأمريكي) يُسدد مباشرة للسائق عند الوصول إلى وجهتك بأمان. لا نقبل البطاقات الائتمانية أو أجهزة نقاط البيع أو التحويلات البنكية، ولا يلزم أي دفع مسبق.',
       },
       {
         question: 'هل يتابع السائق موعد هبوط الطائرة في حال تأخرت الرحلة؟',
@@ -1103,7 +1102,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: '100% Pay Upon Arrival',
-        desc: 'Zero advance deposits or online card holds. Settle upon destination arrival via cash or card machine.',
+        desc: 'Zero advance deposits or online card holds. Settle upon destination arrival strictly in cash (SAR or USD).',
       },
       {
         title: 'Hourly Corporate Chauffeurs',
@@ -1125,7 +1124,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       {
         question: 'Can we pay with a corporate card or receive an official receipt?',
         answer:
-          'Yes. Chauffeurs carry electronic POS terminals accepting Mada, Visa, and Mastercard, with instant digital receipts.',
+          'Yes. Payment is cash only (SAR or USD) paid directly to your chauffeur upon arrival. No credit cards, POS machines, or bank transfers are accepted.',
       },
       {
         question: 'Does the driver monitor our flight if delayed into Riyadh?',
@@ -1134,7 +1133,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
     ],
     ctaTitle: 'Book Your Executive Chauffeur in Riyadh',
-    ctaSubtitle: 'Fixed rates • Premium fleet • 100% pay upon arrival to your driver in cash or card',
+    ctaSubtitle: 'Fixed rates • Premium fleet • 100% pay upon arrival to your driver strictly in cash (SAR or USD)',
     ctaBtn: 'Reserve Riyadh Chauffeur',
     ctaSecondaryBtn: 'Chat on WhatsApp',
   },
@@ -1197,7 +1196,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: '100% Bayar Semasa Tiba',
-        desc: 'Tiada deposit dalam talian. Bayar terus kepada pemandu secara tunai atau kad.',
+        desc: 'Tiada deposit dalam talian. Bayar terus kepada pemandu secara tunai sahaja (SAR atau USD).',
       },
       {
         title: 'Pemandu Mengikut Jam',
@@ -1216,7 +1215,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         question: 'Bolehkah kami membayar dengan kad syarikat?',
-        answer: 'Boleh, pemandu dilengkapi terminal kad tanpa wayar yang menerima Visa, Mastercard, dan Mada.',
+        answer: 'Boleh, bayaran adalah secara tunai sahaja (SAR atau USD) terus kepada pemandu. Tiada terminal kad atau pembayaran elektronik diterima.',
       },
       {
         question: 'Adakah pemandu memantau penerbangan kami sekiranya lewat?',
@@ -1287,7 +1286,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: 'Bayar 100% Saat Tiba',
-        desc: 'Tanpa uang muka. Bayar langsung ke sopir saat sampai dengan tunai atau kartu.',
+        desc: 'Tanpa uang muka. Bayar langsung ke sopir saat sampai dengan tunai saja (SAR atau USD).',
       },
       {
         title: 'Sopir Siaga Per Jam',
@@ -1305,8 +1304,8 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
         answer: 'Perjalanan memakan waktu 8 hingga 9 jam melalui Rute 40 termasuk istirahat dan Miqat.',
       },
       {
-        question: 'Bisakah membayar dengan kartu kredit atau kartu perusahaan?',
-        answer: 'Bisa, seluruh armada dilengkapi mesin EDC yang menerima kartu Mada, Visa, dan Mastercard.',
+        question: 'Bagaimana kebijakan pembayaran untuk layanan di Riyadh?',
+        answer: 'Pembayaran dilakukan secara tunai saja (SAR atau USD) langsung kepada sopir setelah tiba di tujuan. Kami tidak menerima kartu kredit, kartu debit, mesin EDC, maupun transfer bank. Tanpa uang muka.',
       },
       {
         question: 'Apakah sopir memantau jika penerbangan kami delay?',
@@ -1377,7 +1376,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: '100% منزل پر ادائیگی',
-        desc: 'کوئی پیشگی رقم درکار نہیں۔ منزل پر پہنچ کر نقد یا کارڈ سے ادائیگی کریں۔',
+        desc: 'کوئی پیشگی رقم درکار نہیں۔ منزل پر پہنچ کر صرف نقد رقم (سعودی ریال یا امریکی ڈالر) میں ادائیگی کریں۔',
       },
       {
         title: 'گھنٹوں کے حساب سے گاڑی کی دستیابی',
@@ -1404,7 +1403,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
     ],
     ctaTitle: 'ریاض میں اپنا ایگزیکٹو ڈرائیور ابھی بک کریں',
-    ctaSubtitle: 'فکسڈ کرائے • لگژری گاڑیاں • 100% منزل پر نقد یا کارڈ سے ادائیگی',
+    ctaSubtitle: 'فکسڈ کرائے • لگژری گاڑیاں • 100% منزل پر صرف نقد (سعودی ریال یا امریکی ڈالر) سے ادائیگی',
     ctaBtn: 'ریاض ڈرائیور بک کریں',
     ctaSecondaryBtn: 'واٹس ایپ پر رابطہ کریں',
   },
@@ -1467,7 +1466,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: '100% Paiement à l’Arrivée',
-        desc: 'Aucun acompte en ligne. Réglez directement auprès du chauffeur en espèces ou par carte.',
+        desc: 'Aucun acompte en ligne. Réglez directement auprès du chauffeur uniquement en espèces.',
       },
       {
         title: 'Chauffeur à l’Heure',
@@ -1485,8 +1484,8 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
         answer: 'Le trajet dure environ 8 à 9 heures par la Route 40 avec arrêts et passage au Miqat.',
       },
       {
-        question: 'Peut-on payer par carte bancaire d’entreprise ?',
-        answer: 'Oui, nos chauffeurs disposent de terminaux bancaires acceptant Visa, Mastercard et Mada.',
+        question: 'Peut-on payer en espèces d’entreprise ?',
+        answer: 'Oui, le paiement est accepté uniquement en espèces (SAR ou USD) auprès du chauffeur. Les cartes bancaires et terminaux TPE ne sont pas acceptés.',
       },
       {
         question: 'Le chauffeur suit-il notre vol en cas de retard ?',
@@ -1557,7 +1556,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: '100% Pago a la Llegada',
-        desc: 'Sin pagos por adelantado. Pague al chofer al llegar en efectivo o tarjeta.',
+        desc: 'Sin pagos por adelantado. Pague al chofer al llegar exclusivamente en efectivo.',
       },
       {
         title: 'Chofer por Horas',
@@ -1576,7 +1575,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         question: '¿Se puede pagar con tarjeta corporativa?',
-        answer: 'Sí, los choferes cuentan con datáfonos inalámbricos que aceptan Visa, Mastercard y Mada.',
+        answer: 'Sí, el pago se realiza exclusivamente en efectivo (SAR o USD) directamente al chofer. No se aceptan tarjetas ni datáfonos.',
       },
       {
         question: '¿El chofer monitoriza los retrasos de nuestro vuelo?',
@@ -1647,7 +1646,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: '100% Zahlung bei Ankunft',
-        desc: 'Keine Anzahlung. Zahlen Sie bequem am Zielort bar oder mit Karte beim Fahrer.',
+        desc: 'Keine Anzahlung. Zahlen Sie bequem am Zielort ausschließlich in bar (SAR oder USD) beim Fahrer.',
       },
       {
         title: 'Chauffeur auf Stundenbasis',
@@ -1666,7 +1665,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         question: 'Kann mit Firmenkarte gezahlt werden?',
-        answer: 'Ja, unsere Fahrer führen mobile Kartenterminals mit (Visa, Mastercard, Mada) und stellen Belege aus.',
+        answer: 'Ja, die Bezahlung erfolgt ausschließlich in bar (SAR oder USD) direkt beim Fahrer. Kartenterminals oder Kartenzahlungen werden nicht akzeptiert.',
       },
       {
         question: 'Was passiert bei Flugverspätungen nach Riad?',
@@ -1737,7 +1736,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: 'पहुंचने पर 100% भुगतान',
-        desc: 'कोई अग्रिम भुगतान नहीं। पहुंचने पर नकद या कार्ड से ड्राइवर को भुगतान करें।',
+        desc: 'कोई अग्रिम भुगतान नहीं। पहुंचने पर केवल नकद से ड्राइवर को भुगतान करें।',
       },
       {
         title: 'घंटे के आधार पर चौफ़र',
@@ -1756,7 +1755,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         question: 'क्या हम कॉरपोरेट या क्रेडिट कार्ड से भुगतान कर सकते हैं?',
-        answer: 'हाँ, हमारे ड्राइवरों के पास कार्ड मशीन होती है जिससे वीजा, मास्टरकार्ड स्वीकार होते हैं।',
+        answer: 'हाँ, भुगतान केवल नकद (SAR या USD) में सीधे ड्राइवर को किया जाता है। कार्ड मशीन या कार्ड स्वीकार नहीं किए जाते हैं।',
       },
       {
         question: 'यदि फ्लाइट लेट हो जाए तो क्या होगा?',
@@ -1764,7 +1763,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
     ],
     ctaTitle: 'रियाद में अपना एग्जीक्यूटिव चौफ़र बुक करें',
-    ctaSubtitle: 'निश्चित किराया • लग्जरी गाड़ियां • पहुंचने पर नकद या कार्ड से भुगतान',
+    ctaSubtitle: 'निश्चित किराया • लग्जरी गाड़ियां • पहुंचने पर केवल नकद से भुगतान',
     ctaBtn: 'रियाद चौफ़र बुक करें',
     ctaSecondaryBtn: 'व्हाट्सएप पर बात करें',
   },
@@ -1827,7 +1826,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         title: '%100 Varışta Şoföre Ödeme',
-        desc: 'Ön ödeme yok. Ücreti varışta şoföre nakit veya kartla ödeyin.',
+        desc: 'Ön ödeme yok. Ücreti varışta şoföre yalnızca nakitla ödeyin.',
       },
       {
         title: 'Saatlik Şoför Hizmeti',
@@ -1846,7 +1845,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
       {
         question: 'Şirket kartı veya kredi kartı ile ödeme yapabilir miyiz?',
-        answer: 'Evet, şoförlerimizde Visa, Mastercard ve Mada kabul eden POS cihazları bulunmaktadır.',
+        answer: 'Evet, ödeme yalnızca nakit (SAR veya USD) olarak şoföre yapılır. POS cihazı veya kart kabul edilmemektedir.',
       },
       {
         question: 'Uçağımız rötarlı inerse şoför bekler mi?',
@@ -1854,7 +1853,7 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
       },
     ],
     ctaTitle: 'Riyad’da Özel Şoförünüzü Şimdi Ayırtın',
-    ctaSubtitle: 'Sabit fiyatlar • Lüks araçlar • Varışta nakit veya kartla ödeme imkanı',
+    ctaSubtitle: 'Sabit fiyatlar • Lüks araçlar • Varışta yalnızca nakit (SAR veya USD) ödeme imkanı',
     ctaBtn: 'Riyad Şoförü Ayırtın',
     ctaSecondaryBtn: "WhatsApp'tan Yazın",
   },

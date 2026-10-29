@@ -74,7 +74,7 @@ export const HOURLY_VS_TRANSFER_CONTENT_ID: LocalizedArticleBody = {
         'Hindari hanya membandingkan label "per jam" atau "satu rute"; hitunglah total biaya operasional riil:',
         '• Hitung Jumlah Perjalanan Singkat: Jika Anda merencanakan 4 kali jalan dalam satu sore dengan jeda tunggu 1-2 jam di tiap lokasi, memesan 4 taksi terpisah biayanya hampir sama dengan paket sewa 8 jam — namun sewa mobil per jam memberi Anda kepraktisan mobil yang sama tanpa waktu menunggu.',
         '• Cek Kelengkapan Tarif: Pastikan tarif sudah mencakup bensin, tol, parkir, dan pajak. Di Duyuf Alrahman VIP, semua penawaran harga bersifat bersih (all-inclusive) tanpa biaya tambahan tersembunyi.',
-        '• Kebijakan Tanpa Uang Muka (Zero Prepayment): Baik sewa per jam maupun antar jemput langsung, pastikan Anda tidak membayar uang muka atau menyetor kartu kredit. Anda hanya membayar tunai atau kartu langsung ke sopir saat tiba di hotel.'
+        '• Kebijakan Tanpa Uang Muka (Zero Prepayment): Baik sewa per jam maupun antar jemput langsung, pastikan Anda tidak membayar uang muka atau menyetor kartu kredit. Anda hanya membayar tunai saja (SAR atau USD) langsung ke sopir saat tiba di hotel.'
       ]
     },
     {

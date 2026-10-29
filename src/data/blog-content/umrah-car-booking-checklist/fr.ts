@@ -62,7 +62,7 @@ export const UMRAH_CHECKLIST_CONTENT_FR: LocalizedArticleBody = {
       paragraphs: [
         'Les modalités de paiement constituent la protection essentielle contre les déconvenues en ligne et les prestataires peu scrupuleux :',
         '• Paiement au chauffeur uniquement à destination : Ne communiquez jamais vos coordonnées bancaires en ligne et ne versez aucun acompte à des intermédiaires non certifiés. Notre politique stricte n’exige aucun paiement préalable : vous réglez le montant convenu directement au chauffeur une fois arrivé sain et sauf à votre hôtel.',
-        '• Moyens de paiement acceptés à bord : Nos chauffeurs acceptent les espèces en riyals saoudiens (SAR) ainsi que les cartes bancaires (Mada, Visa, Mastercard) via des terminaux électroniques sécurisés.',
+        '• Moyens de paiement acceptés à bord : Nos chauffeurs acceptent les espèces en riyals saoudiens (SAR) et nous n’acceptons pas les cartes bancaires, terminaux TPE ni virements.',
         '• Confirmation écrite officielle : Vous recevez un récapitulatif détaillé précisant les étapes de votre itinéraire et le montant exact convenu pour éviter tout malentendu.'
       ]
     },
@@ -109,7 +109,7 @@ export const UMRAH_CHECKLIST_CONTENT_FR: LocalizedArticleBody = {
       ]
     },
     {
-      title: 'Organisez votre transport de Omra avec Royal Umrah Cabs / Duyuf Alrahman VIP',
+      title: 'Organisez votre transport de Omra avec Duyuf Alrahman VIP',
       paragraphs: [
         'Chez Duyuf Alrahman VIP, servir les hôtes du Très-Miséricordieux est notre plus noble engagement. Notre flotte moderne et climatisée ainsi que nos chauffeurs expérimentés sont dédiés à vous offrir un voyage serein, élégant et ponctuel dans les Villes Saintes.',
         'Qu’il s’agisse d’un accueil VIP à l’aéroport de Djeddah, d’une liaison entre La Mecque et Médine ou d’un véhicule avec chauffeur à disposition, nous vous garantissons une transparence tarifaire absolue et le confort de payer uniquement à votre arrivée à l’hôtel.',

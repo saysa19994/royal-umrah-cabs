@@ -82,7 +82,7 @@ export const MAKKAH_JEDDAH_CONTENT_TR: LocalizedArticleBody = {
       paragraphs: [
         'Hizmetlerimizde tam dürüstlük ve şeffaflık esastır:',
         '• Sabit ve Her Şey Dahil Fiyat: Anlaşılan tutar araç, özel şoför, yakıt, otoyol geçişleri ve vergileri kapsar.',
-        '• Ön Ödeme Yok: Kredi kartı bilgisi veya kapora talep edilmez. Ödemeyi yalnızca havalimanına güvenle ulaşıp valizlerinizi indirdikten sonra nakit veya transferle şoföre yaparsınız.',
+        '• Ön Ödeme Yok: Kredi kartı bilgisi veya kapora talep edilmez. Ödemeyi yalnızca havalimanına güvenle ulaşıp valizlerinizi indirdikten sonra doğrudan şoförünüze nakit olarak (SAR veya USD) yaparsınız. Kredi kartı, banka kartı, POS cihazı veya banka havalesi kabul edilmemektedir.',
         '• Ücretsiz Saat Güncellemesi: Uçuş saatiniz mi değişti? WhatsApp üzerinden önceden bilgi vererek saatinizi cezasız güncelleyebilirsiniz.'
       ]
     },

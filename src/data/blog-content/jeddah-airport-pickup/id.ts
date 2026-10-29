@@ -86,7 +86,7 @@ export const AIRPORT_PICKUP_CONTENT_ID: LocalizedArticleBody = {
         'Transparansi harga merupakan prinsip utama layanan Duyuf Alrahman VIP:',
         '• Tarif untuk Satu Mobil Penuh: Harga yang kami berikan berlaku untuk seluruh kendaraan pribadi dan sopir, tanpa digabung dengan penumpang lain.',
         '• Tarif Bersih Termasuk Semua Biaya (All-Inclusive): Biaya mencakup sopir pribadi, pelacakan penerbangan, bensin, tol Jalan Tol Haramain, parkir bandara, dan pajak.',
-        '• Bayar Sopir Hanya Saat Tiba (Zero Prepayment): Kami tidak meminta uang muka, nomor kartu kredit, atau transfer bank di muka. Pembayaran dilakukan langsung kepada sopir secara tunai (SAR) atau kartu/Mada saat Anda tiba dengan selamat di hotel Makkah.',
+        '• Bayar Sopir Hanya Saat Tiba (Zero Prepayment): Kami tidak meminta uang muka, nomor kartu kredit, atau transfer bank di muka. Pembayaran dilakukan langsung kepada sopir secara tunai (SAR atau USD) langsung kepada sopir saat Anda tiba dengan selamat di hotel Makkah. Kami tidak menerima kartu kredit, kartu debit, mesin EDC, maupun transfer bank.',
         'Untuk perjalanan pulang ke bandara di akhir ibadah, baca panduan kami tentang [Pemesanan Mobil dari Makkah ke Bandara Jeddah](/id/blog/makkah-to-jeddah-airport-transfer), serta [Perencanaan Transportasi Antara Makkah, Madinah, dan Jeddah](/id/blog/transport-planning-makkah-madinah-jeddah).'
       ]
     },
@@ -115,7 +115,7 @@ export const AIRPORT_PICKUP_CONTENT_ID: LocalizedArticleBody = {
       ]
     },
     {
-      title: 'Atur Penjemputan Kedatangan Anda Bersama Royal Umrah Cabs / Duyuf Alrahman VIP',
+      title: 'Atur Penjemputan Kedatangan Anda Bersama Duyuf Alrahman VIP',
       paragraphs: [
         'Di Duyuf Alrahman VIP, kami sangat menghargai kesucian ibadah Umrah Anda. Misi kami adalah memuliakan Anda sebagai tamu Allah sejak detik pertama mendarat di Arab Saudi.',
         'Baik bepergian sendiri, bersama pasangan, atau bersama rombongan keluarga besar, armada modern dan sopir berpengalaman kami siap memberikan perjalanan yang tenang, tepat waktu, dan aman ke kota suci Makkah.',

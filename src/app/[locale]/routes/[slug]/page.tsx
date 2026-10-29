@@ -24,6 +24,7 @@ import {
   getRouteContextualLinks,
 } from '@/data/localized-routes-content';
 import { RoutePageJsonLd } from '@/components/seo/JsonLd';
+import { RouteAnalyticsTracker } from '@/components/analytics/RouteAnalyticsTracker';
 
 interface RouteDetailPageProps {
   params: Promise<{
@@ -129,6 +130,7 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
 
   return (
     <div className="py-12 md:py-20 bg-bg min-h-screen text-start">
+      <RouteAnalyticsTracker slug={slug} locale={locale} />
       {/* Schema.org Structured Data */}
       <RoutePageJsonLd
         route={route}

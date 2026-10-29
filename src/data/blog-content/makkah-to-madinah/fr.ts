@@ -121,7 +121,7 @@ export const frMakkahMadinahContent: LocalizedArticleBody = {
         },
         {
           title: 'Paiement au Chauffeur à l’Arrivée à Médine :',
-          text: 'Aucun acompte n’est exigé en ligne. Vous réglez directement le chauffeur en espèces ou par virement lors de votre arrivée à bon port.',
+          text: 'Aucun acompte n’est exigé en ligne. Vous réglez directement le chauffeur exclusivement en espèces (SAR ou USD) lors de votre arrivée à bon port. Les cartes bancaires, terminaux POS et virements bancaires ne sont pas acceptés.',
         },
         {
           title: 'Modification et Annulation Gratuites :',

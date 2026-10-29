@@ -106,8 +106,8 @@ export const MADINAH_ZIYARAT_CONTENT_TR: LocalizedArticleBody = {
         '1. Medine’de Yerel Operasyon: Taşıma şirketinin Medine içinde daimi araçlarının bulunduğunu teyit edin.',
         '2. Sabit Süre ve Bekleme Garantisi: Anlaşılan turun en az 3 ila 3,5 saatlik şoför bekleme süresini içerdiğinden emin olun.',
         '3. Açıkça Belirtilen Duraklar: Kuba, Uhud, Kıbleteyn ve Yedi Mescitler duraklarının önceden netleştiğini kontrol edin.',
-        '4. Şeffaf ve Her Şey Dahil Fiyat: Verilen teklifin araç, şoför, yakıt ve vergileri kapsadığını; gizli ek ücret olmadığını doğrulayın.',
-        '5. Şoföre Doğrudan Ödeme (Ön Ödemesiz / Zero Prepayment): Online dolandırıcılıklara karşı önceden kart bilgisi vermeden, ödemeyi otele gelen şoföre nakit (Riyal) veya kartla yapın.',
+        '4. Şeffaf ve Sabit Fiyat: Verilen teklifin araç, şoför ve yakıtı kapsadığını; gizli ek ücret olmadığını doğrulayın.',
+        '5. Şoföre Doğrudan Ödeme (Ön Ödemesiz / Zero Prepayment): Online dolandırıcılıklara karşı önceden kart bilgisi vermeden, ödemeyi otele gelen şoföre yalnızca nakit (SAR veya USD) olarak yapın. Kredi kartı veya ön ödeme kabul edilmez.',
         '6. WhatsApp İletişimi: Şoförün adı, telefon numarası ve araç plakasının sabah alış saatinden önce WhatsApp üzerinden iletileceğini teyit edin.'
       ]
     },

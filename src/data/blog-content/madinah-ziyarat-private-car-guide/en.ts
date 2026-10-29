@@ -107,7 +107,7 @@ export const MADINAH_ZIYARAT_CONTENT_EN: LocalizedArticleBody = {
         '2. Fixed Duration and Stop Allowance: Ensure the agreed booking provides 3 to 3.5 hours of dedicated chauffeur standby.',
         '3. Explicit Destination Agreement: Clarify the stops included (e.g., Quba, Uhud, Qiblatayn, and Seven Mosques) in advance.',
         '4. All-Inclusive Price Transparency: Verify that the agreed quote covers the private vehicle, driver service, fuel, parking, and VAT with zero hidden extras.',
-        '5. Strict Pay-the-Driver Policy (Zero Prepayment): Protect yourself against online scams by choosing services where payment is made directly to the chauffeur upon arrival at your hotel with cash (SAR) or card.',
+        '5. Strict Pay-the-Driver Policy (Zero Prepayment): Protect yourself against online scams by choosing services where payment is made directly to the chauffeur upon arrival at your hotel strictly in cash (SAR or USD).',
         '6. WhatsApp Dispatch Coordination: Confirm that the company issues your driver’s name, contact number, and vehicle plate via WhatsApp well before your scheduled morning pickup.'
       ]
     },

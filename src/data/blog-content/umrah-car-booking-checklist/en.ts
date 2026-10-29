@@ -61,8 +61,8 @@ export const UMRAH_CHECKLIST_CONTENT_EN: LocalizedArticleBody = {
       title: '6. Verify Payment Terms: Insist on Zero Prepayment',
       paragraphs: [
         'Payment terms are the single most important safeguard against online travel scams and unreliable operators:',
-        '• Pay the Driver Only Upon Safe Arrival (Zero Prepayment): Never share credit card details online or wire bank deposits to unverified entities. Our strict policy requires zero advance payment; you settle the exact agreed fare directly with your chauffeur in cash (SAR) or via card upon arriving safely at your hotel.',
-        '• Accepted In-Vehicle Payment Methods: Drivers accept cash in Saudi Riyals as well as Mada, Visa, and Mastercard via portable point-of-sale terminals.',
+        '• Pay the Driver Only Upon Safe Arrival (Zero Prepayment): Never share credit card details online or wire bank deposits to unverified entities. Our strict policy requires zero advance payment; you settle the exact agreed fare directly with your chauffeur strictly in cash (SAR or USD) upon arriving safely at your hotel.',
+        '• Accepted In-Vehicle Payment Methods: Payment is strictly cash only in Saudi Riyals (SAR) or US Dollars (USD) paid directly to your chauffeur upon arrival. No credit cards, POS terminals, online payments, or advance deposits are required or accepted.',
         '• Official Booking Confirmation: Receive a written confirmation message containing all itinerary details and the exact agreed fare to ensure total consistency upon arrival.'
       ]
     },
@@ -109,7 +109,7 @@ export const UMRAH_CHECKLIST_CONTENT_EN: LocalizedArticleBody = {
       ]
     },
     {
-      title: 'Arrange Your Umrah Transportation with Royal Umrah Cabs / Duyuf Alrahman VIP',
+      title: 'Arrange Your Umrah Transportation with Duyuf Alrahman VIP',
       paragraphs: [
         'At Duyuf Alrahman VIP, honoring you as an esteemed guest of Allah is our highest calling. Our modern, fully air-conditioned luxury fleet and licensed professional chauffeurs are dedicated to delivering a seamless, comfortable, and punctual journey throughout the Holy Cities.',
         'Whether you require a VIP airport pickup from Jeddah, an intercity transfer between Makkah and Madinah, or an hourly chauffeur on standby, we guarantee complete price transparency and the reassurance of paying only upon safe arrival.',

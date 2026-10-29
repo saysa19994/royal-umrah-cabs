@@ -144,7 +144,7 @@ export default function AdminDashboardPage() {
     if (b.language === 'ar') {
       msg =
         `السلام عليكم أخي الكريم ${b.customer_name}،\n` +
-        `تحياتنا من فريق عمليات رويال كاب للعمرة.\n\n` +
+        `تحياتنا من فريق عمليات ضيوف الرحمن VIP.\n\n` +
         `نود تأكيد تفاصيل رحلتكم المباركة:\n` +
         `رقم الحجز: *${b.reference}*\n` +
         `المسار: من ${b.pickup_location} إلى ${b.dropoff_location}\n` +

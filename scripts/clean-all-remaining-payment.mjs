@@ -7,17 +7,17 @@ const enginePath = 'D:/royal-umrah-cabs/src/components/booking/BookingEngine.tsx
 let engineCode = fs.readFileSync(enginePath, 'utf8');
 
 engineCode = engineCode.replace(
-  `    paymentDesc:\n      'Le paiement est effectué directement auprès de votre chauffeur privé à votre arrivée à destination. Vous pouvez payer en espèces (SAR) ou par carte bancaire sur le terminal du chauffeur. Aucun paiement préalable ni carte bancaire en ligne ne sont requis pour confirmer.',`,
+  `    paymentDesc:\n      'Le paiement est effectué directement auprès de votre chauffeur privé à votre arrivée à destination. Vous pouvez payer en espèces (SAR) exclusivement en espèces à votre chauffeur. Aucun paiement préalable ni carte bancaire en ligne ne sont requis pour confirmer.',`,
   `    paymentDesc:\n      'Le paiement s’effectue exclusivement en espèces directement auprès de votre chauffeur privé à votre arrivée à destination pour votre trajet. Aucun acompte ni prépaiement n’est requis pour valider cette réservation.',`
 );
 
 engineCode = engineCode.replace(
-  `    paymentDesc:\n      'El pago se realiza directamente a su chofer privado a la llegada a su destino. Puede pagar en efectivo (SAR) o con tarjeta bancaria en el terminal del chofer. No se requiere tarjeta de crédito en línea ni depósito para asegurar su reserva.',`,
+  `    paymentDesc:\n      'El pago se realiza directamente a su chofer privado a la llegada a su destino. Puede pagar en efectivo (SAR) estrictamente en efectivo a su chofer. No se requiere tarjeta de crédito en línea ni depósito para asegurar su reserva.',`,
   `    paymentDesc:\n      'El pago se realiza exclusivamente en efectivo directamente a su chofer privado a la llegada a su destino para su viaje. No se requiere ningún anticipo ni depósito para asegurar su reserva.',`
 );
 
 engineCode = engineCode.replace(
-  `    paymentDesc:\n      'Ödeme, varış noktanıza ulaştığınızda doğrudan özel şoförünüze yapılır. Nakit (SAR) veya şoförün araçtaki POS cihazından banka kartıyla ödeyebilirsiniz. Rezervasyon için online kredi kartı bilgisi veya kapora gerekmez.',`,
+  `    paymentDesc:\n      'Ödeme, varış noktanıza ulaştığınızda doğrudan özel şoförünüze yapılır. Nakit (SAR) ve yalnızca nakit olarak şoförünüze yapılır. Rezervasyon için online kredi kartı bilgisi veya kapora gerekmez.',`,
   `    paymentDesc:\n      'Ödeme, varış noktanıza ulaştığınızda tamamen nakit olarak doğrudan özel şoförünüze yapılır. Rezervasyon için herhangi bir ön ödeme veya kapora gerekmez.',`
 );
 

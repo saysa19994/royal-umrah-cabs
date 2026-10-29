@@ -32,7 +32,7 @@ export function ZiyaratSiteJsonLd({ site, locale, url }: ZiyaratSiteSchemaProps)
     touristType: ['Pilgrims', 'Religious Tourists', 'Cultural Visitors'],
     provider: {
       '@type': 'LocalBusiness',
-      name: 'Royal Umrah Cabs',
+      name: 'Duyuf Alrahman VIP',
       telephone: '+966567588261',
       url: 'https://duyufalrahmanvip.com',
       areaServed: [
@@ -132,17 +132,16 @@ export function ZiyaratTourJsonLd({ tour, locale, url }: ZiyaratTourSchemaProps)
         '@type': 'PriceSpecification',
         price: tour.basePriceSAR.camry.toString(),
         priceCurrency: 'SAR',
-        valueAddedTaxIncluded: true,
       },
       description: isArabic
-        ? 'سعر ثابت للسيارة بالكامل (سيدان كامري حتى 4 ركاب). شامل الوقود والانتظار والضرائب.'
+        ? 'سعر ثابت للسيارة بالكامل (سيدان كامري حتى 4 ركاب). شامل الوقود والانتظار.'
         : 'Fixed fare per vehicle (Camry Executive up to 4 passengers). All tolls and wait time included.',
       availability: 'https://schema.org/InStock',
       url,
     },
     provider: {
       '@type': 'LocalBusiness',
-      name: 'Royal Umrah Cabs',
+      name: 'Duyuf Alrahman VIP',
       telephone: '+966567588261',
       url: 'https://duyufalrahmanvip.com',
       areaServed: [

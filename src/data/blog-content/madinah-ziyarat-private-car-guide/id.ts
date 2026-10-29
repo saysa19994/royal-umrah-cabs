@@ -107,7 +107,7 @@ export const MADINAH_ZIYARAT_CONTENT_ID: LocalizedArticleBody = {
         '2. Durasi Tur yang Memadai: Pastikan durasi sewa mencakup minimal 3 hingga 3,5 jam.',
         '3. Rincian Destinasi yang Jelas: Tentukan daftar destinasi (Quba, Uhud, Qiblatain) sejak awal pemesanan.',
         '4. Harga Bersih All-Inclusive: Pastikan harga sudah mencakup bensin, tarif parkir, dan biaya tunggu tanpa embel-embel biaya tambahan.',
-        '5. Kebijakan Bayar Sopir Saat Tiba (Zero Prepayment): Hindari penipuan dengan memilih penyedia yang menerapkan pembayaran langsung kepada sopir saat tur selesai menggunakan uang tunai (SAR) atau kartu debit/kredit.',
+        '5. Kebijakan Bayar Sopir Saat Tiba (Zero Prepayment): Hindari penipuan dengan memilih penyedia yang menerapkan pembayaran langsung kepada sopir saat tur selesai menggunakan uang tunai (SAR) secara tunai saja debit/kredit.',
         '6. Kontak Sopir via WhatsApp: Pastikan Anda menerima nama sopir, nomor telepon langsung, dan nomor pelat mobil melalui WhatsApp sebelum jadwal penjemputan.'
       ]
     },

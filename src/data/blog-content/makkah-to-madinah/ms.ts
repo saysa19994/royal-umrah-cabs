@@ -121,7 +121,7 @@ export const msMakkahMadinahContent: LocalizedArticleBody = {
         },
         {
           title: 'Bayar Terus kepada Pemandu Setelah Selamat Tiba:',
-          text: 'Tiada sebarang bayaran pendahuluan (deposit) atau gesekan kad kredit secara dalam talian. Anda hanya perlu membayar kepada pemandu secara tunai atau pindahan semasa tiba di hotel Madinah.',
+          text: 'Tiada sebarang bayaran pendahuluan (deposit) atau gesekan kad kredit secara dalam talian. Anda hanya perlu membayar kepada pemandu secara tunai (SAR atau USD) semasa tiba di hotel Madinah. Kami tidak menerima kad kredit, kad debit, terminal POS, atau pindahan bank.',
         },
         {
           title: 'Pindaan & Pembatalan Percuma:',

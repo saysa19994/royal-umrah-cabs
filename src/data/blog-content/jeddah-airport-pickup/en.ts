@@ -86,7 +86,7 @@ export const AIRPORT_PICKUP_CONTENT_EN: LocalizedArticleBody = {
         'Financial transparency is fundamental to our service ethics. When you book an airport pickup with Duyuf Alrahman VIP, you benefit from clear, all-inclusive terms:',
         '• Price Quoted Is Per Whole Vehicle: Our rates are calculated for the entire private vehicle, dedicated exclusively to you and your family. We never operate shared passenger rides.',
         '• 100% All-Inclusive Rates: Your agreed price covers your professional chauffeur, live flight tracking, meet-and-greet service, airport parking fees, fuel, all Haramain Expressway road tolls, and applicable VAT taxes.',
-        '• Zero Prepayment Policy (Pay Driver Only Upon Safe Arrival): We operate on complete trust. We require no advance bank transfers, no upfront credit card deposits, and no booking fees. You settle the full agreed amount directly with your chauffeur in cash (SAR) or via card/Mada upon safe arrival at your hotel in Makkah.',
+        '• Zero Prepayment Policy (Pay Driver Only Upon Safe Arrival): We operate on complete trust. We require no advance bank transfers, no upfront credit card deposits, and no booking fees. You settle the full agreed amount directly with your chauffeur strictly in cash (SAR or USD) to your chauffeur upon safe arrival at your hotel in Makkah.',
         'For arranging your return journey back to the airport at the end of your pilgrimage, explore our guide on [Booking a Car from Makkah to Jeddah Airport](/en/blog/makkah-to-jeddah-airport-transfer), or explore [Planning Transportation Between Makkah, Madinah, and Jeddah](/en/blog/transport-planning-makkah-madinah-jeddah).'
       ]
     },
@@ -115,7 +115,7 @@ export const AIRPORT_PICKUP_CONTENT_EN: LocalizedArticleBody = {
       ]
     },
     {
-      title: 'Arrange Your Jeddah Airport Arrival with Royal Umrah Cabs / Duyuf Alrahman VIP',
+      title: 'Arrange Your Jeddah Airport Arrival with Duyuf Alrahman VIP',
       paragraphs: [
         'At Duyuf Alrahman VIP, we recognize the spiritual gravity of your Umrah pilgrimage. Our mission is to honor you as our guest from the second you step foot in the Kingdom of Saudi Arabia.',
         'Whether you are arriving as an individual pilgrim, traveling as a couple, or managing an extended multi-generational family group with numerous bags, our modern luxury fleet and courteous, licensed chauffeurs are ready to deliver a serene, punctual, and safe journey to the Holy City of Makkah.',

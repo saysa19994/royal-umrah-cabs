@@ -50,7 +50,7 @@
 - السائق المتحدث بالمالاوية (`malay_speaking_chauffeur`)
 - التوقف المجاني عند الميقات للإحرام (`free_miqat_stop`)
 - بوابات الدفع الإلكتروني (`online_card_payment_enabled`)
-- التحويل البنكي السعودي (`bank_transfer_payment_enabled`)
+- الدفع نقداً كاش للسائق فقط (`bank_transfer_payment_enabled: false`)
 - أسطول باصات كوستر (`coaster_enabled`)
 - تفعيل خدمات منطقة الرياض (`riyadh_enabled`)
 - تفعيل خدمات منطقة الطائف (`taif_enabled`)

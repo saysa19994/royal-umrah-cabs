@@ -86,7 +86,7 @@ export const AIRPORT_PICKUP_CONTENT_MS: LocalizedArticleBody = {
         'Ketelusan kewangan adalah teras perkhidmatan kami bersama Duyuf Alrahman VIP:',
         '• Harga untuk Seluruh Kenderaan: Kadar yang diberikan adalah untuk sewaan penuh sebuah kenderaan persendirian bersama pemandu, tanpa berkongsi dengan penumpang lain.',
         '• Harga Termasuk Semua Kos (All-Inclusive): Merangkumi perkhidmatan pemandu peribadi, penjejakan penerbangan, kos bahan api, bayaran tol Lebuhraya Haramain, bayaran tempat letak kereta lapangan terbang, dan cukai.',
-        '• Bayar Pemandu Sahaja Semasa Tiba (Zero Prepayment): Kami tidak meminta sebarang nombor kad kredit, deposit awal, atau pindahan bank. Anda hanya membayar harga yang dipersetujui terus kepada pemandu secara tunai (SAR) atau kad/Mada selepas tiba dengan selamat di hotel Makkah.',
+        '• Bayar Pemandu Sahaja Semasa Tiba (Zero Prepayment): Kami tidak meminta sebarang nombor kad kredit, deposit awal, atau pindahan bank. Anda hanya membayar harga yang dipersetujui terus kepada pemandu secara tunai (SAR atau USD) terus kepada pemandu selepas tiba dengan selamat di hotel Makkah. Kami tidak menerima kad kredit, kad debit, terminal POS, atau pindahan bank.',
         'Untuk perjalanan pulang ke lapangan terbang, rujuk [Tempahan Kereta dari Makkah ke Lapangan Terbang Jeddah](/ms/blog/makkah-to-jeddah-airport-transfer), dan untuk perancangan perjalanan antara bandar lihat [Perancangan Pengangkutan Antara Makkah, Madinah, dan Jeddah](/ms/blog/transport-planning-makkah-madinah-jeddah).'
       ]
     },
@@ -115,7 +115,7 @@ export const AIRPORT_PICKUP_CONTENT_MS: LocalizedArticleBody = {
       ]
     },
     {
-      title: 'Atur Sambutan Ketibaan Anda Bersama Royal Umrah Cabs / Duyuf Alrahman VIP',
+      title: 'Atur Sambutan Ketibaan Anda Bersama Duyuf Alrahman VIP',
       paragraphs: [
         'Di Duyuf Alrahman VIP, kami memahami nilai suci ibadah Umrah anda. Matlamat kami adalah untuk memberikan layanan terbaik kepada anda sebagai tetamu Allah sejak saat pertama anda menjejakkan kaki di bumi Arab Saudi.',
         'Sama ada anda mengembara secara bersendirian, bersama pasangan, atau bersama keluarga besar, armada kenderaan moden dan pemandu profesional kami bersedia memberikan perjalanan yang tenang, selamat, dan menepati masa ke kota suci Makkah.',

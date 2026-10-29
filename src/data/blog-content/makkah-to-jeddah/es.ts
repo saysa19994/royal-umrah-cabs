@@ -82,7 +82,7 @@ export const MAKKAH_JEDDAH_CONTENT_ES: LocalizedArticleBody = {
       paragraphs: [
         'Garantizamos máxima transparencia en el servicio:',
         '• Tarifa Fija y Completa: Incluye el vehículo completo, chófer privado, combustible, peajes e impuestos.',
-        '• Sin Pago por Adelantado: No cobramos anticipos ni solicitamos tarjetas de crédito. Usted paga directamente al chófer en efectivo o transferencia al llegar con seguridad al aeropuerto.',
+        '• Sin Pago por Adelantado: No cobramos anticipos ni solicitamos tarjetas de crédito. Usted paga directamente al chófer estrictamente en efectivo (SAR o USD) al llegar con seguridad al aeropuerto. No se aceptan tarjetas de crédito, débito, terminales POS ni transferencias bancarias.',
         '• Modificación Gratuita: ¿Cambió su vuelo? Solo avísenos por WhatsApp con anticipación para actualizar la hora sin ningún coste.'
       ]
     },

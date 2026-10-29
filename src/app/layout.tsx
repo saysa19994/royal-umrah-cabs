@@ -4,7 +4,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com'),
-  title: 'Royal Umrah Cabs | Private Umrah Chauffeur & Pilgrim Transport',
+  title: 'Duyuf Alrahman VIP | Private Umrah Chauffeur & Pilgrim Transport',
   description: 'Private Umrah taxi and luxury chauffeur transport in Makkah, Madinah, and Jeddah Airport (KAIA).',
   verification: {
     google: '8pd7FP8QmvXyHi6-R2uhh2tB5cAdgAdrHbBCDz9QMYE',

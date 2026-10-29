@@ -75,7 +75,7 @@ export const MAKKAH_TAIF_CONTENT_EN: LocalizedArticleBody = {
   faqSubtitle: 'Clear answers to help you plan a safe, relaxing mountain journey',
   cta: {
     title: 'Reserve Your Private Chauffeur to Taif Today',
-    subtitle: 'Professional mountain drivers • Luxury family fleet • Pay upon arrival in cash or card',
+    subtitle: 'Professional mountain drivers • Luxury family fleet • Pay upon arrival strictly in cash (SAR or USD)',
     primaryBtn: 'Book Taif Transfer',
     secondaryBtn: 'Chat on WhatsApp',
     badges: ['Zero Advance Deposit', 'Free Miqat Waiting', '24/7 Dispatch Support'],

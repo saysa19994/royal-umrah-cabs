@@ -186,7 +186,7 @@ export async function POST(request: Request) {
     });
 
     const waLines = [
-      `Assalamu Alaikum Royal Umrah Cabs [Ref: ${reference}]`,
+      `Assalamu Alaikum Duyuf Alrahman VIP [Ref: ${reference}]`,
       `• Name: ${validated.customer_name}`,
       `• Phone: ${validated.customer_phone}`,
       `• From: ${validated.pickup_location}`,

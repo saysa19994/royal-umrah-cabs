@@ -109,7 +109,7 @@ export const UMRAH_CHECKLIST_CONTENT_DE: LocalizedArticleBody = {
       ]
     },
     {
-      title: 'Organisieren Sie Ihren Umrah-Transfer mit Royal Umrah Cabs / Duyuf Alrahman VIP',
+      title: 'Organisieren Sie Ihren Umrah-Transfer mit Duyuf Alrahman VIP',
       paragraphs: [
         'Bei Duyuf Alrahman VIP ist der Dienst an den Gästen des Allbarmherzigen unsere oberste Pflicht. Unsere moderne, vollklimatisierte Fahrzeugflotte und erfahrene Chauffeure sorgen für eine ruhige, pünktliche und angenehme Reise in den Heiligen Städten.',
         'Ob VIP-Flughafentransfer ab Dschidda, Überlandfahrt zwischen Mekka und Medina oder flexibler Chauffeurservice auf Stundenbasis: Wir garantieren Ihnen absolute Preistransparenz und die Sicherheit, erst bei Ankunft am Hotel zu bezahlen.',

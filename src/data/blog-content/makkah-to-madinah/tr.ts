@@ -121,7 +121,7 @@ export const trMakkahMadinahContent: LocalizedArticleBody = {
         },
         {
           title: 'Zorunlu Politika: Ödeme Yalnızca Medine’de Şoföre:',
-          text: 'Online ön ödeme veya kapora talep edilmez. Ücreti Medine’deki otelinize sağ salim ulaştığınızda şoföre nakit veya havale ile ödersiniz.',
+          text: 'Online ön ödeme veya kapora talep edilmez. Ücreti Medine’deki otelinize sağ salim ulaştığınızda şoföre yalnızca nakit olarak (SAR veya USD) ödersiniz. Kredi kartı, banka kartı, POS cihazı veya havale kabul edilmemektedir.',
         },
         {
           title: 'Ücretsiz İptal ve Değişiklik:',

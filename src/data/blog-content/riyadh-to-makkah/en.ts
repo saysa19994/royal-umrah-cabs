@@ -70,7 +70,7 @@ export const RIYADH_MAKKAH_CONTENT_EN: LocalizedArticleBody = {
   faqSubtitle: 'Clear, authoritative answers to help you book your long-distance transfer with confidence',
   cta: {
     title: 'Reserve Your Private Highway Chauffeur to Makkah',
-    subtitle: 'Experienced highway captains • Luxury long-distance fleet • 100% pay upon arrival in cash or card',
+    subtitle: 'Experienced highway captains • Luxury long-distance fleet • 100% pay upon arrival strictly in cash (SAR or USD)',
     primaryBtn: 'Book Riyadh - Makkah Transfer',
     secondaryBtn: 'Chat on WhatsApp',
     badges: ['Zero Advance Deposit', 'Free Miqat Waiting', 'Door-to-Door VIP Service'],

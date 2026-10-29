@@ -86,7 +86,7 @@ export const AIRPORT_PICKUP_CONTENT_TR: LocalizedArticleBody = {
         'Finansal şeffaflık, Duyuf Alrahman VIP hizmet politikasının en temel ilkesidir:',
         '• Fiyat Araç Başına Sabittir: Belirtilen ücret, tüm özel araç ve şoför için geçerlidir; araca yabancı yolcu alınmaz.',
         '• Her Şey Dahil Sabit Ücret (All-Inclusive): Fiyat; özel şoför, uçuş takibi, karşılama, otoyol geçiş ücretleri, havalimanı otoparkı, yakıt ve vergileri kapsar.',
-        '• Ön Ödemesiz Varışta Ödeme (Zero Prepayment): Kredi kartı bilgisi, banka havalesi veya kapora talep etmiyoruz. Ücreti, Mekke’deki otelinize güvenle ulaştığınızda şoföre nakit (SAR) veya kartla ödersiniz.',
+        '• Ön Ödemesiz Varışta Ödeme (Zero Prepayment): Kredi kartı bilgisi, banka havalesi veya kapora talep etmiyoruz. Ücreti, Mekke’deki otelinize güvenle ulaştığınızda şoföre yalnızca nakit (SAR veya USD) olarak şoföre ödersiniz.',
         'Umre ibadetinizin bitiminde dönüş yolculuğunuz için [Mekke’den Cidde Havalimanı’na Araç Rezervasyonu Rehberi](/tr/blog/makkah-to-jeddah-airport-transfer) ve şehirlerarası seyahat için [Mekke, Medine ve Cidde Arası Ulaşım Planlaması](/tr/blog/transport-planning-makkah-madinah-jeddah) sayfalarımıza göz atabilirsiniz.'
       ]
     },
@@ -115,7 +115,7 @@ export const AIRPORT_PICKUP_CONTENT_TR: LocalizedArticleBody = {
       ]
     },
     {
-      title: 'Cidde Havalimanı Karşılamanızı Royal Umrah Cabs / Duyuf Alrahman VIP ile Ayarlayın',
+      title: 'Cidde Havalimanı Karşılamanızı Duyuf Alrahman VIP ile Ayarlayın',
       paragraphs: [
         'Duyuf Alrahman VIP olarak, umre ziyaretinizin manevi değerini çok iyi biliyoruz. Amacımız, Suudi Arabistan topraklarına ayak bastığınız andan itibaren sizi Rahman’ın misafiri olarak en üstün hürmet ve konforla ağırlamaktır.',
         'Tek başınıza, eşinizle veya çocuklarınız ve yaşlılarınızla geniş bir aile olarak seyahat ediyor olun; modern araç filomuz ve deneyimli şoförlerimiz Mekke-i Mükerreme’ye huzurla ulaşmanız için hazırdır.',

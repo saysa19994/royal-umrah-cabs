@@ -401,7 +401,7 @@ export const PRIORITY_ROUTES_LOCALIZED: Record<string, Partial<Record<Locale, Lo
       overview: 'Traveling directly from Jeddah (King Abdulaziz International Airport or central hotels) to Madinah Al-Munawwarah eliminates the stress of train timetable limits, shared bus crowds, and multi-leg taxi transitions. Our executive chauffeur meets your family at your arrival terminal with a personalized name board, accommodates heavy luggage, and transports you along the Al Hijrah expressway (Route 15) with flexible refreshment stops at clean SASCO Palm stations.',
       inclusions: [
         'Direct door-to-door transfer from KAIA Terminal 1, North Terminal, or Jeddah hotel to Madinah hotel',
-        '60-90 minutes free airport waiting buffer after actual flight landing time',
+        '60-90 minutes complimentary airport waiting buffer after actual flight landing time',
         'Automated live flight radar monitoring for arrival schedule updates',
         'Full accommodation of large luggage, strollers, and Zamzam canisters',
         'Flexible prayer and family rest stops at premium SASCO Palm highway rest areas',
@@ -548,7 +548,7 @@ export const PRIORITY_ROUTES_LOCALIZED: Record<string, Partial<Record<Locale, Lo
         },
         {
           question: 'ادائیگی کا کیا طریقہ کار ہے؟',
-          answer: 'ہماری پالیسی کے مطابق کرایہ مدینہ منورہ ہوٹل پہنچنے کے بعد ڈرائیور کو نقد (سعودی ریال یا امریکی ڈالر) ادا کیا جاتا ہے۔ کوئی پیشگی رقم یا کارڈ چارجز نہیں ہیں۔',
+          answer: 'ہماری پالیسی کے مطابق کرایہ مدینہ منورہ ہوٹل پہنچنے کے بعد ڈرائیور کو نقد (سعودی ریال یا امریکی ڈالر) ادا کیا جاتا ہے۔ کسی ایڈوانس یا کارڈ کی ضرورت نہیں ہے۔',
         },
       ],
     },
@@ -1257,7 +1257,7 @@ export const PRIORITY_ROUTES_LOCALIZED: Record<string, Partial<Record<Locale, Lo
       overview: 'Arriving at Prince Mohammad bin Abdulaziz International Airport (MED) is the serene start of your visit to the Prophet’s Mosque. Our private chauffeur service meets you inside the arrival hall with a personalized name sign, assists with all baggage, and delivers you directly to your hotel in the Northern, Southern, or Central Area (Markaziyah) in approximately 20 to 25 minutes.',
       inclusions: [
         'Meet & greet inside MED arrival hall holding a personalized digital name sign',
-        '60-90 minutes free flight waiting buffer from aircraft touchdown',
+        '60-90 minutes complimentary airport waiting buffer from aircraft touchdown',
         'Live flight radar tracking for automated arrival schedule coordination',
         'Direct drop-off at all Northern, Southern, and Central Markaziyah hotels',
         'Ample trunk capacity for large suitcases and Zamzam containers',

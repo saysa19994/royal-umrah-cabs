@@ -121,7 +121,7 @@ export const esMakkahMadinahContent: LocalizedArticleBody = {
         },
         {
           title: 'Pago Exclusivo al Chofer al Llegar a Medina:',
-          text: 'No cobramos adelantos ni anticipos en línea. Usted abona el importe en efectivo o transferencia únicamente al llegar a su hotel.',
+          text: 'No cobramos adelantos ni anticipos en línea. Usted abona el importe exclusivamente en efectivo (SAR o USD) directamente a su chofer al llegar a su hotel. No se aceptan tarjetas de crédito, débito, terminales POS ni transferencias bancarias.',
         },
         {
           title: 'Modificación y Cancelación Gratuita:',

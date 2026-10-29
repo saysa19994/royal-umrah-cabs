@@ -121,7 +121,7 @@ export const idMakkahMadinahContent: LocalizedArticleBody = {
         },
         {
           title: 'Kebijakan Wajib: Bayar Langsung ke Sopir di Hotel Madinah:',
-          text: 'Tidak perlu transfer uang muka (DP) atau gesek kartu kredit. Anda cukup menyerahkan pembayaran tunai atau transfer ke sopir setelah tiba dengan selamat di hotel tujuan.',
+          text: 'Tidak perlu transfer uang muka (DP) atau gesek kartu kredit. Anda cukup menyerahkan pembayaran tunai (SAR atau USD) langsung kepada sopir setelah tiba dengan selamat di hotel tujuan. Kami tidak menerima kartu kredit, kartu debit, mesin EDC, maupun transfer bank.',
         },
         {
           title: 'Gratis Ubah Jadwal dan Pembatalan:',

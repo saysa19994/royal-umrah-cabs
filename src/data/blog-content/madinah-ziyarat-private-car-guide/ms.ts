@@ -107,7 +107,7 @@ export const MADINAH_ZIYARAT_CONTENT_MS: LocalizedArticleBody = {
         '2. Had Tempoh Masa Ziarah: Sahkan tempoh pakej mencukupi sekurang-kurangnya 3 hingga 3.5 jam.',
         '3. Senarai Lokasi yang Dipersetujui: Nyatakan nama lokasi utama (Quba, Uhud, Qiblatain) semasa membuat tempahan.',
         '4. Harga Bersih Tanpa Bayaran Tersembunyi: Pastikan harga merangkumi petrol, caj parkir, dan masa menunggu pemandu.',
-        '5. Dasar Bayar Terus kepada Pemandu (Zero Prepayment): Elakkan penipuan dalam talian dengan memilih syarikat yang membenarkan pembayaran tunai atau kad terus kepada pemandu selepas ziarah selesai.',
+        '5. Dasar Bayar Terus kepada Pemandu (Zero Prepayment): Elakkan penipuan dalam talian dengan memilih syarikat yang membenarkan pembayaran tunai sahaja (SAR atau USD) terus kepada pemandu selepas ziarah selesai.',
         '6. Maklumat Pemandu Menerusi WhatsApp: Pastikan nama pemandu, nombor telefon, dan nombor plat kenderaan dihantar lebih awal sebelum waktu penjemputan.'
       ]
     },

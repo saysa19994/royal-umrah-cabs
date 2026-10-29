@@ -47,7 +47,7 @@ export function ContactForm({ locale, dict, whatsappNumber = '966567588261' }: C
 
     // Build pre-filled WhatsApp message
     const waText =
-      `*Inquiry - Royal Umrah Cabs*\n` +
+      `*Inquiry - Duyuf Alrahman VIP*\n` +
       `*Name:* ${name}\n` +
       `*Phone:* ${phone}\n` +
       (email ? `*Email:* ${email}\n` : '') +

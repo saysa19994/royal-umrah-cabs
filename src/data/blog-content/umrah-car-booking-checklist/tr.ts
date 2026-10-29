@@ -61,8 +61,8 @@ export const UMRAH_CHECKLIST_CONTENT_TR: LocalizedArticleBody = {
       title: '6. Sıfır Ön Ödeme Şartında Israrcı Olun: Yalnızca Güvenle Ulaşınca Ödeyin',
       paragraphs: [
         'Ödeme koşulları, çevrim içi mağduriyetlere ve yetkisiz aracılara karşı en büyük güvencenizdir:',
-        '• Otele Güvenle Ulaşınca Şoföre Ödeme: Güvenilirliği kanıtlanmamış web sitelerine kredi kartı bilgisi vermeyin ve ön avans havalesi yapmayın. Firmamız sıfır ön ödeme prensibiyle çalışır; ücreti yalnızca otelinize güvenle ulaştığınızda şoföre nakit veya kartla ödersiniz.',
-        '• Araç İçi Ödeme Seçenekleri: Şoförlerimiz Suudi Riyali (SAR) nakit ödemenin yanı sıra Mada, Visa ve Mastercard kredi kartlarını kabul etmektedir.',
+        '• Otele Güvenle Ulaşınca Şoföre Ödeme: Güvenilirliği kanıtlanmamış web sitelerine kredi kartı bilgisi vermeyin ve ön avans havalesi yapmayın. Firmamız sıfır ön ödeme prensibiyle çalışır; ücreti yalnızca otelinize güvenle ulaştığınızda şoföre yalnızca nakit (SAR veya USD) olarak ödersiniz. Kredi kartı veya ön ödeme gerekmez.',
+        '• Araç İçi Ödeme Politikası: Ödeme yalnızca nakit olarak (SAR veya USD) şoförünüze yapılır. Firmamızda kredi kartı, banka kartı veya POS cihazı kabul edilmemektedir.',
         '• Yazılı Rezervasyon Onayı: Güzergah ve net fiyat bilgilerini içeren resmi WhatsApp onay mesajınızı mutlaka saklayın.'
       ]
     },
@@ -109,7 +109,7 @@ export const UMRAH_CHECKLIST_CONTENT_TR: LocalizedArticleBody = {
       ]
     },
     {
-      title: 'Umre Ulaşımınızı Royal Umrah Cabs / Duyuf Alrahman VIP Güvencesiyle Planlayın',
+      title: 'Umre Ulaşımınızı Duyuf Alrahman VIP / Duyuf Alrahman VIP Güvencesiyle Planlayın',
       paragraphs: [
         'Duyuf Alrahman VIP olarak Rahman’ın misafirlerine hizmet etmek bizim için büyük bir onurdur. Modern, tam klimalı araç filomuz ve tecrübeli şoförlerimizle Kutsal Topraklarda konforlu, dakik ve huzurlu bir seyahat sunuyoruz.',
         'Cidde Havalimanı’ndan VIP karşılama, Mekke ile Medine arası transfer veya gün boyu saatlik tahsis ihtiyaçlarınızda tam fiyat şeffaflığı ve yalnızca otele varışta ödeme rahatlığı sağlıyoruz.',

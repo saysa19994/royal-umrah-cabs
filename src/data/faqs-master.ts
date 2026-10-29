@@ -50,7 +50,7 @@ export const MASTER_FAQS_INITIAL: MasterFaqItem[] = [
     category: 'home',
     questionEn: 'What payment methods and currencies do you accept?',
     questionAr: 'ما طرق الدفع والعملات المقبولة لديكم؟',
-    answerEn: 'The only accepted payment method is cash paid directly to your private driver upon arrival at your destination for your trip. We operate on a zero-advance-deposit policy, and no prepayment is required.',
+    answerEn: 'The only accepted payment method is cash paid directly to your private driver upon arrival at your destination for your trip in Saudi Riyals (SAR) or US Dollars (USD). We do not accept credit cards, debit cards, POS machines, online payments, or bank transfers. We operate on a zero-advance-deposit policy, and no prepayment is required.',
     answerAr:
       'نقبل الدفع نقداً فقط، ويتم سداده مباشرةً للسائق بعد انتهاء رحلتك ووصولك إلى وجهتك. يمكنك الدفع بالريال السعودي (SAR) أو الدولار الأمريكي (USD). لا نقبل بطاقات الائتمان أو بطاقات الخصم أو أجهزة نقاط البيع (POS) أو الدفع الإلكتروني أو التحويلات البنكية. لا يلزم أي دفع مسبق أو عربون.',
     isOperational: true,

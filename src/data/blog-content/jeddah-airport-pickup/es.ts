@@ -86,7 +86,7 @@ export const AIRPORT_PICKUP_CONTENT_ES: LocalizedArticleBody = {
         'La transparencia financiera es primordial en Duyuf Alrahman VIP:',
         '• Precio por Vehículo Completo: La tarifa acordada cubre el vehículo privado íntegro y el chófer exclusivo para usted, sin compartir el espacio con desconocidos.',
         '• Tarifa con Todo Incluido (All-Inclusive): Cubre servicio de chófer, seguimiento de vuelo, peajes de la autopista Haramain, combustible, tasas de estacionamiento en el aeropuerto e impuestos.',
-        '• Pago al Chófer al Llegar (Zero Prepayment): No exigimos tarjeta de crédito, transferencias previas ni depósitos. El importe acordado se abona directamente al chófer en efectivo (SAR) o tarjeta al llegar de forma segura a su hotel en La Meca.',
+        '• Pago al Chófer al Llegar (Zero Prepayment): No exigimos tarjeta de crédito, transferencias previas ni depósitos. El importe acordado se abona directamente al chófer en efectivo (SAR)  al llegar de forma segura a su hotel en La Meca.',
         'Para organizar su viaje de regreso al aeropuerto al finalizar su peregrinación, revise nuestra [Guía para Reservar Coche de La Meca al Aeropuerto de Yeda](/es/blog/makkah-to-jeddah-airport-transfer), y para coordinar trayectos entre ciudades consulte [Planificación del Transporte entre La Meca, Medina y Yeda](/es/blog/transport-planning-makkah-madinah-jeddah).'
       ]
     },
@@ -115,7 +115,7 @@ export const AIRPORT_PICKUP_CONTENT_ES: LocalizedArticleBody = {
       ]
     },
     {
-      title: 'Organice Su Recepción en Yeda con Royal Umrah Cabs / Duyuf Alrahman VIP',
+      title: 'Organice Su Recepción en Yeda con Duyuf Alrahman VIP',
       paragraphs: [
         'En Duyuf Alrahman VIP comprendemos la importancia espiritual de su peregrinación. Nuestra vocación es honrarle como huésped de Dios desde el primer instante en que pisa suelo saudita.',
         'Tanto si viaja solo, en pareja o con una gran familia con múltiples maletas, nuestra moderna flota y nuestros chóferes profesionales están preparados para brindarle un traslado sereno, puntual y seguro a La Meca.',

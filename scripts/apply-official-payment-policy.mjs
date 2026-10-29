@@ -171,13 +171,13 @@ console.log('\n=== STEP 4: Updating BookingEngine.tsx ===');
   // Now fix FR, ES, ID, HI, DE, UR, MS, TR paymentDesc in BookingEngine.tsx:
   // ID fix (remove EDC / card):
   content = content.replace(
-    /'Pembayaran dilakukan langsung ke sopir privat Anda saat tiba di tujuan dengan aman\. Anda dapat membayar tunai \(Riyal Saudi - SAR\) atau dengan kartu debit\/kredit pada mesin EDC sopir\. Tidak perlu memasukkan kartu online atau membayar DP apa pun untuk mengonfirmasi pesanan\.'/,
+    /'Pembayaran dilakukan langsung ke sopir privat Anda saat tiba di tujuan dengan aman\. Anda dapat membayar tunai \(Riyal Saudi - SAR\) atau dengan uang tunai SAR atau USD\. Tidak perlu memasukkan kartu online atau membayar DP apa pun untuk mengonfirmasi pesanan\.'/,
     "'Pembayaran dilakukan secara tunai khusus langsung kepada sopir privat Anda setelah perjalanan selesai dan tiba di tujuan. Anda dapat membayar dalam Riyal Saudi (SAR) atau Dolar AS (USD). Kami tidak menerima kartu kredit, kartu debit, mesin POS/EDC, pembayaran online, maupun transfer bank. Tidak ada uang muka (DP) atau deposit yang diperlukan.'"
   );
 
   // MS fix (remove terminal / card):
   content = content.replace(
-    /'Pembayaran dibuat sepenuhnya terus kepada pemandu peribadi anda semasa tiba di destinasi\. Anda boleh membayar secara tunai \(Riyal Saudi - SAR\) atau kad bank melalui mesin terminal pemandu\. Tiada kad kredit dalam talian atau wang pendahuluan diperlukan untuk mengesahkan tempahan\.'/,
+    /'Pembayaran dibuat sepenuhnya terus kepada pemandu peribadi anda semasa tiba di destinasi\. Anda boleh membayar secara tunai \(Riyal Saudi - SAR\) secara tunai sahaja bank melalui mesin terminal pemandu\. Tiada kad kredit dalam talian atau wang pendahuluan diperlukan untuk mengesahkan tempahan\.'/,
     "'Pembayaran dibuat secara tunai sahaja terus kepada pemandu peribadi anda setelah perjalanan selesai setibanya di destinasi. Anda boleh membayar dalam Riyal Saudi (SAR) atau Dolar AS (USD). Kami tidak menerima kad kredit, kad debit, terminal POS, pembayaran dalam talian, atau pindahan bank. Tiada sebarang wang pendahuluan atau deposit diperlukan.'"
   );
 
@@ -214,7 +214,7 @@ console.log('\n=== STEP 7: Updating malaysia-umrah-transport/page.tsx ===');
   const filePath = path.join(ROOT, 'src/app/[locale]/guides/malaysia-umrah-transport/page.tsx');
   let content = fs.readFileSync(filePath, 'utf8');
   content = content.replace(
-    "Tidak perlu sebarang deposit atau kad kredit semasa menempah. Anda hanya membayar terus kepada pemandu secara tunai atau kad semasa tiba di hotel anda di Makkah atau Madinah.",
+    "Tidak perlu sebarang deposit secara tunai sahaja kredit semasa menempah. Anda hanya membayar terus kepada pemandu secara tunai sahaja semasa tiba di hotel anda di Makkah atau Madinah.",
     "Tidak perlu sebarang deposit semasa menempah. Anda hanya membayar terus kepada pemandu secara tunai setibanya di hotel dalam Riyal Saudi (SAR) atau Dolar AS (USD). Kad bank, terminal POS, dan pindahan bank tidak diterima."
   );
   content = content.replace(
@@ -222,7 +222,7 @@ console.log('\n=== STEP 7: Updating malaysia-umrah-transport/page.tsx ===');
     "لا يلزم أي دفع مسبق أو عربون. الدفع يتم نقداً فقط مباشرة للسائق عند الوصول بالريال السعودي (SAR) أو الدولار الأمريكي (USD). لا نقبل البطاقات أو التحويلات."
   );
   content = content.replace(
-    "No deposit is required upfront. You pay your chauffeur upon arrival at your hotel in cash or card.",
+    "No deposit is required upfront. You pay your chauffeur upon arrival at your hotel in cash only (SAR or USD).",
     "No deposit or prepayment is required. You pay your chauffeur directly in cash upon arrival at your hotel in Saudi Riyals (SAR) or US Dollars (USD). Cards, POS terminals, and bank transfers are not accepted."
   );
   fs.writeFileSync(filePath, content, 'utf8');
@@ -250,7 +250,7 @@ console.log('\n=== STEP 9: Updating knowledge-base.ts & faqs-master.ts ===');
   const kbPath = path.join(ROOT, 'src/lib/chat/knowledge-base.ts');
   let kbContent = fs.readFileSync(kbPath, 'utf8');
   kbContent = kbContent.replace(
-    'All payments are settled securely upon arrival with the driver via cash or card terminal.',
+    'All payments are settled securely upon arrival with the driver via cash only (SAR or USD) terminal.',
     'All payments are settled securely upon arrival with the driver in cash (SAR or USD). We never accept credit cards, debit cards, POS terminals, online payments, or bank transfers.'
   );
   kbContent = kbContent.replace(

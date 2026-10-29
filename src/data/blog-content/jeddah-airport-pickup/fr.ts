@@ -86,7 +86,7 @@ export const AIRPORT_PICKUP_CONTENT_FR: LocalizedArticleBody = {
         'La clarté financière est au cœur de notre éthique de service chez Duyuf Alrahman VIP :',
         '• Tarif Fixé pour l’Ensemble du Véhicule : Le prix communiqué s’applique au véhicule privatif complet avec son chauffeur dédié, sans partage avec d’autres passagers.',
         '• Formule Tout Inclus (All-Inclusive) : Le tarif comprend le chauffeur privé, le suivi de vol en direct, l’accueil en gare aéroportuaire, le carburant, les péages de l’autoroute Haramain, les frais de stationnement et les taxes.',
-        '• Paiement au Chauffeur à l’Arrivée (Zero Prepayment) : Nous n’exigeons aucun numéro de carte bancaire, aucun virement préalable ni acompte. Vous réglez la somme convenue directement au chauffeur en espèces (SAR) ou par carte lors de votre arrivée sécurisée à votre hôtel de La Mecque.',
+        '• Paiement au Chauffeur à l’Arrivée (Zero Prepayment) : Nous n’exigeons aucun numéro de carte bancaire, aucun virement préalable ni acompte. Vous réglez la somme convenue directement au chauffeur exclusivement en espèces (SAR ou USD) auprès de votre chauffeur lors de votre arrivée sécurisée à votre hôtel de La Mecque.',
         'Pour préparer votre retour vers l’aéroport en fin de séjour, consultez notre guide sur la [Réservation de Voiture de La Mecque vers l’Aéroport de Djeddah](/fr/blog/makkah-to-jeddah-airport-transfer), ainsi que notre article sur la [Planification des Transports entre La Mecque, Médine et Djeddah](/fr/blog/transport-planning-makkah-madinah-jeddah).'
       ]
     },

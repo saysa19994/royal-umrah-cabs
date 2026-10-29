@@ -61,8 +61,8 @@ export const UMRAH_CHECKLIST_CONTENT_ID: LocalizedArticleBody = {
       title: '6. Pastikan Syarat Pembayaran: Utamakan Tanpa Uang Muka (Zero Prepayment)',
       paragraphs: [
         'Syarat pembayaran merupakan perlindungan utama bagi jemaah dari penipuan online:',
-        '• Bayar ke Sopir Saat Tiba di Hotel (Zero Prepayment): Jangan pernah memberikan data kartu kredit atau mentransfer deposit ke rekening tak dikenal. Sistem kami tidak meminta uang muka sama sekali; Anda membayar langsung kepada sopir secara tunai (SAR) atau kartu setelah tiba dengan selamat di hotel tujuan.',
-        '• Pilihan Pembayaran di Mobil: Sopir kami menerima uang tunai Riyal Saudi maupun kartu Mada, Visa, dan Mastercard melalui mesin EDC portabel.',
+        '• Bayar ke Sopir Saat Tiba di Hotel (Zero Prepayment): Jangan pernah memberikan data kartu kredit atau mentransfer deposit ke rekening tak dikenal. Sistem kami tidak meminta uang muka sama sekali; Anda membayar langsung kepada sopir secara tunai (SAR atau USD) saja langsung kepada supir setelah tiba dengan selamat di hotel tujuan.',
+        '• Pilihan Pembayaran di Mobil: Sopir kami menerima uang tunai Riyal Saudi dan kami tidak menerima kartu kredit, kartu debit, mesin EDC, maupun transfer bank.',
         '• Konfirmasi Tertulis Resmi: Pastikan menerima bukti pemesanan resmi yang mencantumkan seluruh rincian rute dan tarif pasti yang disepakati.'
       ]
     },

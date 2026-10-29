@@ -31,7 +31,7 @@ const STRICT_FAQ_Q2_A2 = {
   },
   fr: {
     q2: 'Quel est le mode de paiement accepté ? Dois-je payer le chauffeur en espèces ?',
-    a2: "Le seul mode de paiement accepté est le règlement en espèces effectué directement auprès de votre chauffeur privé à l'arrivée à votre destination pour votre trajet. Nous n'exigeons aucun paiement d'avance, acompte ou caution. Le tarif convenu est payé en espèces en Riyals saoudiens (SAR) à la fin de votre voyage. Les paiements par carte bancaire ou terminal TPE ne sont pas acceptés.",
+    a2: "Le seul mode de paiement accepté est le règlement en espèces effectué directement auprès de votre chauffeur privé à l'arrivée à votre destination pour votre trajet. Nous n'exigeons aucun paiement d'avance, acompte ou caution. Le tarif convenu est payé en espèces en Riyals saoudiens (SAR) à la fin de votre voyage. Les paiements en espèces ou terminal TPE ne sont pas acceptés.",
   },
   es: {
     q2: '¿Cuál es el método de pago aceptado? ¿Debo pagar al chofer en efectivo?',
@@ -256,11 +256,11 @@ engineCode = engineCode.replace(
   "'El pago se realiza exclusivamente en efectivo directamente a su chofer privado a la llegada a su destino. No se requiere ningún anticipo ni pago previo para confirmar esta reserva.'"
 );
 engineCode = engineCode.replace(
-  /'Pembayaran dilakukan langsung ke sopir privat Anda saat tiba di tujuan\. Anda dapat membayar tunai \(SAR\) atau kartu[\s\S]*?ini\.'/,
+  /'Pembayaran dilakukan langsung ke sopir privat Anda saat tiba di tujuan\. Anda dapat membayar tunai \(SAR\) secara tunai saja[\s\S]*?ini\.'/,
   "'Pembayaran dilakukan secara tunai langsung kepada sopir privat Anda saat tiba di tujuan perjalanan. Tidak diperlukan uang muka (DP) atau pembayaran di awal untuk mengonfirmasi pemesanan ini.'"
 );
 engineCode = engineCode.replace(
-  /'ادائیگی مکمل طور پر پہنچنے کے بعد براہِ راست آپ کے ذاتی ڈرائیور کو کی جاتی ہے۔ آپ نقد \(سعودی ریال\) یا کارڈ[\s\S]*?نہیں ہے۔'/,
+  /'ادائیگی مکمل طور پر پہنچنے کے بعد براہِ راست آپ کے ذاتی ڈرائیور کو کی جاتی ہے۔ آپ نقد \(سعودی ریال\) صرف نقد[\s\S]*?نہیں ہے۔'/,
   "'ادائیگی مکمل طور پر نقد منزل پر پہنچنے کے بعد براہِ راست آپ کے ذاتی ڈرائیور کو کی جاتی ہے۔ بکنگ کی تصدیق کے لیے کسی قسم کی پیشگی رقم یا بیعانہ درکار نہیں ہے۔'"
 );
 engineCode = engineCode.replace(
@@ -272,7 +272,7 @@ engineCode = engineCode.replace(
   "'भुगतान यात्रा के लिए गंतव्य पर पहुँचने पर पूरी तरह से नकद सीधे आपके निजी ड्राइवर को किया जाता है। इस बुकिंग के लिए किसी अग्रिम भुगतान की आवश्यकता नहीं है।'"
 );
 engineCode = engineCode.replace(
-  /'Bayaran dibuat terus kepada pemandu peribadi anda semasa tiba di destinasi\. Anda boleh membayar secara tunai \(SAR\) atau kad[\s\S]*?ini\.'/,
+  /'Bayaran dibuat terus kepada pemandu peribadi anda semasa tiba di destinasi\. Anda boleh membayar secara tunai \(SAR\) secara tunai sahaja[\s\S]*?ini\.'/,
   "'Bayaran dibuat secara tunai sepenuhnya terus kepada pemandu peribadi anda semasa tiba di destinasi perjalanan anda. Tiada bayaran pendahuluan atau deposit diperlukan untuk mengesahkan tempahan ini.'"
 );
 engineCode = engineCode.replace(
@@ -290,15 +290,15 @@ const homePath = 'D:/royal-umrah-cabs/src/components/home/HomeSections.tsx';
 let homeCode = fs.readFileSync(homePath, 'utf8');
 
 homeCode = homeCode.replace(
-  "نقداً أو بالبطاقة.",
+  "نقداً فقط.",
   "نقداً للسائق مباشرة."
 );
 homeCode = homeCode.replace(
-  "لا نطلب بطاقة ائتمان مسبقاً؛ ادفع لسائقك نقداً أو بالبطاقة البنكية عند الوصول سالماً.",
+  "لا نطلب بطاقة ائتمان مسبقاً؛ ادفع لسائقك نقداً فقط البنكية عند الوصول سالماً.",
   "لا نطلب أي دفع مسبق؛ ادفع لسائقك نقداً عند الوصول سالماً."
 );
 homeCode = homeCode.replace(
-  "No credit card needed in advance; pay your chauffeur via cash or card upon safe arrival.",
+  "No credit card needed in advance; pay your chauffeur via cash only (SAR or USD) upon safe arrival.",
   "No advance payment needed; pay your chauffeur in cash upon safe arrival."
 );
 
@@ -406,7 +406,7 @@ guideCode = guideCode.replace(
   ": 'Do we need to pay a prepayment or deposit in advance?',"
 );
 guideCode = guideCode.replace(
-  "? 'لا يلزم أي دفع مسبق. الدفع يتم مباشرة للسائق عند الوصول نقداً أو بالبطاقة.'",
+  "? 'لا يلزم أي دفع مسبق. الدفع يتم مباشرة للسائق عند الوصول نقداً فقط.'",
   "? 'لا يلزم أي دفع مسبق. الدفع يتم نقداً مباشرة للسائق عند الوصول.'"
 );
 guideCode = guideCode.replace(

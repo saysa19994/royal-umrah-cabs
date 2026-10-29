@@ -86,7 +86,7 @@ export const AIRPORT_PICKUP_CONTENT_DE: LocalizedArticleBody = {
         'Finanzielle Verlässlichkeit ist der Kern unserer Firmenphilosophie bei Duyuf Alrahman VIP:',
         '• Preis gilt für das gesamte Fahrzeug: Sie zahlen für das private Gesamtfahrzeug inklusive Chauffeur, ohne fremde Mitreisende.',
         '• All-Inclusive-Tarif: Der vereinbarte Preis beinhaltet Chauffeurservice, Flugverfolgung, Mautgebühren der Haramain-Autobahn, Flughafengebühren, Kraftstoff und Steuern.',
-        '• Bezahlung erst beim Fahrer bei Ankunft (Zero Prepayment): Wir verlangen weder Kreditkartendaten noch Anzahlungen oder Banküberweisungen vorab. Sie bezahlen den vollen vereinbarten Betrag erst bei der sicheren Ankunft an Ihrem Hotel in Mekka bar (SAR) oder per Karte.',
+        '• Bezahlung erst beim Fahrer bei Ankunft (Zero Prepayment): Wir verlangen weder Kreditkartendaten noch Anzahlungen oder Banküberweisungen vorab. Sie bezahlen den vollen vereinbarten Betrag erst bei der sicheren Ankunft an Ihrem Hotel in Mekka ausschließlich in bar (SAR oder USD) beim Fahrer.',
         'Für die Rückfahrt zum Flughafen am Ende Ihrer Reise empfehlen wir unseren Leitfaden zur [Fahrzeugbuchung von Mekka zum Flughafen Dschidda](/de/blog/makkah-to-jeddah-airport-transfer) sowie den Beitrag zur [Reiseplanung zwischen Mekka, Medina und Dschidda](/de/blog/transport-planning-makkah-madinah-jeddah).'
       ]
     },
@@ -115,7 +115,7 @@ export const AIRPORT_PICKUP_CONTENT_DE: LocalizedArticleBody = {
       ]
     },
     {
-      title: 'Organisieren Sie Ihre Flughafenabholung mit Royal Umrah Cabs / Duyuf Alrahman VIP',
+      title: 'Organisieren Sie Ihre Flughafenabholung mit Duyuf Alrahman VIP',
       paragraphs: [
         'Bei Duyuf Alrahman VIP wissen wir um die spirituelle Bedeutung Ihrer Umrah-Reise. Unser Anliegen ist es, Sie als Gast Allahs vom ersten Augenblick an in Saudi-Arabien mit bestem Service und höchster Gastfreundschaft zu begleiten.',
         'Ob als Einzelpilger, als Ehepaar oder im Kreis einer großen Mehrgenerationenfamilie mit viel Gepäck: Unsere moderne Fahrzeugflotte und unsere geschulten Chauffeure freuen sich darauf, Ihre Weiterreise nach Mekka zu einem entspannten und unvergesslichen Erlebnis zu machen.',

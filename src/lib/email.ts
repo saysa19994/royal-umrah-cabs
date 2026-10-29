@@ -1,5 +1,5 @@
 /**
- * Transactional Email Dispatcher for Royal Umrah Cabs
+ * Transactional Email Dispatcher for Duyuf Alrahman VIP
  * Securely handles critical security emails (ownership transfers, executive alerts).
  * Never exposes confirmation tokens in application logs or client responses.
  */
@@ -40,12 +40,12 @@ export async function sendOwnershipTransferEmail(
         body: JSON.stringify({
           from: fromAddress,
           to: [to],
-          subject: '🚨 CRITICAL: Royal Umrah Cabs Ownership Transfer Confirmation Required',
+          subject: '🚨 CRITICAL: Duyuf Alrahman VIP Ownership Transfer Confirmation Required',
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background: #0D0F12; color: #F3EEE6; border-radius: 12px; border: 1px solid #262B33;">
               <h2 style="color: #D9A031; margin-top: 0;">Primary Ownership Transfer Requested</h2>
               <p style="font-size: 14px; line-height: 1.6; color: #A0A6B2;">
-                A request has been initiated to transfer primary ownership of <strong>Royal Umrah Cabs</strong> to:
+                A request has been initiated to transfer primary ownership of <strong>Duyuf Alrahman VIP</strong> to:
               </p>
               <div style="font-size: 15px; font-weight: bold; color: #FAF9F6; background: #14171C; border: 1px solid #2B323D; padding: 12px 16px; border-radius: 8px; margin: 16px 0;">
                 ${escapeHtml(targetEmail)}

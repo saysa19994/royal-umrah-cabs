@@ -7,6 +7,19 @@
 
 export type AnalyticsEvent =
   | {
+      event: 'route_page_viewed';
+      route_slug: string;
+      locale: string;
+    }
+  | {
+      event: 'vehicle_selected';
+      vehicle_id: string;
+      route_id: string;
+      route?: string;
+      price?: number;
+      currency?: string;
+    }
+  | {
       event: 'route_selected';
       service_type: string;
       route?: string;

@@ -82,7 +82,7 @@ export const MAKKAH_JEDDAH_CONTENT_EN: LocalizedArticleBody = {
       paragraphs: [
         'We adhere to an uncompromising standard of transparency and consumer protection:',
         '• Guaranteed Fixed Rates: The price quoted is the total price for the entire vehicle, private chauffeur, expressway tolls, fuel, and VAT. No surprise additions.',
-        '• Pay the Driver Only upon Arrival: We require zero advance payment, zero credit card entry, and zero deposit to secure your booking. You pay your driver in cash or digital bank transfer only after arriving safely at Jeddah Airport and unloading your bags.',
+        '• Pay the Driver Only upon Arrival: We require zero advance payment, zero credit card entry, and zero deposit to secure your booking. You pay your driver strictly in cash (SAR or USD) only after arriving safely at Jeddah Airport and unloading your bags. Credit cards, debit cards, POS terminals, online payments, and bank transfers are not accepted.',
         '• Free Modification & Cancellation: Flight rescheduled? Simply inform us via WhatsApp with reasonable notice, and we will update your pickup time without cancellation penalties.'
       ]
     },

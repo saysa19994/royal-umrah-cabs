@@ -458,7 +458,7 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
       'Punctual hotel lobby greeting 15 minutes before departure time',
       'Direct delivery to the correct terminal departure gate (Terminal 1, North, or Hajj Terminal)',
       'Safe transport and trunk arrangement for official 5-liter Zamzam bottles',
-      'All toll fees and VAT included in the transparent fixed fare',
+      'All toll fees, fuel, and VAT included in the transparent fixed fare',
       'Assistance with luggage trolleys at the airport curb',
     ],
     highlightsAr: [
@@ -1193,7 +1193,7 @@ export const ROUTES_COMPREHENSIVE_DATA: Record<string, RouteData> = {
     highway: 'Route 40 / Riyadh-Taif-Makkah Expressway (Multi-Lane Grade-A National Highway)',
     highwayAr: 'طريق الرياض - مكة المكرمة السريع (طريق 40) - طريق وطني دولي سريع متعدد المسارات',
     lastUpdated: 'October 2026',
-    verifiedSource: 'Ministry of Transport and Logistic Services & Royal Umrah Chauffeur Safety Protocol',
+    verifiedSource: 'Ministry of Transport and Logistic Services & Duyuf Alrahman VIP Chauffeur Safety Protocol',
     verifiedSourceAr: 'وزارة النقل والخدمات اللوجستية ومعايير السلامة للرحلات الطويلة',
     descriptionEn:
       'For discerning travelers, diplomats, and VIP families seeking complete door-to-door privacy, avoid airport crowds, flight schedules, and train transfers with our long-distance intercity chauffeur service between Riyadh and Makkah. Travel in late-model GMC Yukon XL SUVs or Hyundai Staria VIP vans equipped with reclining captain chairs, dual climate control, tinted privacy glass, and curated prayer and rest stops along Route 40.',

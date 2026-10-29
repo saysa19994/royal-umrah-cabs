@@ -116,7 +116,7 @@ export const COMPREHENSIVE_GUIDES: GuideItem[] = [
     comparisonTable: {
       headers: [
         loc('المعيار', 'Feature', { ms: 'Ciri', id: 'Fitur', ur: 'خصوصیت' }),
-        loc('السائق الخاص (Royal Umrah)', 'Private Chauffeur', { ms: 'Pemandu Khas', id: 'Sopir Pribadi', ur: 'پرائیویٹ ڈرائیور' }),
+        loc('السائق الخاص (Duyuf Alrahman VIP)', 'Private Chauffeur', { ms: 'Pemandu Khas', id: 'Sopir Pribadi', ur: 'پرائیویٹ ڈرائیور' }),
         loc('قطار الحرمين السريع', 'Haramain Train', { ms: 'Kereta Api Haramain', id: 'Kereta Cepat Haramain', ur: 'حرمین ٹرین' }),
         loc('حافلات النقل العام', 'Public Bus (SAPTCO)', { ms: 'Bas Awam', id: 'Bus Umum', ur: 'سرکاری بس' }),
       ],
@@ -193,7 +193,7 @@ export const COMPREHENSIVE_GUIDES: GuideItem[] = [
       rows: [
         {
           feature: loc('التوقف بالميقات', 'Miqat Stopover'),
-          privateTaxi: loc('توقف مجاني مع انتظار كافٍ في آبار علي', 'Included free stop with generous wait at Bir Ali'),
+          privateTaxi: loc('توقف بميقات آبار علي للإحرام', 'Dedicated stop at Miqat Bir Ali for Ihram'),
           haramainTrain: loc('لا يتوقف (الإحرام في القطار أثناء الحركة فقط)', 'No station stop (Ihram while moving on board)'),
           saptcoBus: loc('توقف سريع محدد بالجدول', 'Quick scheduled stop'),
         },
@@ -227,8 +227,8 @@ export const COMPREHENSIVE_GUIDES: GuideItem[] = [
       'Authoritative transparent pricing across all Saudi routes. No surge pricing, no hidden baggage fees.'
     ),
     summary: loc(
-      'جميع أسعار Royal Umrah Cabs محددة مسبقاً وتغطي السيارة بالكامل مع السائق والوقود ورسوم الطرق وضريبة القيمة المضافة. السعر ثابت سواء كان نهاراً أو ليلاً أو في مواسم الذروة مثل رمضان ورجب.',
-      'All Royal Umrah Cabs rates are 100% fixed per vehicle, not per person. Every fare includes private vehicle, professional driver, fuel, highway toll charges, and VAT with zero hidden extras.'
+      'جميع أسعار Duyuf Alrahman VIP محددة مسبقاً وتغطي السيارة بالكامل مع السائق والوقود ورسوم الطرق وضريبة القيمة المضافة. السعر ثابت سواء كان نهاراً أو ليلاً أو في مواسم الذروة مثل رمضان ورجب.',
+      'All Duyuf Alrahman VIP rates are 100% fixed per vehicle, not per person. Every fare includes private vehicle, professional driver, fuel, highway toll charges, and VAT with zero hidden extras.'
     ),
     travelTime: loc('دليل تسعير فوري', 'Instant Rate Guide'),
     routeId: 'jeddah-airport-to-makkah',
@@ -572,8 +572,8 @@ export const COMPREHENSIVE_GUIDES: GuideItem[] = [
       'Instant booking workflow, dual WhatsApp routing codes, pay-on-arrival terms, and free flexible cancellation.'
     ),
     summary: loc(
-      'حجز سيارتك مع Royal Umrah Cabs يتم في أقل من دقيقة وبدون أي دفعة مقدمة إلزامية. تختر المسار ونوع المركبة، وتصلك رسالة التأكيد عبر واتساب مع رمز تتبع خاص لرحلتك. الدفع يتم نقداً أو بالبطاقة عند وصولك سالماً لوجهتك.',
-      'Booking with Royal Umrah Cabs takes less than 60 seconds with no mandatory advance prepayment. Simply pick your route and vehicle, receive your instant confirmation code on WhatsApp, and pay safely upon reaching your destination.'
+      'حجز سيارتك مع Duyuf Alrahman VIP يتم في أقل من دقيقة وبدون أي دفعة مقدمة إلزامية. تختر المسار ونوع المركبة، وتصلك رسالة التأكيد عبر واتساب مع رمز تتبع خاص لرحلتك. الدفع يتم نقداً كاش فقط (ريال سعودي أو دولار) عند وصولك سالماً لوجهتك.',
+      'Booking with Duyuf Alrahman VIP takes less than 60 seconds with no mandatory advance prepayment. Simply pick your route and vehicle, receive your instant confirmation code on WhatsApp, and pay safely upon reaching your destination.'
     ),
     travelTime: loc('حجز فوري في 60 ثانية', 'Instant 60s Booking'),
     routeId: 'jeddah-airport-to-makkah',

@@ -269,6 +269,19 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
   // Step 2: Vehicle Selection
   const [vehicle, setVehicle] = useState('staria');
 
+  const handleSelectVehicle = (vId: string) => {
+    setVehicle(vId);
+    const fareSAR = activeRates[route]?.[vId] ?? BASE_RATES[route]?.[vId] ?? 260;
+    trackEvent({
+      event: 'vehicle_selected',
+      vehicle_id: vId,
+      route_id: route,
+      route,
+      price: fareSAR,
+      currency,
+    });
+  };
+
   // Step 3: Customer Details & Submission
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -799,7 +812,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                 return (
                   <div
                     key={carOpt.id}
-                    onClick={() => setVehicle(carOpt.id)}
+                    onClick={() => handleSelectVehicle(carOpt.id)}
                     className={`rounded-2xl p-4 border-2 transition-all cursor-pointer relative flex flex-col justify-between ${
                       isSelected
                         ? 'border-gold bg-gold-soft/50 shadow-md ring-2 ring-gold/30'
@@ -888,7 +901,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setVehicle(carOpt.id);
+                          handleSelectVehicle(carOpt.id);
                         }}
                         className={`min-h-[40px] px-4 rounded-btn text-xs font-bold transition-all ${
                           isSelected

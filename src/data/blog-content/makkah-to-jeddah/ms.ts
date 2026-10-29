@@ -82,7 +82,7 @@ export const MAKKAH_JEDDAH_CONTENT_MS: LocalizedArticleBody = {
       paragraphs: [
         'Kami mengamalkan ketelusan sepenuhnya untuk perlindungan jemaah:',
         '• Harga Tetap & Lengkap: Harga yang dipersetujui meliputi seluruh kenderaan, pemandu peribadi, minyak, tol lebuh raya, dan cukai.',
-        '• Bayar kepada Pemandu Sahaja Semasa Tiba: Tiada sebarang bayaran deposit atau kad kredit diperlukan. Bayaran dibuat secara tunai atau pindahan kepada pemandu hanya selepas anda selamat tiba di terminal.',
+        '• Bayar kepada Pemandu Sahaja Semasa Tiba: Tiada sebarang bayaran deposit secara tunai sahaja kredit diperlukan. Bayaran dibuat secara tunai atau pindahan kepada pemandu hanya selepas anda selamat tiba di terminal.',
         '• Pembatalan Percuma: Jadual penerbangan berubah? Maklumkan kepada kami melalui WhatsApp untuk menjadualkan semula tanpa sebarang denda.'
       ]
     },

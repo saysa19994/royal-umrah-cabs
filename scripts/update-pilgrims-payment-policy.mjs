@@ -11,7 +11,7 @@ const replacements = [
     "'Indonesian pilgrims settle fares directly upon arrival at their hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and bank transfers are not accepted.'"
   ],
   [
-    "'Jamaah Indonesia dapat membayar ongkos langsung saat tiba di hotel dalam Riyal (SAR) tunai, transfer Rupiah, atau kartu.'",
+    "'Jamaah Indonesia dapat membayar ongkos langsung saat tiba di hotel dalam Riyal (SAR) tunai, transfer Rupiah, secara tunai saja.'",
     "'Jamaah Indonesia membayar ongkos langsung saat tiba di hotel secara tunai dalam Saudi Riyal (SAR) atau Dolar AS (USD). Kartu dan transfer bank tidak diterima.'"
   ],
   [
@@ -29,7 +29,7 @@ const replacements = [
     "'Payment: Cash paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). Cards and bank transfers are not accepted.'"
   ],
   [
-    "'Pembayaran: Bayaran dibuat terus kepada pemandu setibanya di hotel dalam SAR atau kad debit/kredit tanpa caj tersembunyi.'",
+    "'Pembayaran: Bayaran dibuat terus kepada pemandu setibanya di hotel dalam SAR secara tunai sahaja debit/kredit tanpa caj tersembunyi.'",
     "'Pembayaran: Bayaran dibuat secara tunai terus kepada pemandu setibanya di hotel dalam SAR atau USD. Kad dan pindahan bank tidak diterima.'"
   ],
   [
@@ -43,7 +43,7 @@ const replacements = [
 
   // PK
   [
-    "'Zero advance payment required: Pay your chauffeur upon reaching your hotel in Saudi Riyals (cash or card).'",
+    "'Zero advance payment required: Pay your chauffeur upon reaching your hotel in Saudi Riyals (cash only (SAR or USD)).'",
     "'Zero advance payment required: Pay your chauffeur upon reaching your hotel strictly in cash (SAR or USD). Cards are not accepted.'"
   ],
   [
@@ -75,11 +75,11 @@ const replacements = [
     "'Zero advance deposit: Settle your fixed fare on arrival at your hotel strictly in cash (Saudi Riyals - SAR or US Dollars - USD). Cards are not accepted.'"
   ],
   [
-    "paymentAndCurrencyEn: 'Fixed fares quoted in SAR with British Pound (£) estimates. Pay on arrival by card or cash.',",
+    "paymentAndCurrencyEn: 'Fixed fares quoted in SAR with British Pound (£) estimates. Pay on arrival strictly in cash (SAR or USD).',",
     "paymentAndCurrencyEn: 'Fixed fares quoted in SAR. Zero advance deposit. Pay cash on arrival (SAR or USD).',"
   ],
   [
-    "paymentAndCurrencyNative: 'Fixed fares quoted in SAR with British Pound (£) estimates. Pay on arrival by card or cash.',",
+    "paymentAndCurrencyNative: 'Fixed fares quoted in SAR with British Pound (£) estimates. Pay on arrival strictly in cash (SAR or USD).',",
     "paymentAndCurrencyNative: 'Fixed fares quoted in SAR. Zero advance deposit. Pay cash on arrival (SAR or USD).',"
   ],
   [
@@ -87,7 +87,7 @@ const replacements = [
     "q: 'What payment methods are accepted upon arrival?',"
   ],
   [
-    "a: 'Yes, our chauffeurs carry wireless card terminals that accept contactless, Chip & PIN Visa and Mastercard with zero foreign surcharge.',",
+    "a: 'Payment is strictly cash only (SAR or USD) paid to your chauffeur upon arrival. Cards, POS terminals, and bank transfers are not accepted.',",
     "a: 'We accept cash payments only, paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). We do not accept debit cards, credit cards, POS terminals, online payments, or bank transfers.',"
   ],
 
@@ -115,7 +115,7 @@ const replacements = [
 
   // CA
   [
-    "'Settle your fare in SAR or CAD equivalent directly at your hotel with cash or card.'",
+    "'Settle your fare in SAR or CAD equivalent directly at your hotel with cash only (SAR or USD).'",
     "'Settle your fare directly at your hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and bank transfers are not accepted.'"
   ],
   [
@@ -199,7 +199,7 @@ const replacements = [
 
   // AE
   [
-    "'Payment accepted via UAE credit/debit cards (Apple Pay, mada, Visa) or AED/SAR cash.'",
+    "'Payment accepted strictly in cash upon arrival in SAR or USD. No cards or bank transfers are accepted.'",
     "'Payment accepted strictly in cash upon arrival (SAR or USD). Cards, POS terminals, and online payments are not accepted.'"
   ],
   [
@@ -221,7 +221,7 @@ const replacements = [
     "'Direct payment at the hotel strictly in cash (SAR or USD). Cards are not accepted.'"
   ],
   [
-    "'الدفع يتم مباشرة عند الوصول إلى الفندق نقداً بالريال السعودي أو بالبطاقة.'",
+    "'الدفع يتم مباشرة عند الوصول إلى الفندق نقداً بالريال السعودي نقداً فقط.'",
     "'الدفع يتم مباشرة عند الوصول إلى الفندق نقداً للسائق بالريال السعودي (SAR) أو الدولار الأمريكي (USD). لا نقبل البطاقات.'"
   ],
   [

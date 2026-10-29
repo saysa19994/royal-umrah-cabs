@@ -13,44 +13,44 @@ for (const loc of locales) {
 
   // Replace common payment phrases across entire dictionary JSON
   // Arabic
-  content = content.replace(/نقداً أو بالبطاقة عند الوصول/g, 'نقداً مباشرة للسائق عند الوصول');
-  content = content.replace(/نقداً أو بالبطاقة/g, 'نقداً للسائق');
-  content = content.replace(/أو بالبطاقة البنكية/g, '');
-  content = content.replace(/أو بالبطاقة/g, '');
+  content = content.replace(/نقداً فقط عند الوصول/g, 'نقداً مباشرة للسائق عند الوصول');
+  content = content.replace(/نقداً فقط/g, 'نقداً للسائق');
+  content = content.replace(/نقداً فقط البنكية/g, '');
+  content = content.replace(/نقداً فقط/g, '');
   content = content.replace(/أو بالبطاقات/g, '');
 
   // English
-  content = content.replace(/in cash or by card upon arrival/gi, 'strictly in cash to your driver upon arrival');
-  content = content.replace(/cash or card upon arrival/gi, 'cash to your driver upon arrival');
-  content = content.replace(/via cash or card upon safe arrival/gi, 'in cash upon safe arrival');
-  content = content.replace(/via cash or card/gi, 'in cash to your driver');
-  content = content.replace(/in cash \(SAR\) or by card/gi, 'in cash (SAR)');
+  content = content.replace(/in cash in cash only upon arrival/gi, 'strictly in cash to your driver upon arrival');
+  content = content.replace(/cash only (SAR or USD) upon arrival/gi, 'cash to your driver upon arrival');
+  content = content.replace(/via cash only (SAR or USD) upon safe arrival/gi, 'in cash upon safe arrival');
+  content = content.replace(/via cash only (SAR or USD)/gi, 'in cash to your driver');
+  content = content.replace(/in cash \(SAR\) in cash only/gi, 'in cash (SAR)');
   content = content.replace(/in cash \(SAR\) or card/gi, 'in cash (SAR)');
   content = content.replace(/cash \(SAR\) or card/gi, 'cash (SAR)');
-  content = content.replace(/cash or card/gi, 'cash');
+  content = content.replace(/cash only (SAR or USD)/gi, 'cash');
 
   // French
-  content = content.replace(/en espèces ou par carte/gi, 'en espèces');
-  content = content.replace(/en espèces \(SAR\) ou par carte bancaire/gi, 'en espèces (SAR)');
+  content = content.replace(/uniquement en espèces/gi, 'en espèces');
+  content = content.replace(/en espèces \(SAR\) ou en espèces/gi, 'en espèces (SAR)');
   content = content.replace(/en espèces \(SAR\) ou par carte/gi, 'en espèces (SAR)');
   content = content.replace(/sur le terminal du chauffeur/gi, 'auprès du chauffeur');
 
   // Spanish
-  content = content.replace(/en efectivo o tarjeta/gi, 'en efectivo');
+  content = content.replace(/exclusivamente en efectivo/gi, 'en efectivo');
   content = content.replace(/en efectivo o con tarjeta/gi, 'en efectivo');
   content = content.replace(/en efectivo \(SAR\) o con tarjeta bancaria/gi, 'en efectivo (SAR)');
-  content = content.replace(/en efectivo \(SAR\) o tarjeta/gi, 'en efectivo (SAR)');
+  content = content.replace(/en efectivo \(SAR\) en efectivo/gi, 'en efectivo (SAR)');
   content = content.replace(/en el terminal del chofer/gi, 'directamente al chofer');
 
   // German
-  content = content.replace(/in bar oder mit Karte/gi, 'in bar');
+  content = content.replace(/in ausschließlich in bar/gi, 'in bar');
   content = content.replace(/in bar \(SAR\) oder mit Karte/gi, 'in bar (SAR)');
   content = content.replace(/in bar \(SAR\) oder per Karte/gi, 'in bar (SAR)');
   content = content.replace(/Bar\/Karte/gi, 'Bar');
   content = content.replace(/Bar \/ Karte/gi, 'Bar');
 
   // Turkish
-  content = content.replace(/nakit veya kartla/gi, 'nakit olarak');
+  content = content.replace(/yalnızca nakitla/gi, 'nakit olarak');
   content = content.replace(/nakit \(SAR\) veya kartla/gi, 'nakit (SAR)');
   content = content.replace(/Nakit\/Kartla/gi, 'Nakit');
   content = content.replace(/Nakit \/ Kart/gi, 'Nakit');
@@ -58,20 +58,20 @@ for (const loc of locales) {
   content = content.replace(/veya şoförün araçtaki POS cihazından banka kartıyla/gi, '');
 
   // Malay & Indonesian
-  content = content.replace(/secara tunai atau kad/gi, 'secara tunai');
-  content = content.replace(/secara tunai \(SAR\) atau kad/gi, 'secara tunai (SAR)');
-  content = content.replace(/secara tunai atau kartu/gi, 'secara tunai');
-  content = content.replace(/secara tunai \(SAR\) atau kartu/gi, 'secara tunai (SAR)');
+  content = content.replace(/secara tunai sahaja/gi, 'secara tunai');
+  content = content.replace(/secara tunai \(SAR\) secara tunai sahaja/gi, 'secara tunai (SAR)');
+  content = content.replace(/secara tunai saja/gi, 'secara tunai');
+  content = content.replace(/secara tunai \(SAR\) secara tunai saja/gi, 'secara tunai (SAR)');
   content = content.replace(/Tunai \/ Kad/gi, 'Tunai');
   content = content.replace(/Tunai \/ Kartu/gi, 'Tunai');
 
   // Urdu
-  content = content.replace(/نقد یا کارڈ سے/g, 'نقد');
-  content = content.replace(/نقد \(سعودی ریال\) یا کارڈ/g, 'نقد (سعودی ریال)');
+  content = content.replace(/صرف نقد سے/g, 'نقد');
+  content = content.replace(/نقد \(سعودی ریال\) صرف نقد/g, 'نقد (سعودی ریال)');
   content = content.replace(/نقد \/ کارڈ/g, 'نقد');
 
   // Hindi
-  content = content.replace(/नकद या कार्ड से/gu, 'नकद');
+  content = content.replace(/केवल नकद से/gu, 'नकद');
   content = content.replace(/नकद \(SAR\) या कार्ड से/gu, 'नकद (SAR)');
   content = content.replace(/नकद \/ कार्ड/gu, 'नकद');
 
