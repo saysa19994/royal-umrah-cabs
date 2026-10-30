@@ -29,6 +29,16 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.duyufalrahmanvip.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'skyhpzdeapmttgmvcoeh.supabase.co',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+        pathname: '/**',
+      },
     ],
   },
   async redirects() {

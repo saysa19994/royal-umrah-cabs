@@ -812,6 +812,7 @@ export default function AdminFleetPage() {
                           src={formData.photos.exterior}
                           alt="Exterior preview"
                           fill
+                          unoptimized={formData.photos.exterior.startsWith('http')}
                           className="object-cover"
                         />
                       ) : (
@@ -840,6 +841,7 @@ export default function AdminFleetPage() {
                           src={formData.photos.interior}
                           alt="Interior preview"
                           fill
+                          unoptimized={formData.photos.interior.startsWith('http')}
                           className="object-cover"
                         />
                       ) : (

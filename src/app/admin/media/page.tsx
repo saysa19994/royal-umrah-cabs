@@ -479,6 +479,7 @@ export default function AdminMediaPage() {
                             src={imgUrl}
                             alt={`${vehicle.name} photo`}
                             fill
+                            unoptimized={imgUrl.startsWith('http')}
                             className="object-cover group-hover:scale-105 transition-transform duration-300"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -729,7 +730,7 @@ export default function AdminMediaPage() {
           onClick={() => setPreviewImage(null)}
         >
           <div className="relative max-w-5xl max-h-[90vh] w-full h-[80vh]">
-            <Image src={previewImage} alt="Fullscreen View" fill className="object-contain" />
+            <Image src={previewImage} alt="Fullscreen View" fill unoptimized={previewImage.startsWith('http')} className="object-contain" />
             <button
               onClick={() => setPreviewImage(null)}
               className="absolute top-4 right-4 p-2 rounded-full bg-black/70 text-white hover:bg-black"
