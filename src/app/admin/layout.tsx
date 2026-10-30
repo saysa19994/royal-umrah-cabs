@@ -22,7 +22,7 @@ export const metadata = {
 function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" dir="ltr" className={`${inter.variable} ${ibmPlexArabic.variable} ${cairo.variable}`}>
-      <body className="min-h-screen bg-[#F5F3EE] text-[#14211D] antialiased selection:bg-[#173D35]/15 selection:text-[#173D35] font-sans">
+      <body className="min-h-screen bg-[#0B0F17] text-[#F3F4F6] antialiased selection:bg-[#C9A24B]/20 selection:text-[#E6C773] font-sans">
         {children}
       </body>
     </html>

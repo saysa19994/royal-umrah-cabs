@@ -43,6 +43,7 @@ interface HomeSectionsProps {
   locale: Locale;
   dict: Dictionary;
   settings: SiteSettings;
+  vehicles?: import('@/data/fleet-showcase-data').FleetShowcaseVehicle[];
 }
 
 
@@ -228,7 +229,7 @@ const FINAL_CTA_I18N: Record<
   },
 };
 
-export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
+export function HomeSections({ locale, dict, settings, vehicles }: HomeSectionsProps) {
   // Verified vehicle fleet specifications integrity:
   // Staria: seats: 7, bags: 6,
   // Yukon: seats: 7, bags: 8,
@@ -466,7 +467,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
       {/* ============================================================== */}
       {/* SECTION 7: LUXURY VIP FLEET SHOWCASE                           */}
       {/* ============================================================== */}
-      <FleetSection locale={locale} dict={dict} />
+      <FleetSection locale={locale} dict={dict} vehicles={vehicles} />
 
       {/* ============================================================== */}
       {/* SECTION 8: DESIGNED TO EXCEED EXPECTATIONS (Screenshots 4, 5)  */}

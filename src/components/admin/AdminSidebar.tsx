@@ -240,7 +240,7 @@ export function AdminSidebar({
 
       {/* Sidebar Container: Deep Royal Green #122E27 with Champagne Borders */}
       <aside
-        className={`fixed top-0 bottom-0 z-50 flex flex-col bg-[#122E27] text-[#F5F3EE] border-[#1C473C] transition-all duration-300 ease-in-out shadow-[0_4px_30px_rgba(18,46,39,0.35)]
+        className={`fixed top-0 bottom-0 z-50 flex flex-col bg-[#0B0F17] text-[#F3F4F6] border-[#1F2C42] transition-all duration-300 ease-in-out shadow-[0_4px_30px_rgba(18,46,39,0.35)]
           ${isRtl ? 'right-0 border-l' : 'left-0 border-r'}
           ${collapsed ? 'w-20' : 'w-72'}
           ${mobileOpen ? 'translate-x-0' : isRtl ? 'translate-x-full lg:translate-x-0' : '-translate-x-full lg:translate-x-0'}
@@ -252,7 +252,7 @@ export function AdminSidebar({
         }}
       >
         {/* BRAND HEADER (Faithful to Image 1: VIP Guest Transport) */}
-        <div className="h-20 px-4 flex items-center justify-between border-b border-[#1C473C]/80 bg-gradient-to-b from-[#173D35] to-[#122E27]">
+        <div className="h-20 px-4 flex items-center justify-between border-b border-[#1F2C42]/80 bg-[#0B0F17]">
           <Link
             href="/admin"
             className="flex items-center gap-3 group overflow-hidden"
@@ -260,7 +260,7 @@ export function AdminSidebar({
           >
             {/* Golden Kaaba / Crest Icon */}
             <div className="relative w-11 h-11 rounded-xl bg-gradient-to-br from-[#E8BE6D] via-[#D6A13A] to-[#996F1D] p-0.5 shadow-[0_2px_12px_rgba(214,161,58,0.3)] shrink-0 group-hover:scale-105 transition-transform">
-              <div className="w-full h-full rounded-[10px] bg-[#0E2620] flex items-center justify-center overflow-hidden">
+              <div className="w-full h-full rounded-[10px] bg-[#070A10] flex items-center justify-center overflow-hidden">
                 <svg viewBox="0 0 24 24" className="w-6 h-6 text-[#E8BE6D]" fill="currentColor">
                   {/* Stylized Kaaba / Royal Cube */}
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
@@ -272,7 +272,7 @@ export function AdminSidebar({
             {!collapsed && (
               <div className="flex flex-col min-w-0 animate-in fade-in duration-200">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-bold text-sm tracking-wide text-[#F5F3EE] whitespace-nowrap">
+                  <span className="font-bold text-sm tracking-wide text-[#F3F4F6] whitespace-nowrap">
                     VIP GUEST TRANSPORT
                   </span>
                 </div>
@@ -287,7 +287,7 @@ export function AdminSidebar({
           <button
             onClick={onToggleCollapse}
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            className="hidden lg:flex items-center justify-center w-7 h-7 rounded-lg bg-[#173D35] border border-[#215147] text-[#C5A059] hover:text-white hover:border-[#D6A13A] transition-colors"
+            className="hidden lg:flex items-center justify-center w-7 h-7 rounded-lg bg-[#101726] border border-[#1F2C42] text-[#C5A059] hover:text-white hover:border-[#D6A13A] transition-colors"
           >
             {collapsed ? (
               isRtl ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />
@@ -298,7 +298,7 @@ export function AdminSidebar({
         </div>
 
         {/* SCROLLABLE NAVIGATION LIST */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 space-y-6 scrollbar-thin scrollbar-thumb-[#1C473C] scrollbar-track-transparent">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 space-y-6 scrollbar-thin scrollbar-thumb-[#1F2C42] scrollbar-track-transparent">
           {navGroups.map((group, groupIdx) => {
             const visibleItems = group.items.filter((item) => {
               if (item.ownerOnly && !isOwner) return false;
@@ -311,7 +311,7 @@ export function AdminSidebar({
             return (
               <div key={groupIdx} className="space-y-1">
                 {!collapsed && (
-                  <div className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-[#7E968F] select-none">
+                  <div className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-[#64748B] select-none">
                     <span>{lang === 'ar' ? group.titleAr : group.titleEn}</span>
                   </div>
                 )}
@@ -331,15 +331,15 @@ export function AdminSidebar({
                       title={collapsed ? (lang === 'ar' ? item.labelAr : item.labelEn) : undefined}
                       className={`group relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 select-none ${
                         isActive
-                          ? 'bg-[#1D4A40] text-[#FFFFFF] font-bold shadow-[0_2px_8px_rgba(0,0,0,0.25)] border-r-2 border-[#D6A13A]'
-                          : 'text-[#D0DBD7] hover:text-[#FFFFFF] hover:bg-[#173D35]/80 font-medium'
+                          ? 'bg-gradient-to-r from-[#C9A24B] to-[#E6C773] text-[#0B0F17] font-extrabold shadow-[0_4px_16px_rgba(201,162,75,0.35)]'
+                          : 'text-[#94A3B8] hover:text-[#FFFFFF] hover:bg-[#101726]/80 font-medium'
                       } ${collapsed ? 'justify-center px-0' : ''}`}
                     >
                       <Icon
                         className={`w-4 h-4 shrink-0 transition-colors ${
                           isActive
                             ? 'text-[#E8BE6D]'
-                            : 'text-[#8FA59F] group-hover:text-[#E8BE6D]'
+                            : 'text-[#64748B] group-hover:text-[#E8BE6D]'
                         }`}
                       />
 
@@ -376,12 +376,12 @@ export function AdminSidebar({
 
         {/* BOTTOM MOTIF CARD (Faithful to Reference Image 1) */}
         {!collapsed && (
-          <div className="p-3 m-3 rounded-2xl bg-gradient-to-b from-[#173D35] to-[#0E2620] border border-[#215147] text-center shadow-lg relative overflow-hidden">
+          <div className="p-3 m-3 rounded-2xl bg-gradient-to-b from-[#173D35] to-[#0E2620] border border-[#1F2C42] text-center shadow-lg relative overflow-hidden">
             <div className="relative z-10 py-1">
               <span className="text-xs font-serif font-bold text-[#D6A13A] block mb-0.5">
                 {lang === 'ar' ? 'رحلتكم .. أولويتنا' : 'Your Comfort · Our Priority'}
               </span>
-              <span className="text-[10px] text-[#A2B6B0] block">
+              <span className="text-[10px] text-[#94A3B8] block">
                 {lang === 'ar' ? 'خدمة متميزة تليق بضيوف الرحمن' : 'Executive Chauffeur Service'}
               </span>
             </div>
@@ -389,23 +389,23 @@ export function AdminSidebar({
         )}
 
         {/* BOTTOM USER PROFILE & LOGOUT FOOTER */}
-        <div className="p-3 border-t border-[#1C473C] bg-[#0E2620]">
+        <div className="p-3 border-t border-[#1F2C42] bg-[#070A10]">
           {!collapsed ? (
-            <div className="p-2 rounded-xl bg-[#173D35] border border-[#215147] flex items-center justify-between gap-3">
+            <div className="p-2 rounded-xl bg-[#101726] border border-[#1F2C42] flex items-center justify-between gap-3">
               <div className="flex items-center gap-2.5 min-w-0">
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#D6A13A] to-[#8C6415] p-0.5 shrink-0">
-                  <div className="w-full h-full rounded-[6px] bg-[#0E2620] flex items-center justify-center font-bold text-xs text-[#E8BE6D]">
+                  <div className="w-full h-full rounded-[6px] bg-[#070A10] flex items-center justify-center font-bold text-xs text-[#E8BE6D]">
                     {currentUser?.name ? currentUser.name.charAt(0).toUpperCase() : 'S'}
                   </div>
                 </div>
                 <div className="flex flex-col min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-bold text-[#F5F3EE] truncate">
+                    <span className="text-xs font-bold text-[#F3F4F6] truncate">
                       {currentUser?.name || 'Sayed Saed'}
                     </span>
                     <Crown className="w-3 h-3 text-[#D6A13A] shrink-0" />
                   </div>
-                  <span className="text-[10px] text-[#A2B6B0] truncate">
+                  <span className="text-[10px] text-[#94A3B8] truncate">
                     {currentUser?.role === 'owner' ? (lang === 'ar' ? 'المالك المعتمد' : 'System Manager') : currentUser?.role}
                   </span>
                 </div>

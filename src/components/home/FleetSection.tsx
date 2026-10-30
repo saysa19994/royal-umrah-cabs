@@ -16,6 +16,7 @@ import {
 import {
   FLEET_SHOWCASE_VEHICLES,
   FLEET_SHOWCASE_UI,
+  type FleetShowcaseVehicle,
 } from '@/data/fleet-showcase-data';
 
 // ============================================================================
@@ -368,9 +369,11 @@ const FLEET_LABELS_10: Record<
 interface FleetSectionProps {
   locale: Locale;
   dict: Dictionary;
+  vehicles?: FleetShowcaseVehicle[];
 }
 
-export function FleetSection({ locale, dict }: FleetSectionProps) {
+export function FleetSection({ locale, dict, vehicles }: FleetSectionProps) {
+  const vehicleCatalog = vehicles && vehicles.length > 0 ? vehicles : FLEET_SHOWCASE_VEHICLES;
   const [activeVehicleIndex, setActiveVehicleIndex] = useState<number>(0);
   const [isGalleryOpen, setIsGalleryOpen] = useState<boolean>(false);
   const [galleryActiveIndex, setGalleryActiveIndex] = useState<number>(0);
@@ -396,9 +399,9 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
     ultraVipBadge: (FLEET_LABELS_10[locale] || FLEET_LABELS_10.en).ultraVipBadge,
   };
 
-  const totalVehicles = FLEET_SHOWCASE_VEHICLES.length;
-  const currentCar = FLEET_SHOWCASE_VEHICLES[activeVehicleIndex] || FLEET_SHOWCASE_VEHICLES[0];
-  const nextCar = FLEET_SHOWCASE_VEHICLES[(activeVehicleIndex + 1) % totalVehicles];
+  const totalVehicles = vehicleCatalog.length;
+  const currentCar = vehicleCatalog[activeVehicleIndex] || vehicleCatalog[0];
+  const nextCar = vehicleCatalog[(activeVehicleIndex + 1) % totalVehicles];
 
   // Guaranteed Exterior and Interior photo pairing for Desktop Design 14
   const exteriorPhoto =
@@ -640,7 +643,7 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
                 role="tablist"
                 aria-label="Vehicle selection"
               >
-                {FLEET_SHOWCASE_VEHICLES.map((vehicle, i) => (
+                {vehicleCatalog.map((vehicle, i) => (
                   <button
                     key={`dot-m-${vehicle.id}`}
                     type="button"
@@ -803,7 +806,7 @@ export function FleetSection({ locale, dict }: FleetSectionProps) {
                     role="tablist"
                     aria-label="Vehicle selection"
                   >
-                    {FLEET_SHOWCASE_VEHICLES.map((vehicle, i) => (
+                    {vehicleCatalog.map((vehicle, i) => (
                       <button
                         key={`dot-d-${vehicle.id}`}
                         type="button"

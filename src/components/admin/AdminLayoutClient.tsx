@@ -82,7 +82,7 @@ export function AdminLayoutClient({ currentUser, children }: AdminLayoutClientPr
   return (
     <div
       dir={isRtl ? 'rtl' : 'ltr'}
-      className={`min-h-screen bg-[#F5F3EE] text-[#14211D] flex flex-col selection:bg-[#173D35]/15 selection:text-[#173D35] antialiased ${
+      className={`min-h-screen bg-[#0B0F17] text-[#F3F4F6] flex flex-col selection:bg-[#C9A24B]/20 selection:text-[#E6C773] antialiased ${
         isRtl ? 'font-arabic' : 'font-sans'
       }`}
       style={{

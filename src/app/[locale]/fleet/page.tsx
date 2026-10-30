@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { FleetSection } from '@/components/home/FleetSection';
+import { getDbVehiclesCached } from '@/lib/fleet-db';
 
 interface FleetPageProps {
   params: Promise<{
@@ -29,10 +30,11 @@ export default async function FleetPage(props: FleetPageProps) {
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
+  const vehicles = await getDbVehiclesCached();
 
   return (
     <main className="min-h-screen bg-[#0B0A0E] pt-20">
-      <FleetSection locale={locale} dict={dict} />
+      <FleetSection locale={locale} dict={dict} vehicles={vehicles} />
     </main>
   );
 }

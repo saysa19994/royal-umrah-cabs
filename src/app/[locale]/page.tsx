@@ -5,6 +5,7 @@ import { getSiteSettings } from '@/lib/settings';
 import { HomeSections } from '@/components/home/HomeSections';
 import { HomepageFaqJsonLd } from '@/components/seo/JsonLd';
 import { HeroSection } from '@/components/home/HeroSection';
+import { getDbVehiclesCached } from '@/lib/fleet-db';
 
 interface HomePageProps {
   params: Promise<{
@@ -18,6 +19,7 @@ export default async function HomePage(props: HomePageProps) {
 
   const dict = getDictionary(locale);
   const settings = await getSiteSettings();
+  const vehicles = await getDbVehiclesCached();
 
   const waitingMinutes = settings.airport_waiting_minutes || 60;
 
@@ -66,7 +68,7 @@ export default async function HomePage(props: HomePageProps) {
       </section>
 
       {/* 3. HOME SECTIONS (HOW IT WORKS, FLEET, SERVICES, ROUTES, STANDARDS, FAQ, CTA, FOOTER) */}
-      <HomeSections locale={locale} dict={dict} settings={settings} />
+      <HomeSections locale={locale} dict={dict} settings={settings} vehicles={vehicles} />
     </div>
   );
 }

@@ -73,15 +73,8 @@ interface InquiryItem {
   phone: string;
 }
 
-export default function AdminDashboardPage() {
-  const [loading, setLoading] = useState(false);
-  const [inquiryTab, setInquiryTab] = useState<'new' | 'pending' | 'completed'>('new');
-  const [currency, setCurrency] = useState<'USD' | 'SAR'>('USD');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTrip, setSelectedTrip] = useState<string>('TR-1');
-
   // Real Fleet Data with high-quality studio photography matching Reference Image 1
-  const fleetData: FleetItem[] = [
+  const DEFAULT_FLEET_DATA: FleetItem[] = [
     {
       id: 'camry',
       name: 'Toyota Camry',
@@ -132,48 +125,9 @@ export default function AdminDashboardPage() {
     },
   ];
 
-  // Active Corridor Trips (Matching Reference Image 1)
-  const activeTrips: ActiveTripItem[] = [
-    {
-      id: 'TR-1',
-      route: 'Madinah → Makkah',
-      vehicle: 'Toyota Camry',
-      guests: 4,
-      status: 'on_track',
-      time: '10:15 AM',
-      driver: 'Tariq Mansoor',
-    },
-    {
-      id: 'TR-2',
-      route: 'Jeddah Airport → Makkah',
-      vehicle: 'Hyundai Staria',
-      guests: 7,
-      status: 'on_track',
-      time: '10:42 AM',
-      driver: 'Ibrahim S.',
-    },
-    {
-      id: 'TR-3',
-      route: 'Makkah → Jeddah',
-      vehicle: 'GMC Yukon XL',
-      guests: 7,
-      status: 'delayed',
-      time: '11:20 AM',
-      driver: 'Omar K.',
-    },
-    {
-      id: 'TR-4',
-      route: 'Madinah → Jeddah',
-      vehicle: 'Toyota HiAce',
-      guests: 14,
-      status: 'on_track',
-      time: '12:05 PM',
-      driver: 'Faisal M.',
-    },
-  ];
 
   // Recent Inquiries (Matching Reference Image 1)
-  const recentInquiries: InquiryItem[] = [
+  const DEFAULT_RECENT_INQUIRIES: InquiryItem[] = [
     {
       id: 1,
       name: 'Ahmed Al-Qahtani',
@@ -221,8 +175,91 @@ export default function AdminDashboardPage() {
     },
   ];
 
+
+export default function AdminDashboardPage() {
+  const [loading, setLoading] = useState(false);
+  const [inquiryTab, setInquiryTab] = useState<'new' | 'pending' | 'completed'>('new');
+  const [currency, setCurrency] = useState<'USD' | 'SAR'>('USD');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTrip, setSelectedTrip] = useState<string>('TR-1');
+  const [liveFleet, setLiveFleet] = useState<FleetItem[]>(DEFAULT_FLEET_DATA);
+  const [liveInquiries, setLiveInquiries] = useState<InquiryItem[]>(DEFAULT_RECENT_INQUIRIES);
+
+  useEffect(() => {
+    async function loadLiveDashboard() {
+      try {
+        const [fRes, lRes] = await Promise.all([
+          fetch('/api/admin/fleet').then(r => r.json()).catch(() => null),
+          fetch('/api/admin/leads').then(r => r.json()).catch(() => null),
+        ]);
+        if (fRes && fRes.fleet && fRes.fleet.length > 0) {
+          setLiveFleet(fRes.fleet.slice(0, 6).map((v: any, idx: number) => ({
+            id: v.id,
+            name: v.name,
+            passengers: Number(v.seats) || 4,
+            luggage: Number(v.bags) || 3,
+            status: idx === 2 ? 'on_trip' : idx === 5 ? 'maintenance' : 'available',
+            image: v.photos?.exterior || '/assets/images/vehicles/toyota-camry/exterior-studio.webp',
+          })));
+        }
+        if (lRes && lRes.leads && lRes.leads.length > 0) {
+          setLiveInquiries(lRes.leads.map((l: any, idx: number) => ({
+            id: idx + 1,
+            name: l.customer_name || 'Pilgrim Lead',
+            service: l.route_id ? l.route_id.replace(/-/g, ' ') : 'VIP Transfer',
+            vehicle: l.vehicle_id || 'Luxury Fleet',
+            status: l.status === 'confirmed' || l.status === 'completed' ? 'completed' : l.status === 'replied' ? 'pending' : 'new',
+            time: new Date(l.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            phone: l.whatsapp_number || l.customer_phone || '+966567588261',
+          })));
+        }
+      } catch {}
+    }
+    loadLiveDashboard();
+  }, []);
+
+  // Active Corridor Trips (Matching Reference Image 1)
+  const activeTrips: ActiveTripItem[] = [
+    {
+      id: 'TR-1',
+      route: 'Madinah → Makkah',
+      vehicle: 'Toyota Camry',
+      guests: 4,
+      status: 'on_track',
+      time: '10:15 AM',
+      driver: 'Tariq Mansoor',
+    },
+    {
+      id: 'TR-2',
+      route: 'Jeddah Airport → Makkah',
+      vehicle: 'Hyundai Staria',
+      guests: 7,
+      status: 'on_track',
+      time: '10:42 AM',
+      driver: 'Ibrahim S.',
+    },
+    {
+      id: 'TR-3',
+      route: 'Makkah → Jeddah',
+      vehicle: 'GMC Yukon XL',
+      guests: 7,
+      status: 'delayed',
+      time: '11:20 AM',
+      driver: 'Omar K.',
+    },
+    {
+      id: 'TR-4',
+      route: 'Madinah → Jeddah',
+      vehicle: 'Toyota HiAce',
+      guests: 14,
+      status: 'on_track',
+      time: '12:05 PM',
+      driver: 'Faisal M.',
+    },
+  ];
+
   const filteredInquiries = useMemo(() => {
-    return recentInquiries.filter((item) => {
+    return liveInquiries.filter((item) => {
       if (inquiryTab === 'new') return item.status === 'new';
       if (inquiryTab === 'pending') return item.status === 'pending';
       return item.status === 'completed';
@@ -236,19 +273,19 @@ export default function AdminDashboardPage() {
       {/* ============================================================== */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
         {/* KPI 1: Total Fleet Vehicles */}
-        <div className="p-5 rounded-2xl bg-[#FFFFFF] border border-[#E3DFD5] shadow-xs hover:shadow-md transition-shadow">
+        <div className="p-5 rounded-2xl bg-[#101726] border border-[#1F2C42] shadow-xs hover:shadow-md transition-shadow">
           <div className="flex items-center gap-3.5 mb-3">
-            <div className="w-11 h-11 rounded-xl bg-[#EFF6F3] border border-[#D1E3DC] flex items-center justify-center text-[#173D35]">
+            <div className="w-11 h-11 rounded-xl bg-[#101726] border border-[#1F2C42] flex items-center justify-center text-[#C9A24B]">
               <Car className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-xs font-semibold text-[#6B7873] block">Total Fleet Vehicles</span>
+              <span className="text-xs font-semibold text-[#8E9CAE] block">Total Fleet Vehicles</span>
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl md:text-3xl font-extrabold text-[#14211D]">12</span>
+                <span className="text-2xl md:text-3xl font-extrabold text-white">12</span>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-3 text-xs text-[#6B7873] pt-2 border-t border-[#F0ECE1]">
+          <div className="flex items-center gap-3 text-xs text-[#8E9CAE] pt-2 border-t border-[#1F2C42]">
             <span className="flex items-center gap-1.5 font-medium">
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
               <span>Active: <strong>11</strong></span>
@@ -262,19 +299,19 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* KPI 2: Active Drivers */}
-        <div className="p-5 rounded-2xl bg-[#FFFFFF] border border-[#E3DFD5] shadow-xs hover:shadow-md transition-shadow">
+        <div className="p-5 rounded-2xl bg-[#101726] border border-[#1F2C42] shadow-xs hover:shadow-md transition-shadow">
           <div className="flex items-center gap-3.5 mb-3">
-            <div className="w-11 h-11 rounded-xl bg-[#EFF6F3] border border-[#D1E3DC] flex items-center justify-center text-[#173D35]">
+            <div className="w-11 h-11 rounded-xl bg-[#101726] border border-[#1F2C42] flex items-center justify-center text-[#C9A24B]">
               <UserCheck className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-xs font-semibold text-[#6B7873] block">Active Drivers</span>
+              <span className="text-xs font-semibold text-[#8E9CAE] block">Active Drivers</span>
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl md:text-3xl font-extrabold text-[#14211D]">24</span>
+                <span className="text-2xl md:text-3xl font-extrabold text-white">24</span>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-3 text-xs text-[#6B7873] pt-2 border-t border-[#F0ECE1]">
+          <div className="flex items-center gap-3 text-xs text-[#8E9CAE] pt-2 border-t border-[#1F2C42]">
             <span className="flex items-center gap-1.5 font-medium">
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
               <span>Available: <strong>20</strong></span>
@@ -288,19 +325,19 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* KPI 3: Today's Trips */}
-        <div className="p-5 rounded-2xl bg-[#FFFFFF] border border-[#E3DFD5] shadow-xs hover:shadow-md transition-shadow">
+        <div className="p-5 rounded-2xl bg-[#101726] border border-[#1F2C42] shadow-xs hover:shadow-md transition-shadow">
           <div className="flex items-center gap-3.5 mb-3">
-            <div className="w-11 h-11 rounded-xl bg-[#EFF6F3] border border-[#D1E3DC] flex items-center justify-center text-[#173D35]">
+            <div className="w-11 h-11 rounded-xl bg-[#101726] border border-[#1F2C42] flex items-center justify-center text-[#C9A24B]">
               <Navigation className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-xs font-semibold text-[#6B7873] block">Today's Trips</span>
+              <span className="text-xs font-semibold text-[#8E9CAE] block">Today's Trips</span>
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl md:text-3xl font-extrabold text-[#14211D]">18</span>
+                <span className="text-2xl md:text-3xl font-extrabold text-white">18</span>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-3 text-xs text-[#6B7873] pt-2 border-t border-[#F0ECE1]">
+          <div className="flex items-center gap-3 text-xs text-[#8E9CAE] pt-2 border-t border-[#1F2C42]">
             <span className="flex items-center gap-1.5 font-medium">
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
               <span>Completed: <strong>14</strong></span>
@@ -314,27 +351,27 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* KPI 4: Estimated Revenue */}
-        <div className="p-5 rounded-2xl bg-[#FFFFFF] border border-[#E3DFD5] shadow-xs hover:shadow-md transition-shadow">
+        <div className="p-5 rounded-2xl bg-[#101726] border border-[#1F2C42] shadow-xs hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3.5">
               <div className="w-11 h-11 rounded-xl bg-[#FDF8EC] border border-[#E8DEC8] flex items-center justify-center text-[#A97B27]">
                 <DollarSign className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-xs font-semibold text-[#6B7873] block">Estimated Revenue</span>
-                <span className="text-2xl md:text-3xl font-extrabold text-[#14211D]">
+                <span className="text-xs font-semibold text-[#8E9CAE] block">Estimated Revenue</span>
+                <span className="text-2xl md:text-3xl font-extrabold text-white">
                   {currency === 'USD' ? '$12,480' : '46,800 SAR'}
                 </span>
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-between text-xs pt-2 border-t border-[#F0ECE1]">
+          <div className="flex items-center justify-between text-xs pt-2 border-t border-[#1F2C42]">
             <span className="inline-flex items-center gap-1 text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-md">
               ↑ 12% vs yesterday
             </span>
             <button
               onClick={() => setCurrency(currency === 'USD' ? 'SAR' : 'USD')}
-              className="text-[11px] font-bold text-[#173D35] hover:underline"
+              className="text-[11px] font-bold text-[#C9A24B] hover:underline"
             >
               Toggle {currency === 'USD' ? 'SAR' : 'USD'}
             </button>
@@ -347,15 +384,15 @@ export default function AdminDashboardPage() {
       {/* ============================================================== */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* LEFT (7 COLS): LIVE FLEET OVERVIEW (Card Grid from Image 1) */}
-        <div className="lg:col-span-6 xl:col-span-7 rounded-2xl bg-[#FFFFFF] border border-[#E3DFD5] shadow-xs p-5 md:p-6 flex flex-col justify-between">
+        <div className="lg:col-span-6 xl:col-span-7 rounded-2xl bg-[#101726] border border-[#1F2C42] shadow-xs p-5 md:p-6 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2.5">
               <span className="w-2.5 h-2.5 rounded-full bg-[#173D35]" />
-              <h2 className="text-base font-bold text-[#14211D]">Live Fleet Overview</h2>
+              <h2 className="text-base font-bold text-white">Live Fleet Overview</h2>
             </div>
             <Link
               href="/admin/fleet"
-              className="inline-flex items-center gap-1 text-xs font-bold text-[#173D35] hover:text-[#A97B27] transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-bold text-[#C9A24B] hover:text-[#A97B27] transition-colors"
             >
               <span>View All Fleet</span>
               <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
@@ -364,10 +401,10 @@ export default function AdminDashboardPage() {
 
           {/* 6 FLEET CARDS WITH REAL VEHICLE PHOTOGRAPHY */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-            {fleetData.map((car) => (
+            {liveFleet.map((car) => (
               <div
                 key={car.id}
-                className="group p-3.5 rounded-xl bg-[#F5F3EE] hover:bg-[#EFECE5] border border-[#E3DFD5] transition-all flex flex-col justify-between"
+                className="group p-3.5 rounded-xl bg-[#101726] hover:bg-[#151D2C] border border-[#1F2C42] transition-all flex flex-col justify-between"
               >
                 {/* Real Vehicle Studio Photo */}
                 <div className="relative w-full aspect-[16/9] mb-3 rounded-lg overflow-hidden bg-white/70 flex items-center justify-center p-1">
@@ -381,19 +418,19 @@ export default function AdminDashboardPage() {
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-xs md:text-sm text-[#14211D] mb-1.5 truncate">
+                  <h3 className="font-bold text-xs md:text-sm text-white mb-1.5 truncate">
                     {car.name}
                   </h3>
 
                   {/* Seat and Luggage Capacity */}
-                  <div className="flex items-center gap-3 text-[11px] text-[#6B7873] mb-3">
+                  <div className="flex items-center gap-3 text-[11px] text-[#8E9CAE] mb-3">
                     <span className="flex items-center gap-1">
-                      <Users className="w-3.5 h-3.5 text-[#173D35]" />
+                      <Users className="w-3.5 h-3.5 text-[#C9A24B]" />
                       <strong>{car.passengers}</strong>
                     </span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
-                      <LuggageIcon className="w-3.5 h-3.5 text-[#173D35]" />
+                      <LuggageIcon className="w-3.5 h-3.5 text-[#C9A24B]" />
                       <strong>{car.luggage}</strong>
                     </span>
                   </div>
@@ -426,15 +463,15 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* RIGHT (5 COLS): ACTIVE TRIPS & SAUDI HIGHWAY ROUTE MAP (Image 1) */}
-        <div className="lg:col-span-6 xl:col-span-5 rounded-2xl bg-[#FFFFFF] border border-[#E3DFD5] shadow-xs p-5 md:p-6 flex flex-col justify-between">
+        <div className="lg:col-span-6 xl:col-span-5 rounded-2xl bg-[#101726] border border-[#1F2C42] shadow-xs p-5 md:p-6 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2.5">
               <span className="w-2.5 h-2.5 rounded-full bg-[#A97B27]" />
-              <h2 className="text-base font-bold text-[#14211D]">Active Trips Radar</h2>
+              <h2 className="text-base font-bold text-white">Active Trips Radar</h2>
             </div>
             <Link
               href="/admin/bookings"
-              className="inline-flex items-center gap-1 text-xs font-bold text-[#173D35] hover:text-[#A97B27] transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-bold text-[#C9A24B] hover:text-[#A97B27] transition-colors"
             >
               <span>View All</span>
               <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
@@ -497,17 +534,17 @@ export default function AdminDashboardPage() {
                 onClick={() => setSelectedTrip(trip.id)}
                 className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   selectedTrip === trip.id
-                    ? 'bg-[#EFF6F3] border-[#173D35] shadow-xs'
-                    : 'bg-[#F5F3EE] hover:bg-[#EBE7DF] border-[#E3DFD5]'
+                    ? 'bg-[#101726] border-[#173D35] shadow-xs'
+                    : 'bg-[#101726] hover:bg-[#151D2C] border-[#1F2C42]'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-white border border-[#E3DFD5] flex items-center justify-center text-[#173D35]">
+                  <div className="w-8 h-8 rounded-lg bg-white border border-[#1F2C42] flex items-center justify-center text-[#C9A24B]">
                     <Car className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-[#14211D] block">{trip.route}</span>
-                    <span className="text-[11px] text-[#6B7873] block">
+                    <span className="text-xs font-bold text-white block">{trip.route}</span>
+                    <span className="text-[11px] text-[#8E9CAE] block">
                       {trip.vehicle} • {trip.guests} Guests
                     </span>
                   </div>
@@ -523,7 +560,7 @@ export default function AdminDashboardPage() {
                       Delayed 10m
                     </span>
                   )}
-                  <span className="text-[10px] text-[#6B7873] block mt-0.5 font-mono">{trip.time}</span>
+                  <span className="text-[10px] text-[#8E9CAE] block mt-0.5 font-mono">{trip.time}</span>
                 </div>
               </div>
             ))}
@@ -536,24 +573,24 @@ export default function AdminDashboardPage() {
       {/* ============================================================== */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
         {/* RECENT INQUIRIES (5 COLS) */}
-        <div className="lg:col-span-5 rounded-2xl bg-[#FFFFFF] border border-[#E3DFD5] shadow-xs p-5 flex flex-col justify-between">
+        <div className="lg:col-span-5 rounded-2xl bg-[#101726] border border-[#1F2C42] shadow-xs p-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-sm text-[#14211D] flex items-center gap-2">
-                <Users className="w-4 h-4 text-[#173D35]" />
+              <h3 className="font-bold text-sm text-white flex items-center gap-2">
+                <Users className="w-4 h-4 text-[#C9A24B]" />
                 Recent Pilgrim Inquiries
               </h3>
-              <Link href="/admin/leads" className="text-xs font-bold text-[#173D35] hover:underline">
+              <Link href="/admin/leads" className="text-xs font-bold text-[#C9A24B] hover:underline">
                 View All
               </Link>
             </div>
 
             {/* Filter Tabs: Now, Pending, Completed (Matching Image 1) */}
-            <div className="flex items-center gap-1.5 p-1 bg-[#F5F3EE] rounded-xl mb-4 border border-[#E3DFD5]">
+            <div className="flex items-center gap-1.5 p-1 bg-[#101726] rounded-xl mb-4 border border-[#1F2C42]">
               <button
                 onClick={() => setInquiryTab('new')}
                 className={`flex-1 py-1 text-xs font-bold rounded-lg transition-colors ${
-                  inquiryTab === 'new' ? 'bg-[#173D35] text-white shadow-xs' : 'text-[#6B7873] hover:text-[#14211D]'
+                  inquiryTab === 'new' ? 'bg-[#173D35] text-white shadow-xs' : 'text-[#8E9CAE] hover:text-white'
                 }`}
               >
                 Now (12)
@@ -561,7 +598,7 @@ export default function AdminDashboardPage() {
               <button
                 onClick={() => setInquiryTab('pending')}
                 className={`flex-1 py-1 text-xs font-bold rounded-lg transition-colors ${
-                  inquiryTab === 'pending' ? 'bg-[#173D35] text-white shadow-xs' : 'text-[#6B7873] hover:text-[#14211D]'
+                  inquiryTab === 'pending' ? 'bg-[#173D35] text-white shadow-xs' : 'text-[#8E9CAE] hover:text-white'
                 }`}
               >
                 Pending (3)
@@ -569,7 +606,7 @@ export default function AdminDashboardPage() {
               <button
                 onClick={() => setInquiryTab('completed')}
                 className={`flex-1 py-1 text-xs font-bold rounded-lg transition-colors ${
-                  inquiryTab === 'completed' ? 'bg-[#173D35] text-white shadow-xs' : 'text-[#6B7873] hover:text-[#14211D]'
+                  inquiryTab === 'completed' ? 'bg-[#173D35] text-white shadow-xs' : 'text-[#8E9CAE] hover:text-white'
                 }`}
               >
                 Completed (35)
@@ -580,7 +617,7 @@ export default function AdminDashboardPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-start">
                 <thead>
-                  <tr className="border-b border-[#F0ECE1] text-[#6B7873]">
+                  <tr className="border-b border-[#1F2C42] text-[#8E9CAE]">
                     <th className="pb-2 font-semibold">#</th>
                     <th className="pb-2 font-semibold">Guest Name</th>
                     <th className="pb-2 font-semibold">Service</th>
@@ -590,10 +627,10 @@ export default function AdminDashboardPage() {
                 </thead>
                 <tbody className="divide-y divide-[#F5F3EE]">
                   {filteredInquiries.map((item) => (
-                    <tr key={item.id} className="hover:bg-[#F5F3EE]/60 transition-colors">
-                      <td className="py-2.5 font-mono text-[#6B7873]">{item.id}</td>
-                      <td className="py-2.5 font-bold text-[#14211D]">{item.name}</td>
-                      <td className="py-2.5 text-[#6B7873]">{item.service}</td>
+                    <tr key={item.id} className="hover:bg-[#101726]/60 transition-colors">
+                      <td className="py-2.5 font-mono text-[#8E9CAE]">{item.id}</td>
+                      <td className="py-2.5 font-bold text-white">{item.name}</td>
+                      <td className="py-2.5 text-[#8E9CAE]">{item.service}</td>
                       <td className="py-2.5 font-medium">{item.vehicle}</td>
                       <td className="py-2.5">
                         {item.status === 'new' ? (
@@ -619,18 +656,18 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* REVENUE & TRIPS 7-DAY DUAL METRIC CHART (4 COLS) */}
-        <div className="lg:col-span-4 rounded-2xl bg-[#FFFFFF] border border-[#E3DFD5] shadow-xs p-5 flex flex-col justify-between">
+        <div className="lg:col-span-4 rounded-2xl bg-[#101726] border border-[#1F2C42] shadow-xs p-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-sm text-[#14211D] flex items-center gap-2">
+              <h3 className="font-bold text-sm text-white flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-[#A97B27]" />
                 Revenue & Trips (Last 7 Days)
               </h3>
-              <span className="text-[11px] text-[#6B7873] font-medium">Daily Telemetry</span>
+              <span className="text-[11px] text-[#8E9CAE] font-medium">Daily Telemetry</span>
             </div>
 
             {/* SVG Visual Bar and Line Trend (Matching Image 1) */}
-            <div className="h-36 w-full flex items-end gap-3 pt-6 pb-2 px-2 border-b border-[#F0ECE1]">
+            <div className="h-36 w-full flex items-end gap-3 pt-6 pb-2 px-2 border-b border-[#1F2C42]">
               {[
                 { day: '21', val: 55, trips: 12 },
                 { day: '22', val: 70, trips: 15 },
@@ -653,7 +690,7 @@ export default function AdminDashboardPage() {
                       className="absolute w-2.5 h-2.5 rounded-full bg-[#173D35] border-2 border-white shadow-xs"
                     />
                   </div>
-                  <span className="text-[10px] text-[#6B7873] font-medium">{item.day}</span>
+                  <span className="text-[10px] text-[#8E9CAE] font-medium">{item.day}</span>
                 </div>
               ))}
             </div>
@@ -661,16 +698,16 @@ export default function AdminDashboardPage() {
 
           <div className="grid grid-cols-2 gap-4 pt-3">
             <div>
-              <span className="text-[11px] text-[#6B7873] block">Total Revenue</span>
+              <span className="text-[11px] text-[#8E9CAE] block">Total Revenue</span>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-base font-bold text-[#14211D]">$68,420</span>
+                <span className="text-base font-bold text-white">$68,420</span>
                 <span className="text-[10px] text-emerald-700 font-bold">↑ 14%</span>
               </div>
             </div>
             <div>
-              <span className="text-[11px] text-[#6B7873] block">Total Trips</span>
+              <span className="text-[11px] text-[#8E9CAE] block">Total Trips</span>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-base font-bold text-[#14211D]">96</span>
+                <span className="text-base font-bold text-white">96</span>
                 <span className="text-[10px] text-emerald-700 font-bold">↑ 14%</span>
               </div>
             </div>
@@ -678,14 +715,14 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* SYSTEM ALERTS (3 COLS) */}
-        <div className="lg:col-span-3 rounded-2xl bg-[#FFFFFF] border border-[#E3DFD5] shadow-xs p-5 flex flex-col justify-between">
+        <div className="lg:col-span-3 rounded-2xl bg-[#101726] border border-[#1F2C42] shadow-xs p-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-bold text-sm text-[#14211D] flex items-center gap-2">
-                <Shield className="w-4 h-4 text-[#173D35]" />
+              <h3 className="font-bold text-sm text-white flex items-center gap-2">
+                <Shield className="w-4 h-4 text-[#C9A24B]" />
                 System Alerts
               </h3>
-              <span className="text-xs font-bold text-[#173D35] hover:underline cursor-pointer">
+              <span className="text-xs font-bold text-[#C9A24B] hover:underline cursor-pointer">
                 View All
               </span>
             </div>
