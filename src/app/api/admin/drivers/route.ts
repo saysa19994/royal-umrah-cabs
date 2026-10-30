@@ -41,19 +41,22 @@ export async function POST(request: NextRequest) {
 
     const { user: currentUser } = authResult;
     const body = await request.json();
-    const { full_name, phone, license_number, vehicle_id, languages, status } = body;
+    const { name, phone, vehicle_plate, vehicle_model, spoken_languages, is_active } = body;
 
-    if (!full_name || !phone) {
-      return NextResponse.json({ error: 'Full name and phone number are required' }, { status: 400 });
+    if (!name || !phone || !vehicle_plate || !vehicle_model) {
+      return NextResponse.json(
+        { error: 'Name, phone number, vehicle plate, and vehicle model are required' },
+        { status: 400 }
+      );
     }
 
     const newDriver = {
-      full_name: full_name.trim(),
+      name: name.trim(),
       phone: phone.trim(),
-      license_number: license_number?.trim() || null,
-      vehicle_id: vehicle_id || null,
-      languages: languages || ['ar', 'en'],
-      status: status || 'available',
+      vehicle_plate: vehicle_plate.trim(),
+      vehicle_model: vehicle_model.trim(),
+      spoken_languages: Array.isArray(spoken_languages) && spoken_languages.length > 0 ? spoken_languages : ['Arabic', 'English'],
+      is_active: is_active !== false,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
@@ -97,19 +100,21 @@ export async function PATCH(request: NextRequest) {
 
     const { user: currentUser } = authResult;
     const body = await request.json();
-    const { id, full_name, phone, license_number, vehicle_id, languages, status } = body;
+    const { id, name, phone, vehicle_plate, vehicle_model, spoken_languages, is_active } = body;
 
     if (!id) {
-      return NextResponse.json({ error: 'Driver ID is required' }, { status: 400 });
+      return NextResponse.json({ error: 'Driver id is required' }, { status: 400 });
     }
 
-    const updates: Record<string, any> = { updated_at: new Date().toISOString() };
-    if (full_name !== undefined) updates.full_name = full_name.trim();
+    const updates: Record<string, any> = {
+      updated_at: new Date().toISOString(),
+    };
+    if (name !== undefined) updates.name = name.trim();
     if (phone !== undefined) updates.phone = phone.trim();
-    if (license_number !== undefined) updates.license_number = license_number?.trim();
-    if (vehicle_id !== undefined) updates.vehicle_id = vehicle_id;
-    if (languages !== undefined) updates.languages = languages;
-    if (status !== undefined) updates.status = status;
+    if (vehicle_plate !== undefined) updates.vehicle_plate = vehicle_plate.trim();
+    if (vehicle_model !== undefined) updates.vehicle_model = vehicle_model.trim();
+    if (spoken_languages !== undefined) updates.spoken_languages = spoken_languages;
+    if (is_active !== undefined) updates.is_active = is_active;
 
     const serviceClient = createServiceClient();
     const { data, error } = await serviceClient
@@ -154,14 +159,11 @@ export async function DELETE(request: NextRequest) {
     const id = searchParams.get('id');
 
     if (!id) {
-      return NextResponse.json({ error: 'Driver ID required' }, { status: 400 });
+      return NextResponse.json({ error: 'Driver id is required' }, { status: 400 });
     }
 
     const serviceClient = createServiceClient();
-    const { error } = await serviceClient
-      .from('drivers')
-      .delete()
-      .eq('id', id);
+    const { error } = await serviceClient.from('drivers').delete().eq('id', id);
 
     if (error) {
       console.error('Driver delete error:', error);
@@ -177,7 +179,7 @@ export async function DELETE(request: NextRequest) {
       ip: clientIp,
     });
 
-    return NextResponse.json({ success: true, message: 'Driver removed successfully' });
+    return NextResponse.json({ success: true });
   } catch (err: any) {
     console.error('Driver DELETE exception:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

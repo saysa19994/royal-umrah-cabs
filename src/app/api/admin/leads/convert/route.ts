@@ -14,7 +14,18 @@ export async function POST(request: Request) {
     }
 
     const { user: currentUser } = authResult;
-    const { lead_id } = await request.json();
+    const body = await request.json();
+    const {
+      lead_id,
+      route_id: overrideRouteId,
+      vehicle_id: overrideVehicleId,
+      pickup_date: overridePickupDate,
+      pickup_time: overridePickupTime,
+      customer_name: overrideCustomerName,
+      customer_phone: overrideCustomerPhone,
+      passengers_count: overridePax,
+      special_notes: overrideNotes,
+    } = body;
 
     if (!lead_id) {
       return NextResponse.json({ success: false, error: 'lead_id is required' }, { status: 400 });
@@ -46,29 +57,39 @@ export async function POST(request: Request) {
     // Refuse if already confirmed
     if (lead.status === 'confirmed') {
       return NextResponse.json(
-        { success: false, error: 'Lead has already been converted to a booking' },
+        { success: false, error: 'Lead has already been converted to an official booking' },
         { status: 400 }
       );
     }
 
     // Refuse if booking already exists for this lead reference
-    const { data: existingBooking } = await serviceClient
-      .from('bookings')
-      .select('id, reference')
-      .ilike('special_notes', `%${lead.ref_code}%`)
-      .maybeSingle();
+    const leadRefCode = lead.ref_code || lead.reference;
+    if (leadRefCode) {
+      const { data: existingBooking } = await serviceClient
+        .from('bookings')
+        .select('id, reference')
+        .ilike('special_notes', `%${leadRefCode}%`)
+        .maybeSingle();
 
-    if (existingBooking) {
-      return NextResponse.json(
-        { success: false, error: `A booking (${existingBooking.reference}) already exists for this lead` },
-        { status: 400 }
-      );
+      if (existingBooking) {
+        return NextResponse.json(
+          { success: false, error: `A booking (${existingBooking.reference}) already exists for this lead` },
+          { status: 400 }
+        );
+      }
     }
 
-    // Require route, vehicle, and pickup date (no fabricated fallbacks)
-    if (!lead.route_id || !lead.vehicle_id || !lead.pickup_date) {
+    const effectiveRouteId = overrideRouteId || lead.route_id;
+    const effectiveVehicleId = overrideVehicleId || lead.vehicle_id;
+    const effectivePickupDate = overridePickupDate || lead.pickup_date;
+    const effectiveCustomerName = overrideCustomerName || lead.customer_name || 'Valued Pilgrim';
+    const effectiveCustomerPhone = overrideCustomerPhone || lead.customer_phone || lead.whatsapp_number;
+    const effectivePax = Number(overridePax) || lead.passengers || 2;
+
+    // Require route, vehicle, and pickup date
+    if (!effectiveRouteId || !effectiveVehicleId || !effectivePickupDate) {
       return NextResponse.json(
-        { success: false, error: 'Lead cannot be converted: missing route_id, vehicle_id, or pickup_date' },
+        { success: false, error: 'Lead cannot be converted: missing route, vehicle, or pickup date. Please provide them in the conversion form.' },
         { status: 400 }
       );
     }
@@ -79,10 +100,10 @@ export async function POST(request: Request) {
     try {
       priceCalc = await calculateServerPrice({
         bookingType: 'transfer',
-        routeId: lead.route_id,
-        vehicleId: lead.vehicle_id,
-        pickupDatetime: `${lead.pickup_date}T12:00:00Z`,
-        passengersCount: lead.passengers || 1,
+        routeId: effectiveRouteId,
+        vehicleId: effectiveVehicleId,
+        pickupDatetime: `${effectivePickupDate}T12:00:00Z`,
+        passengersCount: effectivePax,
         currency: 'SAR',
       });
     } catch (calcErr: any) {
@@ -94,7 +115,7 @@ export async function POST(request: Request) {
 
     if (!priceCalc || !priceCalc.finalPriceSAR || priceCalc.finalPriceSAR <= 0) {
       return NextResponse.json(
-        { success: false, error: 'Calculated price is missing or invalid' },
+        { success: false, error: 'Calculated fare is missing or invalid' },
         { status: 400 }
       );
     }
@@ -103,37 +124,43 @@ export async function POST(request: Request) {
     const { data: routeInfo } = await serviceClient
       .from('routes')
       .select('origin_city, destination_city')
-      .eq('id', lead.route_id)
+      .eq('id', effectiveRouteId)
       .maybeSingle();
 
     const pickupLocation =
-      routeInfo?.origin_city || lead.route_id.split('-to-')[0]?.replace(/-/g, ' ').toUpperCase() || 'Origin';
+      routeInfo?.origin_city || effectiveRouteId.split('-to-')[0]?.replace(/-/g, ' ').toUpperCase() || 'Origin Location';
     const dropoffLocation =
-      routeInfo?.destination_city || lead.route_id.split('-to-')[1]?.replace(/-/g, ' ').toUpperCase() || 'Destination';
+      routeInfo?.destination_city || effectiveRouteId.split('-to-')[1]?.replace(/-/g, ' ').toUpperCase() || 'Destination Location';
 
     // 2. Generate cryptographically strong booking reference (RUC-XXXXXXXX)
     const randomHex = crypto.randomBytes(4).toString('hex').toUpperCase();
     const bookingRef = `RUC-${randomHex}`;
-    const pickupDateStr = `${lead.pickup_date}T14:00:00+03:00`;
+    const pickupTimeStr = overridePickupTime || '14:00';
+    const pickupDateStr = `${effectivePickupDate}T${pickupTimeStr}:00+03:00`;
+
+    const notesSummary = [
+      overrideNotes || lead.notes,
+      `Converted from Lead Ref: ${leadRefCode || lead.id.slice(0, 8)}`,
+    ]
+      .filter(Boolean)
+      .join(' | ');
 
     const bookingPayload = {
       reference: bookingRef,
       booking_type: 'transfer',
-      route_id: lead.route_id,
-      vehicle_id: lead.vehicle_id,
-      customer_name: lead.customer_name || 'Valued Pilgrim',
-      customer_phone: lead.customer_phone || lead.whatsapp_number,
+      route_id: effectiveRouteId,
+      vehicle_id: effectiveVehicleId,
+      customer_name: effectiveCustomerName,
+      customer_phone: effectiveCustomerPhone,
       customer_email: null,
       pickup_datetime: pickupDateStr,
       pickup_location: pickupLocation,
       dropoff_location: dropoffLocation,
-      passengers_count: lead.passengers || 2,
-      luggage_count: 2,
+      passengers_count: effectivePax,
+      luggage_count: Math.min(effectivePax, 6),
       flight_number: null,
       add_ons: { child_seat: false, flight_tracking: true, zamzam_water: true },
-      special_notes: lead.notes
-        ? `${lead.notes} (Ref: ${lead.ref_code})`
-        : `Converted from Lead Ref: ${lead.ref_code}`,
+      special_notes: notesSummary,
       base_price_sar: priceCalc.basePriceSAR,
       seasonal_multiplier: priceCalc.multiplier,
       final_price_sar: priceCalc.finalPriceSAR,

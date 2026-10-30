@@ -35,7 +35,9 @@ import {
   Navigation,
   Copy,
   Zap,
-} from 'lucide-react';
+  FileText,
+  Printer,
+  X} from 'lucide-react';
 
 interface BookingRecord {
   id: string;
@@ -69,6 +71,8 @@ export default function AdminDashboardPage() {
   const [unattendedLeadsCount, setUnattendedLeadsCount] = useState(0);
   const [copiedRef, setCopiedRef] = useState<string | null>(null);
   const [currencyView, setCurrencyView] = useState<'SAR' | 'USD'>('SAR');
+  const [availableDrivers, setAvailableDrivers] = useState<any[]>([]);
+  const [voucherBooking, setVoucherBooking] = useState<BookingRecord | null>(null);
 
   // Driver Assignment Modal State
   const [selectedBooking, setSelectedBooking] = useState<BookingRecord | null>(null);
@@ -107,10 +111,18 @@ export default function AdminDashboardPage() {
       const bookingsUrl = `/api/admin/bookings?status=${statusFilter}`;
       const leadsUrl = `/api/admin/leads?status=new`;
 
-      const [bookingsRes, leadsRes] = await Promise.all([
+      const [bookingsRes, leadsRes, driversRes] = await Promise.all([
         fetch(bookingsUrl).catch(() => null),
         fetch(leadsUrl).catch(() => null),
+        fetch('/api/admin/drivers').catch(() => null),
       ]);
+
+      if (driversRes && driversRes.ok) {
+        const dData = await driversRes.json();
+        if (dData.drivers) setAvailableDrivers(dData.drivers);
+      }
+
+
 
       if (bookingsRes && bookingsRes.ok) {
         const bData = await bookingsRes.json();
@@ -860,6 +872,29 @@ export default function AdminDashboardPage() {
             </p>
 
             <form onSubmit={handleSaveDriver} className="space-y-4">
+              {availableDrivers.length > 0 && (
+                <div>
+                  <label className="block text-[11px] font-bold text-[#D9A031] mb-1">Select Vetted VIP Chauffeur</label>
+                  <select
+                    onChange={(e) => {
+                      const drv = availableDrivers.find((d) => d.id === e.target.value);
+                      if (drv) {
+                        setDriverName(drv.name);
+                        setDriverPhone(drv.phone);
+                        setVehiclePlate(`${drv.vehicle_plate} (${drv.vehicle_model})`);
+                      }
+                    }}
+                    className="w-full h-10 px-3 text-xs rounded-xl bg-[#0A0D14] border border-[#D9A031]/40 text-[#FAF9F6] focus:border-[#D9A031] outline-none mb-3"
+                  >
+                    <option value="">-- Choose Vetted Captain ({availableDrivers.length} Available) --</option>
+                    {availableDrivers.map((d) => (
+                      <option key={d.id} value={d.id}>
+                        {d.name} • {d.vehicle_model} ({d.vehicle_plate})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
               <div>
                 <label className="block text-[11px] font-bold text-[#9DA6B8] mb-1">Chauffeur Full Name</label>
                 <input
@@ -1054,6 +1089,94 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       )}
-    </div>
-  );
+      {/* 9. PRINTABLE VIP VOUCHER MODAL */}
+      {voucherBooking && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#0E131F] border border-[#D9A031]/40 rounded-2xl p-6 sm:p-8 max-w-lg w-full shadow-2xl text-start animate-scaleUp space-y-5">
+            <div className="flex items-center justify-between border-b border-[#232B3E] pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#D9A031] to-[#B8821D] flex items-center justify-center font-bold text-[#0A0D14] text-lg font-serif">
+                  VIP
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-base text-[#FAF9F6] tracking-tight">DUYUF ALRAHMAN VIP</h3>
+                  <div className="text-[10px] text-[#D9A031] tracking-widest uppercase">Official VIP Journey Voucher</div>
+                </div>
+              </div>
+              <button onClick={() => setVoucherBooking(null)} className="text-gray-400 hover:text-white cursor-pointer">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="bg-[#141A26] rounded-xl p-4 border border-[#1F2737] space-y-2.5 font-mono text-xs">
+              <div className="flex items-center justify-between border-b border-[#232B3E] pb-2">
+                <span className="text-gray-400 font-sans">Booking Ref:</span>
+                <span className="font-bold text-[#D9A031] text-sm">{voucherBooking.reference}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-400 font-sans">Pilgrim Name:</span>
+                <span className="font-bold text-white font-sans">{voucherBooking.customer_name}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-400 font-sans">Contact Phone:</span>
+                <span className="text-white">{voucherBooking.customer_phone}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-400 font-sans">Origin:</span>
+                <span className="text-white font-sans">{voucherBooking.pickup_location}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-400 font-sans">Destination:</span>
+                <span className="text-white font-sans">{voucherBooking.dropoff_location}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-400 font-sans">Pickup Schedule:</span>
+                <span className="text-[#E5B842]">{new Date(voucherBooking.pickup_datetime).toLocaleString()}</span>
+              </div>
+              {voucherBooking.flight_number && (
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-400 font-sans">Flight Number:</span>
+                  <span className="text-cyan-300">{voucherBooking.flight_number}</span>
+                </div>
+              )}
+              <div className="flex items-center justify-between">
+                <span className="text-gray-400 font-sans">Vehicle Class:</span>
+                <span className="text-white font-sans uppercase">{voucherBooking.vehicle_id}</span>
+              </div>
+              {voucherBooking.driver_name && (
+                <div className="flex items-center justify-between border-t border-[#232B3E] pt-2">
+                  <span className="text-gray-400 font-sans">Assigned Captain:</span>
+                  <span className="text-emerald-400 font-sans">{voucherBooking.driver_name} ({voucherBooking.vehicle_plate})</span>
+                </div>
+              )}
+              <div className="flex items-center justify-between border-t border-[#232B3E] pt-2">
+                <span className="text-gray-400 font-sans">Fixed Total Fare:</span>
+                <span className="font-bold text-[#E5B842] text-base">{voucherBooking.final_price_sar} SAR</span>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-[#D9A031]/10 border border-[#D9A031]/30 text-xs text-[#E5B842] leading-relaxed">
+              <strong>Strict Cash Policy:</strong> The customer pays the driver in cash upon arrival after journey completion in SAR or USD.
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-[#1F2737]">
+              <button
+                onClick={() => setVoucherBooking(null)}
+                className="px-4 py-2 rounded-xl text-xs font-bold text-gray-400 hover:text-white cursor-pointer"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => window.print()}
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#D9A031] to-[#B8821D] hover:from-[#E5B842] hover:to-[#C69225] text-[#0A0D14] text-xs font-bold transition-all shadow-md cursor-pointer"
+              >
+                <Printer className="w-4 h-4" />
+                <span>Print / Save Voucher PDF</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+  </div>
+);
 }
