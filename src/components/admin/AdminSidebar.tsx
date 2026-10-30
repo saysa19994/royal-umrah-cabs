@@ -28,6 +28,9 @@ import {
   Sparkles,
   ExternalLink,
   Crown,
+  MapPin,
+  Radio,
+  Sliders,
 } from 'lucide-react';
 import { UserProfile } from '@/types/auth';
 import { createClient } from '@/lib/supabase/client';
@@ -48,7 +51,7 @@ interface NavItem {
   icon: React.ComponentType<{ className?: string }>;
   badge?: {
     text: string;
-    variant: 'rose' | 'amber' | 'emerald' | 'blue';
+    variant: 'gold' | 'emerald' | 'amber' | 'rose';
   };
   ownerOnly?: boolean;
   adminOnly?: boolean;
@@ -73,34 +76,36 @@ export function AdminSidebar({
   const isOwner = currentUser?.role === 'owner';
   const isOperator = currentUser?.role === 'operator';
 
+  // 10 Key Architectural Modules matching Reference Image 1 & 2
   const navGroups: NavGroup[] = [
     {
-      titleEn: 'OPERATIONS & DISPATCH',
-      titleAr: 'العمليات والتشغيل',
+      titleEn: 'OPERATIONS RADAR',
+      titleAr: 'مركز العمليات المباشر',
       items: [
         {
           href: '/admin',
-          labelEn: 'Control Center',
-          labelAr: 'مركز العمليات المباشر',
+          labelEn: 'Dashboard & Dispatch',
+          labelAr: 'لوحة التحكم والعمليات',
           icon: LayoutDashboard,
+          badge: { text: 'Live', variant: 'emerald' },
         },
         {
           href: '/admin/bookings',
-          labelEn: 'VIP Bookings',
+          labelEn: 'VIP Bookings Control',
           labelAr: 'جدول الحجوزات والسائقين',
           icon: CalendarCheck,
         },
         {
           href: '/admin/leads',
-          labelEn: 'Pilgrim Inquiries',
+          labelEn: 'Lead Inquiries',
           labelAr: 'استفسارات المعتمرين',
           icon: Users,
-          badge: { text: '13', variant: 'rose' },
+          badge: { text: '12 New', variant: 'gold' },
         },
       ],
     },
     {
-      titleEn: 'FLEET & ASSETS',
+      titleEn: 'FLEET & MEDIA',
       titleAr: 'الأسطول والوسائط',
       items: [
         {
@@ -108,13 +113,13 @@ export function AdminSidebar({
           labelEn: 'VIP Fleet Control',
           labelAr: 'إدارة أسطول VIP',
           icon: Car,
-          badge: { text: '5 Models', variant: 'emerald' },
+          badge: { text: '6 Models', variant: 'emerald' },
           adminOnly: true,
         },
         {
           href: '/admin/drivers',
-          labelEn: 'Chauffeurs & Drivers',
-          labelAr: 'السائقون والمرافقون',
+          labelEn: 'Active Chauffeurs',
+          labelAr: 'دليل السائقين والمرافقين',
           icon: UserCheck,
           adminOnly: true,
         },
@@ -128,20 +133,20 @@ export function AdminSidebar({
       ],
     },
     {
-      titleEn: 'ROUTES & TARIFFS',
+      titleEn: 'PRICING & CORRIDORS',
       titleAr: 'المسارات والتسعير',
       items: [
         {
           href: '/admin/routes',
           labelEn: 'Routes & Corridors',
-          labelAr: 'المسارات والمواقيت',
+          labelAr: 'مسارات ومواقيت الحرمين',
           icon: Compass,
-          badge: { text: '16 Routes', variant: 'blue' },
+          badge: { text: '16 Routes', variant: 'gold' },
           adminOnly: true,
         },
         {
           href: '/admin/pricing',
-          labelEn: 'Pricing & Seasons',
+          labelEn: 'Pricing & Route Matrix',
           labelAr: 'مصفوفة التسعير والمواسم',
           icon: DollarSign,
           adminOnly: true,
@@ -149,21 +154,29 @@ export function AdminSidebar({
       ],
     },
     {
-      titleEn: 'CONTENT & REPUTATION',
-      titleAr: 'المحتوى والسمعة',
+      titleEn: 'CONTENT & DISPATCH CHANNELS',
+      titleAr: 'المحتوى وقنوات التواصل',
       items: [
         {
+          href: '/admin/whatsapp',
+          labelEn: 'WhatsApp Routing',
+          labelAr: 'توجيه محادثات الواتساب',
+          icon: MessageSquare,
+          badge: { text: '2 Lines', variant: 'emerald' },
+          adminOnly: true,
+        },
+        {
           href: '/admin/cms',
-          labelEn: '10-Locale Studio',
-          labelAr: 'استوديو نصوص الموقع',
+          labelEn: 'Website Content (CMS)',
+          labelAr: 'إدارة محتوى الموقع (CMS)',
           icon: Globe,
-          badge: { text: '10 Locales', variant: 'blue' },
+          badge: { text: '10 Locales', variant: 'gold' },
           adminOnly: true,
         },
         {
           href: '/admin/faqs',
           labelEn: 'FAQ Knowledgebase',
-          labelAr: 'قاعدة الأسئلة الشائعة',
+          labelAr: 'الأسئلة الشائعة وقواعد الحجز',
           icon: HelpCircle,
           adminOnly: true,
         },
@@ -172,42 +185,20 @@ export function AdminSidebar({
           labelEn: 'Reviews Moderation',
           labelAr: 'مراجعة آراء المعتمرين',
           icon: Star,
-          badge: { text: '1 Pending', variant: 'amber' },
+          badge: { text: '98%', variant: 'gold' },
         },
       ],
     },
     {
-      titleEn: 'CHANNELS & GOVERNANCE',
-      titleAr: 'القنوات والحوكمة',
+      titleEn: 'GOVERNANCE & AUDIT',
+      titleAr: 'الحوكمة والأمان',
       items: [
-        {
-          href: '/admin/whatsapp',
-          labelEn: 'WhatsApp Routing',
-          labelAr: 'توجيه خطوط الواتساب',
-          icon: MessageSquare,
-          badge: { text: '2 Lines', variant: 'emerald' },
-          adminOnly: true,
-        },
-        {
-          href: '/admin/chat',
-          labelEn: 'AI Rafeeq Knowledgebot',
-          labelAr: 'المساعد الذكي رفيق',
-          icon: Bot,
-          adminOnly: true,
-        },
         {
           href: '/admin/users',
           labelEn: 'Staff & Team',
-          labelAr: 'الموظفون والمشغلون',
+          labelAr: 'فريق العمل والصلاحيات',
           icon: UserCheck,
           adminOnly: true,
-        },
-        {
-          href: '/admin/roles',
-          labelEn: 'RBAC Roles Matrix',
-          labelAr: 'مصفوفة الصلاحيات',
-          icon: Shield,
-          ownerOnly: true,
         },
         {
           href: '/admin/audit-log',
@@ -218,17 +209,10 @@ export function AdminSidebar({
         },
         {
           href: '/admin/settings',
-          labelEn: 'Global VIP Settings',
-          labelAr: 'الإعدادات وسياسة الدفع',
+          labelEn: 'System Settings',
+          labelAr: 'إعدادات النظام العامة',
           icon: Settings,
           adminOnly: true,
-        },
-        {
-          href: '/admin/account',
-          labelEn: 'Owner Master Account',
-          labelAr: 'حساب المالك الرئيسي',
-          icon: ShieldAlert,
-          ownerOnly: true,
         },
       ],
     },
@@ -249,52 +233,51 @@ export function AdminSidebar({
       {/* Mobile Backdrop */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm lg:hidden transition-opacity"
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden transition-opacity"
           onClick={onCloseMobile}
         />
       )}
 
-      {/* Sidebar Container */}
+      {/* Sidebar Container: Deep Royal Green #122E27 with Champagne Borders */}
       <aside
-        className={`fixed top-0 bottom-0 z-50 flex flex-col bg-[#090D15] border-[#1F2C42] transition-all duration-300 ease-in-out shadow-[0_0_35px_rgba(0,0,0,0.85)]
+        className={`fixed top-0 bottom-0 z-50 flex flex-col bg-[#122E27] text-[#F5F3EE] border-[#1C473C] transition-all duration-300 ease-in-out shadow-[0_4px_30px_rgba(18,46,39,0.35)]
           ${isRtl ? 'right-0 border-l' : 'left-0 border-r'}
           ${collapsed ? 'w-20' : 'w-72'}
           ${mobileOpen ? 'translate-x-0' : isRtl ? 'translate-x-full lg:translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
+        style={{
+          fontFamily: isRtl
+            ? 'var(--font-ibm-plex-arabic), var(--font-cairo), sans-serif'
+            : 'var(--font-inter), sans-serif',
+        }}
       >
-        {/* BRAND HEADER */}
-        <div className="h-20 px-4 flex items-center justify-between border-b border-[#1F2C42] bg-gradient-to-b from-[#101725] to-[#090D15]">
+        {/* BRAND HEADER (Faithful to Image 1: VIP Guest Transport) */}
+        <div className="h-20 px-4 flex items-center justify-between border-b border-[#1C473C]/80 bg-gradient-to-b from-[#173D35] to-[#122E27]">
           <Link
             href="/admin"
             className="flex items-center gap-3 group overflow-hidden"
             onClick={onCloseMobile}
           >
-            {/* VIP Golden Crest Monogram */}
-            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#E2B755] via-[#D6A13A] to-[#8C6415] p-0.5 shadow-[0_0_15px_rgba(214,161,58,0.35)] shrink-0 group-hover:scale-105 transition-transform">
-              <div className="w-full h-full rounded-[10px] bg-[#0A0E17] flex items-center justify-center overflow-hidden">
-                <Image
-                  src="/icon-192.png"
-                  alt="Duyuf Alrahman VIP"
-                  width={28}
-                  height={28}
-                  className="rounded-md object-cover"
-                />
+            {/* Golden Kaaba / Crest Icon */}
+            <div className="relative w-11 h-11 rounded-xl bg-gradient-to-br from-[#E8BE6D] via-[#D6A13A] to-[#996F1D] p-0.5 shadow-[0_2px_12px_rgba(214,161,58,0.3)] shrink-0 group-hover:scale-105 transition-transform">
+              <div className="w-full h-full rounded-[10px] bg-[#0E2620] flex items-center justify-center overflow-hidden">
+                <svg viewBox="0 0 24 24" className="w-6 h-6 text-[#E8BE6D]" fill="currentColor">
+                  {/* Stylized Kaaba / Royal Cube */}
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
               </div>
-              <div className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-[#090D15]" title="Operational Online" />
+              <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#122E27]" title="Operational Online" />
             </div>
 
             {!collapsed && (
               <div className="flex flex-col min-w-0 animate-in fade-in duration-200">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-display font-extrabold text-sm tracking-wider text-[#F4F1E9] whitespace-nowrap">
-                    DUYUF ALRAHMAN
-                  </span>
-                  <span className="px-1.5 py-0.5 text-[10px] font-black rounded bg-gradient-to-r from-[#D6A13A] to-[#A97B27] text-[#090D15] tracking-wider uppercase shadow-[0_0_8px_rgba(214,161,58,0.4)]">
-                    VIP
+                  <span className="font-bold text-sm tracking-wide text-[#F5F3EE] whitespace-nowrap">
+                    VIP GUEST TRANSPORT
                   </span>
                 </div>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-[#A5B0C2] whitespace-nowrap">
-                  {lang === 'ar' ? 'مركز العمليات المباشر' : 'Operations Command'}
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#D6A13A] whitespace-nowrap">
+                  {lang === 'ar' ? 'ضيوف الرحمن • حج وعمرة' : 'Hajj & Umrah Luxury'}
                 </span>
               </div>
             )}
@@ -304,7 +287,7 @@ export function AdminSidebar({
           <button
             onClick={onToggleCollapse}
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            className="hidden lg:flex items-center justify-center w-7 h-7 rounded-lg bg-[#141D2C] border border-[#1F2C42] text-[#A5B0C2] hover:text-[#D6A13A] hover:border-[#D6A13A]/50 transition-colors"
+            className="hidden lg:flex items-center justify-center w-7 h-7 rounded-lg bg-[#173D35] border border-[#215147] text-[#C5A059] hover:text-white hover:border-[#D6A13A] transition-colors"
           >
             {collapsed ? (
               isRtl ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />
@@ -314,23 +297,8 @@ export function AdminSidebar({
           </button>
         </div>
 
-        {/* SINGLE SOURCE OF TRUTH TELEMETRY PILL (Expanded Only) */}
-        {!collapsed && (
-          <div className="px-4 py-2.5 bg-[#090D15] border-b border-[#1F2C42]/60">
-            <div className="flex items-center justify-between text-[11px] text-[#A5B0C2]">
-              <span className="flex items-center gap-1.5 font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>{lang === 'ar' ? 'قاعدة البيانات المباشرة' : 'PostgreSQL Live'}</span>
-              </span>
-              <span className="font-mono text-[10px] text-[#D6A13A] font-semibold bg-[#D6A13A]/10 px-2 py-0.5 rounded border border-[#D6A13A]/25">
-                10 Locales Synced
-              </span>
-            </div>
-          </div>
-        )}
-
         {/* SCROLLABLE NAVIGATION LIST */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 space-y-6 scrollbar-thin scrollbar-thumb-[#1F2C42] scrollbar-track-transparent">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 space-y-6 scrollbar-thin scrollbar-thumb-[#1C473C] scrollbar-track-transparent">
           {navGroups.map((group, groupIdx) => {
             const visibleItems = group.items.filter((item) => {
               if (item.ownerOnly && !isOwner) return false;
@@ -343,7 +311,7 @@ export function AdminSidebar({
             return (
               <div key={groupIdx} className="space-y-1">
                 {!collapsed && (
-                  <div className="px-3 pb-1.5 text-[10px] font-extrabold uppercase tracking-widest text-[#5C6880] select-none flex items-center justify-between">
+                  <div className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-[#7E968F] select-none">
                     <span>{lang === 'ar' ? group.titleAr : group.titleEn}</span>
                   </div>
                 )}
@@ -363,23 +331,15 @@ export function AdminSidebar({
                       title={collapsed ? (lang === 'ar' ? item.labelAr : item.labelEn) : undefined}
                       className={`group relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 select-none ${
                         isActive
-                          ? 'bg-gradient-to-r from-[#D6A13A]/20 via-[#D6A13A]/10 to-transparent text-[#F4F1E9] border border-[#D6A13A]/40 shadow-[0_0_15px_rgba(214,161,58,0.15)] font-bold'
-                          : 'text-[#A5B0C2] hover:text-[#F4F1E9] hover:bg-[#141D2C] border border-transparent font-medium'
+                          ? 'bg-[#1D4A40] text-[#FFFFFF] font-bold shadow-[0_2px_8px_rgba(0,0,0,0.25)] border-r-2 border-[#D6A13A]'
+                          : 'text-[#D0DBD7] hover:text-[#FFFFFF] hover:bg-[#173D35]/80 font-medium'
                       } ${collapsed ? 'justify-center px-0' : ''}`}
                     >
-                      {isActive && (
-                        <span
-                          className={`absolute top-1/2 -translate-y-1/2 w-1 h-5 rounded-full bg-gradient-to-b from-[#E2B755] to-[#A97B27] ${
-                            isRtl ? 'right-0' : 'left-0'
-                          }`}
-                        />
-                      )}
-
                       <Icon
-                        className={`w-5 h-5 shrink-0 transition-colors ${
+                        className={`w-4 h-4 shrink-0 transition-colors ${
                           isActive
-                            ? 'text-[#E2B755] drop-shadow-[0_0_6px_rgba(214,161,58,0.5)]'
-                            : 'text-[#64748B] group-hover:text-[#D6A13A]'
+                            ? 'text-[#E8BE6D]'
+                            : 'text-[#8FA59F] group-hover:text-[#E8BE6D]'
                         }`}
                       />
 
@@ -391,14 +351,14 @@ export function AdminSidebar({
 
                           {item.badge && (
                             <span
-                              className={`ml-2 px-1.5 py-0.5 text-[9px] font-black rounded-full uppercase tracking-wider shrink-0 ${
-                                item.badge.variant === 'rose'
-                                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 animate-pulse'
-                                  : item.badge.variant === 'amber'
-                                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                              className={`ml-2 px-1.5 py-0.5 text-[9px] font-bold rounded-md uppercase tracking-wider shrink-0 ${
+                                item.badge.variant === 'gold'
+                                  ? 'bg-[#D6A13A]/25 text-[#F0CF87] border border-[#D6A13A]/40'
                                   : item.badge.variant === 'emerald'
-                                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                                  : 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
+                                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/35'
+                                  : item.badge.variant === 'amber'
+                                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/35'
+                                  : 'bg-rose-500/20 text-rose-300 border border-rose-500/35'
                               }`}
                             >
                               {item.badge.text}
@@ -414,25 +374,39 @@ export function AdminSidebar({
           })}
         </div>
 
+        {/* BOTTOM MOTIF CARD (Faithful to Reference Image 1) */}
+        {!collapsed && (
+          <div className="p-3 m-3 rounded-2xl bg-gradient-to-b from-[#173D35] to-[#0E2620] border border-[#215147] text-center shadow-lg relative overflow-hidden">
+            <div className="relative z-10 py-1">
+              <span className="text-xs font-serif font-bold text-[#D6A13A] block mb-0.5">
+                {lang === 'ar' ? 'رحلتكم .. أولويتنا' : 'Your Comfort · Our Priority'}
+              </span>
+              <span className="text-[10px] text-[#A2B6B0] block">
+                {lang === 'ar' ? 'خدمة متميزة تليق بضيوف الرحمن' : 'Executive Chauffeur Service'}
+              </span>
+            </div>
+          </div>
+        )}
+
         {/* BOTTOM USER PROFILE & LOGOUT FOOTER */}
-        <div className="p-3 border-t border-[#1F2C42] bg-[#090D15]">
+        <div className="p-3 border-t border-[#1C473C] bg-[#0E2620]">
           {!collapsed ? (
-            <div className="p-2.5 rounded-xl bg-[#141D2C] border border-[#1F2C42] flex items-center justify-between gap-3 shadow-inner">
+            <div className="p-2 rounded-xl bg-[#173D35] border border-[#215147] flex items-center justify-between gap-3">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#D6A13A] to-[#7A5812] p-0.5 shrink-0 shadow-[0_0_8px_rgba(214,161,58,0.3)]">
-                  <div className="w-full h-full rounded-[6px] bg-[#090D15] flex items-center justify-center font-bold text-xs text-[#E2B755]">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#D6A13A] to-[#8C6415] p-0.5 shrink-0">
+                  <div className="w-full h-full rounded-[6px] bg-[#0E2620] flex items-center justify-center font-bold text-xs text-[#E8BE6D]">
                     {currentUser?.name ? currentUser.name.charAt(0).toUpperCase() : 'S'}
                   </div>
                 </div>
                 <div className="flex flex-col min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-bold text-[#F4F1E9] truncate">
+                    <span className="text-xs font-bold text-[#F5F3EE] truncate">
                       {currentUser?.name || 'Sayed Saed'}
                     </span>
                     <Crown className="w-3 h-3 text-[#D6A13A] shrink-0" />
                   </div>
-                  <span className="text-[10px] text-[#A5B0C2] truncate font-mono">
-                    {currentUser?.role === 'owner' ? (lang === 'ar' ? 'المالك المعتمد' : 'VIP Owner') : currentUser?.role}
+                  <span className="text-[10px] text-[#A2B6B0] truncate">
+                    {currentUser?.role === 'owner' ? (lang === 'ar' ? 'المالك المعتمد' : 'System Manager') : currentUser?.role}
                   </span>
                 </div>
               </div>
@@ -440,7 +414,7 @@ export function AdminSidebar({
               <button
                 onClick={handleLogout}
                 title={lang === 'ar' ? 'تسجيل الخروج' : 'Log out from Control Center'}
-                className="p-1.5 rounded-lg text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition-colors shrink-0"
+                className="p-1.5 rounded-lg text-rose-300 hover:text-white hover:bg-rose-500/20 transition-colors shrink-0"
               >
                 <LogOut className="w-4 h-4" />
               </button>
@@ -449,7 +423,7 @@ export function AdminSidebar({
             <button
               onClick={handleLogout}
               title={lang === 'ar' ? 'تسجيل الخروج' : 'Log out from Control Center'}
-              className="w-full flex items-center justify-center p-2 rounded-xl text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition-colors"
+              className="w-full flex items-center justify-center p-2 rounded-xl text-rose-300 hover:text-white hover:bg-rose-500/20 transition-colors"
             >
               <LogOut className="w-5 h-5" />
             </button>

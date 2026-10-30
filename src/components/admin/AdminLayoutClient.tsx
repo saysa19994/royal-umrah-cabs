@@ -15,7 +15,7 @@ export function AdminLayoutClient({ currentUser, children }: AdminLayoutClientPr
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [lang, setLang] = useState<'en' | 'ar'>('en');
+  const [lang, setLang] = useState<'en' | 'ar'>('ar');
 
   // Load preferences from localStorage on mount
   useEffect(() => {
@@ -82,7 +82,14 @@ export function AdminLayoutClient({ currentUser, children }: AdminLayoutClientPr
   return (
     <div
       dir={isRtl ? 'rtl' : 'ltr'}
-      className="min-h-screen bg-[#090D15] text-[#F4F1E9] flex flex-col font-sans selection:bg-[#D6A13A]/30 selection:text-white antialiased"
+      className={`min-h-screen bg-[#F5F3EE] text-[#14211D] flex flex-col selection:bg-[#173D35]/15 selection:text-[#173D35] antialiased ${
+        isRtl ? 'font-arabic' : 'font-sans'
+      }`}
+      style={{
+        fontFamily: isRtl
+          ? 'var(--font-ibm-plex-arabic), var(--font-cairo), sans-serif'
+          : 'var(--font-inter), sans-serif',
+      }}
     >
       {/* SIDEBAR NAVIGATION */}
       <AdminSidebar
@@ -112,24 +119,24 @@ export function AdminLayoutClient({ currentUser, children }: AdminLayoutClientPr
         />
 
         {/* PAGE CONTENT CONTAINER */}
-        <main className="flex-1 p-4 md:p-8 max-w-[1600px] w-full mx-auto">
+        <main className="flex-1 p-4 md:p-8 max-w-[1680px] w-full mx-auto">
           {children}
         </main>
 
-        {/* LUXURY ENTERPRISE FOOTER */}
-        <footer className="border-t border-[#1F2C42] py-5 px-6 bg-[#090D15] text-xs text-[#A5B0C2] flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
-            <span className="font-medium text-[#A5B0C2]">
+        {/* LUXURY EDITORIAL ENTERPRISE FOOTER */}
+        <footer className="border-t border-[#E3DFD5] py-4 px-6 md:px-8 bg-[#EFECE5] text-xs text-[#5C6B64] flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2 h-2 rounded-full bg-[#173D35] shadow-[0_0_8px_rgba(23,61,53,0.4)]" />
+            <span className="font-semibold text-[#173D35]">
               {lang === 'ar'
-                ? 'مركز قيادة عمليات ضيوف الرحمن VIP • وصول آمن ومشفر'
-                : 'Duyuf Alrahman VIP Operations Command Center • Protected Root Access'}
+                ? 'لوحة تحكم ضيوف الرحمن VIP • وصول آمن ومشفر'
+                : 'Duyuf Alrahman VIP • Luxury Command Platform'}
             </span>
           </div>
-          <div className="flex items-center gap-4 font-mono text-[11px] text-[#A5B0C2]/80">
-            <span>{lang === 'ar' ? 'قاعدة بيانات PostgreSQL مباشرة' : 'PostgreSQL Single Source of Truth'}</span>
+          <div className="flex items-center gap-4 text-[12px] text-[#5C6B64]">
+            <span>{lang === 'ar' ? 'قاعدة بيانات PostgreSQL مباشرة ومحدثة' : 'PostgreSQL Live Sync'}</span>
             <span>•</span>
-            <span className="text-[#D6A13A] font-semibold">{lang === 'ar' ? '10 لغات مفعلة' : '10 Locales Active'}</span>
+            <span className="text-[#A97B27] font-semibold">{lang === 'ar' ? '10 لغات مفعلة' : '10 Locales Active'}</span>
           </div>
         </footer>
       </div>

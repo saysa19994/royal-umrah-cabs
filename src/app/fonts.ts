@@ -8,6 +8,7 @@ import {
   Playfair_Display,
   Inter,
   Cairo,
+  IBM_Plex_Sans_Arabic,
 } from 'next/font/google';
 
 export const playfair = Playfair_Display({
@@ -28,6 +29,13 @@ export const cairo = Cairo({
   subsets: ['arabic'],
   weight: ['500', '600', '700'],
   variable: '--font-cairo',
+  display: 'swap',
+});
+
+export const ibmPlexArabic = IBM_Plex_Sans_Arabic({
+  subsets: ['arabic'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-ibm-plex-arabic',
   display: 'swap',
 });
 

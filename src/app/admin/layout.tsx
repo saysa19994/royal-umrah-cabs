@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { AdminLayoutClient } from '@/components/admin/AdminLayoutClient';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
-import { inter, cairo } from '@/app/fonts';
+import { inter, cairo, ibmPlexArabic } from '@/app/fonts';
 import { OWNER_EMAIL, verifyOwnerSessionToken } from '@/lib/auth/owner-session';
 import { UserProfile } from '@/types/auth';
 
@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata = {
-  title: 'Luxury Operations Command Center | Duyuf Alrahman VIP',
+  title: 'VIP Operations Command Center | Duyuf Alrahman VIP',
   robots: {
     index: false,
     follow: false,
@@ -21,8 +21,8 @@ export const metadata = {
 
 function AdminShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" dir="ltr" className={`${inter.variable} ${cairo.variable}`}>
-      <body className="min-h-screen bg-[#090D15] text-[#F4F1E9] antialiased selection:bg-[#D6A13A]/30 selection:text-white font-sans">
+    <html lang="en" dir="ltr" className={`${inter.variable} ${ibmPlexArabic.variable} ${cairo.variable}`}>
+      <body className="min-h-screen bg-[#F5F3EE] text-[#14211D] antialiased selection:bg-[#173D35]/15 selection:text-[#173D35] font-sans">
         {children}
       </body>
     </html>

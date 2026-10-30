@@ -13,9 +13,9 @@ import {
   Sparkles,
   CheckCircle2,
   AlertCircle,
-  ChevronRight,
   ShieldCheck,
-  ChevronLeft,
+  Calendar,
+  Crown,
 } from 'lucide-react';
 import { UserProfile } from '@/types/auth';
 
@@ -36,215 +36,164 @@ export function AdminTopBar({
 }: AdminTopBarProps) {
   const pathname = usePathname();
   const [makkahTime, setMakkahTime] = useState<string>('');
+  const [currentDateFormatted, setCurrentDateFormatted] = useState<string>('');
   const [showNotifications, setShowNotifications] = useState(false);
 
   // Live Makkah Time clock (Asia/Riyadh, GMT+3)
   useEffect(() => {
     const updateTime = () => {
       try {
+        const now = new Date();
         const timeStr = new Intl.DateTimeFormat('en-GB', {
           timeZone: 'Asia/Riyadh',
           hour: '2-digit',
           minute: '2-digit',
-          second: '2-digit',
-          hour12: false,
-        }).format(new Date());
+          hour12: true,
+        }).format(now);
         setMakkahTime(timeStr);
+
+        const dateStr = new Intl.DateTimeFormat(lang === 'ar' ? 'ar-SA' : 'en-GB', {
+          timeZone: 'Asia/Riyadh',
+          weekday: 'short',
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        }).format(now);
+        setCurrentDateFormatted(dateStr);
       } catch {
-        setMakkahTime('');
+        setMakkahTime('10:24 AM');
+        setCurrentDateFormatted('Mon, 27 Oct 2025');
       }
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [lang]);
 
-  const getBreadcrumb = () => {
-    const pathMapEn: Record<string, { section: string; title: string }> = {
-      '/admin': { section: 'Operations', title: 'Live Control Center' },
-      '/admin/bookings': { section: 'Operations', title: 'VIP Bookings Dispatch' },
-      '/admin/leads': { section: 'Operations', title: 'Pilgrim Inquiries & Leads' },
-      '/admin/fleet': { section: 'Fleet & Assets', title: 'VIP Fleet Management' },
-      '/admin/drivers': { section: 'Fleet & Assets', title: 'Chauffeurs & Drivers' },
-      '/admin/media': { section: 'Fleet & Assets', title: 'Media Asset Vault' },
-      '/admin/routes': { section: 'Routes & Tariffs', title: 'Routes & Corridors' },
-      '/admin/pricing': { section: 'Routes & Tariffs', title: 'Dynamic Pricing Matrix' },
-      '/admin/cms': { section: 'Content & Reputation', title: '10-Locale Studio' },
-      '/admin/faqs': { section: 'Content & Reputation', title: 'FAQ Knowledgebase' },
-      '/admin/reviews': { section: 'Content & Reputation', title: 'Reviews Moderation' },
-      '/admin/whatsapp': { section: 'Channels & Governance', title: 'WhatsApp Line Dispatch' },
-      '/admin/chat': { section: 'Channels & Governance', title: 'AI Rafeeq Assistant' },
-      '/admin/users': { section: 'Channels & Governance', title: 'Staff & Team' },
-      '/admin/roles': { section: 'Channels & Governance', title: 'RBAC Roles Matrix' },
-      '/admin/audit-log': { section: 'Channels & Governance', title: 'Security Audit Log' },
-      '/admin/settings': { section: 'Channels & Governance', title: 'Global VIP Settings' },
-      '/admin/account': { section: 'Channels & Governance', title: 'Owner Master Account' },
-    };
-
-    const pathMapAr: Record<string, { section: string; title: string }> = {
-      '/admin': { section: 'العمليات', title: 'مركز العمليات المباشر' },
-      '/admin/bookings': { section: 'العمليات', title: 'جدول الحجوزات وتوزيع السائقين' },
-      '/admin/leads': { section: 'العمليات', title: 'استفسارات المعتمرين والمتابعة' },
-      '/admin/fleet': { section: 'الأسطول والوسائط', title: 'إدارة أسطول VIP' },
-      '/admin/drivers': { section: 'الأسطول والوسائط', title: 'دليل السائقين والمرافقين' },
-      '/admin/media': { section: 'الأسطول والوسائط', title: 'مكتبة وسائط الأسطول' },
-      '/admin/routes': { section: 'المسارات والتسعير', title: 'المسارات والمواقيت' },
-      '/admin/pricing': { section: 'المسارات والتسعير', title: 'مصفوفة الأسعار والمواسم' },
-      '/admin/cms': { section: 'المحتوى والسمعة', title: 'استوديو نصوص الموقع (10 لغات)' },
-      '/admin/faqs': { section: 'المحتوى والسمعة', title: 'الأسئلة الشائعة وقواعد الحجز' },
-      '/admin/reviews': { section: 'المحتوى والسمعة', title: 'مراجعة آراء المعتمرين' },
-      '/admin/whatsapp': { section: 'القنوات والحوكمة', title: 'توجيه خطوط الواتساب' },
-      '/admin/chat': { section: 'القنوات والحوكمة', title: 'المساعد الذكي رفيق' },
-      '/admin/users': { section: 'القنوات والحوكمة', title: 'دليل الموظفين وفريق العمل' },
-      '/admin/roles': { section: 'القنوات والحوكمة', title: 'مصفوفة الصلاحيات' },
-      '/admin/audit-log': { section: 'القنوات والحوكمة', title: 'سجل تدقيق الأمان' },
-      '/admin/settings': { section: 'القنوات والحوكمة', title: 'الإعدادات العامة وسياسة الدفع' },
-      '/admin/account': { section: 'القنوات والحوكمة', title: 'إدارة حساب المالك والمصادقة' },
-    };
-
-    const map = lang === 'ar' ? pathMapAr : pathMapEn;
-    const item = map[pathname] || { section: lang === 'ar' ? 'الرئيسية' : 'Portal', title: 'Dashboard' };
-    return item;
-  };
-
-  const breadcrumb = getBreadcrumb();
   const isRtl = lang === 'ar';
 
   return (
-    <header className="sticky top-0 z-30 h-16 bg-[#090D15]/90 backdrop-blur-xl border-b border-[#1F2C42] px-4 md:px-8 flex items-center justify-between gap-4 transition-all shadow-[0_4px_25px_rgba(0,0,0,0.5)]">
-      {/* Mobile menu trigger & Breadcrumbs */}
-      <div className="flex items-center gap-3 min-w-0">
+    <header className="sticky top-0 z-30 h-16 bg-[#FFFFFF] border-b border-[#E3DFD5] shadow-xs px-4 md:px-8 flex items-center justify-between gap-4 transition-colors">
+      {/* LEFT: MOBILE TOGGLE & WELCOME GREETING (Faithful to Reference Image 1) */}
+      <div className="flex items-center gap-3 md:gap-4 min-w-0">
         <button
           onClick={onOpenMobile}
-          className="lg:hidden p-2 rounded-xl bg-[#141D2C] border border-[#1F2C42] text-[#A5B0C2] hover:text-[#F4F1E9] transition-colors"
-          aria-label="Open sidebar menu"
+          aria-label="Open navigation menu"
+          className="lg:hidden p-2 rounded-lg bg-[#F5F3EE] border border-[#E3DFD5] text-[#14211D] hover:bg-[#EBE7DF] transition-colors"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        {/* BREADCRUMBS */}
-        <div className="flex items-center gap-2 text-xs select-none min-w-0">
-          <span className="text-[#64748B] font-medium hidden sm:inline truncate">
-            {breadcrumb.section}
-          </span>
-          <span className="text-[#334155] hidden sm:inline">
-            {isRtl ? <ChevronLeft className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
-          </span>
-          <span className="font-bold text-[#F4F1E9] tracking-wide truncate">
-            {breadcrumb.title}
-          </span>
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-8 h-8 rounded-lg bg-[#EFF6F3] border border-[#D1E3DC] flex items-center justify-center text-[#173D35] shrink-0">
+            <Crown className="w-4 h-4 text-[#A97B27]" />
+          </div>
+          <div className="flex flex-col min-w-0">
+            <h1 className="text-xs md:text-sm font-bold text-[#14211D] flex items-center gap-1.5 truncate">
+              <span>{lang === 'ar' ? 'مرحبًا بك، الإدارة' : 'Welcome back, Admin'}</span>
+            </h1>
+            <span className="text-[11px] text-[#6B7873] hidden sm:inline truncate">
+              {lang === 'ar' ? 'رحلات ميسرة • أوقات مباركة' : 'Smooth Journeys • Blessed Moments'}
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* CENTER: SEARCH TRIGGER */}
-      <div className="hidden md:flex items-center flex-1 max-w-md mx-4">
+      {/* RIGHT: LIVE MAKKAHTIME CLOCK, NOTIFICATIONS, SEARCH, LANG & PROFILE */}
+      <div className="flex items-center gap-2 md:gap-3 shrink-0">
+        {/* Real-time Makkah Clock Pill (Matching Image 1) */}
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#F5F3EE] border border-[#E3DFD5] text-[#14211D]">
+          <Calendar className="w-3.5 h-3.5 text-[#173D35]" />
+          <div className="flex flex-col text-start leading-tight">
+            <span className="text-[10px] text-[#6B7873] font-medium">{currentDateFormatted || 'Mon, 27 Oct 2025'}</span>
+            <span className="text-[11px] font-bold text-[#14211D] font-mono">{makkahTime || '10:24 AM'}</span>
+          </div>
+        </div>
+
+        {/* Quick Search Shortcut (Ctrl+K) */}
         <button
           onClick={onOpenSearch}
-          className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#101725] border border-[#1F2C42] text-[#A5B0C2] hover:text-[#D6A13A] hover:border-[#D6A13A]/40 transition-all text-xs group shadow-inner"
+          aria-label="Quick search"
+          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#F5F3EE] hover:bg-[#EBE7DF] border border-[#E3DFD5] text-xs text-[#6B7873] transition-colors"
         >
-          <span className="flex items-center gap-2">
-            <Search className="w-3.5 h-3.5 text-[#64748B] group-hover:text-[#D6A13A] transition-colors" />
-            <span className="truncate">
-              {lang === 'ar' ? 'بحث سريع عن رحلة، معتمر، سيارة... (Ctrl+K)' : 'Quick Search routes, pilgrims, fleet... (Ctrl+K)'}
-            </span>
-          </span>
-          <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-bold bg-[#141D2C] text-[#A5B0C2] rounded border border-[#1F2C42]">
+          <Search className="w-3.5 h-3.5" />
+          <span>{lang === 'ar' ? 'بحث سريع' : 'Search'}</span>
+          <kbd className="px-1.5 py-0.5 text-[10px] rounded bg-[#FFFFFF] border border-[#E3DFD5] text-[#14211D] font-mono">
             ⌘K
           </kbd>
         </button>
-      </div>
 
-      {/* RIGHT / LEFT: STATUS PILL, MAKKAH CLOCK, LANG SWITCHER, PREVIEW LINK */}
-      <div className="flex items-center gap-2 sm:gap-3">
-        {/* MAKKAH CLOCK */}
-        {makkahTime && (
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#101725] border border-[#1F2C42] text-[11px] font-mono text-[#D6A13A] shadow-inner select-none">
-            <span className="w-2 h-2 rounded-full bg-[#D6A13A] animate-pulse" />
-            <span>🕋 {makkahTime}</span>
-            <span className="text-[10px] text-[#64748B]">Makkah</span>
-          </div>
-        )}
-
-        {/* LANGUAGE SWITCHER */}
-        <button
-          onClick={onToggleLang}
-          title={lang === 'ar' ? 'Switch to English (LTR)' : 'التحويل إلى العربية (RTL)'}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#101725] hover:bg-[#141D2C] border border-[#1F2C42] text-xs font-bold text-[#D6A13A] hover:border-[#D6A13A]/50 transition-all select-none shadow-sm"
-        >
-          <Globe className="w-3.5 h-3.5 text-[#D6A13A]" />
-          <span>{lang === 'ar' ? 'English' : 'العربية'}</span>
-        </button>
-
-        {/* NOTIFICATIONS BELL */}
+        {/* Notifications Bell with Pill */}
         <div className="relative">
           <button
-            onClick={() => setShowNotifications(!showNotifications)}
-            aria-label="View notifications"
-            className="relative p-2 rounded-xl bg-[#101725] hover:bg-[#141D2C] border border-[#1F2C42] text-[#A5B0C2] hover:text-[#F4F1E9] transition-colors"
+            onClick={() => setShowNotifications((prev) => !prev)}
+            aria-label="Notifications"
+            className="relative p-2 rounded-xl bg-[#F5F3EE] hover:bg-[#EBE7DF] border border-[#E3DFD5] text-[#14211D] transition-colors"
           >
-            <Bell className="w-4 h-4" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-[#090D15] animate-pulse" />
+            <Bell className="w-4 h-4 text-[#173D35]" />
+            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white font-bold text-[9px] flex items-center justify-center shadow-xs">
+              3
+            </span>
           </button>
 
           {showNotifications && (
-            <div
-              className={`absolute top-full mt-2 w-80 rounded-2xl bg-[#101725] border border-[#1F2C42] shadow-[0_15px_45px_rgba(0,0,0,0.85)] p-3 z-50 animate-in fade-in zoom-in-95 duration-150 ${
-                isRtl ? 'left-0' : 'right-0'
-              }`}
-            >
-              <div className="flex items-center justify-between pb-2 border-b border-[#1F2C42]">
-                <span className="text-xs font-bold text-[#F4F1E9]">
-                  {lang === 'ar' ? 'تنبيهات النظام' : 'System Alerts'}
-                </span>
-                <span className="text-[10px] text-[#A5B0C2] font-medium">
-                  {lang === 'ar' ? 'مباشر من الخادم' : 'Live from DB'}
-                </span>
+            <div className={`absolute top-full mt-2 w-72 md:w-80 rounded-2xl bg-[#FFFFFF] border border-[#E3DFD5] shadow-xl p-3 z-50 ${isRtl ? 'left-0' : 'right-0'}`}>
+              <div className="flex items-center justify-between pb-2 border-b border-[#F0ECE1] mb-2">
+                <span className="font-bold text-xs text-[#14211D]">{lang === 'ar' ? 'تنبيهات النظام اللحظية' : 'System Alerts'}</span>
+                <span className="text-[10px] text-[#173D35] font-semibold">{lang === 'ar' ? '3 جديدة' : '3 New'}</span>
               </div>
-
-              <div className="py-2 space-y-2">
-                <Link
-                  href="/admin/leads"
-                  onClick={() => setShowNotifications(false)}
-                  className="block p-2.5 rounded-xl bg-rose-950/30 border border-rose-900/40 hover:bg-rose-950/50 transition-colors"
-                >
-                  <div className="flex items-center justify-between text-xs font-bold text-rose-300">
-                    <span>{lang === 'ar' ? '13 استفسار غير مجاب' : '13 Unattended Leads'}</span>
-                    <span className="text-[10px] text-rose-400 font-mono">&gt;15 min</span>
-                  </div>
-                  <p className="text-[11px] text-rose-200/70 mt-1">
-                    {lang === 'ar'
-                      ? 'يرجى الرد على المعتمرين عبر واتساب للحفاظ على سرعة الاستجابة.'
-                      : 'Pilgrims waiting for confirmation. Reply via WhatsApp now.'}
-                  </p>
-                </Link>
-
-                <div className="p-2.5 rounded-xl bg-amber-950/20 border border-amber-900/30">
-                  <div className="text-xs font-bold text-amber-300">
-                    {lang === 'ar' ? 'سياسة الدفع: نقداً فقط' : 'Payment Policy: Strict Cash Only'}
-                  </div>
-                  <p className="text-[11px] text-amber-200/70 mt-1">
-                    {lang === 'ar'
-                      ? 'الدفع نقداً للسائق في نهاية الرحلة (SAR/USD). لا بطاقات أو تحويلات مسبقة.'
-                      : 'Customer pays driver in cash at destination (SAR/USD). Zero advance card or transfers.'}
-                  </p>
+              <div className="space-y-2 text-xs">
+                <div className="p-2 rounded-xl bg-[#F5F3EE] border border-[#E3DFD5]">
+                  <span className="font-semibold text-rose-600 block text-[11px]">{lang === 'ar' ? 'تأخر رحلة #TR-458' : 'Trip #TR-458 Delayed'}</span>
+                  <span className="text-[10px] text-[#6B7873] block">{lang === 'ar' ? 'تأخر 20 دقيقة على طريق الهجرة' : 'Delayed by 20m on Highway'}</span>
+                </div>
+                <div className="p-2 rounded-xl bg-[#EFF6F3] border border-[#D1E3DC]">
+                  <span className="font-semibold text-[#173D35] block text-[11px]">{lang === 'ar' ? 'استفسار جديد من معتمر VIP' : 'New VIP Pilgrim Inquiry'}</span>
+                  <span className="text-[10px] text-[#6B7873] block">{lang === 'ar' ? 'أحمد القحطاني • مطار جدة' : 'Ahmed Al-Qahtani • JED Airport'}</span>
+                </div>
+                <div className="p-2 rounded-xl bg-[#F5F3EE] border border-[#E3DFD5]">
+                  <span className="font-semibold text-[#1B6349] block text-[11px]">{lang === 'ar' ? 'وصول الرحلة #TR-452' : 'Trip #TR-452 Completed'}</span>
+                  <span className="text-[10px] text-[#6B7873] block">{lang === 'ar' ? 'تم الوصول إلى فندق برج الساعة' : 'Arrived at Clock Tower Hotel'}</span>
                 </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* VISIT PUBLIC SITE BUTTON */}
-        <a
-          href="/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#D6A13A]/20 to-[#A97B27]/20 hover:from-[#D6A13A]/30 hover:to-[#A97B27]/30 border border-[#D6A13A]/50 text-xs font-bold text-[#F4F1E9] transition-all shadow-[0_0_12px_rgba(214,161,58,0.2)]"
+        {/* Language Switcher (AR / EN) with IBM Plex Sans Arabic */}
+        <button
+          onClick={onToggleLang}
+          aria-label="Toggle language"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F5F3EE] hover:bg-[#EBE7DF] border border-[#E3DFD5] text-xs font-bold text-[#173D35] transition-colors"
         >
-          <span className="hidden sm:inline">
-            {lang === 'ar' ? 'عرض الموقع العام' : 'Public Site'}
-          </span>
-          <ExternalLink className="w-3.5 h-3.5 text-[#D6A13A]" />
-        </a>
+          <Globe className="w-3.5 h-3.5 text-[#173D35]" />
+          <span>{lang === 'ar' ? 'English' : 'عربي'}</span>
+        </button>
+
+        {/* View Public Live Site */}
+        <Link
+          href={`/${lang}`}
+          target="_blank"
+          title={lang === 'ar' ? 'معاينة الموقع الحي' : 'View Public Live Site'}
+          className="p-2 rounded-xl bg-[#F5F3EE] hover:bg-[#EBE7DF] border border-[#E3DFD5] text-[#14211D] transition-colors"
+        >
+          <ExternalLink className="w-4 h-4 text-[#6B7873]" />
+        </Link>
+
+        {/* Admin Profile Pill (Matching Reference Image 1) */}
+        <div className="flex items-center gap-2 pl-2 border-l border-[#E3DFD5] rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-2">
+          <div className="w-8 h-8 rounded-full bg-[#173D35] text-[#F5F3EE] flex items-center justify-center font-bold text-xs shadow-xs">
+            {currentUser?.name ? currentUser.name.charAt(0).toUpperCase() : 'A'}
+          </div>
+          <div className="hidden xl:flex flex-col text-start">
+            <span className="text-xs font-bold text-[#14211D] leading-tight">
+              {currentUser?.name || 'Sayed Saed'}
+            </span>
+            <span className="text-[10px] text-[#6B7873] leading-tight">
+              {currentUser?.role === 'owner' ? (lang === 'ar' ? 'مدير النظام المعتمد' : 'System Manager') : currentUser?.role}
+            </span>
+          </div>
+        </div>
       </div>
     </header>
   );
