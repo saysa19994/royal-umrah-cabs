@@ -1,7 +1,7 @@
 import React from 'react';
 import { headers, cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { AdminNavbar } from '@/components/admin/AdminNavbar';
+import { AdminLayoutClient } from '@/components/admin/AdminLayoutClient';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { manrope } from '@/app/fonts';
@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata = {
-  title: 'Admin Operations Portal | Duyuf Alrahman VIP',
+  title: 'Operations Command Center | Duyuf Alrahman VIP',
   robots: {
     index: false,
     follow: false,
@@ -22,7 +22,7 @@ export const metadata = {
 function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" dir="ltr" className={manrope.variable}>
-      <body className="min-h-screen flex flex-col font-sans bg-[#0D0F12] text-[#FAF9F6] antialiased">
+      <body className="min-h-screen bg-[#070A10] text-[#FAF9F6] antialiased selection:bg-[#D4AF37]/30 selection:text-white">
         {children}
       </body>
     </html>
@@ -51,7 +51,7 @@ export default async function AdminLayout({
     const ownerProfile: UserProfile = {
       id: 'owner-master-id',
       email: OWNER_EMAIL,
-      name: 'Sayed (Owner)',
+      name: 'Sayed Saed (Owner)',
       role: 'owner',
       is_suspended: false,
       totp_enabled: false,
@@ -60,19 +60,9 @@ export default async function AdminLayout({
 
     return (
       <AdminShell>
-        <div className="min-h-screen bg-[#0A0D14] text-[#FAF9F6] flex flex-col font-sans selection:bg-[#D9A031]/30 selection:text-white">
-          <AdminNavbar initialUser={ownerProfile} />
-          <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
-            {children}
-          </main>
-          <footer className="border-t border-[#1F2636] py-5 px-6 text-center text-xs text-[#7C879B] flex flex-col sm:flex-row items-center justify-between max-w-7xl mx-auto w-full gap-2">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400" />
-              <span>Duyuf Alrahman VIP Operations Portal • Protected Root Access</span>
-            </div>
-            <span className="font-mono text-[11px] text-[#556075]">Single Source of Truth • 10 Locales Active</span>
-          </footer>
-        </div>
+        <AdminLayoutClient currentUser={ownerProfile}>
+          {children}
+        </AdminLayoutClient>
       </AdminShell>
     );
   }
@@ -88,7 +78,7 @@ export default async function AdminLayout({
     return <AdminShell>{children}</AdminShell>;
   }
 
-  // 2. Fetch staff profile strictly by auth_user_id (NO .or() queries)
+  // 2. Fetch staff profile strictly by auth_user_id
   const serviceClient = createServiceClient();
   let { data: profile } = await serviceClient
     .from('user_profiles')
@@ -97,7 +87,6 @@ export default async function AdminLayout({
     .maybeSingle();
 
   if (!profile) {
-    // Auto-link auth_user_id on first login if unlinked ONLY when email is confirmed
     if (!authData.user.email_confirmed_at) {
       if (!isLoginPage) {
         redirect('/admin/login?error=unconfirmed_email');
@@ -128,7 +117,7 @@ export default async function AdminLayout({
     return <AdminShell>{children}</AdminShell>;
   }
 
-  // 3. For owner, admin, or ANY staff account with totp_enabled: ALWAYS require AAL2 MFA before granting access to portal pages
+  // 3. MFA verification
   const requiresMfa = profile.role === 'owner' || profile.role === 'admin' || profile.totp_enabled === true;
   if (requiresMfa) {
     const { data: aalData } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
@@ -140,19 +129,17 @@ export default async function AdminLayout({
     }
   }
 
-  // 4. Authenticated users with completed MFA visiting login page get redirected to portal
   if (isLoginPage) {
     redirect('/admin');
   }
 
-  // 5. Block non-owners from /admin/account root management page
+  // 4. Role restrictions
   if (profile.role !== 'owner') {
     if (currentPath === '/admin/account' || currentPath.startsWith('/admin/account/')) {
       redirect('/admin');
     }
   }
 
-  // 6. Block operator and other non-admin roles from restricted management pages
   if (profile.role !== 'owner' && profile.role !== 'admin') {
     const restrictedPaths = [
       '/admin/pricing',
@@ -173,25 +160,9 @@ export default async function AdminLayout({
 
   return (
     <AdminShell>
-      <div className="min-h-screen bg-[#0A0D14] text-[#FAF9F6] flex flex-col font-sans selection:bg-[#D9A031]/30 selection:text-white">
-        <AdminNavbar initialUser={profile} />
-        {/* TURNSTILE CONFIGURATION WARNING IN PRODUCTION */}
-        {process.env.NODE_ENV === 'production' && (!process.env.TURNSTILE_SECRET_KEY || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || process.env.TURNSTILE_SECRET_KEY.includes('placeholder')) && (
-          <div className="bg-amber-950/80 border-b border-amber-600/50 px-4 py-3 text-amber-200 text-xs text-center flex items-center justify-center gap-2">
-            <span>⚠️ <strong>Security Notice:</strong> Cloudflare Turnstile keys (NEXT_PUBLIC_TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY) are missing or set to placeholder. Public booking and tracking APIs are in fail-closed 503 mode until valid production keys are configured.</span>
-          </div>
-        )}
-        <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
-          {children}
-        </main>
-        <footer className="border-t border-[#1F2636] py-5 px-6 text-center text-xs text-[#7C879B] flex flex-col sm:flex-row items-center justify-between max-w-7xl mx-auto w-full gap-2">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span>Duyuf Alrahman VIP Operations Portal • Protected with RBAC &amp; Mandatory TOTP</span>
-          </div>
-          <span className="font-mono text-[11px] text-[#556075]">Single Source of Truth • 10 Locales Active</span>
-        </footer>
-      </div>
+      <AdminLayoutClient currentUser={profile}>
+        {children}
+      </AdminLayoutClient>
     </AdminShell>
   );
 }
