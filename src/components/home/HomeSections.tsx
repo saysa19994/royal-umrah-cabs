@@ -4,7 +4,6 @@ import { ExecutiveRouteCard } from '@/components/routes/ExecutiveRouteCard';
 import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
 import { FaqSection } from '@/components/faq/FaqSection';
 import { FleetSection } from '@/components/home/FleetSection';
-import { PricingTable } from '@/components/pricing/PricingTable';
 import { ReviewsSection } from '@/components/reviews/ReviewsSection';
 
 import React, { useState } from 'react';
@@ -572,16 +571,7 @@ export function HomeSections({ locale, dict, settings }: HomeSectionsProps) {
             ))}
           </div>
 
-          {/* 5.1 MASTER LUXURY TRANSFER RATES TABLE (Image 2) */}
-          <div className="mt-12 sm:mt-16">
-            <PricingTable
-              locale={locale}
-              dict={dict}
-              taifEnabled={settings.taif_enabled !== false}
-              riyadhEnabled={settings.riyadh_enabled !== false}
-            />
-          </div>
-        </div>
+                  </div>
       </section>
 
       {/* ============================================================== */}
