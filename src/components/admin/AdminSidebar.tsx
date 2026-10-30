@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard,
+  BookOpen,
   CalendarCheck,
   Users,
   Car,
@@ -166,6 +167,14 @@ export function AdminSidebar({
           adminOnly: true,
         },
         {
+          href: '/admin/blog',
+          labelEn: 'Blog & Articles',
+          labelAr: 'المقالات والمدونة',
+          icon: BookOpen,
+          badge: { text: 'Guides', variant: 'gold' },
+          adminOnly: true,
+        },
+        {
           href: '/admin/cms',
           labelEn: 'Website Content (CMS)',
           labelAr: 'إدارة محتوى الموقع (CMS)',
@@ -298,7 +307,7 @@ export function AdminSidebar({
         </div>
 
         {/* SCROLLABLE NAVIGATION LIST */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 space-y-6 scrollbar-thin scrollbar-thumb-[#1F2C42] scrollbar-track-transparent">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 space-y-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {navGroups.map((group, groupIdx) => {
             const visibleItems = group.items.filter((item) => {
               if (item.ownerOnly && !isOwner) return false;

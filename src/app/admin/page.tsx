@@ -108,20 +108,20 @@ interface InquiryItem {
       image: '/assets/images/vehicles/toyota-hiace/exterior-studio.webp',
     },
     {
-      id: 'maybach',
-      name: 'Mercedes-Benz VIP',
+      id: 'vclass',
+      name: 'Mercedes-Benz V-Class VIP',
       passengers: 7,
       luggage: 5,
       status: 'available',
-      image: '/assets/images/vehicles/maybach/exterior-studio.webp',
+      image: '/assets/images/vehicles/mercedes-v-class/exterior-studio.webp',
     },
     {
-      id: 'coaster',
-      name: 'Toyota Coaster VIP',
-      passengers: 21,
-      luggage: 18,
+      id: 'landcruiser',
+      name: 'Toyota Land Cruiser 300 VIP',
+      passengers: 7,
+      luggage: 5,
       status: 'maintenance',
-      image: '/assets/images/vehicles/toyota-coaster/exterior-studio.webp',
+      image: '/assets/images/vehicles/land-cruiser-300/exterior-studio.webp',
     },
   ];
 

@@ -16,6 +16,7 @@ import {
   Edit3,
   Trash2,
   Camera,
+  Upload,
   Layers,
   Sparkles,
   Shield,
@@ -70,6 +71,58 @@ export default function AdminFleetPage() {
   const [nameAr, setNameAr] = useState('');
   const [nameEn, setNameEn] = useState('');
   const [newFeature, setNewFeature] = useState('');
+  const [uploadingExt, setUploadingExt] = useState(false);
+  const [uploadingInt, setUploadingInt] = useState(false);
+
+  const handleUploadExterior = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingExt(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('category', 'fleet');
+      fd.append('vehicleId', formData.id || 'vehicle');
+      const res = await fetch('/api/admin/media/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (res.ok && data.url) {
+        setFormData((prev: any) => ({
+          ...prev,
+          photos: { ...prev.photos, exterior: data.url },
+        }));
+        setFeedback({ type: 'success', message: 'Exterior studio photo uploaded successfully!' });
+      }
+    } catch {
+      setFeedback({ type: 'error', message: 'Upload failed' });
+    } finally {
+      setUploadingExt(false);
+    }
+  };
+
+  const handleUploadInterior = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingInt(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('category', 'fleet');
+      fd.append('vehicleId', formData.id || 'vehicle');
+      const res = await fetch('/api/admin/media/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (res.ok && data.url) {
+        setFormData((prev: any) => ({
+          ...prev,
+          photos: { ...prev.photos, interior: data.url },
+        }));
+        setFeedback({ type: 'success', message: 'Interior cabin photo uploaded successfully!' });
+      }
+    } catch {
+      setFeedback({ type: 'error', message: 'Upload failed' });
+    } finally {
+      setUploadingInt(false);
+    }
+  };
 
   const fetchFleet = async () => {
     setLoading(true);
@@ -732,43 +785,79 @@ export default function AdminFleetPage() {
                 </div>
               </div>
 
-              {/* Photos URLs */}
-              <div className="space-y-3">
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-[#A5B0C2] flex items-center gap-1.5">
-                  <Camera className="w-3.5 h-3.5 text-[#D6A13A]" />
-                  <span>Studio Vehicle Photography URLs</span>
-                </label>
-
-                <div>
-                  <span className="text-[10px] text-[#A5B0C2]">Exterior Studio Photo</span>
-                  <input
-                    type="text"
-                    value={formData.photos?.exterior || ''}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        photos: { ...formData.photos, exterior: e.target.value },
-                      })
-                    }
-                    placeholder="/assets/images/vehicles/.../exterior-studio.webp"
-                    className="w-full px-3.5 py-2 rounded-xl bg-[#090D15] border border-[#1F2C42] text-xs font-mono text-[#F4F1E9] focus:outline-none focus:border-[#D6A13A] mt-1"
-                  />
+              {/* Visual Interactive Studio Photography Manager */}
+              <div className="space-y-4 p-4 rounded-xl bg-[#090D15] border border-[#1F2C42]">
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#D6A13A] flex items-center gap-1.5">
+                    <Camera className="w-3.5 h-3.5" />
+                    <span>Studio Vehicle Photography (Visual Upload &amp; Preview)</span>
+                  </label>
+                  <a
+                    href="/admin/media"
+                    target="_blank"
+                    className="text-[10px] text-slate-400 hover:text-[#E6C773] underline flex items-center gap-1"
+                  >
+                    <span>Manage Full Gallery in Vault</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
                 </div>
 
-                <div>
-                  <span className="text-[10px] text-[#A5B0C2]">Interior Cabin Photo</span>
-                  <input
-                    type="text"
-                    value={formData.photos?.interior || ''}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        photos: { ...formData.photos, interior: e.target.value },
-                      })
-                    }
-                    placeholder="/assets/images/vehicles/.../interior.webp"
-                    className="w-full px-3.5 py-2 rounded-xl bg-[#090D15] border border-[#1F2C42] text-xs font-mono text-[#F4F1E9] focus:outline-none focus:border-[#D6A13A] mt-1"
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Exterior Studio Photo */}
+                  <div className="space-y-2">
+                    <span className="text-[10px] font-bold text-slate-300 block">★ Exterior Studio Photo</span>
+                    <div className="relative w-full h-32 rounded-lg bg-[#141D2C] border border-[#1F2C42] overflow-hidden flex items-center justify-center">
+                      {formData.photos?.exterior ? (
+                        <Image
+                          src={formData.photos.exterior}
+                          alt="Exterior preview"
+                          fill
+                          className="object-cover"
+                        />
+                      ) : (
+                        <span className="text-xs text-slate-500">No exterior photo</span>
+                      )}
+                    </div>
+                    <label className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-[#141D2C] hover:bg-[#1A2538] border border-[#1F2C42] text-xs font-bold text-white cursor-pointer transition-colors">
+                      <Upload className={`w-3.5 h-3.5 text-[#D6A13A] ${uploadingExt ? 'animate-bounce' : ''}`} />
+                      <span>{uploadingExt ? 'Uploading...' : 'Upload Exterior from PC'}</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleUploadExterior}
+                        disabled={uploadingExt}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+
+                  {/* Interior Cabin Photo */}
+                  <div className="space-y-2">
+                    <span className="text-[10px] font-bold text-slate-300 block">Luxury Cabin Interior Photo</span>
+                    <div className="relative w-full h-32 rounded-lg bg-[#141D2C] border border-[#1F2C42] overflow-hidden flex items-center justify-center">
+                      {formData.photos?.interior ? (
+                        <Image
+                          src={formData.photos.interior}
+                          alt="Interior preview"
+                          fill
+                          className="object-cover"
+                        />
+                      ) : (
+                        <span className="text-xs text-slate-500">No interior photo</span>
+                      )}
+                    </div>
+                    <label className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-[#141D2C] hover:bg-[#1A2538] border border-[#1F2C42] text-xs font-bold text-white cursor-pointer transition-colors">
+                      <Upload className={`w-3.5 h-3.5 text-[#D6A13A] ${uploadingInt ? 'animate-bounce' : ''}`} />
+                      <span>{uploadingInt ? 'Uploading...' : 'Upload Interior from PC'}</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleUploadInterior}
+                        disabled={uploadingInt}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
                 </div>
               </div>
 
