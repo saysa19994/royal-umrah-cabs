@@ -71,7 +71,20 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Media ID or URL required' }, { status: 400 });
     }
 
-    // If file is in uploads, delete from disk
+    // If file is in Supabase storage, delete from storage
+    if (url && url.includes('/storage/v1/object/public/media/')) {
+      try {
+        const supabase = createServiceClient();
+        const storagePath = url.split('/storage/v1/object/public/media/')[1];
+        if (storagePath) {
+          await supabase.storage.from('media').remove([decodeURIComponent(storagePath)]);
+        }
+      } catch (e) {
+        console.warn('Failed removing from Supabase storage:', e);
+      }
+    }
+
+    // If file is in uploads locally, delete from disk
     if (url && url.startsWith('/assets/images/uploads/')) {
       const filePath = path.join(process.cwd(), 'public', url.replace(/^\//, '').replace(/\//g, path.sep));
       if (fs.existsSync(filePath)) {

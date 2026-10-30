@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth/server-auth';
-import { getClientIp } from '@/lib/rate-limit';
-import fs from 'fs';
-import path from 'path';
+import { createServiceClient } from '@/lib/supabase/service';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,6 +11,7 @@ const ALLOWED_MIME_TYPES = [
   'image/png',
   'image/webp',
   'image/avif',
+  'image/gif',
 ];
 
 export async function POST(request: NextRequest) {
@@ -31,7 +30,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'No file uploaded' }, { status: 400 });
     }
 
-    if (!ALLOWED_MIME_TYPES.includes(file.type.toLowerCase())) {
+    const mime = file.type.toLowerCase();
+    if (!ALLOWED_MIME_TYPES.includes(mime)) {
       return NextResponse.json(
         { success: false, error: 'Unsupported file type. Please upload JPG, PNG, or WebP.' },
         { status: 400 }
@@ -45,30 +45,58 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Determine target upload directory
-    const uploadDir = path.join(process.cwd(), 'public', 'assets', 'images', 'uploads');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-
     // Clean filename
     const originalName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-    const ext = path.extname(originalName) || '.webp';
-    const baseName = path.basename(originalName, ext);
-    const uniqueFileName = `${category}_${baseName}_${Date.now()}${ext}`;
-    const filePath = path.join(uploadDir, uniqueFileName);
+    const ext = originalName.substring(originalName.lastIndexOf('.')) || '.webp';
+    const baseName = originalName.substring(0, originalName.lastIndexOf('.')) || 'photo';
+    const storagePath = `${category}/${vehicleId ? `${vehicleId}_` : ''}${Date.now()}_${baseName}${ext}`;
 
-    // Convert file buffer and save locally to public assets
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    fs.writeFileSync(filePath, buffer);
 
-    const publicUrl = `/assets/images/uploads/${uniqueFileName}`;
+    const supabase = createServiceClient();
+
+    // Upload directly to Supabase Storage "media" bucket
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('media')
+      .upload(storagePath, buffer, {
+        contentType: mime || 'image/webp',
+        upsert: true,
+      });
+
+    if (uploadError) {
+      console.error('Supabase storage upload error:', uploadError);
+      throw new Error(`Failed to upload to storage: ${uploadError.message}`);
+    }
+
+    const { data: publicUrlData } = supabase.storage
+      .from('media')
+      .getPublicUrl(storagePath);
+
+    const publicUrl = publicUrlData.publicUrl;
+
+    // Also register in media_library table if table exists
+    try {
+      await supabase.from('media_library').insert({
+        url: publicUrl,
+        category,
+        title: originalName,
+        metadata: {
+          size: file.size,
+          mime: file.type,
+          vehicleId: vehicleId || null,
+          storagePath,
+        },
+        is_active: true,
+      });
+    } catch (dbErr) {
+      console.warn('Optional media_library insert notice:', dbErr);
+    }
 
     return NextResponse.json({
       success: true,
       url: publicUrl,
-      fileName: uniqueFileName,
+      fileName: storagePath,
       sizeKb: Math.round(file.size / 1024),
       category,
       vehicleId,
