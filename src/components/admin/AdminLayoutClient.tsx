@@ -82,7 +82,7 @@ export function AdminLayoutClient({ currentUser, children }: AdminLayoutClientPr
   return (
     <div
       dir={isRtl ? 'rtl' : 'ltr'}
-      className="min-h-screen bg-[#070A10] text-[#FAF9F6] flex flex-col font-sans selection:bg-[#D4AF37]/30 selection:text-white antialiased"
+      className="min-h-screen bg-[#090D15] text-[#F4F1E9] flex flex-col font-sans selection:bg-[#D6A13A]/30 selection:text-white antialiased"
     >
       {/* SIDEBAR NAVIGATION */}
       <AdminSidebar
@@ -117,19 +117,19 @@ export function AdminLayoutClient({ currentUser, children }: AdminLayoutClientPr
         </main>
 
         {/* LUXURY ENTERPRISE FOOTER */}
-        <footer className="border-t border-[#161D2B] py-5 px-6 bg-[#06080E] text-xs text-[#6C7890] flex flex-col sm:flex-row items-center justify-between gap-3">
+        <footer className="border-t border-[#1F2C42] py-5 px-6 bg-[#090D15] text-xs text-[#A5B0C2] flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
-            <span className="font-medium text-[#9AA5B8]">
+            <span className="font-medium text-[#A5B0C2]">
               {lang === 'ar'
-                ? 'منظومة إدارة ضيوف الرحمن VIP • وصول آمن ومشفر'
-                : 'Duyuf Alrahman VIP Operations Platform • Protected Root Access'}
+                ? 'مركز قيادة عمليات ضيوف الرحمن VIP • وصول آمن ومشفر'
+                : 'Duyuf Alrahman VIP Operations Command Center • Protected Root Access'}
             </span>
           </div>
-          <div className="flex items-center gap-4 font-mono text-[11px] text-[#55637A]">
-            <span>{lang === 'ar' ? 'مصدر الحقيقة الموحد: قاعدة البيانات' : 'Single Source of Truth: PostgreSQL'}</span>
+          <div className="flex items-center gap-4 font-mono text-[11px] text-[#A5B0C2]/80">
+            <span>{lang === 'ar' ? 'قاعدة بيانات PostgreSQL مباشرة' : 'PostgreSQL Single Source of Truth'}</span>
             <span>•</span>
-            <span className="text-[#D4AF37] font-semibold">{lang === 'ar' ? '10 لغات مفعلة' : '10 Locales Synced'}</span>
+            <span className="text-[#D6A13A] font-semibold">{lang === 'ar' ? '10 لغات مفعلة' : '10 Locales Active'}</span>
           </div>
         </footer>
       </div>

@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { AdminLayoutClient } from '@/components/admin/AdminLayoutClient';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
-import { manrope } from '@/app/fonts';
+import { inter, cairo } from '@/app/fonts';
 import { OWNER_EMAIL, verifyOwnerSessionToken } from '@/lib/auth/owner-session';
 import { UserProfile } from '@/types/auth';
 
@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata = {
-  title: 'Operations Command Center | Duyuf Alrahman VIP',
+  title: 'Luxury Operations Command Center | Duyuf Alrahman VIP',
   robots: {
     index: false,
     follow: false,
@@ -21,8 +21,8 @@ export const metadata = {
 
 function AdminShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" dir="ltr" className={manrope.variable}>
-      <body className="min-h-screen bg-[#070A10] text-[#FAF9F6] antialiased selection:bg-[#D4AF37]/30 selection:text-white">
+    <html lang="en" dir="ltr" className={`${inter.variable} ${cairo.variable}`}>
+      <body className="min-h-screen bg-[#090D15] text-[#F4F1E9] antialiased selection:bg-[#D6A13A]/30 selection:text-white font-sans">
         {children}
       </body>
     </html>
@@ -144,6 +144,8 @@ export default async function AdminLayout({
     const restrictedPaths = [
       '/admin/pricing',
       '/admin/fleet',
+      '/admin/routes',
+      '/admin/drivers',
       '/admin/whatsapp',
       '/admin/users',
       '/admin/roles',

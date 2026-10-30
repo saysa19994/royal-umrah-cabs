@@ -59,44 +59,47 @@ export function AdminTopBar({
     return () => clearInterval(interval);
   }, []);
 
-  // Compute breadcrumb title based on current pathname
   const getBreadcrumb = () => {
     const pathMapEn: Record<string, { section: string; title: string }> = {
       '/admin': { section: 'Operations', title: 'Live Control Center' },
       '/admin/bookings': { section: 'Operations', title: 'VIP Bookings Dispatch' },
       '/admin/leads': { section: 'Operations', title: 'Pilgrim Inquiries & Leads' },
-      '/admin/fleet': { section: 'Fleet & Revenue', title: 'VIP Fleet Management' },
-      '/admin/pricing': { section: 'Fleet & Revenue', title: 'Dynamic Pricing Matrix' },
-      '/admin/media': { section: 'Fleet & Revenue', title: 'Media Asset Vault' },
-      '/admin/cms': { section: 'Content & Reputation', title: '10-Locale CMS & Pages' },
+      '/admin/fleet': { section: 'Fleet & Assets', title: 'VIP Fleet Management' },
+      '/admin/drivers': { section: 'Fleet & Assets', title: 'Chauffeurs & Drivers' },
+      '/admin/media': { section: 'Fleet & Assets', title: 'Media Asset Vault' },
+      '/admin/routes': { section: 'Routes & Tariffs', title: 'Routes & Corridors' },
+      '/admin/pricing': { section: 'Routes & Tariffs', title: 'Dynamic Pricing Matrix' },
+      '/admin/cms': { section: 'Content & Reputation', title: '10-Locale Studio' },
       '/admin/faqs': { section: 'Content & Reputation', title: 'FAQ Knowledgebase' },
       '/admin/reviews': { section: 'Content & Reputation', title: 'Reviews Moderation' },
-      '/admin/whatsapp': { section: 'Governance', title: 'WhatsApp Line Dispatch' },
-      '/admin/chat': { section: 'Governance', title: 'AI Rafeeq Assistant' },
-      '/admin/users': { section: 'Governance', title: 'Staff & Chauffeurs' },
-      '/admin/roles': { section: 'Governance', title: 'RBAC Roles Matrix' },
-      '/admin/audit-log': { section: 'Governance', title: 'Security Audit Log' },
-      '/admin/settings': { section: 'Governance', title: 'Global VIP Settings' },
-      '/admin/account': { section: 'Governance', title: 'Owner Master Account' },
+      '/admin/whatsapp': { section: 'Channels & Governance', title: 'WhatsApp Line Dispatch' },
+      '/admin/chat': { section: 'Channels & Governance', title: 'AI Rafeeq Assistant' },
+      '/admin/users': { section: 'Channels & Governance', title: 'Staff & Team' },
+      '/admin/roles': { section: 'Channels & Governance', title: 'RBAC Roles Matrix' },
+      '/admin/audit-log': { section: 'Channels & Governance', title: 'Security Audit Log' },
+      '/admin/settings': { section: 'Channels & Governance', title: 'Global VIP Settings' },
+      '/admin/account': { section: 'Channels & Governance', title: 'Owner Master Account' },
     };
 
     const pathMapAr: Record<string, { section: string; title: string }> = {
-      '/admin': { section: 'العمليات', title: 'مركز التحكم المباشر' },
+      '/admin': { section: 'العمليات', title: 'مركز العمليات المباشر' },
       '/admin/bookings': { section: 'العمليات', title: 'جدول الحجوزات وتوزيع السائقين' },
       '/admin/leads': { section: 'العمليات', title: 'استفسارات المعتمرين والمتابعة' },
-      '/admin/fleet': { section: 'الأسطول والتسعير', title: 'إدارة أسطول VIP' },
-      '/admin/pricing': { section: 'الأسطول والتسعير', title: 'مصفوفة التسعير والمواسم' },
-      '/admin/media': { section: 'الأسطول والتسعير', title: 'مكتبة صور الأسطول' },
-      '/admin/cms': { section: 'المحتوى والسمعة', title: 'إدارة نصوص الموقع (10 لغات)' },
-      '/admin/faqs': { section: 'المحتوى والسمعة', title: 'الأسئلة الشائعة والقواعد' },
+      '/admin/fleet': { section: 'الأسطول والوسائط', title: 'إدارة أسطول VIP' },
+      '/admin/drivers': { section: 'الأسطول والوسائط', title: 'دليل السائقين والمرافقين' },
+      '/admin/media': { section: 'الأسطول والوسائط', title: 'مكتبة وسائط الأسطول' },
+      '/admin/routes': { section: 'المسارات والتسعير', title: 'المسارات والمواقيت' },
+      '/admin/pricing': { section: 'المسارات والتسعير', title: 'مصفوفة الأسعار والمواسم' },
+      '/admin/cms': { section: 'المحتوى والسمعة', title: 'استوديو نصوص الموقع (10 لغات)' },
+      '/admin/faqs': { section: 'المحتوى والسمعة', title: 'الأسئلة الشائعة وقواعد الحجز' },
       '/admin/reviews': { section: 'المحتوى والسمعة', title: 'مراجعة آراء المعتمرين' },
-      '/admin/whatsapp': { section: 'الحوكمة', title: 'توجيه خطوط الواتساب' },
-      '/admin/chat': { section: 'الحوكمة', title: 'الذكاء الاصطناعي (رفيق)' },
-      '/admin/users': { section: 'الحوكمة', title: 'دليل الموظفين والسائقين' },
-      '/admin/roles': { section: 'الحوكمة', title: 'مصفوفة الصلاحيات' },
-      '/admin/audit-log': { section: 'الحوكمة', title: 'سجل تدقيق الأمان' },
-      '/admin/settings': { section: 'الحوكمة', title: 'الإعدادات العامة للخدمة' },
-      '/admin/account': { section: 'الحوكمة', title: 'إدارة حساب المالك' },
+      '/admin/whatsapp': { section: 'القنوات والحوكمة', title: 'توجيه خطوط الواتساب' },
+      '/admin/chat': { section: 'القنوات والحوكمة', title: 'المساعد الذكي رفيق' },
+      '/admin/users': { section: 'القنوات والحوكمة', title: 'دليل الموظفين وفريق العمل' },
+      '/admin/roles': { section: 'القنوات والحوكمة', title: 'مصفوفة الصلاحيات' },
+      '/admin/audit-log': { section: 'القنوات والحوكمة', title: 'سجل تدقيق الأمان' },
+      '/admin/settings': { section: 'القنوات والحوكمة', title: 'الإعدادات العامة وسياسة الدفع' },
+      '/admin/account': { section: 'القنوات والحوكمة', title: 'إدارة حساب المالك والمصادقة' },
     };
 
     const map = lang === 'ar' ? pathMapAr : pathMapEn;
@@ -108,12 +111,12 @@ export function AdminTopBar({
   const isRtl = lang === 'ar';
 
   return (
-    <header className="sticky top-0 z-30 h-16 bg-[#070A10]/90 backdrop-blur-xl border-b border-[#1A2234] px-4 md:px-8 flex items-center justify-between gap-4 transition-all shadow-[0_4px_25px_rgba(0,0,0,0.5)]">
-      {/* LEFT / RIGHT (depending on RTL): Mobile menu trigger & Breadcrumbs */}
+    <header className="sticky top-0 z-30 h-16 bg-[#090D15]/90 backdrop-blur-xl border-b border-[#1F2C42] px-4 md:px-8 flex items-center justify-between gap-4 transition-all shadow-[0_4px_25px_rgba(0,0,0,0.5)]">
+      {/* Mobile menu trigger & Breadcrumbs */}
       <div className="flex items-center gap-3 min-w-0">
         <button
           onClick={onOpenMobile}
-          className="lg:hidden p-2 rounded-xl bg-[#111726] border border-[#222C42] text-[#8C98AE] hover:text-[#FAF9F6] transition-colors"
+          className="lg:hidden p-2 rounded-xl bg-[#141D2C] border border-[#1F2C42] text-[#A5B0C2] hover:text-[#F4F1E9] transition-colors"
           aria-label="Open sidebar menu"
         >
           <Menu className="w-5 h-5" />
@@ -127,7 +130,7 @@ export function AdminTopBar({
           <span className="text-[#334155] hidden sm:inline">
             {isRtl ? <ChevronLeft className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
           </span>
-          <span className="font-bold text-[#FAF9F6] tracking-wide truncate">
+          <span className="font-bold text-[#F4F1E9] tracking-wide truncate">
             {breadcrumb.title}
           </span>
         </div>
@@ -137,15 +140,15 @@ export function AdminTopBar({
       <div className="hidden md:flex items-center flex-1 max-w-md mx-4">
         <button
           onClick={onOpenSearch}
-          className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#0F1422] border border-[#222D42] text-[#6E7B94] hover:text-[#D4AF37] hover:border-[#D4AF37]/40 transition-all text-xs group shadow-inner"
+          className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#101725] border border-[#1F2C42] text-[#A5B0C2] hover:text-[#D6A13A] hover:border-[#D6A13A]/40 transition-all text-xs group shadow-inner"
         >
           <span className="flex items-center gap-2">
-            <Search className="w-3.5 h-3.5 text-[#54627A] group-hover:text-[#D4AF37] transition-colors" />
+            <Search className="w-3.5 h-3.5 text-[#64748B] group-hover:text-[#D6A13A] transition-colors" />
             <span className="truncate">
               {lang === 'ar' ? 'بحث سريع عن رحلة، معتمر، سيارة... (Ctrl+K)' : 'Quick Search routes, pilgrims, fleet... (Ctrl+K)'}
             </span>
           </span>
-          <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-bold bg-[#172033] text-[#8F9EBA] rounded border border-[#2B3852]">
+          <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-bold bg-[#141D2C] text-[#A5B0C2] rounded border border-[#1F2C42]">
             ⌘K
           </kbd>
         </button>
@@ -155,8 +158,8 @@ export function AdminTopBar({
       <div className="flex items-center gap-2 sm:gap-3">
         {/* MAKKAH CLOCK */}
         {makkahTime && (
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0F1422] border border-[#1E293B] text-[11px] font-mono text-[#E2B755] shadow-inner select-none">
-            <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#101725] border border-[#1F2C42] text-[11px] font-mono text-[#D6A13A] shadow-inner select-none">
+            <span className="w-2 h-2 rounded-full bg-[#D6A13A] animate-pulse" />
             <span>🕋 {makkahTime}</span>
             <span className="text-[10px] text-[#64748B]">Makkah</span>
           </div>
@@ -166,9 +169,9 @@ export function AdminTopBar({
         <button
           onClick={onToggleLang}
           title={lang === 'ar' ? 'Switch to English (LTR)' : 'التحويل إلى العربية (RTL)'}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0F1422] hover:bg-[#162035] border border-[#222D42] text-xs font-bold text-[#E2B755] hover:border-[#D4AF37]/50 transition-all select-none shadow-sm"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#101725] hover:bg-[#141D2C] border border-[#1F2C42] text-xs font-bold text-[#D6A13A] hover:border-[#D6A13A]/50 transition-all select-none shadow-sm"
         >
-          <Globe className="w-3.5 h-3.5 text-[#D4AF37]" />
+          <Globe className="w-3.5 h-3.5 text-[#D6A13A]" />
           <span>{lang === 'ar' ? 'English' : 'العربية'}</span>
         </button>
 
@@ -177,23 +180,23 @@ export function AdminTopBar({
           <button
             onClick={() => setShowNotifications(!showNotifications)}
             aria-label="View notifications"
-            className="relative p-2 rounded-xl bg-[#0F1422] hover:bg-[#162035] border border-[#222D42] text-[#8F9EBA] hover:text-[#FAF9F6] transition-colors"
+            className="relative p-2 rounded-xl bg-[#101725] hover:bg-[#141D2C] border border-[#1F2C42] text-[#A5B0C2] hover:text-[#F4F1E9] transition-colors"
           >
             <Bell className="w-4 h-4" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-[#070A10] animate-pulse" />
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-[#090D15] animate-pulse" />
           </button>
 
           {showNotifications && (
             <div
-              className={`absolute top-full mt-2 w-80 rounded-2xl bg-[#0E1320] border border-[#222D42] shadow-[0_15px_45px_rgba(0,0,0,0.85)] p-3 z-50 animate-in fade-in zoom-in-95 duration-150 ${
+              className={`absolute top-full mt-2 w-80 rounded-2xl bg-[#101725] border border-[#1F2C42] shadow-[0_15px_45px_rgba(0,0,0,0.85)] p-3 z-50 animate-in fade-in zoom-in-95 duration-150 ${
                 isRtl ? 'left-0' : 'right-0'
               }`}
             >
-              <div className="flex items-center justify-between pb-2 border-b border-[#1E283D]">
-                <span className="text-xs font-bold text-[#FAF9F6]">
+              <div className="flex items-center justify-between pb-2 border-b border-[#1F2C42]">
+                <span className="text-xs font-bold text-[#F4F1E9]">
                   {lang === 'ar' ? 'تنبيهات النظام' : 'System Alerts'}
                 </span>
-                <span className="text-[10px] text-[#8F9EBA] font-medium">
+                <span className="text-[10px] text-[#A5B0C2] font-medium">
                   {lang === 'ar' ? 'مباشر من الخادم' : 'Live from DB'}
                 </span>
               </div>
@@ -210,8 +213,8 @@ export function AdminTopBar({
                   </div>
                   <p className="text-[11px] text-rose-200/70 mt-1">
                     {lang === 'ar'
-                      ? 'يرجى الرد على المعتمرين عبر واتساب للحفاظ على نسبة التحويل.'
-                      : 'Pilgrims waiting for booking confirmation. Reply via WhatsApp now.'}
+                      ? 'يرجى الرد على المعتمرين عبر واتساب للحفاظ على سرعة الاستجابة.'
+                      : 'Pilgrims waiting for confirmation. Reply via WhatsApp now.'}
                   </p>
                 </Link>
 
@@ -222,7 +225,7 @@ export function AdminTopBar({
                   <p className="text-[11px] text-amber-200/70 mt-1">
                     {lang === 'ar'
                       ? 'الدفع نقداً للسائق في نهاية الرحلة (SAR/USD). لا بطاقات أو تحويلات مسبقة.'
-                      : 'Customer pays driver in cash at destination (SAR/USD). Zero advance cards or transfers.'}
+                      : 'Customer pays driver in cash at destination (SAR/USD). Zero advance card or transfers.'}
                   </p>
                 </div>
               </div>
@@ -235,12 +238,12 @@ export function AdminTopBar({
           href="/"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#D4AF37]/20 to-[#997316]/20 hover:from-[#D4AF37]/30 hover:to-[#997316]/30 border border-[#D4AF37]/50 text-xs font-bold text-[#FAF9F6] transition-all shadow-[0_0_12px_rgba(212,175,55,0.2)]"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#D6A13A]/20 to-[#A97B27]/20 hover:from-[#D6A13A]/30 hover:to-[#A97B27]/30 border border-[#D6A13A]/50 text-xs font-bold text-[#F4F1E9] transition-all shadow-[0_0_12px_rgba(214,161,58,0.2)]"
         >
           <span className="hidden sm:inline">
             {lang === 'ar' ? 'عرض الموقع العام' : 'Public Site'}
           </span>
-          <ExternalLink className="w-3.5 h-3.5 text-[#D4AF37]" />
+          <ExternalLink className="w-3.5 h-3.5 text-[#D6A13A]" />
         </a>
       </div>
     </header>

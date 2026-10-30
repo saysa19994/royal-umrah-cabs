@@ -9,14 +9,15 @@ import {
   CalendarCheck,
   Users,
   Car,
+  Compass,
   DollarSign,
+  UserCheck,
   Image as ImageIcon,
   Globe,
   HelpCircle,
   Star,
   MessageSquare,
   Bot,
-  UserCheck,
   Shield,
   History,
   Settings,
@@ -80,13 +81,13 @@ export function AdminSidebar({
         {
           href: '/admin',
           labelEn: 'Control Center',
-          labelAr: 'مركز التحكم المباشر',
+          labelAr: 'مركز العمليات المباشر',
           icon: LayoutDashboard,
         },
         {
           href: '/admin/bookings',
           labelEn: 'VIP Bookings',
-          labelAr: 'حجوزات كبار الشخصيات',
+          labelAr: 'جدول الحجوزات والسائقين',
           icon: CalendarCheck,
         },
         {
@@ -99,21 +100,22 @@ export function AdminSidebar({
       ],
     },
     {
-      titleEn: 'FLEET & REVENUE',
-      titleAr: 'الأسطول والتسعير',
+      titleEn: 'FLEET & ASSETS',
+      titleAr: 'الأسطول والوسائط',
       items: [
         {
           href: '/admin/fleet',
           labelEn: 'VIP Fleet Control',
           labelAr: 'إدارة أسطول VIP',
           icon: Car,
+          badge: { text: '5 Models', variant: 'emerald' },
           adminOnly: true,
         },
         {
-          href: '/admin/pricing',
-          labelEn: 'Pricing & Route Matrix',
-          labelAr: 'مصفوفة الأسعار والمواسم',
-          icon: DollarSign,
+          href: '/admin/drivers',
+          labelEn: 'Chauffeurs & Drivers',
+          labelAr: 'السائقون والمرافقون',
+          icon: UserCheck,
           adminOnly: true,
         },
         {
@@ -126,13 +128,34 @@ export function AdminSidebar({
       ],
     },
     {
+      titleEn: 'ROUTES & TARIFFS',
+      titleAr: 'المسارات والتسعير',
+      items: [
+        {
+          href: '/admin/routes',
+          labelEn: 'Routes & Corridors',
+          labelAr: 'المسارات والمواقيت',
+          icon: Compass,
+          badge: { text: '16 Routes', variant: 'blue' },
+          adminOnly: true,
+        },
+        {
+          href: '/admin/pricing',
+          labelEn: 'Pricing & Seasons',
+          labelAr: 'مصفوفة التسعير والمواسم',
+          icon: DollarSign,
+          adminOnly: true,
+        },
+      ],
+    },
+    {
       titleEn: 'CONTENT & REPUTATION',
       titleAr: 'المحتوى والسمعة',
       items: [
         {
           href: '/admin/cms',
-          labelEn: '10-Locale CMS',
-          labelAr: 'إدارة المحتوى (10 لغات)',
+          labelEn: '10-Locale Studio',
+          labelAr: 'استوديو نصوص الموقع',
           icon: Globe,
           badge: { text: '10 Locales', variant: 'blue' },
           adminOnly: true,
@@ -154,8 +177,8 @@ export function AdminSidebar({
       ],
     },
     {
-      titleEn: 'GOVERNANCE & CHANNELS',
-      titleAr: 'الحوكمة والقنوات',
+      titleEn: 'CHANNELS & GOVERNANCE',
+      titleAr: 'القنوات والحوكمة',
       items: [
         {
           href: '/admin/whatsapp',
@@ -174,8 +197,8 @@ export function AdminSidebar({
         },
         {
           href: '/admin/users',
-          labelEn: 'Staff & Chauffeurs',
-          labelAr: 'الموظفون والسائقون',
+          labelEn: 'Staff & Team',
+          labelAr: 'الموظفون والمشغلون',
           icon: UserCheck,
           adminOnly: true,
         },
@@ -196,7 +219,7 @@ export function AdminSidebar({
         {
           href: '/admin/settings',
           labelEn: 'Global VIP Settings',
-          labelAr: 'الإعدادات العامة للخدمة',
+          labelAr: 'الإعدادات وسياسة الدفع',
           icon: Settings,
           adminOnly: true,
         },
@@ -233,21 +256,21 @@ export function AdminSidebar({
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed top-0 bottom-0 z-50 flex flex-col bg-[#070A10] border-[#1A2234] transition-all duration-300 ease-in-out shadow-[0_0_35px_rgba(0,0,0,0.85)]
+        className={`fixed top-0 bottom-0 z-50 flex flex-col bg-[#090D15] border-[#1F2C42] transition-all duration-300 ease-in-out shadow-[0_0_35px_rgba(0,0,0,0.85)]
           ${isRtl ? 'right-0 border-l' : 'left-0 border-r'}
           ${collapsed ? 'w-20' : 'w-72'}
-          ${mobileOpen ? 'translate-x-0' : (isRtl ? 'translate-x-full lg:translate-x-0' : '-translate-x-full lg:translate-x-0')}
+          ${mobileOpen ? 'translate-x-0' : isRtl ? 'translate-x-full lg:translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
         {/* BRAND HEADER */}
-        <div className="h-20 px-4 flex items-center justify-between border-b border-[#1A2234]/80 bg-gradient-to-b from-[#0D121F] to-[#070A10]">
+        <div className="h-20 px-4 flex items-center justify-between border-b border-[#1F2C42] bg-gradient-to-b from-[#101725] to-[#090D15]">
           <Link
             href="/admin"
             className="flex items-center gap-3 group overflow-hidden"
             onClick={onCloseMobile}
           >
             {/* VIP Golden Crest Monogram */}
-            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#E2B755] via-[#C9982E] to-[#8C6415] p-0.5 shadow-[0_0_15px_rgba(217,160,49,0.35)] shrink-0 group-hover:scale-105 transition-transform">
+            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#E2B755] via-[#D6A13A] to-[#8C6415] p-0.5 shadow-[0_0_15px_rgba(214,161,58,0.35)] shrink-0 group-hover:scale-105 transition-transform">
               <div className="w-full h-full rounded-[10px] bg-[#0A0E17] flex items-center justify-center overflow-hidden">
                 <Image
                   src="/icon-192.png"
@@ -257,21 +280,21 @@ export function AdminSidebar({
                   className="rounded-md object-cover"
                 />
               </div>
-              <div className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-[#070A10]" title="Operational Online" />
+              <div className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-[#090D15]" title="Operational Online" />
             </div>
 
             {!collapsed && (
               <div className="flex flex-col min-w-0 animate-in fade-in duration-200">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-display font-extrabold text-sm tracking-wider text-[#FAF9F6] whitespace-nowrap">
+                  <span className="font-display font-extrabold text-sm tracking-wider text-[#F4F1E9] whitespace-nowrap">
                     DUYUF ALRAHMAN
                   </span>
-                  <span className="px-1.5 py-0.5 text-[10px] font-black rounded bg-gradient-to-r from-[#D4AF37] to-[#B38728] text-black tracking-wider uppercase shadow-[0_0_8px_rgba(212,175,55,0.4)]">
+                  <span className="px-1.5 py-0.5 text-[10px] font-black rounded bg-gradient-to-r from-[#D6A13A] to-[#A97B27] text-[#090D15] tracking-wider uppercase shadow-[0_0_8px_rgba(214,161,58,0.4)]">
                     VIP
                   </span>
                 </div>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-[#7C879B] whitespace-nowrap">
-                  {lang === 'ar' ? 'بوابة الإدارة والتشغيل' : 'Operations Command'}
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#A5B0C2] whitespace-nowrap">
+                  {lang === 'ar' ? 'مركز العمليات المباشر' : 'Operations Command'}
                 </span>
               </div>
             )}
@@ -281,7 +304,7 @@ export function AdminSidebar({
           <button
             onClick={onToggleCollapse}
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            className="hidden lg:flex items-center justify-center w-7 h-7 rounded-lg bg-[#111726] border border-[#222C42] text-[#8C98AE] hover:text-[#D4AF37] hover:border-[#D4AF37]/50 transition-colors"
+            className="hidden lg:flex items-center justify-center w-7 h-7 rounded-lg bg-[#141D2C] border border-[#1F2C42] text-[#A5B0C2] hover:text-[#D6A13A] hover:border-[#D6A13A]/50 transition-colors"
           >
             {collapsed ? (
               isRtl ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />
@@ -293,23 +316,22 @@ export function AdminSidebar({
 
         {/* SINGLE SOURCE OF TRUTH TELEMETRY PILL (Expanded Only) */}
         {!collapsed && (
-          <div className="px-4 py-2.5 bg-[#0B0F19] border-b border-[#1A2234]/60">
-            <div className="flex items-center justify-between text-[11px] text-[#8B98B0]">
+          <div className="px-4 py-2.5 bg-[#090D15] border-b border-[#1F2C42]/60">
+            <div className="flex items-center justify-between text-[11px] text-[#A5B0C2]">
               <span className="flex items-center gap-1.5 font-medium">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>{lang === 'ar' ? 'قاعدة البيانات المباشرة' : 'PostgreSQL Live'}</span>
               </span>
-              <span className="font-mono text-[10px] text-[#D4AF37] font-semibold bg-[#D4AF37]/10 px-2 py-0.5 rounded border border-[#D4AF37]/20">
-                10 Locales
+              <span className="font-mono text-[10px] text-[#D6A13A] font-semibold bg-[#D6A13A]/10 px-2 py-0.5 rounded border border-[#D6A13A]/25">
+                10 Locales Synced
               </span>
             </div>
           </div>
         )}
 
         {/* SCROLLABLE NAVIGATION LIST */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 space-y-6 scrollbar-thin scrollbar-thumb-[#1C2538] scrollbar-track-transparent">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 space-y-6 scrollbar-thin scrollbar-thumb-[#1F2C42] scrollbar-track-transparent">
           {navGroups.map((group, groupIdx) => {
-            // Filter items based on permissions
             const visibleItems = group.items.filter((item) => {
               if (item.ownerOnly && !isOwner) return false;
               if (item.adminOnly && isOperator) return false;
@@ -341,14 +363,13 @@ export function AdminSidebar({
                       title={collapsed ? (lang === 'ar' ? item.labelAr : item.labelEn) : undefined}
                       className={`group relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 select-none ${
                         isActive
-                          ? 'bg-gradient-to-r from-[#D4AF37]/20 via-[#D4AF37]/10 to-transparent text-[#FAF9F6] border border-[#D4AF37]/40 shadow-[0_0_15px_rgba(212,175,55,0.15)] font-bold'
-                          : 'text-[#9AA5B8] hover:text-[#FAF9F6] hover:bg-[#121826] border border-transparent font-medium'
+                          ? 'bg-gradient-to-r from-[#D6A13A]/20 via-[#D6A13A]/10 to-transparent text-[#F4F1E9] border border-[#D6A13A]/40 shadow-[0_0_15px_rgba(214,161,58,0.15)] font-bold'
+                          : 'text-[#A5B0C2] hover:text-[#F4F1E9] hover:bg-[#141D2C] border border-transparent font-medium'
                       } ${collapsed ? 'justify-center px-0' : ''}`}
                     >
-                      {/* Active Left Indicator Bar */}
                       {isActive && (
                         <span
-                          className={`absolute top-1/2 -translate-y-1/2 w-1 h-5 rounded-full bg-gradient-to-b from-[#E2B755] to-[#AA7C11] ${
+                          className={`absolute top-1/2 -translate-y-1/2 w-1 h-5 rounded-full bg-gradient-to-b from-[#E2B755] to-[#A97B27] ${
                             isRtl ? 'right-0' : 'left-0'
                           }`}
                         />
@@ -357,8 +378,8 @@ export function AdminSidebar({
                       <Icon
                         className={`w-5 h-5 shrink-0 transition-colors ${
                           isActive
-                            ? 'text-[#E2B755] drop-shadow-[0_0_6px_rgba(217,160,49,0.5)]'
-                            : 'text-[#7A879E] group-hover:text-[#D4AF37]'
+                            ? 'text-[#E2B755] drop-shadow-[0_0_6px_rgba(214,161,58,0.5)]'
+                            : 'text-[#64748B] group-hover:text-[#D6A13A]'
                         }`}
                       />
 
@@ -394,23 +415,23 @@ export function AdminSidebar({
         </div>
 
         {/* BOTTOM USER PROFILE & LOGOUT FOOTER */}
-        <div className="p-3 border-t border-[#1A2234] bg-[#0A0D15]/95">
+        <div className="p-3 border-t border-[#1F2C42] bg-[#090D15]">
           {!collapsed ? (
-            <div className="p-2.5 rounded-xl bg-[#111624] border border-[#202A3E] flex items-center justify-between gap-3 shadow-inner">
+            <div className="p-2.5 rounded-xl bg-[#141D2C] border border-[#1F2C42] flex items-center justify-between gap-3 shadow-inner">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#D4AF37] to-[#7A5812] p-0.5 shrink-0 shadow-[0_0_8px_rgba(212,175,55,0.3)]">
-                  <div className="w-full h-full rounded-[6px] bg-[#0C101A] flex items-center justify-center font-bold text-xs text-[#E2B755]">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#D6A13A] to-[#7A5812] p-0.5 shrink-0 shadow-[0_0_8px_rgba(214,161,58,0.3)]">
+                  <div className="w-full h-full rounded-[6px] bg-[#090D15] flex items-center justify-center font-bold text-xs text-[#E2B755]">
                     {currentUser?.name ? currentUser.name.charAt(0).toUpperCase() : 'S'}
                   </div>
                 </div>
                 <div className="flex flex-col min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-bold text-[#FAF9F6] truncate">
+                    <span className="text-xs font-bold text-[#F4F1E9] truncate">
                       {currentUser?.name || 'Sayed Saed'}
                     </span>
-                    <Crown className="w-3 h-3 text-[#D4AF37] shrink-0" />
+                    <Crown className="w-3 h-3 text-[#D6A13A] shrink-0" />
                   </div>
-                  <span className="text-[10px] text-[#7C879B] truncate font-mono">
+                  <span className="text-[10px] text-[#A5B0C2] truncate font-mono">
                     {currentUser?.role === 'owner' ? (lang === 'ar' ? 'المالك المعتمد' : 'VIP Owner') : currentUser?.role}
                   </span>
                 </div>
