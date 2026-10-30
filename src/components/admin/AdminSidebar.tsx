@@ -20,6 +20,8 @@ import {
   MessageSquare,
   Bot,
   Shield,
+  ShieldCheck,
+  Key,
   History,
   Settings,
   ShieldAlert,
