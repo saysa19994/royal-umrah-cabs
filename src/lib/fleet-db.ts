@@ -38,39 +38,45 @@ export const getDbVehiclesCached = unstable_cache(
           const extPhoto = photos.exterior || '/assets/images/vehicles/toyota-camry/exterior-studio.webp';
           const intPhoto = photos.interior || '/assets/images/vehicles/toyota-camry/interior.webp';
 
-          // Extract gallery
-          const rawGallery: string[] = Array.isArray(photos.gallery) && photos.gallery.length > 0
-            ? photos.gallery
-            : [extPhoto, intPhoto];
+                    // Extract gallery guaranteeing extPhoto is first (type: 'exterior') and intPhoto is second (type: 'interior')
+          const additionalPhotos: string[] = Array.isArray(photos.gallery)
+            ? photos.gallery.filter((src: string) => src !== extPhoto && src !== intPhoto)
+            : [];
 
-          const gallery = rawGallery.map((src: string, idx: number) => ({
-            src,
-            alt: {
-              en: `${v.name} - Luxury Umrah Chauffeur (${idx === 0 ? 'Exterior' : 'Interior'})`,
-              ar: `${v.translations?.ar?.name || v.name} - نقل فاخر (${idx === 0 ? 'الخارجي' : 'المقصورة'})`,
-              ms: `${v.name} (${idx === 0 ? 'Luaran' : 'Dalaman'})`,
-              id: `${v.name} (${idx === 0 ? 'Eksterior' : 'Interior'})`,
-              ur: `${v.name} (${idx === 0 ? 'بیرونی' : 'اندرونی'})`,
-              fr: `${v.name} (${idx === 0 ? 'Extérieur' : 'Intérieur'})`,
-              es: `${v.name} (${idx === 0 ? 'Exterior' : 'Interior'})`,
-              de: `${v.name} (${idx === 0 ? 'Außen' : 'Innenraum'})`,
-              tr: `${v.name} (${idx === 0 ? 'Dış' : 'İç'})`,
-              hi: `${v.name} (${idx === 0 ? 'बाहरी' : 'आंतरिक'})`,
-            },
-            label: {
-              en: idx === 0 ? 'Studio Profile' : 'Luxury Cabin',
-              ar: idx === 0 ? 'الهيكل الخارجي' : 'المقصورة الملكية',
-              ms: idx === 0 ? 'Profil Studio' : 'Kabin Mewah',
-              id: idx === 0 ? 'Profil Studio' : 'Kabin Mewah',
-              ur: idx === 0 ? 'بیرونی ویو' : 'شاہی کیبن',
-              fr: idx === 0 ? 'Profil Studio' : 'Cabine de Luxe',
-              es: idx === 0 ? 'Perfil de Estudio' : 'Cabina de Lujo',
-              de: idx === 0 ? 'Studio-Profil' : 'Luxus-Kabine',
-              tr: idx === 0 ? 'Stüdyo Görünümü' : 'Lüks Kabin',
-              hi: idx === 0 ? 'स्टूडियो प्रोफाइल' : 'लक्जरी केबिन',
-            },
-            type: (idx === 0 ? 'exterior' : 'interior') as 'exterior' | 'interior' | 'detail',
-          }));
+          const rawGallery: string[] = [extPhoto, intPhoto, ...additionalPhotos];
+
+          const gallery = rawGallery.map((src: string, idx: number) => {
+            const isExterior = src === extPhoto || idx === 0;
+            const isInterior = !isExterior && (src === intPhoto || idx === 1);
+            return {
+              src,
+              alt: {
+                en: `${v.name} - Luxury Umrah Chauffeur (${isExterior ? 'Exterior' : 'Interior'})`,
+                ar: `${v.translations?.ar?.name || v.name} - نقل فاخر (${isExterior ? 'الخارجي' : 'المقصورة'})`,
+                ms: `${v.name} (${isExterior ? 'Luaran' : 'Dalaman'})`,
+                id: `${v.name} (${isExterior ? 'Eksterior' : 'Interior'})`,
+                ur: `${v.name} (${isExterior ? 'بیرونی' : 'اندرونی'})`,
+                fr: `${v.name} (${isExterior ? 'Extérieur' : 'Intérieur'})`,
+                es: `${v.name} (${isExterior ? 'Exterior' : 'Interior'})`,
+                de: `${v.name} (${isExterior ? 'Außen' : 'Innenraum'})`,
+                tr: `${v.name} (${isExterior ? 'Dış' : 'İç'})`,
+                hi: `${v.name} (${isExterior ? 'बाहरी' : 'आंतरिक'})`,
+              },
+              label: {
+                en: isExterior ? 'Studio Profile' : 'Luxury Cabin',
+                ar: isExterior ? 'الهيكل الخارجي' : 'المقصورة الملكية',
+                ms: isExterior ? 'Profil Studio' : 'Kabin Mewah',
+                id: isExterior ? 'Profil Studio' : 'Kabin Mewah',
+                ur: isExterior ? 'بیرونی ویو' : 'شاہی کیبن',
+                fr: isExterior ? 'Profil Studio' : 'Cabine de Luxe',
+                es: isExterior ? 'Perfil de Estudio' : 'Cabina de Lujo',
+                de: isExterior ? 'Studio-Profil' : 'Luxus-Kabine',
+                tr: isExterior ? 'Stüdyo Görünümü' : 'Lüks Kabin',
+                hi: isExterior ? 'स्टूडियो प्रोफाइल' : 'लक्जरी केबिन',
+              },
+              type: (isExterior ? 'exterior' : isInterior ? 'interior' : 'detail') as 'exterior' | 'interior' | 'detail',
+            };
+          });
 
           const nameTranslations: Record<Locale, string> = {
             en: v.translations?.en?.name || v.name,
