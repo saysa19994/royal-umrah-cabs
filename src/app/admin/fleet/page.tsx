@@ -522,7 +522,7 @@ export default function AdminFleetPage() {
                           : 'bg-rose-950/80 text-rose-300 border border-rose-500/40'
                       }`}
                     >
-                      {vehicle.is_active ? '● Live on Site' : '○ Hidden'}
+                      {vehicle.is_active ? '🟢 معروضة على الموقع' : '🔴 مخفية عن الزوار'}
                     </span>
                   </div>
 
@@ -615,7 +615,7 @@ export default function AdminFleetPage() {
                           : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
                       }`}
                     >
-                      {vehicle.is_active ? 'Hide on Site' : 'Publish Live'}
+                      {vehicle.is_active ? 'إخفاء من الموقع' : 'نشر على الموقع'}
                     </button>
 
                     <div className="flex items-center gap-1.5">
