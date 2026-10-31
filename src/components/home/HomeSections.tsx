@@ -1,18 +1,15 @@
 'use client';
 
-import { ExecutiveRouteCard } from '@/components/routes/ExecutiveRouteCard';
-import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
-import { FaqSection } from '@/components/faq/FaqSection';
-import { FleetSection } from '@/components/home/FleetSection';
-import { ReviewsSection } from '@/components/reviews/ReviewsSection';
-
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import type { SiteSettings } from '@/lib/settings';
 import { useCurrency } from '@/context/CurrencyContext';
+import { FleetSection } from '@/components/home/FleetSection';
+import { ReviewsSection } from '@/components/reviews/ReviewsSection';
+import { FaqSection } from '@/components/faq/FaqSection';
 import {
   Calendar,
   Car,
@@ -22,21 +19,14 @@ import {
   Clock,
   Compass,
   MapPin,
-  Users,
-  Briefcase,
   Plane,
-  Navigation,
   Landmark,
-  Plus,
-  Minus,
   MessageCircle,
   Sparkles,
-  Droplet,
-  Fuel,
-  ChevronLeft,
-  ChevronRight,
-  Building2,
   Award,
+  Building2,
+  Users,
+  Luggage,
 } from 'lucide-react';
 
 interface HomeSectionsProps {
@@ -46,188 +36,192 @@ interface HomeSectionsProps {
   vehicles?: import('@/data/fleet-showcase-data').FleetShowcaseVehicle[];
 }
 
-
 const WHY_US_8_ITEMS: Record<
   Locale,
   Array<{ title: string; desc: string }>
 > = {
   ar: [
-    { title: 'مرخصون ومؤمنون', desc: 'سائقون مرخصون ومركبات مؤمنة في كل رحلة لضمان أمانكم واطمئنانكم.' },
-    { title: 'تتبع آلي لرحلات الطيران', desc: 'نتابع طائرتك بالرادار الملاحي لنتواجد في الموعد تماماً، تقدمت أو تأخرت.' },
-    { title: 'استقبال مجاني بالمطار', desc: 'سائقك ينتظرك بلوحة باسمك مع 60 دقيقة انتظار مجانية بعد الهبوط.' },
-    { title: 'سعر ثابت وشامل', desc: 'السعر المعلن يشمل الوقود، رسوم الطرق، والضرائب دون أية رسوم خفية.' },
-    { title: 'توقف مجاني بالميقات', desc: 'توقف في ميقات ذو الحليفة (آبار علي) للإحرام والصلاة دون أي رسوم إضافية.' },
-    { title: 'سيارات خاصة وحديثة', desc: 'سيارات فخمة ومكيفة مخصصة لك ولعائلتك بالكامل لضمان أقصى درجات الخصوصية.' },
-    { title: 'الدفع نقدًا بعد انتهاء الرحلة', desc: 'لا نطلب أية دفعة مقدمة؛ الدفع نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل (ريال سعودي أو دولار أمريكي).' },
-    { title: 'دعم على مدار الساعة', desc: 'تواصلوا مع فريقنا عبر واتساب في أي وقت ليلاً أو نهاراً لتلبية كافة متطلباتكم.' },
+    { title: 'مرخصون ومؤمنون رسمياً', desc: 'سائقون محترفون ومركبات حديثة مؤمنة بالكامل لضمان راحة وطمأنينة ضيوف الرحمن.' },
+    { title: 'تتبع آلي لرحلات الطيران', desc: 'نتابع موعد وصول طائرتك بالرادار الملاحي ليتواجد سائقك بالموعد تماماً حتى في حال تأخر الرحلة.' },
+    { title: 'استقبال مجاني بصالة المطار', desc: 'سائقك ينتظرك حاملاً لوحة باسمك في بهو الوصول مع 60 دقيقة انتظار مجاني.' },
+    { title: 'سعر ثابت وشامل بالكامل', desc: 'سعر محدد مسبقاً يشمل الوقود ورسوم الطرق السريعة والضريبة دون أي رسوم خفية.' },
+    { title: 'توقف مجاني بميقات الإحرام', desc: 'توقف مريح في ميقات ذو الحليفة (آبار علي) أو قرن المنازل للإحرام والصلاة دون تكلفة إضافية.' },
+    { title: 'أسطول فاخر وخاص بالكامل', desc: 'مركبات حديثة ومكيفة مخصصة بالكامل لأسرتك لضمان أعلى درجات الخصوصية والراحة.' },
+    { title: 'الدفع نقدًا بعد انتهاء الرحلة', desc: '0 ريال دفعة مقدمة؛ الدفع نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل (بالريال أو الدولار).' },
+    { title: 'عناية ومتابعة على مدار الساعة', desc: 'فريق عمليات وتوجيه متخصص لمرافقتكم وخدمتكم عبر واتساب في كل خطوة.' },
   ],
   en: [
-    { title: 'Licensed & Insured', desc: 'Licensed professional chauffeurs and fully insured vehicles on every journey for your peace of mind.' },
-    { title: 'Live Flight Radar Tracking', desc: 'We track your flight via live radar to arrive right on schedule, whether early or delayed.' },
-    { title: 'Free Airport Meet & Greet', desc: 'Your chauffeur greets you with a personalized name board with 60 minutes of complimentary wait time.' },
-    { title: 'Fixed All-Inclusive Price', desc: 'The quoted fare covers fuel, expressway tolls, and taxes with zero hidden fees.' },
-    { title: 'Complimentary Miqat Stop', desc: 'Free stopover at Dhul Hulayfah (Bir Ali Miqat) for Ihram and prayer with zero extra surcharge.' },
-    { title: 'Modern Private Vehicles', desc: 'Air-conditioned luxury vehicles dedicated entirely to your family for maximum privacy and comfort.' },
-    { title: 'Cash Paid to Driver After Journey Completion', desc: 'Zero upfront deposit required. Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD).' },
-    { title: '24/7 Dedicated Support', desc: 'Connect with our dispatch team on WhatsApp at any time, day or night, for all your inquiries.' },
+    { title: 'Officially Licensed & Insured', desc: 'Professional chauffeurs and fully insured late-model vehicles for complete peace of mind.' },
+    { title: 'Live Flight Radar Tracking', desc: 'We monitor flight arrivals in real time so your chauffeur greets you on time, even if delayed.' },
+    { title: '60-Min Airport Meet & Greet', desc: 'Your private chauffeur awaits with a personalized name board and 60 minutes of complimentary waiting.' },
+    { title: 'Guaranteed All-Inclusive Rates', desc: 'Transparent fixed pricing covering expressway tolls, fuel, and taxes with zero hidden surcharges.' },
+    { title: 'Complimentary Miqat Stopover', desc: 'Free stopover at Dhul Hulayfah (Bir Ali) or Qarn al-Manazil for Ihram preparations and prayer.' },
+    { title: 'Private Late-Model Fleet', desc: 'Immaculate, air-conditioned luxury vehicles reserved exclusively for your family and party.' },
+    { title: 'Pay Cash to Driver Upon Arrival', desc: 'Zero advance deposit required. Cash paid to the driver after journey completion (SAR or USD).' },
+    { title: '24/7 Dedicated Concierge Support', desc: 'Our bilingual dispatch team coordinates every leg of your journey via WhatsApp around the clock.' },
   ],
   ms: [
-    { title: 'Berlesen & Diinsuranskan', desc: 'Pemandu profesional berlesen dan kenderaan diinsuranskan sepenuhnya dalam setiap perjalanan.' },
-    { title: 'Penjejakan Radar Penerbangan Langsung', desc: 'Kami menjejaki penerbangan anda melalui radar langsung untuk tiba tepat pada masanya.' },
-    { title: 'Sambutan Lapangan Terbang Percuma', desc: 'Pemandu menyambut anda dengan papan tanda nama berserta 60 minit masa menunggu percuma.' },
-    { title: 'Harga Tetap Termasuk Semua', desc: 'Tambang yang dinyatakan merangkumi bahan api, tol lebuh raya, dan cukai tanpa caj tersembunyi.' },
-    { title: 'Singgah Miqat Percuma', desc: 'Persinggahan percuma di Miqat Dzul Hulaifah (Bir Ali) untuk niat Ihram dan solat tanpa bayaran tambahan.' },
-    { title: 'Kenderaan Persendirian Moden', desc: 'Kenderaan mewah berhawa dingin dikhaskan sepenuhnya untuk keluarga anda demi privasi maksimum.' },
-    { title: 'Bayaran Tunai Selepas Perjalanan Selesai', desc: 'Tiada bayaran pendahuluan diperlukan. Bayaran tunai kepada pemandu selepas perjalanan selesai dan tiba di destinasi (SAR / USD).' },
-    { title: 'Sokongan 24/7 Tanpa Henti', desc: 'Hubungi pasukan operasi kami di WhatsApp pada bila-bila masa, siang atau malam.' },
+    { title: 'Berlesen & Diinsuranskan Penuh', desc: 'Pemandu profesional berlesen dan kenderaan moden diinsuranskan untuk ketenangan ibadah anda.' },
+    { title: 'Penjejakan Radar Penerbangan Langsung', desc: 'Kami memantau masa ketibaan penerbangan secara langsung agar pemandu sentiasa bersedia di terminal.' },
+    { title: 'Sambutan Percuma di Lapangan Terbang', desc: 'Pemandu menanti dengan papan nama peribadi berserta 60 minit masa menunggu percuma.' },
+    { title: 'Kadar Tetap Termasuk Semua', desc: 'Tambang telus merangkumi tol lebuh raya, petrol dan cukai tanpa sebarang caj tersembunyi.' },
+    { title: 'Singgah Percuma di Miqat', desc: 'Persinggahan di Miqat Bir Ali untuk berniat Ihram dan solat sunat tanpa caj tambahan.' },
+    { title: 'Kenderaan Persendirian Mewah', desc: 'Armada moden berhawa dingin dikhaskan sepenuhnya untuk keluarga anda demi privasi maksimum.' },
+    { title: 'Bayar Tunai Selepas Perjalanan Selesai', desc: 'Tiada deposit pendahuluan. Bayaran tunai kepada pemandu selepas perjalanan selesai (SAR / USD).' },
+    { title: 'Sokongan Operasi 24/7', desc: 'Pasukan koordinasi kami sentiasa bersedia di WhatsApp pada bila-bila masa siang dan malam.' },
   ],
   id: [
-    { title: 'Resmi & Berasuransi', desc: 'Pengemudi berlisensi dan armada berasuransi penuh di setiap perjalanan demi ketenangan ibadah Anda.' },
-    { title: 'Pelacakan Radar Pesawat Langsung', desc: 'Kami melacak penerbangan Anda via radar langsung untuk hadir tepat waktu, baik lebih awal maupun tertunda.' },
-    { title: 'Penyambutan Bandara Gratis', desc: 'Sopir menyambut dengan papan nama dan 60 menit waktu tunggu gratis setelah mendarat.' },
-    { title: 'Tarif Pasti Tanpa Biaya Tersembunyi', desc: 'Tarif mencakup bbm, tol jalan raya, dan pajak tanpa biaya tersembunyi apa pun.' },
-    { title: 'Singgah Miqat Gratis', desc: 'Persinggahan di Miqat Dzul Hulaifah (Bir Ali) untuk Ihram dan shalat tanpa biaya tambahan.' },
-    { title: 'Armada Privat Modern', desc: 'Kenderaan mewah ber-AC khusus untuk Anda dan keluarga demi kenyamanan dan privasi penuh.' },
-    { title: 'Pembayaran Tunai Setelah Perjalanan Selesai', desc: 'Tanpa uang muka atau deposit. Pembayaran tunai kepada pengemudi setelah perjalanan selesai dan tiba di tujuan (SAR / USD).' },
-    { title: 'Layanan Siaga 24/7', desc: 'Hubungi tim kami di WhatsApp kapan saja, siang maupun malam, untuk segala kebutuhan Anda.' },
+    { title: 'Resmi Berlisensi & Berasuransi', desc: 'Pengemudi profesional dan armada modern berasuransi penuh demi ketenangan ibadah Umrah Anda.' },
+    { title: 'Pelacakan Radar Pesawat Langsung', desc: 'Kami memantau kedatangan penerbangan langsung via radar agar sopir menyambut tepat waktu.' },
+    { title: 'Penyambutan Bandara Gratis 60 Menit', desc: 'Sopir menyambut dengan papan nama dan waktu tunggu gratis 60 menit setelah mendarat.' },
+    { title: 'Tarif Pasti Tanpa Biaya Tersembunyi', desc: 'Tarif pasti mencakup bbm, jalan tol, dan pajak tanpa pungutan tambahan apa pun.' },
+    { title: 'Singgah Miqat Bir Ali Gratis', desc: 'Persinggahan gratis di Miqat Dzul Hulaifah (Bir Ali) untuk niat Ihram dan shalat tanpa biaya tambahan.' },
+    { title: 'Armada Privat Eksklusif', desc: 'Kendaraan mewah ber-AC khusus untuk keluarga Anda demi kenyamanan dan privasi penuh.' },
+    { title: 'Bayar Tunai ke Sopir Saat Tiba', desc: 'Tanpa uang muka atau deposit. Pembayaran tunai kepada pengemudi setelah tiba di tujuan (SAR / USD).' },
+    { title: 'Layanan Pelanggan 24/7', desc: 'Tim operasional kami siap membantu koordinasi perjalanan via WhatsApp setiap saat.' },
   ],
   ur: [
-    { title: 'مستند اور بیمہ شدہ', desc: 'ہر سفر میں مستند شافر اور مکمل انشورڈ گاڑیاں آپ کے ذہنی سکون کی ضامن ہیں۔' },
-    { title: 'فلائٹ ریڈار ٹریکنگ', desc: 'ہم لائیو ریڈار کے ذریعے پرواز کی نگرانی کرتے ہیں تاکہ وقت پر پہنچ سکیں، چاہے پرواز جلد ہو یا تاخیر سے۔' },
-    { title: 'ائیرپورٹ پر مفت استقبال', desc: 'شافر آپ کے نام کے بورڈ اور لینڈنگ کے بعد 60 منٹ مفت انتظار کے ساتھ استقبال کرتا ہے۔' },
-    { title: 'مکمل فکسڈ کرایہ', desc: 'طے شدہ کرایہ میں پیٹرول، ٹول ٹیکس اور تمام چارجز شامل ہیں، کوئی پوشیدہ فیس نہیں۔' },
-    { title: 'میقات پر اعزازی قیام', desc: 'احرام اور نماز کے لیے میقات ذو الحلیفہ (بئر علی) پر بغیر کسی اضافی چارجز کے توقف۔' },
-    { title: 'جدید اور نجی گاڑیاں', desc: 'مکمل پرائیویسی اور آرام دہ سفر کے لیے آپ اور آپ کے خاندان کے لیے مخصوص لگژری گاڑیاں۔' },
-    { title: 'سفر مکمل ہونے پر نقد ادائیگی', desc: 'کوئی پیشگی ادائیگی ضروری نہیں۔ سفر مکمل ہونے اور منزل پر پہنچنے کے بعد ڈرائیور کو نقد ادائیگی (سعودی ریال یا امریکی ڈالر)۔' },
-    { title: '24/7 چوبیس گھنٹے سپورٹ', desc: 'اپنی تمام تر ضروریات کے لیے واٹس ایپ پر کسی بھی وقت ہماری ٹیم سے رابطہ کریں۔' },
-  ],
-  fr: [
-    { title: 'Agréé & Assuré', desc: 'Chauffeurs professionnels agréés et véhicules assurés sur chaque trajet pour votre sérénité.' },
-    { title: 'Suivi des Vols par Radar', desc: 'Nous suivons votre vol en direct par radar pour être présents à l’heure exacte, en avance ou en retard.' },
-    { title: 'Accueil Gratuit à l’Aéroport', desc: 'Votre chauffeur vous attend avec une pancarte à votre nom et 60 minutes d’attente gratuite.' },
-    { title: 'Tarif Fixe Tout Compris', desc: 'Le tarif annoncé comprend le carburant, les péages et les taxes sans aucun frais caché.' },
-    { title: 'Arrêt Gratuit au Miqat', desc: 'Arrêt offert au Miqat Dhul Hulayfah (Bir Ali) pour l’Ihram et la prière sans aucun supplément.' },
-    { title: 'Véhicules Privés et Modernes', desc: 'Véhicules de luxe climatisés réservés exclusivement à votre famille pour une totale intimité.' },
-    { title: 'Paiement en Espèces en Fin de Trajet', desc: 'Aucun acompte requis. Paiement en espèces au chauffeur après l’achèvement du trajet et l’arrivée à destination (SAR ou USD).' },
-    { title: 'Assistance Dédiée 24/7', desc: 'Contactez notre équipe de coordination sur WhatsApp à toute heure, jour et nuit.' },
-  ],
-  es: [
-    { title: 'Autorizado y Asegurado', desc: 'Chóferes profesionales certificados y vehículos asegurados en cada trayecto para su tranquilidad.' },
-    { title: 'Rastreo de Vuelos en Tiempo Real', desc: 'Monitoreamos su vuelo vía radar en vivo para recibirle puntualmente, llegue antes o con retraso.' },
-    { title: 'Recepción Gratuita en Aeropuerto', desc: 'Su chófer le espera con cartel con su nombre y 60 minutos de espera de cortesía tras aterrizar.' },
-    { title: 'Tarifa Fija Todo Incluido', desc: 'El precio confirmado incluye combustible, peajes y tasas sin ningún cargo oculto.' },
-    { title: 'Parada de Cortesía en Miqat', desc: 'Parada sin costo en Dhul Hulayfah (Bir Ali Miqat) para el Ihram y la oración sin recargos.' },
-    { title: 'Vehículos Privados y Modernos', desc: 'Flota de lujo con aire acondicionado dedicada por completo a su familia para máxima privacidad.' },
-    { title: 'Pago en Efectivo al Finalizar el Viaje', desc: 'Sin pagos por adelantado. Pago en efectivo al conductor una vez finalizado el viaje y llegado al destino (SAR o USD).' },
-    { title: 'Atención Continua 24/7', desc: 'Comuníquese con nosotros por WhatsApp en cualquier momento del día o de la noche.' },
-  ],
-  de: [
-    { title: 'Lizenziert & Versichert', desc: 'Zertifizierte VIP-Chauffeure und vollkaskoversicherte Fahrzeuge für Ihre unbeschwerte Reise.' },
-    { title: 'Echtzeit-Flugradar-Tracking', desc: 'Wir verfolgen Ihren Flug live via Radar und sind pünktlich vor Ort, egal ob verfrüht oder verspätet.' },
-    { title: 'Kostenlose Flughafen-Begrüßung', desc: 'Ihr Chauffeur erwartet Sie mit Namensschild und 60 Minuten kostenloser Wartezeit ab Landung.' },
-    { title: 'Garantierter All-Inclusive-Festpreis', desc: 'Der angegebene Festpreis deckt Kraftstoff, Autobahnmaut und Steuern ohne versteckte Kosten ab.' },
-    { title: 'Kostenfreier Miqat-Halt', desc: 'Kostenloser Zwischenstopp am Miqat Dhul Hulayfah (Bir Ali) für Ihram und Gebet ohne Aufpreis.' },
-    { title: 'Moderne VIP-Privatfahrzeuge', desc: 'Klimatisierte Luxusfahrzeuge exklusiv für Ihre Familie für maximale Privatsphäre und Ruhe.' },
-    { title: 'Barzahlung nach Fahrtende', desc: 'Keine Vorauszahlung erforderlich. Barzahlung an den Fahrer nach Beendigung der Fahrt und Ankunft am Zielort (SAR oder USD).' },
-    { title: '24/7 Rund-um-die-Uhr Support', desc: 'Erreichen Sie unser Dispositionsteam per WhatsApp jederzeit, Tag und Nacht.' },
+    { title: 'مستند اور مکمل بیمہ شدہ', desc: 'ہر سفر میں مستند شافر اور مکمل انشورڈ گاڑیاں آپ کے ذہنی سکون کی ضامن ہیں۔' },
+    { title: 'فلائٹ ریڈار لائیو ٹریکنگ', desc: 'ہم لائیو ریڈار کے ذریعے پرواز کی نگرانی کرتے ہیں تاکہ تاخیر کی صورت میں بھی وقت پر استقبال ہو۔' },
+    { title: 'ائیرپورٹ پر 60 منٹ مفت انتظار', desc: 'شافر آپ کے نام کے بورڈ اور 60 منٹ اعزازی انتظار کے ساتھ ائیرپورٹ پر موجود رہتا ہے۔' },
+    { title: 'مکمل فکسڈ طے شدہ کرایہ', desc: 'کرایہ میں پیٹرول، ٹول ٹیکس اور تمام اخراجات شامل ہیں، کوئی پوشیدہ فیس نہیں۔' },
+    { title: 'میقات پر اعزازی توقف', desc: 'احرام اور نماز کے لیے میقات ذو الحلیفہ (بئر علی) پر بغیر کسی اضافی چارج کے توقف۔' },
+    { title: 'جدید اور پرائیویٹ گاڑیاں', desc: 'مکمل پرائیویسی اور آرام دہ سفر کے لیے آپ اور آپ کے خاندان کے لیے مخصوص گاڑیاں۔' },
+    { title: 'سفر مکمل ہونے پر نقد ادائیگی', desc: '0 روپے ایڈوانس؛ سفر مکمل ہونے اور منزل پر پہنچنے کے بعد ڈرائیور کو نقد ادائیگی (ریال یا ڈالر)۔' },
+    { title: '24/7 گھنٹے واٹس ایپ رابطہ', desc: 'سفر کے دوران کسی بھی وقت ہماری ٹیم سے واٹس ایپ پر براہ راست رابطہ کریں۔' },
   ],
   tr: [
-    { title: 'Lisanslı ve Sigortalı', desc: 'Huzurunuz için her yolculukta lisanslı şoförler ve tam kaskolu özel araçlar.' },
-    { title: 'Canlı Uçuş Radarı Takibi', desc: 'Uçağınızı canlı radar ile takip ediyor, erken veya rötarlı inişlerde tam vaktinde karşılıyoruz.' },
-    { title: 'Ücretsiz Havalimanı Karşılama', desc: 'Şoförünüz sizi isminizin yazılı olduğu pano ile karşılar ve 60 dakika ücretsiz bekleme sunulur.' },
-    { title: 'Her Şey Dahil Sabit Fiyat', desc: 'Belirtilen ücret yakıt, otoyol geçişleri ve vergileri kapsar; hiçbir gizli ücret yoktur.' },
-    { title: 'Ücretsiz Mikat Durağı', desc: 'İhram ve namaz için Zülhuleyfe (Bir Ali) Mikatında ek ücret alınmaksızın bekleme ve mola.' },
-    { title: 'Modern Özel Araçlar', desc: 'Maksimum konfor ve mahremiyet için ailenize tahsis edilmiş klimalı lüks araçlar.' },
-    { title: 'Yolculuk Sonunda Nakit Ödeme', desc: 'Ön ödeme veya depozito gerekmez. Yolculuk tamamlandıktan ve varış noktasına ulaştıktan sonra şoföre nakit ödeme (SAR veya USD).' },
-    { title: '7/24 Kesintisiz Destek', desc: 'Tüm sorularınız ve koordinasyon için ekibimize gece gündüz WhatsApp üzerinden ulaşabilirsiniz.' },
+    { title: 'Lisanslı ve Sigortalı VIP Filo', desc: 'Huzur ve güvenliğiniz için profesyonel şoförler ve tam kaskolu lüks araçlar.' },
+    { title: 'Canlı Uçuş Radarı Takibi', desc: 'Uçuşunuz rötar yapsa dahi şoförünüz sizi zamanında karşılamak için hazır bekler.' },
+    { title: 'Havalimanında 60 Dk Ücretsiz Bekleme', desc: 'İsminizin yazılı olduğu karşılama panosu ve 60 dakika ücretsiz bekleme süresi.' },
+    { title: 'Sabit ve Şeffaf Fiyat Garantisi', desc: 'Otoyol geçişleri, yakıt ve vergiler dahil kesin sabit fiyat, gizli ek ücret yok.' },
+    { title: 'Mikat Noktasında Ücretsiz Mola', desc: 'İhram ve namaz için Bir Ali Mikatı noktasında ek ücret ödemeden bekleme.' },
+    { title: 'Ailenize Özel Lüks Araçlar', desc: 'Maksimum mahremiyet ve konfor için yalnızca size ve ailenize tahsis edilmiş klimalı araçlar.' },
+    { title: 'Varışta Şoföre Nakit Ödeme', desc: 'Sıfır ön ödeme; yolculuk tamamlandıktan sonra şoföre doğrudan nakit ödeme (SAR / USD).' },
+    { title: '7/24 Kesintisiz Destek', desc: 'Operasyon ekibimiz WhatsApp üzerinden yolculuğunuzun her anında yanınızda.' },
+  ],
+  fr: [
+    { title: 'Agréé & Assuré de Premier Ordre', desc: 'Chauffeurs professionnels agréés et véhicules récents entièrement assurés pour votre sérénité.' },
+    { title: 'Suivi des Vols par Radar en Direct', desc: 'Nous surveillons votre vol pour vous accueillir ponctuellement, même en cas de retard.' },
+    { title: 'Accueil Gratuit & 60 Min d’Attente', desc: 'Votre chauffeur privé vous attend avec une pancarte nominative et 60 min offertes à l’aéroport.' },
+    { title: 'Tarif Fixe Tout Compris', desc: 'Tarifs transparents incluant péages autoroutiers, carburant et taxes sans mauvaise surprise.' },
+    { title: 'Arrêt Offert au Miqat', desc: 'Pause offerte au Miqat Dhul Hulayfah (Bir Ali) pour l’Ihram et la prière sans supplément.' },
+    { title: 'Flotte Privée Haut de Gamme', desc: 'Véhicules de prestige climatisés réservés exclusivement à votre famille pour une totale intimité.' },
+    { title: 'Paiement en Espèces au Chauffeur', desc: 'Zéro acompte; paiement en espèces directement au chauffeur à l’arrivée (SAR ou USD).' },
+    { title: 'Assistance Dédiée 24/7', desc: 'Notre équipe de coordination veille sur votre séjour via WhatsApp à toute heure.' },
+  ],
+  es: [
+    { title: 'Certificado y Totalmente Asegurado', desc: 'Chóferes profesionales certificados y vehículos de alta gama asegurados para su tranquilidad.' },
+    { title: 'Rastreo de Vuelos por Radar en Vivo', desc: 'Monitoreamos su vuelo en tiempo real para recibirle a tiempo, incluso ante retrasos.' },
+    { title: 'Recepción y 60 Minutos de Espera', desc: 'Su chófer le espera con cartel con su nombre y 60 minutos de cortesía tras aterrizar.' },
+    { title: 'Tarifas Fijas Todo Incluido', desc: 'Precios confirmados con peajes, combustible e impuestos sin cargos ocultos.' },
+    { title: 'Parada de Cortesía en Miqat', desc: 'Parada sin costo en el Miqat Bir Ali para el Ihram y la oración sin recargo.' },
+    { title: 'Vehículos Privados de Alta Gama', desc: 'Vehículos climatizados dedicados exclusivamente a su familia para máxima privacidad.' },
+    { title: 'Pago en Efectivo al Llegar', desc: 'Cero anticipo; pago en efectivo al chófer una vez finalizado el trayecto (SAR o USD).' },
+    { title: 'Atención 24/7 por WhatsApp', desc: 'Nuestro equipo de operaciones le acompaña en cada etapa a través de WhatsApp.' },
+  ],
+  de: [
+    { title: 'Offiziell Lizenziert & Versichert', desc: 'Erfahrene VIP-Chauffeur-Teams und vollversicherte Premium-Fahrzeuge für Ihre Sicherheit.' },
+    { title: 'Echtzeit-Flugradarüberwachung', desc: 'Wir überwachen Ihren Flug live, sodass Ihr Chauffeur Sie auch bei Verspätung pünktlich empfängt.' },
+    { title: '60 Min. Kostenlose Flughafen-Wartezeit', desc: 'Ihr Chauffeur erwartet Sie mit persönlichem Namensschild und 60 Minuten kostenloser Wartezeit.' },
+    { title: 'Garantierter All-Inclusive Festpreis', desc: 'Transparente Festpreise inklusive Autobahnmaut, Treibstoff und Steuern ohne Zusatzkosten.' },
+    { title: 'Kostenloser Zwischenstopp am Miqat', desc: 'Kostenlose Pause an der Miqat-Station Bir Ali für Ihram und Gebet.' },
+    { title: 'Exklusive Private Luxusflotte', desc: 'Klimatisierte Premium-Fahrzeuge ausschließlich für Sie und Ihre Familie reserviert.' },
+    { title: 'Barzahlung beim Fahrer am Zielort', desc: '0 € Anzahlung; Barzahlung erst nach Beendigung der Fahrt am Zielort (SAR oder USD).' },
+    { title: '24/7 Betreuung via WhatsApp', desc: 'Unser Betreuungsteam steht Ihnen rund um die Uhr per WhatsApp zur Seite.' },
   ],
   hi: [
-    { title: 'लाइसेंस प्राप्त और बीमाकृत', desc: 'आपकी मन की शांति के लिए हर यात्रा पर लाइसेंस प्राप्त पेशेवर ड्राइवर और पूरी तरह से बीमाकृत वाहन।' },
-    { title: 'लाइव उड़ान रडार ट्रैकिंग', desc: 'हम रडार के माध्यम से आपकी उड़ान को ट्रैक करते हैं ताकि समय पर उपस्थित रह सकें, चाहे जल्दी हो या देर।' },
-    { title: 'हवाई अड्डे पर निःशुल्क स्वागत', desc: 'आपका ड्राइवर आपके नाम के बोर्ड और लैंडिंग के बाद 60 मिनट की मुफ्त प्रतीक्षा के साथ स्वागत करता है।' },
-    { title: 'निश्चित सर्वसमावेशी मूल्य', desc: 'उद्धृत किराया ईंधन, टोल टैक्स और करों को बिना किसी छिपे शुल्क के कवर करता है।' },
-    { title: 'निःशुल्क मीक़ात ठहराव', desc: 'एहराम और नमाज़ के लिए धुल हुलैफ़ाह (बीर अली मीक़ात) पर बिना किसी अतिरिक्त शुल्क के ठहराव।' },
-    { title: 'आधुनिक निजी वाहन', desc: 'पूर्ण गोपनीयता और आराम के लिए आपके परिवार को पूरी तरह समर्पित वातानुकूलित लक्जरी वाहन।' },
-    { title: 'यात्रा पूरी होने पर नकद भुगतान', desc: 'किसी अग्रिम भुगतान की आवश्यकता नहीं। यात्रा पूरी होने और गंतव्य पर पहुंचने के बाद ड्राइवर को नकद भुगतान (SAR या USD)।' },
-    { title: '24/7 समर्पित सहायता', desc: 'अपनी सभी पूछताछ के लिए दिन या रात किसी भी समय व्हाट्सएप पर हमारी टीम से संपर्क करें।' },
+    { title: 'आधिकारिक तौर पर लाइसेंस प्राप्त एवं सुरक्षित', desc: 'आपकी मन की शांति के लिए पेशेवर निजी ड्राइवर और पूर्णतः बीमाकृत आधुनिक वाहन।' },
+    { title: 'लाइव फ्लाइट रडार ट्रैकिंग', desc: 'हम आगमन समय की निगरानी करते हैं ताकि विमान में देरी होने पर भी चालक समय पर मिले।' },
+    { title: 'हवाई अड्डे पर 60 मिनट निःशुल्क प्रतीक्षा', desc: 'चालक आपके नाम के बोर्ड के साथ आगमन हॉल में 60 मिनट तक निःशुल्क प्रतीक्षा करता है।' },
+    { title: 'गारंटीकृत निश्चित एवं पारदर्शी दरें', desc: 'टोल टैक्स, ईंधन और कर सहित निश्चित किराया, कोई छिपा हुआ शुल्क नहीं।' },
+    { title: 'मीक़ात पर निःशुल्क ठहराव', desc: 'एहराम और नमाज़ के लिए मीक़ात ज़ुल हुलैफ़ा (बीर अली) पर निःशुल्क ठहराव।' },
+    { title: 'निजी वातानुकूलित आधुनिक फ्लीट', desc: 'पूरी गोपनीयता और आराम के लिए आपके परिवार के लिए विशेष रूप से आरक्षित वाहन।' },
+    { title: 'आगमन पर चालक को नकद भुगतान', desc: '0 अग्रिम राशि; यात्रा समाप्त होने पर चालक को सीधे नकद भुगतान (SAR / USD)।' },
+    { title: '24/7 समर्पित व्हाट्सएप सहायता', desc: 'हमारी टीम व्हाट्सएप पर 24 घंटे आपके हर सफर में समन्वय के लिए उपलब्ध है।' },
   ],
 };
 
-const FINAL_CTA_I18N: Record<
-  Locale,
-  { badge: string; title: string; desc: string; btnBook: string; btnWa: string }
-> = {
-  ar: {
-    badge: 'احجز بثقة تامة',
-    title: 'جاهز لرحلة عمرة ميسرة ومريحة؟',
-    desc: 'احجز سيارتك الخاصة الآن بسعر ثابت وبدون أي دفعة مقدمة؛ الدفع نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل.',
-    btnBook: 'احجز رحلتك الآن',
-    btnWa: 'محادثة وتأكيد واتساب',
+const TOP_ROUTES = [
+  {
+    id: 'jeddah-airport-to-makkah',
+    titleEn: 'Jeddah Airport (KAIA) → Makkah Hotel',
+    titleAr: 'مطار جدة (KAIA) ← فندق مكة المكرمة',
+    descEn: 'Direct private transfer from King Abdulaziz Airport (Terminal 1 & North) to your Makkah hotel door.',
+    descAr: 'استقبال من بوابة صالة المطار وتوصيل مباشر حتى باب فندقكم بمكة المكرمة براحة تامة وسرعة إنجاز.',
+    duration: '60-75 mins',
+    durationAr: '60-75 دقيقة',
+    distance: '95 km',
+    distanceAr: '95 كم',
+    startingFareSAR: 200,
+    img: '/assets/images/jeddah-airport-pickup-umrah.webp',
   },
-  en: {
-    badge: 'Book with Confidence',
-    title: 'Ready for a Peaceful & Dignified Umrah?',
-    desc: 'Reserve your private chauffeur with zero advance deposit, guaranteed fixed rates. Cash paid to the driver after the journey is completed and the customer reaches the requested destination.',
-    btnBook: 'Book Your Chauffeur',
-    btnWa: 'Book on WhatsApp',
+  {
+    id: 'makkah-to-madinah',
+    titleEn: 'Makkah Hotel → Madinah Hotel',
+    titleAr: 'فندق مكة المكرمة ← فندق المدينة المنورة',
+    descEn: 'Scenic VIP highway journey along the Hijrah Expressway with optional prayer and refreshment stops.',
+    descAr: 'رحلة طريق الهجرة السريع المريحة بسيارة VIP مكيفة وسائق خبير مع توقفات استراحة وصلاة حسب رغبتكم.',
+    duration: '4-4.5 hours',
+    durationAr: '4-4.5 ساعات',
+    distance: '440 km',
+    distanceAr: '440 كم',
+    startingFareSAR: 400,
+    img: '/assets/images/private-transfer-makkah-to-madinah.webp',
   },
-  ms: {
-    badge: 'Tempah dengan Penuh Keyakinan',
-    title: 'Bersedia untuk Perjalanan Umrah yang Tenang?',
-    desc: 'Tempah pemandu peribadi anda tanpa bayaran pendahuluan dan kadar tetap dijamin. Bayaran tunai kepada pemandu selepas perjalanan selesai dan tiba di destinasi.',
-    btnBook: 'Tempah Perjalanan Anda',
-    btnWa: 'Tempah di WhatsApp',
+  {
+    id: 'madinah-airport-to-hotel',
+    titleEn: 'Madinah Airport (MED) → Madinah Hotel',
+    titleAr: 'مطار المدينة المنورة (MED) ← فنادق الحرم',
+    descEn: 'Personalized meet & greet at Prince Mohammad bin Abdulaziz Airport with direct drop-off at Central hotels.',
+    descAr: 'استقبال فوري بصالة مطار الأمير محمد بن عبدالعزيز بالمدينة وتوصيل مباشر لباب فندقكم بالمنطقة المركزية.',
+    duration: '20-25 mins',
+    durationAr: '20-25 دقيقة',
+    distance: '22 km',
+    distanceAr: '22 كم',
+    startingFareSAR: 200,
+    img: '/assets/images/vehicles/toyota-camry/exterior-studio.webp',
   },
-  id: {
-    badge: 'Pesan dengan Penuh Keyakinan',
-    title: 'Siap untuk Perjalanan Umrah yang Nyaman & Tenang?',
-    desc: 'Pesan armada privat Anda tanpa deposit dan tarif pasti terjamin. Pembayaran tunai kepada pengemudi setelah perjalanan selesai dan tiba di tujuan.',
-    btnBook: 'Pesan Perjalanan Sekarang',
-    btnWa: 'Pesan via WhatsApp',
+  {
+    id: 'makkah-to-jeddah-airport',
+    titleEn: 'Makkah Hotel → Jeddah Airport (KAIA)',
+    titleAr: 'فندق مكة المكرمة ← مطار جدة (KAIA)',
+    descEn: 'Punctual departure transfer with generous luggage hold for return bags and chilled Zamzam water.',
+    descAr: 'توصيل مريح ومضبوط المواعيد لرحلات المغادرة مع مساحة واسعة لحقائب العودة وعبوات ماء زمزم.',
+    duration: '60-75 mins',
+    durationAr: '60-75 دقيقة',
+    distance: '95 km',
+    distanceAr: '95 كم',
+    startingFareSAR: 200,
+    img: '/assets/images/makkah-to-jeddah-airport-transfer.webp',
   },
-  ur: {
-    badge: 'مکمل اعتماد کے ساتھ بک کریں',
-    title: 'کیا آپ پرسکون اور باوقار عمرہ سفر کے لیے تیار ہیں؟',
-    desc: 'بغیر کسی پیشگی ادائیگی کے اور ضمانت شدہ کرایوں پر اپنی گاڑی بک کریں۔ سفر مکمل ہونے اور منزل پر پہنچنے کے بعد ڈرائیور کو نقد ادائیگی۔',
-    btnBook: 'ابھی سفر بک کریں',
-    btnWa: 'واٹس ایپ پر بکنگ',
+  {
+    id: 'makkah-to-taif',
+    titleEn: 'Makkah Hotel → Taif (Al Hada / City)',
+    titleAr: 'فندق مكة المكرمة ← الطائف (الهدا / المدينة)',
+    descEn: 'Comfortable mountain highway journey through Al Hada scenic pass with optional cable car stop.',
+    descAr: 'رحلة جبلية ساحرة عبر عقبة الهدا مع إمكانية التوقف في التلفريك ومنتزهات الشفا والطائف.',
+    duration: '75-90 mins',
+    durationAr: '75-90 دقيقة',
+    distance: '105 km',
+    distanceAr: '105 كم',
+    startingFareSAR: 400,
+    img: '/assets/images/makkah-to-taif-private-transfer.webp',
   },
-  fr: {
-    badge: 'Réservez en Toute Sérénité',
-    title: 'Prêt pour une Omra Paisible et Confortable ?',
-    desc: 'Réservez votre chauffeur privé sans aucun acompte et au tarif fixe garanti. Paiement en espèces au chauffeur après l’achèvement du trajet et l’arrivée à destination.',
-    btnBook: 'Réserver Votre Chauffeur',
-    btnWa: 'Réserver sur WhatsApp',
+  {
+    id: 'riyadh-to-makkah',
+    titleEn: 'Riyadh ⇄ Makkah Hotel (Highway VIP)',
+    titleAr: 'الرياض ⇄ فندق مكة المكرمة (VIP السريع)',
+    descEn: 'Long-distance intercity chauffeur travel in premier SUVs and VIP vans across Highway 40.',
+    descAr: 'نقل بين المدن لكبار الشخصيات والعائلات عبر طريق مكة - الرياض السريع بأعلى معايير الرفاهية.',
+    duration: '8-9 hours',
+    durationAr: '8-9 ساعات',
+    distance: '870 km',
+    distanceAr: '870 كم',
+    startingFareSAR: 1800,
+    img: '/assets/images/riyadh-to-makkah-private-transfer.webp',
   },
-  es: {
-    badge: 'Reserve con Plena Confianza',
-    title: '¿Listo para una Umrah Cómoda y Espiritual?',
-    desc: 'Reserve su chófer privado sin adelanto alguno y con tarifas fijas garantizadas. Pago en efectivo al conductor una vez finalizado el viaje y llegado al destino.',
-    btnBook: 'Reserve su Chófer Ahora',
-    btnWa: 'Reservar por WhatsApp',
-  },
-  de: {
-    badge: 'Mit vollem Vertrauen buchen',
-    title: 'Bereit für eine friedvolle und würdevolle Umrah?',
-    desc: 'Buchen Sie Ihren privaten Chauffeur ohne Vorauszahlung zu garantierten Festpreisen. Barzahlung an den Fahrer nach Beendigung der Fahrt und Ankunft am Zielort.',
-    btnBook: 'Jetzt Chauffeur Buchen',
-    btnWa: 'Per WhatsApp Buchen',
-  },
-  tr: {
-    badge: 'Güvenle Rezervasyon Yapın',
-    title: 'Huzurlu ve Konforlu Bir Umre Yolculuğuna Hazır mısınız?',
-    desc: 'Ön ödemesiz ve garantili sabit fiyatlarla özel aracınızı ayırtın. Yolculuk tamamlandıktan ve varış noktasına ulaştıktan sonra şoföre nakit ödeme.',
-    btnBook: 'Aracınızı Şimdi Ayırtın',
-    btnWa: 'WhatsApp ile Rezervasyon',
-  },
-  hi: {
-    badge: 'पूरे विश्वास के साथ बुक करें',
-    title: 'क्या आप एक शांतिपूर्ण और सम्मानित उमरा यात्रा के लिए तैयार हैं?',
-    desc: 'बिना किसी अग्रिम भुगतान और गारंटीकृत निश्चित दरों के साथ अपने निजी ड्राइवर को बुक करें। यात्रा पूरी होने और गंतव्य पर पहुंचने के बाद ड्राइवर को नकद भुगतान।',
-    btnBook: 'अपनी यात्रा अभी बुक करें',
-    btnWa: 'व्हाट्सएप पर बुक करें',
-  },
-};
+];
 
 export function HomeSections({ locale, dict, settings, vehicles }: HomeSectionsProps) {
   // Verified vehicle fleet specifications integrity:
@@ -236,544 +230,429 @@ export function HomeSections({ locale, dict, settings, vehicles }: HomeSectionsP
   // Camry: seats: 4, bags: 3,
   // HiAce: seats: 10, bags: 10,
   const { formatPrice } = useCurrency();
-  const whyUsItems = WHY_US_8_ITEMS[locale] || WHY_US_8_ITEMS.en;
-  const finalCta = FINAL_CTA_I18N[locale] || FINAL_CTA_I18N.en;
-
-  // Section 5: Popular Umrah Routes (Harmain Scenic Cards from Screenshots 6, 7, 9, 10)
-  const POPULAR_ROUTES = [
-    {
-      id: 'jeddah-airport-to-makkah',
-      title: locale === 'ar' ? 'مطار جدة (KAIA) ← فندق مكة المكرمة' : locale === 'ms' ? 'Lapangan Terbang Jeddah (KAIA) → Hotel Makkah' : 'Jeddah Airport (KAIA) → Makkah Hotel',
-      badge: locale === 'ar' ? 'الأكثر طلباً' : 'MOST BOOKED',
-      badgeColor: 'bg-gold text-ink font-bold',
-      desc: locale === 'ar' ? 'استقبال من بوابة الصالة وتوصيل مباشر حتى باب فندقك بمكة بعد رحلة طيران مريحة.' : 'Your hotel door, after a flight-tracked pickup at Jeddah Airport.',
-      duration: locale === 'ar' ? '75 دقيقة' : '75 mins',
-      distance: locale === 'ar' ? '95 كم' : '95 km',
-      basePriceSAR: 200,
-      img: '/assets/images/vehicles/gmc-yukon-xl/exterior-studio.webp',
-    },
-    {
-      id: 'makkah-to-madinah',
-      title: locale === 'ar' ? 'فندق مكة المكرمة ← المدينة المنورة' : locale === 'ms' ? 'Hotel Makkah → Madinah Al-Munawwarah' : 'Makkah Hotel → Madinah Al-Munawwarah',
-      badge: locale === 'ar' ? 'بين المدن' : 'INTERCITY',
-      badgeColor: 'bg-navy-light text-gold border border-gold/30',
-      desc: locale === 'ar' ? 'سائق خاص وسيارة VIP على طريق الهجرة السريع مع توقفات استراحة حسب رغبتك.' : 'A private car from your Makkah hotel to your Madinah hotel with optional stops.',
-      duration: locale === 'ar' ? '4.5 ساعات' : '4.5 hours',
-      distance: locale === 'ar' ? '440 كم' : '440 km',
-      basePriceSAR: 450,
-      img: '/assets/images/vehicles/hyundai-staria/exterior-studio.webp',
-    },
-    {
-      id: 'madinah-to-makkah',
-      title: locale === 'ar' ? 'المدينة المنورة ← مكة المكرمة (ميقات آبار علي)' : locale === 'ms' ? 'Madinah → Makkah (Singgah Miqat Bir Ali)' : 'Madinah Hotel → Makkah (Via Miqat Bir Ali)',
-      badge: locale === 'ar' ? 'توقف الميقات' : 'MIQAT STOP',
-      badgeColor: 'bg-emerald text-white font-bold',
-      desc: locale === 'ar' ? 'توصيل مباشر مع توقف مجاني وانتظار كافٍ في ميقات ذو الحليفة (آبار علي) للإحرام والصلاة.' : 'Direct transfer including a complimentary stop with ample wait at Bir Ali Miqat for Ihram.',
-      duration: locale === 'ar' ? '4.5 ساعات' : '4.5 hours',
-      distance: locale === 'ar' ? '440 كم' : '440 km',
-      basePriceSAR: 450,
-      img: '/assets/images/vehicles/gmc-yukon-xl/exterior-studio.webp',
-    },
-    {
-      id: 'makkah-to-jeddah-airport',
-      title: locale === 'ar' ? 'فندق مكة المكرمة ← مطار جدة (KAIA)' : locale === 'ms' ? 'Hotel Makkah → Lapangan Terbang Jeddah (KAIA)' : 'Makkah Hotel → Jeddah Airport (KAIA)',
-      badge: locale === 'ar' ? 'رحلات العودة' : 'AIRPORT RETURN',
-      badgeColor: 'bg-gold-soft text-gold-dark border border-gold-line font-bold',
-      desc: locale === 'ar' ? 'انتقال مريح مع مساحة واسعة لحقائب العودة وعبوات ماء زمزم للوصول بالموعد المحدد.' : 'Comfortable departure transfer with ample trunk room for Zamzam water bottles.',
-      duration: locale === 'ar' ? '75 دقيقة' : '75 mins',
-      distance: locale === 'ar' ? '95 كم' : '95 km',
-      basePriceSAR: 200,
-      img: '/assets/images/vehicles/toyota-camry/exterior-studio.webp',
-    },
-    {
-      id: 'jeddah-to-madinah',
-      title: locale === 'ar' ? 'مطار جدة ← فنادق المدينة المنورة' : locale === 'ms' ? 'Jeddah Airport → Hotel Madinah' : 'Jeddah Airport / City → Madinah Hotel',
-      badge: locale === 'ar' ? 'بين المدن' : 'INTERCITY',
-      badgeColor: 'bg-navy-light text-gold border border-gold/30',
-      desc: locale === 'ar' ? 'نقل مباشر من مطار جدة إلى المدينة المنورة دون الحاجة للمبيت في جدة أو تبديل محطات.' : 'Direct airport-to-hotel journey from Jeddah to Madinah with custom family rest stops.',
-      duration: locale === 'ar' ? '4.2 ساعات' : '4.2 hours',
-      distance: locale === 'ar' ? '410 كم' : '410 km',
-      basePriceSAR: 680,
-      img: '/assets/images/vehicles/hyundai-staria/exterior-studio.webp',
-    },
-    {
-      id: 'madinah-airport-to-hotel',
-      title: locale === 'ar' ? 'مطار المدينة (MED) ← فنادق الحرم' : locale === 'ms' ? 'Lapangan Terbang Madinah (MED) → Hotel Madinah' : 'Madinah Airport (MED) → Central Hotel',
-      badge: locale === 'ar' ? 'الأكثر طلباً' : 'MOST BOOKED',
-      badgeColor: 'bg-gold text-ink font-bold',
-      desc: locale === 'ar' ? 'استقبال سريع بصالة مطار الأمير محمد بن عبدالعزيز وتوصيل لباب فندقك بالمنطقة المركزية.' : 'A captain meets you inside Prince Mohammad bin Abdulaziz Airport with personalized board.',
-      duration: locale === 'ar' ? '25 دقيقة' : '25 mins',
-      distance: locale === 'ar' ? '22 كم' : '22 km',
-      basePriceSAR: 150,
-      img: '/assets/images/camry_exterior.webp',
-    },
-  ];
-
-  // Section 8: Designed to Exceed Expectations Cards (Screenshot 4 & 5)
-  const SERVICE_SHOWCASE = [
-    {
-      id: 'airport-transfer',
-      title: locale === 'ar' ? 'استقبال وتوصيل المطارات' : 'Premium Airport Transfers',
-      subtitle: locale === 'ar' ? 'مطار الملك عبدالعزيز ومطار المدينة' : 'KAIA Jeddah & MED Madinah',
-      img: '/assets/images/services/service_airport_transfer.webp',
-      icon: Plane,
-      href: `/${locale}/guides/jeddah-airport-arrival-pickup-guide`,
-    },
-    {
-      id: 'umrah-taxi',
-      title: locale === 'ar' ? 'توصيل معتمري بيت الله الحرام' : 'Umrah Taxi Service',
-      subtitle: locale === 'ar' ? 'نقل خاص مباشر بين الفنادق والحرمين' : 'Direct Makkah & Madinah Chauffeur',
-      img: '/assets/images/services/service_umrah_taxi.webp',
-      icon: Landmark,
-      href: `/${locale}/guides/jeddah-airport-to-makkah-taxi-vs-train`,
-    },
-    {
-      id: 'ziyarat-tours',
-      title: locale === 'ar' ? 'جولات المزارات الإسلامية' : 'Ziyarat Historical Tours',
-      subtitle: locale === 'ar' ? 'غار حراء، ثور، قباء، وأحد بسائق مخصص' : 'Sacred landmarks with chauffeur waiting',
-      img: '/assets/images/services/service_ziyarat_tours.webp',
-      icon: Compass,
-      href: `/${locale}/ziyarat`,
-    },
-    {
-      id: 'executive-corporate',
-      title: locale === 'ar' ? 'النقل التنفيذي الخاص لكبار الشخصيات' : 'Executive VIP Chauffeur Travel',
-      subtitle: locale === 'ar' ? 'سيارات VIP فاخرة لرجال الأعمال والوفود' : 'VIP SUVs and hourly chauffeur hire',
-      img: '/assets/images/services/service_executive_vip.webp',
-      icon: Building2,
-      href: `/${locale}/fleet`,
-    },
-  ];
+  const whyUs = WHY_US_8_ITEMS[locale] || WHY_US_8_ITEMS.en;
+  const isRtl = locale === 'ar' || locale === 'ur';
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-[#FFFFFF] text-[#182235]">
       {/* ============================================================== */}
-      {/* SECTION 4: HOW IT WORKS (Clean, Light-Themed, Responsive)     */}
+      {/* 1. HOW IT WORKS (ROYAL 3 STEPS — CLEAN, EDITORIAL, LUXURY)     */}
       {/* ============================================================== */}
-      <section id="how-it-works" className="py-16 md:py-24 bg-gray-50 border-t border-gray-200/60 font-sans">
+      <section id="how-it-works" className="py-20 md:py-28 bg-[#F7F5F0] border-b border-[#E8E3DA]">
         <div className="container mx-auto px-4 max-w-6xl">
           {/* Header */}
-          <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
-              {dict.steps.heading} {dict.steps.headingHighlight}
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#C5A15D] block mb-2">
+              {locale === 'ar' ? 'رحلتكم في ٣ خطوات بسيطة' : 'RESERVATION JOURNEY'}
+            </span>
+            <h2 className="font-serif font-bold text-3xl md:text-5xl text-[#182235] tracking-tight">
+              {locale === 'ar' ? 'حجز سلس ومريح من البداية وحتى الوصول' : 'Simple, Dignified Chauffeur Booking'}
             </h2>
-            <p className="mt-3 text-base md:text-lg text-gray-500 leading-relaxed font-normal">
+            <p className="mt-3 text-sm md:text-base text-[#687386] font-light leading-relaxed">
               {locale === 'ar'
-                ? 'واضحة وبسيطة، من الخطوة الأولى وحتى وصولك وجهتك بسلام.'
-                : 'Clear and simple, from the first step to your arrival.'}
+                ? 'تجربة حجز صُممت لتمنحكم الطمأنينة الكاملة دون أي تعقيد أو دفع مسبق.'
+                : 'Experience effortless reservation with zero advance payment and guaranteed fixed fares.'}
             </p>
           </div>
 
-          {/* Grid Layout: 3-column grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-stretch">
+          {/* 3 Step Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {/* Step 1 */}
-            <div className="bg-white rounded-2xl p-5 sm:p-8 md:p-10 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center group">
-              {/* Minimalist Route Map Outline SVG */}
-              <div className="w-16 h-16 rounded-2xl bg-amber-50/80 border border-[#df9e38]/20 flex items-center justify-center mb-6 text-[#df9e38] group-hover:scale-105 transition-transform duration-200">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="6" cy="19" r="3" />
-                  <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" />
-                  <circle cx="18" cy="5" r="3" />
-                </svg>
+            <div className="bg-[#FFFFFF] rounded-2xl p-7 sm:p-9 border border-[#E8E3DA] shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="font-serif font-bold text-4xl text-[#C5A15D]/80">01</span>
+                  <div className="w-12 h-12 rounded-xl bg-[#F7F5F0] text-[#C5A15D] flex items-center justify-center">
+                    <MapPin className="w-6 h-6" />
+                  </div>
+                </div>
+                <h3 className="font-serif font-bold text-xl text-[#182235] mb-3">
+                  {locale === 'ar' ? 'حدد المسار والموعد' : 'Select Route & Schedule'}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#687386] leading-relaxed mb-6 font-light">
+                  {locale === 'ar'
+                    ? 'اختر مسار رحلتك المعتمد وتاريخ الانطلاق، وأدخل رقم رحلة الطيران لنقوم بمتابعتها بالرادار الملاحي آلياً.'
+                    : 'Choose your airport or intercity corridor with your pickup date and flight number for automated radar tracking.'}
+                </p>
               </div>
-              <span className="text-sm font-bold tracking-wider text-[#df9e38] uppercase mb-2">
-                {dict.steps.step1Title}
-              </span>
-              <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3">
-                {dict.steps.step1Title}
-              </h3>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-6 flex-1">
-                {locale === 'ar'
-                  ? 'اختر مسار رحلتك (من مطار جدة أو المدينة)، وأدخل موعد وصول رحلتك ورقم الطيران لنقوم بتتبعها تلقائياً.'
-                  : 'Choose your pickup terminal and destination hotel. Input your flight number for automated radar tracking.'}
-              </p>
-              <div className="w-full pt-4 border-t border-gray-100 text-xs text-[#df9e38] font-semibold flex items-center justify-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 shrink-0" />
-                <span>{locale === 'ar' ? 'تتبع فوري بدون رسوم تأخير' : 'Free radar tracking included'}</span>
+              <div className="pt-4 border-t border-[#E8E3DA] text-[11px] font-semibold text-[#188567] flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                <span>{locale === 'ar' ? 'متابعة حية للرحلات الجوية' : 'Live flight radar synchronization'}</span>
               </div>
             </div>
 
             {/* Step 2 */}
-            <div className="bg-white rounded-2xl p-5 sm:p-8 md:p-10 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center group">
-              {/* Minimalist Car Outline SVG */}
-              <div className="w-16 h-16 rounded-2xl bg-amber-50/80 border border-[#df9e38]/20 flex items-center justify-center mb-6 text-[#df9e38] group-hover:scale-105 transition-transform duration-200">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 11.1 2 11.5 2 12v4c0 .6.4 1 1 1h2" />
-                  <circle cx="7" cy="17" r="2" />
-                  <path d="M9 17h6" />
-                  <circle cx="17" cy="17" r="2" />
-                </svg>
+            <div className="bg-[#FFFFFF] rounded-2xl p-7 sm:p-9 border border-[#E8E3DA] shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="font-serif font-bold text-4xl text-[#C5A15D]/80">02</span>
+                  <div className="w-12 h-12 rounded-xl bg-[#F7F5F0] text-[#C5A15D] flex items-center justify-center">
+                    <Car className="w-6 h-6" />
+                  </div>
+                </div>
+                <h3 className="font-serif font-bold text-xl text-[#182235] mb-3">
+                  {locale === 'ar' ? 'اختر مركبتك الملكية' : 'Choose Your Luxury Vehicle'}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#687386] leading-relaxed mb-6 font-light">
+                  {locale === 'ar'
+                    ? 'حدد السيارة المناسبة لعدد أفراد عائلتك وحقائبكم (كامري، ستاريا VIP، يوكون XL، أو هايس) واطلع على السعر الثابت.'
+                    : 'Select the ideal vehicle class for your family size and luggage with guaranteed transparent fixed rates.'}
+                </p>
               </div>
-              <span className="text-sm font-bold tracking-wider text-[#df9e38] uppercase mb-2">
-                {dict.steps.step2Title}
-              </span>
-              <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3">
-                {dict.steps.step2Title}
-              </h3>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-6 flex-1">
-                {locale === 'ar'
-                  ? 'حدد السيارة التي تناسب عدد أفراد أسرتك وحقائب السفر (كامري، ستاريا VIP، يوكون XL، أو هايس) واطلع على السعر الثابت.'
-                  : 'Select the ideal vehicle class for your headcount and luggage with 100% transparent fixed rates.'}
-              </p>
-              <div className="w-full pt-4 border-t border-gray-100 text-xs text-[#df9e38] font-semibold flex items-center justify-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 shrink-0" />
-                <span>{locale === 'ar' ? 'سعر ثابت شامل الوقود والطرق' : 'Fixed fare per whole car'}</span>
+              <div className="pt-4 border-t border-[#E8E3DA] text-[11px] font-semibold text-[#C5A15D] flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                <span>{locale === 'ar' ? 'سعر ثابت شامل الوقود ورسوم الطرق' : 'All-inclusive fixed fares per whole car'}</span>
               </div>
             </div>
 
             {/* Step 3 */}
-            <div className="bg-white rounded-2xl p-5 sm:p-8 md:p-10 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center flex flex-col items-center group">
-              {/* Minimalist Calendar with Checkmark SVG */}
-              <div className="w-16 h-16 rounded-2xl bg-amber-50/80 border border-[#df9e38]/20 flex items-center justify-center mb-6 text-[#df9e38] group-hover:scale-105 transition-transform duration-200">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                  <line x1="16" y1="2" x2="16" y2="6" />
-                  <line x1="8" y1="2" x2="8" y2="6" />
-                  <line x1="3" y1="10" x2="21" y2="10" />
-                  <path d="m9 16 2 2 4-4" />
-                </svg>
+            <div className="bg-[#FFFFFF] rounded-2xl p-7 sm:p-9 border border-[#E8E3DA] shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="font-serif font-bold text-4xl text-[#C5A15D]/80">03</span>
+                  <div className="w-12 h-12 rounded-xl bg-[#F7F5F0] text-[#C5A15D] flex items-center justify-center">
+                    <ShieldCheck className="w-6 h-6" />
+                  </div>
+                </div>
+                <h3 className="font-serif font-bold text-xl text-[#182235] mb-3">
+                  {locale === 'ar' ? 'أكّد وادفع للسائق بعد الوصول' : 'Confirm & Pay Upon Arrival'}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#687386] leading-relaxed mb-6 font-light">
+                  {locale === 'ar'
+                    ? 'استلم قسيمة الحجز مباشرة عبر البريد وواتساب، واستمتع بالرحلة وادفع نقدًا للسائق بعد وصولكم لوجهتكم بسلام.'
+                    : 'Receive your instant confirmation receipt. Meet your chauffeur and pay cash strictly upon reaching your hotel.'}
+                </p>
               </div>
-              <span className="text-sm font-bold tracking-wider text-[#df9e38] uppercase mb-2">
-                {dict.steps.step3Title}
-              </span>
-              <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3">
-                {dict.steps.step3Title}
-              </h3>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-6 flex-1">
-                {locale === 'ar'
-                  ? 'استلم قسيمة الحجز وبيانات السائق فوراً عبر واتساب، واستمتع بالرحلة وادفع عند وصولك سالماً لوجهتك نقداً للسائق مباشرة.'
-                  : 'Receive your instant confirmation and driver details on WhatsApp. Meet your driver and pay upon arriving at your hotel.'}
-              </p>
-              <div className="w-full pt-4 border-t border-gray-100 text-xs text-emerald-600 font-semibold flex items-center justify-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 shrink-0" />
-                <span>{dict.steps.noPrepayNotice}</span>
+              <div className="pt-4 border-t border-[#E8E3DA] text-[11px] font-semibold text-[#188567] flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                <span>{locale === 'ar' ? '0 ريال دفعة مقدمة • الدفع بعد الوصول' : 'Zero advance payment • Cash to driver'}</span>
               </div>
             </div>
           </div>
 
-          {/* Call to Action (CTA) Button */}
-          <div className="mt-12 md:mt-16 text-center">
+          {/* CTA Link */}
+          <div className="text-center mt-12">
             <Link
               href={`/${locale}/booking`}
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#df9e38] hover:bg-[#c9892c] active:scale-[0.98] text-gray-950 font-bold text-sm md:text-base tracking-wide shadow-[0_4px_16px_rgba(223,158,56,0.35)] hover:shadow-[0_6px_22px_rgba(223,158,56,0.45)] transition-all duration-200 cursor-pointer"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-[#C5A15D] to-[#D7B76C] hover:brightness-105 active:scale-[0.98] text-[#101827] font-bold text-xs uppercase tracking-wider shadow-md transition-all cursor-pointer"
             >
-              <span>{dict.steps.ctaButton}</span>
-              <ArrowRight className="w-4 h-4 rtl:rotate-180 transition-transform" />
+              <span>{locale === 'ar' ? 'احجز سيارتك الخاصة الآن' : 'Reserve Your Private Chauffeur'}</span>
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* ============================================================== */}
-      {/* SECTION 7: LUXURY VIP FLEET SHOWCASE                           */}
+      {/* 2. THE ROYAL AUTOMOTIVE FLEET SHOWROOM                         */}
       {/* ============================================================== */}
       <FleetSection locale={locale} dict={dict} vehicles={vehicles} />
 
       {/* ============================================================== */}
-      {/* SECTION 8: DESIGNED TO EXCEED EXPECTATIONS (Screenshots 4, 5)  */}
+      {/* 3. POPULAR CORRIDORS & ROUTES (WARM IVORY BACKGROUND)          */}
       {/* ============================================================== */}
-      <section id="services" className="py-16 md:py-24 bg-bg border-t border-border text-start">
+      <section id="routes" className="py-20 md:py-28 bg-[#FFFFFF] border-b border-[#E8E3DA]">
         <div className="container mx-auto px-4 max-w-7xl">
-          {/* HEADER */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-              <Award className="w-3.5 h-3.5 text-gold-dark" />
-              <span>{locale === 'ar' ? 'خدمات متميزة لضيوف الرحمن' : 'Executive Services'}</span>
-            </div>
-            <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-              {locale === 'ar' ? 'مصممة لتتجاوز توقعاتك' : 'Designed to Exceed Expectations'}
-            </h2>
-            <p className="mt-3 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-              {locale === 'ar'
-                ? 'خدمات نقل خاصة ومخصصة صُممت لتمنح المعتمر وزواره أعلى درجات الراحة والسكينة والتركيز في العبادة.'
-                : 'Tailored chauffeur services designed for the comfort, dignity, and spiritual focus of every pilgrim.'}
-            </p>
-          </div>
-
-          {/* 4 FULL-BLEED PHOTOGRAPHY CARDS (From Screenshots 4 & 5) */}
-          <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12 overflow-x-auto sm:overflow-visible pb-4 sm:pb-0 snap-x snap-mandatory scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
-            {SERVICE_SHOWCASE.map((item) => {
-              const IconComponent = item.icon;
-              return (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  className="group relative rounded-3xl overflow-hidden aspect-[3/4] bg-navy flex flex-col justify-end p-5 sm:p-6 border border-border shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 w-[78vw] max-w-[300px] sm:w-auto shrink-0 snap-center sm:snap-align-none"
-                >
-                  <Image
-                    src={item.img}
-                    alt={item.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    className="object-cover opacity-60 group-hover:scale-105 group-hover:opacity-75 transition-all duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/50 to-transparent" />
-
-                  <div className="relative z-10 space-y-2 text-start">
-                    <div className="w-10 h-10 rounded-full bg-gold/90 text-ink flex items-center justify-center shadow-md">
-                      <IconComponent className="w-5 h-5" />
-                    </div>
-                    <h3 className="font-display font-bold text-xl text-white leading-tight">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs text-white/80 font-light leading-snug">
-                      {item.subtitle}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="text-center">
-            <Link
-              href={`/${locale}/services`}
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-btn bg-gold hover:bg-gold-hover text-ink font-bold text-xs uppercase tracking-wider shadow-xs transition-colors"
-            >
-              <span>{locale === 'ar' ? 'عرض جميع الخدمات' : 'View All Services'}</span>
-              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* SECTION 5: POPULAR UMRAH ROUTES (Harmain Style from Images)    */}
-      {/* ============================================================== */}
-      <section id="routes" className="py-16 md:py-24 bg-bg border-t border-border text-start">
-        <div className="container mx-auto px-4 max-w-7xl">
-          {/* HEADER */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 text-start">
             <div>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
-                <Compass className="w-3.5 h-3.5 text-gold-dark" />
-                <span>{locale === 'ar' ? 'المسارات المعتمدة' : 'Popular Umrah Routes'}</span>
-              </div>
-              <h2 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-                {locale === 'ar' ? 'مسارات الحرمين الشريفين والنقل بين المدن' : 'Jeddah, Makkah & Madinah Routes'}
+              <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#C5A15D] block mb-2">
+                {locale === 'ar' ? 'المسارات المعتمدة' : 'HIGHWAY CORRIDORS'}
+              </span>
+              <h2 className="font-serif font-bold text-3xl md:text-5xl text-[#182235] tracking-tight">
+                {locale === 'ar' ? 'مسارات الحرمين الشريفين والنقل بين المدن' : 'Popular Umrah & Highway Routes'}
               </h2>
-              <p className="mt-2 text-ink-muted text-sm md:text-base font-light">
-                {locale === 'ar' ? 'أسعار ثابتة للمركبة بالكامل • رسوم الطرق السريعة مشمولة • لا توجد زيادات في أوقات الذروة' : 'Fixed price per vehicle. Highway tolls and fuel included.'}
+              <p className="mt-2 text-sm md:text-base text-[#687386] font-light max-w-2xl">
+                {locale === 'ar'
+                  ? 'أسعار ثابتة للمركبة بالكامل • رسوم الطرق السريعة والوقود مشمولة • لا توجد زيادات في أوقات الذروة.'
+                  : 'Guaranteed fixed fares per whole car. Highway tolls and fuel included with zero peak surges.'}
               </p>
             </div>
             <Link
               href={`/${locale}/routes`}
-              className="inline-flex items-center gap-1.5 text-xs md:text-sm font-bold text-gold-dark hover:underline whitespace-nowrap self-start md:self-auto"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#C5A15D] hover:text-[#182235] transition-colors whitespace-nowrap self-start md:self-auto"
             >
-              <span>{locale === 'ar' ? 'عرض جميع المسارات بالتفصيل' : 'View all routes'}</span>
+              <span>{locale === 'ar' ? 'استعراض كافة المسارات والأسعار' : 'View all routes & fares'}</span>
               <ArrowRight className="w-4 h-4 rtl:rotate-180" />
             </Link>
           </div>
 
-          {/* RESPONSIVE SCENIC ROUTE CARDS (Optimized for Mobile, Laptop & Desktop) */}
-          <div className="flex flex-col gap-6 sm:gap-8 max-w-5xl mx-auto">
-            {EXECUTIVE_ROUTES_DATA.map((r) => (
-              <ExecutiveRouteCard key={r.slug} route={r} locale={locale} />
+          {/* Route Cards Grid (2 columns on tablet/desktop) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {TOP_ROUTES.map((route) => (
+              <div
+                key={route.id}
+                className="bg-[#FFFFFF] rounded-2xl border border-[#E8E3DA] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group text-start"
+              >
+                <div>
+                  {/* Photo Container */}
+                  <div className="relative aspect-[16/10] w-full bg-[#101827] overflow-hidden">
+                    <Image
+                      src={route.img}
+                      alt={locale === 'ar' ? route.titleAr : route.titleEn}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#101827]/80 via-transparent to-transparent pointer-events-none" />
+                    {/* Distance & Time Pills */}
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[11px] font-semibold text-white">
+                      <span className="px-2.5 py-1 rounded-md bg-[#101827]/80 backdrop-blur-sm border border-white/10 flex items-center gap-1">
+                        <Clock className="w-3 h-3 text-[#C5A15D]" />
+                        <span>{isRtl ? route.durationAr : route.duration}</span>
+                      </span>
+                      <span className="px-2.5 py-1 rounded-md bg-[#101827]/80 backdrop-blur-sm border border-white/10 flex items-center gap-1">
+                        <MapPin className="w-3 h-3 text-[#C5A15D]" />
+                        <span>{isRtl ? route.distanceAr : route.distance}</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Body Content */}
+                  <div className="p-5 sm:p-6 space-y-3">
+                    <h3 className="font-serif font-bold text-lg sm:text-xl text-[#182235] leading-snug">
+                      {isRtl ? route.titleAr : route.titleEn}
+                    </h3>
+                    <p className="text-xs text-[#687386] font-light leading-relaxed">
+                      {isRtl ? route.descAr : route.descEn}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bottom Card Footer: Starting Price & Book Button */}
+                <div className="p-5 sm:p-6 pt-3 border-t border-[#E8E3DA] flex items-center justify-between gap-3 bg-[#F7F5F0]/50">
+                  <div>
+                    <span className="text-[10px] uppercase font-bold text-[#687386] block">
+                      {locale === 'ar' ? 'السعر الثابت يبدأ من' : 'Starting From'}
+                    </span>
+                    <span className="font-serif font-bold text-xl text-[#182235]">
+                      {formatPrice(route.startingFareSAR)}
+                    </span>
+                  </div>
+                  <Link
+                    href={`/${locale}/booking?route=${route.id}`}
+                    className="min-h-[40px] px-5 rounded-xl bg-[#101827] hover:bg-[#111C30] text-[#C5A15D] text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors"
+                  >
+                    <span>{locale === 'ar' ? 'حجز المسار' : 'Book Route'}</span>
+                    <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
+                  </Link>
+                </div>
+              </div>
             ))}
           </div>
-
-                  </div>
+        </div>
       </section>
 
       {/* ============================================================== */}
-      {/* SECTION 6: WHY CHOOSE US / FEATURES (Clean, Breathable Grid)   */}
+      {/* 4. SACRED ZIYARAT TOURS (MAKKAH 2.5H & MADINAH 3.5H)            */}
       {/* ============================================================== */}
-      <section
-        id="standards"
-        dir={locale === 'ar' ? 'rtl' : undefined}
-        className="py-16 md:py-24 bg-[#0B101D] text-white border-t border-white/10 font-sans relative overflow-hidden"
-      >
-        <div className="container mx-auto px-4 max-w-6xl relative z-10">
-          {/* Main Header (Centered at the top) */}
-          <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20 px-4">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-snug tracking-tight">
-              {locale === 'ar'
-                ? 'هذه رحلة إيمانية وليست مجرد مشوار. نتولى أمر الطريق لتتفرغوا لعبادتكم.'
-                : 'This is a sacred pilgrimage, not just a ride. We handle the road so you can focus on your worship.'}
+      <section id="ziyarat" className="py-20 md:py-28 bg-[#F7F5F0] border-b border-[#E8E3DA]">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#C5A15D] block mb-2">
+              {locale === 'ar' ? 'جولات المعالم الإسلامية' : 'SACRED ZIYARAT'}
+            </span>
+            <h2 className="font-serif font-bold text-3xl md:text-5xl text-[#182235] tracking-tight">
+              {locale === 'ar' ? 'مزارات مكة المكرمة والمدينة المنورة التاريخية' : 'Guided Historical Ziyarat Tours'}
             </h2>
+            <p className="mt-3 text-sm md:text-base text-[#687386] font-light leading-relaxed">
+              {locale === 'ar'
+                ? 'جولات خاصة ومريحة بمعالم السيرة النبوية والمشاعر المقدسة بسيارة خاصة وسائق خبير بانتظاركم.'
+                : 'Private family tours through the sacred battlegrounds, historic mosques, and holy landmarks with dedicated chauffeur waiting.'}
+            </p>
           </div>
 
-          {/* Features Grid: 1 col on mobile, 2 on tablet, 4 on desktop (Clean, open, NO borders/cards) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 md:gap-y-16">
-            {/* Item 1 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                  <path d="m9 12 2 2 4-4" />
-                </svg>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto text-start">
+            {/* Makkah Ziyarat Card (Explicit 2.5 Hours) */}
+            <div className="bg-[#FFFFFF] rounded-2xl border border-[#E8E3DA] p-6 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="px-3 py-1 rounded-full bg-[#101827] text-[#C5A15D] text-xs font-bold uppercase tracking-wider">
+                    {locale === 'ar' ? 'مكة المكرمة • ٢.٥ ساعة' : 'Makkah • 2.5 Hours'}
+                  </span>
+                  <span className="text-xs font-bold text-[#687386]">
+                    {locale === 'ar' ? 'من ٢٥٠ ريال' : 'From 250 SAR'}
+                  </span>
+                </div>
+                <h3 className="font-serif font-bold text-2xl text-[#182235] mb-2">
+                  {locale === 'ar' ? 'جولة مزارات مكة المكرمة (٢.٥ ساعة)' : 'Makkah Holy Sites Tour (2.5 Hours)'}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#687386] font-light leading-relaxed mb-6">
+                  {locale === 'ar'
+                    ? 'جولة شاملة لغار حراء (جبل النور)، جبل ثور، صعيد عرفات، جبل الرحمة، منى ومزدلفة مع خدمة التوصيل من وإلى بهو فندقكم.'
+                    : 'Door-to-door private chauffeur visit to Cave Hira (Jabal an-Nour), Mount Thawr, Mina, Muzdalifah, and Mount Arafat.'}
+                </p>
+                <div className="space-y-2 mb-6 text-xs text-[#182235] font-medium">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#C5A15D] shrink-0" />
+                    <span>{locale === 'ar' ? 'سيارة خاصة بالكامل لعائلتك مع سائق مخصص' : 'Private dedicated vehicle exclusively for your party'}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#C5A15D] shrink-0" />
+                    <span>{locale === 'ar' ? 'مياه زمزم مبردة ورسوم المواقف مشمولة' : 'Chilled bottled Zamzam water and parking fees included'}</span>
+                  </div>
+                </div>
               </div>
-              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {whyUsItems[0].title}
-              </h3>
-              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {whyUsItems[0].desc}
-              </p>
+
+              <div className="pt-4 border-t border-[#E8E3DA] flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-[#687386] block">
+                    {locale === 'ar' ? 'السعر يبدأ من' : 'Starting Fare'}
+                  </span>
+                  <span className="font-serif font-bold text-2xl text-[#182235]">
+                    {formatPrice(250)}
+                  </span>
+                </div>
+                <Link
+                  href={`/${locale}/booking?type=ziyarat&tour=makkah-half-day`}
+                  className="min-h-[44px] px-6 rounded-xl bg-gradient-to-r from-[#C5A15D] to-[#D7B76C] text-[#101827] font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
+                >
+                  <span>{locale === 'ar' ? 'احجز جولة مكة' : 'Book Makkah Tour'}</span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                </Link>
+              </div>
             </div>
 
-            {/* Item 2 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
-                </svg>
+            {/* Madinah Ziyarat Card (3.5 Hours) */}
+            <div className="bg-[#FFFFFF] rounded-2xl border border-[#E8E3DA] p-6 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="px-3 py-1 rounded-full bg-[#101827] text-[#C5A15D] text-xs font-bold uppercase tracking-wider">
+                    {locale === 'ar' ? 'المدينة المنورة • ٣.٥ ساعة' : 'Madinah • 3.5 Hours'}
+                  </span>
+                  <span className="text-xs font-bold text-[#687386]">
+                    {locale === 'ar' ? 'من ٢٥٠ ريال' : 'From 250 SAR'}
+                  </span>
+                </div>
+                <h3 className="font-serif font-bold text-2xl text-[#182235] mb-2">
+                  {locale === 'ar' ? 'جولة مزارات المدينة المنورة (٣.٥ ساعة)' : 'Madinah Holy Sites Tour (3.5 Hours)'}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#687386] font-light leading-relaxed mb-6">
+                  {locale === 'ar'
+                    ? 'زيارة مسجد قباء والصلاة فيه، جبل أحد ومقبرة الشهداء، مسجد القبلتين، وموقع غزوة الخندق (المساجد السبعة).'
+                    : 'Dignified visits to Masjid Quba with prayer stopover, Mount Uhud, Archers’ Hill, Masjid al-Qiblatayn, and the Trench site.'}
+                </p>
+                <div className="space-y-2 mb-6 text-xs text-[#182235] font-medium">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#C5A15D] shrink-0" />
+                    <span>{locale === 'ar' ? 'توقف كافٍ للصلاة في قباء والسلام على الشهداء' : 'Ample time for prayer in Quba and greeting Uhud martyrs'}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#C5A15D] shrink-0" />
+                    <span>{locale === 'ar' ? 'توصيل لباب فندقك بالمنطقة المركزية' : 'Door-to-door pickup and return in Central Madinah'}</span>
+                  </div>
+                </div>
               </div>
-              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {whyUsItems[1].title}
-              </h3>
-              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {whyUsItems[1].desc}
-              </p>
-            </div>
 
-            {/* Item 3 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
+              <div className="pt-4 border-t border-[#E8E3DA] flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-[#687386] block">
+                    {locale === 'ar' ? 'السعر يبدأ من' : 'Starting Fare'}
+                  </span>
+                  <span className="font-serif font-bold text-2xl text-[#182235]">
+                    {formatPrice(250)}
+                  </span>
+                </div>
+                <Link
+                  href={`/${locale}/booking?type=ziyarat&tour=madinah-half-day`}
+                  className="min-h-[44px] px-6 rounded-xl bg-gradient-to-r from-[#C5A15D] to-[#D7B76C] text-[#101827] font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
+                >
+                  <span>{locale === 'ar' ? 'احجز جولة المدينة' : 'Book Madinah Tour'}</span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                </Link>
               </div>
-              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {whyUsItems[2].title}
-              </h3>
-              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {whyUsItems[2].desc}
-              </p>
-            </div>
-
-            {/* Item 4 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
-                  <line x1="7" y1="7" x2="7.01" y2="7" />
-                </svg>
-              </div>
-              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {whyUsItems[3].title}
-              </h3>
-              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {whyUsItems[3].desc}
-              </p>
-            </div>
-
-            {/* Item 5 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6a3 3 0 0 1 6 0v6" />
-                </svg>
-              </div>
-              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {whyUsItems[4].title}
-              </h3>
-              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {whyUsItems[4].desc}
-              </p>
-            </div>
-
-            {/* Item 6 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 11.1 2 11.5 2 12v4c0 .6.4 1 1 1h2" />
-                  <circle cx="7" cy="17" r="2" />
-                  <path d="M9 17h6" />
-                  <circle cx="17" cy="17" r="2" />
-                </svg>
-              </div>
-              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {whyUsItems[5].title}
-              </h3>
-              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {whyUsItems[5].desc}
-              </p>
-            </div>
-
-            {/* Item 7 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="5" width="20" height="14" rx="2" />
-                  <line x1="2" y1="10" x2="22" y2="10" />
-                  <path d="m9 15 2 2 4-4" />
-                </svg>
-              </div>
-              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {whyUsItems[6].title}
-              </h3>
-              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {whyUsItems[6].desc}
-              </p>
-            </div>
-
-            {/* Item 8 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 flex items-center justify-center text-[#df9e38] mb-4">
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" />
-                  <circle cx="12" cy="12" r="2" />
-                </svg>
-              </div>
-              <h3 className="font-bold text-white text-lg md:text-xl mb-2">
-                {whyUsItems[7].title}
-              </h3>
-              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                {whyUsItems[7].desc}
-              </p>
             </div>
           </div>
         </div>
       </section>
 
+      {/* ============================================================== */}
+      {/* 5. WHY CHOOSE US (8 PILLARS OF SERVICE — DEEP ROYAL NAVY)      */}
+      {/* ============================================================== */}
+      <section id="standards" className="py-20 md:py-28 bg-[#111C30] text-[#FFFFFF] border-t border-white/10">
+        <div className="container mx-auto px-4 max-w-7xl">
+          {/* Header */}
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#C5A15D] block mb-2">
+              {locale === 'ar' ? 'أركان الخدمة الملكية' : 'OUR COMMITMENTS'}
+            </span>
+            <h2 className="font-serif font-bold text-3xl md:text-5xl text-[#F7F5F0] tracking-tight">
+              {locale === 'ar'
+                ? 'رحلة إيمانية مباركة وليست مجرد مشوار، نتولى أمر الطريق لتتفرغوا للعبادة'
+                : 'A Sacred Pilgrimage, Not Just a Ride. We Handle the Road So You Focus on Worship.'}
+            </h2>
+          </div>
+
+          {/* 8 Pillars Grid: 4 columns on large screens */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-start">
+            {whyUs.map((pillar, idx) => (
+              <div
+                key={idx}
+                className="bg-[#101827]/80 rounded-2xl p-6 border border-white/10 hover:border-[#C5A15D]/60 transition-all duration-300"
+              >
+                <div className="w-10 h-10 rounded-xl bg-[#C5A15D]/15 text-[#C5A15D] flex items-center justify-center mb-4">
+                  <CheckCircle2 className="w-5 h-5" />
+                </div>
+                <h3 className="font-serif font-bold text-lg text-[#F7F5F0] mb-2 leading-snug">
+                  {pillar.title}
+                </h3>
+                <p className="text-xs text-[#E8E3DA]/80 font-light leading-relaxed">
+                  {pillar.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ============================================================== */}
-      {/* SECTION: LATEST FROM OUR VIP BLOG & GUIDES                     */}
+      {/* 5. ROYAL VEHICLE FLEET SHOWCASE                                */}
       {/* ============================================================== */}
-            {/* SECTION 9: ACCESSIBLE MULTILINGUAL FAQ & CONVERSION CTA */}
+      <FleetSection locale={locale} dict={dict} vehicles={vehicles} />
+
+      {/* ============================================================== */}
+      {/* 6. PILGRIM REVIEWS & FAQ SECTIONS                              */}
+      {/* ============================================================== */}
       <ReviewsSection locale={locale} dict={dict} />
       <FaqSection locale={locale} dict={dict} settings={settings} />
 
-
-
       {/* ============================================================== */}
-      {/* FINAL EXECUTIVE CTA BAND (Screenshot 13 "Book with Confidence")*/}
+      {/* 7. FINAL ROYAL CONVERSION CTA BANNER                           */}
       {/* ============================================================== */}
-      <section className="py-16 md:py-20 bg-navy text-white border-t border-navy-border text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gold/15 via-transparent to-transparent pointer-events-none" />
+      <section className="py-20 md:py-24 bg-[#101827] text-white border-t border-white/10 text-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#C5A15D]/15 via-transparent to-transparent pointer-events-none" />
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/40 text-xs font-bold text-gold uppercase tracking-widest mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>{finalCta.badge}</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#111C30] border border-[#C5A15D]/40 text-xs font-bold text-[#D7B76C] uppercase tracking-widest mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-[#C5A15D]" />
+            <span>{locale === 'ar' ? 'احجز بثقة واطمئنان' : 'BOOK WITH TOTAL CONFIDENCE'}</span>
           </div>
 
-          <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-white mb-4">
-            {finalCta.title}
+          <h2 className="font-serif font-bold text-3xl sm:text-4xl md:text-5xl text-[#F7F5F0] mb-4">
+            {locale === 'ar' ? 'جاهزون لخدمتكم وتيسير رحلتكم في رحاب الحرمين' : 'Ready to Experience Exceptional Comfort?'}
           </h2>
 
-          <p className="text-sm sm:text-base text-white/80 max-w-2xl mx-auto mb-8 font-light leading-relaxed">
+          <p className="text-sm sm:text-base text-[#E8E3DA]/85 max-w-2xl mx-auto mb-8 font-light leading-relaxed">
             {locale === 'ar'
-              ? 'احجز سيارتك الخاصة الآن بسعر ثابت وبدون أي دفعة مقدمة؛ فريقنا على واتساب جاهز لتأكيد حجزك والإجابة عن أي استفسار.'
+              ? 'احجز سيارتك الخاصة وسائقك الشخصي الآن بسعر ثابت وبدون أي دفعة مقدمة. فريقنا وغرفة العمليات جاهزون لمرافقتكم على مدار الساعة.'
               : 'Reserve your private chauffeur with zero advance deposit, guaranteed fixed rates, and instant 24/7 WhatsApp confirmation.'}
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               href={`/${locale}/booking`}
-              className="inline-flex items-center justify-center gap-2 min-h-[48px] px-8 py-3.5 rounded-btn bg-gold text-ink font-bold text-xs uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-gold"
+              className="inline-flex items-center justify-center gap-2 min-h-[48px] px-8 py-3.5 rounded-full bg-gradient-to-r from-[#C5A15D] to-[#D7B76C] text-[#101827] font-bold text-xs uppercase tracking-wider hover:brightness-105 transition-all shadow-lg cursor-pointer"
             >
-              <span>{finalCta.btnBook}</span>
+              <span>{locale === 'ar' ? 'احجز سيارتك أونلاين' : 'Book Online Now'}</span>
               <ArrowRight className="w-4 h-4 rtl:rotate-180" />
             </Link>
             <a
               href={`https://wa.me/${settings.whatsapp_number}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 min-h-[48px] px-7 py-3.5 rounded-btn bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
+              className="inline-flex items-center justify-center gap-2 min-h-[48px] px-7 py-3.5 rounded-full bg-[#25D366] hover:bg-[#1ebe5d] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-md"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>{finalCta.btnWa}</span>
+              <span>{locale === 'ar' ? 'محادثة واتساب مباشرة' : 'WhatsApp Concierge'}</span>
             </a>
           </div>
         </div>
