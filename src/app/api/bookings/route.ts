@@ -8,6 +8,7 @@ import { calculateServerPrice } from '@/lib/pricing-server';
 import { rateLimit, getClientIp, checkRequiredEnv } from '@/lib/rate-limit';
 import { verifyTurnstileToken } from '@/lib/turnstile';
 import { normalizePhoneNumber } from '@/lib/phone';
+import { dispatchBookingEmails } from '@/lib/booking-email-service';
 
 export async function POST(request: Request) {
   try {
@@ -184,6 +185,31 @@ export async function POST(request: Request) {
       new_values: { reference, customer_name: validated.customer_name, finalPriceSAR },
       performed_by: 'customer_online',
     });
+
+    // 7. Non-blocking Multilingual Transactional Email Dispatch (Customer + Operations)
+    try {
+      await dispatchBookingEmails({
+        reference,
+        customerName: validated.customer_name,
+        customerEmail: validated.customer_email || '',
+        customerPhone: validated.customer_phone,
+        routeName: validated.pickup_location + ' → ' + validated.dropoff_location,
+        vehicleName: validated.vehicle_id.toUpperCase(),
+        pickupDateTime: pickupISO.replace('T', ' ').slice(0, 16) + ' (KSA Time)',
+        passengers: validated.passengers_count,
+        luggage: validated.luggage_count || 1,
+        finalPriceSAR,
+        currency: currKey,
+        finalPriceCurrency,
+        paymentMethod: validated.payment_method || 'pay_upon_arrival',
+        flightNumber: validated.flight_number || undefined,
+        specialRequests: validated.special_notes || undefined,
+        status: 'pending',
+        language: lang,
+      });
+    } catch (emailErr) {
+      console.warn('[Booking API] Transactional email dispatch error (booking preserved):', emailErr);
+    }
 
     const waLines = [
       `Assalamu Alaikum Duyuf Alrahman VIP [Ref: ${reference}]`,

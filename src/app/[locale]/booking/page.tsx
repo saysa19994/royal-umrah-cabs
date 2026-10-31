@@ -5,12 +5,14 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { BookingEngine } from '@/components/booking/BookingEngine';
 import { getDbPricesCached } from '@/lib/pricing-db';
+import { getBookingDraft } from '@/lib/booking-draft-store';
 
 interface BookingPageProps {
   params: Promise<{
     locale: Locale;
   }>;
   searchParams: Promise<{
+    draft?: string;
     route?: string;
     vehicle?: string;
     date?: string;
@@ -116,6 +118,34 @@ export default async function BookingPage(props: BookingPageProps) {
     ? searchParams.type
     : 'transfer') as 'transfer' | 'hourly' | 'ziyarat' | 'group_bus';
 
+  let resolvedRoute = searchParams.route;
+  let resolvedVehicle = searchParams.vehicle;
+  let resolvedDate = searchParams.date;
+  let resolvedTime = searchParams.time;
+  let resolvedPassengers = searchParams.passengers;
+  let resolvedLuggage = searchParams.luggage;
+  let resolvedType = initialType;
+  let resolvedDuration = searchParams.duration;
+  let resolvedPickup = searchParams.pickup;
+  let resolvedDropoff = searchParams.dropoff;
+
+  if (searchParams.draft) {
+    const { getBookingDraft } = await import('@/lib/booking-draft-store');
+    const draft = getBookingDraft(searchParams.draft);
+    if (draft) {
+      resolvedRoute = draft.routeId || resolvedRoute;
+      resolvedVehicle = draft.vehicleId || resolvedVehicle;
+      resolvedDate = draft.pickupDate || resolvedDate;
+      resolvedTime = draft.pickupTime || resolvedTime;
+      resolvedPassengers = draft.passengers ? String(draft.passengers) : resolvedPassengers;
+      resolvedLuggage = draft.luggage ? String(draft.luggage) : resolvedLuggage;
+      resolvedType = draft.bookingType || resolvedType;
+      resolvedDuration = draft.durationHours ? String(draft.durationHours) : resolvedDuration;
+      resolvedPickup = draft.pickupLocation || resolvedPickup;
+      resolvedDropoff = draft.dropoffLocation || resolvedDropoff;
+    }
+  }
+
   return (
     <div className="py-10 md:py-16 bg-bg min-h-screen">
       <div className="container mx-auto px-4 max-w-7xl">
@@ -137,16 +167,16 @@ export default async function BookingPage(props: BookingPageProps) {
           locale={locale}
           dict={dict}
           settings={settings}
-          initialRoute={searchParams.route}
-          initialVehicle={searchParams.vehicle}
-          initialDate={searchParams.date}
-          initialTime={searchParams.time}
-          initialPassengers={searchParams.passengers}
-          initialLuggage={searchParams.luggage}
-          initialType={initialType}
-          initialDuration={searchParams.duration}
-          initialPickup={searchParams.pickup}
-          initialDropoff={searchParams.dropoff}
+          initialRoute={resolvedRoute}
+          initialVehicle={resolvedVehicle}
+          initialDate={resolvedDate}
+          initialTime={resolvedTime}
+          initialPassengers={resolvedPassengers}
+          initialLuggage={resolvedLuggage}
+          initialType={resolvedType}
+          initialDuration={resolvedDuration}
+          initialPickup={resolvedPickup}
+          initialDropoff={resolvedDropoff}
           initialRates={await getDbPricesCached()}
         />
       </div>

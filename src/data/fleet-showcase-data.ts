@@ -492,7 +492,7 @@ export const FLEET_SHOWCASE_VEHICLES: FleetShowcaseVehicle[] = [
     },
     passengers: 7,
     luggage: 8,
-    startingPriceSAR: 380,
+    startingPriceSAR: 450,
     desc: {
       en: 'Ultimate presidential prestige and massive cargo volume designed for VIP delegations and pilgrim families.',
       ar: 'قمة الفخامة والوقار لكبار الشخصيات والعائلات مع صندوق أمتعة عملاق يتسع لكافة الحقائب ومياه زمزم.',
@@ -762,7 +762,7 @@ export const FLEET_SHOWCASE_VEHICLES: FleetShowcaseVehicle[] = [
     },
     passengers: 7,
     luggage: 6,
-    startingPriceSAR: 260,
+    startingPriceSAR: 250,
     desc: {
       en: 'The executive standard for Umrah families with reclining captain seats, low-step entry, and expansive cargo volume.',
       ar: 'الخيار المفضل للعائلات بمقاعد كابتن جلدية فاخرة وأبواب منزلقة ومستوى صعود مريح لكبار السن والأطفال.',
@@ -1032,7 +1032,7 @@ export const FLEET_SHOWCASE_VEHICLES: FleetShowcaseVehicle[] = [
     },
     passengers: 4,
     luggage: 3,
-    startingPriceSAR: 150,
+    startingPriceSAR: 200,
     desc: {
       en: 'Quiet, dependable comfort for solo travelers, couples, and small families seeking economical private luxury.',
       ar: 'مثالية للأفراد والأزواج والعائلات الصغيرة مع حقائب قياسية وتكييف فائق الراحة والهدوء.',
@@ -1516,7 +1516,7 @@ export const FLEET_SHOWCASE_VEHICLES: FleetShowcaseVehicle[] = [
     },
     passengers: 10,
     luggage: 10,
-    startingPriceSAR: 340,
+    startingPriceSAR: 280,
     desc: {
       en: 'High-roof group minibus keeping large families together with individual overhead climate control and huge luggage capacity.',
       ar: 'مثالية للمجموعات الكبيرة والأسر الممتدة لتوفير تكلفة سيارتين والسفر معاً براحة تامة وتكييف مركزي متطور.',
@@ -1786,7 +1786,7 @@ export const FLEET_SHOWCASE_VEHICLES: FleetShowcaseVehicle[] = [
     },
     passengers: 21,
     luggage: 20,
-    startingPriceSAR: 650,
+    startingPriceSAR: 450,
     desc: {
       en: 'The executive gold standard for large pilgrimage delegations and extended families with whisper-quiet ride and massive rear luggage hold.',
       ar: 'حافلة فاخرة مخصصة للمجموعات والأفواج الكبيرة مع مقاعد رحبة وتكييف مركزي متطور ومستودع أمتعة عملاق يتسع لكافة الحقائب.',

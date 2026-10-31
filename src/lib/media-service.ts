@@ -18,6 +18,18 @@ const INITIAL_FLEET_IMAGES: FleetImageRecord[] = [
     is_active: true,
   },
   {
+    id: 'img-camry-int',
+    vehicle_id: 'camry',
+    image_type: 'interior',
+    url: '/assets/images/camry_interior.jpg',
+    alt_translations: {
+      en: 'Toyota Camry Executive Sedan Interior Cabin - Duyuf Alrahman VIP',
+      ar: 'المقصورة الداخلية لسيارة تويوتا كامري التنفيذية - ضيوف الرحمن VIP',
+    },
+    display_order: 2,
+    is_active: true,
+  },
+  {
     id: 'img-staria-ext',
     vehicle_id: 'staria',
     image_type: 'exterior',
@@ -54,6 +66,18 @@ const INITIAL_FLEET_IMAGES: FleetImageRecord[] = [
     is_active: true,
   },
   {
+    id: 'img-yukon-int',
+    vehicle_id: 'yukon',
+    image_type: 'interior',
+    url: '/assets/images/yukon_interior.jpg',
+    alt_translations: {
+      en: 'GMC Yukon XL VIP Luxury SUV Interior Cabin - Duyuf Alrahman VIP',
+      ar: 'المقصورة الداخلية الفاخرة لجي إم سي يوكون XL - ضيوف الرحمن VIP',
+    },
+    display_order: 2,
+    is_active: true,
+  },
+  {
     id: 'img-hiace-ext',
     vehicle_id: 'hiace',
     image_type: 'exterior',
@@ -66,6 +90,18 @@ const INITIAL_FLEET_IMAGES: FleetImageRecord[] = [
     is_active: true,
   },
   {
+    id: 'img-hiace-int',
+    vehicle_id: 'hiace',
+    image_type: 'interior',
+    url: '/assets/images/hiace_interior.jpg',
+    alt_translations: {
+      en: 'Toyota HiAce VIP Minibus Interior Cabin - Duyuf Alrahman VIP',
+      ar: 'المقصورة الداخلية لحافلة تويوتا هايس VIP - ضيوف الرحمن VIP',
+    },
+    display_order: 2,
+    is_active: true,
+  },
+  {
     id: 'img-coaster-ext',
     vehicle_id: 'coaster',
     image_type: 'exterior',
@@ -75,6 +111,18 @@ const INITIAL_FLEET_IMAGES: FleetImageRecord[] = [
       ar: 'المظهر الخارجي لحافلة تويوتا كوستر التنفيذية للمجموعات - ضيوف الرحمن VIP',
     },
     display_order: 1,
+    is_active: true,
+  },
+  {
+    id: 'img-coaster-int',
+    vehicle_id: 'coaster',
+    image_type: 'interior',
+    url: '/assets/images/coaster_interior.jpg',
+    alt_translations: {
+      en: 'Toyota Coaster Executive Coach Interior Cabin - Duyuf Alrahman VIP',
+      ar: 'المقصورة الداخلية لحافلة تويوتا كوستر - ضيوف الرحمن VIP',
+    },
+    display_order: 2,
     is_active: true,
   },
 ];

@@ -101,16 +101,17 @@ const VEHICLE_SPECS: Record<string, VehicleInfo> = {
 const ROUTES: Record<string, { label: string; baseSAR: number }> = {
   'jeddah-airport-to-makkah': { label: 'Jeddah Airport (KAIA) → Makkah Hotel', baseSAR: 200 },
   'makkah-to-jeddah-airport': { label: 'Makkah Hotel → Jeddah Airport (KAIA)', baseSAR: 200 },
-  'makkah-to-madinah': { label: 'Makkah Hotel → Madinah Hotel (Via Bir Ali)', baseSAR: 450 },
-  'madinah-to-makkah': { label: 'Madinah Hotel → Makkah Hotel (Via Miqat)', baseSAR: 450 },
-  'madinah-airport-to-hotel': { label: 'Madinah Airport (MED) → Madinah Hotel', baseSAR: 150 },
-  'jeddah-to-madinah': { label: 'Jeddah Airport / Hotel → Madinah Hotel', baseSAR: 680 },
-  'makkah-to-taif': { label: 'Makkah Hotel → Taif (Al Hada / City)', baseSAR: 350 },
-  'taif-to-makkah': { label: 'Taif → Makkah Hotel (Via Miqat Qarn al-Manazil)', baseSAR: 350 },
-  'jeddah-to-taif': { label: 'Jeddah Airport (KAIA) → Taif (Al Hada)', baseSAR: 550 },
+  'makkah-to-madinah': { label: 'Makkah Hotel → Madinah Hotel (Via Bir Ali)', baseSAR: 400 },
+  'madinah-to-makkah': { label: 'Madinah Hotel → Makkah Hotel (Via Miqat)', baseSAR: 400 },
+  'madinah-airport-to-hotel': { label: 'Madinah Airport (MED) → Madinah Hotel', baseSAR: 200 },
+  'jeddah-to-madinah': { label: 'Jeddah Airport / Hotel → Madinah Hotel', baseSAR: 400 },
+  'jeddah-airport-to-madinah': { label: 'Jeddah Airport (KAIA) → Madinah Hotel', baseSAR: 400 },
+  'makkah-to-taif': { label: 'Makkah Hotel → Taif (Al Hada / City)', baseSAR: 400 },
+  'taif-to-makkah': { label: 'Taif → Makkah Hotel (Via Miqat Qarn al-Manazil)', baseSAR: 400 },
+  'jeddah-to-taif': { label: 'Jeddah Airport (KAIA) → Taif (Al Hada)', baseSAR: 500 },
   'riyadh-airport-transfer': { label: 'Riyadh Airport (RUH) ⇄ Riyadh Hotels', baseSAR: 200 },
-  'riyadh-to-makkah': { label: 'Riyadh ⇄ Makkah Hotel (VIP Highway)', baseSAR: 2200 },
-  'riyadh-to-madinah': { label: 'Riyadh ⇄ Madinah Hotel (VIP Highway)', baseSAR: 2200 },
+  'riyadh-to-makkah': { label: 'Riyadh ⇄ Makkah Hotel (VIP Highway)', baseSAR: 1800 },
+  'riyadh-to-madinah': { label: 'Riyadh ⇄ Madinah Hotel (VIP Highway)', baseSAR: 2000 },
 };
 
 const TAIF_ROUTE_KEYS = new Set(['makkah-to-taif', 'taif-to-makkah', 'jeddah-to-taif']);
@@ -876,7 +877,16 @@ export function BookingEngine({
   const t = LOCALIZED_UI[locale] || LOCALIZED_UI.en;
 
   // Wizard Step: 1 = Journey Schedule, 2 = Vehicle & Fare Selection, 3 = Passenger & Confirmation
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(() => {
+    // If vehicle and route/pickup are already provided (e.g. from Homepage quick-reserve draft), jump straight to Step 3
+    if (initialVehicle && (initialRoute || initialPickup)) {
+      return 3;
+    }
+    if (initialRoute || initialPickup) {
+      return 2;
+    }
+    return 1;
+  });
 
   // Step 1: Trip & Route Details
   const [bookingType, setBookingType] = useState<'transfer' | 'hourly' | 'ziyarat' | 'group_bus'>(initialType);
@@ -898,7 +908,8 @@ export function BookingEngine({
   const [durationHours, setDurationHours] = useState<number>(Number(initialDuration) || 4);
   const [customPickupLocation, setCustomPickupLocation] = useState(initialPickup || 'Jeddah Airport (KAIA)');
   const [customDropoffLocation, setCustomDropoffLocation] = useState(initialDropoff || 'Makkah Hotel / Haram');
-  const [pickupDate, setPickupDate] = useState(initialDate);
+  const minDate = React.useMemo(() => new Date().toISOString().split('T')[0], []);
+  const [pickupDate, setPickupDate] = useState(initialDate || minDate);
   const [pickupTime, setPickupTime] = useState(initialTime || '14:00');
   const [passengers, setPassengers] = useState(Number(initialPassengers) || 2);
   const [luggage, setLuggage] = useState(Number(initialLuggage) || 2);
@@ -928,7 +939,6 @@ export function BookingEngine({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [confirmedBooking, setConfirmedBooking] = useState<any | null>(null);
 
-  const minDate = new Date().toISOString().split('T')[0];
 
   const handleBookingTypeChange = (type: 'transfer' | 'hourly' | 'ziyarat' | 'group_bus') => {
     setBookingType(type);

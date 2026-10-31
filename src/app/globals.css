@@ -15,6 +15,18 @@
   --color-gold-dark: #B3893C;
   --color-charcoal: #171513;
   --color-whatsapp: #25D366;
+  --color-royal-navy: #101827;
+  --color-royal-deep-navy: #111C30;
+  --color-royal-charcoal: #161B24;
+  --color-royal-champagne: #C5A15D;
+  --color-royal-warm-gold: #D7B76C;
+  --color-royal-ivory: #F7F5F0;
+  --color-royal-white: #FFFFFF;
+  --color-royal-text-primary: #182235;
+  --color-royal-text-secondary: #687386;
+  --color-royal-border: #E8E3DA;
+  --color-royal-success: #188567;
+  --color-royal-warning: #B7791F;
 }
 
 @layer base {

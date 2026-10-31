@@ -170,6 +170,34 @@ export async function PATCH(request: Request) {
       ip: clientIp,
     });
 
+    // Multilingual transactional email notification on status change (confirmed, completed, cancelled)
+    if (status !== undefined && ['confirmed', 'completed', 'cancelled'].includes(status)) {
+      try {
+        const { dispatchBookingEmails } = await import('@/lib/booking-email-service');
+        await dispatchBookingEmails({
+          reference: data.reference || data.id,
+          customerName: data.customer_name,
+          customerEmail: data.customer_email || '',
+          customerPhone: data.customer_phone,
+          routeName: data.route_id || `${data.pickup_location} → ${data.dropoff_location}`,
+          vehicleName: (data.vehicle_id || '').toUpperCase(),
+          pickupDateTime: data.pickup_datetime || '',
+          passengers: data.passengers_count || 1,
+          luggage: data.luggage_count || 1,
+          finalPriceSAR: data.total_price_sar || data.base_price_sar || 0,
+          currency: data.currency || 'SAR',
+          finalPriceCurrency: data.total_price_currency || data.total_price_sar || data.base_price_sar || 0,
+          paymentMethod: data.payment_method || 'pay_upon_arrival',
+          flightNumber: data.flight_number || undefined,
+          specialRequests: data.special_notes || undefined,
+          status: status as any,
+          language: (data.language as any) || 'en',
+        });
+      } catch (emailErr) {
+        console.warn('Admin status update email dispatch notice:', emailErr);
+      }
+    }
+
     return NextResponse.json({ success: true, booking: data });
   } catch (err: any) {
     console.error('Admin bookings PATCH error:', err);

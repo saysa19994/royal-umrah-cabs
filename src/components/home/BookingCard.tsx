@@ -768,19 +768,46 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
   };
 
   // STEP 3: DIRECT ONLINE BOOKING SUBMIT (NAVIGATES TO FULL ENGINE PREFILLED)
-  const handleFullOnlineBooking = () => {
-    const params = new URLSearchParams({
-      route,
-      vehicle,
-      date,
-      time,
-      passengers: passengers.toString(),
-      luggage: luggage.toString(),
-      flight_number: flightNumber,
-      name: customerName,
-      phone: customerPhone,
-    });
-    router.push(`/${locale}/booking?${params.toString()}`);
+  const handleFullOnlineBooking = async () => {
+    // 1. Synchronously open blank tab to guarantee popup blocker bypass
+    const newTab = typeof window !== 'undefined' ? window.open('about:blank', '_blank') : null;
+
+    try {
+      // 2. Create authoritative server-side booking draft
+      const res = await fetch('/api/bookings/draft', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          routeId: route,
+          vehicleId: vehicle,
+          pickupDate: date || new Date().toISOString().split('T')[0],
+          pickupTime: time || '14:00',
+          passengers,
+          luggage,
+          bookingType: 'transfer',
+          flightNumber,
+          currency,
+        }),
+      });
+
+      const data = await res.json();
+      const targetUrl = data.success && data.draftId
+        ? `/${locale}/booking?draft=${data.draftId}`
+        : `/${locale}/booking?route=${encodeURIComponent(route)}&vehicle=${encodeURIComponent(vehicle)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}&passengers=${passengers}&luggage=${luggage}`;
+
+      if (newTab && !newTab.closed) {
+        newTab.location.href = targetUrl;
+      } else {
+        router.push(targetUrl);
+      }
+    } catch {
+      const fallbackUrl = `/${locale}/booking?route=${encodeURIComponent(route)}&vehicle=${encodeURIComponent(vehicle)}`;
+      if (newTab && !newTab.closed) {
+        newTab.location.href = fallbackUrl;
+      } else {
+        router.push(fallbackUrl);
+      }
+    }
   };
 
   const routeTitle = ROUTE_LABELS[route]?.[locale] || ROUTE_LABELS[route]?.en || route;
