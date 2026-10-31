@@ -1,3 +1,4 @@
+import { revalidateSite } from '@/lib/cache-revalidate';
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { requireRole } from '@/lib/auth/server-auth';

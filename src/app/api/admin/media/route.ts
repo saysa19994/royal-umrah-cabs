@@ -1,3 +1,4 @@
+import { revalidateSite } from '@/lib/cache-revalidate';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth/server-auth';
 import { getAllMediaItemsAdmin, upsertMediaItemAdmin, getFleetImagesCached } from '@/lib/media-service';
@@ -49,6 +50,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: result.error }, { status: 400 });
     }
 
+    revalidateSite(['site_media', 'site_fleet']);
     return NextResponse.json({ success: true, item: result.item });
   } catch (err: any) {
     console.error('Media POST error:', err);
@@ -104,6 +106,7 @@ export async function DELETE(req: NextRequest) {
       }
     } catch {}
 
+    revalidateSite(['site_media', 'site_fleet']);
     return NextResponse.json({ success: true, deleted: true });
   } catch (err: any) {
     console.error('Media DELETE error:', err);
