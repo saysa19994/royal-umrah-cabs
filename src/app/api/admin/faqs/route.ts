@@ -74,7 +74,8 @@ export async function POST(request: NextRequest) {
 
     const result = await upsertFaqAdmin(faqPayload, currentUser.email, currentUser.role, clientIp);
     if (!result.success) {
-      return NextResponse.json({ success: false, error: result.error }, { status: 400 });
+      const is503 = result.error?.includes('persistence unavailable');
+      return NextResponse.json({ success: false, error: result.error }, { status: is503 ? 503 : 400 });
     }
 
     return NextResponse.json({ success: true, faq: result.faq });
@@ -101,6 +102,10 @@ export async function DELETE(request: NextRequest) {
     }
 
     const result = await deleteFaqAdmin(id, currentUser.email, currentUser.role, clientIp);
+    if (!result.success) {
+      const is503 = result.error?.includes('persistence unavailable');
+      return NextResponse.json(result, { status: is503 ? 503 : 400 });
+    }
     return NextResponse.json(result);
   } catch (err: any) {
     console.error('Admin FAQs DELETE error:', err);

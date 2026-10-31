@@ -106,9 +106,9 @@ export async function getAllBlogPostsAdmin(): Promise<AdminBlogPost[]> {
 export async function upsertBlogPostAdmin(post: AdminBlogPost): Promise<{ success: boolean; post?: AdminBlogPost; error?: string }> {
   try {
     const supabase = createServiceClient();
-    await supabase.from('page_content').upsert(
+    const { error } = await supabase.from('page_content').upsert(
       {
-        page_key: 'blog_post',
+        page_key: `blog_${post.slug}`,
         language: 'en',
         seo_title: post.title_en,
         seo_description: post.excerpt_en,
@@ -118,8 +118,13 @@ export async function upsertBlogPostAdmin(post: AdminBlogPost): Promise<{ succes
       },
       { onConflict: 'page_key, language' }
     );
-  } catch (err) {
+    if (error) {
+      console.warn('Error saving blog to Supabase:', error);
+      return { success: false, error: `Database persistence unavailable: ${error.message}` };
+    }
+  } catch (err: any) {
     console.warn('Error saving blog to Supabase:', err);
+    return { success: false, error: `Database persistence exception: ${err?.message || 'Connection failed'}` };
   }
 
   const idx = runtimeBlogStore.findIndex((p) => p.slug === post.slug);
@@ -139,13 +144,17 @@ export async function upsertBlogPostAdmin(post: AdminBlogPost): Promise<{ succes
 export async function deleteBlogPostAdmin(slug: string): Promise<{ success: boolean; error?: string }> {
   try {
     const supabase = createServiceClient();
-    await supabase
+    const { error } = await supabase
       .from('page_content')
       .delete()
-      .eq('page_key', 'blog_post')
-      .contains('content_blocks', { slug });
-  } catch (err) {
+      .eq('page_key', `blog_${slug}`);
+    if (error) {
+      console.warn('Error deleting blog from Supabase:', error);
+      return { success: false, error: `Database persistence unavailable: ${error.message}` };
+    }
+  } catch (err: any) {
     console.warn('Error deleting blog from Supabase:', err);
+    return { success: false, error: `Database persistence exception: ${err?.message || 'Connection failed'}` };
   }
 
   runtimeBlogStore = runtimeBlogStore.filter((p) => p.slug !== slug);

@@ -1,16 +1,23 @@
 import { revalidateTag, revalidatePath } from 'next/cache';
-import { LOCALES } from '@/i18n/config';
+
+export interface RevalidationReport {
+  success: boolean;
+  purgedTags: string[];
+  failedTags: { tag: string; error: string }[];
+  revalidatedPaths: string[];
+  failedPaths: { path: string; error: string }[];
+  timestamp: string;
+}
 
 /**
- * Universal on-demand cache revalidation.
- * Instantly invalidates ISR cache tags and localized paths across all 10 supported languages,
- * ensuring any change made in the dashboard appears on the public website within seconds.
+ * Universal targeted on-demand cache revalidation.
+ * Invalidates specific Next.js 15.5.28 Data Cache tags and targeted localized route segments.
+ * Eliminates broad layout flushes (e.g. revalidatePath('/', 'layout')) to protect Vercel ISR quota.
  */
-export function revalidateSite(tags: string[] = []) {
+export function revalidateSite(tags: string[] = []): RevalidationReport {
   const defaultTags = [
     'site_fleet',
     'site_prices',
-    'site_pricing',
     'site_settings',
     'site_faqs',
     'site_reviews',
@@ -21,26 +28,56 @@ export function revalidateSite(tags: string[] = []) {
 
   const targetTags = tags.length > 0 ? tags : defaultTags;
 
+  const report: RevalidationReport = {
+    success: true,
+    purgedTags: [],
+    failedTags: [],
+    revalidatedPaths: [],
+    failedPaths: [],
+    timestamp: new Date().toISOString(),
+  };
+
+  // 1. Invalidate requested cache tags
   for (const tag of targetTags) {
     try {
       revalidateTag(tag);
-    } catch {}
+      report.purgedTags.push(tag);
+      // Support legacy site_pricing call if site_prices was targeted
+      if (tag === 'site_prices') {
+        try { revalidateTag('site_pricing'); } catch {}
+      }
+    } catch (err: any) {
+      report.success = false;
+      const errorMsg = err?.message || String(err);
+      report.failedTags.push({ tag, error: errorMsg });
+      console.error(`[CacheRevalidate] Failed to revalidateTag("${tag}"):`, errorMsg);
+    }
   }
 
-  try {
-    revalidatePath('/', 'layout');
-    revalidatePath('/[locale]', 'layout');
-    revalidatePath('/[locale]', 'page');
-  } catch {}
+  // 2. Targeted path revalidations based on invalidated domains
+  const pathsToRevalidate: string[] = [];
 
-  for (const loc of LOCALES) {
+  if (targetTags.includes('site_fleet') || targetTags.includes('site_settings')) {
+    pathsToRevalidate.push('/[locale]');
+    pathsToRevalidate.push('/[locale]/fleet');
+  }
+
+  if (targetTags.includes('site_prices')) {
+    pathsToRevalidate.push('/[locale]/pricing');
+    pathsToRevalidate.push('/[locale]/routes');
+  }
+
+  for (const p of pathsToRevalidate) {
     try {
-      revalidatePath(`/${loc}`);
-      revalidatePath(`/${loc}/pricing`);
-      revalidatePath(`/${loc}/booking`);
-      revalidatePath(`/${loc}/routes`);
-      revalidatePath(`/${loc}/faq`);
-      revalidatePath(`/${loc}/blog`);
-    } catch {}
+      revalidatePath(p, 'page');
+      report.revalidatedPaths.push(p);
+    } catch (err: any) {
+      report.success = false;
+      const errorMsg = err?.message || String(err);
+      report.failedPaths.push({ path: p, error: errorMsg });
+      console.error(`[CacheRevalidate] Failed to revalidatePath("${p}", "page"):`, errorMsg);
+    }
   }
+
+  return report;
 }

@@ -47,7 +47,10 @@ export async function POST(req: NextRequest) {
     const result = await upsertMediaItemAdmin(body, currentUser.email, currentUser.role, clientIp);
 
     if (!result.success) {
-      return NextResponse.json({ success: false, error: result.error }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: result.error || 'Failed to save media item: persistent database unavailable' },
+        { status: 503 }
+      );
     }
 
     revalidateSite(['site_media', 'site_fleet']);

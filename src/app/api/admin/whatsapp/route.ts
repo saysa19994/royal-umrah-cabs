@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { requireRole } from '@/lib/auth/server-auth';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
@@ -110,7 +110,7 @@ export async function PATCH(request: Request) {
       });
 
       try {
-        revalidatePath('/', 'layout');
+        revalidateTag('site_settings');
       } catch (revalErr) {
         console.warn('Revalidation notice:', revalErr);
       }
@@ -137,7 +137,7 @@ export async function PATCH(request: Request) {
       });
 
       try {
-        revalidatePath('/', 'layout');
+        revalidateTag('site_settings');
       } catch (revalErr) {
         console.warn('Revalidation notice:', revalErr);
       }
@@ -207,7 +207,7 @@ export async function POST(request: Request) {
     });
 
     try {
-      revalidatePath('/', 'layout');
+      revalidateTag('site_settings');
     } catch (revalErr) {
       console.warn('Revalidation notice:', revalErr);
     }

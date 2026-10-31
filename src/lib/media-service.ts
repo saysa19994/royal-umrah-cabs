@@ -172,9 +172,11 @@ export async function upsertMediaItemAdmin(
 
     if (error) {
       console.warn('Notice upserting media_library in Supabase:', error.message);
+      return { success: false, error: `Database persistence unavailable: ${error.message}` };
     }
   } catch (err) {
     console.warn('Exception upserting media_library:', err);
+    return { success: false, error: 'Database persistence unavailable: media_library table is not configured' };
   }
 
   const idx = memoryMediaItems.findIndex((m) => m.id === item.id);
@@ -192,7 +194,7 @@ export async function upsertMediaItemAdmin(
   });
 
   revalidateTag('site_media');
-  revalidatePath('/', 'layout');
+  revalidatePath('/[locale]/fleet', 'page');
 
   return { success: true, item };
 }

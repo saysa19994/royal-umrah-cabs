@@ -96,7 +96,11 @@ export async function upsertCmsPageAdmin(
       .single();
 
     if (error) {
-      console.warn('Notice upserting page_content in Supabase:', error.message);
+      console.error('Database persistence error in page_content table:', error.message);
+      return {
+        success: false,
+        error: `Database persistence unavailable: table "page_content" error (${error.message}). Changes cannot be saved to durable storage.`,
+      };
     }
   } catch (err) {
     console.warn('Exception upserting page_content:', err);
@@ -116,7 +120,7 @@ export async function upsertCmsPageAdmin(
   });
 
   revalidateTag('site_cms');
-  revalidatePath('/', 'layout');
+  revalidatePath('/[locale]', 'page');
 
   return { success: true, record };
 }

@@ -57,5 +57,5 @@ export const getDbPricesCached = unstable_cache(
     return rates;
   },
   ['site_prices_cache_tag'],
-  { revalidate: 300, tags: ['site_prices'] }
+  { revalidate: 86400, tags: ['site_prices'] }
 );

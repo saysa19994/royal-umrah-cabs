@@ -43,7 +43,8 @@ export async function POST(req: NextRequest) {
     const result = await upsertCmsPageAdmin(body, currentUser.email, currentUser.role, clientIp);
 
     if (!result.success) {
-      return NextResponse.json({ success: false, error: result.error }, { status: 400 });
+      const is503 = result.error?.includes('persistence unavailable');
+      return NextResponse.json({ success: false, error: result.error }, { status: is503 ? 503 : 400 });
     }
 
     return NextResponse.json({ success: true, record: result.record });

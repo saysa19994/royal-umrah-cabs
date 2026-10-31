@@ -91,8 +91,9 @@ export async function PATCH(request: NextRequest) {
 
     try {
       revalidateTag('site_fleet');
-      revalidateTag('site_pricing');
-      revalidatePath('/', 'layout');
+      revalidateTag('site_prices');
+      revalidatePath('/[locale]', 'page');
+      revalidatePath('/[locale]/fleet', 'page');
     } catch {}
 
     return NextResponse.json({ success: true, vehicle: data });
@@ -164,7 +165,8 @@ export async function POST(request: NextRequest) {
 
     try {
       revalidateTag('site_fleet');
-      revalidatePath('/', 'layout');
+      revalidatePath('/[locale]', 'page');
+      revalidatePath('/[locale]/fleet', 'page');
     } catch {}
 
     return NextResponse.json({ success: true, vehicle: data }, { status: 201 });
@@ -223,7 +225,8 @@ export async function DELETE(request: NextRequest) {
 
     try {
       revalidateTag('site_fleet');
-      revalidatePath('/', 'layout');
+      revalidatePath('/[locale]', 'page');
+      revalidatePath('/[locale]/fleet', 'page');
     } catch {}
 
     return NextResponse.json({ success: true, message: 'Vehicle deleted successfully' });

@@ -141,5 +141,5 @@ export const getDbVehiclesCached = unstable_cache(
     return FLEET_SHOWCASE_VEHICLES;
   },
   ['site_fleet_showcase_v1'],
-  { tags: ['site_fleet'], revalidate: 60 }
+  { tags: ['site_fleet'], revalidate: 86400 }
 );

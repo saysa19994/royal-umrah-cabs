@@ -166,7 +166,11 @@ export async function upsertFaqAdmin(
       .single();
 
     if (error) {
-      console.warn('Notice saving FAQ to Supabase faqs table, syncing to runtime store:', error.message);
+      console.error('Database persistence error in faqs table:', error.message);
+      return {
+        success: false,
+        error: `Database persistence unavailable: table "faqs" error (${error.message}). Changes cannot be saved to durable storage.`,
+      };
     }
   } catch (err) {
     console.warn('Exception persisting FAQ to DB:', err);
@@ -193,7 +197,7 @@ export async function upsertFaqAdmin(
 
   // Revalidate cache tags and paths immediately
   revalidateTag('site_faqs');
-  revalidatePath('/', 'layout');
+  revalidatePath('/[locale]/faq', 'page');
 
   return { success: true, faq };
 }
@@ -212,7 +216,14 @@ export async function deleteFaqAdmin(
 
   try {
     const supabase = createServiceClient();
-    await supabase.from('faqs').delete().eq('id', id);
+    const { error } = await supabase.from('faqs').delete().eq('id', id);
+    if (error) {
+      console.error('Database persistence error deleting from faqs table:', error.message);
+      return {
+        success: false,
+        error: `Database persistence unavailable: table "faqs" error (${error.message}). Deletion cannot be performed on durable storage.`,
+      };
+    }
   } catch (err) {
     console.warn('Notice deleting FAQ from Supabase:', err);
   }
@@ -233,7 +244,7 @@ export async function deleteFaqAdmin(
   });
 
   revalidateTag('site_faqs');
-  revalidatePath('/', 'layout');
+  revalidatePath('/[locale]/faq', 'page');
 
   return { success: true };
 }

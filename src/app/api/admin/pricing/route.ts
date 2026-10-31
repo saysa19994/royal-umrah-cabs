@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
 
     revalidateTag('site_prices');
     revalidateTag('site_settings');
-    revalidatePath('/', 'layout');
+    revalidatePath('/[locale]/pricing', 'page');
 
     return NextResponse.json({
       success: true,

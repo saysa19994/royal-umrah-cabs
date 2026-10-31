@@ -33,7 +33,10 @@ export async function POST(req: NextRequest) {
 
     const result = await upsertBlogPostAdmin(body);
     if (!result.success) {
-      return NextResponse.json({ success: false, error: result.error || 'Failed to save blog post' }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: result.error || 'Failed to save blog post: persistent database unavailable' },
+        { status: 503 }
+      );
     }
 
     return NextResponse.json({ success: true, post: result.post });
@@ -58,6 +61,12 @@ export async function DELETE(req: NextRequest) {
     }
 
     const result = await deleteBlogPostAdmin(slug);
+    if (!result.success) {
+      return NextResponse.json(
+        { success: false, error: result.error || 'Failed to delete blog post: persistent database unavailable' },
+        { status: 503 }
+      );
+    }
     return NextResponse.json({ success: true, deletedSlug: slug });
   } catch (err: any) {
     console.error('Blog DELETE error:', err);

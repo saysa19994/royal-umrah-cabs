@@ -175,7 +175,7 @@ export async function POST(request: Request) {
     // Revalidate cache tags and layouts
     try {
       revalidateTag('site_settings');
-      revalidatePath('/', 'layout');
+
     } catch (revalErr) {
       console.warn('Cache revalidation notice:', revalErr);
     }

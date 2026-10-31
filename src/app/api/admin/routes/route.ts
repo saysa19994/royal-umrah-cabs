@@ -103,7 +103,7 @@ export async function PATCH(request: NextRequest) {
 
     try {
       revalidateTag('site_routes');
-      revalidateTag('site_pricing');
+      revalidateTag('site_prices');
     } catch {}
 
     return NextResponse.json({ success: true, route: data });
@@ -186,7 +186,7 @@ export async function POST(request: NextRequest) {
 
     try {
       revalidateTag('site_routes');
-      revalidateTag('site_pricing');
+      revalidateTag('site_prices');
     } catch {}
 
     return NextResponse.json({ success: true, route: data }, { status: 201 });

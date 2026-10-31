@@ -136,7 +136,7 @@ const fetchSettingsCached = unstable_cache(
     }
   },
   ['site_settings_cache'],
-  { revalidate: 300, tags: ['site_settings'] }
+  { revalidate: 86400, tags: ['site_settings'] }
 );
 
 export async function getSiteSettings(): Promise<SiteSettings> {

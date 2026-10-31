@@ -304,7 +304,7 @@ export async function upsertRouteWithPricesAdmin(
 
   revalidateTag('site_prices');
   revalidateTag('site_routes');
-  revalidatePath('/', 'layout');
+  revalidatePath('/[locale]/routes', 'page');
 
   return { success: true };
 }
@@ -346,7 +346,7 @@ export async function toggleOrDeleteRouteAdmin(
 
   revalidateTag('site_prices');
   revalidateTag('site_routes');
-  revalidatePath('/', 'layout');
+  revalidatePath('/[locale]/routes', 'page');
 
   return { success: true };
 }
