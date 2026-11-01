@@ -41,7 +41,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         {label && (
           <label
             htmlFor={selectId}
-            className="block text-xs sm:text-sm font-bold text-[#182235] mb-1.5 tracking-wide select-none"
+            className="block font-sans text-xs sm:text-sm font-bold text-[#182235] mb-2 tracking-wide select-none"
           >
             <span>{label}</span>
             {required && <span className="text-red-500 ms-1" aria-hidden="true">*</span>}
@@ -58,7 +58,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           <select
             ref={ref}
             id={selectId}
-            className={`w-full min-h-[48px] px-4 py-3 pe-10 rounded-xl border text-sm text-[#182235] bg-[#FFFFFF] transition-all duration-200 appearance-none cursor-pointer focus:outline-none ${
+            className={`w-full min-h-[48px] sm:min-h-[50px] px-4 py-3 pe-10 rounded-xl border text-base sm:text-sm font-sans text-[#182235] bg-[#FFFFFF] transition-all duration-200 appearance-none cursor-pointer focus:outline-none ${
               leftIcon ? 'ps-11' : ''
             } ${
               error
@@ -69,7 +69,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           >
             {options
               ? options.map((opt) => (
-                  <option key={opt.value} value={opt.value} disabled={opt.disabled}>
+                  <option key={opt.value} value={opt.value} disabled={opt.disabled} className="font-sans text-[#182235]">
                     {opt.label}
                   </option>
                 ))
@@ -82,11 +82,11 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         </div>
 
         {error ? (
-          <p className="mt-1.5 text-xs text-red-600 font-medium">
+          <p className="mt-1.5 font-sans text-xs text-red-600 font-medium">
             {error}
           </p>
         ) : helperText ? (
-          <p className="mt-1.5 text-xs text-[#687386] font-light leading-relaxed">
+          <p className="mt-1.5 font-sans text-xs text-[#687386] font-light leading-relaxed">
             {helperText}
           </p>
         ) : null}

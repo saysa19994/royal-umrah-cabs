@@ -33,7 +33,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-xs sm:text-sm font-bold text-[#182235] mb-1.5 tracking-wide select-none"
+            className="block font-sans text-xs sm:text-sm font-bold text-[#182235] mb-2 tracking-wide select-none"
           >
             <span>{label}</span>
             {required && <span className="text-red-500 ms-1" aria-hidden="true">*</span>}
@@ -50,7 +50,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             id={inputId}
-            className={`w-full min-h-[48px] px-4 py-3 rounded-xl border text-sm text-[#182235] bg-[#FFFFFF] placeholder:text-[#687386]/70 transition-all duration-200 focus:outline-none ${
+            className={`w-full min-h-[48px] sm:min-h-[50px] px-4 py-3 rounded-xl border text-base sm:text-sm font-sans text-[#182235] bg-[#FFFFFF] placeholder:text-[#687386]/70 transition-all duration-200 focus:outline-none ${
               leftIcon ? 'ps-11' : ''
             } ${rightIcon ? 'pe-11' : ''} ${
               error
@@ -68,11 +68,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         </div>
 
         {error ? (
-          <p className="mt-1.5 text-xs text-red-600 font-medium flex items-center gap-1">
+          <p className="mt-1.5 font-sans text-xs text-red-600 font-medium flex items-center gap-1">
             <span>{error}</span>
           </p>
         ) : helperText ? (
-          <p className="mt-1.5 text-xs text-[#687386] font-light leading-relaxed">
+          <p className="mt-1.5 font-sans text-xs text-[#687386] font-light leading-relaxed">
             {helperText}
           </p>
         ) : null}
