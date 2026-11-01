@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
-import { PricingTable } from '@/components/pricing/PricingTable';
+import { RouteBasedPricingExperience } from '@/components/pricing/RouteBasedPricingExperience';
 import { getDbPricesCached } from '@/lib/pricing-db';
 import { getMergedSiteSettings } from '@/lib/dynamic-settings-store';
 import { PRICING_PAGE_CONTENT } from '@/data/pricing-page-content';
@@ -29,7 +29,6 @@ export async function generateMetadata(props: PricingPageProps): Promise<Metadat
   const params = await props.params;
   const { locale } = params;
   const content = PRICING_PAGE_CONTENT[locale] || PRICING_PAGE_CONTENT.en;
-  const dict = getDictionary(locale);
 
   return {
     title: `${content.heroTitle} | Duyuf Alrahman VIP`,
@@ -49,7 +48,7 @@ export default async function PricingPage(props: PricingPageProps) {
   const settings = getMergedSiteSettings();
 
   return (
-    <div className="bg-[#F7F5F0] min-h-screen text-start text-[#182235]" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="bg-[#F7F5F0] min-h-screen text-start text-[#182235] w-full max-w-full overflow-x-clip" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* 1. ROYAL LUXURY HERO SECTION */}
       <section className="relative pt-10 sm:pt-14 md:pt-18 pb-8 md:pb-12 border-b border-[#E8E3DA]">
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
@@ -163,10 +162,10 @@ export default async function PricingPage(props: PricingPageProps) {
         </div>
       </section>
 
-      {/* 2. THE MASTER ROYAL LUXURY PRICING MATRIX CONTAINER */}
+      {/* 2. THE ROUTE-BASED ROYAL LUXURY PRICING EXPERIENCE */}
       <section className="py-8 sm:py-12 md:py-16">
-        <div className="container mx-auto px-3 sm:px-4 max-w-7xl">
-          <PricingTable
+        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+          <RouteBasedPricingExperience
             locale={locale}
             dict={dict}
             initialRates={initialRates}

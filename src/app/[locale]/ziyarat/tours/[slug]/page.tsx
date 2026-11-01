@@ -124,9 +124,11 @@ export default async function TourDetailPage(props: TourDetailPageProps) {
                     <p className="text-xs text-ink-muted leading-relaxed font-light">{step.description}</p>
                   </div>
                 </div>
-                <div className="text-xs font-bold text-gold-dark shrink-0 sm:text-end pl-10 sm:pl-0">
-                  {step.duration}
-                </div>
+                {step.duration ? (
+                  <div className="text-xs font-bold text-gold-dark shrink-0 sm:text-end pl-10 sm:pl-0">
+                    {step.duration}
+                  </div>
+                ) : null}
               </div>
             ))}
           </div>

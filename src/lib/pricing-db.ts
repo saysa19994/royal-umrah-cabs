@@ -25,33 +25,35 @@ export const getDbPricesCached = unstable_cache(
         for (const row of data) {
           const price = Number(row.price_sar);
           if (!isNaN(price) && price > 0) {
-            if (!rates[row.route_id]) {
-              rates[row.route_id] = {};
+            // Guard: Never allow obsolete or unapproved DB seed records to overwrite company-approved rates
+            const isApprovedRoute = Boolean(AUTHORITATIVE_TRANSFER_RATES[row.route_id]);
+            const isApprovedVehicle = isApprovedRoute && Boolean(AUTHORITATIVE_TRANSFER_RATES[row.route_id][row.vehicle_id]);
+
+            if (isApprovedRoute && isApprovedVehicle) {
+              // Preserve authoritative commercial fare - strictly inviolable
+              rates[row.route_id][row.vehicle_id] = AUTHORITATIVE_TRANSFER_RATES[row.route_id][row.vehicle_id];
+            } else {
+              // Allow auxiliary custom routes from database
+              if (!rates[row.route_id]) {
+                rates[row.route_id] = {};
+              }
+              rates[row.route_id][row.vehicle_id] = price;
             }
-            rates[row.route_id][row.vehicle_id] = price;
-          }
-        }
-
-        // Sanity parity check: guard against inverted tiers in database
-        for (const [routeId, r] of Object.entries(rates)) {
-          const auth = AUTHORITATIVE_TRANSFER_RATES[routeId];
-          if (!auth) continue;
-
-          // If Staria is cheaper than Camry or Yukon is cheaper than Staria
-          if (r.camry && r.staria && r.staria < r.camry) {
-            console.warn(`[pricing-db] Inverted Camry (${r.camry}) vs Staria (${r.staria}) on '${routeId}'. Reverting to authoritative rates.`);
-            r.camry = auth.camry;
-            r.staria = auth.staria;
-          }
-          if (r.staria && r.yukon && r.yukon < r.staria) {
-            console.warn(`[pricing-db] Inverted Staria (${r.staria}) vs Yukon (${r.yukon}) on '${routeId}'. Reverting to authoritative rates.`);
-            r.staria = auth.staria;
-            r.yukon = auth.yukon;
           }
         }
       }
     } catch (err) {
       console.warn('Notice loading DB prices in cache:', err);
+    }
+
+    // Secondary enforcement: Guarantee 100% parity with authoritative transfer rates
+    for (const [routeId, vehicleRates] of Object.entries(AUTHORITATIVE_TRANSFER_RATES)) {
+      if (!rates[routeId]) {
+        rates[routeId] = {};
+      }
+      for (const [vehicleId, price] of Object.entries(vehicleRates)) {
+        rates[routeId][vehicleId] = price;
+      }
     }
 
     return rates;

@@ -2,8 +2,9 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { unstable_cache, revalidateTag, revalidatePath } from 'next/cache';
 import { AdminRouteData } from '@/types/content';
 import { logAuditEvent } from '@/lib/audit';
+import { AUTHORITATIVE_TRANSFER_RATES } from './pricing-constants';
 
-// Initial default routes list to ensure robust fallback
+// Initial default routes list with 100% Authoritative Company Fares
 const INITIAL_ROUTES: AdminRouteData[] = [
   {
     id: 'jeddah-airport-to-makkah',
@@ -17,8 +18,8 @@ const INITIAL_ROUTES: AdminRouteData[] = [
     miqat_stop_allowed: false,
     is_active: true,
     display_order: 1,
-    rates: { camry: 200, staria: 260, yukon: 380, hiace: 340, coaster: 650 },
-    rates_usd: { camry: 53, staria: 69, yukon: 101, hiace: 90, coaster: 173 },
+    rates: { camry: 200, staria: 250, yukon: 450, hiace: 280, coaster: 450 },
+    rates_usd: { camry: 53, staria: 67, yukon: 120, hiace: 74, coaster: 120 },
   },
   {
     id: 'makkah-to-jeddah-airport',
@@ -32,8 +33,8 @@ const INITIAL_ROUTES: AdminRouteData[] = [
     miqat_stop_allowed: false,
     is_active: true,
     display_order: 2,
-    rates: { camry: 200, staria: 260, yukon: 380, hiace: 340, coaster: 650 },
-    rates_usd: { camry: 53, staria: 69, yukon: 101, hiace: 90, coaster: 173 },
+    rates: { camry: 200, staria: 250, yukon: 450, hiace: 280, coaster: 450 },
+    rates_usd: { camry: 53, staria: 67, yukon: 120, hiace: 74, coaster: 120 },
   },
   {
     id: 'makkah-to-madinah',
@@ -47,8 +48,8 @@ const INITIAL_ROUTES: AdminRouteData[] = [
     miqat_stop_allowed: true,
     is_active: true,
     display_order: 3,
-    rates: { camry: 450, staria: 500, yukon: 750, hiace: 650, coaster: 1200 },
-    rates_usd: { camry: 120, staria: 133, yukon: 200, hiace: 173, coaster: 319 },
+    rates: { camry: 400, staria: 500, yukon: 1000, hiace: 600, coaster: 1000 },
+    rates_usd: { camry: 106, staria: 133, yukon: 266, hiace: 160, coaster: 266 },
   },
   {
     id: 'madinah-to-makkah',
@@ -62,8 +63,8 @@ const INITIAL_ROUTES: AdminRouteData[] = [
     miqat_stop_allowed: true,
     is_active: true,
     display_order: 4,
-    rates: { camry: 450, staria: 500, yukon: 750, hiace: 650, coaster: 1200 },
-    rates_usd: { camry: 120, staria: 133, yukon: 200, hiace: 173, coaster: 319 },
+    rates: { camry: 400, staria: 500, yukon: 1000, hiace: 600, coaster: 1000 },
+    rates_usd: { camry: 106, staria: 133, yukon: 266, hiace: 160, coaster: 266 },
   },
   {
     id: 'madinah-airport-to-hotel',
@@ -77,8 +78,8 @@ const INITIAL_ROUTES: AdminRouteData[] = [
     miqat_stop_allowed: false,
     is_active: true,
     display_order: 5,
-    rates: { camry: 150, staria: 190, yukon: 280, hiace: 250, coaster: 550 },
-    rates_usd: { camry: 40, staria: 51, yukon: 74, hiace: 67, coaster: 146 },
+    rates: { camry: 200, staria: 250, yukon: 500, hiace: 300, coaster: 600 },
+    rates_usd: { camry: 53, staria: 67, yukon: 133, hiace: 80, coaster: 160 },
   },
   {
     id: 'jeddah-to-madinah',
@@ -92,10 +93,9 @@ const INITIAL_ROUTES: AdminRouteData[] = [
     miqat_stop_allowed: true,
     is_active: true,
     display_order: 6,
-    rates: { camry: 680, staria: 750, yukon: 980, hiace: 850, coaster: 1600 },
-    rates_usd: { camry: 181, staria: 200, yukon: 261, hiace: 226, coaster: 426 },
+    rates: { camry: 400, staria: 500, yukon: 1000, hiace: 600, coaster: 1000 },
+    rates_usd: { camry: 106, staria: 133, yukon: 266, hiace: 160, coaster: 266 },
   },
-  // Inactive / Additional Routes from DB
   {
     id: 'makkah-to-taif',
     origin_city: 'Makkah Hotel',
@@ -106,10 +106,10 @@ const INITIAL_ROUTES: AdminRouteData[] = [
     estimated_duration_minutes: 105,
     distance_km: 90,
     miqat_stop_allowed: true,
-    is_active: false,
+    is_active: true,
     display_order: 7,
-    rates: { camry: 0, staria: 0, yukon: 0, hiace: 0, coaster: 0 },
-    rates_usd: { camry: 0, staria: 0, yukon: 0, hiace: 0, coaster: 0 },
+    rates: { camry: 400, staria: 500, yukon: 750, hiace: 600, coaster: 900 },
+    rates_usd: { camry: 106, staria: 133, yukon: 200, hiace: 160, coaster: 239 },
   },
   {
     id: 'taif-to-makkah',
@@ -121,10 +121,25 @@ const INITIAL_ROUTES: AdminRouteData[] = [
     estimated_duration_minutes: 105,
     distance_km: 90,
     miqat_stop_allowed: true,
-    is_active: false,
+    is_active: true,
     display_order: 8,
-    rates: { camry: 0, staria: 0, yukon: 0, hiace: 0, coaster: 0 },
-    rates_usd: { camry: 0, staria: 0, yukon: 0, hiace: 0, coaster: 0 },
+    rates: { camry: 400, staria: 500, yukon: 750, hiace: 600, coaster: 900 },
+    rates_usd: { camry: 106, staria: 133, yukon: 200, hiace: 160, coaster: 239 },
+  },
+  {
+    id: 'jeddah-to-taif',
+    origin_city: 'Jeddah Airport (KAIA)',
+    destination_city: 'Taif (Al Hada)',
+    title: 'Jeddah → Taif',
+    origin_code: 'JED',
+    destination_code: 'TIF',
+    estimated_duration_minutes: 135,
+    distance_km: 165,
+    miqat_stop_allowed: false,
+    is_active: true,
+    display_order: 9,
+    rates: { camry: 500, staria: 600, yukon: 800, hiace: 650, coaster: 850 },
+    rates_usd: { camry: 133, staria: 160, yukon: 213, hiace: 173, coaster: 226 },
   },
   {
     id: 'riyadh-airport-transfer',
@@ -137,9 +152,39 @@ const INITIAL_ROUTES: AdminRouteData[] = [
     distance_km: 40,
     miqat_stop_allowed: false,
     is_active: false,
-    display_order: 9,
-    rates: { camry: 0, staria: 0, yukon: 0, hiace: 0, coaster: 0 },
-    rates_usd: { camry: 0, staria: 0, yukon: 0, hiace: 0, coaster: 0 },
+    display_order: 10,
+    rates: { camry: 200, staria: 280, yukon: 450, hiace: 400, coaster: 750 },
+    rates_usd: { camry: 53, staria: 74, yukon: 120, hiace: 106, coaster: 200 },
+  },
+  {
+    id: 'riyadh-to-makkah',
+    origin_city: 'Riyadh',
+    destination_city: 'Makkah Hotel',
+    title: 'Riyadh ⇄ Makkah Hotel',
+    origin_code: 'RUH',
+    destination_code: 'MAK',
+    estimated_duration_minutes: 540,
+    distance_km: 870,
+    miqat_stop_allowed: true,
+    is_active: false,
+    display_order: 11,
+    rates: { camry: 1800, staria: 2200, yukon: 2600, hiace: 2500, coaster: 0 },
+    rates_usd: { camry: 479, staria: 585, yukon: 692, hiace: 665, coaster: 0 },
+  },
+  {
+    id: 'riyadh-to-madinah',
+    origin_city: 'Riyadh',
+    destination_city: 'Madinah Hotel',
+    title: 'Riyadh ⇄ Madinah Hotel',
+    origin_code: 'RUH',
+    destination_code: 'MED',
+    estimated_duration_minutes: 510,
+    distance_km: 840,
+    miqat_stop_allowed: false,
+    is_active: false,
+    display_order: 12,
+    rates: { camry: 2000, staria: 2200, yukon: 2500, hiace: 2400, coaster: 0 },
+    rates_usd: { camry: 532, staria: 585, yukon: 665, hiace: 638, coaster: 0 },
   },
   {
     id: 'ziyarat-tour',
@@ -148,13 +193,13 @@ const INITIAL_ROUTES: AdminRouteData[] = [
     title: 'Holy Sites Ziyarat Tour',
     origin_code: 'ZIY',
     destination_code: 'ZIY',
-    estimated_duration_minutes: 240,
+    estimated_duration_minutes: 150,
     distance_km: 80,
     miqat_stop_allowed: false,
-    is_active: false,
-    display_order: 10,
-    rates: { camry: 0, staria: 0, yukon: 0, hiace: 0, coaster: 0 },
-    rates_usd: { camry: 0, staria: 0, yukon: 0, hiace: 0, coaster: 0 },
+    is_active: true,
+    display_order: 13,
+    rates: { camry: 250, staria: 300, yukon: 450, hiace: 330, coaster: 500 },
+    rates_usd: { camry: 67, staria: 80, yukon: 120, hiace: 88, coaster: 133 },
   },
   {
     id: 'hourly-4h',
@@ -166,10 +211,10 @@ const INITIAL_ROUTES: AdminRouteData[] = [
     estimated_duration_minutes: 240,
     distance_km: 100,
     miqat_stop_allowed: false,
-    is_active: false,
-    display_order: 11,
-    rates: { camry: 0, staria: 0, yukon: 0, hiace: 0, coaster: 0 },
-    rates_usd: { camry: 0, staria: 0, yukon: 0, hiace: 0, coaster: 0 },
+    is_active: true,
+    display_order: 14,
+    rates: { camry: 350, staria: 400, yukon: 600, hiace: 500, coaster: 800 },
+    rates_usd: { camry: 93, staria: 106, yukon: 160, hiace: 133, coaster: 213 },
   },
 ];
 
@@ -197,11 +242,14 @@ export async function getAllAdminRoutesWithPrices(): Promise<AdminRouteData[]> {
 
       return dbRoutes.map((r, idx) => {
         const rPrices = priceMap[r.id] || {};
-        const camry = rPrices['camry'] || 0;
-        const staria = rPrices['staria'] || 0;
-        const yukon = rPrices['yukon'] || 0;
-        const hiace = rPrices['hiace'] || 0;
-        const coaster = rPrices['coaster'] || 0;
+        const auth = AUTHORITATIVE_TRANSFER_RATES[r.id];
+
+        // Authoritative rates take strict precedence for approved routes
+        const camry = auth?.camry ?? rPrices['camry'] ?? 0;
+        const staria = auth?.staria ?? rPrices['staria'] ?? 0;
+        const yukon = auth?.yukon ?? rPrices['yukon'] ?? 0;
+        const hiace = auth?.hiace ?? rPrices['hiace'] ?? 0;
+        const coaster = auth?.coaster ?? rPrices['coaster'] ?? 0;
 
         const sarToUsd = 0.266;
 

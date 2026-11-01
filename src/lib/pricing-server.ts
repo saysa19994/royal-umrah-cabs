@@ -6,6 +6,7 @@ import {
   AUTHORITATIVE_HOURLY_RATES_4H,
   AUTHORITATIVE_ZIYARAT_RATES,
   AUTHORITATIVE_GROUP_RATES,
+  AUTHORITATIVE_TRANSFER_RATES,
 } from './pricing-constants';
 
 const STANDARD_VEHICLE_SPECS: Record<string, { seats: number; bags: number; is_active: boolean }> = {
@@ -23,6 +24,7 @@ const STANDARD_ROUTES: Record<string, boolean> = {
   'madinah-to-makkah': true,
   'madinah-airport-to-hotel': true,
   'jeddah-to-madinah': true,
+  'jeddah-airport-to-madinah': true,
 };
 
 export const TAIF_ROUTES: Record<string, boolean> = {
@@ -46,9 +48,8 @@ export interface PriceCalculationResult {
 }
 
 /**
- * Calculates booking prices strictly server-side from Supabase database.
- * No hardcoded default 450, 400, 300, or 800 SAR fallbacks.
- * If route, vehicle, duration, or pricing configuration is not found in the DB, throws an error (fail closed).
+ * Calculates booking prices strictly server-side with inviolable Authoritative Matrix source of truth.
+ * If route, vehicle, duration, or pricing configuration is not found, throws an error (fail closed).
  */
 export async function calculateServerPrice(params: {
   bookingType: 'transfer' | 'hourly' | 'ziyarat' | 'group_bus';
@@ -152,18 +153,24 @@ export async function calculateServerPrice(params: {
       throw new Error(`Active route '${routeId}' not found in database`);
     }
 
-    // Retrieve exact route x vehicle price from database or dynamic store
-    const { data: priceRow } = await serviceClient
-      .from('prices')
-      .select('price_sar')
-      .eq('route_id', routeId)
-      .eq('vehicle_id', vehicleId)
-      .maybeSingle();
-
-    if (priceRow?.price_sar) {
-      basePriceSAR = Number(priceRow.price_sar);
+    // Enforce Authoritative Transfer Rates as primary source of truth
+    const authoritativeFare = AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId];
+    if (authoritativeFare !== undefined && authoritativeFare > 0) {
+      basePriceSAR = authoritativeFare;
     } else {
-      basePriceSAR = getDynamicPriceForRouteVehicle(routeId, vehicleId);
+      // Check database or dynamic store for auxiliary custom routes
+      const { data: priceRow } = await serviceClient
+        .from('prices')
+        .select('price_sar')
+        .eq('route_id', routeId)
+        .eq('vehicle_id', vehicleId)
+        .maybeSingle();
+
+      if (priceRow?.price_sar) {
+        basePriceSAR = Number(priceRow.price_sar);
+      } else {
+        basePriceSAR = getDynamicPriceForRouteVehicle(routeId, vehicleId);
+      }
     }
 
     if (!basePriceSAR || isNaN(basePriceSAR) || basePriceSAR <= 0) {
@@ -179,70 +186,64 @@ export async function calculateServerPrice(params: {
       throw new Error(`Invalid duration '${durationHours}'. Hourly bookings require between 2 and 24 hours.`);
     }
 
-    // Ignore client route_id entirely for hourly: derive from duration only
-    const targetBlockRoute = hours > 4 ? `hourly-${hours}h` : 'hourly-4h';
-
-    const { data: blockPrice } = await serviceClient
-      .from('prices')
-      .select('price_sar')
-      .eq('route_id', targetBlockRoute)
-      .eq('vehicle_id', vehicleId)
-      .maybeSingle();
-
-    if (blockPrice && blockPrice.price_sar) {
-      basePriceSAR = Number(blockPrice.price_sar);
+    // Standard 4h block base
+    if (AUTHORITATIVE_HOURLY_RATES_4H[vehicleId]) {
+      const blocks = Math.ceil(hours / 4);
+      basePriceSAR = AUTHORITATIVE_HOURLY_RATES_4H[vehicleId] * blocks;
     } else {
-      // Fall back to hourly-standard route row scaled by duration block (4h standard block)
-      const { data: standardPrice } = await serviceClient
+      // Fall back to DB hourly block
+      const targetBlockRoute = hours > 4 ? `hourly-${hours}h` : 'hourly-4h';
+      const { data: blockPrice } = await serviceClient
         .from('prices')
         .select('price_sar')
-        .eq('route_id', 'hourly-standard')
+        .eq('route_id', targetBlockRoute)
         .eq('vehicle_id', vehicleId)
         .maybeSingle();
 
-      if (standardPrice && standardPrice.price_sar) {
-        const blocks = Math.ceil(hours / 4);
-        basePriceSAR = Number(standardPrice.price_sar) * blocks;
-      } else if (AUTHORITATIVE_HOURLY_RATES_4H[vehicleId]) {
-        const blocks = Math.ceil(hours / 4);
-        basePriceSAR = AUTHORITATIVE_HOURLY_RATES_4H[vehicleId] * blocks;
+      if (blockPrice && blockPrice.price_sar) {
+        basePriceSAR = Number(blockPrice.price_sar);
       } else {
         throw new Error(`No configured hourly pricing found in database for vehicle '${vehicleId}'`);
       }
     }
   } else if (bookingType === 'ziyarat') {
-    // Ignore client route_id entirely for ziyarat: derive from booking type
-    const targetRouteId = 'ziyarat-tour';
-    const { data: priceRow } = await serviceClient
-      .from('prices')
-      .select('price_sar')
-      .eq('route_id', targetRouteId)
-      .eq('vehicle_id', vehicleId)
-      .maybeSingle();
-
-    if (priceRow?.price_sar) {
-      basePriceSAR = Number(priceRow.price_sar);
+    // Check if routeId is given (e.g. makkah-ziyarat, madinah-ziyarat)
+    if (routeId && AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId]) {
+      basePriceSAR = AUTHORITATIVE_TRANSFER_RATES[routeId][vehicleId];
     } else if (AUTHORITATIVE_ZIYARAT_RATES[vehicleId]) {
       basePriceSAR = AUTHORITATIVE_ZIYARAT_RATES[vehicleId];
     } else {
-      throw new Error(`No configured ziyarat pricing found in database for route '${targetRouteId}' and vehicle '${vehicleId}'`);
+      const targetRouteId = 'ziyarat-tour';
+      const { data: priceRow } = await serviceClient
+        .from('prices')
+        .select('price_sar')
+        .eq('route_id', targetRouteId)
+        .eq('vehicle_id', vehicleId)
+        .maybeSingle();
+
+      if (priceRow?.price_sar) {
+        basePriceSAR = Number(priceRow.price_sar);
+      } else {
+        throw new Error(`No configured ziyarat pricing found in database for route '${targetRouteId}' and vehicle '${vehicleId}'`);
+      }
     }
   } else if (bookingType === 'group_bus') {
-    // Ignore client route_id entirely for group_bus: derive from booking type
-    const targetRouteId = 'group-coaster';
-    const { data: priceRow } = await serviceClient
-      .from('prices')
-      .select('price_sar')
-      .eq('route_id', targetRouteId)
-      .eq('vehicle_id', vehicleId)
-      .maybeSingle();
-
-    if (priceRow?.price_sar) {
-      basePriceSAR = Number(priceRow.price_sar);
-    } else if (AUTHORITATIVE_GROUP_RATES[vehicleId]) {
+    if (AUTHORITATIVE_GROUP_RATES[vehicleId]) {
       basePriceSAR = AUTHORITATIVE_GROUP_RATES[vehicleId];
     } else {
-      throw new Error(`No configured group transport pricing found in database for route '${targetRouteId}' and vehicle '${vehicleId}'`);
+      const targetRouteId = 'group-coaster';
+      const { data: priceRow } = await serviceClient
+        .from('prices')
+        .select('price_sar')
+        .eq('route_id', targetRouteId)
+        .eq('vehicle_id', vehicleId)
+        .maybeSingle();
+
+      if (priceRow?.price_sar) {
+        basePriceSAR = Number(priceRow.price_sar);
+      } else {
+        throw new Error(`No configured group transport pricing found in database for route '${targetRouteId}' and vehicle '${vehicleId}'`);
+      }
     }
   }
 
