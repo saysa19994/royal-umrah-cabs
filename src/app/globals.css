@@ -3,18 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #FDFBF7;
-  --color-bg-alt: #F7F3EB;
-  --color-surface: #FFFFFF;
-  --color-border: #E2DCD2;
-  --color-border-strong: #D5CDBF;
-  --color-ink: #211F1B;
-  --color-ink-muted: #706B62;
-  --color-body: #35322D;
-  --color-gold: #D8B16A;
-  --color-gold-dark: #B3893C;
-  --color-charcoal: #171513;
-  --color-whatsapp: #25D366;
+  /* OFFICIAL ROYAL LUXURY DESIGN TOKENS */
   --color-royal-navy: #101827;
   --color-royal-deep-navy: #111C30;
   --color-royal-charcoal: #161B24;
@@ -27,6 +16,20 @@
   --color-royal-border: #E8E3DA;
   --color-royal-success: #188567;
   --color-royal-warning: #B7791F;
+
+  /* Theme Defaults */
+  --color-bg: #F7F5F0;
+  --color-bg-alt: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-border: #E8E3DA;
+  --color-border-strong: #D5CDBF;
+  --color-ink: #182235;
+  --color-ink-muted: #687386;
+  --color-body: #182235;
+  --color-gold: #C5A15D;
+  --color-gold-dark: #B5904C;
+  --color-charcoal: #161B24;
+  --color-whatsapp: #25D366;
 }
 
 @layer base {
@@ -43,18 +46,22 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    color: var(--color-ink);
+    color: var(--color-royal-text-primary);
     letter-spacing: -0.015em;
   }
 
   /* Accessible focus indicators for keyboard navigation */
   :focus-visible {
-    outline: 2px solid var(--color-gold);
+    outline: 2px solid var(--color-royal-champagne);
     outline-offset: 2px;
   }
 
   /* Arabic & Urdu RTL Typography refinements */
   [dir="rtl"],
+  [dir="rtl"] body {
+    font-family: var(--font-ibm-plex-arabic), var(--font-tajawal), sans-serif;
+  }
+
   [dir="rtl"] h1,
   [dir="rtl"] h2,
   [dir="rtl"] h3,
@@ -68,26 +75,161 @@
     letter-spacing: 0 !important;
     font-style: normal;
   }
+
+  [lang="ur"],
+  [lang="ur"] body {
+    font-family: var(--font-urdu), var(--font-ibm-plex-arabic), sans-serif;
+  }
+
+  [lang="hi"],
+  [lang="hi"] body {
+    font-family: var(--font-devanagari), sans-serif;
+  }
 }
 
+/* ========================================================================== */
+/* REUSABLE ROYAL LUXURY UTILITY CLASSES                                      */
+/* ========================================================================== */
+@layer components {
+  /* Royal Card - Light / Ivory */
+  .royal-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E8E3DA;
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 20px -2px rgba(16, 24, 39, 0.05);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .royal-card:hover {
+    box-shadow: 0 12px 30px -4px rgba(16, 24, 39, 0.08);
+  }
 
-/* GPU-accelerated cinematic animations for Haram hero background */
+  /* Royal Card - Midnight Navy */
+  .royal-navy-card {
+    background-color: #101827;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.25rem;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .royal-navy-card:hover {
+    border-color: rgba(197, 161, 93, 0.35);
+  }
+
+  /* Royal Primary Pill Button */
+  .royal-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0.75rem 1.75rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, #C5A15D 0%, #D7B76C 100%);
+    color: #101827;
+    font-weight: 700;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 18px rgba(197, 161, 93, 0.28);
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+  .royal-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(197, 161, 93, 0.38);
+    filter: brightness(1.04);
+  }
+  .royal-btn-primary:active {
+    transform: translateY(0);
+  }
+
+  /* Royal Secondary Button */
+  .royal-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0.75rem 1.75rem;
+    border-radius: 9999px;
+    background-color: #101827;
+    color: #FFFFFF;
+    border: 1px solid rgba(197, 161, 93, 0.4);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+  .royal-btn-secondary:hover {
+    background-color: #111C30;
+    border-color: #C5A15D;
+    color: #D7B76C;
+  }
+
+  /* Royal Input */
+  .royal-input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #E8E3DA;
+    background-color: #FFFFFF;
+    color: #182235;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+  }
+  .royal-input:focus {
+    outline: none;
+    border-color: #C5A15D;
+    box-shadow: 0 0 0 3px rgba(197, 161, 93, 0.15);
+  }
+  .royal-input::placeholder {
+    color: #687386;
+    opacity: 0.8;
+  }
+
+  /* Royal Badge */
+  .royal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: 9999px;
+    background-color: #101827;
+    border: 1px solid rgba(197, 161, 93, 0.3);
+    color: #D7B76C;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .royal-badge-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: 9999px;
+    background-color: #F7F5F0;
+    border: 1px solid #E8E3DA;
+    color: #182235;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+}
+
+/* GPU-accelerated cinematic animations */
 @keyframes cinematicCamera {
-  0% {
-    transform: scale(1.04) translate3d(0%, 0%, 0);
-  }
-  100% {
-    transform: scale(1.20) translate3d(-1.6%, -2%, 0);
-  }
+  0% { transform: scale(1.04) translate3d(0%, 0%, 0); }
+  100% { transform: scale(1.20) translate3d(-1.6%, -2%, 0); }
 }
 
 @keyframes cinematicCameraRtl {
-  0% {
-    transform: scale(1.04) translate3d(0%, 0%, 0);
-  }
-  100% {
-    transform: scale(1.20) translate3d(1.6%, -2%, 0);
-  }
+  0% { transform: scale(1.04) translate3d(0%, 0%, 0); }
+  100% { transform: scale(1.20) translate3d(1.6%, -2%, 0); }
 }
 
 .animate-cinematic-camera {
@@ -100,106 +242,6 @@
   will-change: transform;
 }
 
-@keyframes goldenBreathe {
-  0%, 100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-.animate-golden-breathe {
-  animation: goldenBreathe 7s ease-in-out infinite;
-  will-change: opacity;
-}
-
-@keyframes lightSweep {
-  0% {
-    transform: translateX(-160%) rotate(25deg);
-    opacity: 0;
-  }
-  15% {
-    opacity: 0.65;
-  }
-  35% {
-    transform: translateX(160%) rotate(25deg);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(160%) rotate(25deg);
-    opacity: 0;
-  }
-}
-
-.animate-light-sweep {
-  animation: lightSweep 14s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
-@keyframes pulseSoftGreen {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.45);
-  }
-  50% {
-    transform: scale(1.03);
-    box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
-  }
-}
-
-.animate-pulse-soft-green {
-  animation: pulseSoftGreen 3s infinite ease-in-out;
-}
-
-@keyframes pulseGoldGlow {
-  0%, 100% {
-    box-shadow: 0 4px 20px rgba(212, 167, 44, 0.35);
-  }
-  50% {
-    box-shadow: 0 4px 30px rgba(212, 167, 44, 0.6);
-  }
-}
-
-.animate-gold-glow {
-  animation: pulseGoldGlow 3s infinite ease-in-out;
-}
-
-@keyframes bounceScroll {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-6px);
-  }
-  60% {
-    transform: translateY(-3px);
-  }
-}
-
-.animate-bounce-scroll {
-  animation: bounceScroll 2.4s infinite;
-}
-
-
-@keyframes luxuryButtonShine {
-  0%, 75% {
-    transform: translateX(-160%) skewX(-20deg);
-    opacity: 0;
-  }
-  80% {
-    opacity: 0.8;
-  }
-  90%, 100% {
-    transform: translateX(180%) skewX(-20deg);
-    opacity: 0;
-  }
-}
-
-.animate-luxury-shine {
-  animation: luxuryButtonShine 6s infinite ease-in-out;
-}
-
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -207,12 +249,7 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .animate-cinematic-camera,
-  .animate-golden-breathe,
-  .animate-light-sweep,
-  .animate-pulse-soft-green,
-  .animate-gold-glow,
-  .animate-bounce-scroll {
+  .animate-cinematic-camera {
     animation: none !important;
     transform: none !important;
   }
