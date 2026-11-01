@@ -105,6 +105,23 @@ export async function generateMetadata(
   };
 }
 
+const VEHICLE_SLUG_NORMALIZER: Record<string, string> = {
+  'toyota-camry': 'camry',
+  camry: 'camry',
+  'hyundai-staria': 'staria',
+  staria: 'staria',
+  'gmc-yukon-xl': 'yukon',
+  yukon: 'yukon',
+  'toyota-hiace': 'hiace',
+  hiace: 'hiace',
+  'toyota-coaster': 'coaster',
+  coaster: 'coaster',
+  'mercedes-maybach': 'maybach',
+  maybach: 'maybach',
+  'hyundai-h1': 'h1',
+  h1: 'h1',
+};
+
 export default async function BookingPage(props: BookingPageProps) {
   const searchParams = await props.searchParams;
   const params = await props.params;
@@ -119,7 +136,9 @@ export default async function BookingPage(props: BookingPageProps) {
     : 'transfer') as 'transfer' | 'hourly' | 'ziyarat' | 'group_bus';
 
   let resolvedRoute = searchParams.route;
-  let resolvedVehicle = searchParams.vehicle;
+  let resolvedVehicle = searchParams.vehicle
+    ? VEHICLE_SLUG_NORMALIZER[searchParams.vehicle.toLowerCase()] || searchParams.vehicle
+    : undefined;
   let resolvedDate = searchParams.date;
   let resolvedTime = searchParams.time;
   let resolvedPassengers = searchParams.passengers;

@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
@@ -14,8 +15,18 @@ import {
   MessageCircle,
   ShieldCheck,
   ChevronRight,
+  Sparkles,
+  Luggage,
+  Baby,
+  Clock,
+  HeartHandshake,
 } from 'lucide-react';
-import { VehicleGallery, GalleryImage } from '@/components/fleet/VehicleGallery';
+import { VehicleGallery, GalleryPhoto } from '@/components/fleet/VehicleGallery';
+import {
+  AUTHORITATIVE_TRANSFER_RATES,
+  LOCALIZED_ROUTE_NAMES,
+} from '@/lib/pricing-constants';
+import { FLEET_SHOWCASE_VEHICLES } from '@/data/fleet-showcase-data';
 
 interface FleetDetailPageProps {
   params: Promise<{
@@ -24,483 +35,366 @@ interface FleetDetailPageProps {
   }>;
 }
 
-interface VehicleDetails {
-  name: string;
-  nameAr: string;
-  category: string;
-  categoryAr: string;
+interface VehicleSpecification {
+  id: string;
+  slug: string;
+  bookingVehicleId: string;
   seats: number;
   bags: number;
-  acType: string;
-  acTypeAr: string;
-  desc: string;
-  descAr: string;
-  features: string[];
-  featuresAr: string[];
-  gallery: GalleryImage[];
+  acType: Record<Locale, string>;
+  names: Record<Locale, string>;
+  categories: Record<Locale, string>;
+  descriptions: Record<Locale, string>;
+  features: Record<Locale, string[]>;
+  gallery: GalleryPhoto[];
 }
 
-const VEHICLES_DATABASE: Record<string, VehicleDetails> = {
-  'mercedes-maybach': {
-    name: 'Mercedes-Maybach S-Class VIP',
-    nameAr: 'مرسيدس مايباخ S-Class VIP',
-    category: 'Ultra-Luxury First-Class Sedan',
-    categoryAr: 'سيدان ملكي فائق الفخامة',
-    seats: 3,
-    bags: 3,
-    acType: 'Quad-Zone Active Climate Control with Air Filtration',
-    acTypeAr: 'تكييف هوائي ملكي رباعي المناطق مع فلترة وتنقية الهواء',
-    desc: 'The Mercedes-Maybach S-Class is the ultimate expression of automotive elegance, discretion, and supreme road tranquility for distinguished Guests of Allah. Built for presidential comfort, it provides an exquisite first-class sanctuary during spiritual transfers between Jeddah, Makkah, and Madinah.',
-    descAr: 'تجسد مرسيدس مايباخ S-Class قمة الفخامة والخصوصية والسكينة التامة لضيوف بيت الله الحرام. صُممت لتقديم تجربة سفر ملكية بمعايير الدرجة الأولى طوال رحلتكم بين مطار جدة ومكة المكرمة والمدينة المنورة.',
-    features: [
-      'Executive reclining rear lounge seats with calf rests and massage functionality',
-      'Double-glazed acoustic laminated privacy glass for complete silence',
-      'Chilled Zamzam water bottles served in luxury Maybach silver flutes',
-      'Dual 11.6-inch OLED rear entertainment screens with wireless charging',
-      'Senior executive chauffeur dressed in formal presidential attire',
-    ],
-    featuresAr: [
-      'مقاعد خلفية من الدرجة الأولى قابلة للإمالة بالكامل مع خاصية التدليك ومساند الأقدام',
-      'زجاج عازل للصوت والحرارة مع ستائر خصوصية كهربائية لراحة تامة',
-      'ضيافة مياه زمزم مبردة ومشروبات منعشة تقدم في كؤوس فضية',
-      'شاشات ترفيهية OLED مزدوجة للمقاعد الخلفية مع شواحن لاسلكية',
-      'سائق VIP خاص بزي رسمي كامل وخبرة متميزة في مسارات الحرمين',
-    ],
-    gallery: [
-      {
-        src: '/assets/images/vehicles/mercedes-maybach/exterior_front.jpg',
-        title: '2K Studio Iconic Front Grille & Stance',
-        titleAr: 'واجهة استوديو 2K مع شبك مايباخ الأيقوني',
-        tag: 'Exterior Front',
-        tagAr: 'الواجهة الأمامية',
-      },
-      {
-        src: '/assets/images/vehicles/mercedes-maybach/exterior_rear.jpg',
-        title: 'Executive Rear Profile & 3D LED Taillights',
-        titleAr: 'الواجهة الخلفية مع إضاءة LED ثلاثية الأبعاد',
-        tag: 'Exterior Rear',
-        tagAr: 'الواجهة الخلفية',
-      },
-      {
-        src: '/assets/images/vehicles/mercedes-maybach/side_profile.jpg',
-        title: 'Extended Wheelbase & Monoblock Wheels',
-        titleAr: 'الجانب الكامل بقاعدة عجلات ممتدة وجنوط مايباخ',
-        tag: 'Side Profile',
-        tagAr: 'الجانب الكامل',
-      },
-      {
-        src: '/assets/images/vehicles/mercedes-maybach/interior_seats.jpg',
-        title: 'First-Class Executive Reclining Lounge Seats',
-        titleAr: 'مقاعد الدرجة الأولى الملكية مع مساند الأقدام',
-        tag: 'VIP Seats',
-        tagAr: 'المقصورة والمقاعد',
-      },
-      {
-        src: '/assets/images/vehicles/mercedes-maybach/interior_dashboard.jpg',
-        title: 'Maybach Digital Cockpit & OLED Display',
-        titleAr: 'مقصورة القيادة الفاخرة وشاشات OLED الذكية',
-        tag: 'Dashboard',
-        tagAr: 'لوحة القيادة',
-      },
-    ],
+// ALIAS MAPPING: Supports both short ('camry', 'yukon') and long ('toyota-camry', 'gmc-yukon-xl') slugs
+const SLUG_ALIASES: Record<string, string> = {
+  camry: 'toyota-camry',
+  'toyota-camry': 'toyota-camry',
+  yukon: 'gmc-yukon-xl',
+  'gmc-yukon-xl': 'gmc-yukon-xl',
+  staria: 'hyundai-staria',
+  'hyundai-staria': 'hyundai-staria',
+  h1: 'hyundai-h1',
+  'hyundai-h1': 'hyundai-h1',
+  hiace: 'toyota-hiace',
+  'toyota-hiace': 'toyota-hiace',
+  coaster: 'toyota-coaster',
+  'toyota-coaster': 'toyota-coaster',
+  maybach: 'mercedes-maybach',
+  'mercedes-maybach': 'mercedes-maybach',
+};
+
+// Full 10-language UI strings for detail page
+const DETAIL_I18N: Record<string, Record<Locale, string>> = {
+  home: {
+    en: 'Home',
+    ar: 'الرئيسية',
+    ms: 'Utama',
+    id: 'Beranda',
+    ur: 'ہوم',
+    fr: 'Accueil',
+    es: 'Inicio',
+    de: 'Startseite',
+    hi: 'होम',
+    tr: 'Ana Sayfa',
   },
-  'gmc-yukon-xl': {
-    name: 'GMC Yukon XL VIP',
-    nameAr: 'جمس يوكون XL VIP الفاخر',
-    category: 'Ultra-Luxury Full-Size VIP SUV',
-    categoryAr: 'دفع رباعي VIP فائق الفخامة والرحابة',
-    seats: 7,
-    bags: 8,
-    acType: 'Tri-Zone High-Performance Climate Control with Rear Vents',
-    acTypeAr: 'تكييف مركزي متطور ثلاثي المناطق مع فتحات تبريد مخصصة لجميع المقاعد',
-    desc: 'The GMC Yukon XL represents the absolute standard of prestige, roominess, and highway confidence across Saudi Arabia. Offering an extended wheelbase, generous leather seating, and massive luggage capacity, it delivers an effortless VIP journey for families travelling between Jeddah Airport and the Two Holy Mosques.',
-    descAr: 'تعتبر جمس يوكون XL قمة الهيبة والرحابة والأمان على الطرق السريعة في المملكة العربية السعودية. بفضل قاعدة عجلاتها الممتدة ومقصورتها الجلدية الفارهة ومستودع الأمتعة الضخم، تمنح العائلات راحة مطلقة بين مطار جدة والحرمين الشريفين.',
-    features: [
-      'Extended wheelbase with exceptional third-row passenger legroom',
-      'Acoustic soundproof glass creating a serene and restful atmosphere',
-      'Tri-zone automatic digital climate control tailored for desert heat',
-      'Cavernous cargo hold accommodating up to 8 large suitcases and Zamzam boxes',
-      'Certified executive highway chauffeur with comprehensive hotel zone knowledge',
-    ],
-    featuresAr: [
-      'قاعدة عجلات طويلة توفر مساحة رحبة جداً للأقدام لركاب الصف الثالث',
-      'زجاج عازل للصوت يوفر أجواء هادئة للاسترخاء أثناء الرحلات الطويلة',
-      'تكييف أوتوماتيكي ذكي مصمم خصيصاً لأجواء الصيف في المملكة',
-      'صندوق أمتعة عملاق يتسع لـ 8 حقائب سفر كبيرة وعبوات مياه زمزم',
-      'سائق محترف خبير بمسارات الفنادق والمطارات والحرمين الشريفين',
-    ],
-    gallery: [
-      {
-        src: '/assets/images/vehicles/gmc-yukon-xl/exterior_front.jpg',
-        title: 'Commanding Denali Chrome Front Stance',
-        titleAr: 'الهيبة الأمريكية بواجهة دينالي الكرومية الجريئة',
-        tag: 'Exterior Front',
-        tagAr: 'الواجهة الأمامية',
-      },
-      {
-        src: '/assets/images/vehicles/gmc-yukon-xl/exterior_rear.jpg',
-        title: 'Onyx Black Rear & Dual Exhaust Finishes',
-        titleAr: 'الخلفية الملكية باللون الأسود الملكي والعوادم المزدوجة',
-        tag: 'Exterior Rear',
-        tagAr: 'الواجهة الخلفية',
-      },
-      {
-        src: '/assets/images/vehicles/gmc-yukon-xl/side_profile.jpg',
-        title: 'Extended Full-Size SUV Silhouette',
-        titleAr: 'الجانب الكامل الممتد مع عجلات 22 بوصة فاخرة',
-        tag: 'Side Profile',
-        tagAr: 'الجانب الكامل',
-      },
-      {
-        src: '/assets/images/vehicles/gmc-yukon-xl/interior_seats.jpg',
-        title: 'VIP Leather Captain Seats & Cavernous Legroom',
-        titleAr: 'مقاعد الكابتن الجلدية ومساحة رحبة جداً للأقدام',
-        tag: 'VIP Seats',
-        tagAr: 'المقصورة والمقاعد',
-      },
-      {
-        src: '/assets/images/vehicles/gmc-yukon-xl/interior_dashboard.jpg',
-        title: 'Digital Cockpit & Center Infotainment Hub',
-        titleAr: 'لوحة القيادة الرقمية وشاشة الترفيه الذكية المركزية',
-        tag: 'Dashboard',
-        tagAr: 'لوحة القيادة',
-      },
-    ],
+  fleet: {
+    en: 'Our Fleet',
+    ar: 'أسطولنا الملكي',
+    ms: 'Armada Kami',
+    id: 'Armada Kami',
+    ur: 'ہمارا بیڑا',
+    fr: 'Notre Flotte',
+    es: 'Nuestra Flota',
+    de: 'Unsere Flotte',
+    hi: 'हमारा बेड़ा',
+    tr: 'Filomuz',
   },
-  'hyundai-staria': {
-    name: 'Hyundai Staria VIP',
-    nameAr: 'هيونداي ستاريا VIP العائلية',
-    category: 'Premium Futuristic Family Van',
-    categoryAr: 'فان عائلي عصري فاخر',
-    seats: 7,
-    bags: 6,
-    acType: 'Multi-Zone Climate Control with Overhead Ceiling Louvers',
-    acTypeAr: 'تكييف مركزي متطور مع فتحات سقفية مخصصة لكل راكب',
-    desc: 'The Hyundai Staria VIP combines a futuristic aerodynamic aesthetic with an ultra-spacious, lounge-like passenger cabin for Umrah pilgrims. Featuring individual reclining captain chairs and wide panoramic windows, it ensures your family arrives refreshed and revitalized at your hotel.',
-    descAr: 'تجمع هيونداي ستاريا VIP بين التصميم العصري الجريء والمقصورة الرحبة التي تشبه صالات رجال الأعمال. بمقاعد الكابتن المنفصلة والنوافذ البانورامية الكبيرة، تضمن لعائلتك الوصول بكل نشاط وراحة إلى فندقكم.',
-    features: [
-      'Individual reclining executive captain chairs with dedicated armrests',
-      'Expansive panoramic view windows offering scenic spiritual vistas',
-      'Multi-vent ceiling air conditioning with independent passenger controls',
-      'Deep luggage cargo area accommodating 6 large bags with ease',
-      'Smooth whisper-quiet highway cruise for restful travel',
-    ],
-    featuresAr: [
-      'مقاعد كابتن مستقلة قابلة للإمالة مع مساند للأذرع لراحة تامة',
-      'نوافذ بانورامية واسعة للاستمتاع بالمناظر المحيطة خلال الطريق',
-      'تكييف سقفي متعدد الفتحات مع تحكم مستقل للركاب في الخلف',
-      'مستودع أمتعة عميق يتسع لـ 6 حقائب سفر كبيرة براحة تامة',
-      'نظام تعليق ناعم وعزل ممتاز لضمان نوم هادئ للأطفال والعائلة',
-    ],
-    gallery: [
-      {
-        src: '/assets/images/vehicles/hyundai-staria/exterior_front.jpg',
-        title: 'Futuristic Horizon LED Lightbar Front',
-        titleAr: 'واجهة مستقبلية بشريط إضاءة LED أفقية وشبك برونزي',
-        tag: 'Exterior Front',
-        tagAr: 'الواجهة الأمامية',
-      },
-      {
-        src: '/assets/images/vehicles/hyundai-staria/exterior_rear.jpg',
-        title: 'Parametric Pixel LED Vertical Taillights',
-        titleAr: 'الخلفية العصرية بمصابيح بكسل عمودية مميزة',
-        tag: 'Exterior Rear',
-        tagAr: 'الواجهة الخلفية',
-      },
-      {
-        src: '/assets/images/vehicles/hyundai-staria/side_profile.jpg',
-        title: 'Spaceship Aerodynamic Streamline Profile',
-        titleAr: 'الانسيابية الفضائية ونوافذ بانورامية ممتدة',
-        tag: 'Side Profile',
-        tagAr: 'الجانب الكامل',
-      },
-      {
-        src: '/assets/images/vehicles/hyundai-staria/interior_seats.jpg',
-        title: 'Premium Relaxation Captain Chair Lounge',
-        titleAr: 'مقاعد الاسترخاء الفاخرة للركاب بنمط صالات الـ VIP',
-        tag: 'VIP Seats',
-        tagAr: 'المقصورة والمقاعد',
-      },
-      {
-        src: '/assets/images/vehicles/hyundai-staria/interior_dashboard.jpg',
-        title: 'Floating Digital Cluster & Minimalist Cockpit',
-        titleAr: 'لوحة قيادة رقمية طافية مع أزرار نقل حركة ذكية',
-        tag: 'Dashboard',
-        tagAr: 'لوحة القيادة',
-      },
-    ],
+  bookNow: {
+    en: 'Book Online',
+    ar: 'احجز الآن',
+    ms: 'Tempah Sekarang',
+    id: 'Pesan Sekarang',
+    ur: 'ابھی بک کریں',
+    fr: 'Réserver en Ligne',
+    es: 'Reservar en Línea',
+    de: 'Online Buchen',
+    hi: 'ऑनलाइन बुक करें',
+    tr: 'Online Rezervasyon',
   },
-  'hyundai-h1': {
-    name: 'Hyundai H1 Starex VIP',
-    nameAr: 'هيونداي H1 ستاريكس VIP',
-    category: 'Practical High-Capacity Family Minivan',
-    categoryAr: 'فان عائلي عملي واسع',
-    seats: 8,
-    bags: 7,
-    acType: 'Dual High-Output Air Conditioning with Roof Ducts',
-    acTypeAr: 'تكييف هوائي مزدوج فائق التبريد مع قنوات توزيع سقفية',
-    desc: 'The Hyundai H1 Starex is Saudi Arabia’s most trusted and practical choice for medium to large pilgrim families. With flexible 8-passenger seating, dual sliding side doors, and ample room for bags and Zamzam water, it guarantees dependable family comfort on every route.',
-    descAr: 'تعتبر هيونداي H1 الخيار العملي المفضل للأسر المتوسطة والكبيرة خلال رحلات العمرة والزيارة في السعودية. بفضل سعتها لـ 8 ركاب والأبواب الجانبية السحابية والمساحة المخصصة للحقائب ومياه زمزم، توفر راحة عائلية موثوقة.',
-    features: [
-      'Spacious 8-passenger seating configuration with generous headroom',
-      'Dual sliding passenger doors facilitating quick and easy curbside boarding',
-      'High-output dual AC system designed for sustained highway cooling',
-      'Deep cargo trunk fitting 7 suitcases and standard Zamzam containers',
-      'Proven endurance and reliability on intercity pilgrimage highways',
-    ],
-    featuresAr: [
-      'مساحة جلوس رحبة تتسع لـ 8 ركاب مع ارتفاع سقف ممتاز',
-      'أبواب جانبية منزلقة على الجهتين لسهولة ركوب ونزول العائلة',
-      'تكييف قوي مزدوج يضمن وصول الهواء البارد لكافة الصفوف',
-      'صندوق خلفي واسع يتسع لـ 7 حقائب وعبوات مياه زمزم',
-      'اعتمادية عالية مثبتة على مسارات السفر الطويلة بين المدن',
-    ],
-    gallery: [
-      {
-        src: '/assets/images/vehicles/hyundai-h1/exterior_front.jpg',
-        title: '2K Studio Classic Minivan Front Presence',
-        titleAr: 'واجهة استوديو 2K لفان العائلة الموثوق',
-        tag: 'Exterior Front',
-        tagAr: 'الواجهة الأمامية',
-      },
-      {
-        src: '/assets/images/vehicles/hyundai-h1/exterior_rear.jpg',
-        title: 'Spacious Liftgate & Vertical Tailgate Lamps',
-        titleAr: 'الواجهة الخلفية مع باب شنطة واسع وسهل التحميل',
-        tag: 'Exterior Rear',
-        tagAr: 'الواجهة الخلفية',
-      },
-      {
-        src: '/assets/images/vehicles/hyundai-h1/side_profile.jpg',
-        title: 'Dual Sliding Curbside Doors Profile',
-        titleAr: 'الجانب الكامل مع أبواب منزلقة مزدوجة لسهولة الركوب',
-        tag: 'Side Profile',
-        tagAr: 'الجانب الكامل',
-      },
-      {
-        src: '/assets/images/vehicles/hyundai-h1/interior_seats.jpg',
-        title: 'Multi-Row Sanitized Passenger Family Cabin',
-        titleAr: 'المقصورة العائلية النظيفة بصفوف مقاعد مريحة',
-        tag: 'VIP Seats',
-        tagAr: 'المقصورة والمقاعد',
-      },
-      {
-        src: '/assets/images/vehicles/hyundai-h1/interior_dashboard.jpg',
-        title: 'Clean Functional Driver Dashboard & AC Hub',
-        titleAr: 'لوحة القيادة والتحكم بأنظمة التكييف المزدوج',
-        tag: 'Dashboard',
-        tagAr: 'لوحة القيادة',
-      },
-    ],
+  whatsappBooking: {
+    en: 'WhatsApp Concierge',
+    ar: 'حجز عبر واتساب',
+    ms: 'Tempahan WhatsApp',
+    id: 'Pemesanan WhatsApp',
+    ur: 'واٹس ایپ بکنگ',
+    fr: 'Réservation WhatsApp',
+    es: 'Reserva por WhatsApp',
+    de: 'WhatsApp-Buchung',
+    hi: 'व्हाट्सएप बुकिंग',
+    tr: 'WhatsApp Rezervasyonu',
   },
-  'toyota-camry': {
-    name: 'Toyota Camry Executive',
-    nameAr: 'تويوتا كامري التنفيذية',
-    category: 'Executive Business Sedan',
-    categoryAr: 'سيدان تنفيذي فاخر وعملي',
-    seats: 4,
-    bags: 3,
-    acType: 'Dual-Zone Digital Automatic Climate Control',
-    acTypeAr: 'تكييف أوتوماتيكي رقمي مزدوج عالي الكفاءة',
-    desc: 'The Toyota Camry Executive delivers a whisper-quiet, dependable, and remarkably smooth ride for solo pilgrims, couples, and small families. Combining renowned engineering reliability with premium cabin serenity, it offers the swiftest transfer from Jeddah Airport to your Makkah hotel.',
-    descAr: 'تمنح تويوتا كامري التنفيذية تجربة تنقل تتسم بالهدوء التام والسرعة والاعتمادية للأفراد والأزواج والعائلات الصغيرة. تجمع بين الهندسة العريقة والراحة الفائقة لتأمين وصول سريع ومريح من مطار جدة إلى فندقكم.',
-    features: [
-      'Whisper-quiet acoustic insulation absorbing road vibrations',
-      'Cold rapid-cooling automatic climate control system',
-      'Generous trunk space accommodating 3 large suitcases plus hand baggage',
-      'Ergonomic contour seats providing exceptional lumbar comfort',
-      'Swift, agile handling optimized for efficient airport transfers',
-    ],
-    featuresAr: [
-      'عزل صوتي متقن يخفف ضجيج الطريق ويوفر رحلة هادئة',
-      'تكييف أوتوماتيكي بارد وسريع التبريد يلائم الأجواء الحارة',
-      'صندوق خلفي رحب يتسع لـ 3 حقائب كبيرة بالإضافة للحقائب اليدوية',
-      'مقاعد مريحة مصممة بعناية لدعم الظهر والفقرات أثناء السفر',
-      'حجم مثالي وسرعة انتقال تضمن التوصيل المباشر بدون أي تأخير',
-    ],
-    gallery: [
-      {
-        src: '/assets/images/vehicles/toyota-camry/exterior_front.jpg',
-        title: 'Sleek Aerodynamic Executive Sedan Front',
-        titleAr: 'واجهة انسيابية حديثة لسيدان الأعمال الأنيق',
-        tag: 'Exterior Front',
-        tagAr: 'الواجهة الأمامية',
-      },
-      {
-        src: '/assets/images/vehicles/toyota-camry/exterior_rear.jpg',
-        title: 'Sculpted C-Shaped LED Rear Tailgate',
-        titleAr: 'الواجهة الخلفية بمصابيح LED على شكل حرف C',
-        tag: 'Exterior Rear',
-        tagAr: 'الواجهة الخلفية',
-      },
-      {
-        src: '/assets/images/vehicles/toyota-camry/side_profile.jpg',
-        title: 'Pearl White Coupe-Like Side Elevation',
-        titleAr: 'الجانب الكامل الأنيق باللون الأبيض اللؤلؤي',
-        tag: 'Side Profile',
-        tagAr: 'الجانب الكامل',
-      },
-      {
-        src: '/assets/images/vehicles/toyota-camry/interior_seats.jpg',
-        title: 'Ergonomic Passenger Seating & Lumbar Support',
-        titleAr: 'مقاعد الركاب المريحة مع دعم متكامل للظهر',
-        tag: 'VIP Seats',
-        tagAr: 'المقصورة والمقاعد',
-      },
-      {
-        src: '/assets/images/vehicles/toyota-camry/interior_dashboard.jpg',
-        title: 'Executive Driver Cockpit & Touchscreen Hub',
-        titleAr: 'مقصورة السائق وشاشة المعلومات الرقمية واللمسية',
-        tag: 'Dashboard',
-        tagAr: 'لوحة القيادة',
-      },
-    ],
+  seatsLabel: {
+    en: 'Seats',
+    ar: 'عدد المقاعد',
+    ms: 'Tempat Duduk',
+    id: 'Jumlah Kursi',
+    ur: 'نشستوں کی تعداد',
+    fr: 'Sièges',
+    es: 'Asientos',
+    de: 'Sitzplätze',
+    hi: 'सीटें',
+    tr: 'Koltuk Sayısı',
   },
-  'toyota-hiace': {
-    name: 'Toyota HiAce VIP',
-    nameAr: 'تويوتا هايس VIP للمجموعات',
-    category: 'High-Roof Executive Minibus',
-    categoryAr: 'ميني باص بسقف عالٍ للمجموعات الكبيرة',
-    seats: 10,
-    bags: 10,
-    acType: 'High-Roof Dual Multi-Louver Climate Control',
-    acTypeAr: 'تكييف هوائي مزدوج عالي القدرة مع فتحات تهوية مستقلة لكل مقعد',
-    desc: 'The Toyota HiAce VIP is specifically engineered for large pilgrim families and group delegations travelling together. With its high-roof walk-through ceiling, 10 comfortable executive seats, and massive cargo area, extended families stay united in air-conditioned luxury.',
-    descAr: 'صُممت تويوتا هايس VIP خصيصاً للمجموعات والأسر الكبيرة التي ترغب في السفر معاً في سيارة واحدة. بفضل سقفها المرتفع ومقاعدها العشرة المريحة وسعتها الكبيرة للأمتعة، توفر للعائلات تجربة سفر ممتعة ومريحة.',
-    features: [
-      'High-roof ceiling allowing upright walk-through entry and exit',
-      'Individual reclining seats arranged with wide central aisle access',
-      'Dedicated high-capacity rear blower with separate ceiling louvers',
-      'Heavy-duty luggage capacity accommodating 10 large suitcases and Zamzam',
-      'Experienced group chauffeur with specialized hotel zone access',
-    ],
-    featuresAr: [
-      'سقف مرتفع يتيح سهولة الوقوف والتحرك داخل الباص براحة تامة',
-      'مقاعد مستقلة قابلة للإمالة مع ممر وسطي واسع يسهل الوصول',
-      'تكييف خلفي قوي مع فتحات مخصصة لكل صف لضمان التبريد المتكافئ',
-      'مستودع أمتعة يتسع لـ 10 حقائب سفر كبيرة مع عبوات مياه زمزم',
-      'سائق متمرس في خدمة المجموعات والأفواج ولديه تصاريح الوصول للفنادق',
-    ],
-    gallery: [
-      {
-        src: '/assets/images/vehicles/toyota-hiace/exterior_front.jpg',
-        title: 'High-Roof Commercial VIP Commuter Front',
-        titleAr: 'الواجهة الأمامية لميني باص السقف العالي الفاخر',
-        tag: 'Exterior Front',
-        tagAr: 'الواجهة الأمامية',
-      },
-      {
-        src: '/assets/images/vehicles/toyota-hiace/exterior_rear.jpg',
-        title: 'Full Height Rear Tailgate & Vertical Taillights',
-        titleAr: 'الواجهة الخلفية الكاملة مع إضاءة عمودية وباب مرتفع',
-        tag: 'Exterior Rear',
-        tagAr: 'الواجهة الخلفية',
-      },
-      {
-        src: '/assets/images/vehicles/toyota-hiace/side_profile.jpg',
-        title: 'Extended High-Roof Group Silhouette',
-        titleAr: 'الجانب الكامل للمركبة بسقف مرتفع وممر وسطي مريح',
-        tag: 'Side Profile',
-        tagAr: 'الجانب الكامل',
-      },
-      {
-        src: '/assets/images/vehicles/toyota-hiace/interior_seats.jpg',
-        title: '10-Passenger Reclining Executive Seating Rows',
-        titleAr: 'صفوف المقاعد المستقلة القابلة للإمالة لـ 10 ركاب',
-        tag: 'VIP Seats',
-        tagAr: 'المقصورة والمقاعد',
-      },
-      {
-        src: '/assets/images/vehicles/toyota-hiace/interior_dashboard.jpg',
-        title: 'Modern Ergonomic Driver Station & Cockpit',
-        titleAr: 'مقصورة السائق المتطورة مع أدوات تحكم وتكييف مركزي',
-        tag: 'Dashboard',
-        tagAr: 'لوحة القيادة',
-      },
-    ],
+  seatsSuffix: {
+    en: 'VIP Seats',
+    ar: 'مقاعد VIP',
+    ms: 'Kerusi VIP',
+    id: 'Kursi VIP',
+    ur: 'وی آئی پی نشستیں',
+    fr: 'Sièges VIP',
+    es: 'Asientos VIP',
+    de: 'VIP-Sitze',
+    hi: 'वीआईपी सीटें',
+    tr: 'VIP Koltuk',
   },
-  'toyota-coaster': {
-    name: 'Toyota Coaster VIP Coach',
-    nameAr: 'تويوتا كوستر VIP للأفواج',
-    category: 'VIP Executive Group Coach',
-    categoryAr: 'حافلة فاخرة للوفود والأفواج',
-    seats: 21,
-    bags: 20,
-    acType: 'Commercial Aircraft-Style High-Output Central Climate System',
-    acTypeAr: 'تكييف مركزي متطور بنمط الطائرات مع فتحات تبريد وإضاءة لكل راكب',
-    desc: 'The Toyota Coaster VIP Coach represents executive group travel at its finest across the Holy Land. Designed for extended pilgrim delegations and large family groups, it features whisper-quiet cabin acoustics, aircraft-style overhead air conditioning, and a massive luggage hold.',
-    descAr: 'تعتبر تويوتا كوستر VIP النموذج المثالي لنقل الوفود والأفواج الكبيرة بين المدن والمشاعر المقدسة. تتميز بهدوء مقصورتها وتكييفها المركزي فائق التبريد ومستودع الحقائب العملاق لخدمة الوفود دون الحاجة لتوزيعهم على سيارات متعددة.',
-    features: [
-      'Aircraft-style overhead air conditioning louvers and reading lights for each passenger',
-      'Ergonomic reclining seats upholstered in luxury leather with armrests',
-      'Spacious central walk-through aisle facilitating effortless boarding',
-      'Massive rear cargo compartment accommodating 20 large suitcases and Zamzam containers',
-      'Senior highway captain specialized in VIP group transfers between Jeddah, Makkah, and Madinah',
-    ],
-    featuresAr: [
-      'فتحات تكييف وإضاءة قراءة سقفية بنمط مقصورة الطائرات لكل راكب',
-      'مقاعد جلدية مريحة قابلة للإمالة مع مساند جانبية للأذرع',
-      'ممر وسطي واسع يتيح سهولة وسرعة الركوب والنزول للمجموعات',
-      'مستودع حقائب خلفي عملاق يتسع لـ 20 حقيبة كبيرة وعبوات زمزم',
-      'كابتن طريق معتمد متخصص في رحلات الوفود والمجموعات بين المدن',
-    ],
-    gallery: [
-      {
-        src: '/assets/images/vehicles/toyota-coaster/exterior_front.jpg',
-        title: '2K Studio Executive Coach Front Presence',
-        titleAr: 'واجهة استوديو 2K لحافلة الأفواج والوفود الملكية',
-        tag: 'Exterior Front',
-        tagAr: 'الواجهة الأمامية',
-      },
-      {
-        src: '/assets/images/vehicles/toyota-coaster/exterior_rear.jpg',
-        title: 'VIP Hotel Drop-off Rear Coach Profile',
-        titleAr: 'الواجهة الخلفية للحافلة عند بوابات الفنادق الفاخرة',
-        tag: 'Exterior Rear',
-        tagAr: 'الواجهة الخلفية',
-      },
-      {
-        src: '/assets/images/vehicles/toyota-coaster/side_profile.jpg',
-        title: 'Full Coach Side Elevation & Panoramic Glass',
-        titleAr: 'الجانب الكامل للحافلة ونوافذ الركاب البانورامية المظللة',
-        tag: 'Side Profile',
-        tagAr: 'الجانب الكامل',
-      },
-      {
-        src: '/assets/images/vehicles/toyota-coaster/interior_seats.jpg',
-        title: 'Diamond-Quilted Cognac Leather Aisle Seating',
-        titleAr: 'مقاعد جلدية مريحة بتطريز فاخر ومكيفات علوية للطائرات',
-        tag: 'VIP Seats',
-        tagAr: 'المقصورة والمقاعد',
-      },
-      {
-        src: '/assets/images/vehicles/toyota-coaster/interior_dashboard.jpg',
-        title: 'Highway Captain Station & PA System Controls',
-        titleAr: 'منصة كابتن الحافلة مع نظام التوجيه والإذاعة الداخلية',
-        tag: 'Dashboard',
-        tagAr: 'لوحة القيادة',
-      },
-    ],
+  luggageLabel: {
+    en: 'Luggage Capacity',
+    ar: 'سعة الحقائب',
+    ms: 'Kapasiti Bagasi',
+    id: 'Kapasitas Koper',
+    ur: 'سامان کی گنجائش',
+    fr: 'Capacité Bagages',
+    es: 'Capacidad Maletas',
+    de: 'Gepäckkapazität',
+    hi: 'सामान क्षमता',
+    tr: 'Bagaj Kapasitesi',
+  },
+  luggageSuffix: {
+    en: 'Large Suitcases',
+    ar: 'حقائب كبيرة',
+    ms: 'Beg Bagasi Besar',
+    id: 'Koper Besar',
+    ur: 'بڑے بیگز',
+    fr: 'Grands Bagages',
+    es: 'Maletas Grandes',
+    de: 'Große Koffer',
+    hi: 'बड़े बैग',
+    tr: 'Büyük Valiz',
+  },
+  classLabel: {
+    en: 'Vehicle Class',
+    ar: 'فئة المركبة',
+    ms: 'Kelas Kenderaan',
+    id: 'Kelas Kendaraan',
+    ur: 'گاڑی کا زمرہ',
+    fr: 'Catégorie',
+    es: 'Categoría',
+    de: 'Kategorie',
+    hi: 'श्रेणी',
+    tr: 'Kategori',
+  },
+  acLabel: {
+    en: 'Air Conditioning',
+    ar: 'نظام التكييف',
+    ms: 'Penyaman Udara',
+    id: 'Sistem AC',
+    ur: 'ایئر کنڈیشننگ',
+    fr: 'Climatisation',
+    es: 'Climatización',
+    de: 'Klimatisierung',
+    hi: 'वातानुकूलन',
+    tr: 'Klima',
+  },
+  zamzamLabel: {
+    en: 'Zamzam Water',
+    ar: 'مياه زمزم',
+    ms: 'Air Zamzam',
+    id: 'Air Zamzam',
+    ur: 'آب زمزم',
+    fr: 'Eau de Zamzam',
+    es: 'Agua Zamzam',
+    de: 'Zamzam-Wasser',
+    hi: 'ज़मज़म पानी',
+    tr: 'Zemzem Suyu',
+  },
+  zamzamDesc: {
+    en: 'Complimentary Dedicated Storage',
+    ar: 'مساحة مخصصة لجوالين زمزم',
+    ms: 'Ruang Khas Percuma',
+    id: 'Ruang Khusus Tanpa Biaya',
+    ur: 'مخصوص جگہ بغیر اضافی چارجز',
+    fr: 'Espace Dédié Inclus',
+    es: 'Espacio Dedicado Incluido',
+    de: 'Inklusive Eigener Stellplatz',
+    hi: 'निःशुल्क समर्पित स्थान',
+    tr: 'Ücretsiz Özel Alan Dahil',
+  },
+  childSeatLabel: {
+    en: 'Child Safety Seat',
+    ar: 'مقعد أمان للأطفال',
+    ms: 'Kerusi Keselamatan Bayi',
+    id: 'Kursi Bayi & Anak',
+    ur: 'بچوں کی سیٹ',
+    fr: 'Siège Bébé / Enfant',
+    es: 'Asiento Infantil',
+    de: 'Kindersicherheitssitz',
+    hi: 'बाल सुरक्षा सीट',
+    tr: 'Çocuk Güvenlik Koltuğu',
+  },
+  childSeatDesc: {
+    en: 'Available Free Upon Request',
+    ar: 'متوفر مجاناً عند الطلب المسبق',
+    ms: 'Tersedia Percuma Atas Permintaan',
+    id: 'Tersedia Gratis atas Permintaan',
+    ur: 'پیشگی درخواست پر مفت دستیاب',
+    fr: 'Disponible Gratuitement sur Demande',
+    es: 'Gratuito Previa Solicitud',
+    de: 'Kostenlos auf Vorbestellung',
+    hi: 'अनुरोध पर निःशुल्क उपलब्ध',
+    tr: 'Talep Üzerine Ücretsiz Temin Edilir',
+  },
+  featuresTitle: {
+    en: 'Executive Specifications & Verified Amenities',
+    ar: 'المواصفات والتجهيزات التنفيذية المعتمدة',
+    ms: 'Spesifikasi & Kemudahan Eksekutif Terperinci',
+    id: 'Spesifikasi & Fasilitas Eksekutif Lengkap',
+    ur: 'تصدیق شدہ ایگزیکٹو خصوصیات اور سہولیات',
+    fr: 'Spécifications et Équipements Exécutifs Vérifiés',
+    es: 'Especificaciones y Servicios Ejecutivos Verificados',
+    de: 'Geprüfte Ausstattung & VIP-Komfortmerkmale',
+    hi: 'सत्यापित कार्यकारी विनिर्देश और सुविधाएं',
+    tr: 'Onaylanmış Yönetici Donanımı ve Özellikleri',
+  },
+  pricingTitle: {
+    en: 'Authoritative Transfer Fares for This Vehicle',
+    ar: 'جدول أسعار التوصيل المعتمدة لهذه المركبة',
+    ms: 'Jadual Tambang Rasmi untuk Kenderaan Ini',
+    id: 'Daftar Tarif Resmi untuk Kendaraan Ini',
+    ur: 'اس گاڑی کے لیے منظور شدہ سفری کرائے',
+    fr: 'Tarifs Officiels Garantis pour ce Véhicule',
+    es: 'Tarifas Oficiales Garantizadas para este Vehículo',
+    de: 'Offizielle Festpreise für dieses Fahrzeug',
+    hi: 'इस वाहन के लिए आधिकारिक निश्चित किराया',
+    tr: 'Bu Araç İçin Resmi Onaylı Fiyat Tarifesi',
+  },
+  pricingSubtitle: {
+    en: 'Guaranteed fixed fares in SAR. 100% Cash payment directly to your chauffeur upon arrival — zero advance payment or deposit.',
+    ar: 'أسعار ثابتة ومعلنة بالريال السعودي. الدفع نقداً 100% مباشرة للسائق عند الوصول — لا يلزم أي دفع مسبق أو عربون.',
+    ms: 'Kadar tetap dalam SAR. 100% Bayaran tunai kepada pemandu semasa tiba — tiada sebarang bayaran pendahuluan.',
+    id: 'Tarif pasti dalam SAR. 100% Bayar tunai ke sopir saat tiba — tanpa uang muka atau deposit sama sekali.',
+    ur: 'سعودی ریال میں مقررہ اور حتمی کرائے۔ آمد پر ڈرائیور کو 100% نقد ادائیگی — پیشگی رقم صفر۔',
+    fr: 'Tarifs fixes garantis en SAR. 100% Espèces réglées directement au chauffeur à l\'arrivée.',
+    es: 'Tarifas fijas garantizadas en SAR. Pago directo en efectivo al chofer al llegar.',
+    de: 'Garantierte Festpreise in SAR. 100% Barzahlung beim Fahrer bei Ankunft — keine Anzahlung.',
+    hi: 'रियाल में गारंटीकृत निश्चित किराया। पहुंचने पर ड्राइवर को 100% नकद भुगतान।',
+    tr: 'SAR cinsinden garantili sabit fiyatlar. Varışta şoföre %100 nakit ödeme — ön ödeme yok.',
+  },
+  routeCol: {
+    en: 'Transfer Route',
+    ar: 'مسار الرحلة',
+    ms: 'Laluan Perjalanan',
+    id: 'Rute Perjalanan',
+    ur: 'سفری روٹ',
+    fr: 'Trajet',
+    es: 'Ruta',
+    de: 'Transfer-Route',
+    hi: 'यात्रा मार्ग',
+    tr: 'Güzergah',
+  },
+  fareCol: {
+    en: 'Fixed Fare (SAR)',
+    ar: 'السعر الثابت (ر.س)',
+    ms: 'Tambang Tetap (SAR)',
+    id: 'Tarif Pasti (SAR)',
+    ur: 'مقررہ کرایہ (SAR)',
+    fr: 'Tarif Fixe (SAR)',
+    es: 'Tarifa Fija (SAR)',
+    de: 'Festpreis (SAR)',
+    hi: 'निश्चित किराया (SAR)',
+    tr: 'Sabit Fiyat (SAR)',
+  },
+  actionCol: {
+    en: 'Instant Booking',
+    ar: 'الحجز المباشر',
+    ms: 'Tempahan Segera',
+    id: 'Pesan Sekarang',
+    ur: 'فوری بکنگ',
+    fr: 'Réservation',
+    es: 'Reserva Inmediata',
+    de: 'Buchung',
+    hi: 'तत्काल बुकिंग',
+    tr: 'Rezervasyon',
+  },
+  bookRouteBtn: {
+    en: 'Book Route',
+    ar: 'احجز هذا المسار',
+    ms: 'Tempah Laluan',
+    id: 'Pesan Rute',
+    ur: 'یہ روٹ بک کریں',
+    fr: 'Réserver ce Trajet',
+    es: 'Reservar esta Ruta',
+    de: 'Transfer Buchen',
+    hi: 'यह मार्ग बुक करें',
+    tr: 'Rotayı Ayırtın',
+  },
+  bespokeNoticeTitle: {
+    en: 'VIP Concierge Bespoke Reservation',
+    ar: 'حجز كونسيرج VIP مخصص',
+    ms: 'Tempahan Khas Concierge VIP',
+    id: 'Reservasi Khusus Concierge VIP',
+    ur: 'خصوصی وی آئی پی دربان بکنگ',
+    fr: 'Réservation VIP Concierge Sur Mesure',
+    es: 'Reserva VIP de Conserjería a Medida',
+    de: 'Maßgeschneiderte VIP-Concierge-Reservierung',
+    hi: 'वीआईपी दरबान विशेष आरक्षण',
+    tr: 'Özel VIP Konsiyerj Rezervasyonu',
+  },
+  bespokeNoticeDesc: {
+    en: 'Fares and itineraries for this ultra-luxury vehicle are personally tailored to your delegation schedule, private security, and protocol requirements.',
+    ar: 'يتم تحديد مسارات وأسعار هذه المركبة الملكية بشكل خاص بما يلائم مواعيد وفدكم وبروتوكول تنقلكم بين مكة والمدينة وجدة.',
+    ms: 'Tambang dan jadual untuk kenderaan ultra-mewah ini disesuaikan khusus untuk rombongan anda.',
+    id: 'Tarif dan rute untuk kendaraan ultra-mewah ini disesuaikan secara khusus dengan jadwal delegasi Anda.',
+    ur: 'اس شاہی گاڑی کے لیے کرائے اور شیڈول آپ کے وفد کے اوقات اور پروٹوکول کے مطابق خصوصی طور پر طے کیے جاتے ہیں۔',
+    fr: 'Les tarifs et itinéraires de ce véhicule d\'exception sont personnalisés selon le planning de votre délégation.',
+    es: 'Las tarifas e itinerarios de este vehículo exclusivo se adaptan personalmente al horario de su delegación.',
+    de: 'Tarife und Routen für dieses Luxusfahrzeug werden individuell auf Ihren Zeitplan abgestimmt.',
+    hi: 'इस अल्ट्रा-लक्जरी वाहन के लिए किराया और मार्ग आपके प्रतिनिधिमंडल के शेड्यूल के अनुसार अनुकूलित हैं।',
+    tr: 'Bu ultra lüks araç için fiyatlar ve güzergahlar heyetinizin programına göre özel olarak hazırlanır.',
+  },
+  assuranceTitle: {
+    en: 'Duyuf Alrahman VIP Sacred Journey Guarantee',
+    ar: 'ضمان ضيوف الرحمن VIP لرحلة مباركة',
+    ms: 'Jaminan Perjalanan Suci Duyuf Alrahman VIP',
+    id: 'Jaminan Perjalanan Ibadah Duyuf Alrahman VIP',
+    ur: 'ضیوف الرحمن وی آئی پی کا مقدس سفر کا تحفہ و ضمانت',
+    fr: 'Garantie Voyage Sacré Duyuf Alrahman VIP',
+    es: 'Garantía de Viaje Sagrado Duyuf Alrahman VIP',
+    de: 'Duyuf Alrahman VIP Heilige Reise-Garantie',
+    hi: 'ज़ुयूफ़ अल-रहमान वीआईपी पवित्र यात्रा गारंटी',
+    tr: 'Duyuf Alrahman VIP Kutsal Yolculuk Garantisi',
+  },
+  assuranceDesc: {
+    en: 'Immaculately maintained 2024–2025 modern vehicles, certified executive chauffeurs intimately familiar with Haramain routes, zero advance payments, and 100% peace of mind.',
+    ar: 'مركبات حديثة 2024–2025 معقمة ومجهزة بأعلى معايير الأمان، وسائقون محترفون ملمون بمسارات الحرمين والفنادق، وأسعار معلنة وثابتة بالريال السعودي والدفع عند الوصول.',
+    ms: 'Kenderaan moden 2024–2025 dinyahkuman, pemandu bertauliah pakar jalan Dua Tanah Suci, tiada pendahuluan, dan ketenangan mutlak.',
+    id: 'Armada modern 2024–2025 steril wangi, sopir profesional bersertifikat, tanpa uang muka, dan ketenangan ibadah 100%.',
+    ur: '2024-2025 ماڈل کی معقم اور پرسکون گاڑیاں، حرمین کے راستوں کے ماہر لائسنس یافتہ ڈرائیور، کوئی پیشگی ادائیگی نہیں اور 100% اطمینان۔',
+    fr: 'Flotte 2024–2025 désinfectée, chauffeurs professionnels agréés, aucun paiement d\'avance et sérénité absolue.',
+    es: 'Vehículos 2024–2025 desinfectados, choferes profesionales certificados, sin pagos por adelantado y máxima tranquilidad.',
+    de: 'Gepflegte Fahrzeuge 2024–2025, zertifizierte Chauffeure, keinerlei Vorauszahlung und garantierte Zuverlässigkeit.',
+    hi: 'स्वच्छ 2024–2025 आधुनिक वाहन, हरमैन मार्गों के विशेषज्ञ प्रमाणित ड्राइवर, शून्य अग्रिम भुगतान।',
+    tr: 'Steril 2024–2025 modern araçlar, sertifikalı uzman şoförler, sıfır ön ödeme ve %100 huzurlu bir yolculuk.',
+  },
+  bottomBookCta: {
+    en: 'Reserve Your Chauffeur For',
+    ar: 'احجز سيارة',
+    ms: 'Tempah Kenderaan',
+    id: 'Pesan Kendaraan',
+    ur: 'گاڑی بک کریں:',
+    fr: 'Réserver Votre Chauffeur pour',
+    es: 'Reserve su Chofer para',
+    de: 'Reservieren Sie Ihren Chauffeur für',
+    hi: 'के लिए अपना चौफर बुक करें',
+    tr: 'Özel Şoförünüzü Ayırtın:',
   },
 };
 
-// ALIAS MAPPING: Supports both short ('camry', 'yukon') and long ('toyota-camry', 'gmc-yukon-xl') slugs!
-const SLUG_ALIASES: Record<string, string> = {
-  'camry': 'toyota-camry',
-  'toyota-camry': 'toyota-camry',
-  'yukon': 'gmc-yukon-xl',
-  'gmc-yukon-xl': 'gmc-yukon-xl',
-  'staria': 'hyundai-staria',
-  'hyundai-staria': 'hyundai-staria',
-  'h1': 'hyundai-h1',
-  'hyundai-h1': 'hyundai-h1',
-  'hiace': 'toyota-hiace',
-  'toyota-hiace': 'toyota-hiace',
-  'coaster': 'toyota-coaster',
-  'toyota-coaster': 'toyota-coaster',
-  'maybach': 'mercedes-maybach',
-  'mercedes-maybach': 'mercedes-maybach',
-};
+// Key corridors to display in Route Pricing Table
+const KEY_CORRIDORS = [
+  'jeddah-airport-to-makkah',
+  'makkah-to-jeddah-airport',
+  'makkah-to-madinah',
+  'madinah-to-makkah',
+  'madinah-airport-to-hotel',
+  'jeddah-to-madinah',
+  'makkah-to-taif',
+  'taif-to-makkah',
+  'jeddah-to-taif',
+];
 
 export function generateStaticParams() {
   const allSlugs = Object.keys(SLUG_ALIASES);
@@ -511,14 +405,14 @@ export async function generateMetadata(props: FleetDetailPageProps): Promise<Met
   const params = await props.params;
   const { locale, slug } = params;
 
-  const resolvedKey = SLUG_ALIASES[slug] || 'hyundai-staria';
-  const v = VEHICLES_DATABASE[resolvedKey] || VEHICLES_DATABASE['hyundai-staria'];
-  const title = locale === 'ar' ? v.nameAr : v.name;
-  const description = locale === 'ar' ? v.descAr.slice(0, 160) : v.desc.slice(0, 160);
+  const resolvedSlug = SLUG_ALIASES[slug] || 'hyundai-staria';
+  const showcase = FLEET_SHOWCASE_VEHICLES.find((v) => v.slug === resolvedSlug) || FLEET_SHOWCASE_VEHICLES[2];
+  const name = showcase.name[locale] || showcase.name.en;
+  const desc = showcase.desc[locale] || showcase.desc.en;
 
   return {
-    title: `${title} | Duyuf Alrahman VIP`,
-    description,
+    title: `${name} | Duyuf Alrahman VIP`,
+    description: desc.slice(0, 160),
     alternates: getLocalizedAlternates(locale, `/fleet/${slug}`),
   };
 }
@@ -529,29 +423,165 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
   const isAr = locale === 'ar';
   const isRtl = isAr || locale === 'ur';
 
-  const resolvedKey = SLUG_ALIASES[slug];
-  const v = resolvedKey ? VEHICLES_DATABASE[resolvedKey] : null;
+  const resolvedSlug = SLUG_ALIASES[slug];
+  if (!resolvedSlug) {
+    notFound();
+  }
 
+  // Look up unified vehicle
+  const v = FLEET_SHOWCASE_VEHICLES.find((item) => item.slug === resolvedSlug);
   if (!v) {
     notFound();
   }
 
-  const name = isAr ? v.nameAr : v.name;
-  const category = isAr ? v.categoryAr : v.category;
-  const desc = isAr ? v.descAr : v.desc;
-  const acType = isAr ? v.acTypeAr : v.acType;
-  const features = isAr ? v.featuresAr : v.features;
+  const name = v.name[locale] || v.name.en;
+  const category = v.category[locale] || v.category.en;
+  const desc = v.desc[locale] || v.desc.en;
+  const isBespoke = v.id === 'maybach' || v.id === 'h1';
 
+  const t = (key: string): string => {
+    return DETAIL_I18N[key]?.[locale] || DETAIL_I18N[key]?.en || key;
+  };
+
+  // Build standard 5-photo verified gallery
+  const galleryPhotos: GalleryPhoto[] = [
+    {
+      src: `/assets/images/vehicles/${resolvedSlug}/exterior_front.jpg`,
+      title: isAr ? 'الواجهة الأمامية وهيبة المركبة' : `${name} Front Stance & Grille`,
+      tag: isAr ? 'الواجهة الأمامية' : 'Exterior Front',
+      type: 'exterior',
+    },
+    {
+      src: `/assets/images/vehicles/${resolvedSlug}/side_profile.jpg`,
+      title: isAr ? 'المظهر الجانبي وانسيابية الهيكل' : `${name} Side Profile & Aerodynamics`,
+      tag: isAr ? 'الجانب الكامل' : 'Side Profile',
+      type: 'exterior',
+    },
+    {
+      src: `/assets/images/vehicles/${resolvedSlug}/exterior_rear.jpg`,
+      title: isAr ? 'الواجهة الخلفية وسعة التحميل' : `${name} Rear Profile & Cargo Access`,
+      tag: isAr ? 'الواجهة الخلفية' : 'Exterior Rear',
+      type: 'exterior',
+    },
+    {
+      src: `/assets/images/vehicles/${resolvedSlug}/interior_seats.jpg`,
+      title: isAr ? 'المقصورة الملكية ومقاعد الراحة' : `${name} VIP Cabin Seating & Luxury Leather`,
+      tag: isAr ? 'المقصورة والمقاعد' : 'VIP Seats',
+      type: 'interior',
+    },
+    {
+      src: `/assets/images/vehicles/${resolvedSlug}/interior_dashboard.jpg`,
+      title: isAr ? 'لوحة القيادة والتحكم الرقمي' : `${name} Cockpit & Digital Controls`,
+      tag: isAr ? 'لوحة القيادة' : 'Dashboard',
+      type: 'interior',
+    },
+  ];
+
+  // Specific Air Conditioning description per vehicle
+  const acTypeMap: Record<string, Record<Locale, string>> = {
+    maybach: {
+      en: 'Quad-Zone Active Climate Control with Air Ionization & Fragrance',
+      ar: 'تكييف هوائي ملكي رباعي المناطق مع فلترة وتنقية الهواء',
+      ms: 'Kawalan Iklim 4-Zon dengan Penapisan Udara',
+      id: 'Pendingin Udara 4-Zona dengan Filtrasi Udara',
+      ur: 'چار زون شاہی ایئر کنڈیشننگ مع ایئر فلٹریشن',
+      fr: 'Climatisation Quadri-Zone avec Ionisation de l\'Air',
+      es: 'Climatización Cuatrizona con Ionización de Aire',
+      de: 'Vier-Zonen-Klimaautomatik mit Luftionisierung',
+      hi: 'वायु शोधन के साथ 4-ज़ोन वातानुकूलन',
+      tr: 'Hava İyonizasyonlu Dört Bölgeli Dijital Klima',
+    },
+    yukon: {
+      en: 'Tri-Zone Heavy-Duty Climate Control with Roof Diffusers',
+      ar: 'تكييف ثلاثي المناطق عالي التبريد مع فتحات سقفية لكل مقعد',
+      ms: 'Kawalan Iklim 3-Zon dengan Salur Siling',
+      id: 'Pendingin 3-Zona dengan Ventilasi Atap di Tiap Baris',
+      ur: 'تھری زون طاقتور ایئر کنڈیشننگ چھت کے وینٹس کے ساتھ',
+      fr: 'Climatisation Tri-Zone Haute Puissance avec Diffuseurs de Toit',
+      es: 'Climatización Trizona de Alto Rendimiento con Salidas de Techo',
+      de: 'Drei-Zonen-Klimaautomatik mit Dachlüftern',
+      hi: 'छत के वेंट के साथ 3-ज़ोन शक्तिशाली वातानुकूलन',
+      tr: 'Tavan Menfezli Üç Bölgeli Güçlü Klima Sistemi',
+    },
+    staria: {
+      en: 'Dual High-Output Climate Control with Independent Rear Dials',
+      ar: 'تكييف مزدوج فائق التبريد مع تحكم مستقل لركاب المقصورة',
+      ms: 'Penyaman Udara Dwi-Zon dengan Kawalan Belakang',
+      id: 'AC Ganda Super Dingin dengan Kontrol Mandiri Baris Belakang',
+      ur: 'ڈوئل ہائی آؤٹ پٹ اے سی پچھلے مسافروں کے لیے آزاد کنٹرول کے ساتھ',
+      fr: 'Double Climatisation Haute Puissance avec Commandes Arrière',
+      es: 'Doble Climatización con Controles Traseros Independientes',
+      de: 'Duale Hochleistungsklimaanlage mit separater Fondsteuerung',
+      hi: 'स्वतंत्र रियर नियंत्रण के साथ दोहरा शक्तिशाली वातानुकूलन',
+      tr: 'Arka Yolcu Bağımsız Kontrollü Çift Çıkışlı Klima',
+    },
+    camry: {
+      en: 'Dual-Zone Whisper-Quiet Automatic Climate Control',
+      ar: 'تكييف هادئ ثنائي المناطق مع فتحات تهوية للمقاعد الخلفية',
+      ms: 'Penyaman Udara Automatik Dwi-Zon Sangat Senyap',
+      id: 'AC Otomatis Senyap Dwi-Zona dengan Ventilasi Belakang',
+      ur: 'پرسکون ڈوئل زون آٹومیٹک ایئر کنڈیشننگ',
+      fr: 'Climatisation Automatique Silencieuse Bi-Zone',
+      es: 'Climatizador Automático Silencioso Bizona',
+      de: 'Flüsterleise Zwei-Zonen-Klimaautomatik',
+      hi: 'शांत दोहरी-क्षेत्र स्वचालित जलवायु नियंत्रण',
+      tr: 'Sessiz Çift Bölgeli Otomatik Klima',
+    },
+    h1: {
+      en: 'Heavy-Duty Twin-Evaporator Climate System for Desert Travel',
+      ar: 'نظام تكييف مزدوج قوي مصمم للأجواء الحارة وطريق الهجرة',
+      ms: 'Sistem Penyaman Udara Berganda untuk Iklim Panas',
+      id: 'AC Ganda Bertenaga Tinggi Khusus Cuaca Panas Gurun',
+      ur: 'شدید گرمی کے لیے تیار کردہ طاقتور ڈوئل ای سی',
+      fr: 'Système Double Évaporateur Haute Performance',
+      es: 'Sistema Doble de Climatización de Alta Potencia',
+      de: 'Leistungsstarkes Doppel-Klimasystem für Heißklima',
+      hi: 'गर्म मौसम के लिए भारी शुल्क दोहरा शीतलन प्रणाली',
+      tr: 'Çöl İklimine Uygun Çift Evaporatörlü Yüksek Güçlü Klima',
+    },
+    hiace: {
+      en: 'Roof-Mounted High-Volume Cooling with Louvers Across Every Row',
+      ar: 'تكييف مركزي سقف عالي التدفق مع موجهات هواء لكل راكب',
+      ms: 'Penyaman Udara Siling Berkuasa Tinggi di Setiap Baris',
+      id: 'Pendingin Kabin Atap Bertenaga dengan Kisi Udara Tiap Baris',
+      ur: 'چھت پر نصب طاقتور سینٹرل اے سی ہر قطار کے لیے',
+      fr: 'Climatisation Centrale de Toit avec Diffuseurs à Chaque Rangée',
+      es: 'Climatización Central de Techo con Salidas en Cada Fila',
+      de: 'Zentrale Dachklimaanlage mit Auslässen über jeder Sitzreihe',
+      hi: 'प्रत्येक पंक्ति में व्यक्तिगत वेंट के साथ छत पर लगा केंद्रीय एसी',
+      tr: 'Her Sıra İçin Bağımsız Menfezli Yüksek Kapasiteli Tavan Kliması',
+    },
+    coaster: {
+      en: 'Industrial Central Air Conditioning with Individual Air Nozzles',
+      ar: 'تكييف حافلات مركزي جبار مع فوهات هواء قابلة للتوجيه لكل مقعد',
+      ms: 'Penyaman Udara Bas Pusat Berkuasa Tinggi Setiap Tempat Duduk',
+      id: 'Sistem AC Sentral Bus Bertenaga dengan Nosel Udara Tiap Kursi',
+      ur: 'طاقتور مرکزی بس ایئر کنڈیشننگ سسٹم ہر نشست پر انفرادی نوزلز کے ساتھ',
+      fr: 'Climatisation Centrale d\'Autocar avec Buses Individuelles Réglables',
+      es: 'Climatización Central de Autocar con Boquillas Individuales',
+      de: 'Industrielle Bus-Klimaanlage mit individuellen Düsen an jedem Sitz',
+      hi: 'प्रत्येक सीट पर समायोज्य नोजल के साथ केंद्रीय बस एसी',
+      tr: 'Her Koltukta Ayarlanabilir Hava Menfezi Bulunan Merkezi Otobüs Kliması',
+    },
+  };
+
+  const acDescription =
+    acTypeMap[v.id]?.[locale] ||
+    acTypeMap[v.id]?.en ||
+    'Multi-Zone High-Performance Climate Control';
+
+  // Direct WhatsApp URL
   const whatsappMessage = encodeURIComponent(
     isAr
-      ? `السلام عليكم، أود الاستفسار وحجز سيارة (${name}) لرحلة العمرة.`
-      : `Hello, I would like to inquire about booking the (${name}) for our Umrah transfer.`
+      ? `السلام عليكم، أود حجز سيارة (${name}) لرحلة العمرة.`
+      : `Hello Duyuf Alrahman VIP, I would like to inquire about reserving the (${name}) for our Umrah transfer.`
   );
   const whatsappUrl = `https://wa.me/966567554988?text=${whatsappMessage}`;
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   const pageUrl = `${baseUrl}/${locale}/fleet/${slug}`;
 
+  // Structured Data
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -559,13 +589,13 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
       {
         '@type': 'ListItem',
         position: 1,
-        name: isAr ? 'الرئيسية' : 'Home',
+        name: t('home'),
         item: `${baseUrl}/${locale}`,
       },
       {
         '@type': 'ListItem',
         position: 2,
-        name: isAr ? 'أسطولنا' : 'Fleet',
+        name: t('fleet'),
         item: `${baseUrl}/${locale}/fleet`,
       },
       {
@@ -577,168 +607,346 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
     ],
   };
 
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name,
+    category,
+    description: desc,
+    image: `${baseUrl}/assets/images/vehicles/${resolvedSlug}/exterior-studio.webp`,
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'SAR',
+      price: v.startingPriceSAR,
+      availability: 'https://schema.org/InStock',
+    },
+  };
+
   return (
-    <div className="py-12 sm:py-16 md:py-20 bg-slate-50/70 min-h-screen text-start" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="py-10 sm:py-16 md:py-20 bg-[#F7F5F0] min-h-screen text-start" dir={isRtl ? 'rtl' : 'ltr'}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema).replace(/</g, '\\u003c') }}
+      />
+
       <div className="container mx-auto px-4 max-w-5xl">
-        {/* 1. HERO SECTION: BREADCRUMB */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-500 font-semibold mb-6 sm:mb-8">
-          <Link href={`/${locale}`} className="hover:text-amber-600 transition-colors">
-            {isAr ? 'الرئيسية' : 'Home'}
+        {/* 1. BREADCRUMB NAVIGATION */}
+        <nav
+          aria-label="Breadcrumb"
+          className="flex items-center gap-2 text-xs text-slate-500 font-semibold mb-6 sm:mb-8"
+        >
+          <Link href={`/${locale}`} className="hover:text-[#C5A15D] transition-colors">
+            {t('home')}
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400 rtl:rotate-180" />
-          <Link href={`/${locale}/fleet`} className="hover:text-amber-600 transition-colors">
-            {isAr ? 'أسطولنا' : 'Our Fleet'}
+          <Link href={`/${locale}/fleet`} className="hover:text-[#C5A15D] transition-colors">
+            {t('fleet')}
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400 rtl:rotate-180" />
-          <span className="text-slate-900 font-bold truncate">{name}</span>
+          <span className="text-[#101827] font-bold truncate">{name}</span>
         </nav>
 
-        {/* HERO TITLE & SUBTITLE */}
-        <div className="mb-8">
-          <span className="inline-block px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-amber-500/15 border border-amber-500/30 text-amber-700 mb-2">
-            {category}
-          </span>
-          <h1 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-slate-900 tracking-tight leading-tight mb-3">
+        {/* 2. HERO VEHICLE TITLE & DUAL ACTION BUTTONS */}
+        <div className="mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-[#101827] text-[#C5A15D] border border-[#C5A15D]/30 mb-3 shadow-xs">
+            <Sparkles className="w-3 h-3" />
+            <span>{category}</span>
+          </div>
+
+          <h1 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-[#101827] tracking-tight leading-tight mb-3">
             {name}
           </h1>
-          <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-3xl font-normal">
+
+          <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-3xl font-normal mb-6">
             {desc}
           </p>
 
-          {/* ACTION BUTTONS (SOLID GOLD + OUTLINED WHATSAPP) */}
-          <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 mt-6 sm:mt-7">
-            <Link
-              href={`/${locale}/booking?vehicle=${resolvedKey}`}
-              className="h-12 px-7 rounded-xl bg-[#D4A017] hover:bg-[#b88910] text-slate-950 font-extrabold text-sm uppercase tracking-wider transition-all shadow-sm flex items-center justify-center gap-2 active:scale-95"
-            >
-              <span>{isAr ? 'احجز الآن' : 'Book Now'}</span>
-              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-            </Link>
+          {/* DUAL ACTION BUTTONS */}
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+            {isBespoke ? (
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="h-12 px-7 rounded-xl bg-[#C5A15D] hover:bg-[#b5924f] text-[#101827] font-extrabold text-sm uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 active:scale-95"
+              >
+                <MessageCircle className="w-4 h-4" />
+                <span>{t('whatsappBooking')}</span>
+              </a>
+            ) : (
+              <Link
+                href={`/${locale}/booking?vehicle=${v.bookingVehicleId}`}
+                className="h-12 px-7 rounded-xl bg-[#101827] hover:bg-[#111C30] text-[#C5A15D] hover:text-white border border-[#C5A15D]/40 font-extrabold text-sm uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 active:scale-95"
+              >
+                <span>{t('bookNow')}</span>
+                <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+              </Link>
+            )}
 
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="h-12 px-6 rounded-xl border-2 border-emerald-500 text-emerald-700 hover:bg-emerald-500 hover:text-white font-extrabold text-sm transition-all flex items-center justify-center gap-2 shadow-2xs active:scale-95"
+              className="h-12 px-6 rounded-xl bg-white border border-slate-300 hover:border-[#C5A15D] text-slate-800 hover:text-[#101827] font-extrabold text-sm transition-all flex items-center justify-center gap-2 shadow-2xs active:scale-95"
             >
-              <MessageCircle className="w-4 h-4 text-emerald-600 group-hover:text-white fill-emerald-600/20" />
-              <span>{isAr ? 'حجز عبر واتساب' : 'WhatsApp'}</span>
+              <MessageCircle className="w-4 h-4 text-emerald-600" />
+              <span>{t('whatsappBooking')}</span>
             </a>
           </div>
         </div>
 
-        {/* 2. SPECIFICATIONS GRID (4-ITEM MOBILE-FRIENDLY SPEC CARDS) */}
+        {/* 3. 4-ITEM EXECUTIVE SPECIFICATION GRID */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
           {/* Item 1: Seats */}
-          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200/80 text-amber-600 flex items-center justify-center mb-3">
+          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8E3DA] shadow-2xs flex flex-col justify-between">
+            <div className="w-10 h-10 rounded-xl bg-[#F7F5F0] border border-[#E8E3DA] text-[#C5A15D] flex items-center justify-center mb-3">
               <Users className="w-5 h-5" />
             </div>
             <div>
               <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
-                {isAr ? 'عدد المقاعد' : 'Seats'}
+                {t('seatsLabel')}
               </span>
-              <p className="text-base sm:text-lg font-black text-slate-900 tracking-tight">
-                {isAr ? `${v.seats} مقاعد VIP` : `${v.seats} Seats`}
+              <p className="text-base sm:text-lg font-black text-[#101827] tracking-tight">
+                {v.passengers} {t('seatsSuffix')}
               </p>
             </div>
           </div>
 
           {/* Item 2: Luggage */}
-          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200/80 text-amber-600 flex items-center justify-center mb-3">
+          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8E3DA] shadow-2xs flex flex-col justify-between">
+            <div className="w-10 h-10 rounded-xl bg-[#F7F5F0] border border-[#E8E3DA] text-[#C5A15D] flex items-center justify-center mb-3">
               <Briefcase className="w-5 h-5" />
             </div>
             <div>
               <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
-                {isAr ? 'سعة الحقائب' : 'Luggage'}
+                {t('luggageLabel')}
               </span>
-              <p className="text-base sm:text-lg font-black text-slate-900 tracking-tight">
-                {isAr ? `${v.bags} حقائب كبيرة` : `${v.bags} Large Bags`}
+              <p className="text-base sm:text-lg font-black text-[#101827] tracking-tight">
+                {v.luggage} {t('luggageSuffix')}
               </p>
             </div>
           </div>
 
-          {/* Item 3: Class */}
-          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200/80 text-amber-600 flex items-center justify-center mb-3">
+          {/* Item 3: Vehicle Class */}
+          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8E3DA] shadow-2xs flex flex-col justify-between">
+            <div className="w-10 h-10 rounded-xl bg-[#F7F5F0] border border-[#E8E3DA] text-[#C5A15D] flex items-center justify-center mb-3">
               <Car className="w-5 h-5" />
             </div>
             <div>
               <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
-                {isAr ? 'فئة المركبة' : 'Class'}
+                {t('classLabel')}
               </span>
-              <p className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight truncate">
+              <p className="text-xs sm:text-sm font-extrabold text-[#101827] tracking-tight truncate">
                 {category}
               </p>
             </div>
           </div>
 
           {/* Item 4: Air Conditioning */}
-          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200/80 text-amber-600 flex items-center justify-center mb-3">
+          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8E3DA] shadow-2xs flex flex-col justify-between">
+            <div className="w-10 h-10 rounded-xl bg-[#F7F5F0] border border-[#E8E3DA] text-sky-600 flex items-center justify-center mb-3">
               <Snowflake className="w-5 h-5" />
             </div>
             <div>
               <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
-                {isAr ? 'نظام التكييف' : 'Air Conditioning'}
+                {t('acLabel')}
               </span>
-              <p className="text-xs sm:text-sm font-bold text-slate-900 leading-snug line-clamp-2">
-                {acType}
+              <p className="text-[11px] sm:text-xs font-bold text-[#101827] leading-snug line-clamp-2">
+                {acDescription}
               </p>
             </div>
           </div>
         </div>
 
-        {/* 3. PHOTO GALLERY (5-IMAGE LUXURY GALLERY WITH 1/5 COUNTER) */}
+        {/* 4. UPGRADED 5-PHOTO INTERACTIVE GALLERY WITH LIGHTBOX & SWIPE */}
         <VehicleGallery
-          images={v.gallery}
+          images={galleryPhotos}
           vehicleName={name}
           locale={locale}
         />
 
-        {/* FEATURES & DETAILS CARD */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 md:p-10 border border-slate-200/90 shadow-xs mb-10">
-          <h2 className="font-display font-extrabold text-2xl text-slate-900 mb-4 tracking-tight">
-            {isAr ? 'المواصفات والتجهيزات التنفيذية' : 'Executive Features & Amenities'}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 mb-8">
-            {features.map((feat, idx) => (
-              <div key={idx} className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
-                  {feat}
-                </span>
-              </div>
-            ))}
+        {/* 5. ROUTE-SPECIFIC PRICING TABLE */}
+        <div className="bg-white rounded-3xl p-6 sm:p-8 md:p-10 border border-[#E8E3DA] shadow-xs mb-8">
+          <div className="mb-6">
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#F7F5F0] border border-[#E8E3DA] text-[#C5A15D] mb-2">
+              Transparent Fares
+            </span>
+            <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-[#101827] tracking-tight mb-2">
+              {t('pricingTitle')}
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal">
+              {t('pricingSubtitle')}
+            </p>
           </div>
 
-          <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/60 border border-amber-200/70 flex items-start gap-3">
-            <ShieldCheck className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-            <div className="text-xs sm:text-sm text-slate-700 leading-relaxed">
-              <strong className="font-bold text-slate-900 block mb-0.5">
-                {isAr ? 'ضمان ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP Assurance'}
-              </strong>
-              {isAr
-                ? 'مركبات حديثة 2024-2025 معقمة يومياً، وسائقون محترفون ملمون بمسارات الحرمين والفنادق، وأسعار معلنة وثابتة بالريال السعودي والدفع عند الوصول.'
-                : 'Immaculately maintained 2024-2025 fleet, certified professional chauffeurs, guaranteed fixed SAR fares, and 100% pay on arrival peace of mind.'}
+          {isBespoke ? (
+            /* Bespoke Concierge Callout for Maybach & H1 */
+            <div className="p-6 rounded-2xl bg-[#101827] text-white border border-[#C5A15D]/40 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="max-w-xl">
+                <h3 className="font-display font-bold text-lg sm:text-xl text-[#C5A15D] mb-2">
+                  {t('bespokeNoticeTitle')}
+                </h3>
+                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-light">
+                  {t('bespokeNoticeDesc')}
+                </p>
+              </div>
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="h-12 px-7 rounded-xl bg-[#C5A15D] hover:bg-[#b5924f] text-[#101827] font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shrink-0 transition-all shadow-md active:scale-95"
+              >
+                <MessageCircle className="w-4 h-4" />
+                <span>{t('whatsappBooking')}</span>
+              </a>
+            </div>
+          ) : (
+            /* Authoritative Route Pricing Table */
+            <div className="overflow-x-auto rounded-2xl border border-[#E8E3DA]">
+              <table className="w-full text-start border-collapse">
+                <thead>
+                  <tr className="bg-[#101827] text-white text-xs font-bold uppercase tracking-wider border-b border-[#C5A15D]/30">
+                    <th className="py-3.5 px-4 sm:px-6">{t('routeCol')}</th>
+                    <th className="py-3.5 px-4 text-center">{t('fareCol')}</th>
+                    <th className="py-3.5 px-4 text-center">{t('actionCol')}</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#E8E3DA] text-xs sm:text-sm text-slate-800">
+                  {KEY_CORRIDORS.map((routeKey, idx) => {
+                    const price = AUTHORITATIVE_TRANSFER_RATES[routeKey]?.[v.bookingVehicleId];
+                    if (!price) return null;
+
+                    const routeName =
+                      LOCALIZED_ROUTE_NAMES[routeKey]?.[locale] ||
+                      LOCALIZED_ROUTE_NAMES[routeKey]?.en ||
+                      routeKey;
+
+                    return (
+                      <tr
+                        key={routeKey}
+                        className={idx % 2 === 0 ? 'bg-white' : 'bg-[#F7F5F0]/60 hover:bg-[#F7F5F0]'}
+                      >
+                        <td className="py-3.5 px-4 sm:px-6 font-semibold text-[#101827]">
+                          {routeName}
+                        </td>
+                        <td className="py-3.5 px-4 text-center font-display font-extrabold text-[#101827] whitespace-nowrap">
+                          {price} SAR
+                        </td>
+                        <td className="py-3.5 px-4 text-center whitespace-nowrap">
+                          <Link
+                            href={`/${locale}/booking?vehicle=${v.bookingVehicleId}&route=${routeKey}`}
+                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#101827] hover:bg-[#C5A15D] text-[#C5A15D] hover:text-slate-950 font-bold text-xs uppercase tracking-wider transition-colors shadow-2xs"
+                          >
+                            <span>{t('bookRouteBtn')}</span>
+                            <ArrowRight className="w-3 h-3 rtl:rotate-180" />
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* 6. VERIFIED FEATURES & EXECUTIVE AMENITIES */}
+        <div className="bg-white rounded-3xl p-6 sm:p-8 md:p-10 border border-[#E8E3DA] shadow-xs mb-8">
+          <h2 className="font-display font-extrabold text-2xl text-[#101827] mb-6 tracking-tight">
+            {t('featuresTitle')}
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            {v.features.map((feat, idx) => {
+              const featTitle = feat.title[locale] || feat.title.en;
+              const featDesc = feat.desc[locale] || feat.desc.en;
+              return (
+                <div
+                  key={idx}
+                  className="p-4 rounded-2xl bg-[#F7F5F0]/70 border border-[#E8E3DA] flex items-start gap-3"
+                >
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-bold text-sm text-[#101827] mb-0.5">
+                      {featTitle}
+                    </h3>
+                    <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                      {featDesc}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Extra inclusions: Zamzam & Child Seat */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-6 border-t border-[#E8E3DA]">
+            <div className="p-4 rounded-2xl bg-[#F7F5F0] border border-[#E8E3DA] flex items-center gap-3">
+              <Luggage className="w-5 h-5 text-[#C5A15D] shrink-0" />
+              <div>
+                <strong className="block text-xs font-bold text-[#101827]">
+                  {t('zamzamLabel')}
+                </strong>
+                <span className="text-[11px] text-slate-600">{t('zamzamDesc')}</span>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[#F7F5F0] border border-[#E8E3DA] flex items-center gap-3">
+              <Baby className="w-5 h-5 text-[#C5A15D] shrink-0" />
+              <div>
+                <strong className="block text-xs font-bold text-[#101827]">
+                  {t('childSeatLabel')}
+                </strong>
+                <span className="text-[11px] text-slate-600">{t('childSeatDesc')}</span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* BOTTOM FINAL BOOKING CALLOUT */}
-        <div className="text-center pt-2 pb-6">
-          <Link
-            href={`/${locale}/booking?vehicle=${resolvedKey}`}
-            className="inline-flex items-center gap-2 h-13 px-8 rounded-xl bg-[#D4A017] hover:bg-[#b88910] text-slate-950 font-black text-sm uppercase tracking-wider transition-all shadow-md active:scale-95"
-          >
-            <span>{isAr ? `احجز ${name} لرحلتك القادمة` : `Book ${name} For Your Trip`}</span>
-            <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-          </Link>
+        {/* 7. SACRED JOURNEY ASSURANCE CARD */}
+        <div className="p-6 sm:p-8 rounded-3xl bg-[#101827] text-white border border-[#C5A15D]/30 shadow-md mb-10 flex flex-col md:flex-row items-center gap-6">
+          <div className="w-14 h-14 rounded-2xl bg-[#111C30] border border-[#C5A15D]/40 text-[#C5A15D] flex items-center justify-center shrink-0">
+            <ShieldCheck className="w-8 h-8" />
+          </div>
+          <div className="flex-1 text-center md:text-start">
+            <h3 className="font-display font-bold text-lg sm:text-xl text-[#C5A15D] mb-1.5">
+              {t('assuranceTitle')}
+            </h3>
+            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-light">
+              {t('assuranceDesc')}
+            </p>
+          </div>
+        </div>
+
+        {/* 8. BOTTOM BOOKING CALLOUT BAR */}
+        <div className="text-center pt-2 pb-8">
+          {isBespoke ? (
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 h-14 px-9 rounded-2xl bg-[#C5A15D] hover:bg-[#b5924f] text-[#101827] font-black text-sm uppercase tracking-wider transition-all shadow-lg active:scale-95"
+            >
+              <MessageCircle className="w-5 h-5" />
+              <span>
+                {t('bottomBookCta')} {name}
+              </span>
+            </a>
+          ) : (
+            <Link
+              href={`/${locale}/booking?vehicle=${v.bookingVehicleId}`}
+              className="inline-flex items-center gap-2.5 h-14 px-9 rounded-2xl bg-[#101827] hover:bg-[#111C30] text-[#C5A15D] hover:text-white border border-[#C5A15D]/50 font-black text-sm uppercase tracking-wider transition-all shadow-lg active:scale-95"
+            >
+              <span>
+                {t('bottomBookCta')} {name}
+              </span>
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+            </Link>
+          )}
         </div>
       </div>
     </div>

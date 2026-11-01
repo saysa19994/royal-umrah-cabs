@@ -167,7 +167,7 @@ export const FLEET_SHOWCASE_VEHICLES: FleetShowcaseVehicle[] = [
   {
     id: 'maybach',
     slug: 'mercedes-maybach',
-    bookingVehicleId: 'camry',
+    bookingVehicleId: 'maybach',
     name: {
       en: 'Mercedes-Maybach S-Class VIP',
       ar: 'مرسيدس مايباخ S-Class VIP',
@@ -1247,7 +1247,7 @@ export const FLEET_SHOWCASE_VEHICLES: FleetShowcaseVehicle[] = [
   {
     id: 'h1',
     slug: 'hyundai-h1',
-    bookingVehicleId: 'staria',
+    bookingVehicleId: 'h1',
     name: {
       en: 'Hyundai H1 Starex VIP',
       ar: 'هيونداي H1 ستاريكس VIP',
