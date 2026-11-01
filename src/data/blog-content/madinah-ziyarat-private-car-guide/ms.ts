@@ -24,7 +24,7 @@ export const MADINAH_ZIYARAT_CONTENT_MS: LocalizedArticleBody = {
     {
       title: 'Tempat Ziarah & Mercu Tanda Sejarah Utama di Madinah',
       paragraphs: [
-        'Madinah al-Munawwarah dipenuhi tapak sejarah mulia. Program ziarah persendirian selama 3 hingga 3.5 jam lazimnya memberi tumpuan kepada lokasi paling masyhur:'
+        'Madinah al-Munawwarah dipenuhi tapak sejarah mulia. Program ziarah persendirian ziarah persendirian lazimnya memberi tumpuan kepada lokasi paling masyhur:'
       ],
       subsections: [
         {

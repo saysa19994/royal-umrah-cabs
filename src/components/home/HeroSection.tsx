@@ -479,7 +479,7 @@ export function HeroSection({ locale }: HeroSectionProps) {
                       {isRtl ? 'جولة مزارات مكة المكرمة (2.5 ساعة) - من 250 ريال' : 'Makkah Holy Sites Tour (2.5 Hours) - From 250 SAR'}
                     </option>
                     <option value="madinah-half-day">
-                      {isRtl ? 'جولة مزارات المدينة المنورة (3.5 ساعة) - من 250 ريال' : 'Madinah Holy Sites Tour (3.5 Hours) - From 250 SAR'}
+                      {isRtl ? 'جولة مزارات المدينة المنورة - من 250 ريال' : 'Madinah Holy Sites Tour - From 250 SAR'}
                     </option>
                   </select>
                   <ChevronDown className="w-4 h-4 text-[#C5A15D] pointer-events-none absolute right-3 rtl:right-auto rtl:left-3 top-1/2 -translate-y-1/2" />

@@ -294,9 +294,9 @@ const SERVICES_8_ITEMS: Record<
     },
     {
       id: 'madinah-ziyarat',
-      title: 'جولات مزارات المدينة المنورة (٣.٥ ساعة)',
+      title: 'جولات مزارات المدينة المنورة',
       desc: 'زيارة مسجد قباء والصلاة فيه، جبل أحد ومقبرة الشهداء، وموقع غزوة الخندق بسيارة خاصة ومياه زمزم مبردة.',
-      tag: '٣.٥ ساعة معتمدة',
+      tag: 'معالم تاريخية',
       href: '/ar/ziyarat',
       img: '/assets/images/madinah-ziyarat-private-car-guide.webp',
       icon: 'landmark',
@@ -368,9 +368,9 @@ const SERVICES_8_ITEMS: Record<
     },
     {
       id: 'madinah-ziyarat',
-      title: 'Madinah Historic Ziyarat (3.5 Hours)',
+      title: 'Madinah Historic Ziyarat',
       desc: 'Door-to-door tours to Masjid Quba with prayer time, Mount Uhud, Martyrs Cemetery, and the Trench battleground site.',
-      tag: 'Approved 3.5 Hours',
+      tag: 'Historic Landmarks',
       href: '/en/ziyarat',
       img: '/assets/images/madinah-ziyarat-private-car-guide.webp',
       icon: 'landmark',
@@ -442,9 +442,9 @@ const SERVICES_8_ITEMS: Record<
     },
     {
       id: 'madinah-ziyarat',
-      title: 'Ziarah Madinah Al-Munawwarah (3.5 Jam)',
+      title: 'Ziarah Madinah Al-Munawwarah',
       desc: 'Ziarah Masjid Quba berserta solat sunat, Jabal Uhud, Makam Syuhada dan kawasan Perang Khandaq dengan kenderaan berhawa dingin.',
-      tag: 'Diluluskan 3.5 Jam',
+      tag: 'Tempat Bersejarah',
       href: '/ms/ziyarat',
       img: '/assets/images/madinah-ziyarat-private-car-guide.webp',
       icon: 'landmark',
@@ -516,9 +516,9 @@ const SERVICES_8_ITEMS: Record<
     },
     {
       id: 'madinah-ziyarat',
-      title: 'Ziarah Bersejarah Madinah (3.5 Jam)',
+      title: 'Ziarah Bersejarah Madinah',
       desc: 'Kunjungan ke Masjid Quba dengan waktu shalat, Gunung Uhud, Makam Syuhada, dan Masjid Tujuh (Khandaq).',
-      tag: 'Resmi 3.5 Jam',
+      tag: 'Situs Bersejarah',
       href: '/id/ziyarat',
       img: '/assets/images/madinah-ziyarat-private-car-guide.webp',
       icon: 'landmark',
@@ -590,9 +590,9 @@ const SERVICES_8_ITEMS: Record<
     },
     {
       id: 'madinah-ziyarat',
-      title: 'مدینہ منورہ مقدس زیارات (3.5 گھنٹے)',
+      title: 'مدینہ منورہ مقدس زیارات',
       desc: 'مسجد قباء میں نماز، جبل احد، شہدائے احد کی قبور اور غزوہ خندق کے مقامات کی پروقار زیارت۔',
-      tag: 'منظور شدہ 3.5 گھنٹے',
+      tag: 'مقدس مقامات',
       href: '/ur/ziyarat',
       img: '/assets/images/madinah-ziyarat-private-car-guide.webp',
       icon: 'landmark',
@@ -664,9 +664,9 @@ const SERVICES_8_ITEMS: Record<
     },
     {
       id: 'madinah-ziyarat',
-      title: 'Medine-i Münevvere Ziyaretleri (3.5 Saat)',
+      title: 'Medine-i Münevvere Ziyaretleri',
       desc: 'Kuba Mescidi’nde namaz, Uhud Dağı ve Şehitliği ile Hendek Savaşı mevkiine özel şoförlü ziyaret turu.',
-      tag: 'Onaylı 3.5 Saat',
+      tag: 'Kutsal Mekanlar',
       href: '/tr/ziyarat',
       img: '/assets/images/madinah-ziyarat-private-car-guide.webp',
       icon: 'landmark',
@@ -738,9 +738,9 @@ const SERVICES_8_ITEMS: Record<
     },
     {
       id: 'madinah-ziyarat',
-      title: 'Ziyarat de Médine (3.5 Heures)',
+      title: 'Ziyarat de Médine',
       desc: 'Visite de la Mosquée Quba avec prière, Mont Uhud, Cimetière des Martyrs et site de la Bataille du Fossé.',
-      tag: 'Validé 3.5 Heures',
+      tag: 'Lieux Saints',
       href: '/fr/ziyarat',
       img: '/assets/images/madinah-ziyarat-private-car-guide.webp',
       icon: 'landmark',
@@ -812,9 +812,9 @@ const SERVICES_8_ITEMS: Record<
     },
     {
       id: 'madinah-ziyarat',
-      title: 'Tours Históricos Medina (3.5 Horas)',
+      title: 'Tours Históricos Medina',
       desc: 'Mezquita de Quba con tiempo de oración, Monte Uhud, Cementerio de los Mártires y sitio de la Batalla del Foso.',
-      tag: 'Aprobado 3.5 Horas',
+      tag: 'Lugares Históricos',
       href: '/es/ziyarat',
       img: '/assets/images/madinah-ziyarat-private-car-guide.webp',
       icon: 'landmark',
@@ -886,9 +886,9 @@ const SERVICES_8_ITEMS: Record<
     },
     {
       id: 'madinah-ziyarat',
-      title: 'Historische Ziyarat-Tour Medina (3.5 Stunden)',
+      title: 'Historische Ziyarat-Tour Medina',
       desc: 'Besuch der Quba-Moschee mit Gebetspause, Berg Uhud, Märtyrerfriedhof und Schauplatz der Grabenschlacht.',
-      tag: 'Geprüft 3.5 Stunden',
+      tag: 'Historische Stätten',
       href: '/de/ziyarat',
       img: '/assets/images/madinah-ziyarat-private-car-guide.webp',
       icon: 'landmark',
@@ -960,9 +960,9 @@ const SERVICES_8_ITEMS: Record<
     },
     {
       id: 'madinah-ziyarat',
-      title: 'मदीना ऐतिहासिक जियारत यात्रा (3.5 घंटे)',
+      title: 'मदीना ऐतिहासिक जियारत यात्रा',
       desc: 'मस्जिद कुबा में नमाज़, जबल उहुद, शोहदा-ए-उहुद और ख़ंदक़ के ऐतिहासिक स्थानों का गरिमामय दौरा।',
-      tag: 'मान्यता प्राप्त 3.5 घंटे',
+      tag: 'पवित्र स्थल',
       href: '/hi/ziyarat',
       img: '/assets/images/madinah-ziyarat-private-car-guide.webp',
       icon: 'landmark',
@@ -1292,7 +1292,7 @@ export function HomeSections({ locale, dict, settings, vehicles }: HomeSectionsP
       </section>
 
       {/* ============================================================== */}
-      {/* 5. SACRED ZIYARAT TOURS (MAKKAH 2.5H & MADINAH 3.5H)            */}
+      {/* 5. SACRED ZIYARAT TOURS (MAKKAH 2.5H & MADINAH HISTORIC)            */}
       {/* ============================================================== */}
       <section id="ziyarat" className="py-20 md:py-28 bg-[#FFFFFF] border-b border-[#E8E3DA]">
         <div className="container mx-auto px-4 max-w-7xl">
@@ -1361,19 +1361,19 @@ export function HomeSections({ locale, dict, settings, vehicles }: HomeSectionsP
               </div>
             </div>
 
-            {/* Madinah Ziyarat Card (3.5 Hours) */}
+            {/* Madinah Ziyarat Card */}
             <div className="bg-[#FFFFFF] rounded-2xl border border-[#E8E3DA] p-6 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="px-3 py-1 rounded-full bg-[#101827] text-[#C5A15D] text-xs font-bold uppercase tracking-wider">
-                    {locale === 'ar' ? 'المدينة المنورة • ٣.٥ ساعة' : 'Madinah • 3.5 Hours'}
+                    {locale === 'ar' ? 'المدينة المنورة • معالم تاريخية' : 'Madinah • Holy Sites'}
                   </span>
                   <span className="text-xs font-bold text-[#687386]">
                     {locale === 'ar' ? 'من ٢٥٠ ريال' : 'From 250 SAR'}
                   </span>
                 </div>
                 <h3 className="font-serif font-bold text-2xl text-[#182235] mb-2">
-                  {locale === 'ar' ? 'جولة مزارات المدينة المنورة (٣.٥ ساعة)' : 'Madinah Holy Sites Tour (3.5 Hours)'}
+                  {locale === 'ar' ? 'جولة مزارات المدينة المنورة التاريخية' : 'Madinah Historic Holy Sites Tour'}
                 </h3>
                 <p className="text-xs sm:text-sm text-[#687386] font-light leading-relaxed mb-6">
                   {locale === 'ar'

@@ -24,7 +24,7 @@ export const MADINAH_ZIYARAT_CONTENT_EN: LocalizedArticleBody = {
     {
       title: 'Key Religious and Historical Landmarks in Madinah',
       paragraphs: [
-        'While Madinah features dozens of blessed historical sites, standard 3 to 3.5-hour private itineraries focus on the most prominent landmarks recognized by Islamic history and authorized visitor access:'
+        'While Madinah features dozens of blessed historical sites, standard private itineraries focus on the most prominent landmarks recognized by Islamic history and authorized visitor access:'
       ],
       subsections: [
         {
