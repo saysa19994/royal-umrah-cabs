@@ -350,7 +350,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
   const t = FOOTER_EXTRA_I18N[locale] || FOOTER_EXTRA_I18N.en;
 
   return (
-    <footer className="bg-[#0A0F1D] text-slate-300 border-t border-gold/20 mt-auto pb-20 md:pb-0 relative overflow-hidden">
+    <footer className="bg-[#101827] text-slate-300 border-t border-[#C5A15D]/25 mt-auto pb-20 md:pb-0 relative overflow-hidden">
       {/* LUXURY AMBIENT BACKGROUND GLOW */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
@@ -361,7 +361,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
           {/* COL 1: WORDMARK, SHORT TAGLINE, WHATSAPP & CALL BUTTONS */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">
             <Link href={locale === 'en' ? '/' : `/${locale}`} className="inline-flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-lg overflow-hidden border border-gold/40 flex items-center justify-center shadow-xs shrink-0 bg-[#0A0F1D]">
+              <div className="w-10 h-10 rounded-lg overflow-hidden border border-[#C5A15D]/40 flex items-center justify-center shadow-xs shrink-0 bg-[#101827]">
                 <Image
                   src="/icon-192.png"
                   alt="Duyuf Alrahman VIP"
@@ -371,7 +371,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
                 />
               </div>
               <div className="flex flex-col text-start">
-                <span className="font-display font-bold text-lg md:text-xl uppercase tracking-wide text-white">
+                <span className="font-serif font-bold text-lg md:text-xl uppercase tracking-wide text-white">
                   {t.tagline}
                 </span>
                 <span className="text-[10px] font-bold text-gold tracking-[0.16em] uppercase">
@@ -409,7 +409,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
               </div>
               <a
                 href={telUrl}
-                className="w-full inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-3 rounded-btn border border-gold/40 bg-white/5 text-gold text-xs font-semibold hover:bg-gold hover:text-slate-950 transition-colors focus-visible:ring-2 focus-visible:ring-gold"
+                className="w-full inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-3 rounded-btn border border-[#C5A15D]/40 bg-white/5 text-gold text-xs font-semibold hover:bg-gold hover:text-slate-950 transition-colors focus-visible:ring-2 focus-visible:ring-gold"
               >
                 <Phone className="w-3.5 h-3.5" />
                 <span>{t.voiceDispatch}: {settings.phone || '+966505316971'}</span>
@@ -425,7 +425,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
 
           {/* COL 2: POPULAR ROUTES */}
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-display text-sm border-b border-gold/20 pb-1.5">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-serif text-sm border-b border-[#C5A15D]/25 pb-1.5">
               {dict.footer.popularRoutes}
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
@@ -464,7 +464,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
 
           {/* COL 3: SERVICES & FLEET */}
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-display text-sm border-b border-gold/20 pb-1.5">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-serif text-sm border-b border-[#C5A15D]/25 pb-1.5">
               {dict.footer.servicesFleet}
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
@@ -508,7 +508,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
 
           {/* COL 4: PILGRIM GUIDES & TOOLS */}
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-display text-sm border-b border-gold/20 pb-1.5">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-serif text-sm border-b border-[#C5A15D]/25 pb-1.5">
               {t.guidesHeader}
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
@@ -557,7 +557,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
 
           {/* COL 5: LEGAL & TRUST */}
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-display text-sm border-b border-gold/20 pb-1.5">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-serif text-sm border-b border-[#C5A15D]/25 pb-1.5">
               {t.legalHeader}
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
@@ -607,7 +607,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
               {LOCALIZED_PAY_TITLE[locale] || LOCALIZED_PAY_TITLE.en}
             </span>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="px-3.5 py-1.5 rounded-lg bg-gold/15 border border-gold/40 text-gold text-xs font-bold inline-flex items-center gap-1.5">
+              <span className="px-3.5 py-1.5 rounded-lg bg-gold/15 border border-[#C5A15D]/40 text-gold text-xs font-bold inline-flex items-center gap-1.5">
                 <HandCoins className="w-3.5 h-3.5" />
                 <span>{LOCALIZED_PAY_NOTICE[locale] || LOCALIZED_PAY_NOTICE.en}</span>
               </span>
@@ -626,7 +626,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
       </div>
 
       {/* BEIGE TRUST STRIP (IN OBSIDIAN & GOLD THEME) */}
-      <div className="border-y border-gold/20 bg-[#060A14] py-3.5 relative z-10">
+      <div className="border-y border-[#C5A15D]/25 bg-[#060A14] py-3.5 relative z-10">
         <div className="container mx-auto px-4 max-w-7xl flex flex-wrap items-center justify-between gap-4 text-xs text-slate-300">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-gold shrink-0" />

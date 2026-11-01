@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Locale } from '@/i18n/config';
 import { WhatsAppModal } from '@/components/common/WhatsAppModal';
-import { SAUDI_LOCATIONS } from '@/components/home/LocationAutocomplete';
 import {
   ArrowRight,
   ShieldCheck,
@@ -17,6 +16,8 @@ import {
   Sparkles,
   MapPin,
   CheckCircle2,
+  Users,
+  Luggage,
 } from 'lucide-react';
 
 interface HeroSectionProps {
@@ -36,9 +37,12 @@ interface HeroI18n {
   dropoffLabel: string;
   dateLabel: string;
   timeLabel: string;
+  passengersLabel: string;
+  luggageLabel: string;
   durationLabel: string;
   hoursSuffix: string;
   ctaBook: string;
+  ctaFleet: string;
   ctaWhatsApp: string;
   guarantee1: string;
   guarantee2: string;
@@ -49,7 +53,7 @@ interface HeroI18n {
 const HERO_I18N: Record<Locale, HeroI18n> = {
   ar: {
     badge: '★ خدمة النقل الفاخر لضيوف الرحمن',
-    headline: 'تجربة تنقل استثنائية في المملكة بأعلى درجات الرفاهية والسكينة',
+    headline: 'رحلتكم تستحق أقصى درجات الرفاهية والسكينة',
     subheadline:
       'خدمات السائق الخاص والنقل الفاخر لضيوف الرحمن والعائلات والوفود عبر مكة المكرمة والمدينة المنورة وجدة والطائف والرياض.',
     tabOneWay: 'توصيل بين المدن والمطارات',
@@ -61,9 +65,12 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
     dropoffLabel: 'وجهة الوصول',
     dateLabel: 'تاريخ الرحلة',
     timeLabel: 'وقت الانطلاق',
+    passengersLabel: 'الركاب',
+    luggageLabel: 'الحقائب',
     durationLabel: 'المدة المطلوبة',
     hoursSuffix: 'ساعات',
-    ctaBook: 'استعراض الأسعار والحجز',
+    ctaBook: 'احجز رحلتك الآن',
+    ctaFleet: 'استكشف الأسطول الملكي',
     ctaWhatsApp: 'محادثة المساعد الملكي عبر واتساب',
     guarantee1: '0 ريال دفعة مقدمة • الدفع نقدًا للسائق بعد الوصول',
     guarantee2: '60 دقيقة انتظار مجاني بالمطار وتتبع راداري للرحلات',
@@ -72,9 +79,9 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
   },
   en: {
     badge: '★ ROYAL LUXURY CHAUFFEUR & TRANSFERS',
-    headline: 'Experience Saudi Arabia in Exceptional Comfort',
+    headline: 'Your Journey Deserves Exceptional Comfort',
     subheadline:
-      'Premium private chauffeur and transportation services for Umrah pilgrims, families, and executive travelers across Makkah, Madinah, Jeddah, Taif, and Riyadh.',
+      'Experience premium private chauffeur and transportation services across Saudi Arabia, designed for pilgrims, families, and discerning travelers.',
     tabOneWay: 'Airport & Intercity Transfer',
     tabHourly: 'Hourly Private Chauffeur',
     tabZiyarat: 'Sacred Ziyarat Tours',
@@ -84,9 +91,12 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
     dropoffLabel: 'Destination / Hotel',
     dateLabel: 'Pickup Date',
     timeLabel: 'Pickup Time',
+    passengersLabel: 'Passengers',
+    luggageLabel: 'Luggage',
     durationLabel: 'Service Duration',
     hoursSuffix: 'Hours',
-    ctaBook: 'Explore Fares & Reserve',
+    ctaBook: 'Book Your Journey',
+    ctaFleet: 'Explore Our Fleet',
     ctaWhatsApp: 'Concierge WhatsApp Chat',
     guarantee1: 'Zero advance payment • Pay cash to driver upon arrival',
     guarantee2: '60-min free airport wait with live flight radar tracking',
@@ -95,9 +105,9 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
   },
   ms: {
     badge: '★ PERKHIDMATAN PEMANDU DIRAJA VIP',
-    headline: 'Alami Pengangkutan Arab Saudi dengan Keselesaan Luar Biasa',
+    headline: 'Perjalanan Anda Layak Menikmati Keselesaan Luar Biasa',
     subheadline:
-      'Perkhidmatan pemandu peribadi premium untuk jemaah Umrah, keluarga dan delegasi di seluruh Makkah, Madinah, Jeddah, Taif dan Riyadh.',
+      'Alami perkhidmatan pemandu peribadi dan pengangkutan premium di seluruh Arab Saudi, dikhaskan untuk jemaah haji & umrah, keluarga dan pengembara.',
     tabOneWay: 'Pemindahan Lapangan Terbang & Antara Bandar',
     tabHourly: 'Pemandu Mengikut Jam',
     tabZiyarat: 'Ziarah Tempat Bersejarah',
@@ -107,9 +117,12 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
     dropoffLabel: 'Lokasi Destinasi / Hotel',
     dateLabel: 'Tarikh Pengambilan',
     timeLabel: 'Masa Pengambilan',
+    passengersLabel: 'Penumpang',
+    luggageLabel: 'Bagasi',
     durationLabel: 'Tempoh Perkhidmatan',
     hoursSuffix: 'Jam',
-    ctaBook: 'Lihat Tambang & Tempah',
+    ctaBook: 'Tempah Perjalanan Anda',
+    ctaFleet: 'Terokai Armada Kami',
     ctaWhatsApp: 'Sembang WhatsApp Pengendali',
     guarantee1: '0 bayaran pendahuluan • Bayar tunai kepada pemandu',
     guarantee2: '60 minit masa menunggu percuma & penjejakan radar penerbangan',
@@ -118,9 +131,9 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
   },
   id: {
     badge: '★ LAYANAN TRANSPORTASI VIP KERAJAAN',
-    headline: 'Nikmati Perjalanan Arab Saudi dengan Kenyamanan Paripurna',
+    headline: 'Perjalanan Anda Layak Mendapatkan Kenyamanan Paripurna',
     subheadline:
-      'Layanan sopir privat premium untuk jamaah Umrah, keluarga, dan delegasi eksekutif di seluruh Makkah, Madinah, Jeddah, Taif, dan Riyadh.',
+      'Nikmati layanan sopir privat dan transportasi premium di seluruh Arab Saudi, dirancang khusus untuk jamaah Umrah, keluarga, dan pelancong eksekutif.',
     tabOneWay: 'Antar Jemput Bandara & Antarkota',
     tabHourly: 'Sopir Sewa Per Jam',
     tabZiyarat: 'Ziarah Tempat Bersejarah',
@@ -130,9 +143,12 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
     dropoffLabel: 'Hotel Tujuan / Lokasi',
     dateLabel: 'Tanggal Penjemputan',
     timeLabel: 'Waktu Penjemputan',
+    passengersLabel: 'Penumpang',
+    luggageLabel: 'Bagasi',
     durationLabel: 'Durasi Layanan',
     hoursSuffix: 'Jam',
-    ctaBook: 'Lihat Tarif & Pesan Sekarang',
+    ctaBook: 'Pesan Perjalanan Anda',
+    ctaFleet: 'Jelajahi Armada Kami',
     ctaWhatsApp: 'Hubungi WhatsApp Bantuan',
     guarantee1: 'Tanpa uang muka • Pembayaran tunai ke sopir saat tiba',
     guarantee2: 'Gratis 60 menit tunggu di bandara & pelacakan pesawat radar',
@@ -141,9 +157,9 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
   },
   ur: {
     badge: '★ شاہی پرائیویٹ ٹرانسپورٹیشن سروس',
-    headline: 'سعودی عرب میں بے مثال آرام و وقار کے ساتھ سفر کا تجربہ',
+    headline: 'آپ کا مقدس سفر بے مثال آرام و وقار کا حقدار ہے',
     subheadline:
-      'حرمین شریفین کے معزز زائرین اور معزز خاندانوں کے لیے مکہ مکرمہ، مدینہ منورہ، جدہ، طائف اور ریاض میں اعلیٰ ترین شافر سروس۔',
+      'سعودی عرب میں حرمین کے معزز زائرین، معزز خاندانوں اور مسافروں کے لیے اعلیٰ ترین پرائیویٹ شافر و ٹرانسپورٹ سروس۔',
     tabOneWay: 'ایئرپورٹ و بین الشہری ٹرانسفر',
     tabHourly: 'فی گھنٹہ پرائیویٹ ڈرائیور',
     tabZiyarat: 'مقدس زیارات',
@@ -153,9 +169,12 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
     dropoffLabel: 'منزل / ہوٹل',
     dateLabel: 'روانگی کی تاریخ',
     timeLabel: 'روانگی کا وقت',
+    passengersLabel: 'مسافر',
+    luggageLabel: 'سامان',
     durationLabel: 'ڈرائیور کی مدت',
     hoursSuffix: 'گھنٹے',
-    ctaBook: 'کرایہ دیکھیں اور بک کریں',
+    ctaBook: 'اپنا سفر بک کریں',
+    ctaFleet: 'شاہی فلیٹ دیکھیں',
     ctaWhatsApp: 'واٹس ایپ پر رابطہ کریں',
     guarantee1: '0 روپے ایڈوانس • سفر مکمل ہونے پر ڈرائیور کو نقد ادائیگی',
     guarantee2: 'ایئرپورٹ پر 60 منٹ مفت انتظار اور لائیو فلائٹ ٹریکنگ',
@@ -164,9 +183,9 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
   },
   tr: {
     badge: '★ KRALİYET DÜZEYİNDE VIP ŞOFÖR HİZMETİ',
-    headline: "Suudi Arabistan'da Olağanüstü Konforla Özel Şoför Hizmeti",
+    headline: 'Yolculuğunuz Olağanüstü Bir Konforu Hak Ediyor',
     subheadline:
-      "Mekke, Medine, Cidde, Taif ve Riyad genelinde Umre yolcuları ve aileler için birinci sınıf VIP şoförlü transfer çözümleri.",
+      'Hac ve Umre yolcuları, aileler ve seçkin seyahatseverler için Suudi Arabistan genelinde birinci sınıf özel şoför ve VIP transfer hizmetleri.',
     tabOneWay: 'Havalimanı ve Şehirlerarası Transfer',
     tabHourly: 'Saatlik Özel Şoför',
     tabZiyarat: 'Kutsal Ziyaret Turları',
@@ -176,9 +195,12 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
     dropoffLabel: 'Varış Noktası / Otel',
     dateLabel: 'Tarih',
     timeLabel: 'Saat',
+    passengersLabel: 'Yolcu Sayısı',
+    luggageLabel: 'Bagaj Sayısı',
     durationLabel: 'Hizmet Süresi',
     hoursSuffix: 'Saat',
-    ctaBook: 'Fiyatları Gör ve Ayırt',
+    ctaBook: 'Yolculuğunuzu Ayırtın',
+    ctaFleet: 'Filomuzu Keşfedin',
     ctaWhatsApp: "WhatsApp'tan Danışın",
     guarantee1: 'Sıfır ön ödeme • Varışta şoföre nakit ödeme',
     guarantee2: 'Havalimanında 60 dk ücretsiz bekleme ve radar uçuş takibi',
@@ -187,9 +209,9 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
   },
   fr: {
     badge: '★ CHAUFFEUR PRIVÉ ROYAL VIP',
-    headline: 'Voyagez en Arabie Saoudite dans un Confort Exceptionnel',
+    headline: 'Votre Voyage Mérite un Confort d’Exception',
     subheadline:
-      "Services de chauffeur privé haut de gamme pour les pèlerins de l'Umrah, familles et délégations à La Mecque, Médine, Djeddah, Taif et Riyad.",
+      'Profitez de services de chauffeur privé haut de gamme en Arabie Saoudite, conçus pour les pèlerins, les familles et les voyageurs exigeants.',
     tabOneWay: 'Transfert Aéroport & Interurbain',
     tabHourly: 'Chauffeur à l’Heure',
     tabZiyarat: 'Visites des Lieux Saints (Ziyarat)',
@@ -199,9 +221,12 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
     dropoffLabel: 'Destination / Hôtel',
     dateLabel: 'Date',
     timeLabel: 'Heure',
+    passengersLabel: 'Passagers',
+    luggageLabel: 'Bagages',
     durationLabel: 'Durée',
     hoursSuffix: 'Heures',
-    ctaBook: 'Voir les Tarifs & Réserver',
+    ctaBook: 'Réservez Votre Trajet',
+    ctaFleet: 'Découvrir Notre Flotte',
     ctaWhatsApp: 'Concierge WhatsApp',
     guarantee1: '0 € d’acompte • Paiement en espèces au chauffeur à l’arrivée',
     guarantee2: '60 min d’attente offerte à l’aéroport & suivi radar du vol',
@@ -210,9 +235,9 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
   },
   es: {
     badge: '★ SERVICIO DE CHÓFER PRIVADO REAL VIP',
-    headline: 'Viva la Experiencia de Arabia Saudita con Máximo Confort',
+    headline: 'Su Viaje Merece una Comodidad Excepcional',
     subheadline:
-      'Transporte privado premium para peregrinos de Umrah, familias y ejecutivos en La Meca, Medina, Yeda, Taif y Riad.',
+      'Disfrute de servicios de chófer privado y transporte premium en Arabia Saudita, diseñados para peregrinos, familias y viajeros exigentes.',
     tabOneWay: 'Traslados Aeropuerto y Ciudades',
     tabHourly: 'Chófer Privado por Horas',
     tabZiyarat: 'Tours Sagrados Ziyarat',
@@ -222,9 +247,12 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
     dropoffLabel: 'Destino / Hotel',
     dateLabel: 'Fecha',
     timeLabel: 'Hora',
+    passengersLabel: 'Pasajeros',
+    luggageLabel: 'Equipaje',
     durationLabel: 'Duración',
     hoursSuffix: 'Horas',
-    ctaBook: 'Ver Tarifas y Reservar',
+    ctaBook: 'Reserve su Viaje',
+    ctaFleet: 'Explorar Nuestra Flota',
     ctaWhatsApp: 'Atención por WhatsApp',
     guarantee1: 'Sin adelanto • Pago en efectivo al chófer a la llegada',
     guarantee2: '60 min de espera de cortesía en aeropuerto y radar de vuelo',
@@ -233,9 +261,9 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
   },
   de: {
     badge: '★ KÖNIGLICHER VIP CHAUFFEUR-SERVICE',
-    headline: 'Erleben Sie Saudi-Arabien in Außergewöhnlichem Komfort',
+    headline: 'Ihre Reise Verdient Außergewöhnlichen Komfort',
     subheadline:
-      'Erstklassiger privater Chauffeurservice für Umrah-Pilger, Familien und Reisende in Mekka, Medina, Dschidda, Taif und Riad.',
+      'Erleben Sie erstklassige private Chauffeur- und Transportdienste in ganz Saudi-Arabien, maßgeschneidert für Pilger, Familien und anspruchsvolle Reisende.',
     tabOneWay: 'Flughafen- & Überlandtransfer',
     tabHourly: 'Chauffeur auf Stundenbasis',
     tabZiyarat: 'Historische Ziyarat-Touren',
@@ -245,9 +273,12 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
     dropoffLabel: 'Zielort / Hotel',
     dateLabel: 'Datum',
     timeLabel: 'Uhrzeit',
+    passengersLabel: 'Passagiere',
+    luggageLabel: 'Gepäck',
     durationLabel: 'Dauer',
     hoursSuffix: 'Stunden',
-    ctaBook: 'Festpreise Sehen & Buchen',
+    ctaBook: 'Reise Buchen',
+    ctaFleet: 'Flotte Entdecken',
     ctaWhatsApp: 'WhatsApp Betreuung',
     guarantee1: '0 € Anzahlung • Barzahlung beim Fahrer am Zielort',
     guarantee2: '60 Min. Wartezeit am Flughafen & Live-Flugradar',
@@ -256,9 +287,9 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
   },
   hi: {
     badge: '★ रॉयल वीआईपी निजी ड्राइवर सेवा',
-    headline: 'सऊदी अरब में असाधारण आराम और गरिमा के साथ यात्रा करें',
+    headline: 'आपकी यात्रा असाधारण आराम और गरिमा की हकदार है',
     subheadline:
-      'मक्का, मदीना, जेद्दा, ताइफ़ और रियाद में उमरा तीर्थयात्रियों, परिवारों और यात्रियों के लिए सर्वोत्तम निजी परिवहन सेवा।',
+      'सऊदी अरब भर में उमरा तीर्थयात्रियों, परिवारों और विशिष्ट यात्रियों के लिए डिज़ाइन की गई प्रीमियम निजी ड्राइवर और परिवहन सेवा।',
     tabOneWay: 'हवाई अड्डा एवं अंतर-शहर ट्रांसफर',
     tabHourly: 'प्रति घंटा निजी ड्राइवर',
     tabZiyarat: 'पवित्र जियारत यात्राएं',
@@ -268,9 +299,12 @@ const HERO_I18N: Record<Locale, HeroI18n> = {
     dropoffLabel: 'गंतव्य / होटल',
     dateLabel: 'तारीख',
     timeLabel: 'समय',
+    passengersLabel: 'यात्री',
+    luggageLabel: 'सामान',
     durationLabel: 'अवधि',
     hoursSuffix: 'घंटे',
-    ctaBook: 'किराया देखें और बुक करें',
+    ctaBook: 'अपनी यात्रा बुक करें',
+    ctaFleet: 'हमारा बेड़ा देखें',
     ctaWhatsApp: 'व्हाट्सएप सहायता',
     guarantee1: '0 अग्रिम राशि • आगमन पर चालक को नकद भुगतान',
     guarantee2: 'हवाई अड्डे पर 60 मिनट निःशुल्क प्रतीक्षा एवं फ्लाइट ट्रैकिंग',
@@ -300,6 +334,8 @@ export function HeroSection({ locale }: HeroSectionProps) {
   const [selectedRoute, setSelectedRoute] = useState('jeddah-airport-to-makkah');
   const [durationHours, setDurationHours] = useState('4');
   const [ziyaratTour, setZiyaratTour] = useState('makkah-half-day');
+  const [passengers, setPassengers] = useState('2');
+  const [luggage, setLuggage] = useState('2');
 
   const todayStr = useMemo(() => new Date().toISOString().split('T')[0], []);
   const tomorrowStr = useMemo(() => {
@@ -330,6 +366,8 @@ export function HeroSection({ locale }: HeroSectionProps) {
 
     query.set('date', pickupDate);
     query.set('time', pickupTime);
+    query.set('passengers', passengers);
+    query.set('luggage', luggage);
 
     router.push(`/${locale}/booking?${query.toString()}`);
   };
@@ -364,14 +402,14 @@ export function HeroSection({ locale }: HeroSectionProps) {
         </h1>
 
         {/* 4. CONCISE LUXURY SUPPORTING COPY */}
-        <p className="text-sm sm:text-base lg:text-lg text-[#E8E3DA]/90 font-light leading-relaxed max-w-2xl mb-8 drop-shadow-sm">
+        <p className="text-sm sm:text-base lg:text-lg text-[#E8E3DA]/90 font-light leading-relaxed max-w-2xl mb-8 drop-shadow-sm font-sans">
           {t.subheadline}
         </p>
 
         {/* 5. FLOATING ROYAL LUXURY RESERVATION ENGINE */}
         <div className="w-full max-w-4xl bg-[#FFFFFF] rounded-2xl sm:rounded-3xl border border-[#E8E3DA] p-4 sm:p-6 shadow-[0_20px_60px_rgba(0,0,0,0.45)] text-[#182235] text-start transition-all">
           {/* SERVICE TABS */}
-          <div className="flex items-center gap-2 border-b border-[#E8E3DA] pb-3 mb-4 overflow-x-auto scrollbar-none">
+          <div className="flex items-center gap-2 border-b border-[#E8E3DA] pb-3 mb-4 overflow-x-auto scrollbar-none font-sans">
             <button
               type="button"
               onClick={() => setTripType('transfer')}
@@ -408,9 +446,9 @@ export function HeroSection({ locale }: HeroSectionProps) {
           </div>
 
           {/* RESERVATION FORM FIELDS */}
-          <form onSubmit={handleBookingSubmit} className="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 items-end">
-            {/* FIELD 1: ROUTE OR DURATION SELECTION (md:col-span-6) */}
-            <div className="md:col-span-5">
+          <form onSubmit={handleBookingSubmit} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3 sm:gap-4 items-end font-sans">
+            {/* FIELD 1: ROUTE OR DURATION SELECTION (md:col-span-12 lg:col-span-4) */}
+            <div className="sm:col-span-2 md:col-span-12 lg:col-span-4">
               <label className="block text-[11px] font-bold uppercase tracking-wider text-[#687386] mb-1.5">
                 {tripType === 'transfer' ? t.routeLabel : tripType === 'ziyarat' ? t.tabZiyarat : t.durationLabel}
               </label>
@@ -464,8 +502,8 @@ export function HeroSection({ locale }: HeroSectionProps) {
               )}
             </div>
 
-            {/* FIELD 2: PICKUP DATE (md:col-span-3) */}
-            <div className="md:col-span-3">
+            {/* FIELD 2: PICKUP DATE (md:col-span-3 lg:col-span-2) */}
+            <div className="md:col-span-3 lg:col-span-2">
               <label className="block text-[11px] font-bold uppercase tracking-wider text-[#687386] mb-1.5">
                 {t.dateLabel}
               </label>
@@ -480,8 +518,8 @@ export function HeroSection({ locale }: HeroSectionProps) {
               </div>
             </div>
 
-            {/* FIELD 3: PICKUP TIME (md:col-span-2) */}
-            <div className="md:col-span-2">
+            {/* FIELD 3: PICKUP TIME (md:col-span-3 lg:col-span-2) */}
+            <div className="md:col-span-3 lg:col-span-2">
               <label className="block text-[11px] font-bold uppercase tracking-wider text-[#687386] mb-1.5">
                 {t.timeLabel}
               </label>
@@ -493,21 +531,74 @@ export function HeroSection({ locale }: HeroSectionProps) {
               />
             </div>
 
-            {/* FIELD 4: PRIMARY SUBMIT ACTION (md:col-span-2) */}
-            <div className="md:col-span-2">
+            {/* FIELD 4: PASSENGERS QUANTITY (md:col-span-3 lg:col-span-1) */}
+            <div className="md:col-span-3 lg:col-span-1">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-[#687386] mb-1.5 truncate">
+                {t.passengersLabel}
+              </label>
+              <div className="relative">
+                <select
+                  value={passengers}
+                  onChange={(e) => setPassengers(e.target.value)}
+                  className="w-full h-12 px-2 pr-6 rtl:pr-2 rtl:pl-6 rounded-xl bg-[#F7F5F0] border border-[#E8E3DA] text-[#182235] text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#C5A15D] cursor-pointer appearance-none"
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="7">7</option>
+                  <option value="10">10</option>
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 text-[#C5A15D] pointer-events-none absolute right-1.5 rtl:right-auto rtl:left-1.5 top-1/2 -translate-y-1/2" />
+              </div>
+            </div>
+
+            {/* FIELD 5: LUGGAGE QUANTITY (md:col-span-3 lg:col-span-1) */}
+            <div className="md:col-span-3 lg:col-span-1">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-[#687386] mb-1.5 truncate">
+                {t.luggageLabel}
+              </label>
+              <div className="relative">
+                <select
+                  value={luggage}
+                  onChange={(e) => setLuggage(e.target.value)}
+                  className="w-full h-12 px-2 pr-6 rtl:pr-2 rtl:pl-6 rounded-xl bg-[#F7F5F0] border border-[#E8E3DA] text-[#182235] text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#C5A15D] cursor-pointer appearance-none"
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="6">6</option>
+                  <option value="8">8</option>
+                  <option value="10">10</option>
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 text-[#C5A15D] pointer-events-none absolute right-1.5 rtl:right-auto rtl:left-1.5 top-1/2 -translate-y-1/2" />
+              </div>
+            </div>
+
+            {/* FIELD 6: PRIMARY SUBMIT ACTION (sm:col-span-2 md:col-span-12 lg:col-span-2) */}
+            <div className="sm:col-span-2 md:col-span-12 lg:col-span-2">
               <button
                 type="submit"
                 className="w-full h-12 rounded-xl bg-gradient-to-r from-[#C5A15D] to-[#D7B76C] hover:brightness-105 active:scale-[0.98] text-[#101827] font-bold text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-1.5 transition-all cursor-pointer"
               >
-                <span>{locale === 'ar' ? 'عرض السعر' : 'View Fares'}</span>
+                <span>{t.ctaBook}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180" />
               </button>
             </div>
           </form>
         </div>
 
-        {/* 6. SECONDARY CONCIERGE WHATSAPP ACTION PILL */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs font-semibold">
+        {/* 6. SECONDARY CTAS & CONCIERGE WHATSAPP ACTION PILL */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs font-semibold font-sans">
+          <Link
+            href={`/${locale}/fleet`}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#111C30]/80 hover:bg-[#111C30] border border-[#C5A15D]/40 text-[#D7B76C] hover:text-white transition-all shadow-sm cursor-pointer"
+          >
+            <Car className="w-3.5 h-3.5 text-[#C5A15D]" />
+            <span>{t.ctaFleet}</span>
+          </Link>
           <button
             type="button"
             onClick={() => setIsWhatsAppModalOpen(true)}
@@ -519,7 +610,7 @@ export function HeroSection({ locale }: HeroSectionProps) {
         </div>
 
         {/* 7. ROYAL HOSPITALITY GUARANTEES STRIP */}
-        <div className="mt-8 pt-6 border-t border-white/10 w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-[#E8E3DA]/80">
+        <div className="mt-8 pt-6 border-t border-white/10 w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-[#E8E3DA]/80 font-sans">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-[#C5A15D] shrink-0" />
             <span>{t.guarantee1}</span>
