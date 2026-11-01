@@ -104,16 +104,21 @@ export default async function ZiyaratHubPage(props: ZiyaratHubPageProps) {
           {/* Makkah City Hub Card */}
           <div className="bg-surface rounded-2xl border border-border p-6 md:p-8 hover:border-gold transition-all shadow-xs flex flex-col justify-between">
             <div>
-              <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-2">
-                {isAr ? 'مكة المكرمة' : 'Makkah Al-Mukarramah'}
-              </span>
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider">
+                  {isAr ? 'مكة المكرمة' : 'Makkah Al-Mukarramah'}
+                </span>
+                <span className="px-2.5 py-0.5 rounded-full bg-gold-soft border border-gold-line text-[11px] font-bold text-gold-dark">
+                  {isAr ? 'المدة المعتمدة: 2.5 ساعة' : 'Approved Duration: 2.5 Hours'}
+                </span>
+              </div>
               <h2 className="font-display font-bold text-2xl text-ink mb-3">
-                {isAr ? 'مزارات ومعالم مكة المكرمة' : 'Makkah Historical Sanctuary Sites'}
+                {isAr ? 'مزارات ومعالم مكة المكرمة (2.5 ساعة)' : 'Makkah Historical Sanctuary Sites (2.5h)'}
               </h2>
-              <p className="text-xs md:text-sm text-ink-muted leading-relaxed font-light mb-6">
+              <p className="text-xs md:text-sm text-ink-muted leading-relaxed font-light mb-4">
                 {isAr
-                  ? 'غار حراء بجبل النور، جبل ثور، وصعيد عرفات، ومنى، ومزدلفة. جولات ميسرة بالسيارة المكيفة تناسب العائلات وكبار السن.'
-                  : 'Cave Hira, Mount Thawr, Plains of Arafat, Mina, and Muzdalifah. Door-to-door hotel transport engineered for family ease.'}
+                  ? 'غار حراء بجبل النور، جبل ثور، وصعيد عرفات، ومنى، ومزدلفة. جولات ميسرة بالسيارة المكيفة تناسب العائلات وكبار السن بمدة معتمدة رسمياً 2.5 ساعة تبدأ من 250 ريال للمركبة.'
+                  : 'Cave Hira, Mount Thawr, Plains of Arafat, Mina, and Muzdalifah. Door-to-door hotel transport engineered for family ease with approved 2.5-hour duration starting from 250 SAR.'}
               </p>
               <div className="flex flex-wrap gap-2 text-xs text-ink-light mb-6">
                 <span className="px-2.5 py-1 rounded-md bg-bg-alt border border-border">غار حراء</span>
@@ -122,43 +127,58 @@ export default async function ZiyaratHubPage(props: ZiyaratHubPageProps) {
                 <span className="px-2.5 py-1 rounded-md bg-bg-alt border border-border">منى ومزدلفة</span>
               </div>
             </div>
-            <Link
-              href={`/${locale}/ziyarat/makkah`}
-              className="inline-flex items-center gap-2 text-xs font-bold text-gold-dark hover:underline"
-            >
-              <span>{isAr ? 'عرض كافة مزارات مكة وجولاتها' : 'Explore All Makkah Sites & Tours'}</span>
-              <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-            </Link>
+            <div className="flex items-center justify-between pt-4 border-t border-border">
+              <span className="text-xs font-bold text-ink">
+                {isAr ? 'تبدأ من 250 ريال للسيارة' : 'From 250 SAR per vehicle'}
+              </span>
+              <Link
+                href={`/${locale}/ziyarat/makkah`}
+                className="inline-flex items-center gap-2 text-xs font-bold text-gold-dark hover:underline"
+              >
+                <span>{isAr ? 'عرض كافة مزارات مكة وجولاتها' : 'Explore All Makkah Sites & Tours'}</span>
+                <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
+              </Link>
+            </div>
           </div>
 
           {/* Madinah City Hub Card */}
           <div className="bg-surface rounded-2xl border border-border p-6 md:p-8 hover:border-gold transition-all shadow-xs flex flex-col justify-between">
             <div>
-              <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider block mb-2">
-                {isAr ? 'المدينة المنورة' : 'Madinah Al-Munawwarah'}
-              </span>
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <span className="text-[11px] font-bold text-gold-dark uppercase tracking-wider">
+                  {isAr ? 'المدينة المنورة' : 'Madinah Al-Munawwarah'}
+                </span>
+                <span className="px-2.5 py-0.5 rounded-full bg-bg-alt border border-border text-[11px] font-bold text-ink-muted">
+                  {isAr ? 'جولة نبوية خاصة' : 'Private Prophetic Tour'}
+                </span>
+              </div>
               <h2 className="font-display font-bold text-2xl text-ink mb-3">
                 {isAr ? 'مزارات ومساجد المدينة المنورة' : 'Madinah Prophetic Mosques & Heritage'}
               </h2>
-              <p className="text-xs md:text-sm text-ink-muted leading-relaxed font-light mb-6">
+              <p className="text-xs md:text-sm text-ink-muted leading-relaxed font-light mb-4">
                 {isAr
-                  ? 'مسجد قباء والصلاة فيه، جبل أحد ومقبرة الشهداء، مسجد القبلتين، وموقع غزوة الخندق (المساجد السبعة)، ورحلات بدر التاريخية.'
-                  : 'Masjid Quba, Mount Uhud and the Martyrs, Masjid al-Qiblatayn, Seven Mosques (Khandaq), and Badr full-day trips.'}
+                  ? 'مسجد قباء والصلاة فيه، جبل أحد ومقبرة الشهداء، مسجد القبلتين، وموقع غزوة الخندق (المساجد السبعة). سيارة خاصة مكيفة بالكامل بسعر ثابت يبدأ من 250 ريال للمركبة.'
+                  : 'Masjid Quba, Mount Uhud and the Martyrs, Masjid al-Qiblatayn, and the Seven Mosques (Khandaq). Private dedicated vehicle starting from 250 SAR per vehicle.'}
               </p>
               <div className="flex flex-wrap gap-2 text-xs text-ink-light mb-6">
                 <span className="px-2.5 py-1 rounded-md bg-bg-alt border border-border">مسجد قباء</span>
                 <span className="px-2.5 py-1 rounded-md bg-bg-alt border border-border">جبل أحد</span>
                 <span className="px-2.5 py-1 rounded-md bg-bg-alt border border-border">القبلتين</span>
-                <span className="px-2.5 py-1 rounded-md bg-bg-alt border border-border">غزوة بدر</span>
+                <span className="px-2.5 py-1 rounded-md bg-bg-alt border border-border">المساجد السبعة</span>
               </div>
             </div>
-            <Link
-              href={`/${locale}/ziyarat/madinah`}
-              className="inline-flex items-center gap-2 text-xs font-bold text-gold-dark hover:underline"
-            >
-              <span>{isAr ? 'عرض كافة مزارات المدينة وجولاتها' : 'Explore All Madinah Sites & Tours'}</span>
-              <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-            </Link>
+            <div className="flex items-center justify-between pt-4 border-t border-border">
+              <span className="text-xs font-bold text-ink">
+                {isAr ? 'تبدأ من 250 ريال للسيارة' : 'From 250 SAR per vehicle'}
+              </span>
+              <Link
+                href={`/${locale}/ziyarat/madinah`}
+                className="inline-flex items-center gap-2 text-xs font-bold text-gold-dark hover:underline"
+              >
+                <span>{isAr ? 'عرض كافة مزارات المدينة وجولاتها' : 'Explore All Madinah Sites & Tours'}</span>
+                <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>

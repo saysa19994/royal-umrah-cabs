@@ -17,6 +17,7 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { getDbPricesCached } from '@/lib/pricing-db';
+import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
 import { ROUTES_COMPREHENSIVE_DATA, RouteData } from '@/data/routes-data';
 import {
   getLocalizedRouteContent,
@@ -336,7 +337,8 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
 
           <div className="divide-y divide-border">
             {Object.entries(VEHICLE_META).map(([vKey, meta]) => {
-              const priceSAR = routeRates[vKey] || 0;
+              const authPrice = AUTHORITATIVE_TRANSFER_RATES[slug]?.[vKey];
+              const priceSAR = routeRates[vKey] || authPrice || 0;
               const displayPrice = priceSAR > 0 ? priceSAR : 'Quote';
 
               return (
@@ -383,6 +385,32 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
                 </div>
               );
             })}
+
+            {/* BESPOKE FLEET CALLOUT (MAYBACH & H1) */}
+            <div className="mt-6 p-4 rounded-xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 border border-[#C5A059]/30">
+              <div>
+                <span className="text-[10px] font-extrabold text-[#C5A059] uppercase tracking-wider block mb-1">
+                  VIP BESPOKE FLEET • خدمة السيارات الرئاسية
+                </span>
+                <p className="text-xs text-slate-300">
+                  {isAr
+                    ? 'هل ترغب في حجز مرسيدس مايباخ الفارهة أو هيونداي H1 العائلية؟ الحجز متاح بعروض أسعار خاصة وفورية عبر واتساب.'
+                    : 'Interested in Mercedes-Maybach or Hyundai H1? Exclusive private bookings are quoted on-demand via our VIP WhatsApp Concierge.'}
+                </p>
+              </div>
+              <a
+                href={`https://wa.me/966567588261?text=${encodeURIComponent(
+                  isAr
+                    ? `السلام عليكم، أود الاستفسار عن حجز سيارة خاصة فاخرة (مرسيدس مايباخ / هيونداي H1) لمسار: ${route.titleAr}`
+                    : `Hello, I would like to inquire about booking a bespoke luxury vehicle (Mercedes-Maybach / Hyundai H1) for route: ${route.titleEn}`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="h-9 px-4 rounded-lg bg-gradient-to-r from-[#d99f2b] to-[#f4c84f] text-slate-950 text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shrink-0 whitespace-nowrap active:scale-95 shadow-xs"
+              >
+                <span>{isAr ? 'طلب عرض عبر واتساب' : 'Inquire via WhatsApp'}</span>
+              </a>
+            </div>
           </div>
         </section>
 

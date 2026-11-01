@@ -99,6 +99,20 @@ export const AUTHORITATIVE_TRANSFER_RATES: Record<string, Record<string, number>
     hiace: 2400,
     yukon: 2500,
   },
+  'makkah-ziyarat': {
+    camry: 250,
+    staria: 300,
+    hiace: 330,
+    yukon: 450,
+    coaster: 500,
+  },
+  'madinah-ziyarat': {
+    camry: 250,
+    staria: 300,
+    hiace: 330,
+    yukon: 450,
+    coaster: 500,
+  },
 };
 
 export const LOCALIZED_ROUTE_NAMES: Record<string, Record<Locale, string>> = {
@@ -245,6 +259,30 @@ export const LOCALIZED_ROUTE_NAMES: Record<string, Record<Locale, string>> = {
     es: 'Riad ⇄ Hotel Medina (Autopista VIP)',
     de: 'Riad ⇄ Hotel Medina (VIP-Fernstraße)',
     hi: 'रियाद ⇄ मदीना होटल (वीआईपी हाईवे)',
+  },
+  'makkah-ziyarat': {
+    en: 'Makkah Ziyarat Tour (2.5 Hours)',
+    ar: 'جولة مزارات مكة المكرمة (2.5 ساعة)',
+    ms: 'Lawatan Ziarah Makkah (2.5 Jam)',
+    tr: 'Mekke Ziyaret Turu (2.5 Saat)',
+    id: 'Tur Ziarah Makkah (2.5 Jam)',
+    ur: 'مکہ مکرمہ زیارات ٹور (2.5 گھنٹے)',
+    fr: 'Visite des Lieux Saints de La Mecque (2.5 Heures)',
+    es: 'Tour de Ziyarat en La Meca (2.5 Horas)',
+    de: 'Mekka Ziyarat Tour (2,5 Stunden)',
+    hi: 'मक्का ज़ियारत टूर (2.5 घंटे)',
+  },
+  'madinah-ziyarat': {
+    en: 'Madinah Prophetic Ziyarat Tour',
+    ar: 'جولة مزارات المدينة المنورة النبوية',
+    ms: 'Lawatan Ziarah Nabawi Madinah',
+    tr: 'Medine-i Münevvere Ziyaret Turu',
+    id: 'Tur Ziarah Nabawi Madinah',
+    ur: 'مدینہ منورہ زیارات نبوی ٹور',
+    fr: 'Visite des Lieux Saints de Médine',
+    es: 'Tour de Ziyarat en Medina',
+    de: 'Medina Ziyarat Tour',
+    hi: 'मदीना ज़ियारत टूर',
   },
 };
 

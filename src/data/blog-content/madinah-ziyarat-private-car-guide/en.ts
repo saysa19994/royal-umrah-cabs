@@ -68,7 +68,7 @@ export const MADINAH_ZIYARAT_CONTENT_EN: LocalizedArticleBody = {
     {
       title: 'Sample Flexible Half-Day Madinah Tour Itinerary',
       paragraphs: [
-        'A morning tour running approximately 3 to 3.5 hours is universally favored by families seeking comfort before the midday sun:',
+        'A morning tour is universally favored by families seeking comfort before the midday sun:',
         '• 07:30 AM: Chauffeur pickup directly from your Madinah hotel lobby following breakfast.',
         '• 07:45 – 08:30 AM: Arrival at Masjid Quba. Perform Sunnah prayers, explore the spacious landscaped courtyards, and take family photos.',
         '• 08:45 – 09:35 AM: Transit to Mount Uhud. Pay respects at the Martyrs’ Cemetery, ascend the steps of Jabal ar-Rumah, and absorb the historical panorama.',
@@ -90,12 +90,12 @@ export const MADINAH_ZIYARAT_CONTENT_EN: LocalizedArticleBody = {
     {
       title: 'Choosing the Right Vehicle Category for Your Group',
       paragraphs: [
-        'Select your vehicle based on passenger count and mobility requirements. The Duyuf Alrahman VIP fleet provides guaranteed categories and fixed, published fares:',
-        '• Comfort Sedans (e.g., Toyota Camry): Perfect for solo pilgrims or couples (up to 3 passengers). Fixed fare: SAR 250 for the complete 3 to 3.5-hour tour.',
-        '• Luxury Family MPVs (e.g., Hyundai Staria VIP): Ideal for families of 5 to 6 passengers, featuring dual electric sliding doors, low step-in height, and generous cabin space for folding strollers. Fixed fare: SAR 350 for the complete tour.',
-        '• Full-Size Luxury SUVs (e.g., GMC Yukon XL): Exceptional executive prestige, premium leather seating, and whisper-quiet suspension for 6 to 7 passengers. Fixed fare: SAR 480 for the complete tour.',
-        '• Executive Passenger Vans (e.g., Toyota HiAce): Accommodates medium groups of 9 to 10 passengers with high-roof headroom. Fixed fare: SAR 450 for the complete tour.',
-        '• VIP Minibuses (e.g., Toyota Coaster): Accommodates extended family delegations and Umrah groups up to 18–20 passengers. Fixed fare: SAR 750 for the complete tour.',
+        'Select your vehicle based on passenger count and mobility requirements. The Duyuf Alrahman VIP fleet provides guaranteed categories and official, published fares:',
+        '• Comfort Sedans (e.g., Toyota Camry): Perfect for solo pilgrims or couples (up to 4 passengers). Fixed fare: SAR 250 for the private tour.',
+        '• Luxury Family MPVs (e.g., Hyundai Staria VIP): Ideal for families of 5 to 7 passengers, featuring dual electric sliding doors, low step-in height, and generous cabin space for folding strollers. Fixed fare: SAR 300 for the private tour.',
+        '• Full-Size Luxury SUVs (e.g., GMC Yukon XL): Exceptional executive prestige, premium leather seating, and whisper-quiet suspension for up to 7 passengers. Fixed fare: SAR 450 for the private tour.',
+        '• Executive Passenger Vans (e.g., Toyota HiAce): Accommodates medium groups of 8 to 10 passengers with high-roof headroom. Fixed fare: SAR 330 for the private tour.',
+        '• VIP Minibuses (e.g., Toyota Coaster): Accommodates extended family delegations and Umrah groups up to 21 passengers. Fixed fare: SAR 500 for the private tour.',
         'All prices are fixed per vehicle—never per person—and include fuel, parking fees, highway tolls, and driver waiting time.'
       ]
     },
@@ -104,7 +104,7 @@ export const MADINAH_ZIYARAT_CONTENT_EN: LocalizedArticleBody = {
       paragraphs: [
         'Keep this quick 6-point checklist in mind when reserving your Madinah Ziyarat transportation:',
         '1. Verified Local Madinah Presence: Confirm that your transport provider operates active vehicles stationed within Madinah, rather than only running intercity drop-offs.',
-        '2. Fixed Duration and Stop Allowance: Ensure the agreed booking provides 3 to 3.5 hours of dedicated chauffeur standby.',
+        '2. Dedicated Chauffeur Standby: Ensure the agreed booking provides dedicated chauffeur standby at all visited prophetic landmarks.',
         '3. Explicit Destination Agreement: Clarify the stops included (e.g., Quba, Uhud, Qiblatayn, and Seven Mosques) in advance.',
         '4. All-Inclusive Price Transparency: Verify that the agreed quote covers the private vehicle, driver service, fuel, parking, and VAT with zero hidden extras.',
         '5. Strict Pay-the-Driver Policy (Zero Prepayment): Protect yourself against online scams by choosing services where payment is made directly to the chauffeur upon arrival at your hotel strictly in cash (SAR or USD).',

@@ -817,13 +817,13 @@ export const ZIYARAT_GUIDES: Record<string, ZiyaratGuide> = {
     contentEn: [
       'Makkah is framed by profound spiritual history extending far beyond the immediate precinct of the Grand Mosque. A thoughtful Ziyarat excursion enriches your Umrah experience by bringing prophetic milestones to life.',
       'Optimal Timing: Makkah experiences high mid-day temperatures year-round. We advise initiating your morning tour at 6:30 AM immediately following Fajr prayer or planning an afternoon excursion starting after Asr (around 4:00 PM).',
-      'Grouping Your Stops: Jabal Thawr and Arafat form a natural southern and southeastern circuit, while Mina, Muzdalifah, and Jabal al-Noor lie along the eastern and northern corridor. A private chauffeur seamlessly links these locations in 3.5 hours.',
+      'Grouping Your Stops: Jabal Thawr and Arafat form a natural southern and southeastern circuit, while Mina, Muzdalifah, and Jabal al-Noor lie along the eastern and northern corridor. A private chauffeur seamlessly links these locations in 2.5 hours.',
       'Accessibility Focus: If traveling with elderly family members, prioritize vehicular viewing stops rather than mountain ascents. Both the Hira Cultural District and the Jabal ar-Rahmah base plaza provide paved wheelchair-friendly vantage points.',
     ],
     contentAr: [
       'تزخر مكة المكرمة بتاريخ إيماني عظيم يمتد إلى ما هو أبعد من أروقة المسجد الحرام، وتمنح زيارة هذه المعالم المعتمر بعداً روحياً وتاريخياً يعزز معايشته لسيرة المصطفى ﷺ.',
       'أفضل أوقات الانطلاق: ترتفع درجات الحرارة نهاراً في مكة طوال العام، لذا يُنصح بالانطلاق في الصباح الباكر عند الساعة 6:30 صباحاً بعد صلاة الفجر، أو بعد صلاة العصر عند الرابعة عصراً.',
-      'ترتيب المسارات: يقع جبل ثور وعرفات في المسار الجنوبي والجنوبي الشرقي، بينما تتكامل منى ومزدلفة وجبل النور في المحور الشرقي والشمالي، وتتيح السيارة الخاصة زيارة هذه المعالم جميعاً في 3.5 إلى 4 ساعات بانسيابية تامة.',
+      'ترتيب المسارات: يقع جبل ثور وعرفات في المسار الجنوبي والجنوبي الشرقي، بينما تتكامل منى ومزدلفة وجبل النور في المحور الشرقي والشمالي، وتتيح السيارة الخاصة زيارة هذه المعالم جميعاً في 2.5 ساعة بانسيابية تامة.',
       'رعاية كبار السن: احرص على الاكتفاء بالمشاهدة من السيارة أو الساحات السفلية الممهدة وتجنب صعود الجبال الشاقة حفاظاً على صحتهم وسلامتهم.',
     ],
   },
