@@ -576,7 +576,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
       ? `السلام عليكم، أود حجز سيارة (${name}) لرحلة العمرة.`
       : `Hello Duyuf Alrahman VIP, I would like to inquire about reserving the (${name}) for our Umrah transfer.`
   );
-  const whatsappUrl = `https://wa.me/966567554988?text=${whatsappMessage}`;
+  const whatsappUrl = `https://wa.me/966567588261?text=${whatsappMessage}`;
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   const pageUrl = `${baseUrl}/${locale}/fleet/${slug}`;
