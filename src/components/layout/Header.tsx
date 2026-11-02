@@ -167,12 +167,21 @@ export function Header({ locale, dict, settings }: HeaderProps) {
     router.push(newPath);
   };
 
-  const navLinks = [
+  const primaryNavLinks = [
     { href: `/${locale}/routes`, label: dict.nav.routes },
-    { href: `/${locale}/services`, label: dict.nav.services },
     { href: `/${locale}/fleet`, label: dict.nav.fleet },
     { href: `/${locale}/pricing`, label: dict.nav.pricing },
     { href: `/${locale}/ziyarat`, label: t.ziyarat },
+    { href: `/${locale}/services`, label: dict.nav.services },
+    { href: `/${locale}/about`, label: dict.nav.about },
+  ];
+
+  const allNavLinks = [
+    { href: `/${locale}/routes`, label: dict.nav.routes },
+    { href: `/${locale}/fleet`, label: dict.nav.fleet },
+    { href: `/${locale}/pricing`, label: dict.nav.pricing },
+    { href: `/${locale}/ziyarat`, label: t.ziyarat },
+    { href: `/${locale}/services`, label: dict.nav.services },
     { href: `/${locale}/blog`, label: t.blog },
     { href: `/${locale}/guides`, label: dict.nav.guides },
     { href: `/${locale}/about`, label: dict.nav.about },
@@ -223,8 +232,8 @@ export function Header({ locale, dict, settings }: HeaderProps) {
         </Link>
 
         {/* DESKTOP CENTER NAVIGATION LINKS */}
-        <nav aria-label={t.navigation} className="hidden lg:flex items-center gap-3 xl:gap-5 2xl:gap-6 font-medium text-xs xl:text-sm">
-          {navLinks.map((link) => {
+        <nav aria-label={t.navigation} className="hidden lg:flex items-center gap-4 xl:gap-6 font-medium text-xs xl:text-sm">
+          {primaryNavLinks.map((link) => {
             const isActive = pathname === link.href || pathname === `${link.href}/`;
             return (
               <Link
@@ -355,7 +364,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
 
           {/* DRAWER NAVIGATION LINKS */}
           <nav aria-label={t.navigation} className="flex flex-col py-4 divide-y divide-white/10">
-            {navLinks.map((link) => (
+            {allNavLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
