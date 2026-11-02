@@ -168,7 +168,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
   };
 
   const primaryNavLinks = [
-    { href: `/${locale}/routes`, label: dict.nav.routes },
+    { href: locale === 'en' ? '/' : `/${locale}`, label: dict.nav.home },
     { href: `/${locale}/fleet`, label: dict.nav.fleet },
     { href: `/${locale}/pricing`, label: dict.nav.pricing },
     { href: `/${locale}/ziyarat`, label: t.ziyarat },

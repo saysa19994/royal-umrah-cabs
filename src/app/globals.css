@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "../styles/homepage-reference.css";
+
 :root {
   /* OFFICIAL ROYAL LUXURY DESIGN TOKENS */
   --color-royal-navy: #101827;

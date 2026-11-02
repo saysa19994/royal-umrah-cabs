@@ -10,31 +10,20 @@ import type { SiteSettings } from '@/lib/settings';
 import { useCurrency } from '@/context/CurrencyContext';
 import {
   Plane,
-  Building,
-  Palmtree,
-  Compass,
+  Clock,
+  ShieldCheck,
+  Baby,
+  Car,
+  MapPin,
+  Calendar,
+  Users,
+  Search,
   ArrowRight,
   ArrowLeft,
-  CheckCircle2,
-  Users,
-  Luggage,
-  Sparkles,
-  Banknote,
-  MapPin,
-  Clock,
-  Shield,
-  ShieldCheck,
-  Calendar,
-  Baby,
-  Star,
+  ArrowUpRight,
   MessageCircle,
-  HelpCircle,
-  ChevronDown,
-  Car,
-  ChevronRight,
-  Award,
+  Sparkles,
 } from 'lucide-react';
-import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
 
 interface RoyalHomepageExperienceProps {
   locale: Locale;
@@ -44,1615 +33,913 @@ interface RoyalHomepageExperienceProps {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 10-LANGUAGE STRINGS FOR ROYAL HOMEPAGE
+// 10-LANGUAGE STRINGS FOR HOMEPAGE REFERENCE IMPLEMENTATION
 // ─────────────────────────────────────────────────────────────────────────────
-const HP_I18N: Record<
-  Locale,
-  {
-    heroBadge: string;
-    heroHeadline: string;
-    heroSubheadline: string;
-    tabTransfer: string;
-    tabZiyarat: string;
-    tabHourly: string;
-    routeLabel: string;
-    dateLabel: string;
-    timeLabel: string;
-    passengersLabel: string;
-    luggageLabel: string;
-    durationLabel: string;
-    ctaViewVehicles: string;
-    reassurancePill: string;
-    trust1: string;
-    trust2: string;
-    trust3: string;
-    trust4: string;
-    trust5: string;
-    advantagesBadge: string;
-    advantagesTitle: string;
-    advantagesSubtitle: string;
-    advantages: Array<{ title: string; desc: string; icon: string }>;
-    fleetBadge: string;
-    fleetTitle: string;
-    fleetSubtitle: string;
-    fleetDisclaimer: string;
-    exploreDetails: string;
-    bookThisVehicle: string;
-    journeysBadge: string;
-    journeysTitle: string;
-    journeysSubtitle: string;
-    fromStarting: string;
-    bookThisRoute: string;
-    conciergeBadge: string;
-    conciergeTitle: string;
-    conciergeSubtitle: string;
-    conciergeMaybachTitle: string;
-    conciergeMaybachDesc: string;
-    conciergeH1Title: string;
-    conciergeH1Desc: string;
-    conciergeCta: string;
-    processBadge: string;
-    processTitle: string;
-    processSubtitle: string;
-    processSteps: Array<{ num: string; title: string; desc: string }>;
-    reviewsBadge: string;
-    reviewsTitle: string;
-    reviewsSubtitle: string;
-    faqBadge: string;
-    faqTitle: string;
-    faqSubtitle: string;
-    faqs: Array<{ q: string; a: string }>;
-    closingBadge: string;
-    closingTitle: string;
-    closingSubtitle: string;
-    closingBookBtn: string;
-    closingWhatsappBtn: string;
-  }
-> = {
+interface HomepageStrings {
+  announcement: string;
+  heroBadge: string;
+  heroHeadlineMain: string;
+  heroHeadlineHighlight: string;
+  heroSubtitle: string;
+  heroCtaStart: string;
+  heroCtaFleet: string;
+  bookingKicker: string;
+  bookingTitle: string;
+  bookingNote: string;
+  pickupLabel: string;
+  pickupPlaceholder: string;
+  dropoffLabel: string;
+  dropoffPlaceholder: string;
+  dateLabel: string;
+  passengersLabel: string;
+  bookingSubmit: string;
+  errorSelectFields: string;
+  errorSameLocation: string;
+  locJeddahAirport: string;
+  locMakkah: string;
+  locMadinahAirport: string;
+  locMadinah: string;
+  locTaif: string;
+  trustTaxesTitle: string;
+  trustTaxesSub: string;
+  trustCancelTitle: string;
+  trustCancelSub: string;
+  trustChildTitle: string;
+  trustChildSub: string;
+  trustFlightTitle: string;
+  trustFlightSub: string;
+  trust24Title: string;
+  trust24Sub: string;
+  fleetKicker: string;
+  fleetTitle: string;
+  fleetSubtitle: string;
+  fleetViewAll: string;
+  passengersWord: string;
+  bagsWord: string;
+  selectVehicleCta: string;
+  fleetFootnote: string;
+  routesKicker: string;
+  routesTitle: string;
+  routesSubtitle: string;
+  routesViewAll: string;
+  fromPricePrefix: string;
+  discoverJourney: string;
+  tagAirport: string;
+  tagIntercity: string;
+  conciergeKicker: string;
+  conciergeTitle: string;
+  conciergeSubtitle: string;
+  conciergeCta: string;
+  conciergeDisclaimer: string;
+  experienceKicker: string;
+  experienceTitle: string;
+  experienceSubtitle: string;
+  exp1Title: string;
+  exp1Desc: string;
+  exp2Title: string;
+  exp2Desc: string;
+  exp3Title: string;
+  exp3Desc: string;
+  reviewsKicker: string;
+  reviewsTitle: string;
+  reviewsSubtitle: string;
+  rev1Name: string;
+  rev1Tag: string;
+  rev1Text: string;
+  rev2Name: string;
+  rev2Tag: string;
+  rev2Text: string;
+  rev3Name: string;
+  rev3Tag: string;
+  rev3Text: string;
+  finalCtaKicker: string;
+  finalCtaTitle: string;
+  finalCtaSubtitle: string;
+  finalCtaButton: string;
+}
+
+const HP_STRINGS: Record<Locale, HomepageStrings> = {
   ar: {
-    heroBadge: '★ النقل الملكي الفاخر لضيوف الرحمن',
-    heroHeadline: 'رحلتكم إلى بيت الله الحرام تستحق أقصى درجات السكينة والرفاهية',
-    heroSubheadline:
-      'خدمات السائق الخاص والنقل التنفيذي المعتمد لضيوف الرحمن والعائلات بين مطارات جدة والمدينة المنورة وفنادق مكة المكرمة. أسعار ثابتة معتمدة ودفع نقداً 100% عند الوصول.',
-    tabTransfer: 'توصيل المطارات والمدن',
-    tabZiyarat: 'جولات المزارات الشريفة',
-    tabHourly: 'سائق خاص بالساعة',
-    routeLabel: 'مسار الرحلة المعتمد',
+    announcement: 'خدمة نقل خاصة لضيوف الرحمن والعائلات في مختلف أنحاء المملكة',
+    heroBadge: 'ضيوف الرحمن VIP',
+    heroHeadlineMain: 'رحلتك في المملكة..',
+    heroHeadlineHighlight: 'برفاهية تليق بك',
+    heroSubtitle: 'خدمات نقل خاصة بسيارات فاخرة وسائقين محترفين. تجربة سفر مصممة لراحتك من لحظة الانطلاق حتى الوصول.',
+    heroCtaStart: 'ابدأ حجز رحلتك',
+    heroCtaFleet: 'اكتشف الأسطول',
+    bookingKicker: 'ابدأ رحلتك',
+    bookingTitle: 'احجز مشوارك بكل سهولة',
+    bookingNote: 'دفع نقدي للسائق بعد الوصول بأمان',
+    pickupLabel: 'من أين؟',
+    pickupPlaceholder: 'اختر نقطة الانطلاق',
+    dropoffLabel: 'إلى أين؟',
+    dropoffPlaceholder: 'اختر وجهتك',
     dateLabel: 'تاريخ الرحلة',
-    timeLabel: 'وقت الانطلاق',
-    passengersLabel: 'الركاب',
-    luggageLabel: 'الحقائب',
-    durationLabel: 'المدة المطلوبة',
-    ctaViewVehicles: 'عرض السيارات المتاحة والأسعار المعتمدة',
-    reassurancePill: '0 ريال دفعة مقدمة • سداد نقدي 100% للسائق عند الوصول • تتبع راداري لرحلات الطيران • أسعار ثابتة معتمدة',
-    trust1: 'سداد نقدي 100% عند الوصول',
-    trust2: 'أسعار ثابتة للمركبة بالكامل',
-    trust3: '60 دقيقة انتظار مجاني بالمطار',
-    trust4: 'تتبع راداري لرحلات الطيران',
-    trust5: 'مياه زمزم مبردة ومساعدة بالأمتعة',
-    advantagesBadge: 'معايير الامتياز الملكي',
-    advantagesTitle: 'لماذا يختار ضيوف الرحمن خدماتنا الفاخرة؟',
-    advantagesSubtitle: 'خمس ركائز راسخة تضمن لكم راحة البال والسكينة التامة في كل خطوة من رحلتكم المباركة.',
-    advantages: [
-      {
-        title: 'خدمة وتوجيه على مدار 24/7',
-        desc: 'فريق عمليات وتنسيق ثنائي اللغة يرافقكم على مدار الساعة عبر واتساب والاتصال المباشر لضمان تجربة نقل بلا أي عوائق.',
-        icon: 'clock',
-      },
-      {
-        title: 'تتبع راداري فوري لرحلات الطيران',
-        desc: 'نرصد رقم رحلتكم عبر الرادار الملاحي لحظة بلحظة؛ في حال أي تأخير، يُعدل موعد وصول السائق تلقائياً مع 60 دقيقة انتظار مجاني.',
-        icon: 'plane',
-      },
-      {
-        title: 'مقاعد أمان للأطفال وعناية عائلية',
-        desc: 'نوفر مقاعد أمان معقمة ومطابقة لأعلى معايير السلامة للأطفال والرضع مجاناً عند الطلب، مع رحابة فائقة للعائلات وكبار السن.',
-        icon: 'baby',
-      },
-      {
-        title: 'إلغاء مرن ومجاني بدون شروط جزائية',
-        desc: 'بدون أي عربون أو دفع مسبق؛ يمكنكم تعديل أو إلغاء حجزكم مجاناً حتى 4 ساعات قبل موعد الانطلاق دون أي التزامات مالية.',
-        icon: 'calendar',
-      },
-      {
-        title: 'أسعار ثابتة شاملة كافة الضرائب والرسوم',
-        desc: 'السعر المتفق عليه نهائي وشامل لكافة رسوم الطرق السريعة وضريبة القيمة المضافة ومواقف المطار، والدفع نقداً للسائق عند الوصول.',
-        icon: 'shield',
-      },
-    ],
-    fleetBadge: 'الأسطول الملكي المعتمد',
-    fleetTitle: 'سيارات فاخرة مجهزة لأقصى درجات الراحة',
-    fleetSubtitle: 'اختر المركبة المناسبة لعدد أفراد عائلتك وحقائبكم؛ كافة السيارات حديثة ومعقمة ومكيفة بأعلى درجات الجودة.',
-    fleetDisclaimer: 'تُعرض الأسعار الدقيقة المعتمدة لكل مركبة فور اختيار مسار الرحلة دون أي مبالغ خفية.',
-    exploreDetails: 'استكشف مواصفات السيارة',
-    bookThisVehicle: 'احجز هذه السيارة الآن',
-    journeysBadge: 'المسارات المعتمدة الشائعة',
-    journeysTitle: 'أهم وجهات النقل بين الحرمين الشريفين',
-    journeysSubtitle: 'تعريفات ثابتة ومعتمدة رسمياً لنقل ضيوف الرحمن والعائلات بين أهم محطات الرحلة المباركة.',
-    fromStarting: 'تبدأ من:',
-    bookThisRoute: 'احجز هذا المسار الآن',
-    conciergeBadge: 'خدمة الكونسيرج الملكية الخاصة',
-    conciergeTitle: 'حجوزات السيارات الحصرية لكبار الشخصيات',
-    conciergeSubtitle: 'لكبار الشخصيات والوفود الرسمية ورجال الأعمال، نوفر سيارات استثنائية بعروض فورية وخاصة عبر مستشار الحجوزات الملكية.',
-    conciergeMaybachTitle: 'مرسيدس مايباخ S-Class VIP',
-    conciergeMaybachDesc: 'قمة الفخامة الدبلوماسية وأجنحة الجلوس الملكية من الدرجة الأولى وعزل صوتي فائق لسكينة ضيوف الرحمن.',
-    conciergeH1Title: 'هيونداي H1 رويال VIP',
-    conciergeH1Desc: 'فان تنفيذي راقٍ برحابة فائقة وخصوصية تامة مخصص للوفود الدبلوماسية والعائلات رفيعة المستوى.',
-    conciergeCta: 'طلب تسعير كونسيرج خاص عبر واتساب',
-    processBadge: 'خطوات الحجز الميسرة',
-    processTitle: 'كيف تحجز رحلتك بثلاث خطوات بسيطة؟',
-    processSubtitle: 'تجربة حجز شفافة وفورية تضمن لك راحة البال قبل مغادرتك لبلدك وحتى وصولك إلى وجهتك المباركة.',
-    processSteps: [
-      {
-        num: '01',
-        title: 'احجز أونلاين خلال 60 ثانية',
-        desc: 'حدد مسارك وتاريخك والسيارة المناسبة عبر الموقع بكل سهولة، دون الحاجة لدفع أي عربون أو إدخال بطاقة ائتمانية.',
-      },
-      {
-        num: '02',
-        title: 'تأكيد فوري وتنسيق عبر واتساب',
-        desc: 'يتواصل معكم فريق العمليات لتأكيد تفاصيل الحجز، وتعيين السائق المعتمد وإرسال بيانات المركبة وتتبع رحلة الطيران.',
-      },
-      {
-        num: '03',
-        title: 'استقبال بالاسم وسداد نقدي عند الوصول',
-        desc: 'يستقبلكم السائق في صالة المطار أو الفندق حاملاً لوحة باسمكم، ويتم سداد الأجرة نقداً 100% بعد الوصول بسلام.',
-      },
-    ],
-    reviewsBadge: 'تقييمات ضيوف الرحمن',
-    reviewsTitle: 'ثقة متبادلة وتجارب ضيوفنا الكرام',
-    reviewsSubtitle: 'أكثر من 15,000 رحلة موفقة لضيوف الرحمن من مختلف دول العالم بتقييم 4.9 من 5 نجوم.',
-    faqBadge: 'الأسئلة الشائعة',
-    faqTitle: 'كل ما تحتاج لمعرفته حول الحجز والأسعار',
-    faqSubtitle: 'إجابات واضحة وموثوقة على أكثر الاستفسارات شيوعاً لدى المعتمرين والزوار.',
-    faqs: [
-      {
-        q: 'هل السعر محدد للمركبة كاملة أم لكل راكب؟',
-        a: 'كافة الأسعار المعتمدة هي للمركبة بالكامل بسعتها الكاملة من الركاب والحقائب، وليست للشخص الواحد.',
-      },
-      {
-        q: 'متى وكيف يتم سداد قيمة الرحلة؟',
-        a: 'لا نطلب أي عربون أو بطاقة ائتمانية أونلاين. يتم الدفع نقداً 100% مباشرة للسائق بعد الوصول بسلام إلى فندقك ووجهتك.',
-      },
-      {
-        q: 'ماذا لو تأخرت رحلة الطيران القادمة إلى مطار جدة أو المدينة؟',
-        a: 'يتتبع فريقنا رحلتك عبر الرادار الملاحي الفوري، ويصل السائق بناءً على موعد الهبوط الفعلي مع 60 دقيقة انتظار مجاني بعد الهبوط.',
-      },
-      {
-        q: 'هل يتوقف السائق بميقات الإحرام أثناء السفر من المدينة إلى مكة؟',
-        a: 'نعم، يشمل مسار المدينة إلى مكة التوقف المجاني المريح عند ميقات ذي الحليفة (مسجد الشجرة / آبار علي) للإحرام وصلاة ركعتي الإحرام.',
-      },
-    ],
-    closingBadge: 'احجز رحلتك الملكية اليوم',
-    closingTitle: 'جاهزون لاستقبالكم وخدمتكم بأعلى معايير الضيافة السعودية',
-    closingSubtitle: 'احجز سيارتك الخاصة وسائقك المحترف الآن بكل يسر، وادفع نقداً عند الوصول بكل طمأنينة.',
-    closingBookBtn: 'ابدأ الحجز الآن أونلاين',
-    closingWhatsappBtn: 'تواصل مع الكونسيرج عبر واتساب',
+    passengersLabel: 'عدد الركاب',
+    bookingSubmit: 'عرض السيارات والأسعار',
+    errorSelectFields: 'يرجى تحديد نقطة الانطلاق والوجهة وتاريخ الرحلة.',
+    errorSameLocation: 'يرجى اختيار وجهتين مختلفتين.',
+    locJeddahAirport: 'مطار جدة (KAIA)',
+    locMakkah: 'مكة المكرمة',
+    locMadinahAirport: 'مطار المدينة',
+    locMadinah: 'المدينة المنورة',
+    locTaif: 'الطائف',
+    trustTaxesTitle: 'شامل الرسوم والضرائب',
+    trustTaxesSub: 'وفق شروط المسار المعتمد',
+    trustCancelTitle: 'إلغاء مجاني حسب السياسات',
+    trustCancelSub: 'مرونة كاملة في خطط السفر',
+    trustChildTitle: 'مقاعد أطفال عند الطلب',
+    trustChildSub: 'راحة العائلة أولويتنا',
+    trustFlightTitle: 'متابعة الرحلات الجوية',
+    trustFlightSub: 'متابعة موعد الوصول بدقة',
+    trust24Title: 'خدمة على مدار 24/24',
+    trust24Sub: 'تنسيق ومساندة متواصلة',
+    fleetKicker: 'أسطولنا الفاخر',
+    fleetTitle: 'مجموعة متميزة من المركبات',
+    fleetSubtitle: 'اختر المركبة التي تناسب عدد ركابك واحتياجات رحلتك.',
+    fleetViewAll: 'عرض جميع السيارات',
+    passengersWord: 'ركاب',
+    bagsWord: 'حقائب',
+    selectVehicleCta: 'اختر هذه المركبة',
+    fleetFootnote: 'السعات المعروضة معتمدة رسميًا وتخضع لمعايير السلامة والراحة لضيوف الرحمن.',
+    routesKicker: 'أكثر المسارات طلباً',
+    routesTitle: 'مساراتك… برحلة أكثر راحة',
+    routesSubtitle: 'تنقل خاص يربط أهم الوجهات في المملكة بأسعار معتمدة وشفافة.',
+    routesViewAll: 'استكشف جميع المسارات',
+    fromPricePrefix: 'من',
+    discoverJourney: 'اكتشف الرحلة',
+    tagAirport: 'استقبال المطار',
+    tagIntercity: 'بين المدن',
+    conciergeKicker: 'خدمة الكونسيرج الملكي',
+    conciergeTitle: 'تجربة استثنائية لعملائنا المميزين',
+    conciergeSubtitle: 'سيارات مايباخ وهيونداي H1 للطلبات الخاصة وخدمات كبار الشخصيات.',
+    conciergeCta: 'تواصل عبر واتساب',
+    conciergeDisclaimer: 'هذه المركبات متاحة بطلب خاص عبر الكونسيرج، وليست ضمن الحجز الفوري.',
+    experienceKicker: 'تفاصيل تصنع الفرق',
+    experienceTitle: 'من لحظة الاستقبال… حتى الوصول',
+    experienceSubtitle: 'ننسق تفاصيل رحلتك بعناية فائقة، لتستمتع بوقت أكثر وقلق أقل.',
+    exp1Title: 'تخطيط واضح قبل الانطلاق',
+    exp1Desc: 'تفاصيل الرحلة والمسار والسعر تُعرض بوضوح تام دون أي تكاليف خفية.',
+    exp2Title: 'تنسيق ومتابعة الرحلة',
+    exp2Desc: 'متابعة الرحلات الجوية والتنسيق مع السائق لضمان استقبالك في الموعد.',
+    exp3Title: 'دفع مريح بعد الوصول',
+    exp3Desc: 'الدفع نقدًا للسائق بعد إتمام الرحلة والوصول إلى وجهتك بسلام، دون دفعة مسبقة.',
+    reviewsKicker: 'آراء عملائنا الكرام',
+    reviewsTitle: 'ثقتكم هي دافعنا للمزيد',
+    reviewsSubtitle: 'تجارب حقيقية لضيوف الرحمن مع خدماتنا الخاصة.',
+    rev1Name: 'محمد العتيبي',
+    rev1Tag: 'معتمر من الرياض',
+    rev1Text: 'أفضل خدمة نقل في المملكة. السائق كان في انتظارنا بالمطار بسيارة نظيفة وراقية، ورحلة مريحة جدًا إلى مكة المكرمة.',
+    rev2Name: 'سارة العتيبي',
+    rev2Tag: 'رحلة عائلية',
+    rev2Text: 'احترافية عالية والتزام دقيق بالمواعيد. تعامل السائق راقٍ وقمة في الأخلاق. شكراً لفريق ضيوف الرحمن.',
+    rev3Name: 'أحمد محمد',
+    rev3Tag: 'معتمر من الإمارات',
+    rev3Text: 'خدمة رائعة وتجربة سفر مريحة بكل تفاصيلها. ميزة الدفع بعد الوصول تمنح راحة بال وثقة كاملة.',
+    finalCtaKicker: 'ضيوف الرحمن VIP',
+    finalCtaTitle: 'احجز رحلتك الآن واستمتع بتجربة ضيافة ملكية',
+    finalCtaSubtitle: 'اختر وجهتك ودعنا نهتم بباقي التفاصيل بعناية واحتراف.',
+    finalCtaButton: 'ابدأ الحجز الآن',
   },
-
   en: {
-    heroBadge: '★ PRIVATE AVIATION LUXURY ON GROUND',
-    heroHeadline: 'Your Sacred Journey Deserves Uncompromising Comfort & Dignity',
-    heroSubheadline:
-      'Authoritative executive chauffeur and private transfers connecting King Abdulaziz Airport (Jeddah), Prince Mohammad Airport (Madinah), and holy Makkah hotels. Guaranteed fixed fares with 100% cash paid upon arrival.',
-    tabTransfer: 'Airport & Intercity Transfers',
-    tabZiyarat: 'Sacred Ziyarat Tours',
-    tabHourly: 'Hourly Private Chauffeur',
-    routeLabel: 'Authoritative Highway Route',
-    dateLabel: 'Pickup Date',
-    timeLabel: 'Pickup Time',
-    passengersLabel: 'Passengers',
-    luggageLabel: 'Luggage',
-    durationLabel: 'Service Duration',
-    ctaViewVehicles: 'View Available Vehicles & Prices',
-    reassurancePill: '0 Advance Deposit • 100% Cash to Chauffeur on Arrival • Live Flight Radar Tracking • Guaranteed Fixed Fares',
-    trust1: '100% Cash Paid on Arrival',
-    trust2: 'Guaranteed Fixed Fares per Vehicle',
-    trust3: '60-Min Free Airport Wait Time',
-    trust4: 'Automated Live Flight Radar Tracking',
-    trust5: 'Chilled Zamzam Water & Luggage Help',
-    advantagesBadge: 'The Royal Distinction',
-    advantagesTitle: 'Why Discerning Pilgrims Choose Duyuf Alrahman VIP',
-    advantagesSubtitle: 'Five foundational pillars designed to grant you peace of mind, punctuality, and serenity throughout your sacred voyage.',
-    advantages: [
-      {
-        title: '24/7 Dedicated Chauffeur Dispatch',
-        desc: 'Our bilingual operations desk coordinates every leg of your journey via WhatsApp and direct dispatch around the clock.',
-        icon: 'clock',
-      },
-      {
-        title: 'Automated Live Flight Radar Tracking',
-        desc: 'We monitor your flight arrival via live aviation radar; even if delayed, your chauffeur arrives exactly on time with 60 min complimentary wait time.',
-        icon: 'plane',
-      },
-      {
-        title: 'Complimentary Child Safety Seats',
-        desc: 'Sanitized, certified child safety seats are provided free upon request, ensuring family comfort and complete peace of mind.',
-        icon: 'baby',
-      },
-      {
-        title: 'Flexible Zero-Penalty Cancellation',
-        desc: 'No advance deposit required. Modify or cancel your booking free of charge up to 4 hours prior to scheduled departure.',
-        icon: 'calendar',
-      },
-      {
-        title: 'All-Inclusive Guaranteed Fixed Rates',
-        desc: 'Every agreed price is final and covers all expressway tolls, fuel, airport parking, and VAT. Pay cash to your chauffeur on arrival.',
-        icon: 'shield',
-      },
-    ],
-    fleetBadge: 'The Authoritative Fleet',
-    fleetTitle: 'Executive Fleet Engineered for Utmost Serenity',
-    fleetSubtitle: 'Select the ideal model for your family size and luggage requirements. All vehicles are late-model, sanitized, and meticulously climate-controlled.',
-    fleetDisclaimer: 'Exact verified fares for each vehicle are displayed instantly upon route selection with zero hidden fees.',
-    exploreDetails: 'Explore Vehicle Specifications',
-    bookThisVehicle: 'Select & Book This Vehicle',
-    journeysBadge: 'Approved Travel Corridors',
-    journeysTitle: 'Top Intercity Corridors Across the Holy Cities',
-    journeysSubtitle: 'Authoritative fixed rates covering pilgrims and executive delegations between key Saudi arrival points.',
-    fromStarting: 'From:',
-    bookThisRoute: 'Book This Journey Now',
-    conciergeBadge: 'Royal VIP Bespoke Concierge',
-    conciergeTitle: 'Exclusive Executive Fleet for Dignitaries',
-    conciergeSubtitle: 'For heads of state, VIP delegations, and discerning guests, we offer bespoke chauffeur arrangements via our dedicated VIP WhatsApp concierge.',
-    conciergeMaybachTitle: 'Mercedes-Maybach S-Class VIP',
-    conciergeMaybachDesc: 'The pinnacle of presidential luxury with first-class reclining suites, acoustic silence, and bespoke diplomatic protocol.',
-    conciergeH1Title: 'Hyundai H1 Royal VIP',
-    conciergeH1Desc: 'Discreet executive van with spacious seating and privacy curtains, tailored for diplomatic staff and elite families.',
-    conciergeCta: 'Request Bespoke Concierge Rate via WhatsApp',
-    processBadge: 'Effortless Reservation',
-    processTitle: 'Book Your Chauffeur in Three Transparent Steps',
-    processSubtitle: 'An intuitive, transparent booking experience that guarantees complete reassurance before departing your home country.',
-    processSteps: [
-      {
-        num: '01',
-        title: 'Reserve Online in 60 Seconds',
-        desc: 'Select your route, date, and preferred vehicle with ease. Zero advance deposit and no credit card required.',
-      },
-      {
-        num: '02',
-        title: 'Instant WhatsApp & Flight Coordination',
-        desc: 'Our dispatch team confirms your booking instantly, assigns your licensed chauffeur, and monitors your flight radar.',
-      },
-      {
-        num: '03',
-        title: 'Terminal Meet & Greet with Cash on Arrival',
-        desc: 'Your chauffeur greets you at the terminal or hotel lobby with a personalized name sign. Pay 100% cash upon safe arrival.',
-      },
-    ],
-    reviewsBadge: 'Pilgrim Testimonials',
-    reviewsTitle: 'Trusted by Over 15,000 Discerning Pilgrims',
-    reviewsSubtitle: 'Maintaining an exceptional 4.9 out of 5-star rating across international travelers from the UK, GCC, Europe, and Southeast Asia.',
-    faqBadge: 'Frequently Asked Questions',
-    faqTitle: 'Clear Answers Regarding Fares & Booking',
-    faqSubtitle: 'Everything you need to know about our transparent, cash-on-arrival luxury transportation policies.',
-    faqs: [
-      {
-        q: 'Is the price per passenger or for the entire vehicle?',
-        a: 'All our quoted rates are for the complete vehicle with its certified passenger and luggage capacity, never per person.',
-      },
-      {
-        q: 'When and how do I pay for my transfer?',
-        a: 'No prepayment or online card details are required. You pay 100% in cash directly to your chauffeur after arriving safely at your hotel (in SAR or USD).',
-      },
-      {
-        q: 'What if my incoming flight to Jeddah or Madinah is delayed?',
-        a: 'We monitor your flight in real time using live radar. Your chauffeur adjusts pickup time automatically and waits up to 60 minutes free of charge.',
-      },
-      {
-        q: 'Does the chauffeur stop at the Miqat when traveling Madinah to Makkah?',
-        a: 'Yes, our Madinah to Makkah route includes a complimentary stopover at Miqat Dhu al-Hulayfah (Masjid ash-Shajarah / Bir Ali) for Ihram and prayer.',
-      },
-    ],
-    closingBadge: 'Reserve Your Journey Today',
-    closingTitle: 'Ready to Experience True Saudi Royal Hospitality?',
-    closingSubtitle: 'Secure your private executive vehicle and licensed route chauffeur today with complete confidence and cash payment upon arrival.',
-    closingBookBtn: 'Reserve Your Chauffeur Online',
-    closingWhatsappBtn: 'Connect with Concierge on WhatsApp',
+    announcement: 'Private chauffeur services for pilgrims, families and executive travellers across Saudi Arabia',
+    heroBadge: 'DUYUF ALRAHMAN VIP',
+    heroHeadlineMain: 'Your journey in Saudi Arabia…',
+    heroHeadlineHighlight: 'elevated with distinction',
+    heroSubtitle: 'Private chauffeur services with a considered fleet and professional drivers. A refined journey from departure to arrival.',
+    heroCtaStart: 'Plan your journey',
+    heroCtaFleet: 'Explore the fleet',
+    bookingKicker: 'BEGIN YOUR JOURNEY',
+    bookingTitle: 'Reserve with confidence',
+    bookingNote: 'Cash paid to driver after safe arrival',
+    pickupLabel: 'PICK-UP',
+    pickupPlaceholder: 'Choose pick-up point',
+    dropoffLabel: 'DROP-OFF',
+    dropoffPlaceholder: 'Choose destination',
+    dateLabel: 'TRAVEL DATE',
+    passengersLabel: 'PASSENGERS',
+    bookingSubmit: 'View vehicles & fares',
+    errorSelectFields: 'Please select a pick-up point, destination and travel date.',
+    errorSameLocation: 'Please choose two different locations.',
+    locJeddahAirport: 'Jeddah Airport (KAIA)',
+    locMakkah: 'Makkah',
+    locMadinahAirport: 'Madinah Airport',
+    locMadinah: 'Madinah',
+    locTaif: 'Taif',
+    trustTaxesTitle: 'Included trip costs',
+    trustTaxesSub: 'According to approved route terms',
+    trustCancelTitle: 'Free cancellation',
+    trustCancelSub: 'Flexible travel planning',
+    trustChildTitle: 'Child seats on request',
+    trustChildSub: 'Comfort for the whole family',
+    trustFlightTitle: 'Flight monitoring',
+    trustFlightSub: 'Accurate arrival-time tracking',
+    trust24Title: '24/7 Availability',
+    trust24Sub: 'Around the clock coordination',
+    fleetKicker: 'A FLEET FOR EVERY JOURNEY',
+    fleetTitle: 'The premium fleet',
+    fleetSubtitle: 'Choose the vehicle that fits your passenger and travel needs.',
+    fleetViewAll: 'Explore the full fleet',
+    passengersWord: 'passengers',
+    bagsWord: 'bags',
+    selectVehicleCta: 'Select this vehicle',
+    fleetFootnote: 'Capacities are officially verified and subject to strict passenger safety standards.',
+    routesKicker: 'POPULAR JOURNEYS',
+    routesTitle: 'The journeys that matter',
+    routesSubtitle: 'Private transfers connecting Saudi Arabia’s key destinations at clear approved fares.',
+    routesViewAll: 'Explore booking options',
+    fromPricePrefix: 'From',
+    discoverJourney: 'Discover journey',
+    tagAirport: 'AIRPORT TRANSFER',
+    tagIntercity: 'INTERCITY',
+    conciergeKicker: 'ROYAL CONCIERGE SERVICE',
+    conciergeTitle: 'A bespoke journey for distinguished guests',
+    conciergeSubtitle: 'Mercedes-Maybach and Hyundai H1 for bespoke executive requests.',
+    conciergeCta: 'Contact concierge on WhatsApp',
+    conciergeDisclaimer: 'These vehicles are available by private concierge request only, not through instant booking.',
+    experienceKicker: 'THE DIFFERENCE IS IN THE DETAILS',
+    experienceTitle: 'Considered from pick-up… to arrival',
+    experienceSubtitle: 'Every part of your journey is coordinated with care, so you can focus on what matters.',
+    exp1Title: 'Clear planning before departure',
+    exp1Desc: 'Journey details and approved fares are presented clearly before confirmation with no hidden fees.',
+    exp2Title: 'Coordinated journey monitoring',
+    exp2Desc: 'Flight arrival tracking and direct driver coordination around your arrival terminal.',
+    exp3Title: 'Pay after safe arrival',
+    exp3Desc: 'Pay the driver in cash after completing the journey safely at your destination, with zero advance payment.',
+    reviewsKicker: 'PILGRIM TESTIMONIALS',
+    reviewsTitle: 'Trusted by our esteemed guests',
+    reviewsSubtitle: 'Authentic reflections from pilgrims traveling with Duyuf Alrahman VIP.',
+    rev1Name: 'Mohamed Al-Otaibi',
+    rev1Tag: 'Pilgrim from Riyadh',
+    rev1Text: 'The finest transfer service in the Kingdom. The driver was waiting at the terminal with an immaculate vehicle and a serene ride to Makkah.',
+    rev2Name: 'Sarah Al-Otaibi',
+    rev2Tag: 'Family Journey',
+    rev2Text: 'Exceptional professionalism and perfect punctuality. Courteous chauffeur and wonderful hospitality for my family.',
+    rev3Name: 'Ahmed Mohamed',
+    rev3Tag: 'Pilgrim from UAE',
+    rev3Text: 'Splendid service and total comfort throughout the trip. Paying after safe arrival provides complete peace of mind.',
+    finalCtaKicker: 'DUYUF ALRAHMAN VIP',
+    finalCtaTitle: 'Your next journey deserves considered care',
+    finalCtaSubtitle: 'Choose your destination and let us manage every detail with royal distinction.',
+    finalCtaButton: 'Start your booking',
   },
-
   ms: {
-    heroBadge: '★ PERKHIDMATAN PEMANDU DIRAJA VIP',
-    heroHeadline: 'Perjalanan Ibadah Anda Layak Menerima Keselesaan & Ketenangan Tertinggi',
-    heroSubheadline:
-      'Perkhidmatan pemandu peribadi eksekutif menghubungkan Lapangan Terbang Jeddah (KAIA), Madinah (MED) dan hotel-hotel Makkah. Tambang tetap dijamin dengan bayaran tunai 100% setibanya di destinasi.',
-    tabTransfer: 'Pemindahan Lapangan Terbang & Antara Bandar',
-    tabZiyarat: 'Pakej Ziarah Bersejarah',
-    tabHourly: 'Pemandu Peribadi Mengikut Jam',
-    routeLabel: 'Laluan Lebuhraya Rasmi',
-    dateLabel: 'Tarikh Pengambilan',
-    timeLabel: 'Masa Pengambilan',
-    passengersLabel: 'Penumpang',
-    luggageLabel: 'Bagasi',
-    durationLabel: 'Tempoh Perkhidmatan',
-    ctaViewVehicles: 'Lihat Kenderaan & Harga Tersedia',
-    reassurancePill: '0 Deposit • Bayar Tunai Setibanya di Hotel • Penjejakan Penerbangan Langsung • Kadar Tetap Dijamin',
-    trust1: '100% Bayaran Tunai Semasa Tiba',
-    trust2: 'Kadar Tetap Setiap Kenderaan Penuh',
-    trust3: '60 Minit Menunggu Percuma di Terminal',
-    trust4: 'Penjejakan Radar Penerbangan Langsung',
-    trust5: 'Air Zamzam Sejuk & Bantuan Bagasi',
-    advantagesBadge: 'Kelebihan Diraja',
-    advantagesTitle: 'Mengapa Jemaah Umrah Memilih Duyuf Alrahman VIP',
-    advantagesSubtitle: 'Lima keutamaan teguh yang menjamin ketenangan ibadah dan keselesaan penuh sepanjang perjalanan suci anda.',
-    advantages: [
-      {
-        title: 'Penyelarasan Operasi 24/7',
-        desc: 'Pasukan koordinasi kami sentiasa bersedia di WhatsApp dan telefon sepanjang masa untuk perjalanan lancar.',
-        icon: 'clock',
-      },
-      {
-        title: 'Penjejakan Radar Penerbangan Langsung',
-        desc: 'Kami memantau masa ketibaan pesawat anda secara langsung dengan 60 minit masa menunggu percuma di terminal.',
-        icon: 'plane',
-      },
-      {
-        title: 'Kerusi Keselamatan Kanak-kanak Percuma',
-        desc: 'Kerusi keselamatan kanak-kanak bersih disediakan percuma atas permintaan demi keselamatan keluarga.',
-        icon: 'baby',
-      },
-      {
-        title: 'Pembatalan Fleksibel Tanpa Penalti',
-        desc: 'Tiada deposit pendahuluan. Batalkan atau ubah jadual anda secara percuma sehingga 4 jam sebelum perjalanan.',
-        icon: 'calendar',
-      },
-      {
-        title: 'Kadar Tetap Termasuk Tol & Cukai',
-        desc: 'Tambang telus merangkumi tol lebuh raya, petrol dan cukai dengan bayaran tunai kepada pemandu setibanya di hotel.',
-        icon: 'shield',
-      },
-    ],
-    fleetBadge: 'Armada Rasmi Diraja',
-    fleetTitle: 'Armada Eksekutif untuk Ketenangan Ibadah Anda',
-    fleetSubtitle: 'Pilih kenderaan yang tepat mengikut jumlah jemaah dan bagasi. Semua kenderaan moden dan berhawa dingin sepenuhnya.',
-    fleetDisclaimer: 'Kadar sebenar yang disahkan akan dipaparkan sebaik sahaja laluan dipilih tanpa caj tersembunyi.',
-    exploreDetails: 'Lihat Spesifikasi Kenderaan',
-    bookThisVehicle: 'Pilih & Tempah Kenderaan Ini',
-    journeysBadge: 'Laluan Utama Diluluskan',
-    journeysTitle: 'Laluan Antara Bandar Paling Popular di Tanah Suci',
-    journeysSubtitle: 'Kadar tetap rasmi bagi jemaah dan rombongan umrah antara lapangan terbang dan hotel Haramain.',
-    fromStarting: 'Dari:',
-    bookThisRoute: 'Tempah Laluan Ini Sekarang',
-    conciergeBadge: 'Konsierj VIP Diraja',
-    conciergeTitle: 'Armada Eksklusif untuk VVIP & Rombongan Khas',
-    conciergeSubtitle: 'Untuk tetamu kehormat dan keluarga diraja, kami menyediakan kenderaan eksklusif dengan sebut harga pantas melalui WhatsApp.',
-    conciergeMaybachTitle: 'Mercedes-Maybach S-Class VIP',
-    conciergeMaybachDesc: 'Kemewahan tahap tertinggi dengan kerusi sandar kelas pertama dan penebat bunyi untuk ketenangan ibadah.',
-    conciergeH1Title: 'Hyundai H1 Royal VIP',
-    conciergeH1Desc: 'Van eksekutif luas dengan privasi penuh untuk rombongan keluarga ternama.',
-    conciergeCta: 'Minta Sebut Harga VIP via WhatsApp',
-    processBadge: 'Tempahan Mudah',
-    processTitle: 'Tempah Kenderaan Anda Dalam Tiga Langkah Mudah',
-    processSubtitle: 'Pengalaman tempahan telus yang memberi keyakinan sebelum berlepas dari tanah air.',
-    processSteps: [
-      {
-        num: '01',
-        title: 'Tempah Dalam Talian Dalam 60 Saat',
-        desc: 'Pilih laluan, tarikh dan kenderaan pilihan tanpa sebarang deposit atau kad kredit.',
-      },
-      {
-        num: '02',
-        title: 'Pengesahan Segera Melalui WhatsApp',
-        desc: 'Pasukan kami mengesahkan tempahan serta-merta, menugaskan pemandu berlesen dan memantau penerbangan anda.',
-      },
-      {
-        num: '03',
-        title: 'Sambutan di Terminal & Bayar Tunai',
-        desc: 'Pemandu menyambut anda dengan papan nama peribadi. Bayar tunai 100% selepas tiba di hotel dengan selamat.',
-      },
-    ],
-    reviewsBadge: 'Testimoni Jemaah',
-    reviewsTitle: 'Dipercayai oleh Lebih 15,000 Jemaah Umrah',
-    reviewsSubtitle: 'Mengekalkan penarafan 4.9 daripada 5 bintang daripada jemaah antarabangsa Malaysia, Indonesia dan Brunei.',
-    faqBadge: 'Soalan Lazim',
-    faqTitle: 'Jawapan Jelas Mengenai Tambang & Tempahan',
-    faqSubtitle: 'Segala maklumat mengenai polisi pengangkutan telus kami.',
-    faqs: [
-      {
-        q: 'Adakah harga dikira setiap penumpang atau setiap kenderaan?',
-        a: 'Semua kadar kami adalah bagi setiap kenderaan penuh mengikut muatan rasmi, bukan untuk setiap individu.',
-      },
-      {
-        q: 'Bila dan bagaimanakah saya perlu membayar tambang?',
-        a: 'Tiada bayaran pendahuluan diperlukan. Anda membayar tunai 100% terus kepada pemandu setibanya di hotel anda (SAR atau USD).',
-      },
-      {
-        q: 'Bagaimanakah jika penerbangan saya ke Jeddah atau Madinah tertangguh?',
-        a: 'Kami memantau pesawat anda secara langsung melalui radar. Pemandu akan tiba mengikut masa pendaratan sebenar dengan 60 minit masa menunggu percuma.',
-      },
-      {
-        q: 'Adakah pemandu akan berhenti di Miqat semasa perjalanan Madinah ke Makkah?',
-        a: 'Ya, laluan Madinah ke Makkah termasuk persinggahan percuma di Miqat Bir Ali (Dzulhulaifah) untuk niat Ihram dan solat sunat.',
-      },
-    ],
-    closingBadge: 'Tempah Perjalanan Anda Hari Ini',
-    closingTitle: 'Bersedia Menikmati Layanan Diraja Arab Saudi?',
-    closingSubtitle: 'Tempah kenderaan VIP anda hari ini dengan penuh keyakinan dan pembayaran tunai semasa tiba.',
-    closingBookBtn: 'Tempah Pemandu VIP Sekarang',
-    closingWhatsappBtn: 'Hubungi Konsierj di WhatsApp',
+    announcement: 'Perkhidmatan pemandu peribadi untuk jemaah Umrah dan keluarga di seluruh Arab Saudi',
+    heroBadge: 'DUYUF ALRAHMAN VIP',
+    heroHeadlineMain: 'Perjalanan anda di Arab Saudi…',
+    heroHeadlineHighlight: 'dengan keselesaan diraja',
+    heroSubtitle: 'Perkhidmatan pemandu peribadi dengan armada mewah dan pemandu profesional. Direka khas untuk keselesaan anda.',
+    heroCtaStart: 'Rancang perjalanan',
+    heroCtaFleet: 'Terokai armada',
+    bookingKicker: 'MULAKAN PERJALANAN',
+    bookingTitle: 'Tempah dengan tenang',
+    bookingNote: 'Bayar tunai kepada pemandu selepas tiba',
+    pickupLabel: 'DARI MANA?',
+    pickupPlaceholder: 'Pilih lokasi bertolak',
+    dropoffLabel: 'KE MANA?',
+    dropoffPlaceholder: 'Pilih destinasi',
+    dateLabel: 'TARIKH PERJALANAN',
+    passengersLabel: 'BILANGAN PENUMPANG',
+    bookingSubmit: 'Lihat kenderaan & harga',
+    errorSelectFields: 'Sila pilih lokasi berlepas, destinasi dan tarikh perjalanan.',
+    errorSameLocation: 'Sila pilih dua lokasi yang berbeza.',
+    locJeddahAirport: 'Lapangan Terbang Jeddah (KAIA)',
+    locMakkah: 'Makkah',
+    locMadinahAirport: 'Lapangan Terbang Madinah',
+    locMadinah: 'Madinah',
+    locTaif: 'Taif',
+    trustTaxesTitle: 'Termasuk tol & caj',
+    trustTaxesSub: 'Mengikut syarat laluan rasmi',
+    trustCancelTitle: 'Pembatalan percuma',
+    trustCancelSub: 'Fleksibiliti jadual penuh',
+    trustChildTitle: 'Kerusi kanak-kanak',
+    trustChildSub: 'Keselesaan seluruh keluarga',
+    trustFlightTitle: 'Pemantauan penerbangan',
+    trustFlightSub: 'Pantau ketibaan pesawat tepat',
+    trust24Title: 'Perkhidmatan 24/7',
+    trust24Sub: 'Sokongan operasi sepanjang masa',
+    fleetKicker: 'ARMADA EKSKLUSIF',
+    fleetTitle: 'Pilihan kenderaan premium',
+    fleetSubtitle: 'Pilih kenderaan yang menepati jumlah penumpang dan bagasi anda.',
+    fleetViewAll: 'Lihat semua kenderaan',
+    passengersWord: 'penumpang',
+    bagsWord: 'beg',
+    selectVehicleCta: 'Pilih kenderaan ini',
+    fleetFootnote: 'Kapasiti disahkan secara rasmi mengikut piawaian keselamatan jemaah.',
+    routesKicker: 'LALUAN UTAMA',
+    routesTitle: 'Laluan ziarah paling popular',
+    routesSubtitle: 'Pengangkutan peribadi menghubungkan destinasi utama Arab Saudi dengan tambang telus.',
+    routesViewAll: 'Lihat semua pilihan',
+    fromPricePrefix: 'Dari',
+    discoverJourney: 'Lihat laluan',
+    tagAirport: 'SAMBUNGAN LAPANGAN TERBANG',
+    tagIntercity: 'ANTARA BANDAR',
+    conciergeKicker: 'PERKHIDMATAN CONCIERGE',
+    conciergeTitle: 'Pengalaman istimewa untuk tetamu kehormat',
+    conciergeSubtitle: 'Kenderaan Maybach dan Hyundai H1 untuk permintaan khas.',
+    conciergeCta: 'Hubungi melalui WhatsApp',
+    conciergeDisclaimer: 'Kenderaan ini tersedia atas permintaan concierge sahaja, bukan tempahan serta-merta.',
+    experienceKicker: 'KEISTIMEWAAN DALAM BUTIRAN',
+    experienceTitle: 'Dari saat ketibaan… hingga sampai',
+    experienceSubtitle: 'Setiap butiran diselaraskan dengan rapi agar anda tenang beribadah.',
+    exp1Title: 'Perancangan jelas sebelum bertolak',
+    exp1Desc: 'Butiran perjalanan dan tambang dipaparkan dengan telus tanpa sebarang caj tersembunyi.',
+    exp2Title: 'Pemantauan rapi perjalanan',
+    exp2Desc: 'Pemantauan status penerbangan dan koordinasi pemandu di balai ketibaan.',
+    exp3Title: 'Bayaran tunai selepas tiba',
+    exp3Desc: 'Bayar tunai kepada pemandu selepas selamat sampai ke hotel anda, tanpa sebarang deposit.',
+    reviewsKicker: 'TESTIMONI JEMAAH',
+    reviewsTitle: 'Kepercayaan tetamu kami',
+    reviewsSubtitle: 'Pengalaman jemaah Umrah bersama Duyuf Alrahman VIP.',
+    rev1Name: 'Mohamed Al-Otaibi',
+    rev1Tag: 'Jemaah dari Riyadh',
+    rev1Text: 'Perkhidmatan terbaik di Arab Saudi. Pemandu setia menanti di lapangan terbang dengan kereta yang sangat bersih.',
+    rev2Name: 'Sarah Al-Otaibi',
+    rev2Tag: 'Perjalanan Keluarga',
+    rev2Text: 'Sangat profesional dan menepati masa. Pemandu mesra dan santun melayan keluarga kami.',
+    rev3Name: 'Ahmed Mohamed',
+    rev3Tag: 'Jemaah dari UAE',
+    rev3Text: 'Pengalaman perjalanan yang lancar dan amat selesa. Kemudahan bayar tunai selepas tiba memberi keyakinan penuh.',
+    finalCtaKicker: 'DUYUF ALRAHMAN VIP',
+    finalCtaTitle: 'Tempah perjalanan anda sekarang dengan layanan diraja',
+    finalCtaSubtitle: 'Pilih destinasi anda dan serahkan perincian perjalanan kepada kami.',
+    finalCtaButton: 'Mulakan tempahan',
   },
-
   id: {
-    heroBadge: '★ LAYANAN TRANSPORTASI VIP KERAJAAN',
-    heroHeadline: 'Perjalanan Ibadah Anda Layak Mendapatkan Kenyamanan Paripurna',
-    heroSubheadline:
-      'Layanan sopir privat dan transportasi eksekutif resmi menghubungkan Bandara King Abdulaziz (Jeddah), Bandara Madinah, dan hotel-hotel Makkah. Tarif tetap terjamin dengan bayar tunai 100% saat tiba di tujuan.',
-    tabTransfer: 'Antar Jemput Bandara & Antarkota',
-    tabZiyarat: 'Ziarah Tempat Bersejarah',
-    tabHourly: 'Sopir Sewa Per Jam',
-    routeLabel: 'Rute Jalan Tol Resmi',
-    dateLabel: 'Tanggal Penjemputan',
-    timeLabel: 'Waktu Penjemputan',
-    passengersLabel: 'Penumpang',
-    luggageLabel: 'Koper',
-    durationLabel: 'Durasi Layanan',
-    ctaViewVehicles: 'Lihat Kendaraan & Tarif Tersedia',
-    reassurancePill: '0 Uang Muka • Bayar Tunai ke Sopir Saat Tiba • Pelacakan Radar Pesawat • Tarif Pasti Terjamin',
-    trust1: 'Bayar Tunai 100% Saat Tiba',
-    trust2: 'Tarif Pasti per Satu Mobil Penuh',
-    trust3: 'Gratis 60 Menit Tunggu di Bandara',
-    trust4: 'Pelacakan Radar Pesawat Langsung',
-    trust5: 'Air Zamzam Dingin & Bantuan Koper',
-    advantagesBadge: 'Keunggulan Layanan Kerajaan',
-    advantagesTitle: 'Mengapa Jamaah Umrah Memilih Duyuf Alrahman VIP',
-    advantagesSubtitle: 'Lima pilar utama yang menjamin ketenangan, ketepatan waktu, dan kenyamanan ibadah Anda di Tanah Suci.',
-    advantages: [
-      {
-        title: 'Layanan Pelanggan Siaga 24/7',
-        desc: 'Tim koordinasi dwibahasa kami siap mendampingi perjalanan Anda via WhatsApp dan telepon setiap saat.',
-        icon: 'clock',
-      },
-      {
-        title: 'Pelacakan Radar Pesawat Langsung',
-        desc: 'Kami memantau penerbangan Anda langsung via radar dengan gratis waktu tunggu 60 menit setelah mendarat.',
-        icon: 'plane',
-      },
-      {
-        title: 'Kursi Pengaman Bayi Gratis',
-        desc: 'Kursi anak yang bersih dan berstandar keselamatan tersedia gratis sesuai permintaan keluarga.',
-        icon: 'baby',
-      },
-      {
-        title: 'Pembatalan Fleksibel Tanpa Penalti',
-        desc: 'Tanpa uang muka. Ubah atau batalkan pesanan Anda gratis hingga 4 jam sebelum jadwal keberangkatan.',
-        icon: 'calendar',
-      },
-      {
-        title: 'Tarif Pasti All-In Termasuk Tol & Pajak',
-        desc: 'Tarif final mencakup tol jalan layang, bensin, dan pajak dengan bayar tunai langsung ke sopir saat tiba di hotel.',
-        icon: 'shield',
-      },
-    ],
-    fleetBadge: 'Armada Resmi Kerajaan',
-    fleetTitle: 'Armada Eksekutif Berstandar Kenyamanan Tertinggi',
-    fleetSubtitle: 'Pilih kendaraan yang tepat sesuai kapasitas keluarga dan koper Anda. Semua unit bersih, terawat, dan berpendingin udara optimal.',
-    fleetDisclaimer: 'Tarif resmi terverifikasi ditampilkan saat rute dipilih tanpa biaya tambahan tersembunyi.',
-    exploreDetails: 'Lihat Spesifikasi Kendaraan',
-    bookThisVehicle: 'Pilih & Pesan Kendaraan Ini',
-    journeysBadge: 'Rute Populer Disetujui',
-    journeysTitle: 'Rute Antarkota Terpopuler di Dua Kota Suci',
-    journeysSubtitle: 'Tarif pasti untuk jamaah dan rombongan umrah antara bandara dan hotel-hotel di Makkah dan Madinah.',
-    fromStarting: 'Mulai dari:',
-    bookThisRoute: 'Pesan Rute Ini Sekarang',
-    conciergeBadge: 'Konsierge VIP Kerajaan',
-    conciergeTitle: 'Armada Eksklusif untuk VVIP & Delegasi Khusus',
-    conciergeSubtitle: 'Bagi tamu kehormatan dan delegasi resmi, kami menyediakan armada istimewa via konsierge WhatsApp.',
-    conciergeMaybachTitle: 'Mercedes-Maybach S-Class VIP',
-    conciergeMaybachDesc: 'Puncak kemewahan kepresidenan dengan kursi rebah kelas satu dan kabin super senyap.',
-    conciergeH1Title: 'Hyundai H1 Royal VIP',
-    conciergeH1Desc: 'Van eksekutif lapang dengan tirai privasi untuk rombongan delegasi dan keluarga terhormat.',
-    conciergeCta: 'Minta Penawaran VIP via WhatsApp',
-    processBadge: 'Pemesanan Mudah',
-    processTitle: 'Pesan Layanan Sopir Anda dalam Tiga Langkah',
-    processSubtitle: 'Pengalaman pemesanan transparan yang memberikan ketenangan sebelum berangkat dari tanah air.',
-    processSteps: [
-      {
-        num: '01',
-        title: 'Pesan Online dalam 60 Detik',
-        desc: 'Tentukan rute, tanggal, dan kendaraan pilihan tanpa uang muka atau kartu kredit.',
-      },
-      {
-        num: '02',
-        title: 'Konfirmasi Instan via WhatsApp',
-        desc: 'Tim kami mengonfirmasi pesanan, menugaskan sopir berlisensi, dan memantau kedatangan pesawat Anda.',
-      },
-      {
-        num: '03',
-        title: 'Penyambutan Bandara & Bayar Tunai',
-        desc: 'Sopir menyambut Anda dengan papan nama. Pembayaran tunai 100% dilakukan setelah tiba di hotel dengan selamat.',
-      },
-    ],
-    reviewsBadge: 'Ulasan Jamaah',
-    reviewsTitle: 'Dipercaya Lebih dari 15.000 Jamaah Umrah',
-    reviewsSubtitle: 'Meraih rating 4.9 dari 5 bintang dari jamaah Indonesia, Malaysia, dan internasional.',
-    faqBadge: 'Tanya Jawab',
-    faqTitle: 'Jawaban Jelas Terkait Tarif & Pemesanan',
-    faqSubtitle: 'Segala hal yang perlu Anda ketahui tentang layanan transportasi terpercaya kami.',
-    faqs: [
-      {
-        q: 'Apakah harga dihitung per orang atau per mobil?',
-        a: 'Semua tarif kami berlaku untuk satu mobil penuh sesuai kapasitas penumpang dan koper, bukan per orang.',
-      },
-      {
-        q: 'Kapan dan bagaimana cara saya membayar?',
-        a: 'Tidak perlu uang muka. Pembayaran dilakukan 100% tunai langsung kepada sopir setelah Anda tiba di hotel (SAR atau USD).',
-      },
-      {
-        q: 'Bagaimana jika penerbangan saya ke Jeddah atau Madinah mengalami penundaan?',
-        a: 'Kami memantau penerbangan Anda secara langsung via radar. Sopir akan menyesuaikan waktu penjemputan dengan gratis waktu tunggu 60 menit.',
-      },
-      {
-        q: 'Apakah sopir bersedia berhenti di Miqat saat perjalanan Madinah ke Makkah?',
-        a: 'Ya, perjalanan Madinah ke Makkah sudah termasuk perhentian gratis di Miqat Dzul Hulaifah (Masjid Bir Ali) untuk niat Ihram dan shalat.',
-      },
-    ],
-    closingBadge: 'Pesan Perjalanan Anda Sekarang',
-    closingTitle: 'Siap Menikmati Keramahan Layanan Kerajaan Arab Saudi?',
-    closingSubtitle: 'Amankan kendaraan VIP dan sopir profesional Anda hari ini dengan bayar tunai saat tiba.',
-    closingBookBtn: 'Pesan Mobil VIP Sekarang',
-    closingWhatsappBtn: 'Hubungi Konsierge via WhatsApp',
+    announcement: 'Layanan sopir privat untuk jamaah Umrah dan keluarga di seluruh Arab Saudi',
+    heroBadge: 'DUYUF ALRAHMAN VIP',
+    heroHeadlineMain: 'Perjalanan Anda di Arab Saudi…',
+    heroHeadlineHighlight: 'dengan kemewahan terhormat',
+    heroSubtitle: 'Layanan transportasi sopir privat dengan armada berkelas dan pengemudi profesional. Dirancang demi kenyamanan Anda.',
+    heroCtaStart: 'Rencanakan perjalanan',
+    heroCtaFleet: 'Lihat armada',
+    bookingKicker: 'MULAI PERJALANAN',
+    bookingTitle: 'Pesan dengan percaya diri',
+    bookingNote: 'Bayar tunai ke sopir setelah tiba dengan aman',
+    pickupLabel: 'DARI MANA?',
+    pickupPlaceholder: 'Pilih titik jemput',
+    dropoffLabel: 'KE MANA?',
+    dropoffPlaceholder: 'Pilih tujuan',
+    dateLabel: 'TANGGAL PERJALANAN',
+    passengersLabel: 'JUMLAH PENUMPANG',
+    bookingSubmit: 'Lihat mobil & tarif',
+    errorSelectFields: 'Harap pilih lokasi penjemputan, tujuan, dan tanggal perjalanan.',
+    errorSameLocation: 'Harap pilih dua lokasi yang berbeda.',
+    locJeddahAirport: 'Bandara Jeddah (KAIA)',
+    locMakkah: 'Makkah',
+    locMadinahAirport: 'Bandara Madinah',
+    locMadinah: 'Madinah',
+    locTaif: 'Thaif',
+    trustTaxesTitle: 'Termasuk pajak & biaya jalan',
+    trustTaxesSub: 'Sesuai ketentuan rute resmi',
+    trustCancelTitle: 'Pembatalan gratis',
+    trustCancelSub: 'Fleksibilitas jadwal penuh',
+    trustChildTitle: 'Kursi anak tersedia',
+    trustChildSub: 'Kenyamanan seluruh keluarga',
+    trustFlightTitle: 'Pelacakan penerbangan',
+    trustFlightSub: 'Pantau jadwal kedatangan pesawat',
+    trust24Title: 'Layanan 24/7',
+    trust24Sub: 'Bantuan operasional sepanjang hari',
+    fleetKicker: 'ARMADA EKSKLUSIF',
+    fleetTitle: 'Armada premium kami',
+    fleetSubtitle: 'Pilih kendaraan yang sesuai dengan jumlah penumpang dan koper Anda.',
+    fleetViewAll: 'Lihat semua kendaraan',
+    passengersWord: 'penumpang',
+    bagsWord: 'koper',
+    selectVehicleCta: 'Pilih kendaraan ini',
+    fleetFootnote: 'Kapasitas terverifikasi resmi dan tunduk pada standar keselamatan jamaah.',
+    routesKicker: 'RUTE POPULER',
+    routesTitle: 'Rute perjalanan utama',
+    routesSubtitle: 'Transportasi privat menghubungkan kota-kota suci di Arab Saudi dengan tarif transparan.',
+    routesViewAll: 'Lihat semua pilihan',
+    fromPricePrefix: 'Mulai',
+    discoverJourney: 'Lihat rute',
+    tagAirport: 'ANTAR JEMPUT BANDARA',
+    tagIntercity: 'ANTARKOTA',
+    conciergeKicker: 'LAYANAN CONCIERGE KERAJAAN',
+    conciergeTitle: 'Pengalaman istimewa untuk tamu kehormatan',
+    conciergeSubtitle: 'Armada Maybach dan Hyundai H1 untuk permintaan khusus dan VIP.',
+    conciergeCta: 'Hubungi via WhatsApp',
+    conciergeDisclaimer: 'Kendaraan ini tersedia lewat permintaan khusus concierge, bukan pemesanan instan.',
+    experienceKicker: 'PERHATIAN PADA SETIAP DETAIL',
+    experienceTitle: 'Dari penjemputan… hingga tiba di tujuan',
+    experienceSubtitle: 'Seluruh detail perjalanan diselaraskan agar ibadah Anda berlangsung khusyuk.',
+    exp1Title: 'Perencanaan jelas sejak awal',
+    exp1Desc: 'Rincian rute dan tarif ditampilkan terbuka tanpa biaya tersembunyi.',
+    exp2Title: 'Pemantauan rute terkoordinasi',
+    exp2Desc: 'Pemantauan pesawat dan koordinasi langsung dengan sopir di lobi kedatangan.',
+    exp3Title: 'Bayar tunai setelah tiba',
+    exp3Desc: 'Bayar tunai ke sopir setelah Anda tiba dengan aman di hotel, tanpa uang muka.',
+    reviewsKicker: 'ULASAN JAMAAH',
+    reviewsTitle: 'Kepercayaan tamu kami',
+    reviewsSubtitle: 'Pengalaman nyata jamaah Umrah bersama Duyuf Alrahman VIP.',
+    rev1Name: 'Mohamed Al-Otaibi',
+    rev1Tag: 'Jamaah dari Riyadh',
+    rev1Text: 'Layanan transportasi terbaik di Arab Saudi. Sopir menunggu tepat waktu dengan mobil yang sangat bersih.',
+    rev2Name: 'Sarah Al-Otaibi',
+    rev2Tag: 'Perjalanan Keluarga',
+    rev2Text: 'Sangat profesional dan tepat waktu. Sopir ramah dan sangat menghormati keluarga kami.',
+    rev3Name: 'Ahmed Mohamed',
+    rev3Tag: 'Jamaah dari UAE',
+    rev3Text: 'Pelayanan prima dan perjalanan sangat nyaman. Pembayaran tunai saat tiba memberi ketenangan batin.',
+    finalCtaKicker: 'DUYUF ALRAHMAN VIP',
+    finalCtaTitle: 'Pesan perjalanan Anda sekarang dengan keramahan istimewa',
+    finalCtaSubtitle: 'Tentukan tujuan Anda dan biarkan kami mengatur kenyamanan perjalanan Anda.',
+    finalCtaButton: 'Mulai pemesanan',
   },
-
   ur: {
-    heroBadge: '★ شاہی پرائیویٹ ٹرانسپورٹیشن سروس',
-    heroHeadline: 'آپ کا مقدس سفر بے مثال آرام، وقار اور سکون کا حقدار ہے',
-    heroSubheadline:
-      'شاہ عبدالعزیز ایئرپورٹ جدہ، مدینہ منورہ اور مکہ مکرمہ کے ہوٹلوں کے درمیان مصدقہ پرائیویٹ شافر سروس۔ طے شدہ کرایہ اور منزل پر 100% نقد ادائیگی۔',
-    tabTransfer: 'ایئرپورٹ اور بین الشہری ٹرانسفر',
-    tabZiyarat: 'مقدس زیارات ٹورز',
-    tabHourly: 'فی گھنٹہ پرائیویٹ ڈرائیور',
-    routeLabel: 'منظور شدہ ہائی وے روٹ',
-    dateLabel: 'روانگی کی تاریخ',
-    timeLabel: 'روانگی کا وقت',
-    passengersLabel: 'مسافر',
-    luggageLabel: 'سامان (بیگز)',
-    durationLabel: 'مطلوبہ دورانیہ',
-    ctaViewVehicles: 'دستیاب گاڑیاں اور منظور شدہ کرایہ دیکھیں',
-    reassurancePill: '0 ایڈوانس • ہوٹل پہنچ کر ڈرائیور کو نقد ادائیگی • لائیو فلائٹ ٹریکنگ • حتمی فکسڈ کرایہ',
-    trust1: 'منزل پر پہنچ کر 100% نقد ادائیگی',
-    trust2: 'پوری گاڑی کا حتمی طے شدہ کرایہ',
-    trust3: 'ایئرپورٹ پر 60 منٹ اعزازی انتظار',
-    trust4: 'لائیو فلائٹ ریڈار مانیٹرنگ',
-    trust5: 'ٹھنڈا آب زمزم اور سامان میں مکمل مدد',
-    advantagesBadge: 'شاہی امتیازات',
-    advantagesTitle: 'معزز حجاج و زائرین کا قابل اعتماد انتخاب',
-    advantagesSubtitle: 'پانچ بنیادی اصول جو آپ کے مقدس سفر میں ذہنی سکون اور وقت کی پابندی کو یقینی بناتے ہیں۔',
-    advantages: [
-      {
-        title: '24/7 گھنٹے آپریشنز اور شافر رہنمائی',
-        desc: 'ہماری ٹیم سفر کے دوران کسی بھی وقت واٹس ایپ اور فون پر آپ کی مکمل رہنمائی کے لیے دستیاب ہے۔',
-        icon: 'clock',
-      },
-      {
-        title: 'لائیو فلائٹ ریڈار ٹریکنگ',
-        desc: 'ہم لائیو ریڈار سے پرواز کی نگرانی کرتے ہیں؛ پرواز میں تاخیر کی صورت میں بھی ڈرائیور 60 منٹ مفت انتظار کے ساتھ موجود رہتا ہے۔',
-        icon: 'plane',
-      },
-      {
-        title: 'بچوں کے لیے حفاظتی سیٹیں مفت',
-        desc: 'معصوم بچوں کی حفاظت کے لیے معیاری اور سینیٹائزڈ چائلڈ سیٹیں درخواست پر بلا معاوضہ فراہم کی جاتی ہیں۔',
-        icon: 'baby',
-      },
-      {
-        title: 'بغیر کسی جرمانے کے لچکدار منسوخی',
-        desc: 'کوئی پیشگی رقم درکار نہیں۔ آپ روانگی سے 4 گھنٹے قبل تک اپنی بکنگ مفت منسوخ یا تبدیل کر سکتے ہیں۔',
-        icon: 'calendar',
-      },
-      {
-        title: 'ٹول ٹیکس اور تمام اخراجات سمیت کرایہ',
-        desc: 'طے شدہ کرایہ حتمی ہے جس میں ہائی وے ٹولز، پیٹرول اور ٹیکس شامل ہیں؛ ادائیگی ڈرائیور کو ہوٹل پہنچ کر کی جاتی ہے۔',
-        icon: 'shield',
-      },
-    ],
-    fleetBadge: 'مصدقہ شاہی فلیٹ',
-    fleetTitle: 'سکون و آرام سے آراستہ ایگزیکٹو گاڑیاں',
-    fleetSubtitle: 'اپنے خاندان اور سامان کے مطابق مناسب ترین گاڑی منتخب کریں۔ تمام گاڑیاں نئی اور بہترین ایئرکنڈیشنڈ ہیں۔',
-    fleetDisclaimer: 'گاڑی کا حتمی کرایہ روٹ منتخب کرتے ہی شفاف طور پر ظاہر ہو جاتا ہے، کوئی پوشیدہ فیس نہیں۔',
-    exploreDetails: 'گاڑی کی تفصیلات دیکھیں',
-    bookThisVehicle: 'یہ گاڑی منتخب اور بک کریں',
-    journeysBadge: 'منظور شدہ مقبول ترین راستے',
-    journeysTitle: 'حرمین شریفین کے درمیان مرکزی روٹس',
-    journeysSubtitle: 'حجاج کرام اور وفود کے لیے ایئرپورٹس اور ہوٹلوں کے درمیان سرکاری منظور شدہ کرائے۔',
-    fromStarting: 'کم از کم:',
-    bookThisRoute: 'یہ روٹ ابھی بک کریں',
-    conciergeBadge: 'شاہی وی آئی پی کونسیرج',
-    conciergeTitle: 'معزز مہمانوں کے لیے خصوصی لگژری گاڑیاں',
-    conciergeSubtitle: 'حکومتی وفود اور معزز خاندانوں کے لیے خصوصی مرسڈیز میباخ اور لگژری وینز بذریعہ واٹس ایپ دستیاب ہیں۔',
-    conciergeMaybachTitle: 'مرسڈیز میباخ S-Class VIP',
-    conciergeMaybachDesc: 'صدارتی فخامت، فرسٹ کلاس ریکلائننگ سیٹس اور مکمل ساؤنڈ پروفنگ کا شاندار شاہکار۔',
-    conciergeH1Title: 'ہنڈائی H1 رائل VIP',
-    conciergeH1Desc: 'خاندانوں اور وفود کے لیے مکمل پرائیویسی کے ساتھ وسیع و کشادہ ایگزیکٹو وین۔',
-    conciergeCta: 'واٹس ایپ پر خصوصی کوٹیشن حاصل کریں',
-    processBadge: 'آسان بکنگ کا طریقہ کار',
-    processTitle: 'صرف 3 آسان مراحل میں اپنا شافر بک کریں',
-    processSubtitle: 'شفاف طریقہ کار جو اپنے ملک سے روانگی سے قبل آپ کو مکمل اطمینان فراہم کرتا ہے۔',
-    processSteps: [
-      {
-        num: '01',
-        title: '60 سیکنڈ میں آن لائن بکنگ',
-        desc: 'بغیر کسی ایڈوانس یا کریڈٹ کارڈ کے اپنا روٹ، تاریخ اور پسندیدہ گاڑی آسانی سے منتخب کریں۔',
-      },
-      {
-        num: '02',
-        title: 'واٹس ایپ پر فوری تصدیق',
-        desc: 'ہماری ٹیم فوری طور پر بکنگ کی تصدیق کرتی ہے اور تصدیق شدہ ڈرائیور کی تفصیلات فراہم کرتی ہے۔',
-      },
-      {
-        num: '03',
-        title: 'نام کے بورڈ سے استقبال اور نقد ادائیگی',
-        desc: 'ڈرائیور ایئرپورٹ یا ہوٹل پر آپ کے نام کے بورڈ کے ساتھ استقبال کرتا ہے، اور منزل پر 100% نقد ادائیگی کی جاتی ہے۔',
-      },
-    ],
-    reviewsBadge: 'زائرین کے تاثرات',
-    reviewsTitle: '15,000 سے زائد معزز زائرین کا اعتماد',
-    reviewsSubtitle: 'برطانیہ، خلیج اور پاکستان کے زائرین کی جانب سے 5 میں سے 4.9 ستاروں کی شاندار ریٹنگ۔',
-    faqBadge: 'عام سوالات',
-    faqTitle: 'کرایوں اور بکنگ کے حوالے سے سوالات و جوابات',
-    faqSubtitle: 'ہماری شفاف اور محفوظ سروس سے متعلق اہم ترین معلومات۔',
-    faqs: [
-      {
-        q: 'کیا کرایہ فی سواری ہے یا پوری گاڑی کا؟',
-        a: 'تمام کرائے پوری گاڑی کے ہیں جس میں مسافروں اور سامان کی مکمل گنجائش شامل ہے، فی کس نہیں۔',
-      },
-      {
-        q: 'کرایہ کی ادائیگی کب اور کیسے کی جاتی ہے؟',
-        a: 'کوئی ایڈوانس ادائیگی درکار نہیں۔ آپ ہوٹل پہنچ کر ڈرائیور کو 100% نقد رقم (ریال یا ڈالر) ادا کرتے ہیں۔',
-      },
-      {
-        q: 'اگر فلائٹ میں تاخیر ہو جائے تو کیا ہوگا؟',
-        a: 'ہم لائیو ریڈار سے فلائٹ فالو کرتے ہیں۔ ڈرائیور اصل وقت پر پہنچتا ہے اور 60 منٹ مفت انتظار کرتا ہے۔',
-      },
-      {
-        q: 'کیا مدینہ سے مکہ جاتے وقت میقات پر گاڑی رکتی ہے؟',
-        a: 'جی ہاں، مدینہ سے مکہ کے سفر میں میقات ذوالحلیفہ (بئر علی) پر احرام اور نفل نماز کے لیے مفت قیام شامل ہے۔',
-      },
-    ],
-    closingBadge: 'آج ہی اپنا سفر بک کریں',
-    closingTitle: 'سعودی شاہی مہمان نوازی کے ساتھ آپ کے استقبال کے لیے تیار ہیں',
-    closingSubtitle: 'اپنی نجی گاڑی اور شافر ابھی اعتماد کے ساتھ بک کریں اور منزل پر نقد ادائیگی کریں۔',
-    closingBookBtn: 'آن لائن بکنگ شروع کریں',
-    closingWhatsappBtn: 'واٹس ایپ پر رابطہ کریں',
+    announcement: 'سعودی عرب میں معتمرین اور خاندانوں کے لیے خصوصی پرائیویٹ ٹرانسپورٹ سروس',
+    heroBadge: 'ضیوف الرحمن VIP',
+    heroHeadlineMain: 'سعودی عرب میں آپ کا سفر…',
+    heroHeadlineHighlight: 'شاہانہ وقار اور آرام کے ساتھ',
+    heroSubtitle: 'پرتعیش گاڑیوں اور پیشہ ور ڈرائیوروں کے ساتھ خصوصی سفر۔ آپ کی راحت کے لیے تیار کردہ تجربہ۔',
+    heroCtaStart: 'سفر کا منصوبہ بنائیں',
+    heroCtaFleet: 'فلیٹ دیکھیں',
+    bookingKicker: 'سفر کا آغاز',
+    bookingTitle: 'بآسانی اپنی سواری بک کریں',
+    bookingNote: 'منزل پر پہنچنے کے بعد ڈرائیور کو نقد ادائیگی',
+    pickupLabel: 'کہاں سے؟',
+    pickupPlaceholder: 'روانگی کا مقام منتخب کریں',
+    dropoffLabel: 'کہاں تک؟',
+    dropoffPlaceholder: 'منزل منتخب کریں',
+    dateLabel: 'سفر کی تاریخ',
+    passengersLabel: 'مسافروں کی تعداد',
+    bookingSubmit: 'گاڑیاں اور کرائے دیکھیں',
+    errorSelectFields: 'برائے مہربانی روانگی، منزل اور تاریخ کا انتخاب کریں۔',
+    errorSameLocation: 'براہ کرم دو مختلف مقامات منتخب کریں۔',
+    locJeddahAirport: 'جدہ ایئرپورٹ (KAIA)',
+    locMakkah: 'مکہ مکرمہ',
+    locMadinahAirport: 'مدینہ ایئرپورٹ',
+    locMadinah: 'مدینہ منورہ',
+    locTaif: 'طائف',
+    trustTaxesTitle: 'ٹول اور ٹیکس شامل',
+    trustTaxesSub: 'منظور شدہ روٹ کی شرائط کے مطابق',
+    trustCancelTitle: 'مفت منسوخی',
+    trustCancelSub: 'سفر کے منصوبوں میں مکمل لچک',
+    trustChildTitle: 'بچوں کی نشستیں',
+    trustChildSub: 'پورے خاندان کا آرام',
+    trustFlightTitle: 'پرواز کی نگرانی',
+    trustFlightSub: 'آمد کے وقت پر مکمل نظر',
+    trust24Title: '24/7 سروس',
+    trust24Sub: 'ہمہ وقت رہنمائی اور معاونت',
+    fleetKicker: 'ہمارا پرتعیش فلیٹ',
+    fleetTitle: 'گاڑیوں کا شاندار انتخاب',
+    fleetSubtitle: 'اپنی ضرورت اور مسافروں کے مطابق موزوں ترین گاڑی منتخب کریں۔',
+    fleetViewAll: 'تمام گاڑیاں دیکھیں',
+    passengersWord: 'مسافر',
+    bagsWord: 'بیگ',
+    selectVehicleCta: 'یہ گاڑی منتخب کریں',
+    fleetFootnote: 'گاڑیوں کی گنجائش سرکاری طور پر تصدیق شدہ اور حفاظتی معیارات کے مطابق ہے۔',
+    routesKicker: 'مقبول ترین راستے',
+    routesTitle: 'آپ کے لیے اہم ترین سفر',
+    routesSubtitle: 'سعودی عرب کے اہم ترین مقامات کے درمیان شفاف اور فکسڈ کرائے۔',
+    routesViewAll: 'تمام روٹس دیکھیں',
+    fromPricePrefix: 'شروع از',
+    discoverJourney: 'روٹ دیکھیں',
+    tagAirport: 'ایئرپورٹ ٹرانسفر',
+    tagIntercity: 'بین الشہری',
+    conciergeKicker: 'شاہی کونسیرج سروس',
+    conciergeTitle: 'معزز مہمانوں کے لیے خصوصی انتظام',
+    conciergeSubtitle: 'مے باخ اور ہیونڈائی H1 برائے خصوصی فرمائش۔',
+    conciergeCta: 'واٹس ایپ پر رابطہ کریں',
+    conciergeDisclaimer: 'یہ گاڑیاں صرف کونسیرج درخواست پر دستیاب ہیں، انسٹنٹ بکنگ میں نہیں۔',
+    experienceKicker: 'باریک بینی جو فرق پیدا کرے',
+    experienceTitle: 'استقبال سے لے کر… منزل تک',
+    experienceSubtitle: 'آپ کے سفر کا ہر لمحہ توجہ سے ہم آہنگ کیا جاتا ہے۔',
+    exp1Title: 'روانگی سے پہلے واضح منصوبہ',
+    exp1Desc: 'سفر کی تفصیلات اور کرایہ بغیر کسی پوشیدہ چارجز کے واضح دکھایا جاتا ہے۔',
+    exp2Title: 'سفر کی مکمل نگرانی',
+    exp2Desc: 'پروازوں کی ٹریکنگ اور ایئرپورٹ لاؤنج میں ڈرائیور کا پیشگی رابطہ۔',
+    exp3Title: 'آمد کے بعد نقد ادائیگی',
+    exp3Desc: 'بغیر کسی ایڈوانس ڈپازٹ کے، منزل پر بخیریت پہنچنے کے بعد ڈرائیور کو نقد ادائیگی۔',
+    reviewsKicker: 'معتمرین کے تاثرات',
+    reviewsTitle: 'ہمارے مہمانوں کا اعتماد',
+    reviewsSubtitle: 'ضیوف الرحمن VIP کے ساتھ سفر کرنے والے معزز مہمانوں کے تجربات۔',
+    rev1Name: 'محمد العتیبی',
+    rev1Tag: 'معتمر، ریاض',
+    rev1Text: 'سعودی عرب میں بہترین ٹرانسپورٹ سروس۔ ڈرائیور صاف ستھری گاڑی کے ساتھ ایئرپورٹ پر موجود تھا۔',
+    rev2Name: 'سارہ العتیبی',
+    rev2Tag: 'فیملی سفر',
+    rev2Text: 'شاندار پیشہ ورانہ انداز اور وقت کی مکمل پابندی۔ ہمارے خاندان کے لیے بے حد آرام دہ سفر۔',
+    rev3Name: 'احمد محمد',
+    rev3Tag: 'معتمر، متحدہ عرب امارات',
+    rev3Text: 'بہترین سروس اور پرسکون سفر۔ آمد کے بعد نقد ادائیگی کا طریقہ مکمل اطمینان بخش ہے۔',
+    finalCtaKicker: 'ضیوف الرحمن VIP',
+    finalCtaTitle: 'ابھی اپنا سفر بک کریں اور شاہانہ ضیافت کا تجربہ حاصل کریں',
+    finalCtaSubtitle: 'اپنی منزل منتخب کریں اور باقی تمام انتظامات ہم پر چھوڑ دیں۔',
+    finalCtaButton: 'ابھی بکنگ شروع کریں',
   },
-
   fr: {
-    heroBadge: '★ LUXE DE L’AVIATION PRIVÉE SUR ROUTE',
-    heroHeadline: 'Votre Pèlerinage Mérite un Confort d’Exception et de Sérénité',
-    heroSubheadline:
-      'Service de chauffeur privé exécutif reliant l’Aéroport de Djeddah (KAIA), l’Aéroport de Médine (MED) et les hôtels de La Mecque. Tarifs fixes garantis avec paiement 100% en espèces à l’arrivée.',
-    tabTransfer: 'Transferts Aéroport & Interurbains',
-    tabZiyarat: 'Visites Sacrées de Ziyarat',
-    tabHourly: 'Chauffeur Privé à l’Heure',
-    routeLabel: 'Itinéraire Autoroutier Officiel',
-    dateLabel: 'Date de Prise en Charge',
-    timeLabel: 'Heure de Prise en Charge',
-    passengersLabel: 'Passagers',
-    luggageLabel: 'Bagages',
-    durationLabel: 'Durée du Service',
-    ctaViewVehicles: 'Voir les Véhicules et Tarifs Disponibles',
-    reassurancePill: '0 Acompte • Paiement en Espèces à l’Arrivée • Suivi Radar des Vols • Tarifs Fixes Garantis',
-    trust1: 'Paiement 100% en Espèces à l’Arrivée',
-    trust2: 'Tarif Fixe pour l’Ensemble du Véhicule',
-    trust3: '60 Min d’Attente Gratuite à l’Aéroport',
-    trust4: 'Suivi des Vols par Radar en Direct',
-    trust5: 'Eau de Zamzam Fraîche et Aide Bagages',
-    advantagesBadge: 'La Distinction Royale',
-    advantagesTitle: 'Pourquoi les Pèlerins Choisissent Duyuf Alrahman VIP',
-    advantagesSubtitle: 'Cinq piliers d’excellence conçus pour vous assurer sérénité, ponctualité et confort tout au long de votre séjour.',
-    advantages: [
-      {
-        title: 'Assistance et Dispatch 24h/24 et 7j/7',
-        desc: 'Notre équipe bilingue coordonne chaque étape de votre transport via WhatsApp et assistance directe en continu.',
-        icon: 'clock',
-      },
-      {
-        title: 'Suivi Radar des Vols en Temps Réel',
-        desc: 'Nous suivons votre vol en direct; même en cas de retard, votre chauffeur vous attend avec 60 min gratuites.',
-        icon: 'plane',
-      },
-      {
-        title: 'Sièges Auto Enfant Gratuits',
-        desc: 'Des sièges enfants certifiés et désinfectés sont installés gratuitement sur demande pour la sécurité de votre famille.',
-        icon: 'baby',
-      },
-      {
-        title: 'Annulation Gratuite Sans Pénalité',
-        desc: 'Aucun acompte requis. Modifiez ou annulez sans frais jusqu’à 4 heures avant le départ prévu.',
-        icon: 'calendar',
-      },
-      {
-        title: 'Tarifs Tout Compris Péages & Taxes',
-        desc: 'Le prix convenu est final et comprend péages, carburant, parking aéroport et TVA, payable en espèces à l’arrivée.',
-        icon: 'shield',
-      },
-    ],
-    fleetBadge: 'La Flotte Royale Agréée',
-    fleetTitle: 'Une Flotte Exécutive Conçue pour une Sérénité Totale',
-    fleetSubtitle: 'Sélectionnez le véhicule adapté à votre famille et vos bagages. Tous nos véhicules sont récents et climatisés.',
-    fleetDisclaimer: 'Les tarifs certifiés s’affichent instantanément dès la sélection de l’itinéraire sans frais cachés.',
-    exploreDetails: 'Voir les Spécifications du Véhicule',
-    bookThisVehicle: 'Réserver ce Véhicule',
-    journeysBadge: 'Liaisons Populaires Agréées',
-    journeysTitle: 'Principaux Trajets Interurbains en Arabie Saoudite',
-    journeysSubtitle: 'Tarifs officiels reliant les aéroports aux hôtels sacrés de La Mecque et Médine.',
-    fromStarting: 'Dès:',
-    bookThisRoute: 'Réserver cet Itinéraire',
-    conciergeBadge: 'Conciergerie Royale VIP',
-    conciergeTitle: 'Flotte Diplomatique & Véhicules d’Exception',
-    conciergeSubtitle: 'Pour les délégations officielles et VIP, nous organisons un service sur mesure via notre conciergerie WhatsApp.',
-    conciergeMaybachTitle: 'Mercedes-Maybach Classe S VIP',
-    conciergeMaybachDesc: 'Le sommet du luxe présidentiel avec suites inclinables de première classe et isolation acoustique complète.',
-    conciergeH1Title: 'Hyundai H1 Royal VIP',
-    conciergeH1Desc: 'Monospace exécutif spacieux avec rideaux de confidentialité pour délégations et familles d’élite.',
-    conciergeCta: 'Demander un Devis VIP sur WhatsApp',
-    processBadge: 'Réservation Simple',
-    processTitle: 'Réservez Votre Chauffeur en Trois Étapes Claires',
-    processSubtitle: 'Une expérience limpide qui garantit votre tranquillité d’esprit avant de quitter votre pays.',
-    processSteps: [
-      {
-        num: '01',
-        title: 'Réservez en Ligne en 60 Secondes',
-        desc: 'Choisissez votre trajet, date et véhicule sans carte bancaire ni paiement d’avance.',
-      },
-      {
-        num: '02',
-        title: 'Confirmation Immédiate sur WhatsApp',
-        desc: 'Notre équipe confirme instantanément, attribue un chauffeur agréé et suit l’arrivée de votre vol.',
-      },
-      {
-        num: '03',
-        title: 'Accueil Personnalisé & Paiement à l’Arrivée',
-        desc: 'Votre chauffeur vous accueille avec une pancarte à votre nom. Règlement en espèces 100% à destination.',
-      },
-    ],
-    reviewsBadge: 'Avis des Pèlerins',
-    reviewsTitle: 'La Confiance de Plus de 15 000 Pèlerins',
-    reviewsSubtitle: 'Une note d’excellence de 4.9 sur 5 étoiles auprès des voyageurs de France, d’Europe et du monde musulman.',
-    faqBadge: 'Foire Aux Questions',
-    faqTitle: 'Réponses Claires sur Nos Tarifs & Réservations',
-    faqSubtitle: 'Tout ce que vous devez savoir sur notre service transparent avec paiement à l’arrivée.',
-    faqs: [
-      {
-        q: 'Le tarif est-il par personne ou par véhicule ?',
-        a: 'Tous nos tarifs indiqués s’appliquent pour l’ensemble du véhicule avec sa capacité complète, jamais par personne.',
-      },
-      {
-        q: 'Quand et comment se fait le règlement ?',
-        a: 'Aucun prépaiement requis. Vous réglez 100% en espèces directement au chauffeur après votre arrivée sécurisée à l’hôtel (SAR ou USD).',
-      },
-      {
-        q: 'Que se passe-t-il en cas de retard de mon vol à Djeddah ou Médine ?',
-        a: 'Nous suivons le vol en direct par radar. Votre chauffeur arrive à l’heure réelle avec 60 minutes d’attente gratuite.',
-      },
-      {
-        q: 'Le chauffeur s’arrête-t-il au Miqat entre Médine et La Mecque ?',
-        a: 'Oui, le trajet Médine - La Mecque inclut un arrêt gratuit au Miqat Dhou al-Hulayfah (Bir Ali) pour l’Ihram et la prière.',
-      },
-    ],
-    closingBadge: 'Réservez Votre Voyage Aujourd’hui',
-    closingTitle: 'Prêts à Découvrir l’Hospitalité Royale Saoudienne ?',
-    closingSubtitle: 'Réservez votre berline ou van avec chauffeur en toute confiance et payez à votre arrivée à l’hôtel.',
-    closingBookBtn: 'Réserver Votre Chauffeur en Ligne',
-    closingWhatsappBtn: 'Contacter la Conciergerie sur WhatsApp',
+    announcement: 'Services de chauffeur privé pour pèlerins et familles à travers l’Arabie Saoudite',
+    heroBadge: 'DUYUF ALRAHMAN VIP',
+    heroHeadlineMain: 'Votre voyage en Arabie Saoudite…',
+    heroHeadlineHighlight: 'avec une distinction royale',
+    heroSubtitle: 'Services de chauffeur privé avec une flotte soignée et des chauffeurs professionnels. Un voyage conçu pour votre confort.',
+    heroCtaStart: 'Planifier votre voyage',
+    heroCtaFleet: 'Explorer la flotte',
+    bookingKicker: 'COMMENCEZ VOTRE VOYAGE',
+    bookingTitle: 'Réservez en toute confiance',
+    bookingNote: 'Paiement en espèces au chauffeur après arrivée sécurisée',
+    pickupLabel: 'DÉPART',
+    pickupPlaceholder: 'Point de départ',
+    dropoffLabel: 'DESTINATION',
+    dropoffPlaceholder: 'Destination',
+    dateLabel: 'DATE DU VOYAGE',
+    passengersLabel: 'PASSAGERS',
+    bookingSubmit: 'Voir les véhicules et tarifs',
+    errorSelectFields: 'Veuillez sélectionner un départ, une destination et une date.',
+    errorSameLocation: 'Veuillez choisir deux destinations différentes.',
+    locJeddahAirport: 'Aéroport de Djeddah (KAIA)',
+    locMakkah: 'La Mecque',
+    locMadinahAirport: 'Aéroport de Médine',
+    locMadinah: 'Médine',
+    locTaif: 'Taif',
+    trustTaxesTitle: 'Taxes et péages inclus',
+    trustTaxesSub: 'Selon les conditions du trajet approuvé',
+    trustCancelTitle: 'Annulation gratuite',
+    trustCancelSub: 'Flexibilité totale des plannings',
+    trustChildTitle: 'Sièges enfants sur demande',
+    trustChildSub: 'Le confort de toute la famille',
+    trustFlightTitle: 'Suivi des vols',
+    trustFlightSub: 'Suivi précis de l’heure d’atterrissage',
+    trust24Title: 'Service 24/7',
+    trust24Sub: 'Assistance permanente',
+    fleetKicker: 'NOTRE FLOTTE PREMIUM',
+    fleetTitle: 'Une sélection de véhicules de prestige',
+    fleetSubtitle: 'Choisissez le véhicule adapté à vos passagers et à vos bagages.',
+    fleetViewAll: 'Voir toute la flotte',
+    passengersWord: 'passagers',
+    bagsWord: 'bagages',
+    selectVehicleCta: 'Choisir ce véhicule',
+    fleetFootnote: 'Capacités certifiées officiellement selon les normes de sécurité.',
+    routesKicker: 'TRAJETS POPULAIRES',
+    routesTitle: 'Vos trajets les plus demandés',
+    routesSubtitle: 'Transferts privés reliant les principales destinations saoudiennes à tarifs transparents.',
+    routesViewAll: 'Voir tous les trajets',
+    fromPricePrefix: 'Dès',
+    discoverJourney: 'Découvrir le trajet',
+    tagAirport: 'TRANSFERT AÉROPORT',
+    tagIntercity: 'INTERCピTÉS',
+    conciergeKicker: 'SERVICE DE CONCIERGERIE ROYALE',
+    conciergeTitle: 'Une expérience d’exception pour hôtes de marque',
+    conciergeSubtitle: 'Maybach et Hyundai H1 disponibles sur demande personnalisée.',
+    conciergeCta: 'Contacter sur WhatsApp',
+    conciergeDisclaimer: 'Ces véhicules sont disponibles uniquement sur demande de conciergerie.',
+    experienceKicker: 'L’EXCELLENCE DANS LE DÉTAIL',
+    experienceTitle: 'De l’accueil… jusqu’à l’arrivée',
+    experienceSubtitle: 'Chaque détail est coordonné avec soin pour votre tranquillité d’esprit.',
+    exp1Title: 'Planification claire avant le départ',
+    exp1Desc: 'Détails du trajet et tarifs affichés sans frais cachés.',
+    exp2Title: 'Suivi minutieux de votre transfert',
+    exp2Desc: 'Suivi des vols et coordination directe avec le chauffeur au terminal.',
+    exp3Title: 'Paiement à l’arrivée en espèces',
+    exp3Desc: 'Payez le chauffeur en espèces après avoir atteint votre hôtel, sans acompte préalable.',
+    reviewsKicker: 'TÉMOIGNAGES DE PÈLERINS',
+    reviewsTitle: 'La confiance de nos hôtes',
+    reviewsSubtitle: 'Retours d’expérience de nos voyageurs avec Duyuf Alrahman VIP.',
+    rev1Name: 'Mohamed Al-Otaibi',
+    rev1Tag: 'Pèlerin de Riyad',
+    rev1Text: 'Le meilleur service de transport du Royaume. Chauffeur ponctuel et voiture d’une propreté irréprochable.',
+    rev2Name: 'Sarah Al-Otaibi',
+    rev2Tag: 'Voyage en famille',
+    rev2Text: 'Grand professionnalisme et respect scrupuleux des horaires. Chauffeur très courtois.',
+    rev3Name: 'Ahmed Mohamed',
+    rev3Tag: 'Pèlerin des Émirats',
+    rev3Text: 'Service magnifique et confort total. Le paiement après arrivée apporte une entière sérénité.',
+    finalCtaKicker: 'DUYUF ALRAHMAN VIP',
+    finalCtaTitle: 'Réservez votre trajet dès maintenant avec une hospitalité royale',
+    finalCtaSubtitle: 'Choisissez votre destination et laissez-nous veiller sur chaque détail.',
+    finalCtaButton: 'Commencer la réservation',
   },
-
   es: {
-    heroBadge: '★ LUJO DE AVIACIÓN PRIVADA EN TIERRA',
-    heroHeadline: 'Su Peregrinación Merece la Máxima Comodidad y Serenidad',
-    heroSubheadline:
-      'Servicio de chófer privado ejecutivo entre el Aeropuerto de Yeda (KAIA), el Aeropuerto de Medina (MED) y los hoteles de La Meca. Tarifas fijas garantizadas con pago 100% en efectivo a la llegada.',
-    tabTransfer: 'Traslados Aeropuerto y Ciudades',
-    tabZiyarat: 'Tours Sagrados Ziyarat',
-    tabHourly: 'Chófer Privado por Horas',
-    routeLabel: 'Ruta Autorizada de Autopista',
-    dateLabel: 'Fecha de Recogida',
-    timeLabel: 'Hora de Recogida',
-    passengersLabel: 'Pasajeros',
-    luggageLabel: 'Maletas',
-    durationLabel: 'Duración del Servicio',
-    ctaViewVehicles: 'Ver Vehículos y Precios Disponibles',
-    reassurancePill: '0 Anticipo • Pago en Efectivo al Llegar • Monitoreo de Vuelos • Tarifas Fijas Garantizadas',
-    trust1: 'Pago 100% en Efectivo a la Llegada',
-    trust2: 'Tarifa Fija por Vehículo Completo',
-    trust3: '60 Min de Espera Gratis en Aeropuerto',
-    trust4: 'Rastreo Radar de Vuelos en Vivo',
-    trust5: 'Agua Zamzam Fría y Ayuda con Equipaje',
-    advantagesBadge: 'Distinción Real VIP',
-    advantagesTitle: 'Por Qué los Peregrinos Eligen Duyuf Alrahman VIP',
-    advantagesSubtitle: 'Cinco pilares diseñados para brindarle tranquilidad, puntualidad y máximo confort en su sagrado viaje.',
-    advantages: [
-      {
-        title: 'Despacho y Asistencia 24/7',
-        desc: 'Nuestro equipo bilingüe coordina cada trayecto por WhatsApp y asistencia directa las 24 horas del día.',
-        icon: 'clock',
-      },
-      {
-        title: 'Rastreo Radar de Vuelos en Tiempo Real',
-        desc: 'Monitoreamos la llegada de su vuelo; incluso con retrasos, su chófer le espera con 60 minutos de cortesía.',
-        icon: 'plane',
-      },
-      {
-        title: 'Sillas de Seguridad Infantil Gratuitas',
-        desc: 'Disponemos de sillas sanitizadas homologadas para bebés y niños sin coste adicional a petición.',
-        icon: 'baby',
-      },
-      {
-        title: 'Cancelación Flexible Sin Penalización',
-        desc: 'Sin depósitos previos. Modifique o cancele gratis hasta 4 horas antes de la salida programada.',
-        icon: 'calendar',
-      },
-      {
-        title: 'Tarifas Todo Incluido Peajes e Impuestos',
-        desc: 'El precio acordado es final con peajes de autopista, gasolina y tasas incluidos, pagadero en efectivo al llegar.',
-        icon: 'shield',
-      },
-    ],
-    fleetBadge: 'Flota Real Aprobada',
-    fleetTitle: 'Flota Ejecutiva Diseñada para su Serenidad',
-    fleetSubtitle: 'Elija el vehículo óptimo para su familia y equipaje. Todos los vehículos son modernos y climatizados.',
-    fleetDisclaimer: 'Las tarifas exactas verificadas se muestran al seleccionar la ruta sin costes ocultos.',
-    exploreDetails: 'Ver Especificaciones del Vehículo',
-    bookThisVehicle: 'Seleccionar y Reservar Este Vehículo',
-    journeysBadge: 'Rutas Frecuentes Autorizadas',
-    journeysTitle: 'Principales Corredores entre Ciudades Santas',
-    journeysSubtitle: 'Tarifas fijas aprobadas para traslados entre aeropuertos y hoteles de La Meca y Medina.',
-    fromStarting: 'Desde:',
-    bookThisRoute: 'Reservar Esta Ruta Ahora',
-    conciergeBadge: 'Conserjería Real VIP',
-    conciergeTitle: 'Flota Exclusiva para Altas Personalidades',
-    conciergeSubtitle: 'Para delegaciones oficiales y VVIPs, ofrecemos vehículos exclusivos con atención directa en WhatsApp.',
-    conciergeMaybachTitle: 'Mercedes-Maybach Clase S VIP',
-    conciergeMaybachDesc: 'La cumbre del lujo presidencial con asientos reclinables de primera clase e insonorización total.',
-    conciergeH1Title: 'Hyundai H1 Royal VIP',
-    conciergeH1Desc: 'Furgoneta ejecutiva espaciosa con cortinas de privacidad para diplomáticos y familias de élite.',
-    conciergeCta: 'Solicitar Tarifa VIP por WhatsApp',
-    processBadge: 'Reserva Transparente',
-    processTitle: 'Reserve su Chófer en Tres Sencillos Pasos',
-    processSubtitle: 'Un proceso intuitivo que garantiza tranquilidad absoluta antes de salir de su país de origen.',
-    processSteps: [
-      {
-        num: '01',
-        title: 'Reserve Online en 60 Segundos',
-        desc: 'Seleccione ruta, fecha y vehículo sin tarjeta de crédito ni pago por adelantado.',
-      },
-      {
-        num: '02',
-        title: 'Confirmación Inmediata por WhatsApp',
-        desc: 'Nuestro equipo confirma la reserva, asigna chófer profesional y monitorea su vuelo.',
-      },
-      {
-        num: '03',
-        title: 'Recepción en Terminal y Pago al Llegar',
-        desc: 'Su chófer le recibe con cartel con su nombre. Pago 100% en efectivo al llegar con seguridad al hotel.',
-      },
-    ],
-    reviewsBadge: 'Opiniones de Peregrinos',
-    reviewsTitle: 'La Confianza de Más de 15.000 Peregrinos',
-    reviewsSubtitle: 'Puntuación sobresaliente de 4.9 sobre 5 estrellas entre viajeros internacionales.',
-    faqBadge: 'Preguntas Frecuentes',
-    faqTitle: 'Respuestas Claras sobre Tarifas y Reservas',
-    faqSubtitle: 'Todo lo que necesita saber sobre nuestro servicio transparente con pago a la llegada.',
-    faqs: [
-      {
-        q: '¿El precio es por persona o por vehículo?',
-        a: 'Todas las tarifas son por el vehículo completo con su capacidad homologada de pasajeros y maletas, nunca por persona.',
-      },
-      {
-        q: '¿Cuándo y cómo se realiza el pago?',
-        a: 'No se requiere prepago ni tarjeta online. Paga 100% en efectivo directamente al chófer tras llegar a su hotel (en SAR o USD).',
-      },
-      {
-        q: '¿Qué ocurre si se retrasa mi vuelo a Yeda o Medina?',
-        a: 'Monitoreamos el vuelo en tiempo real por radar. El chófer ajusta la llegada con 60 minutos de espera gratuita.',
-      },
-      {
-        q: '¿El chófer para en el Miqat entre Medina y La Meca?',
-        a: 'Sí, la ruta Medina a La Meca incluye parada gratuita en el Miqat Dhu al-Hulayfah (Bir Ali) para el Ihram y la oración.',
-      },
-    ],
-    closingBadge: 'Reserve su Viaje Hoy',
-    closingTitle: '¿Listo para Vivir la Verdadera Hospitalidad Real Saudí?',
-    closingSubtitle: 'Asegure su vehículo privado con chófer profesional hoy mismo y pague en efectivo a la llegada.',
-    closingBookBtn: 'Reservar Chófer Online Ahora',
-    closingWhatsappBtn: 'Contactar Conserjería por WhatsApp',
+    announcement: 'Servicios de chófer privado para peregrinos y familias en toda Arabia Saudita',
+    heroBadge: 'DUYUF ALRAHMAN VIP',
+    heroHeadlineMain: 'Su viaje en Arabia Saudita…',
+    heroHeadlineHighlight: 'con distinción y confort real',
+    heroSubtitle: 'Servicios de chófer privado con una flota selecta y conductores profesionales. Diseñado para su máxima tranquilidad.',
+    heroCtaStart: 'Planificar viaje',
+    heroCtaFleet: 'Explorar flota',
+    bookingKicker: 'INICIE SU VIAJE',
+    bookingTitle: 'Reserve con total confianza',
+    bookingNote: 'Pago en efectivo al conductor tras llegar a salvo',
+    pickupLabel: 'ORIGEN',
+    pickupPlaceholder: 'Punto de recogida',
+    dropoffLabel: 'DESTINO',
+    dropoffPlaceholder: 'Destino',
+    dateLabel: 'FECHA DEL VIAJE',
+    passengersLabel: 'PASAJEROS',
+    bookingSubmit: 'Ver vehículos y tarifas',
+    errorSelectFields: 'Por favor seleccione origen, destino y fecha de viaje.',
+    errorSameLocation: 'Por favor elija dos destinos diferentes.',
+    locJeddahAirport: 'Aeropuerto de Yeda (KAIA)',
+    locMakkah: 'La Meca',
+    locMadinahAirport: 'Aeropuerto de Medina',
+    locMadinah: 'Medina',
+    locTaif: 'Taif',
+    trustTaxesTitle: 'Tasas y peajes incluidos',
+    trustTaxesSub: 'Según las condiciones de la ruta oficial',
+    trustCancelTitle: 'Cancelación gratuita',
+    trustCancelSub: 'Flexibilidad total de viaje',
+    trustChildTitle: 'Asientos infantiles',
+    trustChildSub: 'Comodidad para toda la familia',
+    trustFlightTitle: 'Monitoreo de vuelos',
+    trustFlightSub: 'Seguimiento exacto de aterrizaje',
+    trust24Title: 'Atención 24/7',
+    trust24Sub: 'Asistencia y soporte permanente',
+    fleetKicker: 'NUESTRA FLOTA PREMIUM',
+    fleetTitle: 'Una selecta gama de vehículos',
+    fleetSubtitle: 'Elija el vehículo ideal para el número de pasajeros y equipaje.',
+    fleetViewAll: 'Ver toda la flota',
+    passengersWord: 'pasajeros',
+    bagsWord: 'maletas',
+    selectVehicleCta: 'Seleccionar vehículo',
+    fleetFootnote: 'Capacidades verificadas oficialmente bajo estrictos estándares de seguridad.',
+    routesKicker: 'RUTAS DESTACADAS',
+    routesTitle: 'Los trayectos más solicitados',
+    routesSubtitle: 'Traslados privados que conectan los destinos clave con tarifas fijas y transparentes.',
+    routesViewAll: 'Ver opciones de reserva',
+    fromPricePrefix: 'Desde',
+    discoverJourney: 'Ver ruta',
+    tagAirport: 'TRASLADO AEROPUERTO',
+    tagIntercity: 'INTERURBANO',
+    conciergeKicker: 'CONSERJERÍA REAL',
+    conciergeTitle: 'Una experiencia exclusiva para huéspedes distinguidos',
+    conciergeSubtitle: 'Maybach y Hyundai H1 disponibles para solicitudes ejecutivas especiales.',
+    conciergeCta: 'Contactar por WhatsApp',
+    conciergeDisclaimer: 'Vehículos disponibles únicamente bajo petición especial de conserjería.',
+    experienceKicker: 'LA DIFERENCIA ESTÁ EN EL DETALLE',
+    experienceTitle: 'Desde la bienvenida… hasta su destino',
+    experienceSubtitle: 'Coordinamos cada trayecto con esmero para que disfrute de una estancia serena.',
+    exp1Title: 'Planificación clara y transparente',
+    exp1Desc: 'Detalles del trayecto y precios visibles sin costes ocultos.',
+    exp2Title: 'Supervisión continua del viaje',
+    exp2Desc: 'Monitoreo de vuelos y coordinación directa con el chófer en la terminal.',
+    exp3Title: 'Pago en efectivo a la llegada',
+    exp3Desc: 'Pague al conductor en efectivo tras llegar a su destino, sin depósitos por adelantado.',
+    reviewsKicker: 'OPINIONES DE HUÉSPEDES',
+    reviewsTitle: 'La confianza de nuestros viajeros',
+    reviewsSubtitle: 'Experiencias de peregrinos con los servicios de Duyuf Alrahman VIP.',
+    rev1Name: 'Mohamed Al-Otaibi',
+    rev1Tag: 'Peregrino de Riad',
+    rev1Text: 'El mejor servicio de transporte del Reino. Chófer puntual y vehículo impecable para viajar a La Meca.',
+    rev2Name: 'Sarah Al-Otaibi',
+    rev2Tag: 'Viaje familiar',
+    rev2Text: 'Excelente profesionalismo y máxima puntualidad. Trato sumamente respetuoso con mi familia.',
+    rev3Name: 'Ahmed Mohamed',
+    rev3Tag: 'Peregrino de EAU',
+    rev3Text: 'Servicio espléndido y gran comodidad. La opción de pago al llegar brinda total tranquilidad.',
+    finalCtaKicker: 'DUYUF ALRAHMAN VIP',
+    finalCtaTitle: 'Reserve su traslado hoy y disfrute de una atención de categoría real',
+    finalCtaSubtitle: 'Elija su destino y permítanos cuidar cada detalle con distinción.',
+    finalCtaButton: 'Iniciar reserva',
   },
-
   de: {
-    heroBadge: '★ PRIVATAVIATION-LUXUS AUF DER STRASSE',
-    heroHeadline: 'Ihre Pilgerreise Verdient Höchste Ruhe, Würde & Komfort',
-    heroSubheadline:
-      'Autorisierter VIP-Chauffeurservice zwischen Flughafen Dschidda (KAIA), Flughafen Medina (MED) und Hotels in Mekka. Garantierte Festpreise mit 100% Barzahlung bei Ankunft.',
-    tabTransfer: 'Flughafen- & Überlandtransfers',
-    tabZiyarat: 'Heilige Ziyarat-Besichtigungen',
-    tabHourly: 'Chauffeur auf Stundenbasis',
-    routeLabel: 'Offizielle Autobahnstrecke',
-    dateLabel: 'Abholdatum',
-    timeLabel: 'Abholzeit',
-    passengersLabel: 'Passagiere',
-    luggageLabel: 'Gepäck',
-    durationLabel: 'Dauer',
-    ctaViewVehicles: 'Verfügbare Fahrzeuge & Preise Anzeigen',
-    reassurancePill: '0 Anzahlung • Barzahlung beim Fahrer am Zielort • Live-Flugradar • Garantierte Festpreise',
-    trust1: '100% Barzahlung bei Ankunft am Hotel',
-    trust2: 'Garantierter Festpreis pro Gesamtfahrzeug',
-    trust3: '60 Min. kostenlose Wartezeit am Gate',
-    trust4: 'Echtzeit-Flugradarüberwachung',
-    trust5: 'Gratis Zamzam-Wasser & Gepäckhilfe',
-    advantagesBadge: 'Königlicher Standard',
-    advantagesTitle: 'Warum Anspruchsvolle Pilger Uns Wählen',
-    advantagesSubtitle: 'Fünf Grundpfeiler für Pünktlichkeit, Sicherheit und vollkommene Ruhe auf Ihrer heiligen Reise.',
-    advantages: [
-      {
-        title: '24/7 Chauffeur-Einsatzleitung',
-        desc: 'Unser zweisprachiges Einsatzteam koordiniert jede Fahrt rund um die Uhr direkt via WhatsApp und Telefon.',
-        icon: 'clock',
-      },
-      {
-        title: 'Live-Flugradarüberwachung',
-        desc: 'Wir überwachen Ihren Flug live via Flugradar; auch bei Verspätung erwartet Sie Ihr Chauffeur mit 60 Min. kostenloser Wartezeit.',
-        icon: 'plane',
-      },
-      {
-        title: 'Kostenlose Kindersicherheitssitze',
-        desc: 'Geprüfte und desinfizierte Kindersitze werden auf Anfrage für die Sicherheit Ihrer Familie kostenlos bereitgestellt.',
-        icon: 'baby',
-      },
-      {
-        title: 'Flexible Stornierung Ohne Gebühr',
-        desc: 'Keine Vorauszahlung erforderlich. Kostenlos ändern oder stornieren bis zu 4 Stunden vor Abfahrt.',
-        icon: 'calendar',
-      },
-      {
-        title: 'All-Inclusive-Festpreis Inkl. Maut & Steuern',
-        desc: 'Der vereinbarte Festpreis umfasst Autobahngebühren, Kraftstoff und Steuern. Barzahlung erst am Hotel.',
-        icon: 'shield',
-      },
-    ],
-    fleetBadge: 'Die Offizielle Flotte',
-    fleetTitle: 'Exklusive Fahrzeuge für Maximale Entspannung',
-    fleetSubtitle: 'Wählen Sie das passende Fahrzeug für Ihre Familie und Gepäckmenge. Alle Modelle sind neuwertig und klimatisiert.',
-    fleetDisclaimer: 'Verifizierte Festpreise werden sofort nach Streckenauswahl transparent ohne versteckte Kosten angezeigt.',
-    exploreDetails: 'Fahrzeugdetails Anzeigen',
-    bookThisVehicle: 'Dieses Fahrzeug Buchen',
-    journeysBadge: 'Genehmigte Fahrtstrecken',
-    journeysTitle: 'Beliebteste Fernstrecken Zwischen den Heiligen Städten',
-    journeysSubtitle: 'Offizielle Festpreise für Pilger und Delegationen zwischen Flughäfen und Hotels in Mekka und Medina.',
-    fromStarting: 'Ab:',
-    bookThisRoute: 'Diese Route Jetzt Buchen',
-    conciergeBadge: 'Königlicher VIP-Concierge',
-    conciergeTitle: 'Exklusive Luxusfahrzeuge für Staatsgäste',
-    conciergeSubtitle: 'Für offizielle Delegationen und VVIPs bieten wir maßgeschneiderte Chauffeurdienste via WhatsApp-Concierge.',
-    conciergeMaybachTitle: 'Mercedes-Maybach S-Klasse VIP',
-    conciergeMaybachDesc: 'Der Inbegriff präsidentiellen Luxus mit Erste-Klasse-Ruhesitzen und absoluter Geräuschdämmung.',
-    conciergeH1Title: 'Hyundai H1 Royal VIP',
-    conciergeH1Desc: 'Großraum-Limousine mit Privatsphäre-Vorhängen für diplomatische Begleitung und anspruchsvolle Familien.',
-    conciergeCta: 'VIP-Angebot via WhatsApp Anfragen',
-    processBadge: 'Einfache Buchung',
-    processTitle: 'In Drei Transparenten Schritten zum Privaten Chauffeur',
-    processSubtitle: 'Ein sicherer Buchungsablauf, der Ihnen bereits vor Abflug aus der Heimat absolute Gewissheit gibt.',
-    processSteps: [
-      {
-        num: '01',
-        title: 'In 60 Sekunden Online Buchen',
-        desc: 'Wählen Sie Route, Datum und Fahrzeug ohne Vorauszahlung oder Kreditkarte.',
-      },
-      {
-        num: '02',
-        title: 'Sofortige WhatsApp-Bestätigung',
-        desc: 'Unser Team bestätigt umgehend, weist einen lizenzierten Chauffeur zu und überwacht Ihren Flug.',
-      },
-      {
-        num: '03',
-        title: 'Empfang am Gate & Barzahlung am Ziel',
-        desc: 'Ihr Chauffeur erwartet Sie mit Namensschild. 100% Barzahlung erfolgt erst nach sicherer Ankunft im Hotel.',
-      },
-    ],
-    reviewsBadge: 'Pilgerbewertungen',
-    reviewsTitle: 'Das Vertrauen von Über 15.000 Pilgern',
-    reviewsSubtitle: 'Ausgezeichnet mit 4.9 von 5 Sternen durch internationale Gäste aus Deutschland, Europa und den Golfstaaten.',
-    faqBadge: 'Häufig Gestellte Fragen',
-    faqTitle: 'Transparente Antworten zu Preisen & Ablauf',
-    faqSubtitle: 'Alles Wissenswerte über unseren verlässlichen Barzahlung-bei-Ankunft Service.',
-    faqs: [
-      {
-        q: 'Gilt der Preis pro Person oder für das gesamte Fahrzeug?',
-        a: 'Alle angegebenen Preise gelten für das gesamte Fahrzeug inklusive der zulässigen Passagiere und Koffer, niemals pro Person.',
-      },
-      {
-        q: 'Wann und wie wird bezahlt?',
-        a: 'Keine Vorauskasse. Sie zahlen 100% in bar direkt beim Chauffeur nach sicherer Ankunft am Hotel (in SAR oder USD).',
-      },
-      {
-        q: 'Was passiert bei Flugverspätungen nach Dschidda oder Medina?',
-        a: 'Wir überwachen Flüge per Live-Radar. Ihr Fahrer passt die Ankunftszeit automatisch an und wartet bis zu 60 Min. kostenlos.',
-      },
-      {
-        q: 'Hält der Chauffeur bei der Fahrt von Medina nach Mekka am Miqat?',
-        a: 'Ja, die Fahrt von Medina nach Mekka beinhaltet einen kostenlosen Zwischenstopp an der Miqat-Station Bir Ali für Ihram und Gebet.',
-      },
-    ],
-    closingBadge: 'Buchen Sie Ihre Reise Heute',
-    closingTitle: 'Bereit für Echte Saudi-Königliche Gastfreundschaft?',
-    closingSubtitle: 'Sichern Sie sich Ihr VIP-Fahrzeug mit erfahrenem Chauffeur noch heute mit Barzahlung erst bei Ankunft.',
-    closingBookBtn: 'Chauffeur Jetzt Online Buchen',
-    closingWhatsappBtn: 'Concierge via WhatsApp Kontaktieren',
+    announcement: 'Exklusiver Chauffeurservice für Pilger und Familien in ganz Saudi-Arabien',
+    heroBadge: 'DUYUF ALRAHMAN VIP',
+    heroHeadlineMain: 'Ihre Reise in Saudi-Arabien…',
+    heroHeadlineHighlight: 'mit königlichem Komfort',
+    heroSubtitle: 'Private Chauffeurdienste mit erstklassiger Flotte und professionellen Fahrern. Maximaler Reisekomfort von Abfahrt bis Ankunft.',
+    heroCtaStart: 'Reise planen',
+    heroCtaFleet: 'Flotte entdecken',
+    bookingKicker: 'REISE BEGINNEN',
+    bookingTitle: 'Sicher und entspannt buchen',
+    bookingNote: 'Barzahlung an den Fahrer nach sicherer Ankunft',
+    pickupLabel: 'ABHOLORT',
+    pickupPlaceholder: 'Abholort wählen',
+    dropoffLabel: 'ZIELORT',
+    dropoffPlaceholder: 'Zielort wählen',
+    dateLabel: 'REISEDATUM',
+    passengersLabel: 'PASSAGIERE',
+    bookingSubmit: 'Fahrzeuge & Preise anzeigen',
+    errorSelectFields: 'Bitte wählen Sie Abholort, Zielort und Reisedatum.',
+    errorSameLocation: 'Bitte wählen Sie zwei unterschiedliche Orte.',
+    locJeddahAirport: 'Flughafen Dschidda (KAIA)',
+    locMakkah: 'Mekka',
+    locMadinahAirport: 'Flughafen Medina',
+    locMadinah: 'Medina',
+    locTaif: 'Taif',
+    trustTaxesTitle: 'Gebühren & Maut inklusive',
+    trustTaxesSub: 'Gemäß offiziellen Routenbedingungen',
+    trustCancelTitle: 'Kostenlose Stornierung',
+    trustCancelSub: 'Volle Reiseflexibilität',
+    trustChildTitle: 'Kindersitze auf Anfrage',
+    trustChildSub: 'Komfort für die ganze Familie',
+    trustFlightTitle: 'Flugüberwachung',
+    trustFlightSub: 'Präzise Landezeit-Verfolgung',
+    trust24Title: '24/7 Verfügbarkeit',
+    trust24Sub: 'Rund um die Uhr Betreuung',
+    fleetKicker: 'UNSERE PREMIUM-FLOTTE',
+    fleetTitle: 'Eine erlesene Fahrzeugauswahl',
+    fleetSubtitle: 'Wählen Sie das ideale Fahrzeug passend zu Passagier- und Gepäckanzahl.',
+    fleetViewAll: 'Alle Fahrzeuge ansehen',
+    passengersWord: 'Passagiere',
+    bagsWord: 'Koffer',
+    selectVehicleCta: 'Dieses Fahrzeug wählen',
+    fleetFootnote: 'Kapazitäten sind behördlich verifiziert und genügen höchsten Sicherheitsstandards.',
+    routesKicker: 'BELIEBTE ROUTEN',
+    routesTitle: 'Die wichtigsten Routen',
+    routesSubtitle: 'Private Transfers zwischen den bedeutendsten Städten mit klaren Festpreisen.',
+    routesViewAll: 'Alle Optionen anzeigen',
+    fromPricePrefix: 'Ab',
+    discoverJourney: 'Route entdecken',
+    tagAirport: 'FLUGHAFENTRANSFER',
+    tagIntercity: 'FERNVERKEHR',
+    conciergeKicker: 'KÖNIGLICHER CONCIERGE',
+    conciergeTitle: 'Ein exklusives Erlebnis für besondere Gäste',
+    conciergeSubtitle: 'Maybach und Hyundai H1 für individuelle Sonderwünsche.',
+    conciergeCta: 'Per WhatsApp kontaktieren',
+    conciergeDisclaimer: 'Diese Fahrzeuge sind nur auf Concierge-Anfrage verfügbar, keine Sofortbuchung.',
+    experienceKicker: 'PRÄZISION BIS INS DETAIL',
+    experienceTitle: 'Vom Empfang… bis zum Ziel',
+    experienceSubtitle: 'Jede Etappe wird sorgfältig koordiniert, damit Sie sich voll auf Ihre Reise konzentrieren können.',
+    exp1Title: 'Klare Planung im Vorfeld',
+    exp1Desc: 'Fahrtinformationen und Festpreise werden transparent ohne versteckte Kosten angezeigt.',
+    exp2Title: 'Lückenlose Reisebetreuung',
+    exp2Desc: 'Flugüberwachung und direkte Abstimmung mit dem Chauffeur am Terminal.',
+    exp3Title: 'Bequeme Barzahlung bei Ankunft',
+    exp3Desc: 'Zahlen Sie den Fahrer nach sicherer Ankunft am Hotel bar, ohne vorherige Anzahlung.',
+    reviewsKicker: 'PILGERBEWERTUNGEN',
+    reviewsTitle: 'Das Vertrauen unserer Gäste',
+    reviewsSubtitle: 'Authentische Berichte von Reisenden mit Duyuf Alrahman VIP.',
+    rev1Name: 'Mohamed Al-Otaibi',
+    rev1Tag: 'Pilger aus Riad',
+    rev1Text: 'Der beste Chauffeurservice in Saudi-Arabien. Pünktlicher Fahrer und tadellos sauberes Fahrzeug.',
+    rev2Name: 'Sarah Al-Otaibi',
+    rev2Tag: 'Familienreise',
+    rev2Text: 'Sehr professionell und vorbildlich pünktlich. Äußerst rücksichtsvoller Umgang mit meiner Familie.',
+    rev3Name: 'Ahmed Mohamed',
+    rev3Tag: 'Pilger aus den VAE',
+    rev3Text: 'Hervorragender Service und maximaler Fahrkomfort. Barzahlung bei Ankunft gibt vollste Sicherheit.',
+    finalCtaKicker: 'DUYUF ALRAHMAN VIP',
+    finalCtaTitle: 'Buchen Sie Ihre Fahrt jetzt und erleben Sie erstklassige Gastfreundschaft',
+    finalCtaSubtitle: 'Wählen Sie Ihr Ziel und überlassen Sie uns die perfekte Durchführung.',
+    finalCtaButton: 'Buchung starten',
   },
-
   tr: {
-    heroBadge: '★ KARAYOLUNDA ÖZEL JET LÜKSÜ',
-    heroHeadline: 'Kutsal Yolculuğunuz En Üst Düzey Konfor ve Huzuru Hak Ediyor',
-    heroSubheadline:
-      'Cidde Havalimanı (KAIA), Medine Havalimanı (MED) ve Mekke otelleri arasında yetkili VIP özel şoför hizmeti. Garantili sabit fiyatlar ve varışta %100 nakit ödeme kolaylığı.',
-    tabTransfer: 'Havalimanı ve Şehirlerarası Transfer',
-    tabZiyarat: 'Kutsal Ziyaret Turları',
-    tabHourly: 'Saatlik Özel Şoför',
-    routeLabel: 'Resmi Otoyol Güzergahı',
-    dateLabel: 'Alınış Tarihi',
-    timeLabel: 'Alınış Saati',
-    passengersLabel: 'Yolcu',
-    luggageLabel: 'Valiz',
-    durationLabel: 'Hizmet Süresi',
-    ctaViewVehicles: 'Müsait Araçları ve Fiyatları Görüntüle',
-    reassurancePill: '0 Ön Ödeme • Otele Varışta Şoföre Nakit Ödeme • Canlı Uçuş Radarı • Garantili Sabit Fiyatlar',
-    trust1: 'Otele Varışta %100 Nakit Ödeme',
-    trust2: 'Aracın Tamamı İçin Sabit Fiyat',
-    trust3: 'Havalimanında 60 Dk Ücretsiz Bekleme',
-    trust4: 'Canlı Uçuş Radarı Takibi',
-    trust5: 'Ücretsiz Soğuk Zemzem ve Bagaj Yardımı',
-    advantagesBadge: 'Kraliyet Standartları',
-    advantagesTitle: 'Umre Yolcuları Neden Duyuf Alrahman VIP’yi Seçiyor?',
-    advantagesSubtitle: 'Kutsal yolculuğunuz boyunca huzur ve dakikliği garanti eden beş temel hizmet ilkesi.',
-    advantages: [
-      {
-        title: '24/7 Kesintisiz Operasyon ve Koordinasyon',
-        desc: 'İki dilli operasyon ekibimiz seyahatinizin her anında WhatsApp ve telefon üzerinden yanınızda.',
-        icon: 'clock',
-      },
-      {
-        title: 'Canlı Uçuş Radarı Takibi',
-        desc: 'Uçuşunuzu anlık radarla takip ediyoruz; rötar durumunda dahi şoförünüz 60 dk ücretsiz bekleme ile hazır bulunur.',
-        icon: 'plane',
-      },
-      {
-        title: 'Ücretsiz Bebek ve Çocuk Güvenlik Koltuğu',
-        desc: 'Hijyenik standartlara uygun çocuk koltukları ailenizin güvenliği için talep üzerine ücretsiz sağlanır.',
-        icon: 'baby',
-      },
-      {
-        title: 'Cezasız Esnek İptal İmkanı',
-        desc: 'Ön ödeme yok. Planlanan hareket saatinden 4 saat öncesine kadar ücretsiz iptal veya değişiklik yapabilirsiniz.',
-        icon: 'calendar',
-      },
-      {
-        title: 'Köprü, Otoyol ve Vergiler Dahil Sabit Fiyat',
-        desc: 'Belirlenen fiyat kesindir; otoyol geçiş ücretleri, yakıt ve vergiler dahildir. Ödeme otele varışta nakit yapılır.',
-        icon: 'shield',
-      },
-    ],
-    fleetBadge: 'Onaylı Kraliyet Filosu',
-    fleetTitle: 'Üstün Konfor İçin Donatılmış VIP Filo',
-    fleetSubtitle: 'Ailenizin ve bagajınızın kapasitesine en uygun modeli seçin. Tüm araçlarımız yeni model ve tam klimalıdır.',
-    fleetDisclaimer: 'Araçların kesin onaylı fiyatları güzergah seçildiğinde şeffafça gösterilir, ek masraf yoktur.',
-    exploreDetails: 'Araç Detaylarını İncele',
-    bookThisVehicle: 'Bu Aracı Seç ve Ayırt',
-    journeysBadge: 'Onaylı Seyahat Hatları',
-    journeysTitle: 'Haremeyn Arasındaki En Popüler Güzergahlar',
-    journeysSubtitle: 'Havalimanları ve Mekke-Medine otelleri arasında resmi sabit transfer tarifeleri.',
-    fromStarting: 'Başlangıç:',
-    bookThisRoute: 'Bu Güzergahı Şimdi Ayırtın',
-    conciergeBadge: 'Kraliyet VIP Konsiyerj',
-    conciergeTitle: 'Seçkin Heyetler İçin Özel Lüks Araçlar',
-    conciergeSubtitle: 'Devlet heyetleri ve VVIP misafirler için WhatsApp konsiyerjimiz üzerinden özel tahsisli araçlar sunuyoruz.',
-    conciergeMaybachTitle: 'Mercedes-Maybach S-Serisi VIP',
-    conciergeMaybachDesc: 'Kusursuz başkanlık lüksü, birinci sınıf yatar koltuklar ve tam akustik sessizlik.',
-    conciergeH1Title: 'Hyundai H1 Royal VIP',
-    conciergeH1Desc: 'Heyetler ve seçkin aileler için tam mahremiyet perdeli ferah VIP minibüs.',
-    conciergeCta: 'WhatsApp Üzerinden Özel Fiyat Alın',
-    processBadge: 'Kolay Rezervasyon',
-    processTitle: 'Üç Basit Adımda VIP Şoförünüzü Ayırtın',
-    processSubtitle: 'Memleketinizden ayrılmadan önce tam bir güven veren şeffaf rezervasyon deneyimi.',
-    processSteps: [
-      {
-        num: '01',
-        title: '60 Saniyede Online Rezervasyon',
-        desc: 'Kredi kartı veya ön ödeme gerekmeden güzergahınızı ve aracınızı kolayca seçin.',
-      },
-      {
-        num: '02',
-        title: 'Anında WhatsApp Onayı',
-        desc: 'Ekibimiz rezervasyonu onaylar, lisanslı şoförü atar ve uçuşunuzu radardan takip eder.',
-      },
-      {
-        num: '03',
-        title: 'Terminalde Karşılama & Varışta Nakit Ödeme',
-        desc: 'Şoförünüz sizi isim panosu ile karşılar. Ödeme otele ulaştıktan sonra %100 nakit yapılır.',
-      },
-    ],
-    reviewsBadge: 'Misafir Yorumları',
-    reviewsTitle: '15.000’den Fazla Hacı ve Umrecinin Güveni',
-    reviewsSubtitle: 'Türkiye ve dünyanın dört bir yanından gelen misafirlerimizden 5 üzerinden 4.9 mükemmel puan.',
-    faqBadge: 'Sıkça Sorulan Sorular',
-    faqTitle: 'Fiyatlar ve Rezervasyon Hakkında Net Bilgiler',
-    faqSubtitle: 'Varışta nakit ödemeli güvenilir hizmetimiz hakkında merak edilenler.',
-    faqs: [
-      {
-        q: 'Fiyat kişi başı mı yoksa araç başı mıdır?',
-        a: 'Tüm fiyatlarımız kişi başı değil, aracın tam kapasitesi için geçerli toplam araç fiyatıdır.',
-      },
-      {
-        q: 'Ödeme ne zaman ve nasıl yapılır?',
-        a: 'Ön ödeme veya kart bilgisi gerekmez. Ücretin tamamını otele güvenle vardıktan sonra şoföre nakit ödersiniz (SAR veya USD).',
-      },
-      {
-        q: 'Uçağım Cidde veya Medine’ye rötar yaparsa ne olur?',
-        a: 'Uçuşunuzu canlı radarla takip ediyoruz. Şoför iniş saatinize göre hazır bulunur ve 60 dakika ücretsiz bekler.',
-      },
-      {
-        q: 'Medine’den Mekke’ye giderken Mikat noktasında duruluyor mu?',
-        a: 'Evet, Medine - Mekke transferinde Zülhuleyfe Mikatı (Şecere Mescidi / Bir Ali) noktasında ihram ve namaz için ücretsiz mola dahildir.',
-      },
-    ],
-    closingBadge: 'Seyahatinizi Bugün Ayırtın',
-    closingTitle: 'Suudi Kraliyet Misafirperverliğini Yaşamaya Hazır mısınız?',
-    closingSubtitle: 'VIP aracınızı ve deneyimli şoförünüzü hemen ayırtın, ücreti otele varışta nakit ödeyin.',
-    closingBookBtn: 'Şimdi Online Rezervasyon Yapın',
-    closingWhatsappBtn: 'WhatsApp’tan Konsiyerje Danışın',
+    announcement: 'Suudi Arabistan genelinde hacılar ve aileler için özel şoförlü VIP transfer hizmeti',
+    heroBadge: 'DUYUF ALRAHMAN VIP',
+    heroHeadlineMain: 'Suudi Arabistan’daki yolculuğunuz…',
+    heroHeadlineHighlight: 'krallara layık konforla',
+    heroSubtitle: 'Seçkin araç filosu ve profesyonel şoförlerle özel transferler. Yolculuğunuzun her anında huzur ve konfor.',
+    heroCtaStart: 'Yolculuğu planla',
+    heroCtaFleet: 'Filoyu keşfet',
+    bookingKicker: 'YOLCULUĞA BAŞLAYIN',
+    bookingTitle: 'Güvenle rezervasyon yapın',
+    bookingNote: 'Varış noktasına ulaştıktan sonra şoföre nakit ödeme',
+    pickupLabel: 'NEREDEN?',
+    pickupPlaceholder: 'Kalkış noktası seçin',
+    dropoffLabel: 'NEREYE?',
+    dropoffPlaceholder: 'Varış noktası seçin',
+    dateLabel: 'YOLCULUK TARİHİ',
+    passengersLabel: 'YOLCU SAYISI',
+    bookingSubmit: 'Araçları ve fiyatları gör',
+    errorSelectFields: 'Lütfen kalkış, varış noktası ve seyahat tarihini seçin.',
+    errorSameLocation: 'Lütfen iki farklı konum seçin.',
+    locJeddahAirport: 'Cidde Havalimanı (KAIA)',
+    locMakkah: 'Mekke',
+    locMadinahAirport: 'Medine Havalimanı',
+    locMadinah: 'Medine',
+    locTaif: 'Taif',
+    trustTaxesTitle: 'Vergiler ve geçişler dahil',
+    trustTaxesSub: 'Resmi güzergah koşullarına göre',
+    trustCancelTitle: 'Ücretsiz iptal',
+    trustCancelSub: 'Esnek seyahat planlaması',
+    trustChildTitle: 'Talep üzerine çocuk koltuğu',
+    trustChildSub: 'Tüm aileniz için konfor',
+    trustFlightTitle: 'Uçuş takibi',
+    trustFlightSub: 'İniş saatinin anlık takibi',
+    trust24Title: '7/24 Kesintisiz Destek',
+    trust24Sub: 'Sürekli operasyonel koordinasyon',
+    fleetKicker: 'LÜKS ARAÇ FİLOMUZ',
+    fleetTitle: 'Ayrıcalıklı araç filomuz',
+    fleetSubtitle: 'Yolcu ve bagaj sayınıza en uygun aracı belirleyin.',
+    fleetViewAll: 'Tüm filoyu gör',
+    passengersWord: 'yolcu',
+    bagsWord: 'bavul',
+    selectVehicleCta: 'Bu aracı seç',
+    fleetFootnote: 'Kapasiteler resmi olarak onaylanmış olup güvenlik standartlarına uygundur.',
+    routesKicker: 'POPÜLER GÜZERGAHLAR',
+    routesTitle: 'En çok tercih edilen rotalar',
+    routesSubtitle: 'Suudi Arabistan’ın kutsal şehirlerini şeffaf ve sabit fiyatlarla birbirine bağlayan özel transferler.',
+    routesViewAll: 'Tüm rotaları gör',
+    fromPricePrefix: 'İtibaren',
+    discoverJourney: 'Güzergahı gör',
+    tagAirport: 'HAVALİMANI TRANSFERİ',
+    tagIntercity: 'ŞEHİRLER ARASI',
+    conciergeKicker: 'KRALİYET CONCIERGE HİZMETİ',
+    conciergeTitle: 'Seçkin konuklarımıza özel bir deneyim',
+    conciergeSubtitle: 'Maybach ve Hyundai H1 özel tahsis talepleri için hizmetinizdedir.',
+    conciergeCta: 'WhatsApp ile iletişime geç',
+    conciergeDisclaimer: 'Bu araçlar anlık rezervasyona kapalı olup yalnızca concierge talebiyle tahsis edilir.',
+    experienceKicker: 'FARKI YARATAN DETAYLAR',
+    experienceTitle: 'Karşılamadan… varış noktasına kadar',
+    experienceSubtitle: 'İbadetlerinize huzurla odaklanabilmeniz için her detay titizlikle planlanır.',
+    exp1Title: 'Yola çıkmadan net planlama',
+    exp1Desc: 'Gizli ücret olmaksızın tüm yolculuk ve ücret detayları baştan bellidir.',
+    exp2Title: 'Koordineli yolculuk takibi',
+    exp2Desc: 'Uçuş iniş saatleri izlenir ve şoför sizi terminalde zamanında karşılar.',
+    exp3Title: 'Varışta nakit ödeme kolaylığı',
+    exp3Desc: 'Ön ödeme veya kaparo olmadan, otelinize güvenle vardıktan sonra şoföre nakit ödeme.',
+    reviewsKicker: 'MİSAFİR YORUMLARI',
+    reviewsTitle: 'Konuklarımızın güveni',
+    reviewsSubtitle: 'Duyuf Alrahman VIP ile seyahat eden misafirlerimizin deneyimleri.',
+    rev1Name: 'Mohamed Al-Otaibi',
+    rev1Tag: 'Riyadlı Umreci',
+    rev1Text: 'Krallık’taki en iyi transfer hizmeti. Şoför havalimanında tertemiz arabasıyla tam vaktinde bekliyordu.',
+    rev2Name: 'Sarah Al-Otaibi',
+    rev2Tag: 'Aile Seyahati',
+    rev2Text: 'Üst düzey profesyonellik ve dakiklik. Aileme karşı son derece kibar ve hürmetkardılar.',
+    rev3Name: 'Ahmed Mohamed',
+    rev3Tag: 'BAE’den Misafir',
+    rev3Text: 'Kusursuz hizmet ve konforlu yolculuk. Varışta nakit ödeme seçeneği büyük bir güven sağlıyor.',
+    finalCtaKicker: 'DUYUF ALRAHMAN VIP',
+    finalCtaTitle: 'Yolculuğunuzu hemen ayırtın, krallara layık konforu yaşayın',
+    finalCtaSubtitle: 'Gideceğiniz yeri seçin, tüm ayrıntılarla biz ilgilenelim.',
+    finalCtaButton: 'Rezervasyona başla',
   },
-
   hi: {
-    heroBadge: '★ ज़मीन पर निजी विमानन स्तर की लग्जरी',
-    heroHeadline: 'आपकी पवित्र उमरा यात्रा असाधारण सुकून और गरिमा की हकदार है',
-    heroSubheadline:
-      'किंग अब्दुलअज़ीज़ हवाई अड्डा (जेद्दा), मदीना हवाई अड्डा और पवित्र मक्का के होटलों के बीच अधिकृत वीआईपी निजी ड्राइवर सेवा। निश्चित दरें और आगमन पर 100% नकद भुगतान।',
-    tabTransfer: 'हवाई अड्डा एवं अंतर-शहर ट्रांसफर',
-    tabZiyarat: 'पवित्र ज़ियारत टूर',
-    tabHourly: 'प्रति घंटा निजी ड्राइवर',
-    routeLabel: 'अधिकृत हाईवे मार्ग',
-    dateLabel: 'पिक-अप तारीख',
-    timeLabel: 'पिक-अप समय',
-    passengersLabel: 'यात्री',
-    luggageLabel: 'सामान (सूटकेस)',
-    durationLabel: 'सेवा अवधि',
-    ctaViewVehicles: 'उपलब्ध वाहन और स्वीकृत दरें देखें',
-    reassurancePill: '0 अग्रिम राशि • होटल आगमन पर 100% नकद भुगतान • लाइव फ्लाइट ट्रैकिंग • निश्चित किराया गारंटी',
-    trust1: 'आगमन पर 100% नकद भुगतान',
-    trust2: 'पूरे वाहन का निश्चित किराया',
-    trust3: 'हवाई अड्डे पर 60 मिनट मुफ्त प्रतीक्षा',
-    trust4: 'लाइव फ्लाइट रडार ट्रैकिंग',
-    trust5: 'मुफ्त शीतल ज़मज़म व सामान में मदद',
-    advantagesBadge: 'शाही उत्कृष्टता',
-    advantagesTitle: 'विशिष्ट यात्री दुयूफ़ अल-रहमान वीआईपी क्यों चुनते हैं?',
-    advantagesSubtitle: 'पाँच प्रमुख आधार जो आपकी पवित्र यात्रा में पूर्ण शांति और समय की पाबंदी सुनिश्चित करते हैं।',
-    advantages: [
-      {
-        title: '24/7 समर्पित ड्राइवर एवं संचालन सहायता',
-        desc: 'हमारी टीम व्हाट्सएप और फोन पर 24 घंटे आपके हर सफर में मार्गदर्शन के लिए तत्पर रहती है।',
-        icon: 'clock',
-      },
-      {
-        title: 'लाइव फ्लाइट रडार ट्रैकिंग',
-        desc: 'हम उड़ान समय की लाइव निगरानी करते हैं; देरी होने पर भी चालक 60 मिनट की मुफ्त प्रतीक्षा के साथ उपस्थित रहता है।',
-        icon: 'plane',
-      },
-      {
-        title: 'मुफ्त बाल सुरक्षा सीटें',
-        desc: 'अनुरोध पर बच्चों और शिशुओं के लिए प्रमाणित सुरक्षा सीटें निःशुल्क उपलब्ध कराई जाती हैं।',
-        icon: 'baby',
-      },
-      {
-        title: 'बिना जुर्माने के आसान रद्दीकरण',
-        desc: 'कोई अग्रिम भुगतान नहीं। प्रस्थान से 4 घंटे पहले तक निःशुल्क रद्दीकरण या समय परिवर्तन करें।',
-        icon: 'calendar',
-      },
-      {
-        title: 'टोल टैक्स व ईंधन सहित निश्चित किराया',
-        desc: 'स्वीकृत किराया अंतिम है जिसमें सभी टोल और टैक्स शामिल हैं। भुगतान आगमन पर नकद किया जाता है।',
-        icon: 'shield',
-      },
-    ],
-    fleetBadge: 'अधिकृत शाही बेड़ा',
-    fleetTitle: 'परम आराम हेतु सुसज्जित कार्यकारी वाहन',
-    fleetSubtitle: 'परिवार और सामान के अनुसार उपयुक्त वाहन चुनें। सभी वाहन आधुनिक, स्वच्छ और वातानुकूलित हैं।',
-    fleetDisclaimer: 'मार्ग चुनते ही वाहन की सटीक दर पारदर्शी रूप से बिना किसी छिपे शुल्क के दिखाई जाती है।',
-    exploreDetails: 'वाहन विवरण देखें',
-    bookThisVehicle: 'यह वाहन बुक करें',
-    journeysBadge: 'स्वीकृत यात्रा मार्ग',
-    journeysTitle: 'पवित्र शहरों के बीच प्रमुख हाईवे मार्ग',
-    journeysSubtitle: 'हवाई अड्डों और मक्का-मदीना के होटलों के बीच तीर्थयात्रियों हेतु आधिकारिक निश्चित दरें।',
-    fromStarting: 'शुरुआती दर:',
-    bookThisRoute: 'यह मार्ग अभी बुक करें',
-    conciergeBadge: 'शाही वीआईपी कॉन्सीयर्ज',
-    conciergeTitle: 'विशिष्ट अतिथियों हेतु विशेष लग्जरी गाड़ियाँ',
-    conciergeSubtitle: 'सरकारी प्रतिनिधिमंडलों और गणमान्य व्यक्तियों के लिए व्हाट्सएप पर विशेष वाहन उपलब्ध हैं।',
-    conciergeMaybachTitle: 'मर्सिडीज-मेबैक एस-क्लास वीआईपी',
-    conciergeMaybachDesc: 'प्रथम श्रेणी की रिक्लाइनिंग सीटें और पूर्णतः ध्वनि-रहित शाही केबिन।',
-    conciergeH1Title: 'हुंडई H1 रॉयल वीआईपी',
-    conciergeH1Desc: 'प्रतिनिधिमंडलों और विशिष्ट परिवारों के लिए पर्दों सहित विशाल कार्यकारी वैन।',
-    conciergeCta: 'व्हाट्सएप पर वीआईपी दर प्राप्त करें',
-    processBadge: 'सरल बुकिंग प्रक्रिया',
-    processTitle: 'तीन आसान चरणों में अपना ड्राइवर बुक करें',
-    processSubtitle: 'एक पारदर्शी बुकिंग अनुभव जो यात्रा शुरू करने से पहले ही पूर्ण निश्चिंतता प्रदान करता है।',
-    processSteps: [
-      {
-        num: '01',
-        title: '60 सेकंड में ऑनलाइन बुकिंग',
-        desc: 'बिना किसी अग्रिम राशि या क्रेडिट कार्ड के अपना मार्ग, तारीख और वाहन चुनें।',
-      },
-      {
-        num: '02',
-        title: 'व्हाट्सएप पर त्वरित पुष्टि',
-        desc: 'हमारी टीम बुकिंग की पुष्टि करती है और अधिकृत चालक की जानकारी प्रदान करती है।',
-      },
-      {
-        num: '03',
-        title: 'नाम पट्टिका से स्वागत व नकद भुगतान',
-        desc: 'चालक आगमन हॉल में आपका स्वागत करता है। होटल सुरक्षित पहुँचने पर 100% नकद भुगतान करें।',
-      },
-    ],
-    reviewsBadge: 'तीर्थयात्रियों के अनुभव',
-    reviewsTitle: '15,000 से अधिक तीर्थयात्रियों का अटूट विश्वास',
-    reviewsSubtitle: 'भारत, खाड़ी और दुनिया भर के तीर्थयात्रियों द्वारा 5 में से 4.9 स्टार की उत्कृष्ट रेटिंग।',
-    faqBadge: 'सामान्य प्रश्न',
-    faqTitle: 'किराये व बुकिंग के संबंध में स्पष्ट जानकारी',
-    faqSubtitle: 'हमारी पारदर्शी व सुरक्षित यात्रा नीति से जुड़े मुख्य उत्तर।',
-    faqs: [
-      {
-        q: 'क्या किराया प्रति व्यक्ति है या पूरे वाहन का?',
-        a: 'सभी दरें पूरे वाहन के लिए हैं जिसमें यात्रियों और सामान की क्षमता शामिल है, प्रति व्यक्ति नहीं।',
-      },
-      {
-        q: 'भुगतान कब और कैसे करना होता है?',
-        a: 'कोई अग्रिम राशि आवश्यक नहीं है। होटल सुरक्षित पहुँचने के बाद चालक को सीधे 100% नकद भुगतान करें।',
-      },
-      {
-        q: 'यदि जेद्दा या मदीना की उड़ान में देरी हो जाए तो কি होगा?',
-        a: 'हम लाइव रडार से उड़ान की निगरानी करते हैं। चालक वास्तविक समय पर पहुँचता है और 60 मिनट मुफ्त प्रतीक्षा करता है।',
-      },
-      {
-        q: 'क्या मदीना से मक्का जाते समय चालक मीक़ात पर रुकता है?',
-        a: 'हाँ, मदीना से मक्का की यात्रा में मीक़ात ज़ुल हुलैफ़ा (मस्जिद बीर अली) पर एहराम व नमाज़ के लिए निःशुल्क ठहराव शामिल है।',
-      },
-    ],
-    closingBadge: 'आज ही अपनी यात्रा बुक करें',
-    closingTitle: 'सऊदी शाही आतिथ्य सत्कार के साथ आपका स्वागत करने को तैयार हैं',
-    closingSubtitle: 'अपने निजी वाहन व चालक को आज ही बुक करें और होटल पहुँचने पर नकद भुगतान करें।',
-    closingBookBtn: 'ऑनलाइन बुकिंग अभी करें',
-    closingWhatsappBtn: 'व्हाट्सएप पर कॉन्सीयर्ज से संपर्क करें',
+    announcement: 'सऊदी अरब भर में तीर्थयात्रियों और परिवारों के लिए विशेष निजी चौफ़र सेवा',
+    heroBadge: 'DUYUF ALRAHMAN VIP',
+    heroHeadlineMain: 'सऊदी अरब में आपकी यात्रा…',
+    heroHeadlineHighlight: 'शाही गरिमा और आराम के साथ',
+    heroSubtitle: 'उत्कृष्ट वाहनों और पेशेवर चालकों के साथ निजी यात्रा सेवा। आपकी सुविधा के लिए समर्पित।',
+    heroCtaStart: 'यात्रा की योजना बनाएं',
+    heroCtaFleet: 'गाड़ियाँ देखें',
+    bookingKicker: 'यात्रा शुरू करें',
+    bookingTitle: 'विश्वास के साथ बुक करें',
+    bookingNote: 'सुरक्षित आगमन के बाद चालक को नकद भुगतान',
+    pickupLabel: 'कहाँ से?',
+    pickupPlaceholder: 'प्रस्थान स्थल चुनें',
+    dropoffLabel: 'कहाँ तक?',
+    dropoffPlaceholder: 'गंतव्य चुनें',
+    dateLabel: 'यात्रा की तारीख',
+    passengersLabel: 'यात्रियों की संख्या',
+    bookingSubmit: 'गाड़ियाँ और किराए देखें',
+    errorSelectFields: 'कृपया प्रस्थान, गंतव्य और तारीख चुनें।',
+    errorSameLocation: 'कृपया दो अलग-अलग स्थानों का चयन करें।',
+    locJeddahAirport: 'जेद्दा हवाई अड्डा (KAIA)',
+    locMakkah: 'मक्का मुकर्रमा',
+    locMadinahAirport: 'मदीना हवाई अड्डा',
+    locMadinah: 'मदीना मुनव्वरा',
+    locTaif: 'ताइफ़',
+    trustTaxesTitle: 'टोल और टैक्स शामिल',
+    trustTaxesSub: 'मान्य मार्ग नियमों के अनुसार',
+    trustCancelTitle: 'निःशुल्क रद्दीकरण',
+    trustCancelSub: 'यात्रा में पूर्ण लचीलापन',
+    trustChildTitle: 'अनुरोध पर शिशु सीटें',
+    trustChildSub: 'पूरे परिवार का आराम',
+    trustFlightTitle: 'उड़ान की निगरानी',
+    trustFlightSub: 'आगमन समय पर निरंतर नज़र',
+    trust24Title: '24/7 सहायता',
+    trust24Sub: 'हर समय परिचालन सहयोग',
+    fleetKicker: 'हमारा शानदार बेड़ा',
+    fleetTitle: 'वाहनों का उत्कृष्ट चयन',
+    fleetSubtitle: 'अपने यात्रियों और सामान के अनुसार सबसे उपयुक्त वाहन चुनें।',
+    fleetViewAll: 'सभी गाड़ियाँ देखें',
+    passengersWord: 'यात्री',
+    bagsWord: 'बैग',
+    selectVehicleCta: 'यह वाहन चुनें',
+    fleetFootnote: 'वाहन क्षमता आधिकारिक रूप से सत्यापित और सुरक्षा मानकों के अनुरूप है।',
+    routesKicker: 'लोकप्रिय मार्ग',
+    routesTitle: 'आपके लिए सबसे महत्वपूर्ण यात्राएं',
+    routesSubtitle: 'स्पष्ट और निश्चित दरों पर प्रमुख स्थलों को जोड़ने वाले निजी ट्रांसफर।',
+    routesViewAll: 'सभी विकल्प देखें',
+    fromPricePrefix: 'प्रारंभिक',
+    discoverJourney: 'मार्ग देखें',
+    tagAirport: 'हवाई अड्डा ट्रांसफर',
+    tagIntercity: 'अंतर-शहर',
+    conciergeKicker: 'शाही कॉन्सीयर्ज सेवा',
+    conciergeTitle: 'विशिष्ट अतिथियों के लिए अनोखा अनुभव',
+    conciergeSubtitle: 'विशेष अनुरोध पर मेबैक और हुंडई H1 उपलब्ध।',
+    conciergeCta: 'व्हाट्सएप पर संपर्क करें',
+    conciergeDisclaimer: 'ये गाड़ियाँ केवल कॉन्सीयर्ज अनुरोध पर उपलब्ध हैं, तत्काल बुकिंग में नहीं।',
+    experienceKicker: 'विस्तार में छिपी उत्कृष्टता',
+    experienceTitle: 'आगमन से लेकर… गंतव्य तक',
+    experienceSubtitle: 'आपकी यात्रा का हर पहलू सावधानीपूर्वक संयोजित किया जाता है।',
+    exp1Title: 'प्रस्थान से पूर्व स्पष्ट योजना',
+    exp1Desc: 'बिना किसी छिपे शुल्क के सभी यात्रा विवरण और किराए स्पष्ट प्रदर्शित होते हैं।',
+    exp2Title: 'सक्रिय यात्रा निगरानी',
+    exp2Desc: 'उड़ानों की लाइव ट्रैकिंग और टर्मिनल पर चालक का सीधा समन्वय।',
+    exp3Title: 'पहुंचने पर नकद भुगतान',
+    exp3Desc: 'बिना किसी अग्रिम जमा के, गंतव्य पर सुरक्षित पहुँचने के बाद चालक को नकद भुगतान करें।',
+    reviewsKicker: 'तीर्थयात्रियों की राय',
+    reviewsTitle: 'हमारे मेहमानों का भरोसा',
+    reviewsSubtitle: 'Duyuf Alrahman VIP के साथ यात्रा करने वाले अतिथियों के अनुभव।',
+    rev1Name: 'Mohamed Al-Otaibi',
+    rev1Tag: 'रियाद से तीर्थयात्री',
+    rev1Text: 'सऊदी अरब में सबसे बेहतरीन ट्रांसपोर्ट सेवा। चालक समय पर अत्यंत साफ़ गाड़ी के साथ उपस्थित था।',
+    rev2Name: 'Sarah Al-Otaibi',
+    rev2Tag: 'पारिवारिक यात्रा',
+    rev2Text: 'उत्कृष्ट व्यावसायिकता और समय की पाबंदी। परिवार के प्रति बेहद सम्मानजनक व्यवहार।',
+    rev3Name: 'Ahmed Mohamed',
+    rev3Tag: 'यूएई से तीर्थयात्री',
+    rev3Text: 'शानदार सेवा और सुखद सफर। पहुंचने के बाद नकद भुगतान की सुविधा अत्यंत भरोसेमंद है।',
+    finalCtaKicker: 'DUYUF ALRAHMAN VIP',
+    finalCtaTitle: 'अपनी यात्रा अभी बुक करें और शाही आतिथ्य का आनंद लें',
+    finalCtaSubtitle: 'अपना गंतव्य चुनें और बाकी सब हम पर छोड़ दें।',
+    finalCtaButton: 'बुकिंग शुरू करें',
   },
 };
-
-// ─────────────────────────────────────────────────────────────────────────────
-// TOP 6 APPROVED HIGHWAY CORRIDORS (EXACT AUTHORITATIVE RATES)
-// ─────────────────────────────────────────────────────────────────────────────
-const TOP_APPROVED_JOURNEYS = [
-  {
-    id: 'jeddah-airport-to-makkah',
-    originEn: 'Jeddah Airport (KAIA)',
-    originAr: 'مطار الملك عبدالعزيز بجدة (KAIA)',
-    destEn: 'Makkah Hotel',
-    destAr: 'فندق مكة المكرمة',
-    distanceKm: 95,
-    durationEn: '60-75 mins',
-    durationAr: '60-75 دقيقة',
-    camrySAR: 200,
-    stariaSAR: 250,
-    hiaceSAR: 280,
-    yukonSAR: 450,
-    coasterSAR: 450,
-    startingSAR: 200,
-    img: '/assets/images/jeddah-airport-pickup-umrah.webp',
-  },
-  {
-    id: 'makkah-to-madinah',
-    originEn: 'Makkah Hotel',
-    originAr: 'فندق مكة المكرمة',
-    destEn: 'Madinah Hotel (Via Bir Ali)',
-    destAr: 'فندق المدينة المنورة (عبر آبار علي)',
-    distanceKm: 450,
-    durationEn: '4-4.5 hours',
-    durationAr: '4-4.5 ساعات',
-    camrySAR: 400,
-    stariaSAR: 500,
-    hiaceSAR: 600,
-    yukonSAR: 1000,
-    coasterSAR: 0,
-    startingSAR: 400,
-    img: '/assets/images/private-transfer-makkah-to-madinah.webp',
-  },
-  {
-    id: 'madinah-airport-to-hotel',
-    originEn: 'Madinah Airport (MED)',
-    originAr: 'مطار الأمير محمد بن عبدالعزيز (MED)',
-    destEn: 'Madinah Central Hotel',
-    destAr: 'فنادق المنطقة المركزية بالمدينة',
-    distanceKm: 25,
-    durationEn: '20-25 mins',
-    durationAr: '20-25 دقيقة',
-    camrySAR: 200,
-    stariaSAR: 250,
-    hiaceSAR: 300,
-    yukonSAR: 500,
-    coasterSAR: 600,
-    startingSAR: 200,
-    img: '/assets/images/camry_studio.webp',
-  },
-  {
-    id: 'jeddah-to-madinah',
-    originEn: 'Jeddah Airport (KAIA) / City',
-    originAr: 'مطار جدة أو فنادق جدة',
-    destEn: 'Madinah Hotel',
-    destAr: 'فندق المدينة المنورة',
-    distanceKm: 410,
-    durationEn: '4 hours',
-    durationAr: '4 ساعات',
-    camrySAR: 400,
-    stariaSAR: 500,
-    hiaceSAR: 600,
-    yukonSAR: 1000,
-    coasterSAR: 1000,
-    startingSAR: 400,
-    img: '/assets/images/transport-planning-makkah-madinah-jeddah.webp',
-  },
-  {
-    id: 'makkah-to-taif',
-    originEn: 'Makkah Hotel',
-    originAr: 'فندق مكة المكرمة',
-    destEn: 'Taif / Al Hada Retreat',
-    destAr: 'مدينة الطائف ومنتجع الهدا',
-    distanceKm: 90,
-    durationEn: '75 mins',
-    durationAr: '75 دقيقة',
-    camrySAR: 400,
-    stariaSAR: 500,
-    hiaceSAR: 600,
-    yukonSAR: 750,
-    coasterSAR: 900,
-    startingSAR: 400,
-    img: '/assets/images/makkah-to-taif-private-transfer.webp',
-  },
-  {
-    id: 'makkah-ziyarat',
-    originEn: 'Makkah Hotel Pickup',
-    originAr: 'فندق مكة المكرمة',
-    destEn: 'Makkah Sacred Sites (2.5h Approved)',
-    destAr: 'مزارات مكة المكرمة (2.5 ساعة معتمدة)',
-    distanceKm: 70,
-    durationEn: '2.5 Hours Approved',
-    durationAr: '2.5 ساعة معتمدة',
-    camrySAR: 250,
-    stariaSAR: 300,
-    hiaceSAR: 330,
-    yukonSAR: 450,
-    coasterSAR: 500,
-    startingSAR: 250,
-    img: '/assets/images/vip-umrah-transport-jeddah-to-makkah.webp',
-  },
-];
-
-// ─────────────────────────────────────────────────────────────────────────────
-// 5 REGULAR AUTOMOTIVE EDITORIAL MODELS
-// ─────────────────────────────────────────────────────────────────────────────
-const REGULAR_FLEET_MODELS = [
-  {
-    id: 'camry',
-    slug: 'toyota-camry',
-    bookingId: 'camry',
-    name: {
-      ar: 'تويوتا كامري التنفيذية',
-      en: 'Toyota Camry Executive',
-      ms: 'Toyota Camry Eksekutif',
-      id: 'Toyota Camry Eksekutif',
-      ur: 'ٹویوٹا کیمری ایگزیکٹو',
-      fr: 'Toyota Camry Executive',
-      es: 'Toyota Camry Executive',
-      de: 'Toyota Camry Executive',
-      tr: 'Toyota Camry Executive',
-      hi: 'टोयोटा कैमरी एक्जीक्यूटिव',
-    },
-    category: {
-      ar: 'سيدان تنفيذي فاخر',
-      en: 'Executive Luxury Sedan',
-      ms: 'Sedan Eksekutif Mewah',
-      id: 'Sedan Eksekutif Mewah',
-      ur: 'ایگزیکٹو لگژری سیڈان',
-      fr: 'Berline de Luxe Exécutive',
-      es: 'Sedán Ejecutivo de Lujo',
-      de: 'Exklusive Luxuslimousine',
-      tr: 'Yönetici Lüks Sedan',
-      hi: 'कार्यकारी लक्जरी सेडान',
-    },
-    passengers: 4,
-    luggage: 3,
-    image: '/assets/images/vehicles/toyota-camry/exterior-studio.webp',
-    highlights: {
-      ar: ['تكييف فندقي فائق', 'سائق محترف خبير بالطرق', 'مياه زمزم مبردة مجاناً'],
-      en: ['Dual-Zone Climate Control', 'Professional Route Chauffeur', 'Complimentary Chilled Zamzam'],
-      ms: ['Penghawa Dingin Berkembar', 'Pemandu Rute Profesional', 'Air Zamzam Sejuk Percuma'],
-      id: ['AC Ganda Super Dingin', 'Sopir Rute Profesional', 'Air Zamzam Dingin Gratis'],
-      ur: ['ڈوئل زون طاقتور اے سی', 'ماہر بااعتماد ڈرائیور', 'ٹھنڈا آب زمزم مفت دستیاب'],
-      fr: ['Climatisation bi-zone puissante', 'Chauffeur d\'itinéraire expert', 'Eau de Zamzam fraîche offerte'],
-      es: ['Climatizador bizona potente', 'Chófer profesional de ruta', 'Agua Zamzam fría de cortesía'],
-      de: ['Zwei-Zonen-Klimaautomatik', 'Erfahrener Routen-Chauffeur', 'Gratis gekühltes Zamzam-Wasser'],
-      tr: ['Çift Bölgeli Güçlü Klima', 'Deneyimli Güzergah Şoförü', 'Ücretsiz Soğuk Zemzem Suyu'],
-      hi: ['डुअल-ज़ोन शक्तिशाली एसी', 'मार्गों के अनुभवी चालक', 'मुफ्त शीतल ज़मज़म जल'],
-    },
-  },
-  {
-    id: 'staria',
-    slug: 'hyundai-staria',
-    bookingId: 'staria',
-    name: {
-      ar: 'هيونداي ستاريا VIP',
-      en: 'Hyundai Staria VIP',
-      ms: 'Hyundai Staria VIP',
-      id: 'Hyundai Staria VIP',
-      ur: 'ہنڈائی اسٹاریا VIP',
-      fr: 'Hyundai Staria VIP',
-      es: 'Hyundai Staria VIP',
-      de: 'Hyundai Staria VIP',
-      tr: 'Hyundai Staria VIP',
-      hi: 'हुंडई स्टारिया वीआईपी',
-    },
-    category: {
-      ar: 'فان عائلي فاخر بمقاعد كابتن',
-      en: 'Luxury Family MPV (Captain Chairs)',
-      ms: 'MPV Keluarga Mewah (Kerusi Kapten)',
-      id: 'MPV Keluarga Mewah (Kursi Kapten)',
-      ur: 'لگژری فیملی ایم پی وی (کیپٹن سیٹس)',
-      fr: 'Monospace Familial Luxe (Sièges Capitaine)',
-      es: 'Monovolumen Familiar VIP (Asientos Capitán)',
-      de: 'Familien-Großraumlimousine VIP',
-      tr: 'Lüks Aile Minibüsü (Kaptan Koltukları)',
-      hi: 'लक्जरी पारिवारिक वैन (कैप्टन सीट्स)',
-    },
-    passengers: 7,
-    luggage: 6,
-    image: '/assets/images/vehicles/hyundai-staria/exterior-studio.webp',
-    highlights: {
-      ar: ['مقاعد كابتن فردية فاخرة', 'أبواب كهربائية ومساحة رحبة', 'تكييف مركزي شامل لكافة الصفوف'],
-      en: ['Luxury Captain Reclining Chairs', 'Power Sliding Doors & Spacious Aisles', 'Tri-Zone Panoramic Climate Control'],
-      ms: ['Kerusi Kapten Kulit Mewah', 'Pintu Gelangsar Berkuasa & Ruang Luas', 'Penghawa Dingin Tiga Zon'],
-      id: ['Kursi Kapten Kulit Mewah', 'Pintu Geser Elektrik & Kabin Lapang', 'AC Tiga Zona Sangat Sejuk'],
-      ur: ['لگژری کیپٹن سیٹس', 'آٹو پاور سلائیڈنگ ڈورز اور کشادہ کیبن', 'ہر نشست کے لیے الگ اے سی وینٹس'],
-      fr: ['Sièges Capitaine inclinables en cuir', 'Portes coulissantes électriques spacieuses', 'Climatisation tri-zone panoramique'],
-      es: ['Asientos Capitán reclinables de cuero', 'Puertas corredizas eléctricas amplias', 'Climatización trizona panorámica'],
-      de: ['Exklusive Leder-Einzelsitze (Kapitänssitze)', 'Elektrische Schiebetüren & viel Beinfreiheit', 'Drei-Zonen-Klimaautomatik'],
-      tr: ['Lüks Deri Kaptan Koltuklar', 'Otomatik Kayan Kapılar ve Ferah Kabin', 'Üç Bölgeli Panoramik Klima'],
-      hi: ['आलीशान लेदर कैप्टन सीटें', 'ऑटो स्लाइडिंग दरवाजे व विशाल केबिन', 'प्रत्येक पंक्ति हेतु शक्तिशाली एसी'],
-    },
-  },
-  {
-    id: 'yukon',
-    slug: 'gmc-yukon-xl',
-    bookingId: 'yukon',
-    name: {
-      ar: 'جي إم سي يوكون XL الملكي',
-      en: 'GMC Yukon XL VIP',
-      ms: 'GMC Yukon XL VIP',
-      id: 'GMC Yukon XL VIP',
-      ur: 'جی ایم سی یوکون XL رائل',
-      fr: 'GMC Yukon XL VIP',
-      es: 'GMC Yukon XL VIP',
-      de: 'GMC Yukon XL VIP',
-      tr: 'GMC Yukon XL VIP',
-      hi: 'जीएमसी युकोन एक्सएल वीआईपी',
-    },
-    category: {
-      ar: 'دفع رباعي ملكي فاخر',
-      en: 'Full-Size Presidential SUV',
-      ms: 'SUV Presiden Saiz Penuh',
-      id: 'SUV Kepresidenan Ukuran Penuh',
-      ur: 'صدارتی فل سائز لگژری ایس یو وی',
-      fr: 'SUV Présidentiel Pleine Grandeur',
-      es: 'SUV Presidencial de Gran Tamaño',
-      de: 'Repräsentativer Luxus-SUV (Langversion)',
-      tr: 'Başkanlık Sınıfı Lüks SUV',
-      hi: 'शाही पूर्ण आकार लक्जरी एसयूवी',
-    },
-    passengers: 7,
-    luggage: 8,
-    image: '/assets/images/vehicles/gmc-yukon-xl/exterior-studio.webp',
-    highlights: {
-      ar: ['عزل صوتي فندقي فائق', 'صندوق أمتعة ممتد يتسع لـ 8 حقائب', 'ثلاجة مقصورة مدمجة'],
-      en: ['Acoustic Laminated Ultra-Quiet Cabin', 'Massive Extended Trunk (8 Suitcases)', 'Integrated Console Refrigerator'],
-      ms: ['Kabin Penebat Bunyi Tahap Hotel', 'Ruang Bagasi Sangat Luas (8 Beg)', 'Peti Sejuk Konsol Bersepadu'],
-      id: ['Kabin Kedap Suara Super Senyap', 'Bagasi Ekstra Luas (8 Koper Besar)', 'Kulkas Konsol Terintegrasi'],
-      ur: ['مکمل ساؤنڈ پروف پُرسکون کیبن', 'سامان کے لیے وسیع ترین ڈگی (8 بیگز)', 'گاڑی کے اندر کولڈ ریفریجریٹر'],
-      fr: ['Cabine ultra-silencieuse haut de gamme', 'Coffre géant pour 8 grandes valises', 'Réfrigérateur de console intégré'],
-      es: ['Cabina acústica ultrasilenciosa de lujo', 'Maletero gigante para 8 maletas', 'Refrigerador de consola integrado'],
-      de: ['Flüsterleise Akustik-Fahrgastzelle', 'Riesiger Kofferraum für 8 Koffer', 'Integriertes Kühlfach für Erfrischungen'],
-      tr: ['Özel Akustik İzolasyonlu Sessiz Kabin', 'Genişletilmiş Dev Bagaj (8 Valiz)', 'Entegre Konsol İçi Soğutucu Dolap'],
-      hi: ['शांत एवं ध्वनि-रहित प्रीमियम केबिन', 'विशाल बूट स्पेस (8 बड़े सूटकेस)', 'शीतल पेय हेतु इन-बिल्ट रेफ्रिजरेटर'],
-    },
-  },
-  {
-    id: 'hiace',
-    slug: 'toyota-hiace',
-    bookingId: 'hiace',
-    name: {
-      ar: 'تويوتا هايس VIP',
-      en: 'Toyota HiAce VIP',
-      ms: 'Toyota HiAce VIP',
-      id: 'Toyota HiAce VIP',
-      ur: 'ٹویوٹا ہائی ایس VIP',
-      fr: 'Toyota HiAce VIP',
-      es: 'Toyota HiAce VIP',
-      de: 'Toyota HiAce VIP',
-      tr: 'Toyota HiAce VIP',
-      hi: 'टोयोटा हाईएस वीआईपी',
-    },
-    category: {
-      ar: 'ميني باص عائلي للمجموعات',
-      en: 'Executive Group Minibus',
-      ms: 'Minibus Eksekutif Kumpulan',
-      id: 'Minibus Eksekutif Rombongan',
-      ur: 'ایگزیکٹو گروپ منی بس',
-      fr: 'Minibus Exécutif pour Groupes',
-      es: 'Minibús Ejecutivo para Grupos',
-      de: 'Exklusiver Gruppen-Minibus',
-      tr: 'Yönetici Grup Minibüsü',
-      hi: 'कार्यकारी समूह मिनीबस',
-    },
-    passengers: 10,
-    luggage: 10,
-    image: '/assets/images/vehicles/toyota-hiace/exterior-studio.webp',
-    highlights: {
-      ar: ['سعة 10 ركاب مع 10 حقائب كبيرة', 'سقف مرتفع وممرات مريحة للتنقل', 'تكييف قوي مخصص للمجموعات'],
-      en: ['Generous 10 Passenger + 10 Bag Capacity', 'High-Roof Clearance & Easy Walk-Through', 'Powerful Group Climate System'],
-      ms: ['Muatan 10 Penumpang + 10 Beg', 'Bumbung Tinggi & Laluan Berjalan Selesa', 'Penghawa Dingin Kumpulan Berkuasa'],
-      id: ['Kapasitas 10 Penumpang + 10 Koper', 'Atap Tinggi & Ruang Berdiri Nyaman', 'AC Kuat Merata ke Seluruh Kabin'],
-      ur: ['10 مسافروں اور 10 بڑے بیگز کی مکمل گنجائش', 'ہائی روف ڈیزائن اور چلنے کی آسان جگہ', 'طاقتور سنٹرل ایئر کنڈیشننگ سسٹم'],
-      fr: ['Capacité 10 passagers + 10 valises', 'Toit surélevé et couloir spacieux', 'Climatisation puissante multi-diffuseurs'],
-      es: ['Capacidad 10 pasajeros + 10 maletas', 'Techo alto y pasillo de fácil acceso', 'Potente sistema de aire acondicionado'],
-      de: ['Platz für 10 Passagiere + 10 Koffer', 'Hohes Dach für bequemes Einsteigen', 'Leistungsstarke Gruppen-Klimaanlage'],
-      tr: ['10 Yolcu ve 10 Büyük Valiz Kapasitesi', 'Yüksek Tavan ve Kolay Geçiş Koridoru', 'Tüm Kabini Kapsayan Güçlü Klima'],
-      hi: ['10 यात्रियों व 10 बड़े सूटकेस की क्षमता', 'ऊंची छत व आसान आवागमन गलियारा', 'पूरे केबिन हेतु शक्तिशाली एसी प्रवाह'],
-    },
-  },
-  {
-    id: 'coaster',
-    slug: 'toyota-coaster',
-    bookingId: 'coaster',
-    name: {
-      ar: 'تويوتا كوستر VIP',
-      en: 'Toyota Coaster VIP Bus',
-      ms: 'Bas VIP Toyota Coaster',
-      id: 'Bus VIP Toyota Coaster',
-      ur: 'ٹویوٹا کوسٹر VIP بس',
-      fr: 'Autocar VIP Toyota Coaster',
-      es: 'Autobús VIP Toyota Coaster',
-      de: 'VIP-Reisebus Toyota Coaster',
-      tr: 'Toyota Coaster VIP Otobüs',
-      hi: 'टोयोटा कोस्टर वीआईपी बस',
-    },
-    category: {
-      ar: 'حافلة VIP فاخرة للوفود',
-      en: 'VIP Delegation Coach',
-      ms: 'Bas Mewah Delegasi VIP',
-      id: 'Bus Mewah Delegasi VIP',
-      ur: 'وفود و حجاج کے لیے لگژری بس',
-      fr: 'Autocar de Délégation VIP',
-      es: 'Autocar para Delegaciones VIP',
-      de: 'Luxus-Reisebus für Delegationen',
-      tr: 'VIP Delegasyon ve Heyet Otobüsü',
-      hi: 'वीआईपी प्रतिनिधिमंडल बस',
-    },
-    passengers: 21,
-    luggage: 20,
-    image: '/assets/images/vehicles/toyota-coaster/exterior-studio.webp',
-    highlights: {
-      ar: ['سعة 21 راكباً مع 20 حقيبة سفر', 'مقاعد مريحة مع ممر وسيع', 'نظام صوتي وتكييف هوائي شامل'],
-      en: ['21 Seated Passengers + 20 Bag Storage', 'Ergonomic High-Back Reclining Seats', 'PA Audio System & Dual Air Blowers'],
-      ms: ['21 Tempat Duduk + Ruang 20 Beg', 'Kerusi Ergonomik Bersandar Selesa', 'Sistem PA Audio & Penghawa Dingin Penuh'],
-      id: ['21 Kursi Nyaman + Ruang 20 Koper', 'Kursi Reclining Ergonomis', 'Sistem Audio Mikrofon & Pendingin Maksimal'],
-      ur: ['21 مسافروں اور 20 بیگز کی زبردست گنجائش', 'آرام دہ نشستیں اور کشادہ سینٹرل کوریڈور', 'اعلیٰ کوالٹی ساؤنڈ سسٹم اور زبردست کولنگ'],
-      fr: ['21 sièges passagers + soute 20 valises', 'Sièges inclinables ergonomiques confortables', 'Système audio micro et ventilation double'],
-      es: ['21 plazas + maletero para 20 maletas', 'Asientos reclinables ergonómicos', 'Megafonía y climatización integral'],
-      de: ['21 bequeme Sitze + Stauraum für 20 Koffer', 'Ergonomische Sitze mit verstellbarer Lehne', 'Mikrofonanlage & doppelte Klimatisierung'],
-      tr: ['21 Yolcu Koltuğu + 20 Büyük Bagaj Alanı', 'Ergonometrik Yatar Koltuklar ve Geniş Koridor', 'Anons Sistemi ve Çift Klimalı Havalandırma'],
-      hi: ['21 आरामदायक सीटें व 20 बैग रखने की जगह', 'आरामदायक रिक्लिनिंग सीटें व सुगम गलियारा', 'माइक ऑडियो सिस्टम व समग्र वातानुकूलन'],
-    },
-  },
-];
 
 export function RoyalHomepageExperience({
   locale,
@@ -1662,734 +949,779 @@ export function RoyalHomepageExperience({
   const router = useRouter();
   const isAr = locale === 'ar';
   const isRtl = isAr || locale === 'ur';
-  const t = HP_I18N[locale] || HP_I18N.en;
+  const t = HP_STRINGS[locale] || HP_STRINGS.en;
   const { formatPrice } = useCurrency();
 
   // Booking Form State
-  const [tripType, setTripType] = useState<'transfer' | 'ziyarat' | 'hourly'>('transfer');
-  const [selectedRoute, setSelectedRoute] = useState('jeddah-airport-to-makkah');
-  const [ziyaratTour, setZiyaratTour] = useState('makkah-ziyarat');
-  const [hourlyHours, setHourlyHours] = useState('4');
+  const [pickup, setPickup] = useState('');
+  const [dropoff, setDropoff] = useState('');
+  const [passengers, setPassengers] = useState('2');
+  const [feedback, setFeedback] = useState('');
 
-  const tomorrowStr = useMemo(() => {
+  const todayStr = useMemo(() => {
     const d = new Date();
-    d.setDate(d.getDate() + 1);
     return d.toISOString().split('T')[0];
   }, []);
 
-  const [pickupDate, setPickupDate] = useState(tomorrowStr);
-  const [pickupTime, setPickupTime] = useState('12:00');
-  const [passengers, setPassengers] = useState('2');
-  const [luggage, setLuggage] = useState('2');
+  const [travelDate, setTravelDate] = useState(todayStr);
+
+  const resolveRouteId = (from: string, to: string): string => {
+    if (from === 'jeddah-airport' && to === 'makkah') return 'jeddah-airport-to-makkah';
+    if (from === 'makkah' && to === 'jeddah-airport') return 'makkah-to-jeddah-airport';
+    if (from === 'makkah' && to === 'madinah') return 'makkah-to-madinah';
+    if (from === 'madinah' && to === 'makkah') return 'madinah-to-makkah';
+    if (from === 'madinah-airport' && to === 'madinah') return 'madinah-airport-to-madinah';
+    if (from === 'madinah' && to === 'madinah-airport') return 'madinah-to-madinah-airport';
+    if (from === 'jeddah-airport' && to === 'madinah') return 'jeddah-airport-to-madinah';
+    if (from === 'madinah' && to === 'jeddah-airport') return 'madinah-to-jeddah-airport';
+    if (from === 'makkah' && to === 'taif') return 'makkah-to-taif';
+    if (from === 'taif' && to === 'makkah') return 'taif-to-makkah';
+    return 'jeddah-airport-to-makkah';
+  };
 
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const query = new URLSearchParams();
-
-    if (tripType === 'transfer') {
-      query.set('route', selectedRoute);
-    } else if (tripType === 'ziyarat') {
-      query.set('type', 'ziyarat');
-      query.set('tour', ziyaratTour);
-    } else {
-      query.set('type', 'hourly');
-      query.set('duration', hourlyHours);
+    if (!pickup || !dropoff || !travelDate) {
+      setFeedback(t.errorSelectFields);
+      return;
     }
-
-    query.set('date', pickupDate);
-    query.set('time', pickupTime);
+    if (pickup === dropoff) {
+      setFeedback(t.errorSameLocation);
+      return;
+    }
+    setFeedback('');
+    const routeId = resolveRouteId(pickup, dropoff);
+    const query = new URLSearchParams();
+    query.set('route', routeId);
+    query.set('date', travelDate);
+    query.set('time', '12:00');
     query.set('passengers', passengers);
-    query.set('luggage', luggage);
-
     router.push(`/${locale}/booking?${query.toString()}`);
   };
 
   return (
-    <div className="w-full bg-[#F7F5F0] text-[#111A27] font-sans selection:bg-[#A58A64] selection:text-white" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="ref-homepage" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* ─────────────────────────────────────────────────────────────
-          SECTION B & C: CINEMATIC HERO + ROYAL BOOKING EXPERIENCE
+          HERO SECTION
       ────────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[95vh] flex flex-col justify-center items-center bg-[#111A27] text-white pt-24 pb-16 sm:pt-28 sm:pb-20 overflow-hidden">
-        {/* Cinematic Backdrop with Depth */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <Image
-            src="/assets/images/haram_hero.webp"
-            alt="Duyuf Alrahman VIP"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[center_30%] opacity-25 scale-105 transition-transform duration-1000"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#111A27] via-[#111A27]/80 to-[#111A27]/40" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#A58A64]/20 via-transparent to-transparent" />
-        </div>
+      <section className="ref-hero" id="top">
+        <div
+          className="ref-hero-image"
+          role="img"
+          aria-label="GMC Yukon XL luxury SUV in Saudi Arabia setting"
+        />
+        <div className="ref-hero-shade" />
 
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10 flex flex-col items-center text-center my-auto">
-          {/* Eyebrow Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1A2638] border border-[#A58A64]/60 text-[11px] sm:text-xs font-bold text-[#E8E2D7] uppercase tracking-[0.2em] mb-4 backdrop-blur-md shadow-md">
-            <Sparkles className="w-3.5 h-3.5 text-[#A58A64]" />
-            <span>{t.heroBadge}</span>
-          </div>
-
-          {/* Majestic Serif Headline */}
-          <h1 className="font-serif font-bold text-3xl sm:text-5xl lg:text-6xl text-[#F7F5F0] tracking-tight leading-[1.18] max-w-4xl drop-shadow-[0_4px_25px_rgba(0,0,0,0.8)] mb-4">
-            {t.heroHeadline}
-          </h1>
-
-          {/* Subheadline */}
-          <p className="text-sm sm:text-base lg:text-lg text-[#E8E2D7]/90 font-light leading-relaxed max-w-2xl mb-8 font-sans">
-            {t.heroSubheadline}
-          </p>
-
-          {/* ─────────────────────────────────────────────────────────
-              SECTION C: CONVERSION-FOCUSED BOOKING CONSOLE
-          ────────────────────────────────────────────────────────── */}
-          <div className="w-full max-w-4xl bg-white rounded-2xl sm:rounded-3xl border border-[#E8E2D7] p-4 sm:p-6 shadow-[0_25px_70px_rgba(0,0,0,0.4)] text-[#111A27] text-start transition-all">
-            {/* Service Mode Tabs */}
-            <div className="flex items-center gap-2 border-b border-[#E8E2D7] pb-3 mb-5 overflow-x-auto scrollbar-none font-sans">
-              <button
-                type="button"
-                onClick={() => setTripType('transfer')}
-                className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap min-h-[44px] ${
-                  tripType === 'transfer'
-                    ? 'bg-[#111A27] text-[#F7F5F0] shadow-sm'
-                    : 'bg-transparent text-[#687386] hover:text-[#111A27]'
-                }`}
-              >
-                <Plane className="w-4 h-4 text-[#A58A64]" />
-                <span>{t.tabTransfer}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setTripType('ziyarat')}
-                className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap min-h-[44px] ${
-                  tripType === 'ziyarat'
-                    ? 'bg-[#111A27] text-[#F7F5F0] shadow-sm'
-                    : 'bg-transparent text-[#687386] hover:text-[#111A27]'
-                }`}
-              >
-                <Compass className="w-4 h-4 text-[#A58A64]" />
-                <span>{t.tabZiyarat}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setTripType('hourly')}
-                className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap min-h-[44px] ${
-                  tripType === 'hourly'
-                    ? 'bg-[#111A27] text-[#F7F5F0] shadow-sm'
-                    : 'bg-transparent text-[#687386] hover:text-[#111A27]'
-                }`}
-              >
-                <Clock className="w-4 h-4 text-[#A58A64]" />
-                <span>{t.tabHourly}</span>
-              </button>
+        <div className="ref-page-shell ref-hero-content">
+          <div className="ref-hero-copy">
+            <div className="ref-eyebrow">
+              <span className="ref-eyebrow-line" />
+              <span>{t.heroBadge}</span>
+              <span className="ref-eyebrow-line" />
             </div>
 
-            {/* Functional Reservation Form */}
-            <form onSubmit={handleBookingSubmit} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3 sm:gap-4 items-end font-sans">
-              {/* Field 1: Route Corridor / Duration */}
-              <div className="sm:col-span-2 md:col-span-12 lg:col-span-5">
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-[#687386] mb-1.5">
-                  {tripType === 'hourly' ? t.durationLabel : t.routeLabel}
-                </label>
-                {tripType === 'transfer' && (
-                  <div className="relative">
-                    <select
-                      value={selectedRoute}
-                      onChange={(e) => setSelectedRoute(e.target.value)}
-                      className="w-full h-12 px-3.5 pr-8 rtl:pr-3.5 rtl:pl-8 rounded-xl bg-[#F7F5F0] border border-[#E8E2D7] text-xs font-semibold text-[#111A27] focus:outline-none focus:ring-2 focus:ring-[#A58A64] appearance-none cursor-pointer"
-                    >
-                      {TOP_APPROVED_JOURNEYS.map((r) => (
-                        <option key={r.id} value={r.id}>
-                          {isAr ? `${r.originAr} ← ${r.destAr} (من ${r.startingSAR} ر.س)` : `${r.originEn} → ${r.destEn} (From ${r.startingSAR} SAR)`}
-                        </option>
-                      ))}
-                      <option value="makkah-to-jeddah-airport">
-                        {isAr ? 'فندق مكة ← مطار جدة (KAIA) (من 200 ر.س)' : 'Makkah Hotel → Jeddah Airport (KAIA) (From 200 SAR)'}
-                      </option>
-                      <option value="madinah-to-makkah">
-                        {isAr ? 'فندق المدينة ← فندق مكة (عبر الميقات) (من 400 ر.س)' : 'Madinah Hotel → Makkah Hotel (Via Miqat) (From 400 SAR)'}
-                      </option>
-                      <option value="taif-to-makkah">
-                        {isAr ? 'الطائف ← فندق مكة (عبر الميقات) (من 400 ر.س)' : 'Taif → Makkah Hotel (Via Miqat) (From 400 SAR)'}
-                      </option>
-                      <option value="jeddah-to-taif">
-                        {isAr ? 'مطار جدة (KAIA) ← الطائف (من 500 ر.س)' : 'Jeddah Airport (KAIA) → Taif (From 500 SAR)'}
-                      </option>
-                      <option value="riyadh-to-makkah">
-                        {isAr ? 'الرياض ⇄ فندق مكة (من 1,800 ر.س)' : 'Riyadh ⇄ Makkah Hotel (From 1,800 SAR)'}
-                      </option>
-                      <option value="riyadh-to-madinah">
-                        {isAr ? 'الرياض ⇄ فندق المدينة (من 2,000 ر.س)' : 'Riyadh ⇄ Madinah Hotel (From 2,000 SAR)'}
-                      </option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 flex items-center px-3 text-[#A58A64]">
-                      <ChevronDown className="w-4 h-4" />
-                    </div>
-                  </div>
-                )}
-                {tripType === 'ziyarat' && (
-                  <div className="relative">
-                    <select
-                      value={ziyaratTour}
-                      onChange={(e) => setZiyaratTour(e.target.value)}
-                      className="w-full h-12 px-3.5 pr-8 rtl:pr-3.5 rtl:pl-8 rounded-xl bg-[#F7F5F0] border border-[#E8E2D7] text-xs font-semibold text-[#111A27] focus:outline-none focus:ring-2 focus:ring-[#A58A64] appearance-none cursor-pointer"
-                    >
-                      <option value="makkah-ziyarat">
-                        {isAr ? 'مزارات مكة المكرمة (2.5 ساعة معتمدة) (من 250 ر.س)' : 'Makkah Sacred Sites (2.5h Approved) (From 250 SAR)'}
-                      </option>
-                      <option value="madinah-ziyarat">
-                        {isAr ? 'مزارات المدينة المنورة (جولة نبوية هادئة) (من 250 ر.س)' : 'Madinah Sacred Sites (Serene Tour) (From 250 SAR)'}
-                      </option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 flex items-center px-3 text-[#A58A64]">
-                      <ChevronDown className="w-4 h-4" />
-                    </div>
-                  </div>
-                )}
-                {tripType === 'hourly' && (
-                  <div className="relative">
-                    <select
-                      value={hourlyHours}
-                      onChange={(e) => setHourlyHours(e.target.value)}
-                      className="w-full h-12 px-3.5 pr-8 rtl:pr-3.5 rtl:pl-8 rounded-xl bg-[#F7F5F0] border border-[#E8E2D7] text-xs font-semibold text-[#111A27] focus:outline-none focus:ring-2 focus:ring-[#A58A64] appearance-none cursor-pointer"
-                    >
-                      <option value="2">{isAr ? 'ساعتان (2 ساعة) داخل المدينة' : '2 Hours Service in City'}</option>
-                      <option value="4">{isAr ? '4 ساعات (نصف يوم)' : '4 Hours (Half Day)'}</option>
-                      <option value="8">{isAr ? '8 ساعات (يوم كامل)' : '8 Hours (Full Day)'}</option>
-                      <option value="12">{isAr ? '12 ساعة (يوم تنفيذي ممتد)' : '12 Hours (Executive Day)'}</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 flex items-center px-3 text-[#A58A64]">
-                      <ChevronDown className="w-4 h-4" />
-                    </div>
-                  </div>
-                )}
-              </div>
+            <h1>
+              {t.heroHeadlineMain} <span className="gold">{t.heroHeadlineHighlight}</span>
+            </h1>
 
-              {/* Field 2: Pickup Date */}
-              <div className="md:col-span-3 lg:col-span-2">
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-[#687386] mb-1.5">
-                  {t.dateLabel}
-                </label>
+            <p>{t.heroSubtitle}</p>
+
+            <div className="ref-hero-actions">
+              <a href="#booking" className="ref-btn ref-btn-gold">
+                <span>{t.heroCtaStart}</span>
+                {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
+              </a>
+              <a href="#fleet" className="ref-btn ref-btn-ghost">
+                <span>{t.heroCtaFleet}</span>
+                <span className="text-xs">↓</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* ─────────────────────────────────────────────────────────
+            OVERHANGING BOOKING CONSOLE
+        ────────────────────────────────────────────────────────── */}
+        <div className="ref-booking-wrap" id="booking">
+          <form className="ref-booking-panel" onSubmit={handleBookingSubmit}>
+            <div className="ref-booking-heading">
+              <div>
+                <span className="ref-section-kicker">{t.bookingKicker}</span>
+                <h2>{t.bookingTitle}</h2>
+              </div>
+              <span className="ref-booking-note">
+                <i />
+                <span>{t.bookingNote}</span>
+              </span>
+            </div>
+
+            <div className="ref-booking-fields">
+              {/* Field 01: Pick-up */}
+              <label className="ref-booking-field">
+                <span className="ref-field-label">
+                  <b>01</b>
+                  <span>{t.pickupLabel}</span>
+                </span>
+                <select
+                  id="pickup"
+                  value={pickup}
+                  onChange={(e) => {
+                    setPickup(e.target.value);
+                    if (feedback) setFeedback('');
+                  }}
+                  required
+                >
+                  <option value="">{t.pickupPlaceholder}</option>
+                  <option value="jeddah-airport">{t.locJeddahAirport}</option>
+                  <option value="makkah">{t.locMakkah}</option>
+                  <option value="madinah-airport">{t.locMadinahAirport}</option>
+                  <option value="madinah">{t.locMadinah}</option>
+                  <option value="taif">{t.locTaif}</option>
+                </select>
+              </label>
+
+              {/* Field 02: Drop-off */}
+              <label className="ref-booking-field">
+                <span className="ref-field-label">
+                  <b>02</b>
+                  <span>{t.dropoffLabel}</span>
+                </span>
+                <select
+                  id="dropoff"
+                  value={dropoff}
+                  onChange={(e) => {
+                    setDropoff(e.target.value);
+                    if (feedback) setFeedback('');
+                  }}
+                  required
+                >
+                  <option value="">{t.dropoffPlaceholder}</option>
+                  <option value="makkah">{t.locMakkah}</option>
+                  <option value="madinah">{t.locMadinah}</option>
+                  <option value="jeddah-airport">{t.locJeddahAirport}</option>
+                  <option value="madinah-airport">{t.locMadinahAirport}</option>
+                  <option value="taif">{t.locTaif}</option>
+                </select>
+              </label>
+
+              {/* Field 03: Travel Date */}
+              <label className="ref-booking-field">
+                <span className="ref-field-label">
+                  <b>03</b>
+                  <span>{t.dateLabel}</span>
+                </span>
                 <input
                   type="date"
-                  value={pickupDate}
-                  min={new Date().toISOString().split('T')[0]}
-                  onChange={(e) => setPickupDate(e.target.value)}
-                  className="w-full h-12 px-3 rounded-xl bg-[#F7F5F0] border border-[#E8E2D7] text-xs font-semibold text-[#111A27] focus:outline-none focus:ring-2 focus:ring-[#A58A64]"
+                  id="travelDate"
+                  min={todayStr}
+                  value={travelDate}
+                  onChange={(e) => setTravelDate(e.target.value)}
                   required
                 />
-              </div>
+              </label>
 
-              {/* Field 3: Pickup Time */}
-              <div className="md:col-span-3 lg:col-span-2">
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-[#687386] mb-1.5">
-                  {t.timeLabel}
-                </label>
-                <input
-                  type="time"
-                  value={pickupTime}
-                  onChange={(e) => setPickupTime(e.target.value)}
-                  className="w-full h-12 px-3 rounded-xl bg-[#F7F5F0] border border-[#E8E2D7] text-xs font-semibold text-[#111A27] focus:outline-none focus:ring-2 focus:ring-[#A58A64]"
-                  required
-                />
-              </div>
-
-              {/* Field 4: Passengers & Luggage */}
-              <div className="flex items-center gap-2 md:col-span-6 lg:col-span-3">
-                <div className="flex-1">
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#687386] mb-1.5">
-                    {t.passengersLabel}
-                  </label>
-                  <select
-                    value={passengers}
-                    onChange={(e) => setPassengers(e.target.value)}
-                    className="w-full h-12 px-2.5 rounded-xl bg-[#F7F5F0] border border-[#E8E2D7] text-xs font-semibold text-[#111A27] focus:outline-none focus:ring-2 focus:ring-[#A58A64]"
-                  >
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 10, 14, 21].map((n) => (
-                      <option key={n} value={n}>
-                        {n} {t.passengersLabel}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex-1">
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#687386] mb-1.5">
-                    {t.luggageLabel}
-                  </label>
-                  <select
-                    value={luggage}
-                    onChange={(e) => setLuggage(e.target.value)}
-                    className="w-full h-12 px-2.5 rounded-xl bg-[#F7F5F0] border border-[#E8E2D7] text-xs font-semibold text-[#111A27] focus:outline-none focus:ring-2 focus:ring-[#A58A64]"
-                  >
-                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 15, 20].map((n) => (
-                      <option key={n} value={n}>
-                        {n} {t.luggageLabel}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Main Conversion CTA: View Available Vehicles and Prices */}
-              <div className="sm:col-span-2 md:col-span-12 mt-2">
-                <button
-                  type="submit"
-                  className="w-full min-h-[52px] rounded-xl bg-gradient-to-r from-[#111A27] to-[#1E2B3E] hover:from-[#1E2B3E] hover:to-[#111A27] text-[#F7F5F0] font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-lg hover:shadow-xl active:scale-[0.99] transition-all cursor-pointer border border-[#A58A64]/40"
+              {/* Field 04: Passengers */}
+              <label className="ref-booking-field">
+                <span className="ref-field-label">
+                  <b>04</b>
+                  <span>{t.passengersLabel}</span>
+                </span>
+                <select
+                  id="passengers"
+                  value={passengers}
+                  onChange={(e) => setPassengers(e.target.value)}
                 >
-                  <Car className="w-5 h-5 text-[#A58A64]" />
-                  <span>{t.ctaViewVehicles}</span>
-                  {isRtl ? <ArrowLeft className="w-4 h-4 text-[#A58A64]" /> : <ArrowRight className="w-4 h-4 text-[#A58A64]" />}
-                </button>
-              </div>
-            </form>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="10">10</option>
+                  <option value="14">14</option>
+                  <option value="21">21</option>
+                </select>
+              </label>
 
-            {/* Reassurance Footer inside Card */}
-            <div className="mt-4 pt-3.5 border-t border-[#E8E2D7] flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#687386]">
-              <span className="flex items-center gap-1.5 font-medium">
-                <ShieldCheck className="w-4 h-4 text-[#A58A64]" />
-                <span>{t.trust1}</span>
-              </span>
-              <span className="flex items-center gap-1.5 font-medium">
-                <Clock className="w-4 h-4 text-[#A58A64]" />
-                <span>{t.trust3}</span>
-              </span>
-              <span className="flex items-center gap-1.5 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-[#A58A64]" />
-                <span>{t.trust2}</span>
-              </span>
+              {/* Submit Button */}
+              <button type="submit" className="ref-booking-submit">
+                <span>{t.bookingSubmit}</span>
+                {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
+              </button>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION D: PREMIUM SERVICE ADVANTAGES (SWISS PRECISION)
-      ────────────────────────────────────────────────────────────── */}
-      <section className="py-12 sm:py-16 md:py-20 border-b border-[#E8E2D7] bg-[#F7F5F0]">
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          <div className="max-w-2xl mb-10 text-start">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#A58A64]/30 text-xs font-bold text-[#A58A64] uppercase tracking-wider mb-2.5">
-              <Shield className="w-3.5 h-3.5" />
-              <span>{t.advantagesBadge}</span>
-            </div>
-            <h2 className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl text-[#111A27] tracking-tight">
-              {t.advantagesTitle}
-            </h2>
-            <p className="text-sm sm:text-base text-[#687386] mt-2 leading-relaxed">
-              {t.advantagesSubtitle}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {t.advantages.map((adv, idx) => (
-              <div
-                key={idx}
-                className="rounded-2xl p-6 bg-white border border-[#E8E2D7] shadow-xs hover:border-[#A58A64] hover:shadow-md transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-12 h-12 rounded-xl bg-[#F7F5F0] border border-[#A58A64]/30 flex items-center justify-center text-[#A58A64] mb-4">
-                    {adv.icon === 'clock' && <Clock className="w-6 h-6" />}
-                    {adv.icon === 'plane' && <Plane className="w-6 h-6" />}
-                    {adv.icon === 'baby' && <Baby className="w-6 h-6" />}
-                    {adv.icon === 'calendar' && <Calendar className="w-6 h-6" />}
-                    {adv.icon === 'shield' && <ShieldCheck className="w-6 h-6" />}
-                  </div>
-                  <h3 className="font-serif font-bold text-lg text-[#111A27] mb-2 leading-snug">
-                    {adv.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[#687386] leading-relaxed">
-                    {adv.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION E: LUXURY AUTOMOTIVE SHOWCASE (EDITORIAL CARDS)
-      ────────────────────────────────────────────────────────────── */}
-      <section className="py-14 sm:py-20 md:py-24 bg-white border-b border-[#E8E2D7]">
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 text-start">
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F7F5F0] border border-[#A58A64]/30 text-xs font-bold text-[#A58A64] uppercase tracking-wider mb-2.5">
-                <Car className="w-3.5 h-3.5" />
-                <span>{t.fleetBadge}</span>
-              </div>
-              <h2 className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl text-[#111A27] tracking-tight">
-                {t.fleetTitle}
-              </h2>
-              <p className="text-sm sm:text-base text-[#687386] mt-2 leading-relaxed">
-                {t.fleetSubtitle}
+            {feedback && (
+              <p className="ref-booking-feedback" role="alert">
+                {feedback}
               </p>
-            </div>
-            <div className="text-start md:text-end shrink-0">
-              <span className="text-xs text-[#687386] font-medium block max-w-xs">
-                {t.fleetDisclaimer}
-              </span>
+            )}
+          </form>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          TRUST / ADVANTAGES STRIP
+      ────────────────────────────────────────────────────────────── */}
+      <section className="ref-trust-strip" id="standards">
+        <div className="ref-page-shell ref-trust-grid">
+          <div className="ref-trust-item">
+            <span className="ref-trust-icon">
+              <Clock className="w-6 h-6 text-[#c7a36a]" />
+            </span>
+            <div>
+              <strong>{t.trust24Title}</strong>
+              <small>{t.trust24Sub}</small>
             </div>
           </div>
 
-          {/* 5 Instant-Booking Editorial Models */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {REGULAR_FLEET_MODELS.map((model) => {
-              const detailHref = `/${locale}/fleet/${model.slug}`;
-              const bookingHref = `/${locale}/booking?vehicle=${model.bookingId}`;
+          <div className="ref-trust-item">
+            <span className="ref-trust-icon">
+              <Plane className="w-6 h-6 text-[#c7a36a]" />
+            </span>
+            <div>
+              <strong>{t.trustFlightTitle}</strong>
+              <small>{t.trustFlightSub}</small>
+            </div>
+          </div>
 
-              return (
-                <div
-                  key={model.id}
-                  className="rounded-3xl bg-[#F7F5F0] border border-[#E8E2D7] overflow-hidden flex flex-col justify-between shadow-xs hover:border-[#A58A64] hover:shadow-lg transition-all duration-300"
-                >
-                  <div>
-                    {/* Generous High-Resolution Studio Canvas */}
-                    <div className="relative w-full h-56 sm:h-64 bg-gradient-to-b from-white to-[#F7F5F0] p-4 flex items-center justify-center border-b border-[#E8E2D7]">
-                      <Image
-                        src={model.image}
-                        alt={model.name[locale] || model.name.en}
-                        fill
-                        className="object-contain p-3 hover:scale-105 transition-transform duration-500"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                    </div>
+          <div className="ref-trust-item">
+            <span className="ref-trust-icon">
+              <Baby className="w-6 h-6 text-[#c7a36a]" />
+            </span>
+            <div>
+              <strong>{t.trustChildTitle}</strong>
+              <small>{t.trustChildSub}</small>
+            </div>
+          </div>
 
-                    {/* Editorial Content */}
-                    <div className="p-6 text-start">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#A58A64] bg-white px-2.5 py-1 rounded-md border border-[#E8E2D7] inline-block mb-2">
-                        {model.category[locale] || model.category.en}
-                      </span>
+          <div className="ref-trust-item">
+            <span className="ref-trust-icon">
+              <ShieldCheck className="w-6 h-6 text-[#c7a36a]" />
+            </span>
+            <div>
+              <strong>{t.trustCancelTitle}</strong>
+              <small>{t.trustCancelSub}</small>
+            </div>
+          </div>
 
-                      <h3 className="font-serif font-bold text-xl sm:text-2xl text-[#111A27] mb-2 leading-tight">
-                        {model.name[locale] || model.name.en}
-                      </h3>
-
-                      {/* Capacity Bar */}
-                      <div className="flex items-center gap-4 text-xs font-semibold text-[#687386] mb-4 pb-3 border-b border-[#E8E2D7]">
-                        <span className="flex items-center gap-1.5">
-                          <Users className="w-4 h-4 text-[#A58A64]" />
-                          <span>{model.passengers} {t.passengersLabel}</span>
-                        </span>
-                        <span>•</span>
-                        <span className="flex items-center gap-1.5">
-                          <Luggage className="w-4 h-4 text-[#A58A64]" />
-                          <span>{model.luggage} {t.luggageLabel}</span>
-                        </span>
-                      </div>
-
-                      {/* 3 Editorial Feature Bullets */}
-                      <ul className="space-y-2 mb-6">
-                        {(model.highlights[locale] || model.highlights.en).map((item, idx) => (
-                          <li key={idx} className="text-xs text-[#4B5565] flex items-center gap-2">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-[#A58A64] shrink-0" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  {/* Actions Bar */}
-                  <div className="p-6 pt-0 flex flex-col sm:flex-row gap-2.5">
-                    <Link
-                      href={detailHref}
-                      className="flex-1 min-h-[44px] rounded-xl bg-white border border-[#E8E2D7] hover:border-[#A58A64] text-xs font-bold text-[#111A27] flex items-center justify-center transition-colors text-center"
-                    >
-                      <span>{t.exploreDetails}</span>
-                    </Link>
-                    <Link
-                      href={bookingHref}
-                      className="flex-1 min-h-[44px] rounded-xl bg-[#111A27] hover:bg-[#1E2B3E] text-xs font-bold text-white uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors shadow-sm"
-                    >
-                      <span>{t.bookThisVehicle}</span>
-                      {isRtl ? <ArrowLeft className="w-3.5 h-3.5 text-[#A58A64]" /> : <ArrowRight className="w-3.5 h-3.5 text-[#A58A64]" />}
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="ref-trust-item">
+            <span className="ref-trust-icon">
+              <Car className="w-6 h-6 text-[#c7a36a]" />
+            </span>
+            <div>
+              <strong>{t.trustTaxesTitle}</strong>
+              <small>{t.trustTaxesSub}</small>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION F: POPULAR JOURNEYS & APPROVED ROUTE RATES
+          FLEET SHOWCASE
       ────────────────────────────────────────────────────────────── */}
-      <section className="py-14 sm:py-20 md:py-24 bg-[#F7F5F0] border-b border-[#E8E2D7]">
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          <div className="max-w-2xl mb-10 text-start">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#A58A64]/30 text-xs font-bold text-[#A58A64] uppercase tracking-wider mb-2.5">
-              <Compass className="w-3.5 h-3.5" />
-              <span>{t.journeysBadge}</span>
+      <section className="ref-fleet-section" id="fleet">
+        <div className="ref-page-shell">
+          <div className="ref-section-heading ref-section-heading-light">
+            <div>
+              <span className="ref-section-kicker">{t.fleetKicker}</span>
+              <h2>{t.fleetTitle}</h2>
+              <p>{t.fleetSubtitle}</p>
             </div>
-            <h2 className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl text-[#111A27] tracking-tight">
-              {t.journeysTitle}
-            </h2>
-            <p className="text-sm sm:text-base text-[#687386] mt-2 leading-relaxed">
-              {t.journeysSubtitle}
-            </p>
+            <Link href={`/${locale}/fleet`} className="ref-text-link">
+              <span>{t.fleetViewAll}</span>
+              <span className="inline-block mx-1">↗</span>
+            </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            {TOP_APPROVED_JOURNEYS.map((j) => (
-              <div
-                key={j.id}
-                className="rounded-2xl p-6 bg-white border border-[#E8E2D7] shadow-xs hover:border-[#A58A64] hover:shadow-md transition-all flex flex-col justify-between text-start"
-              >
-                <div>
-                  <div className="flex items-center justify-between text-[11px] font-bold text-[#687386] mb-3">
-                    <span className="bg-[#F7F5F0] px-2.5 py-1 rounded-md border border-[#E8E2D7]">
-                      {j.distanceKm} km • {isAr ? j.durationAr : j.durationEn}
-                    </span>
-                    <span className="text-[#A58A64] font-extrabold uppercase">
-                      {t.fromStarting} {formatPrice(j.startingSAR)}
-                    </span>
-                  </div>
-
-                  <h3 className="font-serif font-bold text-lg text-[#111A27] mb-1.5 leading-snug">
-                    {isAr ? `${j.originAr} ← ${j.destAr}` : `${j.originEn} → ${j.destEn}`}
-                  </h3>
-                  <p className="text-xs text-[#687386] mb-4">
-                    {isAr ? 'سيارات مكيفة بالكامل وسائقون محترفون مع استقبال بالمطار' : 'Fully sanitized climate-controlled vehicles with professional chauffeur.'}
-                  </p>
+          <div className="ref-fleet-grid">
+            {/* 01: Toyota Camry */}
+            <article className="ref-vehicle-card">
+              <div className="ref-vehicle-image">
+                <span className="ref-vehicle-category">
+                  {isAr ? 'سيدان تنفيذية' : 'EXECUTIVE SEDAN'}
+                </span>
+                <Image
+                  src="/assets/images/reference/toyota-camry.webp"
+                  alt="Toyota Camry VIP Chauffeur"
+                  width={340}
+                  height={180}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="ref-vehicle-info">
+                <div className="ref-vehicle-title-row">
+                  <h3>Toyota Camry</h3>
+                  <span className="ref-vehicle-index">01</span>
                 </div>
-
+                <p>
+                  {isAr
+                    ? 'راحة عملية وأناقة هادئة للرحلات الخاصة والمعتمرين.'
+                    : 'Refined comfort and quiet luxury for private journeys.'}
+                </p>
+                <div className="ref-vehicle-specs">
+                  <span>
+                    👤 <b>4</b> <small>{t.passengersWord}</small>
+                  </span>
+                  <span>
+                    🧳 <b>3</b> <small>{t.bagsWord}</small>
+                  </span>
+                </div>
                 <Link
-                  href={`/${locale}/booking?route=${j.id}`}
-                  className="w-full min-h-[44px] rounded-xl bg-[#111A27] hover:bg-[#1E2B3E] text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors mt-2"
+                  href={`/${locale}/booking?vehicle=toyota-camry`}
+                  className="ref-vehicle-link"
                 >
-                  <span>{t.bookThisRoute}</span>
-                  {isRtl ? <ArrowLeft className="w-3.5 h-3.5 text-[#A58A64]" /> : <ArrowRight className="w-3.5 h-3.5 text-[#A58A64]" />}
+                  <span>{t.selectVehicleCta}</span>
+                  <span>↗</span>
                 </Link>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </article>
 
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION G: VIP CONCIERGE (MAYBACH & H1 BESPOKE REQUESTS)
-      ────────────────────────────────────────────────────────────── */}
-      <section className="py-14 sm:py-20 bg-[#111A27] text-white border-b border-[#A58A64]/30">
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          <div className="max-w-2xl mb-12 text-start">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1A2638] border border-[#A58A64]/50 text-xs font-bold text-[#A58A64] uppercase tracking-wider mb-2.5">
-              <Award className="w-3.5 h-3.5" />
-              <span>{t.conciergeBadge}</span>
-            </div>
-            <h2 className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl text-[#F7F5F0] tracking-tight">
-              {t.conciergeTitle}
-            </h2>
-            <p className="text-sm sm:text-base text-slate-300 mt-2 leading-relaxed">
-              {t.conciergeSubtitle}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {/* Maybach Card */}
-            <div className="rounded-3xl p-6 sm:p-8 bg-[#182335] border border-[#A58A64]/40 flex flex-col justify-between">
-              <div>
-                <div className="relative w-full h-48 sm:h-56 mb-4 rounded-2xl overflow-hidden bg-gradient-to-b from-[#213047] to-[#182335]">
-                  <Image
-                    src="/assets/images/vehicles/mercedes-maybach/exterior-studio.webp"
-                    alt={t.conciergeMaybachTitle}
-                    fill
-                    className="object-contain p-2"
-                  />
-                </div>
-                <h3 className="font-serif font-bold text-xl sm:text-2xl text-white mb-2">
-                  {t.conciergeMaybachTitle}
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
-                  {t.conciergeMaybachDesc}
-                </p>
+            {/* 02: Hyundai Staria VIP (Featured) */}
+            <article className="ref-vehicle-card ref-vehicle-featured">
+              <div className="ref-vehicle-image">
+                <span className="ref-vehicle-category">
+                  {isAr ? 'فان VIP' : 'VIP EXECUTIVE VAN'}
+                </span>
+                <Image
+                  src="/assets/images/reference/hyundai-staria.webp"
+                  alt="Hyundai Staria VIP Chauffeur"
+                  width={340}
+                  height={180}
+                  className="w-full h-full object-contain"
+                />
               </div>
-              <a
-                href={`https://wa.me/966567588261?text=${encodeURIComponent(
-                  isAr
-                    ? 'السلام عليكم ضيوف الرحمن VIP، أود الاستفسار عن حجز سيارة مرسيدس مايباخ مع سائق خاص.'
-                    : 'Hello Duyuf Alrahman VIP, I would like to inquire about booking a private Mercedes-Maybach with chauffeur.'
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full min-h-[48px] rounded-xl bg-gradient-to-r from-[#A58A64] to-[#C5A15D] text-[#111A27] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:brightness-105 transition-all shadow-md"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>{t.conciergeCta}</span>
-              </a>
-            </div>
-
-            {/* Hyundai H1 VIP Card */}
-            <div className="rounded-3xl p-6 sm:p-8 bg-[#182335] border border-[#A58A64]/40 flex flex-col justify-between">
-              <div>
-                <div className="relative w-full h-48 sm:h-56 mb-4 rounded-2xl overflow-hidden bg-gradient-to-b from-[#213047] to-[#182335]">
-                  <Image
-                    src="/assets/images/vehicles/hyundai-h1/exterior-studio.webp"
-                    alt={t.conciergeH1Title}
-                    fill
-                    className="object-contain p-2"
-                  />
+              <div className="ref-vehicle-info">
+                <div className="ref-vehicle-title-row">
+                  <h3>Hyundai Staria VIP</h3>
+                  <span className="ref-vehicle-index">02</span>
                 </div>
-                <h3 className="font-serif font-bold text-xl sm:text-2xl text-white mb-2">
-                  {t.conciergeH1Title}
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
-                  {t.conciergeH1Desc}
+                <p>
+                  {isAr
+                    ? 'مقصورة واسعة ومقاعد كابتن فاخرة لراحة العائلة.'
+                    : 'A spacious luxury cabin with captain-seat comfort for families.'}
                 </p>
-              </div>
-              <a
-                href={`https://wa.me/966567588261?text=${encodeURIComponent(
-                  isAr
-                    ? 'السلام عليكم ضيوف الرحمن VIP، أود الاستفسار عن حجز فان هيونداي H1 VIP مع سائق خاص.'
-                    : 'Hello Duyuf Alrahman VIP, I would like to inquire about booking a private Hyundai H1 VIP van with chauffeur.'
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full min-h-[48px] rounded-xl bg-gradient-to-r from-[#A58A64] to-[#C5A15D] text-[#111A27] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:brightness-105 transition-all shadow-md"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>{t.conciergeCta}</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION H: BOOKING PROCESS (3 TRANSPARENT STEPS)
-      ────────────────────────────────────────────────────────────── */}
-      <section className="py-14 sm:py-20 md:py-24 bg-white border-b border-[#E8E2D7]">
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          <div className="max-w-2xl mb-12 text-start">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F7F5F0] border border-[#A58A64]/30 text-xs font-bold text-[#A58A64] uppercase tracking-wider mb-2.5">
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              <span>{t.processBadge}</span>
-            </div>
-            <h2 className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl text-[#111A27] tracking-tight">
-              {t.processTitle}
-            </h2>
-            <p className="text-sm sm:text-base text-[#687386] mt-2 leading-relaxed">
-              {t.processSubtitle}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {t.processSteps.map((step, idx) => (
-              <div
-                key={idx}
-                className="rounded-3xl p-6 sm:p-8 bg-[#F7F5F0] border border-[#E8E2D7] relative flex flex-col justify-between text-start"
-              >
-                <div>
-                  <span className="font-serif font-black text-3xl sm:text-4xl text-[#A58A64] block mb-4">
-                    {step.num}
+                <div className="ref-vehicle-specs">
+                  <span>
+                    👤 <b>7</b> <small>{t.passengersWord}</small>
                   </span>
-                  <h3 className="font-serif font-bold text-xl text-[#111A27] mb-2 leading-snug">
-                    {step.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[#687386] leading-relaxed">
-                    {step.desc}
-                  </p>
+                  <span>
+                    🧳 <b>6</b> <small>{t.bagsWord}</small>
+                  </span>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION I: VERIFIED CUSTOMER REVIEWS & ESSENTIAL FAQ
-      ────────────────────────────────────────────────────────────── */}
-      <section className="py-14 sm:py-20 md:py-24 bg-[#F7F5F0] border-b border-[#E8E2D7]">
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          {/* Reviews Rating Banner */}
-          <div className="rounded-3xl bg-white p-6 sm:p-10 border border-[#E8E2D7] mb-14 text-center max-w-3xl mx-auto shadow-xs">
-            <div className="flex items-center justify-center gap-1 text-[#A58A64] mb-3">
-              {[1, 2, 3, 4, 5].map((s) => (
-                <Star key={s} className="w-5 h-5 fill-current" />
-              ))}
-            </div>
-            <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#111A27] mb-2">
-              {t.reviewsTitle}
-            </h2>
-            <p className="text-xs sm:text-sm text-[#687386] leading-relaxed max-w-xl mx-auto">
-              {t.reviewsSubtitle}
-            </p>
-          </div>
-
-          {/* Essential FAQ Section */}
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#A58A64]/30 text-xs font-bold text-[#A58A64] uppercase tracking-wider mb-2.5">
-                <HelpCircle className="w-3.5 h-3.5" />
-                <span>{t.faqBadge}</span>
-              </div>
-              <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#111A27]">
-                {t.faqTitle}
-              </h2>
-              <p className="text-xs sm:text-sm text-[#687386] mt-1.5">
-                {t.faqSubtitle}
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 text-start">
-              {t.faqs.map((f, idx) => (
-                <div
-                  key={idx}
-                  className="rounded-2xl p-6 bg-white border border-[#E8E2D7] shadow-xs"
+                <Link
+                  href={`/${locale}/booking?vehicle=hyundai-staria`}
+                  className="ref-vehicle-link"
                 >
-                  <h3 className="font-serif font-bold text-sm sm:text-base text-[#111A27] mb-2 leading-snug">
-                    {f.q}
-                  </h3>
-                  <p className="text-xs text-[#687386] leading-relaxed">
-                    {f.a}
-                  </p>
+                  <span>{t.selectVehicleCta}</span>
+                  <span>↗</span>
+                </Link>
+              </div>
+            </article>
+
+            {/* 03: GMC Yukon XL */}
+            <article className="ref-vehicle-card">
+              <div className="ref-vehicle-image">
+                <span className="ref-vehicle-category">
+                  {isAr ? 'SUV فاخر' : 'LUXURY SUV'}
+                </span>
+                <Image
+                  src="/assets/images/reference/gmc-yukon-xl.webp"
+                  alt="GMC Yukon XL VIP Chauffeur"
+                  width={340}
+                  height={180}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="ref-vehicle-info">
+                <div className="ref-vehicle-title-row">
+                  <h3>GMC Yukon XL</h3>
+                  <span className="ref-vehicle-index">03</span>
                 </div>
-              ))}
+                <p>
+                  {isAr
+                    ? 'رحابة وثبات وتجهيزات راقية تلائم الرحلات الطويلة.'
+                    : 'Supreme road presence and composure for long journeys.'}
+                </p>
+                <div className="ref-vehicle-specs">
+                  <span>
+                    👤 <b>7</b> <small>{t.passengersWord}</small>
+                  </span>
+                  <span>
+                    🧳 <b>8</b> <small>{t.bagsWord}</small>
+                  </span>
+                </div>
+                <Link
+                  href={`/${locale}/booking?vehicle=gmc-yukon-xl`}
+                  className="ref-vehicle-link"
+                >
+                  <span>{t.selectVehicleCta}</span>
+                  <span>↗</span>
+                </Link>
+              </div>
+            </article>
+
+            {/* 04: Toyota HiAce */}
+            <article className="ref-vehicle-card">
+              <div className="ref-vehicle-image">
+                <span className="ref-vehicle-category">
+                  {isAr ? 'نقل عائلي' : 'GROUP VAN'}
+                </span>
+                <Image
+                  src="/assets/images/reference/toyota-hiace.webp"
+                  alt="Toyota HiAce VIP Chauffeur"
+                  width={340}
+                  height={180}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="ref-vehicle-info">
+                <div className="ref-vehicle-title-row">
+                  <h3>Toyota HiAce</h3>
+                  <span className="ref-vehicle-index">04</span>
+                </div>
+                <p>
+                  {isAr
+                    ? 'مساحة عملية ومريحة للعائلات والمجموعات المعتمرة.'
+                    : 'Flexible and spacious travel for family groups and delegations.'}
+                </p>
+                <div className="ref-vehicle-specs">
+                  <span>
+                    👤 <b>10</b> <small>{t.passengersWord}</small>
+                  </span>
+                  <span>
+                    🧳 <b>10</b> <small>{t.bagsWord}</small>
+                  </span>
+                </div>
+                <Link
+                  href={`/${locale}/booking?vehicle=toyota-hiace`}
+                  className="ref-vehicle-link"
+                >
+                  <span>{t.selectVehicleCta}</span>
+                  <span>↗</span>
+                </Link>
+              </div>
+            </article>
+
+            {/* 05: Toyota Coaster */}
+            <article className="ref-vehicle-card">
+              <div className="ref-vehicle-image">
+                <span className="ref-vehicle-category">
+                  {isAr ? 'حافلة تنفيذية' : 'EXECUTIVE COACH'}
+                </span>
+                <Image
+                  src="/assets/images/reference/toyota-coaster.webp"
+                  alt="Toyota Coaster VIP Bus"
+                  width={340}
+                  height={180}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="ref-vehicle-info">
+                <div className="ref-vehicle-title-row">
+                  <h3>Toyota Coaster</h3>
+                  <span className="ref-vehicle-index">05</span>
+                </div>
+                <p>
+                  {isAr
+                    ? 'حل مثالي ومريح لنقل المجموعات والوفود الكبيرة.'
+                    : 'Comfortable executive group and delegation transport.'}
+                </p>
+                <div className="ref-vehicle-specs">
+                  <span>
+                    👤 <b>21</b> <small>{t.passengersWord}</small>
+                  </span>
+                  <span>
+                    🧳 <b>20</b> <small>{t.bagsWord}</small>
+                  </span>
+                </div>
+                <Link
+                  href={`/${locale}/booking?vehicle=toyota-coaster`}
+                  className="ref-vehicle-link"
+                >
+                  <span>{t.selectVehicleCta}</span>
+                  <span>↗</span>
+                </Link>
+              </div>
+            </article>
+          </div>
+
+          <div className="ref-fleet-footnote">
+            <span className="ref-gold-rule" />
+            <span>{t.fleetFootnote}</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          POPULAR ROUTES
+      ────────────────────────────────────────────────────────────── */}
+      <section className="ref-routes-section" id="routes">
+        <div className="ref-page-shell">
+          <div className="ref-section-heading ref-section-heading-dark">
+            <div>
+              <span className="ref-section-kicker">{t.routesKicker}</span>
+              <h2>{t.routesTitle}</h2>
+              <p>{t.routesSubtitle}</p>
+            </div>
+            <Link href={`/${locale}/routes`} className="ref-text-link">
+              <span>{t.routesViewAll}</span>
+              <span className="inline-block mx-1">↗</span>
+            </Link>
+          </div>
+
+          <div className="ref-routes-grid">
+            {/* Route 01: Jeddah Airport to Makkah (Large Card) */}
+            <Link
+              href={`/${locale}/booking?route=jeddah-airport-to-makkah`}
+              className="ref-route-card ref-route-card-large"
+            >
+              <Image
+                src="/assets/images/reference/route-jeddah-makkah.jpg"
+                alt="Jeddah Airport to Makkah VIP Transfer"
+                fill
+                sizes="(max-width: 768px) 100vw, 40vw"
+                className="object-cover"
+              />
+              <span className="ref-route-overlay" />
+              <span className="ref-route-tag">{t.tagAirport}</span>
+              <span className="ref-route-copy">
+                <small>{isAr ? 'من مطار جدة' : 'FROM JEDDAH AIRPORT'}</small>
+                <strong>{isAr ? 'جدة ↔ مكة' : 'Jeddah ↔ Makkah'}</strong>
+                <span className="ref-route-price">
+                  {t.fromPricePrefix} {formatPrice(200)}
+                </span>
+                <em>
+                  <span>{t.discoverJourney}</span>
+                  <span>↗</span>
+                </em>
+              </span>
+            </Link>
+
+            {/* Route 02: Makkah to Madinah */}
+            <Link
+              href={`/${locale}/booking?route=makkah-to-madinah`}
+              className="ref-route-card"
+            >
+              <Image
+                src="/assets/images/reference/route-makkah-madinah.jpg"
+                alt="Makkah to Madinah VIP Chauffeur"
+                fill
+                sizes="(max-width: 768px) 100vw, 30vw"
+                className="object-cover"
+              />
+              <span className="ref-route-overlay" />
+              <span className="ref-route-tag">{t.tagIntercity}</span>
+              <span className="ref-route-copy">
+                <small>{isAr ? 'من مكة المكرمة' : 'FROM MAKKAH'}</small>
+                <strong>{isAr ? 'مكة ↔ المدينة' : 'Makkah ↔ Madinah'}</strong>
+                <span className="ref-route-price">
+                  {t.fromPricePrefix} {formatPrice(400)}
+                </span>
+                <em>
+                  <span>{t.discoverJourney}</span>
+                  <span>↗</span>
+                </em>
+              </span>
+            </Link>
+
+            {/* Route 03: Madinah Airport to Madinah Hotels */}
+            <Link
+              href={`/${locale}/booking?route=madinah-airport-to-madinah`}
+              className="ref-route-card"
+            >
+              <Image
+                src="/assets/images/reference/route-madinah-airport.jpg"
+                alt="Madinah Airport to Hotels VIP Transfer"
+                fill
+                sizes="(max-width: 768px) 100vw, 30vw"
+                className="object-cover"
+              />
+              <span className="ref-route-overlay" />
+              <span className="ref-route-tag">{t.tagAirport}</span>
+              <span className="ref-route-copy">
+                <small>{isAr ? 'من مطار المدينة' : 'FROM MADINAH AIRPORT'}</small>
+                <strong>{isAr ? 'مطار المدينة ↔ المدينة' : 'Madinah Airport ↔ Madinah'}</strong>
+                <span className="ref-route-price">
+                  {t.fromPricePrefix} {formatPrice(200)}
+                </span>
+                <em>
+                  <span>{t.discoverJourney}</span>
+                  <span>↗</span>
+                </em>
+              </span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          VIP CONCIERGE (MAYBACH & H1)
+      ────────────────────────────────────────────────────────────── */}
+      <section className="ref-concierge-section" id="concierge">
+        <div className="ref-page-shell">
+          <div className="ref-concierge-panel">
+            <div className="ref-concierge-copy">
+              <span className="ref-section-kicker">{t.conciergeKicker}</span>
+              <h2>
+                {t.conciergeTitle} <span className="gold">✨</span>
+              </h2>
+              <p>{t.conciergeSubtitle}</p>
+              <a
+                className="ref-btn ref-btn-gold"
+                href="https://wa.me/966567588261"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircle className="w-4 h-4" />
+                <span>{t.conciergeCta}</span>
+                <span>↗</span>
+              </a>
+            </div>
+
+            <div className="ref-concierge-vehicles">
+              <div className="ref-concierge-car">
+                <span>ULTRA LUXURY</span>
+                <Image
+                  src="/assets/images/reference/maybach.webp"
+                  alt="Mercedes-Maybach VIP Concierge"
+                  width={240}
+                  height={130}
+                  className="w-full h-auto object-contain my-auto"
+                />
+                <strong>Mercedes-Maybach</strong>
+              </div>
+
+              <div className="ref-concierge-car">
+                <span>PRIVATE GROUP</span>
+                <Image
+                  src="/assets/images/reference/hyundai-h1.webp"
+                  alt="Hyundai H1 VIP Concierge"
+                  width={240}
+                  height={130}
+                  className="w-full h-auto object-contain my-auto"
+                />
+                <strong>Hyundai H1</strong>
+              </div>
+            </div>
+
+            <div className="ref-concierge-disclaimer">
+              {t.conciergeDisclaimer}
             </div>
           </div>
         </div>
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION J: STRONG FINAL BOOKING CTA
+          EXPERIENCE STANDARDS
       ────────────────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-24 bg-[#111A27] text-white text-center relative overflow-hidden">
-        <div className="container mx-auto px-4 sm:px-6 max-w-4xl relative z-10">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#1A2638] border border-[#A58A64]/50 text-xs font-bold text-[#A58A64] uppercase tracking-wider mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>{t.closingBadge}</span>
+      <section className="ref-experience-section">
+        <div className="ref-page-shell ref-experience-grid">
+          <div className="ref-experience-intro">
+            <span className="ref-section-kicker">{t.experienceKicker}</span>
+            <h2>
+              {t.experienceTitle} <span className="gold">✦</span>
+            </h2>
+            <p>{t.experienceSubtitle}</p>
           </div>
-          <h2 className="font-serif font-bold text-3xl sm:text-4xl md:text-5xl text-[#F7F5F0] tracking-tight mb-4 leading-tight">
-            {t.closingTitle}
-          </h2>
-          <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto mb-8 font-light leading-relaxed">
-            {t.closingSubtitle}
-          </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5">
-            <Link
-              href={`/${locale}/booking`}
-              className="w-full sm:w-auto min-h-[50px] px-8 rounded-xl bg-gradient-to-r from-[#A58A64] to-[#C5A15D] text-[#111A27] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:brightness-105 active:scale-[0.98] transition-all shadow-lg"
-            >
-              <span>{t.closingBookBtn}</span>
-              {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
-            </Link>
-            <a
-              href={`https://wa.me/966567588261?text=${encodeURIComponent(
-                isAr
-                  ? 'السلام عليكم ورحمة الله ضيوف الرحمن VIP، أود الاستفسار وحجز توصيل خاص فاخر.'
-                  : 'Hello Duyuf Alrahman VIP, I would like to inquire about booking a private luxury transfer.'
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto min-h-[50px] px-8 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all"
-            >
-              <MessageCircle className="w-4 h-4 text-[#A58A64]" />
-              <span>{t.closingWhatsappBtn}</span>
-            </a>
+          <div className="ref-experience-points">
+            <article>
+              <span>01</span>
+              <div>
+                <h3>{t.exp1Title}</h3>
+                <p>{t.exp1Desc}</p>
+              </div>
+            </article>
+
+            <article>
+              <span>02</span>
+              <div>
+                <h3>{t.exp2Title}</h3>
+                <p>{t.exp2Desc}</p>
+              </div>
+            </article>
+
+            <article>
+              <span>03</span>
+              <div>
+                <h3>{t.exp3Title}</h3>
+                <p>{t.exp3Desc}</p>
+              </div>
+            </article>
           </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          VERIFIED PILGRIM REVIEWS (From visual reference mockup)
+      ────────────────────────────────────────────────────────────── */}
+      <section className="ref-reviews-section">
+        <div className="ref-page-shell">
+          <div className="ref-reviews-heading">
+            <span className="ref-section-kicker">{t.reviewsKicker}</span>
+            <h2>{t.reviewsTitle}</h2>
+            <p>{t.reviewsSubtitle}</p>
+          </div>
+
+          <div className="ref-reviews-grid">
+            {/* Review 01 */}
+            <article className="ref-review-card">
+              <div className="ref-review-quote-mark">“</div>
+              <p className="ref-review-text">{t.rev1Text}</p>
+              <div className="ref-review-author">
+                <div className="ref-review-avatar">م.ع</div>
+                <div>
+                  <strong>{t.rev1Name}</strong>
+                  <small>{t.rev1Tag}</small>
+                </div>
+              </div>
+            </article>
+
+            {/* Review 02 */}
+            <article className="ref-review-card">
+              <div className="ref-review-quote-mark">“</div>
+              <p className="ref-review-text">{t.rev2Text}</p>
+              <div className="ref-review-author">
+                <div className="ref-review-avatar">س.ع</div>
+                <div>
+                  <strong>{t.rev2Name}</strong>
+                  <small>{t.rev2Tag}</small>
+                </div>
+              </div>
+            </article>
+
+            {/* Review 03 */}
+            <article className="ref-review-card">
+              <div className="ref-review-quote-mark">“</div>
+              <p className="ref-review-text">{t.rev3Text}</p>
+              <div className="ref-review-author">
+                <div className="ref-review-avatar">أ.م</div>
+                <div>
+                  <strong>{t.rev3Name}</strong>
+                  <small>{t.rev3Tag}</small>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          FINAL CTA BANNER
+      ────────────────────────────────────────────────────────────── */}
+      <section className="ref-final-cta" id="contact">
+        <div className="ref-final-cta-image" />
+        <div className="ref-final-cta-overlay" />
+        <div className="ref-page-shell ref-final-cta-content">
+          <span className="ref-section-kicker">{t.finalCtaKicker}</span>
+          <h2>{t.finalCtaTitle}</h2>
+          <p>{t.finalCtaSubtitle}</p>
+          <a href="#booking" className="ref-btn ref-btn-gold">
+            <span>{t.finalCtaButton}</span>
+            {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
+          </a>
         </div>
       </section>
     </div>
