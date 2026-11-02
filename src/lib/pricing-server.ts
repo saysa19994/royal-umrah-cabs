@@ -82,17 +82,21 @@ export async function calculateServerPrice(params: {
 
   // 2. Verify vehicle exists and is active, and read seats/bags limits
   let activeVehicle: { seats: number; bags: number; is_active: boolean } | null = null;
-  const { data: vehicleData } = await serviceClient
-    .from('vehicles')
-    .select('id, is_active, seats, bags')
-    .eq('id', vehicleId)
-    .eq('is_active', true)
-    .maybeSingle();
+  const standardSpec = STANDARD_VEHICLE_SPECS[vehicleId];
 
-  if (vehicleData) {
-    activeVehicle = vehicleData;
-  } else if (STANDARD_VEHICLE_SPECS[vehicleId]?.is_active) {
-    activeVehicle = STANDARD_VEHICLE_SPECS[vehicleId];
+  if (standardSpec?.is_active) {
+    activeVehicle = standardSpec;
+  } else {
+    const { data: vehicleData } = await serviceClient
+      .from('vehicles')
+      .select('id, is_active, seats, bags')
+      .eq('id', vehicleId)
+      .eq('is_active', true)
+      .maybeSingle();
+
+    if (vehicleData) {
+      activeVehicle = vehicleData;
+    }
   }
 
   if (!activeVehicle) {
