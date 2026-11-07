@@ -9,32 +9,49 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: '#FDFBF7',
-        'bg-alt': '#F7F3EB',
-        alabaster: '#F8FAFC',
-        surface: '#FFFFFF',
-        'surface-warm': '#FAF7F2',
-        border: '#E2DCD2',
-        'border-strong': '#D5CDBF',
-        ink: '#1E293B',
-        'ink-muted': '#64748B',
-        body: '#334155',
-        mutedText: '#c9d1e3',
+        bg: '#090D15',
+        'bg-alt': '#101725',
+        alabaster: '#0E1420',
+        surface: '#101725',
+        'surface-warm': '#141D2C',
+        border: 'rgba(255, 255, 255, 0.08)',
+        'border-strong': 'rgba(214, 161, 58, 0.35)',
+        ink: '#F6F3ED',
+        'ink-muted': '#AEB7C4',
+        body: '#AEB7C4',
+        mutedText: '#AEB7C4',
         whatsappGreen: '#25d366',
 
         // ====================================================================
         // OFFICIAL ROYAL LUXURY DESIGN SYSTEM TOKENS (PHASE 01)
         // ====================================================================
+        // ====================================================================
+        // MASTER LUXURY DIGITAL EXPERIENCE TOKENS
+        // ====================================================================
+        luxury: {
+          midnight: '#090D15',       // Deep Midnight Navy: primary hero & backdrop
+          surface: '#101725',        // Royal Navy Surface: cards & container background
+          elevated: '#141D2C',       // Elevated Navy: search dock & inputs
+          cardBorder: 'rgba(255, 255, 255, 0.08)',
+          gold: '#D6A13A',           // Luxury Champagne Gold: primary CTAs & focus
+          goldHover: '#E5B14B',      // Brighter Gold hover
+          goldDark: '#A97B27',       // Antique Gold: border rules & secondary gold
+          goldLine: 'rgba(214, 161, 58, 0.3)',
+          warmWhite: '#F6F3ED',      // Warm White: headings & high contrast
+          silver: '#AEB7C4',         // Muted Silver: body text & captions
+          emerald: '#188567',        // Dignified status green (zero advance)
+        },
+
         royal: {
           navy: '#101827',         // Midnight Navy: primary hero & luxury container
           deepNavy: '#111C30',     // Deep Navy: contrast cards & feature strips
           charcoal: '#161B24',     // Charcoal: dark accents & tertiary contrast
-          champagne: '#C5A15D',    // Champagne Gold: luxury CTA & primary focus
+          champagne: '#D6A13A',    // Champagne Gold: luxury CTA & primary focus
           gold: '#D7B76C',         // Warm Gold: secondary gold & badge highlights
-          ivory: '#F7F5F0',        // Warm Ivory: primary page background & cards
-          white: '#FFFFFF',        // Pure White: cards & high-contrast elements
-          textPrimary: '#182235',  // Primary Text: high readability dark ink
-          textSecondary: '#687386',// Secondary Text: dignified muted caption
+          ivory: '#090D15',        // Warm Ivory: primary page background & cards
+          white: '#101725',        // Pure White: cards & high-contrast elements
+          textPrimary: '#F6F3ED',  // Primary Text: high readability dark ink
+          textSecondary: '#AEB7C4',// Secondary Text: dignified muted caption
           border: '#E8E3DA',       // Border: soft warm hairline border
           success: '#188567',      // Success: dignified emerald indicator
           warning: '#B7791F',      // Warning: warm amber alert
@@ -51,13 +68,13 @@ const config: Config = {
           border: '#1E293B',
         },
         gold: {
-          DEFAULT: '#C5A15D',
+          DEFAULT: '#D6A13A',
           vip: '#D7B76C',
-          softGold: '#e8c766',
+          softGold: '#E5B14B',
           hover: '#B5904C',
-          dark: '#9E7A32',
-          soft: '#FBF7ED',
-          line: '#E8E3DA',
+          dark: '#A97B27',
+          soft: 'rgba(214, 161, 58, 0.12)',
+          line: 'rgba(214, 161, 58, 0.28)',
         },
         charcoal: {
           DEFAULT: '#161B24',

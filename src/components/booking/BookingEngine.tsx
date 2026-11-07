@@ -32,6 +32,8 @@ import {
   Shield,
 } from 'lucide-react';
 import { TurnstileWidget } from '@/components/common/TurnstileWidget';
+import { BorderBeam } from '@/components/ui/luxury/BorderBeam';
+import { ShimmerButton } from '@/components/ui/luxury/ShimmerButton';
 import { getEstimatedBasePriceSAR, LOCALIZED_ROUTE_NAMES } from '@/lib/pricing-constants';
 import { trackEvent } from '@/lib/analytics';
 
@@ -1659,17 +1661,20 @@ export function BookingEngine({
                     <div
                       key={vId}
                       onClick={() => handleSelectVehicle(vId)}
-                      className={`rounded-2xl p-4 border-2 transition-all cursor-pointer relative flex flex-col justify-between ${
+                      className={`rounded-2xl p-4 border-2 transition-all cursor-pointer relative flex flex-col justify-between overflow-hidden ${
                         isSelected
                           ? 'border-gold bg-gold-soft/35 shadow-md ring-2 ring-gold/40'
                           : 'border-border bg-surface hover:border-gold-line'
                       }`}
                     >
                       {isSelected && (
-                        <div className="absolute top-3 right-3 rtl:right-auto rtl:left-3 bg-gold text-slate-950 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest flex items-center gap-1 shadow-xs">
-                          <Check className="w-3 h-3" />
-                          <span>{t.selectedBadge}</span>
-                        </div>
+                        <>
+                          <BorderBeam size={180} duration={8} colorFrom="#D6A13A" colorTo="#F2C94C" />
+                          <div className="absolute top-3 right-3 rtl:right-auto rtl:left-3 bg-gold text-slate-950 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest flex items-center gap-1 shadow-xs z-10">
+                            <Check className="w-3 h-3" />
+                            <span>{t.selectedBadge}</span>
+                          </div>
+                        </>
                       )}
 
                       <div>
@@ -1912,7 +1917,8 @@ export function BookingEngine({
             {/* ============================================================ */}
             <div className="pt-2">
               <div className="bg-gold-soft/50 rounded-2xl p-5 border-2 border-gold/70 shadow-xs relative overflow-hidden">
-                <div className="flex items-start gap-4">
+                <BorderBeam size={220} duration={12} colorFrom="#10B981" colorTo="#D6A13A" />
+                <div className="flex items-start gap-4 relative z-10">
                   <div className="w-12 h-12 rounded-xl bg-gold text-slate-950 flex items-center justify-center shrink-0 shadow-xs">
                     <Banknote className="w-6 h-6" />
                   </div>
@@ -1921,7 +1927,7 @@ export function BookingEngine({
                       <h4 className="font-display font-bold text-base sm:text-lg text-ink">
                         {t.paymentTitle}
                       </h4>
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-950 text-gold text-[11px] font-extrabold uppercase tracking-wider">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-950 text-gold text-[11px] font-extrabold uppercase tracking-wider shadow-xs">
                         <Check className="w-3.5 h-3.5" />
                         <span>{t.paymentBadge}</span>
                       </span>
@@ -1962,23 +1968,26 @@ export function BookingEngine({
                 <span>{t.stepBack}</span>
               </button>
 
-              <button
+              <ShimmerButton
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full sm:w-auto min-h-[48px] h-12 px-8 rounded-btn bg-gold hover:bg-gold-hover text-slate-950 hover:text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-gold disabled:opacity-50 cursor-pointer"
+                className="w-full sm:w-auto min-h-[48px] h-12 px-8 rounded-btn"
+                shimmerColor="#F2C94C"
+                shimmerDuration="2.5s"
+                background="linear-gradient(135deg, #D6A13A 0%, #B58428 100%)"
               >
                 {isSubmitting ? (
                   <>
                     <span className="w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
-                    <span>{t.submittingText}</span>
+                    <span className="font-bold text-slate-950 uppercase tracking-wider text-xs sm:text-sm">{t.submittingText}</span>
                   </>
                 ) : (
                   <>
-                    <span>{t.step3Btn}</span>
-                    <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                    <span className="font-bold text-slate-950 uppercase tracking-wider text-xs sm:text-sm">{t.step3Btn}</span>
+                    <ArrowRight className="w-4 h-4 rtl:rotate-180 text-slate-950" />
                   </>
                 )}
-              </button>
+              </ShimmerButton>
             </div>
           </form>
         )}
@@ -1988,7 +1997,8 @@ export function BookingEngine({
       {/* RIGHT COLUMN: STICKY BOOKING SUMMARY CARD (lg:col-span-4)       */}
       {/* ============================================================== */}
       <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-4">
-        <div className="bg-surface rounded-2xl border border-border p-5 sm:p-6 shadow-sm text-start space-y-4">
+        <div className="bg-surface rounded-2xl border border-border p-5 sm:p-6 shadow-sm text-start space-y-4 relative overflow-hidden">
+          <BorderBeam size={220} duration={14} colorFrom="#D6A13A" colorTo="#F2C94C" />
           <div className="flex items-center justify-between border-b border-border pb-3">
             <div>
               <span className="text-[10px] font-bold text-gold-dark uppercase tracking-widest block">

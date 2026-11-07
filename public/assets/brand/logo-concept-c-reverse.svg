@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160" width="640" height="160">
+  <rect width="640" height="160" rx="12" fill="#29251F"/>
+  <g transform="translate(40, 20)">
+    <!-- Horizon Portal & Converging Highway (110x110) -->
+    <g transform="translate(10, 5)">
+      <!-- Outer Circle Portal -->
+      <circle cx="55" cy="55" r="48" fill="none" stroke="#B96746" stroke-width="2"/>
+      <!-- Sun Disc (Upper Half) -->
+      <path d="M 23 55 A 32 32 0 0 1 87 55 Z" fill="#B96746" fill-opacity="0.45"/>
+      <circle cx="55" cy="55" r="16" fill="#B96746"/>
+      <!-- Converging Highway into Sun -->
+      <path d="M 32 100 L 51 55 L 59 55 L 78 100 Z" fill="#29251F" stroke="#B96746" stroke-width="1.5"/>
+      <line x1="55" y1="100" x2="55" y2="60" stroke="#B96746" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <!-- Horizon Baseline -->
+      <line x1="12" y1="55" x2="98" y2="55" stroke="#78806A" stroke-width="1.5"/>
+    </g>
+
+    <!-- Typography Block -->
+    <g transform="translate(145, 18)">
+      <text x="0" y="32" font-family="'IBM Plex Sans Arabic', 'Amiri', serif" 
+            font-size="30" font-weight="700" fill="#F8F5EF" letter-spacing="0.02em">
+        ضيوف الرحمن
+      </text>
+      
+      <text x="0" y="65" font-family="'Cinzel', 'Playfair Display', Georgia, serif" 
+            font-size="17" font-weight="700" fill="#F8F5EF" letter-spacing="0.22em">
+        DUYUF ALRAHMAN
+      </text>
+      <text x="0" y="86" font-family="'DM Sans', sans-serif" 
+            font-size="10" font-weight="700" fill="#E8DCC9" letter-spacing="0.24em">
+        VIP CHAUFFEUR MOBILITY • KINGDOM OF SAUDI ARABIA
+      </text>
+    </g>
+  </g>
+</svg>

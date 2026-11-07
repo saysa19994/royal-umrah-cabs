@@ -6,6 +6,7 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { Compass, ShieldCheck, Banknote, Car, Plane, ChevronRight, Sparkles, MessageCircle } from 'lucide-react';
 import { ExecutiveRouteCard } from '@/components/routes/ExecutiveRouteCard';
 import { PricingTable } from '@/components/pricing/PricingTable';
+import { Spotlight } from '@/components/ui/luxury/Spotlight';
 import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
 import { getDbPricesCached } from '@/lib/pricing-db';
 import { getMergedSiteSettings } from '@/lib/dynamic-settings-store';
@@ -153,46 +154,49 @@ export default async function RoutesPage(props: RoutesPageProps) {
   const settings = getMergedSiteSettings();
 
   return (
-    <div className="bg-[#F7F5F0] min-h-screen text-start text-[#182235]" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="bg-[#090D15] min-h-screen text-start text-[#F6F3ED]" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* 1. ROYAL LUXURY HERO SECTION */}
-      <section className="relative pt-10 sm:pt-14 md:pt-18 pb-8 md:pb-12 border-b border-[#E8E3DA]">
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
+      <section className="relative pt-10 sm:pt-14 md:pt-18 pb-8 md:pb-12 border-b border-white/10 bg-gradient-to-b from-[#101725] to-[#090D15] overflow-hidden">
+        {/* Luxury Golden Ambient Illumination */}
+        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#D6A13A" />
+
+        <div className="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-xs text-[#687386] mb-6">
-            <Link href={`/${locale}`} className="hover:text-[#101827] transition-colors">
+          <nav className="flex items-center gap-2 text-xs text-[#AEB7C4] mb-6">
+            <Link href={`/${locale}`} className="hover:text-[#D6A13A] transition-colors">
               {dict.nav.home}
             </Link>
-            <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180 text-[#C5A15D]" />
-            <span className="text-[#101827] font-semibold">{dict.nav.routes}</span>
+            <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180 text-[#D6A13A]" />
+            <span className="text-[#D6A13A] font-semibold">{dict.nav.routes}</span>
           </nav>
 
           {/* Hero Header */}
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAF7F0] border border-[#C5A15D]/40 text-xs font-bold text-[#8C6D2D] uppercase tracking-wider mb-4 shadow-2xs">
-              <Compass className="w-3.5 h-3.5 text-[#C5A15D]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#141D2C] border border-[#D6A13A]/40 text-xs font-bold text-[#D6A13A] uppercase tracking-wider mb-4 shadow-2xs">
+              <Compass className="w-3.5 h-3.5 text-[#D6A13A]" />
               <span>{header.badge}</span>
             </div>
 
-            <h1 className="font-playfair font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[46px] text-[#101827] font-bold tracking-tight leading-[1.2] mb-4">
+            <h1 className="font-playfair font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[46px] text-[#F6F3ED] font-bold tracking-tight leading-[1.2] mb-4">
               {header.title}
             </h1>
 
-            <p className="text-sm sm:text-base md:text-lg text-[#4B5565] font-light leading-relaxed mb-6">
+            <p className="text-sm sm:text-base md:text-lg text-[#AEB7C4] font-light leading-relaxed mb-6">
               {header.subtitle}
             </p>
 
             {/* Quick Trust Pills */}
-            <div className="flex flex-wrap items-center gap-2.5 text-xs text-[#101827] font-semibold">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#E8E3DA] shadow-2xs">
+            <div className="flex flex-wrap items-center gap-2.5 text-xs text-[#F6F3ED] font-semibold">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#101725] border border-white/10 shadow-2xs">
                 <Banknote className="w-3.5 h-3.5 text-[#188567]" />
                 <span>{header.trustCash}</span>
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#E8E3DA] shadow-2xs">
-                <Car className="w-3.5 h-3.5 text-[#C5A15D]" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#101725] border border-white/10 shadow-2xs">
+                <Car className="w-3.5 h-3.5 text-[#D6A13A]" />
                 <span>{header.trustFixed}</span>
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#E8E3DA] shadow-2xs">
-                <Plane className="w-3.5 h-3.5 text-[#101827]" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#101725] border border-white/10 shadow-2xs">
+                <Plane className="w-3.5 h-3.5 text-[#D6A13A]" />
                 <span>{header.trustFlight}</span>
               </span>
             </div>
@@ -205,16 +209,16 @@ export default async function RoutesPage(props: RoutesPageProps) {
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           <div className="flex items-center justify-between gap-4 mb-8">
             <div>
-              <h2 className="font-playfair font-serif text-2xl sm:text-3xl text-[#101827] font-bold">
+              <h2 className="font-playfair font-serif text-2xl sm:text-3xl text-[#F6F3ED] font-bold">
                 {header.allRoutesCount}
               </h2>
-              <span className="text-xs text-[#687386]">
+              <span className="text-xs text-[#AEB7C4]">
                 {EXECUTIVE_ROUTES_DATA.length} {isAr ? 'مساراً معتمداً بخدمة خاصة وسائق' : 'Official Private Routes'}
               </span>
             </div>
             <Link
               href={`/${locale}/pricing`}
-              className="text-xs font-bold text-[#8C6D2D] hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-[#D6A13A] hover:underline flex items-center gap-1"
             >
               <span>{dict.nav.pricing}</span>
               <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180" />

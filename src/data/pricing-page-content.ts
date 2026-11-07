@@ -15,6 +15,40 @@ export interface LocalizedPricingContent {
   badge: string;
   heroTitle: string;
   heroSubtitle: string;
+  // Reference B master elements
+  trustSafeReliable?: string;
+  trustPremiumFleet?: string;
+  trustSupport247?: string;
+  searchPickupLabel?: string;
+  searchPickupPlaceholder?: string;
+  searchDestLabel?: string;
+  searchDestPlaceholder?: string;
+  searchTripTypeLabel?: string;
+  searchOneWay?: string;
+  searchRoundTrip?: string;
+  searchExploreBtn?: string;
+  chooseVehicleTitle?: string;
+  chooseVehicleSubtitle?: string;
+  mostPopularBadge?: string;
+  viewRoutePriceBtn?: string;
+  passengersWord?: string;
+  bagsWord?: string;
+  fromPricePrefix?: string;
+  routeGuideTitle?: string;
+  routeGuideSubtitle?: string;
+  compareVehiclesBtn?: string;
+  whatsIncludedTitle?: string;
+  incFareDetails?: string;
+  incVehicleInfo?: string;
+  incBookingSupport?: string;
+  whyTravelTitle?: string;
+  whyPremiumService?: string;
+  whyTrustedChoice?: string;
+  whyOnTime?: string;
+  whyNationwide?: string;
+  readyCardTitle?: string;
+  readyCardSubtitle?: string;
+  bookJourneyBtn?: string;
   features: {
     cashOnArrival: PricingFeatureCard;
     fixedPerVehicle: PricingFeatureCard;
@@ -34,9 +68,42 @@ export interface LocalizedPricingContent {
 export const PRICING_PAGE_CONTENT: Record<Locale, LocalizedPricingContent> = {
   ar: {
     badge: 'شفافية مطلقة • أسعار معتمدة',
-    heroTitle: 'باقات وأسعار التنقل الفاخر لضيوف الرحمن',
+    heroTitle: 'أسعارنا وباقاتنا الفاخرة',
     heroSubtitle:
-      'أسعار ثابتة ومضمونة للمركبة بالكامل دون أي رسوم خفية. دفع نقدي 100% عند الوصول بعد إتمام الرحلة (بالريال السعودي أو الدولار الأمريكي) وبدون أي عربون مسبق.',
+      'خدمات نقل فاخرة بأسعار تنافسية ومحددة عبر جميع مدن المملكة العربية السعودية. دفع نقدي 100% للسائق عند الوصول بعد إتمام الرحلة وبدون أي عربون مسبق.',
+    trustSafeReliable: 'نقل آمن وموثوق',
+    trustPremiumFleet: 'أسطول سيارات فاخر',
+    trustSupport247: 'دعم عملاء 24/7',
+    searchPickupLabel: 'موقع الانطلاق',
+    searchPickupPlaceholder: 'اختر موقع الانطلاق',
+    searchDestLabel: 'الوجهة',
+    searchDestPlaceholder: 'اختر الوجهة',
+    searchTripTypeLabel: 'نوع الرحلة',
+    searchOneWay: 'ذهاب فقط',
+    searchRoundTrip: 'ذهاب وعودة',
+    searchExploreBtn: 'استكشف الأسعار',
+    chooseVehicleTitle: 'اختر سيارتك الفاخرة',
+    chooseVehicleSubtitle: 'سافر بأناقة وفخامة مع أسطولنا المتميز',
+    mostPopularBadge: 'الأكثر طلباً',
+    viewRoutePriceBtn: 'عرض سعر المسار',
+    passengersWord: 'ركاب',
+    bagsWord: 'حقائب',
+    fromPricePrefix: 'من',
+    routeGuideTitle: 'دليل أسعار المسارات',
+    routeGuideSubtitle: 'ابحث عن أفضل الأسعار والمسارات المعتمدة لرحلتك',
+    compareVehiclesBtn: 'مقارنة السيارات',
+    whatsIncludedTitle: 'ما تشمله باقتك',
+    incFareDetails: 'تفاصيل الأجرة الشاملة',
+    incVehicleInfo: 'مركبة حديثة ومعقمة',
+    incBookingSupport: 'دعم وإرشاد الحجز 24/7',
+    whyTravelTitle: 'لماذا السفر مع ضيوف الرحمن VIP؟',
+    whyPremiumService: 'خدمة ليموزين فاخرة',
+    whyTrustedChoice: 'خيار معتمد وموثوق',
+    whyOnTime: 'التزام تام بالمواعيد',
+    whyNationwide: 'تغطية لكافة مدن المملكة',
+    readyCardTitle: 'مستعد لرحلتك؟',
+    readyCardSubtitle: 'احجز وسيلة نقلك الخاصة الآن وسافر بكل طمأنينة ووقار.',
+    bookJourneyBtn: 'احجز رحلتك الآن',
     features: {
       cashOnArrival: {
         badge: 'بدون دفعة مسبقة',
@@ -89,9 +156,42 @@ export const PRICING_PAGE_CONTENT: Record<Locale, LocalizedPricingContent> = {
 
   en: {
     badge: 'Transparent Rates • Guaranteed Fares',
-    heroTitle: 'Royal Luxury Transfer Fares & Fixed Rates',
+    heroTitle: 'Our Prices & Packages',
     heroSubtitle:
-      'Guaranteed fixed rates per vehicle with zero hidden fees. 100% cash upon arrival after journey completion (in SAR or USD) with zero advance deposit required.',
+      'Premium transportation at competitive prices across Saudi Arabia. 100% cash upon arrival after journey completion with zero advance deposit required.',
+    trustSafeReliable: 'Safe & Reliable Transportation',
+    trustPremiumFleet: 'Premium Fleet',
+    trustSupport247: '24/7 Customer Support',
+    searchPickupLabel: 'Pickup Location',
+    searchPickupPlaceholder: 'Select pickup location',
+    searchDestLabel: 'Destination',
+    searchDestPlaceholder: 'Select destination',
+    searchTripTypeLabel: 'Trip Type',
+    searchOneWay: 'One Way',
+    searchRoundTrip: 'Round Trip',
+    searchExploreBtn: 'Explore Prices',
+    chooseVehicleTitle: 'Choose Your Vehicle',
+    chooseVehicleSubtitle: 'Travel in style with our premium fleet',
+    mostPopularBadge: 'Most Popular',
+    viewRoutePriceBtn: 'View route price',
+    passengersWord: 'Passengers',
+    bagsWord: 'Bags',
+    fromPricePrefix: 'From',
+    routeGuideTitle: 'Route Price Guide',
+    routeGuideSubtitle: 'Find the best prices for your journey',
+    compareVehiclesBtn: 'Compare Vehicles',
+    whatsIncludedTitle: "What's Included",
+    incFareDetails: 'Clear Fare Details',
+    incVehicleInfo: 'Vehicle Information',
+    incBookingSupport: 'Booking Support',
+    whyTravelTitle: 'Why Travel with Duyuf Al Rahman VIP?',
+    whyPremiumService: 'Premium Service',
+    whyTrustedChoice: 'Trusted Choice',
+    whyOnTime: 'On-Time Service',
+    whyNationwide: 'Nationwide Coverage',
+    readyCardTitle: 'Ready for Your Journey?',
+    readyCardSubtitle: 'Book now and travel with confidence across Saudi Arabia.',
+    bookJourneyBtn: 'Book Your Journey',
     features: {
       cashOnArrival: {
         badge: 'Zero Prepayment',

@@ -22,6 +22,8 @@ import {
   HeartHandshake,
 } from 'lucide-react';
 import { VehicleGallery, GalleryPhoto } from '@/components/fleet/VehicleGallery';
+import AutomotiveShowroomExperience from '@/components/fleet/AutomotiveShowroomExperience';
+import { Spotlight } from '@/components/ui/luxury/Spotlight';
 import {
   AUTHORITATIVE_TRANSFER_RATES,
   LOCALIZED_ROUTE_NAMES,
@@ -623,7 +625,10 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
   };
 
   return (
-    <div className="py-10 sm:py-16 md:py-20 bg-[#F7F5F0] min-h-screen text-start" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="relative py-10 sm:py-16 md:py-20 bg-[#090D15] min-h-screen text-start text-[#F6F3ED] overflow-hidden" dir={isRtl ? 'rtl' : 'ltr'}>
+      {/* Luxury Golden Ambient Spotlight */}
+      <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#D6A13A" />
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }}
@@ -633,11 +638,11 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema).replace(/</g, '\\u003c') }}
       />
 
-      <div className="container mx-auto px-4 max-w-5xl">
+      <div className="container mx-auto px-4 max-w-5xl relative z-10">
         {/* 1. BREADCRUMB NAVIGATION */}
         <nav
           aria-label="Breadcrumb"
-          className="flex items-center gap-2 text-xs text-slate-500 font-semibold mb-6 sm:mb-8"
+          className="flex items-center gap-2 text-xs text-[#AEB7C4] font-semibold mb-6 sm:mb-8"
         >
           <Link href={`/${locale}`} className="hover:text-[#C5A15D] transition-colors">
             {t('home')}
@@ -647,7 +652,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
             {t('fleet')}
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400 rtl:rotate-180" />
-          <span className="text-[#101827] font-bold truncate">{name}</span>
+          <span className="text-[#D6A13A] font-bold truncate">{name}</span>
         </nav>
 
         {/* 2. HERO VEHICLE TITLE & DUAL ACTION BUTTONS */}
@@ -657,11 +662,11 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
             <span>{category}</span>
           </div>
 
-          <h1 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-[#101827] tracking-tight leading-tight mb-3">
+          <h1 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-[#F6F3ED] tracking-tight leading-tight mb-3">
             {name}
           </h1>
 
-          <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-3xl font-normal mb-6">
+          <p className="text-base sm:text-lg text-[#AEB7C4] leading-relaxed max-w-3xl font-normal mb-6">
             {desc}
           </p>
 
@@ -680,7 +685,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
             ) : (
               <Link
                 href={`/${locale}/booking?vehicle=${v.bookingVehicleId}`}
-                className="h-12 px-7 rounded-xl bg-[#101827] hover:bg-[#111C30] text-[#C5A15D] hover:text-white border border-[#C5A15D]/40 font-extrabold text-sm uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 active:scale-95"
+                className="h-12 px-7 rounded-xl bg-[#D6A13A] hover:bg-[#E5B14B] text-[#090D15] font-extrabold text-sm uppercase tracking-wider transition-all shadow-[0_4px_20px_rgba(214,161,58,0.25)] flex items-center justify-center gap-2 active:scale-95"
               >
                 <span>{t('bookNow')}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180" />
@@ -691,71 +696,106 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="h-12 px-6 rounded-xl bg-white border border-slate-300 hover:border-[#C5A15D] text-slate-800 hover:text-[#101827] font-extrabold text-sm transition-all flex items-center justify-center gap-2 shadow-2xs active:scale-95"
+              className="h-12 px-6 rounded-xl bg-[#101725] border border-white/10 hover:border-[#D6A13A] text-[#F6F3ED] hover:text-[#D6A13A] font-extrabold text-sm transition-all flex items-center justify-center gap-2 shadow-2xs active:scale-95"
             >
               <MessageCircle className="w-4 h-4 text-emerald-600" />
               <span>{t('whatsappBooking')}</span>
             </a>
+          </div>
+
+          {/* CINEMATIC VEHICLE STUDIO PEDESTAL */}
+          <div className="relative mt-8 sm:mt-10 mb-4 w-full flex flex-col items-center justify-center">
+            {/* Ambient Studio Lighting Glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] sm:w-[650px] h-[260px] bg-gradient-to-r from-[#D4AF37]/15 via-[#D4AF37]/30 to-[#D4AF37]/15 rounded-full blur-[110px] pointer-events-none" />
+
+            {/* Studio Platform Floor Radial Grid */}
+            <div className="relative w-full max-w-4xl h-64 sm:h-80 md:h-96 flex items-center justify-center">
+              <Image
+                src={
+                  v.bookingVehicleId === 'camry'
+                    ? '/assets/images/studio-2k/toyota-camry-studio-2k.webp'
+                    : v.bookingVehicleId === 'staria'
+                    ? '/assets/images/studio-2k/hyundai-staria-studio-2k.webp'
+                    : v.bookingVehicleId === 'yukon'
+                    ? '/assets/images/studio-2k/gmc-yukon-studio-2k.webp'
+                    : v.bookingVehicleId === 'hiace'
+                    ? '/assets/images/studio-2k/toyota-hiace-studio-2k.webp'
+                    : v.bookingVehicleId === 'coaster'
+                    ? '/assets/blueprint/vehicles/toyota-coaster.webp'
+                    : v.bookingVehicleId === 'maybach'
+                    ? '/assets/images/studio-2k/mercedes-s-class-studio-2k.webp'
+                    : `/assets/images/vehicles/${resolvedSlug}/exterior-studio.webp`
+                }
+                alt={name}
+                width={760}
+                height={440}
+                priority
+                className="object-contain max-h-60 sm:max-h-76 md:max-h-88 w-auto drop-shadow-[0_30px_50px_rgba(0,0,0,0.95)] hover:scale-[1.02] transition-transform duration-700 z-10"
+              />
+            </div>
+
+            {/* Studio Pedestal Oval Base with Gold Rim */}
+            <div className="w-[85%] sm:w-[520px] md:w-[700px] h-4 sm:h-5 rounded-[100%] bg-gradient-to-r from-transparent via-[#D4AF37]/60 to-transparent blur-[2px] -mt-2 sm:-mt-3 shadow-[0_10px_35px_rgba(214,161,58,0.5)]" />
           </div>
         </div>
 
         {/* 3. 4-ITEM EXECUTIVE SPECIFICATION GRID */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
           {/* Item 1: Seats */}
-          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8E3DA] shadow-2xs flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-[#F7F5F0] border border-[#E8E3DA] text-[#C5A15D] flex items-center justify-center mb-3">
+          <div className="bg-[#101725] rounded-2xl p-4 sm:p-5 border border-white/10 hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
+            <div className="w-10 h-10 rounded-xl bg-[#141D2C] border border-white/10 text-[#D6A13A] flex items-center justify-center mb-3">
               <Users className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#AEB7C4] block mb-0.5">
                 {t('seatsLabel')}
               </span>
-              <p className="text-base sm:text-lg font-black text-[#101827] tracking-tight">
+              <p className="text-base sm:text-lg font-black text-[#F6F3ED] tracking-tight">
                 {v.passengers} {t('seatsSuffix')}
               </p>
             </div>
           </div>
 
           {/* Item 2: Luggage */}
-          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8E3DA] shadow-2xs flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-[#F7F5F0] border border-[#E8E3DA] text-[#C5A15D] flex items-center justify-center mb-3">
+          <div className="bg-[#101725] rounded-2xl p-4 sm:p-5 border border-white/10 hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
+            <div className="w-10 h-10 rounded-xl bg-[#141D2C] border border-white/10 text-[#D6A13A] flex items-center justify-center mb-3">
               <Briefcase className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#AEB7C4] block mb-0.5">
                 {t('luggageLabel')}
               </span>
-              <p className="text-base sm:text-lg font-black text-[#101827] tracking-tight">
+              <p className="text-base sm:text-lg font-black text-[#F6F3ED] tracking-tight">
                 {v.luggage} {t('luggageSuffix')}
               </p>
             </div>
           </div>
 
           {/* Item 3: Vehicle Class */}
-          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8E3DA] shadow-2xs flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-[#F7F5F0] border border-[#E8E3DA] text-[#C5A15D] flex items-center justify-center mb-3">
+          <div className="bg-[#101725] rounded-2xl p-4 sm:p-5 border border-white/10 hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
+            <div className="w-10 h-10 rounded-xl bg-[#141D2C] border border-white/10 text-[#D6A13A] flex items-center justify-center mb-3">
               <Car className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#AEB7C4] block mb-0.5">
                 {t('classLabel')}
               </span>
-              <p className="text-xs sm:text-sm font-extrabold text-[#101827] tracking-tight truncate">
+              <p className="text-xs sm:text-sm font-extrabold text-[#F6F3ED] tracking-tight truncate">
                 {category}
               </p>
             </div>
           </div>
 
           {/* Item 4: Air Conditioning */}
-          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8E3DA] shadow-2xs flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-[#F7F5F0] border border-[#E8E3DA] text-sky-600 flex items-center justify-center mb-3">
+          <div className="bg-[#101725] rounded-2xl p-4 sm:p-5 border border-white/10 hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
+            <div className="w-10 h-10 rounded-xl bg-[#141D2C] border border-white/10 text-[#D6A13A] flex items-center justify-center mb-3">
               <Snowflake className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#AEB7C4] block mb-0.5">
                 {t('acLabel')}
               </span>
-              <p className="text-[11px] sm:text-xs font-bold text-[#101827] leading-snug line-clamp-2">
+              <p className="text-[11px] sm:text-xs font-bold text-[#F6F3ED] leading-snug line-clamp-2">
                 {acDescription}
               </p>
             </div>
@@ -770,15 +810,15 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
         />
 
         {/* 5. ROUTE-SPECIFIC PRICING TABLE */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 md:p-10 border border-[#E8E3DA] shadow-xs mb-8">
+        <div className="bg-[#101725] rounded-3xl p-6 sm:p-8 md:p-10 border border-white/10 shadow-lg mb-8">
           <div className="mb-6">
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#F7F5F0] border border-[#E8E3DA] text-[#C5A15D] mb-2">
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#141D2C] border border-white/10 text-[#D6A13A] mb-2">
               Transparent Fares
             </span>
-            <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-[#101827] tracking-tight mb-2">
+            <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-[#F6F3ED] tracking-tight mb-2">
               {t('pricingTitle')}
             </h2>
-            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal">
+            <p className="text-[#AEB7C4] text-xs sm:text-sm leading-relaxed font-normal">
               {t('pricingSubtitle')}
             </p>
           </div>
@@ -806,16 +846,16 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
             </div>
           ) : (
             /* Authoritative Route Pricing Table */
-            <div className="overflow-x-auto rounded-2xl border border-[#E8E3DA]">
+            <div className="overflow-x-auto rounded-2xl border border-white/10">
               <table className="w-full text-start border-collapse">
                 <thead>
-                  <tr className="bg-[#101827] text-white text-xs font-bold uppercase tracking-wider border-b border-[#C5A15D]/30">
+                  <tr className="bg-[#141D2C] text-[#D6A13A] text-xs font-bold uppercase tracking-wider border-b border-white/10">
                     <th className="py-3.5 px-4 sm:px-6">{t('routeCol')}</th>
                     <th className="py-3.5 px-4 text-center">{t('fareCol')}</th>
                     <th className="py-3.5 px-4 text-center">{t('actionCol')}</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#E8E3DA] text-xs sm:text-sm text-slate-800">
+                <tbody className="divide-y divide-white/5 text-xs sm:text-sm text-[#AEB7C4]">
                   {KEY_CORRIDORS.map((routeKey, idx) => {
                     const price = AUTHORITATIVE_TRANSFER_RATES[routeKey]?.[v.bookingVehicleId];
                     if (!price) return null;
@@ -828,18 +868,18 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
                     return (
                       <tr
                         key={routeKey}
-                        className={idx % 2 === 0 ? 'bg-white' : 'bg-[#F7F5F0]/60 hover:bg-[#F7F5F0]'}
+                        className={idx % 2 === 0 ? 'bg-[#101725]' : 'bg-[#141D2C]/40 hover:bg-[#141D2C]/70'}
                       >
-                        <td className="py-3.5 px-4 sm:px-6 font-semibold text-[#101827]">
+                        <td className="py-3.5 px-4 sm:px-6 font-semibold text-[#F6F3ED]">
                           {routeName}
                         </td>
-                        <td className="py-3.5 px-4 text-center font-display font-extrabold text-[#101827] whitespace-nowrap">
+                        <td className="py-3.5 px-4 text-center font-display font-extrabold text-[#D6A13A] whitespace-nowrap">
                           {price} SAR
                         </td>
                         <td className="py-3.5 px-4 text-center whitespace-nowrap">
                           <Link
                             href={`/${locale}/booking?vehicle=${v.bookingVehicleId}&route=${routeKey}`}
-                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#101827] hover:bg-[#C5A15D] text-[#C5A15D] hover:text-slate-950 font-bold text-xs uppercase tracking-wider transition-colors shadow-2xs"
+                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#141D2C] hover:bg-[#D6A13A] text-[#D6A13A] hover:text-[#090D15] border border-white/10 font-bold text-xs uppercase tracking-wider transition-colors shadow-2xs"
                           >
                             <span>{t('bookRouteBtn')}</span>
                             <ArrowRight className="w-3 h-3 rtl:rotate-180" />
@@ -855,8 +895,8 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
         </div>
 
         {/* 6. VERIFIED FEATURES & EXECUTIVE AMENITIES */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 md:p-10 border border-[#E8E3DA] shadow-xs mb-8">
-          <h2 className="font-display font-extrabold text-2xl text-[#101827] mb-6 tracking-tight">
+        <div className="bg-[#101725] rounded-3xl p-6 sm:p-8 md:p-10 border border-white/10 shadow-lg mb-8">
+          <h2 className="font-display font-extrabold text-2xl text-[#F6F3ED] mb-6 tracking-tight">
             {t('featuresTitle')}
           </h2>
 
@@ -867,14 +907,14 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
               return (
                 <div
                   key={idx}
-                  className="p-4 rounded-2xl bg-[#F7F5F0]/70 border border-[#E8E3DA] flex items-start gap-3"
+                  className="p-4 rounded-2xl bg-[#141D2C] border border-white/10 flex items-start gap-3"
                 >
                   <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
-                    <h3 className="font-bold text-sm text-[#101827] mb-0.5">
+                    <h3 className="font-bold text-sm text-[#F6F3ED] mb-0.5">
                       {featTitle}
                     </h3>
-                    <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                    <p className="text-xs text-[#AEB7C4] leading-relaxed font-normal">
                       {featDesc}
                     </p>
                   </div>
@@ -884,27 +924,35 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
           </div>
 
           {/* Extra inclusions: Zamzam & Child Seat */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-6 border-t border-[#E8E3DA]">
-            <div className="p-4 rounded-2xl bg-[#F7F5F0] border border-[#E8E3DA] flex items-center gap-3">
-              <Luggage className="w-5 h-5 text-[#C5A15D] shrink-0" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-6 border-t border-white/10">
+            <div className="p-4 rounded-2xl bg-[#141D2C] border border-white/10 flex items-center gap-3">
+              <Luggage className="w-5 h-5 text-[#D6A13A] shrink-0" />
               <div>
-                <strong className="block text-xs font-bold text-[#101827]">
+                <strong className="block text-xs font-bold text-[#F6F3ED]">
                   {t('zamzamLabel')}
                 </strong>
-                <span className="text-[11px] text-slate-600">{t('zamzamDesc')}</span>
+                <span className="text-[11px] text-[#AEB7C4]">{t('zamzamDesc')}</span>
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#F7F5F0] border border-[#E8E3DA] flex items-center gap-3">
-              <Baby className="w-5 h-5 text-[#C5A15D] shrink-0" />
+            <div className="p-4 rounded-2xl bg-[#141D2C] border border-white/10 flex items-center gap-3">
+              <Baby className="w-5 h-5 text-[#D6A13A] shrink-0" />
               <div>
-                <strong className="block text-xs font-bold text-[#101827]">
+                <strong className="block text-xs font-bold text-[#F6F3ED]">
                   {t('childSeatLabel')}
                 </strong>
-                <span className="text-[11px] text-slate-600">{t('childSeatDesc')}</span>
+                <span className="text-[11px] text-[#AEB7C4]">{t('childSeatDesc')}</span>
               </div>
             </div>
           </div>
+        </div>
+
+                {/* AUTOMOTIVE DIGITAL SHOWROOM EXPERIENCE */}
+        <div className="mb-10">
+          <AutomotiveShowroomExperience
+            locale={locale}
+            vehicleSlug={resolvedSlug}
+          />
         </div>
 
         {/* 7. SACRED JOURNEY ASSURANCE CARD */}
@@ -939,7 +987,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
           ) : (
             <Link
               href={`/${locale}/booking?vehicle=${v.bookingVehicleId}`}
-              className="inline-flex items-center gap-2.5 h-14 px-9 rounded-2xl bg-[#101827] hover:bg-[#111C30] text-[#C5A15D] hover:text-white border border-[#C5A15D]/50 font-black text-sm uppercase tracking-wider transition-all shadow-lg active:scale-95"
+              className="inline-flex items-center gap-2.5 h-14 px-9 rounded-2xl bg-[#D6A13A] hover:bg-[#E5B14B] text-[#090D15] font-black text-sm uppercase tracking-wider transition-all shadow-[0_4px_24px_rgba(214,161,58,0.3)] active:scale-95"
             >
               <span>
                 {t('bottomBookCta')} {name}

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" fill="none">
+  <!-- Royal Calligraphy Watermark Emblem -->
+  <g opacity="0.18" stroke="#D6A13A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Outer Octagonal Star Frame -->
+    <path d="M150 15 L188 53 L242 53 L242 107 L280 145 L242 183 L242 237 L188 237 L150 275 L112 237 L58 237 L58 183 L20 145 L58 107 L58 53 L112 53 Z" fill="none" stroke="#D6A13A" stroke-width="1.5" />
+    <circle cx="150" cy="145" r="110" stroke="#D6A13A" stroke-width="1" stroke-dasharray="4 4" />
+    <circle cx="150" cy="145" r="95" stroke="#D6A13A" stroke-width="1.5" />
+    
+    <!-- Central Calligraphic Flourish & Monogram -->
+    <path d="M110 130 C125 100 175 100 190 130 C198 145 185 165 165 170 C140 175 130 190 145 205 C160 220 185 210 195 195" stroke="#D6A13A" stroke-width="3" fill="none"/>
+    <path d="M150 75 L150 175" stroke="#D6A13A" stroke-width="2.5" />
+    <path d="M130 110 C140 95 160 95 170 110" stroke="#D6A13A" stroke-width="2" fill="none" />
+    <path d="M115 155 C130 145 170 145 185 155" stroke="#D6A13A" stroke-width="2" fill="none" />
+    
+    <!-- Floral/Arabesque Petals -->
+    <path d="M150 50 C140 65 160 65 150 50 Z" fill="#D6A13A" opacity="0.5" />
+    <path d="M150 240 C140 225 160 225 150 240 Z" fill="#D6A13A" opacity="0.5" />
+    <path d="M55 145 C70 135 70 155 55 145 Z" fill="#D6A13A" opacity="0.5" />
+    <path d="M245 145 C230 135 230 155 245 145 Z" fill="#D6A13A" opacity="0.5" />
+    
+    <!-- Decorative Dots / Diacritics -->
+    <circle cx="150" cy="95" r="3" fill="#D6A13A" />
+    <circle cx="138" cy="138" r="2.5" fill="#D6A13A" />
+    <circle cx="162" cy="138" r="2.5" fill="#D6A13A" />
+  </g>
+</svg>

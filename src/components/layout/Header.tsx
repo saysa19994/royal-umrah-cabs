@@ -205,30 +205,20 @@ export function Header({ locale, dict, settings }: HeaderProps) {
         </div>
       )}
       <div className="container mx-auto px-3 sm:px-4 max-w-7xl flex items-center justify-between">
-        {/* LOGO: DUYUF ALRAHMAN VIP MARK + BRAND NAME */}
+        {/* LOGO: NEW ROYAL CREST VECTOR EMBLEM & BRANDING */}
         <Link
           href={locale === 'en' ? '/' : `/${locale}`}
-          className="flex items-center gap-2.5 sm:gap-3 group focus-visible:ring-2 focus-visible:ring-[#C5A15D] rounded-lg p-1 -m-1 shrink-0"
+          className="flex items-center group focus-visible:ring-2 focus-visible:ring-[#D6A13A] rounded-lg p-1 -m-1 shrink-0"
           aria-label="Duyuf Alrahman VIP - ضيوف الرحمن VIP"
         >
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg overflow-hidden border border-[#C5A15D]/60 flex items-center justify-center shadow-[0_2px_10px_rgba(197,161,93,0.3)] group-hover:scale-105 transition-transform shrink-0 bg-[#111C30]">
-            <Image
-              src="/icon-192.png"
-              alt="Duyuf Alrahman VIP"
-              width={40}
-              height={40}
-              className="w-full h-full object-cover"
-              priority
-            />
-          </div>
-          <div className="flex flex-col text-start">
-            <span className="font-serif font-bold text-sm sm:text-base md:text-lg tracking-tight uppercase text-white group-hover:text-[#D7B76C] transition-colors leading-tight truncate max-w-[130px] sm:max-w-none">
-              {locale === 'ar' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
-            </span>
-            <span className="text-[9px] sm:text-[10px] font-semibold text-[#C5A15D] tracking-wider leading-none mt-0.5 truncate max-w-[130px] sm:max-w-none">
-              {locale === 'ar' ? 'Duyuf Alrahman VIP' : 'ضيوف الرحمن VIP'}
-            </span>
-          </div>
+          <Image
+            src="/assets/brand/logo-royal-crest-gold.svg"
+            alt="Duyuf Alrahman VIP"
+            width={240}
+            height={52}
+            className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+            priority
+          />
         </Link>
 
         {/* DESKTOP CENTER NAVIGATION LINKS */}

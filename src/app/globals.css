@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import "../styles/homepage-reference.css";
+@import "../styles/luxury-subpages.css";
 
 :root {
   /* OFFICIAL ROYAL LUXURY DESIGN TOKENS */
@@ -20,16 +21,16 @@
   --color-royal-warning: #B7791F;
 
   /* Theme Defaults */
-  --color-bg: #F7F5F0;
-  --color-bg-alt: #FFFFFF;
-  --color-surface: #FFFFFF;
-  --color-border: #E8E3DA;
-  --color-border-strong: #D5CDBF;
-  --color-ink: #182235;
-  --color-ink-muted: #687386;
-  --color-body: #182235;
-  --color-gold: #C5A15D;
-  --color-gold-dark: #B5904C;
+  --color-bg: #090D15;
+  --color-bg-alt: #101725;
+  --color-surface: #101725;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(214, 161, 58, 0.35);
+  --color-ink: #F6F3ED;
+  --color-ink-muted: #AEB7C4;
+  --color-body: #AEB7C4;
+  --color-gold: #D6A13A;
+  --color-gold-dark: #A97B27;
   --color-charcoal: #161B24;
   --color-whatsapp: #25D366;
 }
@@ -48,7 +49,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    color: var(--color-royal-text-primary);
+    color: var(--color-ink, #F6F3ED);
     letter-spacing: -0.015em;
   }
 
@@ -92,6 +93,47 @@
 /* ========================================================================== */
 /* REUSABLE ROYAL LUXURY UTILITY CLASSES                                      */
 /* ========================================================================== */
+
+  /* ========================================================================== */
+  /* CRAFT FLOOR: BROWSER SURFACE THEMING (Mandated by impeccable skill)       */
+  /* ========================================================================== */
+  ::selection {
+    background-color: rgba(214, 161, 58, 0.35) !important;
+    color: #FFFFFF !important;
+  }
+
+  ::-moz-selection {
+    background-color: rgba(214, 161, 58, 0.35) !important;
+    color: #FFFFFF !important;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #090D15;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #141D2C;
+    border-radius: 4px;
+    border: 1px solid rgba(214, 161, 58, 0.2);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #D6A13A;
+  }
+
+  * {
+    caret-color: #D6A13A;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
 @layer components {
   /* Royal Card - Light / Ivory */
   .royal-card {
@@ -255,4 +297,50 @@
     animation: none !important;
     transform: none !important;
   }
+}
+
+/* ==========================================================================
+   MASTER LUXURY DIGITAL EXPERIENCE UTILITIES
+   ========================================================================== */
+.luxury-glass {
+  background: rgba(16, 23, 37, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(214, 161, 58, 0.28);
+}
+
+.luxury-card-dark {
+  background: #101725;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-card-dark:hover {
+  border-color: rgba(214, 161, 58, 0.45);
+  box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.4), 0 0 20px rgba(214, 161, 58, 0.12);
+}
+
+.luxury-gold-glow {
+  box-shadow: 0 4px 20px rgba(214, 161, 58, 0.25);
+}
+
+.luxury-gold-glow-lg {
+  box-shadow: 0 8px 32px rgba(214, 161, 58, 0.35);
+}
+
+.luxury-input {
+  min-height: 52px;
+  height: 52px;
+  background-color: #141D2C;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #F6F3ED;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.luxury-input:focus {
+  outline: none;
+  border-color: #D6A13A;
+  box-shadow: 0 0 0 2px rgba(214, 161, 58, 0.25);
 }

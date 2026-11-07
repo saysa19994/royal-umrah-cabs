@@ -21,7 +21,7 @@ export default async function HomePage(props: HomePageProps) {
   const vehicles = await getDbVehiclesCached();
 
   return (
-    <div className="flex flex-col w-full overflow-x-hidden bg-[#F7F5F0]">
+    <div className="flex flex-col w-full overflow-x-hidden bg-[#090D15]">
       <HomepageFaqJsonLd dict={dict} />
       <RoyalHomepageExperience
         locale={locale}

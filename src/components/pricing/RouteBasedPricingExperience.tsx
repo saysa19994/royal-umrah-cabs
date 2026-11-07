@@ -1356,10 +1356,10 @@ export function RouteBasedPricingExperience({
       ────────────────────────────────────────────────────────────── */}
       <div className="mb-8 sm:mb-10">
         <div className="flex items-center gap-2 mb-3">
-          <span className="w-6 h-6 rounded-full bg-[#101827] text-[#C5A15D] text-xs font-bold flex items-center justify-center shrink-0">
+          <span className="w-6 h-6 rounded-full bg-[#141D2C] text-[#D6A13A] border border-white/10 text-xs font-bold flex items-center justify-center shrink-0">
             1
           </span>
-          <h2 className="font-playfair font-serif text-lg sm:text-2xl font-bold text-[#101827]">
+          <h2 className="font-playfair font-serif text-lg sm:text-2xl font-bold text-[#F6F3ED]">
             {t.step1Category}
           </h2>
         </div>
@@ -1375,13 +1375,13 @@ export function RouteBasedPricingExperience({
                 onClick={() => handleCategorySwitch(cat.key)}
                 className={`flex items-center gap-2.5 sm:gap-3 p-3.5 sm:p-4 rounded-2xl text-start font-bold transition-all border min-h-[52px] cursor-pointer ${
                   isActive
-                    ? 'bg-[#101827] text-white border-[#101827] shadow-md ring-2 ring-[#C5A15D]/30'
-                    : 'bg-white text-[#4B5565] border-[#E8E3DA] hover:border-[#C5A15D] hover:text-[#101827]'
+                    ? 'bg-[#D6A13A] text-[#090D15] border-[#D6A13A] shadow-md ring-2 ring-[#D6A13A]/30'
+                    : 'bg-[#101725] text-[#AEB7C4] border-white/10 hover:border-[#D6A13A] hover:text-[#F6F3ED]'
                 }`}
               >
                 <div
                   className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                    isActive ? 'bg-[#C5A15D] text-[#101827]' : 'bg-[#FAF7F0] text-[#C5A15D]'
+                    isActive ? 'bg-[#090D15] text-[#D6A13A]' : 'bg-[#141D2C] text-[#D6A13A]'
                   }`}
                 >
                   {cat.icon}
@@ -1400,10 +1400,10 @@ export function RouteBasedPricingExperience({
       ────────────────────────────────────────────────────────────── */}
       <div className="mb-10 sm:mb-12">
         <div className="flex items-center gap-2 mb-3">
-          <span className="w-6 h-6 rounded-full bg-[#101827] text-[#C5A15D] text-xs font-bold flex items-center justify-center shrink-0">
+          <span className="w-6 h-6 rounded-full bg-[#141D2C] text-[#D6A13A] border border-white/10 text-xs font-bold flex items-center justify-center shrink-0">
             2
           </span>
-          <h2 className="font-playfair font-serif text-lg sm:text-2xl font-bold text-[#101827]">
+          <h2 className="font-playfair font-serif text-lg sm:text-2xl font-bold text-[#F6F3ED]">
             {t.step2Route}
           </h2>
         </div>
@@ -1422,13 +1422,13 @@ export function RouteBasedPricingExperience({
                 onClick={() => setSelectedRouteId(route.id)}
                 className={`p-4 sm:p-5 rounded-2xl border text-start transition-all cursor-pointer flex flex-col justify-between ${
                   isSelected
-                    ? 'bg-white border-[#C5A15D] shadow-md ring-2 ring-[#C5A15D]/30'
-                    : 'bg-white/80 border-[#E8E3DA] hover:border-[#C5A15D]/60 hover:bg-white'
+                    ? 'bg-[#101725] border-[#D6A13A] shadow-md ring-2 ring-[#D6A13A]/30'
+                    : 'bg-[#101725]/80 border-white/10 hover:border-[#D6A13A]/60 hover:bg-[#101725]'
                 }`}
               >
                 <div className="w-full">
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-[10px] font-bold text-[#8C6D2D] bg-[#FAF7F0] px-2.5 py-0.5 rounded-full border border-[#C5A15D]/20">
+                    <span className="text-[10px] font-bold text-[#8C6D2D] bg-[#141D2C] px-2.5 py-0.5 rounded-full border border-white/10 text-[#D6A13A]">
                       {route.distanceKm} km
                     </span>
                     {isSelected && (
@@ -1439,19 +1439,19 @@ export function RouteBasedPricingExperience({
                     )}
                   </div>
 
-                  <h3 className="text-sm font-bold text-[#101827] leading-snug mb-1">
+                  <h3 className="text-sm font-bold text-[#F6F3ED] leading-snug mb-1">
                     {routeTitle}
                   </h3>
-                  <p className="text-xs text-[#687386]">
+                  <p className="text-xs text-[#AEB7C4]">
                     {route.durationApprox[locale] || route.durationApprox.en}
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-[#E8E3DA] flex items-center justify-between w-full">
+                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between w-full">
                   <span className="text-[11px] text-[#687386]">
                     {isAr ? 'تبدأ من:' : 'From:'}
                   </span>
-                  <span className="text-sm font-extrabold text-[#101827]">
+                  <span className="text-sm font-extrabold text-[#D6A13A]">
                     {formatPrice(camryStarting)}
                   </span>
                 </div>
@@ -1461,10 +1461,10 @@ export function RouteBasedPricingExperience({
         </div>
 
         {/* Selected Route Showcase Card (Prominent & Regal) */}
-        <div className="rounded-2xl sm:rounded-3xl bg-[#101827] text-white p-5 sm:p-8 border border-[#C5A15D]/40 shadow-lg">
+        <div className="rounded-2xl sm:rounded-3xl bg-[#101827] text-white p-5 sm:p-8 border border-[#D6A13A]/40 shadow-lg">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-bold text-[#C5A15D] uppercase tracking-wider mb-2">
+              <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-bold text-[#D6A13A] uppercase tracking-wider mb-2">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>{t.selectedJourney}</span>
               </div>
@@ -1473,19 +1473,19 @@ export function RouteBasedPricingExperience({
               </h3>
               <div className="flex flex-wrap items-center gap-3 sm:gap-5 text-xs text-slate-300 mt-2 font-light">
                 <span className="flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-[#C5A15D]" />
+                  <MapPin className="w-3.5 h-3.5 text-[#D6A13A]" />
                   <span>{t.distance} <strong className="text-white font-bold">{activeRoute.distanceKm} km</strong></span>
                 </span>
                 <span>•</span>
                 <span className="flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5 text-[#C5A15D]" />
+                  <Clock className="w-3.5 h-3.5 text-[#D6A13A]" />
                   <span>{t.duration} <strong className="text-white font-bold">{activeRoute.durationApprox[locale] || activeRoute.durationApprox.en}</strong></span>
                 </span>
               </div>
             </div>
 
             <div className="text-start md:text-end shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-white/10 w-full md:w-auto">
-              <span className="text-[10px] text-[#C5A15D] uppercase tracking-wider block font-bold">
+              <span className="text-[10px] text-[#D6A13A] uppercase tracking-wider block font-bold">
                 {t.fixedFare}
               </span>
               <span className="text-xs text-slate-300">
@@ -1496,7 +1496,7 @@ export function RouteBasedPricingExperience({
 
           {activeRoute.miqatNotice?.[locale] && (
             <div className="mt-4 pt-4 border-t border-white/10 text-xs text-slate-300 flex items-start gap-2.5 leading-relaxed">
-              <Compass className="w-4 h-4 text-[#C5A15D] shrink-0 mt-0.5" />
+              <Compass className="w-4 h-4 text-[#D6A13A] shrink-0 mt-0.5" />
               <span>{activeRoute.miqatNotice[locale]}</span>
             </div>
           )}
@@ -1509,21 +1509,21 @@ export function RouteBasedPricingExperience({
       <div className="mb-12">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-2">
-            <span className="w-6 h-6 rounded-full bg-[#101827] text-[#C5A15D] text-xs font-bold flex items-center justify-center shrink-0">
+            <span className="w-6 h-6 rounded-full bg-[#141D2C] text-[#D6A13A] border border-white/10 text-xs font-bold flex items-center justify-center shrink-0">
               3
             </span>
             <div>
-              <h2 className="font-playfair font-serif text-lg sm:text-2xl font-bold text-[#101827]">
+              <h2 className="font-playfair font-serif text-lg sm:text-2xl font-bold text-[#F6F3ED]">
                 {t.step3Vehicle}
               </h2>
-              <span className="text-xs text-[#687386]">
+              <span className="text-xs text-[#AEB7C4]">
                 {t.cashOnArrival}
               </span>
             </div>
           </div>
 
           {/* Currency Toggle */}
-          <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-[#E8E3DA] shadow-2xs shrink-0 self-end sm:self-auto">
+          <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-white/10 shadow-2xs shrink-0 self-end sm:self-auto">
             <span className="text-xs font-semibold text-[#687386] px-2 hidden sm:inline">
               {t.currencyLabel}
             </span>
@@ -1532,8 +1532,8 @@ export function RouteBasedPricingExperience({
               onClick={() => setCurrency('SAR')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 currency === 'SAR'
-                  ? 'bg-[#101827] text-[#C5A15D] shadow-xs'
-                  : 'text-[#4B5565] hover:text-[#101827]'
+                  ? 'bg-[#D6A13A] text-[#090D15] shadow-xs'
+                  : 'text-[#AEB7C4] hover:text-[#F6F3ED]'
               }`}
             >
               SAR (ر.س)
@@ -1543,8 +1543,8 @@ export function RouteBasedPricingExperience({
               onClick={() => setCurrency('USD')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 currency === 'USD'
-                  ? 'bg-[#101827] text-[#C5A15D] shadow-xs'
-                  : 'text-[#4B5565] hover:text-[#101827]'
+                  ? 'bg-[#D6A13A] text-[#090D15] shadow-xs'
+                  : 'text-[#AEB7C4] hover:text-[#F6F3ED]'
               }`}
             >
               USD ($)
@@ -1566,23 +1566,23 @@ export function RouteBasedPricingExperience({
             return (
               <div
                 key={vehicle.id}
-                className={`rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all bg-white border ${
+                className={`rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all bg-[#101725] border ${
                   isStaria
-                    ? 'border-[#C5A15D] ring-2 ring-[#C5A15D]/25 shadow-md'
-                    : 'border-[#E8E3DA] shadow-xs hover:border-[#C5A15D]/60 hover:shadow-sm'
+                    ? 'border-[#D6A13A] ring-2 ring-[#C5A15D]/25 shadow-md'
+                    : 'border-white/10 shadow-xs hover:border-[#D6A13A]/60 hover:shadow-sm'
                 }`}
               >
                 <div>
                   {/* Category & Badge */}
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="text-[10px] font-bold text-[#8C6D2D] bg-[#FAF7F0] px-2.5 py-1 rounded-full uppercase tracking-wider border border-[#C5A15D]/30">
+                    <span className="text-[10px] font-bold text-[#8C6D2D] bg-[#FAF7F0] px-2.5 py-1 rounded-full uppercase tracking-wider border border-[#D6A13A]/30">
                       {vehicle.category[locale] || vehicle.category.en}
                     </span>
                     {vehicle.badge?.[locale] && (
                       <span
                         className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
                           isStaria
-                            ? 'bg-[#FAF7F0] text-[#8C6D2D] border border-[#C5A15D]/40'
+                            ? 'bg-[#FAF7F0] text-[#8C6D2D] border border-[#D6A13A]/40'
                             : 'bg-[#F1F3F7] text-[#4B5565]'
                         }`}
                       >
@@ -1592,7 +1592,7 @@ export function RouteBasedPricingExperience({
                   </div>
 
                   {/* Studio Vehicle Photography (Generous Size) */}
-                  <div className="relative w-full h-44 sm:h-52 my-2 rounded-2xl overflow-hidden bg-gradient-to-b from-[#FAF7F0] to-white border border-[#E8E3DA]/60">
+                  <div className="relative w-full h-44 sm:h-52 my-2 rounded-2xl overflow-hidden bg-gradient-to-b from-[#FAF7F0] to-white border border-white/10/60">
                     <Image
                       src={vehicle.image}
                       alt={vehicle.name[locale] || vehicle.name.en}
@@ -1603,19 +1603,19 @@ export function RouteBasedPricingExperience({
                   </div>
 
                   {/* Vehicle Name & Capacity Specs */}
-                  <h3 className="font-playfair font-serif text-lg sm:text-xl font-bold text-[#101827] mt-3 mb-2">
+                  <h3 className="font-playfair font-serif text-lg sm:text-xl font-bold text-[#F6F3ED] mt-3 mb-2">
                     {vehicle.name[locale] || vehicle.name.en}
                   </h3>
 
-                  <div className="flex items-center gap-4 text-xs text-[#687386] mb-4 pb-3 border-b border-[#E8E3DA]">
+                  <div className="flex items-center gap-4 text-xs text-[#AEB7C4] mb-4 pb-3 border-b border-white/10">
                     <span className="flex items-center gap-1.5 font-medium">
-                      <Users className="w-4 h-4 text-[#C5A15D]" />
+                      <Users className="w-4 h-4 text-[#D6A13A]" />
                       <span>
                         {vehicle.passengers} {t.pax}
                       </span>
                     </span>
                     <span className="flex items-center gap-1.5 font-medium">
-                      <Luggage className="w-4 h-4 text-[#C5A15D]" />
+                      <Luggage className="w-4 h-4 text-[#D6A13A]" />
                       <span>
                         {vehicle.luggage} {t.bags}
                       </span>
@@ -1625,8 +1625,8 @@ export function RouteBasedPricingExperience({
                   {/* 3 Crisp Features */}
                   <ul className="space-y-2 mb-6">
                     {(vehicle.features[locale] || vehicle.features.en).map((feat, fIdx) => (
-                      <li key={fIdx} className="text-xs text-[#4B5565] flex items-start gap-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#C5A15D] shrink-0 mt-0.5" />
+                      <li key={fIdx} className="text-xs text-[#AEB7C4] flex items-start gap-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#D6A13A] shrink-0 mt-0.5" />
                         <span>{feat}</span>
                       </li>
                     ))}
@@ -1634,13 +1634,13 @@ export function RouteBasedPricingExperience({
                 </div>
 
                 {/* Price Display & Booking CTA */}
-                <div className="pt-4 border-t border-[#E8E3DA]">
+                <div className="pt-4 border-t border-white/10">
                   <div className="flex items-baseline justify-between mb-3">
                     <div>
                       <span className="text-[10px] text-[#687386] block font-medium">
                         {t.fixedFare}
                       </span>
-                      <span className="text-2xl sm:text-3xl font-extrabold text-[#101827] tracking-tight">
+                      <span className="text-2xl sm:text-3xl font-extrabold text-[#D6A13A] tracking-tight">
                         {formatPrice(fareSAR)}
                       </span>
                     </div>
@@ -1657,9 +1657,9 @@ export function RouteBasedPricingExperience({
                   >
                     <span>{t.bookVehicleCTA}</span>
                     {isRtl ? (
-                      <ArrowLeft className="w-4 h-4 text-[#C5A15D] group-hover:-translate-x-1 transition-transform" />
+                      <ArrowLeft className="w-4 h-4 text-[#D6A13A] group-hover:-translate-x-1 transition-transform" />
                     ) : (
-                      <ArrowRight className="w-4 h-4 text-[#C5A15D] group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-4 h-4 text-[#D6A13A] group-hover:translate-x-1 transition-transform" />
                     )}
                   </Link>
                 </div>
@@ -1672,7 +1672,7 @@ export function RouteBasedPricingExperience({
       {/* ─────────────────────────────────────────────────────────────
           CONSOLIDATED ROYAL INCLUSIONS (SINGLE SOURCE, NO DUPLICATION)
       ────────────────────────────────────────────────────────────── */}
-      <div className="rounded-2xl sm:rounded-3xl bg-white p-6 sm:p-8 md:p-10 border border-[#E8E3DA] shadow-xs">
+      <div className="rounded-2xl sm:rounded-3xl bg-white p-6 sm:p-8 md:p-10 border border-white/10 shadow-xs">
         <div className="max-w-2xl mb-6">
           <span className="text-xs font-bold text-[#8C6D2D] uppercase tracking-wider block mb-1">
             {isAr ? 'ضمان ضيوف الرحمن VIP' : 'The Royal Assurance'}
@@ -1686,7 +1686,7 @@ export function RouteBasedPricingExperience({
           {t.inclusions.map((item, idx) => (
             <div
               key={idx}
-              className="flex items-start gap-3 p-4 rounded-xl bg-[#FAF7F0] border border-[#E8E3DA]/80"
+              className="flex items-start gap-3 p-4 rounded-xl bg-[#FAF7F0] border border-white/10/80"
             >
               <CheckCircle2 className="w-4 h-4 text-[#188567] shrink-0 mt-0.5" />
               <span className="text-xs sm:text-sm text-[#182235] font-normal leading-relaxed">

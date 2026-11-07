@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { Car, Train, Bus, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
+import { IntercityRouteExperience } from '@/components/routes/IntercityRouteExperience';
 
 interface GuidePageProps {
   params: Promise<{
@@ -80,6 +81,9 @@ export default async function MakkahMadinahComparisonGuidePage(props: GuidePageP
             </p>
           </section>
         </div>
+
+        {/* INTERACTIVE HIJRAH HIGHWAY INTERCITY EXPERIENCE */}
+        <IntercityRouteExperience locale={locale} slug="makkah-to-madinah" />
 
         {/* CTA */}
         <div className="text-center">

@@ -327,7 +327,7 @@ export function AiChatWidget({ locale }: AiChatWidgetProps) {
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="fixed bottom-20 sm:bottom-6 left-4 rtl:left-auto rtl:right-4 z-40 h-14 px-4 rounded-full bg-gradient-to-r from-[#D9A031] via-[#E5B24E] to-[#D9A031] text-[#0D0F12] font-bold shadow-2xl border-2 border-[#E5B24E]/80 hover:scale-105 active:scale-95 transition-all flex items-center gap-2.5 group pointer-events-auto"
+        className="hidden sm:flex fixed bottom-6 left-4 rtl:left-auto rtl:right-4 z-40 h-14 px-4 rounded-full bg-gradient-to-r from-[#D9A031] via-[#E5B24E] to-[#D9A031] text-[#0D0F12] font-bold shadow-2xl border-2 border-[#E5B24E]/80 hover:scale-105 active:scale-95 transition-all items-center gap-2.5 group pointer-events-auto"
         aria-label="Open AI Chauffeur Assistant"
       >
         <div className="relative">

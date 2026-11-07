@@ -384,7 +384,7 @@ const APPROVED_BLUEPRINT_FLEET: StandardVehicleSpec[] = [
     slug: 'toyota-camry',
     indexStr: '01 / 05',
     category: 'sedan',
-    image: '/assets/blueprint/vehicles/toyota-camry.webp',
+    image: '/assets/images/studio-2k/toyota-camry-studio-2k.webp',
     kicker: {
       en: 'Executive Sedan',
       ar: 'سيدان تنفيذية',
@@ -442,7 +442,7 @@ const APPROVED_BLUEPRINT_FLEET: StandardVehicleSpec[] = [
     slug: 'hyundai-staria',
     indexStr: '02 / 05',
     category: 'family',
-    image: '/assets/blueprint/vehicles/hyundai-staria.webp',
+    image: '/assets/images/studio-2k/hyundai-staria-studio-2k.webp',
     kicker: {
       en: 'Premium Captain-Seats MPV',
       ar: 'مركبة عائلية بمقاعد كابتن فاخرة',
@@ -500,7 +500,7 @@ const APPROVED_BLUEPRINT_FLEET: StandardVehicleSpec[] = [
     slug: 'gmc-yukon-xl',
     indexStr: '03 / 05',
     category: 'family',
-    image: '/assets/blueprint/vehicles/gmc-yukon-xl.webp',
+    image: '/assets/images/studio-2k/gmc-yukon-studio-2k.webp',
     kicker: {
       en: 'Full-Size Luxury SUV',
       ar: 'سيارة SUV فاخرة كاملة الحجم',
@@ -558,7 +558,7 @@ const APPROVED_BLUEPRINT_FLEET: StandardVehicleSpec[] = [
     slug: 'toyota-hiace',
     indexStr: '04 / 05',
     category: 'group',
-    image: '/assets/blueprint/vehicles/toyota-hiace.webp',
+    image: '/assets/images/studio-2k/toyota-hiace-studio-2k.webp',
     kicker: {
       en: 'Group Executive Van',
       ar: 'فان تنفيذي للمجموعات',
@@ -616,7 +616,7 @@ const APPROVED_BLUEPRINT_FLEET: StandardVehicleSpec[] = [
     slug: 'toyota-coaster',
     indexStr: '05 / 05',
     category: 'group',
-    image: '/assets/blueprint/vehicles/toyota-coaster.webp',
+    image: '/assets/images/reference/toyota-coaster-transparent.webp',
     kicker: {
       en: 'Executive Group Coach',
       ar: 'حافلة تنفيذية للمجموعات',
@@ -846,7 +846,7 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
               aria-label="Mercedes-Maybach S-Class"
             >
               <Image
-                src="/assets/blueprint/vehicles/mercedes-maybach.webp"
+                src="/assets/images/studio-2k/mercedes-s-class-studio-2k.webp"
                 alt="Mercedes Maybach S-Class"
                 width={360}
                 height={200}
@@ -859,7 +859,7 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
               aria-label="Hyundai H1"
             >
               <Image
-                src="/assets/blueprint/vehicles/hyundai-h1.webp"
+                src="/assets/images/studio-2k/hyundai-h1-studio-2k.webp"
                 alt="Hyundai H1 Starex"
                 width={360}
                 height={200}
@@ -872,19 +872,19 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
       </section>
 
       {/* 4. COMPARISON SPECIFICATION MATRIX */}
-      <section className="section bg-white border-t border-[#DEDBD4]">
+      <section className="section bg-[#090D15] border-t border-white/10">
         <div className="wrap">
           <div className="mb-8 text-center sm:text-start">
             <span className="eyebrow">{t('comparisonBadge')}</span>
-            <h2 className="text-2xl sm:text-3xl font-serif text-[#101A27]">
+            <h2 className="text-2xl sm:text-3xl font-serif text-[#F6F3ED]">
               {t('comparisonTitle')}
             </h2>
           </div>
 
-          <div className="overflow-x-auto rounded-lg border border-[#DEDBD4] shadow-xs">
+          <div className="overflow-x-auto rounded-xl border border-white/10 shadow-xl bg-[#101725]">
             <table className="w-full text-start border-collapse text-xs sm:text-sm">
               <thead>
-                <tr className="bg-[#101A27] text-white text-[11px] font-bold uppercase tracking-wider border-b border-[#C5A15D]/40">
+                <tr className="bg-[#141D2C] text-[#F6F3ED] text-[11px] font-bold uppercase tracking-wider border-b border-[#D6A13A]/40">
                   <th className="py-3.5 px-4 text-start">{t('colVehicle')}</th>
                   <th className="py-3.5 px-3 text-start">{t('colClass')}</th>
                   <th className="py-3.5 px-3 text-center">{t('colPax')}</th>
@@ -893,42 +893,42 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
                   <th className="py-3.5 px-4 text-center">{t('colAction')}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#DEDBD4]">
+              <tbody className="divide-y divide-white/5">
                 {APPROVED_BLUEPRINT_FLEET.map((v, idx) => (
                   <tr
                     key={v.id}
-                    className={idx % 2 === 0 ? 'bg-white' : 'bg-[#F7F5F0]/70 hover:bg-[#F7F5F0]'}
+                    className={idx % 2 === 0 ? 'bg-[#101725]' : 'bg-[#141D2C]/60 hover:bg-[#141D2C]'}
                   >
-                    <td className="py-3.5 px-4 font-bold text-[#101A27]">
+                    <td className="py-3.5 px-4 font-bold text-[#F6F3ED]">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-8 rounded bg-[#EDEAE4] overflow-hidden shrink-0 flex items-center justify-center p-1">
+                        <div className="w-12 h-8 rounded bg-[#141D2C] border border-white/10 overflow-hidden shrink-0 flex items-center justify-center p-1">
                           <Image
                             src={v.image}
                             alt={v.name[locale] || v.name.en}
                             width={48}
                             height={32}
-                            className="object-contain mix-blend-multiply"
+                            className="object-contain"
                           />
                         </div>
                         <span>{v.name[locale] || v.name.en}</span>
                       </div>
                     </td>
-                    <td className="py-3.5 px-3 text-slate-600">
+                    <td className="py-3.5 px-3 text-[#AEB7C4]">
                       {v.kicker[locale] || v.kicker.en}
                     </td>
-                    <td className="py-3.5 px-3 text-center font-bold text-[#101A27]">
+                    <td className="py-3.5 px-3 text-center font-bold text-[#F6F3ED]">
                       {v.passengers}
                     </td>
-                    <td className="py-3.5 px-3 text-center font-bold text-[#101A27]">
+                    <td className="py-3.5 px-3 text-center font-bold text-[#F6F3ED]">
                       {v.luggage}
                     </td>
-                    <td className="py-3.5 px-4 text-slate-600 hidden md:table-cell">
+                    <td className="py-3.5 px-4 text-[#AEB7C4] hidden md:table-cell">
                       {v.acType[locale] || v.acType.en}
                     </td>
                     <td className="py-3.5 px-4 text-center">
                       <Link
                         href={`/${locale}/booking?vehicle=${v.bookingVehicleId}`}
-                        className="inline-flex items-center justify-center px-3 py-1.5 rounded bg-[#101A27] text-[#C5A15D] hover:text-white text-xs font-bold transition-colors"
+                        className="inline-flex items-center justify-center px-3.5 py-1.5 rounded-lg bg-[#D6A13A] text-[#090D15] hover:bg-[#E5B14B] text-xs font-bold transition-all shadow-sm"
                       >
                         {t('bookVehicle')}
                       </Link>

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { Plane, MapPin, Clock, ShieldCheck, ArrowRight, MessageCircle } from 'lucide-react';
+import { AirportTransferExperience } from '@/components/routes/AirportTransferExperience';
 
 interface GuidePageProps {
   params: Promise<{
@@ -80,6 +81,9 @@ export default async function JeddahAirportGuidePage(props: GuidePageProps) {
             </p>
           </section>
         </div>
+
+        {/* INTERACTIVE ROYAL AIRPORT TRANSFER EXPERIENCE */}
+        <AirportTransferExperience locale={locale} slug="jeddah-airport-to-makkah" />
 
         {/* CTA */}
         <div className="text-center">

@@ -4,6 +4,8 @@ import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { BookingEngine } from '@/components/booking/BookingEngine';
+import { Spotlight } from '@/components/ui/luxury/Spotlight';
+import { ShieldCheck, Plane, Banknote } from 'lucide-react';
 import { getDbPricesCached } from '@/lib/pricing-db';
 import { getBookingDraft } from '@/lib/booking-draft-store';
 
@@ -166,19 +168,38 @@ export default async function BookingPage(props: BookingPageProps) {
   }
 
   return (
-    <div className="py-10 md:py-16 bg-bg min-h-screen">
-      <div className="container mx-auto px-4 max-w-7xl">
+    <div className="relative py-10 md:py-16 bg-bg min-h-screen overflow-hidden">
+      {/* Luxury Golden Ambient Illumination */}
+      <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#D6A13A" />
+
+      <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Section A: Booking Page Header */}
-        <div className="text-center mb-8 md:mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
+        <div className="text-center mb-8 md:mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-4 shadow-xs">
             <span>{pageText.badge}</span>
           </div>
           <h1 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
             {pageText.title}
           </h1>
-          <p className="mt-2 text-ink-muted text-sm md:text-base max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="mt-3 text-ink-muted text-sm md:text-base max-w-2xl mx-auto font-light leading-relaxed">
             {pageText.subtitle}
           </p>
+
+          {/* Luxury Executive Trust Badges */}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface border border-border text-ink font-medium shadow-2xs">
+              <Banknote className="w-3.5 h-3.5 text-emerald-600" />
+              <span>0% دفعة مقدمة • الدفع نقداً للسائق عند الوصول</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface border border-border text-ink font-medium shadow-2xs">
+              <Plane className="w-3.5 h-3.5 text-gold-dark" />
+              <span>تتبع راداري للرحلات الجوية 24/7</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface border border-border text-ink font-medium shadow-2xs">
+              <ShieldCheck className="w-3.5 h-3.5 text-gold-dark" />
+              <span>أسعار ثابتة شاملة الضريبة ورسوم الطرق</span>
+            </span>
+          </div>
         </div>
 
         {/* Booking Engine & Real-Time Booking Summary */}

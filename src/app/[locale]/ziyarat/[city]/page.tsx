@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { ZIYARAT_SITES, ZIYARAT_TOURS, ZIYARAT_GUIDES } from '@/data/ziyarat';
+import SacredZiyaratExperience from '@/components/ziyarat/SacredZiyaratExperience';
 import { MapPin, Clock, ArrowRight, Car, Compass, MessageCircle, ShieldCheck } from 'lucide-react';
 
 interface CityHubPageProps {
@@ -129,7 +130,12 @@ export default async function CityHubPage(props: CityHubPageProps) {
           </p>
         </div>
 
-        {/* TOURS AVAILABLE IN THIS CITY */}
+              {/* SACRED ZIYARAT LUXURY EXPERIENCE */}
+      <div className="mb-16">
+        <SacredZiyaratExperience locale={locale} initialCity={city as 'makkah' | 'madinah'} />
+      </div>
+
+      {/* TOURS AVAILABLE IN THIS CITY */}
         <div className="mb-16">
           <h2 className="font-display font-bold text-xl md:text-2xl text-ink mb-6">
             {isAr ? 'الجولات المتاحة للحجز المباشر' : 'Bookable Private Tour Options'}

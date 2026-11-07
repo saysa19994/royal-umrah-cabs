@@ -14,6 +14,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { useCurrency } from '@/context/CurrencyContext';
+import { BorderBeam } from '@/components/ui/luxury/BorderBeam';
 
 export interface RouteCardData {
   slug: string;
@@ -207,11 +208,21 @@ export function ExecutiveRouteCard({ route, locale }: ExecutiveRouteCardProps) {
 
   const currentImage = imageList[activeImageIndex] || route.image;
 
+  const isFlagship =
+    route.slug === 'jeddah-airport-to-makkah' ||
+    route.slug === 'makkah-to-madinah' ||
+    route.slug === 'makkah-to-jeddah-airport';
+
   return (
     <article
-      className="relative w-full rounded-2xl md:rounded-[22px] overflow-hidden bg-black border-2 border-[#b89355] shadow-2xl transition-all duration-300 text-start group"
+      className={`relative w-full rounded-2xl md:rounded-[22px] overflow-hidden bg-[#101725] border shadow-2xl transition-all duration-300 text-start group ${
+        isFlagship ? 'border-[#D6A13A]/40' : 'border-white/10 hover:border-[#D6A13A]/50'
+      }`}
       dir={isRtl ? 'rtl' : 'ltr'}
     >
+      {isFlagship && (
+        <BorderBeam size={260} duration={12} colorFrom="#D6A13A" colorTo="#F2C94C" />
+      )}
       {/* 1. UPPER SECTION: CINEMATIC DESTINATION PANORAMA WITH OVERLAID TRANSLUCENT PANEL */}
       <div className="relative w-full aspect-[2.1/1] min-h-[280px] sm:min-h-[340px] md:min-h-[380px] lg:min-h-[420px] overflow-hidden bg-[#0A0D14]">
         {/* Active Route Image */}
@@ -316,21 +327,21 @@ export function ExecutiveRouteCard({ route, locale }: ExecutiveRouteCardProps) {
       </div>
 
       {/* 2. BOTTOM INFORMATION BAR: PURE WHITE WITH OUTLINE PILLS, BLACK PRICE & ACTION BUTTONS */}
-      <div className="bg-white px-4 sm:px-6 py-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 border-t border-slate-100">
+      <div className="bg-[#101725] px-4 sm:px-6 py-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 border-t border-white/10">
         {/* Left Side: 3 White Pill Badges with Thin Gray Border in the Active Language */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white border border-slate-300 shadow-2xs">
-            <Clock className="w-3.5 h-3.5 text-slate-700 shrink-0" />
+          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-[#AEB7C4] bg-[#141D2C] border border-white/10 shadow-2xs">
+            <Clock className="w-3.5 h-3.5 text-[#D6A13A] shrink-0" />
             <span>{labels.badge247}</span>
           </span>
 
-          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white border border-slate-300 shadow-2xs">
-            <Car className="w-3.5 h-3.5 text-slate-700 shrink-0" />
+          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-[#AEB7C4] bg-[#141D2C] border border-white/10 shadow-2xs">
+            <Car className="w-3.5 h-3.5 text-[#D6A13A] shrink-0" />
             <span>{labels.badgeDoorToDoor}</span>
           </span>
 
-          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-800 bg-white border border-slate-300 shadow-2xs">
-            <Users className="w-3.5 h-3.5 text-slate-700 shrink-0" />
+          <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-[#AEB7C4] bg-[#141D2C] border border-white/10 shadow-2xs">
+            <Users className="w-3.5 h-3.5 text-[#D6A13A] shrink-0" />
             <span>{labels.badgeFamilyFriendly}</span>
           </span>
         </div>
@@ -339,16 +350,16 @@ export function ExecutiveRouteCard({ route, locale }: ExecutiveRouteCardProps) {
         <div className="flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-end gap-3 sm:gap-4 md:gap-5">
           {/* Price Block: STARTING FROM on top line, SAR XXX / PER TRIP on bottom line */}
           <div className="flex flex-col sm:items-end shrink-0">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block leading-tight">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#AEB7C4] block leading-tight">
               {labels.startingFrom}
             </span>
             <div className="flex items-baseline gap-1.5">
-              <span className="font-sans text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+              <span className="font-sans text-xl sm:text-2xl font-black text-[#D6A13A] tracking-tight">
                 {route.customPricePrefix
                   ? `${route.customPricePrefix} ${formatPrice(route.priceSar)}`
                   : formatPrice(route.priceSar)}
               </span>
-              <span className="text-xs font-bold text-slate-500">
+              <span className="text-xs font-bold text-[#AEB7C4]">
                 {labels.perTrip}
               </span>
             </div>
@@ -358,14 +369,14 @@ export function ExecutiveRouteCard({ route, locale }: ExecutiveRouteCardProps) {
           <div className="flex items-center gap-2.5 shrink-0 w-full sm:w-auto">
             <Link
               href={`/${locale}/routes/${route.slug}`}
-              className="flex-1 sm:flex-none border border-slate-900 hover:border-black hover:bg-slate-50 text-slate-900 text-xs sm:text-sm font-bold px-4 sm:px-5 py-2.5 rounded-lg transition-all text-center whitespace-nowrap shadow-2xs active:scale-[0.98]"
+              className="flex-1 sm:flex-none border border-white/20 hover:border-[#D6A13A] hover:bg-white/5 text-[#F6F3ED] text-xs sm:text-sm font-bold px-4 sm:px-5 py-2.5 rounded-lg transition-all text-center whitespace-nowrap shadow-2xs active:scale-[0.98]"
             >
               <span>{labels.viewVehicles}</span>
             </Link>
 
             <Link
               href={`/${locale}/booking?route=${route.slug}`}
-              className="flex-1 sm:flex-none bg-gradient-to-r from-[#d99f2b] via-[#e5b23d] to-[#f4c84f] hover:from-[#e5b23d] hover:to-[#d99f2b] text-slate-950 text-xs sm:text-sm font-black uppercase tracking-wider px-5 sm:px-6 py-2.5 rounded-lg transition-all shadow-[0_4px_14px_rgba(217,159,43,0.35)] hover:shadow-[0_6px_18px_rgba(217,159,43,0.45)] flex items-center justify-center gap-2 text-center whitespace-nowrap active:scale-[0.98]"
+              className="flex-1 sm:flex-none bg-[#D6A13A] hover:bg-[#E5B14B] text-[#090D15] text-xs sm:text-sm font-black uppercase tracking-wider px-5 sm:px-6 py-2.5 rounded-lg transition-all shadow-[0_4px_14px_rgba(217,159,43,0.35)] hover:shadow-[0_6px_18px_rgba(217,159,43,0.45)] flex items-center justify-center gap-2 text-center whitespace-nowrap active:scale-[0.98]"
             >
               <span>{labels.bookNow}</span>
               <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />

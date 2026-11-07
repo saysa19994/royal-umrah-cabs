@@ -232,7 +232,7 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
       {/* SECTION HEADER: FILTER TABS + IMAGE COUNTER */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         {/* TABS */}
-        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200/80 w-fit">
+        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#141D2C] border border-white/10 w-fit">
           <button
             type="button"
             onClick={() => {
@@ -241,8 +241,8 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
             }}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               activeFilter === 'all'
-                ? 'bg-[#101827] text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-[#D6A13A] text-[#090D15] shadow-xs'
+                : 'text-[#AEB7C4] hover:text-[#F6F3ED]'
             }`}
           >
             {t('all')}
@@ -255,8 +255,8 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
             }}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               activeFilter === 'exterior'
-                ? 'bg-[#101827] text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-[#D6A13A] text-[#090D15] shadow-xs'
+                : 'text-[#AEB7C4] hover:text-[#F6F3ED]'
             }`}
           >
             {t('exterior')}
@@ -269,8 +269,8 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
             }}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               activeFilter === 'interior'
-                ? 'bg-[#101827] text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-[#D6A13A] text-[#090D15] shadow-xs'
+                : 'text-[#AEB7C4] hover:text-[#F6F3ED]'
             }`}
           >
             {t('interior')}
@@ -282,16 +282,16 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
           <button
             type="button"
             onClick={() => setIsLightboxOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200/90 hover:border-[#C5A15D] text-xs font-bold text-slate-700 hover:text-[#C5A15D] transition-colors shadow-2xs cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141D2C] border border-white/10 hover:border-[#D6A13A] text-xs font-bold text-[#F6F3ED] hover:text-[#D6A13A] transition-colors shadow-2xs cursor-pointer"
             aria-label={t('expand')}
           >
-            <Maximize2 className="w-3.5 h-3.5 text-[#C5A15D]" />
+            <Maximize2 className="w-3.5 h-3.5 text-[#D6A13A]" />
             <span>{t('expand')}</span>
           </button>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200/90 text-xs font-black text-slate-800 shadow-2xs">
-            <Camera className="w-3.5 h-3.5 text-[#C5A15D]" />
-            <span className="text-[#C5A15D] font-extrabold">{safeIndex + 1}</span>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#141D2C] border border-white/10 text-xs font-black text-[#F6F3ED] shadow-2xs">
+            <Camera className="w-3.5 h-3.5 text-[#D6A13A]" />
+            <span className="text-[#D6A13A] font-extrabold">{safeIndex + 1}</span>
             <span className="text-slate-400">/</span>
             <span>{total}</span>
           </div>
@@ -300,7 +300,7 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
 
       {/* MAIN FEATURED IMAGE VIEWPORT */}
       <div
-        className="relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/9] bg-[#101827] border border-slate-200/90 shadow-md group cursor-pointer select-none"
+        className="relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/9] bg-[#101827] border border-white/10 shadow-md group cursor-pointer select-none"
         onClick={() => setIsLightboxOpen(true)}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -328,7 +328,7 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
         {activeImage && (
           <div className="absolute bottom-4 sm:bottom-6 start-4 sm:start-6 end-4 sm:end-6 flex items-end justify-between gap-4 pointer-events-none">
             <div className="text-white max-w-xl">
-              <span className="inline-block px-2.5 py-1 rounded-md text-[11px] font-black uppercase tracking-wider bg-[#C5A15D] text-slate-950 mb-1.5 shadow-xs">
+              <span className="inline-block px-2.5 py-1 rounded-md text-[11px] font-black uppercase tracking-wider bg-[#D6A13A] text-slate-950 mb-1.5 shadow-xs">
                 {getTag(activeImage)}
               </span>
               <p className="text-sm sm:text-base font-bold text-white drop-shadow-sm">
@@ -336,7 +336,7 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
               </p>
             </div>
             <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white/90 text-xs font-semibold border border-white/20">
-              <Eye className="w-3.5 h-3.5 text-[#C5A15D]" />
+              <Eye className="w-3.5 h-3.5 text-[#D6A13A]" />
               <span>{t('expand')}</span>
             </div>
           </div>
@@ -384,7 +384,7 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
                 onClick={() => setCurrentIndex(idx)}
                 className={`relative rounded-xl overflow-hidden aspect-[16/10] bg-[#101827] border-2 transition-all cursor-pointer ${
                   isSelected
-                    ? 'border-[#C5A15D] ring-2 ring-[#C5A15D]/40 scale-[1.02] shadow-sm'
+                    ? 'border-[#D6A13A] ring-2 ring-[#D6A13A]/40 scale-[1.02] shadow-sm'
                     : 'border-transparent opacity-65 hover:opacity-100'
                 }`}
                 aria-label={`${getTitle(img)} (${idx + 1}/${total})`}
@@ -416,7 +416,7 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
           {/* LIGHTBOX TOP BAR */}
           <div className="flex items-center justify-between gap-4 w-full max-w-7xl mx-auto pb-3 border-b border-white/10 text-white">
             <div className="flex items-center gap-3 truncate">
-              <span className="inline-block px-2.5 py-1 rounded-md text-[11px] font-black uppercase tracking-wider bg-[#C5A15D] text-slate-950 shrink-0">
+              <span className="inline-block px-2.5 py-1 rounded-md text-[11px] font-black uppercase tracking-wider bg-[#D6A13A] text-slate-950 shrink-0">
                 {getTag(activeImage)}
               </span>
               <h3 className="font-display font-bold text-sm sm:text-base text-white truncate">
@@ -489,7 +489,7 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
                     onClick={() => setCurrentIndex(idx)}
                     className={`relative w-16 sm:w-20 aspect-[16/10] rounded-lg overflow-hidden border-2 transition-all shrink-0 cursor-pointer ${
                       isSelected
-                        ? 'border-[#C5A15D] ring-2 ring-[#C5A15D]/40 scale-105'
+                        ? 'border-[#D6A13A] ring-2 ring-[#D6A13A]/40 scale-105'
                         : 'border-white/20 opacity-50 hover:opacity-100'
                     }`}
                   >
