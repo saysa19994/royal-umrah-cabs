@@ -173,6 +173,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
     { href: `/${locale}/pricing`, label: dict.nav.pricing },
     { href: `/${locale}/ziyarat`, label: t.ziyarat },
     { href: `/${locale}/services`, label: dict.nav.services },
+    { href: '/' + locale + '/blog', label: t.blog },
     { href: `/${locale}/about`, label: dict.nav.about },
   ];
 

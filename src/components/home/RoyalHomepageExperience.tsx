@@ -2324,6 +2324,159 @@ export function RoyalHomepageExperience({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
+          SECTION 04.5: LATEST EDITORIAL GUIDES & VIP BLOG SHOWCASE
+      ────────────────────────────────────────────────────────────── */}
+      <section className="py-20 bg-[#090D15] border-t border-[rgba(214,161,58,0.2)]" id="blog-preview">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#101827] border border-[rgba(214,161,58,0.3)] mb-3">
+                <span className="w-2 h-2 rounded-full bg-[#D6A13A] animate-pulse" />
+                <span className="text-[12px] font-semibold text-[#D6A13A]">
+                  {isRtl ? 'ثقافة وإرشادات ضيوف الرحمن' : 'Pilgrim Insights & Travel Guides'}
+                </span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white font-serif">
+                {isRtl ? 'مدونة ومقالات ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP Editorial & Guides'}
+              </h2>
+              <p className="mt-2 text-sm sm:text-base text-slate-400 max-w-2xl">
+                {isRtl
+                  ? 'أدلة حصرية وإرشادات موثوقة لمساعدتكم في تخطيط رحلات العمرة والتنقل بين مكة المكرمة والمدينة المنورة والمطارات'
+                  : 'Exclusive insights, pilgrim checklists, and comprehensive chauffeur transport guides for your sacred journey.'}
+              </p>
+            </div>
+            <div>
+              <Link
+                href={`/${locale}/blog`}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[rgba(214,161,58,0.4)] bg-[#101827] text-[#D6A13A] hover:bg-[#D6A13A] hover:text-black font-semibold text-sm transition-all duration-300 shadow-lg shadow-black/40 group"
+              >
+                <span>{isRtl ? 'تصفح كافة مقالات المدونة' : 'Explore All Articles'}</span>
+                <span className="transition-transform group-hover:translate-x-1 duration-200">
+                  {isRtl ? '←' : '→'}
+                </span>
+              </Link>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Card 1 */}
+            <Link
+              href={`/${locale}/blog/vip-umrah-transport-jeddah-to-makkah`}
+              className="group relative bg-[#101827] border border-white/10 hover:border-[rgba(214,161,58,0.5)] rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.6)] flex flex-col"
+            >
+              <div className="relative h-48 w-full overflow-hidden">
+                <Image
+                  src="/assets/images/blog/vip-umrah-transport-jeddah-to-makkah.webp"
+                  alt="VIP Umrah Transport Jeddah to Makkah"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101827] via-transparent to-transparent" />
+                <span className="absolute top-3 start-3 px-2.5 py-1 rounded-md bg-[#090D15]/85 border border-[#D6A13A]/40 text-[#D6A13A] text-xs font-semibold backdrop-blur-xs">
+                  {isRtl ? 'دليل كبار الشخصيات' : 'VIP Guide'}
+                </span>
+              </div>
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#D6A13A] transition-colors font-serif leading-snug">
+                    {isRtl
+                      ? 'دليل اختيار سيارة VIP من مطار جدة إلى مكة المكرمة'
+                      : 'VIP Umrah Transport from Jeddah Airport to Makkah'}
+                  </h3>
+                  <p className="mt-2 text-xs sm:text-sm text-slate-400 line-clamp-2">
+                    {isRtl
+                      ? 'مقارنة فئات السيارات، تتبع الرحلات المباشر، وخدمة الاستقبال الخاص في صالة المطار.'
+                      : 'Comprehensive chauffeur guide, flight tracking, and executive arrivals at KAIA airport.'}
+                  </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-[#D6A13A] font-semibold">
+                  <span>{isRtl ? 'اقرأ الدليل الكامل' : 'Read Full Guide'}</span>
+                  <span>{isRtl ? '←' : '→'}</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Card 2 */}
+            <Link
+              href={`/${locale}/blog/private-transfer-makkah-to-madinah`}
+              className="group relative bg-[#101827] border border-white/10 hover:border-[rgba(214,161,58,0.5)] rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.6)] flex flex-col"
+            >
+              <div className="relative h-48 w-full overflow-hidden">
+                <Image
+                  src="/assets/images/blog/private-transfer-makkah-to-madinah.webp"
+                  alt="Private Transfer Makkah to Madinah"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101827] via-transparent to-transparent" />
+                <span className="absolute top-3 start-3 px-2.5 py-1 rounded-md bg-[#090D15]/85 border border-[#D6A13A]/40 text-[#D6A13A] text-xs font-semibold backdrop-blur-xs">
+                  {isRtl ? 'التنقل بين المدن' : 'Intercity'}
+                </span>
+              </div>
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#D6A13A] transition-colors font-serif leading-snug">
+                    {isRtl
+                      ? 'الانتقال المباشر بين مكة المكرمة والمدينة المنورة'
+                      : 'Private Transfer from Makkah to Madinah: Ultimate Guide'}
+                  </h3>
+                  <p className="mt-2 text-xs sm:text-sm text-slate-400 line-clamp-2">
+                    {isRtl
+                      ? 'مقارنة مسافات السفر، أوقات الرحلة، وراحة العائلات وحقائب السفر الكبيرة بسيارات خاصة.'
+                      : 'Travel durations, route stops, baggage capacity, and seamless family comfort.'}
+                  </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-[#D6A13A] font-semibold">
+                  <span>{isRtl ? 'اقرأ الدليل الكامل' : 'Read Full Guide'}</span>
+                  <span>{isRtl ? '←' : '→'}</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Card 3 */}
+            <Link
+              href={`/${locale}/blog/jeddah-airport-pickup-umrah`}
+              className="group relative bg-[#101827] border border-white/10 hover:border-[rgba(214,161,58,0.5)] rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.6)] flex flex-col"
+            >
+              <div className="relative h-48 w-full overflow-hidden">
+                <Image
+                  src="/assets/images/blog/jeddah-airport-pickup-umrah.webp"
+                  alt="Jeddah Airport Pickup Umrah"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101827] via-transparent to-transparent" />
+                <span className="absolute top-3 start-3 px-2.5 py-1 rounded-md bg-[#090D15]/85 border border-[#D6A13A]/40 text-[#D6A13A] text-xs font-semibold backdrop-blur-xs">
+                  {isRtl ? 'استقبال المطار' : 'Airport Pickup'}
+                </span>
+              </div>
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#D6A13A] transition-colors font-serif leading-snug">
+                    {isRtl
+                      ? 'دليل الوصول واستقبال الصالة بمطار الملك عبدالعزيز'
+                      : 'Jeddah Airport Pickup for Umrah: Step-by-Step Guide'}
+                  </h3>
+                  <p className="mt-2 text-xs sm:text-sm text-slate-400 line-clamp-2">
+                    {isRtl
+                      ? 'خطوات الاستقبال بعد استلام الأمتعة، 60 دقيقة انتظار مجاني، ولقاء السائق بالصالة.'
+                      : 'Arrival procedures, 60-minute complimentary waiting, baggage assistance, and terminal meet & greet.'}
+                  </p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-[#D6A13A] font-semibold">
+                  <span>{isRtl ? 'اقرأ الدليل الكامل' : 'Read Full Guide'}</span>
+                  <span>{isRtl ? '←' : '→'}</span>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
           SECTION 05: FREQUENTLY ASKED QUESTIONS & UMRAH CTA CARD
       ────────────────────────────────────────────────────────────── */}
       <section className="rc-faq-section" id="faq">
