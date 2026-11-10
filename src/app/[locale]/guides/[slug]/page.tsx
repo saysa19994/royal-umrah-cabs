@@ -68,9 +68,7 @@ export async function generateMetadata(props: GuideSlugPageProps): Promise<Metad
   return {
     title: `${title} | Duyuf Alrahman VIP`,
     description,
-    robots: isFullyLocalized
-      ? { index: true, follow: true }
-      : { index: false, follow: true },
+    robots: { index: true, follow: true },
     alternates,
     openGraph: {
       title,

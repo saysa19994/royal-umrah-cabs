@@ -1,0 +1,127 @@
+[
+  {
+    "pageName": "Arabic Homepage",
+    "requestUrl": "/ar",
+    "existsInBuild": true,
+    "htmlLang": "ar",
+    "layoutDirection": "rtl",
+    "renderedTitle": "ضيوف الرحمن VIP | سائق وتوصيل خاص VIP بين مكة والمدينة وجدة",
+    "renderedCanonicalTag": "https://duyufalrahmanvip.com/ar",
+    "renderedRobotsTag": "index, follow",
+    "hasCashOnArrivalPolicy": true,
+    "hasCoasterCapacityVerified": "N/A"
+  },
+  {
+    "pageName": "English Homepage",
+    "requestUrl": "/en",
+    "existsInBuild": true,
+    "htmlLang": "en",
+    "layoutDirection": "ltr",
+    "renderedTitle": "Duyuf Alrahman VIP | Private Umrah Chauffeur &amp; Pilgrim Transport",
+    "renderedCanonicalTag": "https://duyufalrahmanvip.com/en",
+    "renderedRobotsTag": "index, follow",
+    "hasCashOnArrivalPolicy": true,
+    "hasCoasterCapacityVerified": "N/A"
+  },
+  {
+    "pageName": "Turkish Route Page",
+    "requestUrl": "/tr/routes/riyadh-to-makkah",
+    "existsInBuild": true,
+    "htmlLang": "tr",
+    "layoutDirection": "ltr",
+    "renderedTitle": "Riyad - Mekke Uzun Yol VIP Şoförlü Transfer | Duyuf Alrahman VIP | Duyuf Alrahman VIP",
+    "renderedCanonicalTag": "https://duyufalrahmanvip.com/tr/routes/riyadh-to-makkah",
+    "renderedRobotsTag": "index, follow",
+    "hasCashOnArrivalPolicy": true,
+    "hasCoasterCapacityVerified": "N/A"
+  },
+  {
+    "pageName": "Arabic Jeddah Airport Guide",
+    "requestUrl": "/ar/guides/jeddah-airport-arrival-guide",
+    "existsInBuild": true,
+    "htmlLang": "ar",
+    "layoutDirection": "rtl",
+    "renderedTitle": "دليل الاستقبال في صالة 1 بمطار الملك عبدالعزيز بجدة | ضيوف الرحمن VIP",
+    "renderedCanonicalTag": "https://duyufalrahmanvip.com/ar/guides/jeddah-airport-arrival-guide",
+    "renderedRobotsTag": "index, follow",
+    "hasCashOnArrivalPolicy": true,
+    "hasCoasterCapacityVerified": "N/A"
+  },
+  {
+    "pageName": "English Jeddah to Madinah Guide",
+    "requestUrl": "/en/guides/jeddah-airport-to-madinah-transport-options",
+    "existsInBuild": true,
+    "htmlLang": "en",
+    "layoutDirection": "ltr",
+    "renderedTitle": "Jeddah Airport directly to Madinah: Routes, Travel Times &amp; Transport Options | Duyuf Alrahman VIP | Duyuf Alrahman VIP",
+    "renderedCanonicalTag": "https://duyufalrahmanvip.com/en/guides/jeddah-airport-to-madinah-transport-options",
+    "renderedRobotsTag": "index, follow",
+    "hasCashOnArrivalPolicy": true,
+    "hasCoasterCapacityVerified": "N/A"
+  },
+  {
+    "pageName": "Fleet 1: Toyota Camry (AR)",
+    "requestUrl": "/ar/fleet/toyota-camry",
+    "existsInBuild": true,
+    "htmlLang": "ar",
+    "layoutDirection": "rtl",
+    "renderedTitle": "تويوتا كامري Executive | Duyuf Alrahman VIP | ضيوف الرحمن VIP",
+    "renderedCanonicalTag": "https://duyufalrahmanvip.com/ar/fleet/toyota-camry",
+    "renderedRobotsTag": "index, follow",
+    "hasCashOnArrivalPolicy": true,
+    "hasCoasterCapacityVerified": "N/A"
+  },
+  {
+    "pageName": "Fleet 2: GMC Yukon XL (EN)",
+    "requestUrl": "/en/fleet/gmc-yukon-xl",
+    "existsInBuild": true,
+    "htmlLang": "en",
+    "layoutDirection": "ltr",
+    "renderedTitle": "GMC Yukon XL VIP | Duyuf Alrahman VIP | Duyuf Alrahman VIP",
+    "renderedCanonicalTag": "https://duyufalrahmanvip.com/en/fleet/gmc-yukon-xl",
+    "renderedRobotsTag": "index, follow",
+    "hasCashOnArrivalPolicy": true,
+    "hasCoasterCapacityVerified": "N/A"
+  },
+  {
+    "pageName": "Fleet 3: Hyundai Staria (TR)",
+    "requestUrl": "/tr/fleet/hyundai-staria",
+    "existsInBuild": true,
+    "htmlLang": "tr",
+    "layoutDirection": "ltr",
+    "renderedTitle": "Hyundai Staria VIP | Duyuf Alrahman VIP | Duyuf Alrahman VIP",
+    "renderedCanonicalTag": "https://duyufalrahmanvip.com/tr/fleet/hyundai-staria",
+    "renderedRobotsTag": "index, follow",
+    "hasCashOnArrivalPolicy": true,
+    "hasCoasterCapacityVerified": "N/A"
+  },
+  {
+    "pageName": "Fleet 4: Toyota HiAce (MS)",
+    "requestUrl": "/ms/fleet/toyota-hiace",
+    "existsInBuild": true,
+    "htmlLang": "ms",
+    "layoutDirection": "ltr",
+    "renderedTitle": "Toyota HiAce VIP | Duyuf Alrahman VIP | Duyuf Alrahman VIP",
+    "renderedCanonicalTag": "https://duyufalrahmanvip.com/ms/fleet/toyota-hiace",
+    "renderedRobotsTag": "index, follow",
+    "hasCashOnArrivalPolicy": true,
+    "hasCoasterCapacityVerified": "N/A"
+  },
+  {
+    "pageName": "Fleet 5: Toyota Coaster VIP (AR)",
+    "requestUrl": "/ar/fleet/toyota-coaster",
+    "existsInBuild": true,
+    "htmlLang": "ar",
+    "layoutDirection": "rtl",
+    "renderedTitle": "تويوتا كوستر VIP | Duyuf Alrahman VIP | ضيوف الرحمن VIP",
+    "renderedCanonicalTag": "https://duyufalrahmanvip.com/ar/fleet/toyota-coaster",
+    "renderedRobotsTag": "index, follow",
+    "hasCashOnArrivalPolicy": true,
+    "hasCoasterCapacityVerified": true
+  },
+  {
+    "name": "Booking Page (AR)",
+    "url": "/ar/booking",
+    "exists": false
+  }
+]

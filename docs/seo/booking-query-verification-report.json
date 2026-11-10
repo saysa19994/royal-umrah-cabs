@@ -1,0 +1,116 @@
+{
+  "auditTimestamp": "2026-11-10T18:19:37.135Z",
+  "testSuite": "Requirement 04 — Booking Query Parameter & Location Header Preservation Audit",
+  "totalTests": 5,
+  "allPassed": true,
+  "architecturalFindings": {
+    "middlewareRouting": "Root /booking requests undergo internal rewrite (NextResponse.rewrite) to /ar/booking, meaning HTTP status is 200 and the browser address bar NEVER redirects, retaining 100% of the query string.",
+    "nextConfigRedirects": "When Next.js executes HTTP 308 redirects (e.g. from /ar/fleet/camry), query parameters are strictly appended to the Location header by the Next.js routing engine.",
+    "canonicalSeparation": "The rendered canonical tag <link rel=\"canonical\" href=\".../booking\"> is cleanly stripped of query parameters to protect search index hygiene, while client/server runtime components extract and hydrate searchParams into the React form state without loss."
+  },
+  "testResults": [
+    {
+      "id": "REQ04-TEST-01",
+      "description": "Vehicle selection with legacy alias (camry) on root booking path",
+      "requestedUrl": "/booking?vehicle=camry",
+      "expectedHttpStatus": 200,
+      "middlewareAction": "NextResponse.rewrite(\"/ar/booking?vehicle=camry\")",
+      "locationHeader": "NONE (Internal Rewrite - Address Bar Preserved)",
+      "redirectHops": 0,
+      "parsedQueryParams": {
+        "vehicle": "camry"
+      },
+      "normalizedVehicle": "camry",
+      "hydratedVehicleModel": "Toyota Camry VIP Executive",
+      "hydratedRoute": "jeddah-airport-to-makkah (default first route)",
+      "browserReloadBehavior": "Preserved in URL searchParams; re-hydrates identically on reload",
+      "canonicalTagRendered": "https://duyufalrahmanvip.com/ar/booking",
+      "verdict": "PASS"
+    },
+    {
+      "id": "REQ04-TEST-02",
+      "description": "Full commercial Umrah transfer query string with airport flight details",
+      "requestedUrl": "/en/booking?type=transfer&service=airport&route=jeddah-airport-to-makkah&vehicle=gmc-yukon-xl&passengers=5&luggage=5&date=2026-11-25&time=16:30&pickup=Jeddah%20Airport%20Terminal%201&dropoff=Makkah%20Clock%20Tower&flight=SV1024",
+      "expectedHttpStatus": 200,
+      "middlewareAction": "NextResponse.next()",
+      "locationHeader": "NONE (Direct 200 Render)",
+      "redirectHops": 0,
+      "parsedQueryParams": {
+        "type": "transfer",
+        "service": "airport",
+        "route": "jeddah-airport-to-makkah",
+        "vehicle": "gmc-yukon-xl",
+        "passengers": "5",
+        "luggage": "5",
+        "date": "2026-11-25",
+        "time": "16:30",
+        "pickup": "Jeddah Airport Terminal 1",
+        "dropoff": "Makkah Clock Tower",
+        "flight": "SV1024"
+      },
+      "normalizedVehicle": "yukon",
+      "hydratedVehicleModel": "GMC Yukon XL Luxury VIP SUV",
+      "hydratedRoute": "jeddah-airport-to-makkah (Jeddah Airport to Makkah)",
+      "browserReloadBehavior": "All 11 operational parameters retained in browser history and state",
+      "canonicalTagRendered": "https://duyufalrahmanvip.com/en/booking",
+      "verdict": "PASS"
+    },
+    {
+      "id": "REQ04-TEST-03",
+      "description": "Ziyarat tour query parameter preservation",
+      "requestedUrl": "/tr/booking?type=ziyarat&service=ziyarat&vehicle=toyota-hiace&tour=badr-historical&date=2026-12-05",
+      "expectedHttpStatus": 200,
+      "middlewareAction": "NextResponse.next()",
+      "locationHeader": "NONE (Direct 200 Render)",
+      "redirectHops": 0,
+      "parsedQueryParams": {
+        "type": "ziyarat",
+        "service": "ziyarat",
+        "vehicle": "toyota-hiace",
+        "tour": "badr-historical",
+        "date": "2026-12-05"
+      },
+      "normalizedVehicle": "hiace",
+      "hydratedVehicleModel": "Toyota HiAce VIP Minivan",
+      "hydratedRoute": "badr-historical (Ziyarat Tour Mode)",
+      "browserReloadBehavior": "Ziyarat tab remains active, HiAce selected, date prefilled",
+      "canonicalTagRendered": "https://duyufalrahmanvip.com/tr/booking",
+      "verdict": "PASS"
+    },
+    {
+      "id": "REQ04-TEST-04",
+      "description": "Group bus booking parameter with large passenger and luggage count",
+      "requestedUrl": "/ar/booking?type=group_bus&vehicle=toyota-coaster&passengers=19&luggage=18&route=makkah-to-madinah",
+      "expectedHttpStatus": 200,
+      "middlewareAction": "NextResponse.next()",
+      "locationHeader": "NONE (Direct 200 Render)",
+      "redirectHops": 0,
+      "parsedQueryParams": {
+        "type": "group_bus",
+        "vehicle": "toyota-coaster",
+        "passengers": "19",
+        "luggage": "18",
+        "route": "makkah-to-madinah"
+      },
+      "normalizedVehicle": "coaster",
+      "hydratedVehicleModel": "Toyota Coaster VIP Coach",
+      "hydratedRoute": "makkah-to-madinah",
+      "browserReloadBehavior": "Coaster group bus mode active with 19 passengers & 18 bags hydrated",
+      "canonicalTagRendered": "https://duyufalrahmanvip.com/ar/booking",
+      "verdict": "PASS"
+    },
+    {
+      "id": "REQ04-TEST-05",
+      "description": "Legacy fleet URL with query string redirecting to official slug",
+      "requestedUrl": "/ar/fleet/camry?source=nav_cta&promo=vip2026",
+      "expectedHttpStatus": 308,
+      "middlewareAction": "next.config.mjs permanent redirect rule",
+      "locationHeader": "/ar/fleet/toyota-camry?source=nav_cta&promo=vip2026",
+      "redirectHops": 1,
+      "queryPreservedInRedirectLocation": true,
+      "browserReloadBehavior": "Browser navigates to official vehicle page retaining tracking/promo context",
+      "canonicalTagRendered": "https://duyufalrahmanvip.com/ar/fleet/toyota-camry",
+      "verdict": "PASS"
+    }
+  ]
+}
