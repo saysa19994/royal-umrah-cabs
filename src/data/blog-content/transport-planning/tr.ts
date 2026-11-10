@@ -88,7 +88,7 @@ export const TRANSPORT_PLANNING_CONTENT_TR: LocalizedArticleBody = {
         '• Yalnız Seyahat Edenler ve Çiftler (1–3 yolcu ve 2 büyük valiz): Toyota Camry VIP sedan çevik, konforlu ve tasarrufludur.',
         '• Orta Büyüklükteki Aileler (4–7 yolcu, 5–6 valiz ve bebek arabası): Kaptan koltuklu Hyundai Staria VIP MPV ferahlığıyla en çok tercih edilen aile aracıdır.',
         '• Geniş Aileler ve Üstün Lüks Arayanlar (7 yolcuya kadar, 6–8 valiz ve tekerlekli sandalye): Uzun şasili GMC Yukon XL VIP otoyolda mükemmel bir sürüş konforu ve devasa bir bagaj sunar.',
-        '• Kalabalık Gruplar (10–14 yolcu): [Toyota HiAce VIP](/tr/fleet/toyota-hiace) ve büyük kafileler (18 yolcuya kadar) için [Toyota Coaster VIP](/tr/fleet/toyota-coaster) minibüsleri tüm kafilenin tek araçta klimalı şekilde seyahat etmesini sağlar.',
+        '• Kalabalık Gruplar (10–14 yolcu): [Toyota HiAce VIP](/tr/fleet/toyota-hiace) ve büyük kafileler (21 yolcu ve 20 valize kadar) için [Toyota Coaster VIP](/tr/fleet/toyota-coaster) minibüsleri tüm kafilenin tek araçta klimalı şekilde seyahat etmesini sağlar.',
         'Ayrıntılı kapasite ölçüleri için [Umre Araç Kapasitesi ve Bagaj Rehberi](/tr/blog/vehicle-capacity-passengers-luggage) yazımızı inceleyebilirsiniz.'
       ]
     },

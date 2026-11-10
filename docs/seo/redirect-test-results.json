@@ -1,0 +1,114 @@
+[
+  {
+    "requestedUrl": "/ar/fleet/camry",
+    "httpStatus": 308,
+    "locationHeader": "/ar/fleet/toyota-camry",
+    "expectedDestination": "/ar/fleet/toyota-camry",
+    "isPermanent": true,
+    "hops": 1
+  },
+  {
+    "requestedUrl": "/en/fleet/yukon",
+    "httpStatus": 308,
+    "locationHeader": "/en/fleet/gmc-yukon-xl",
+    "expectedDestination": "/en/fleet/gmc-yukon-xl",
+    "isPermanent": true,
+    "hops": 1
+  },
+  {
+    "requestedUrl": "/tr/fleet/staria",
+    "httpStatus": 308,
+    "locationHeader": "/tr/fleet/hyundai-staria",
+    "expectedDestination": "/tr/fleet/hyundai-staria",
+    "isPermanent": true,
+    "hops": 1
+  },
+  {
+    "requestedUrl": "/ms/fleet/hiace",
+    "httpStatus": 308,
+    "locationHeader": "/ms/fleet/toyota-hiace",
+    "expectedDestination": "/ms/fleet/toyota-hiace",
+    "isPermanent": true,
+    "hops": 1
+  },
+  {
+    "requestedUrl": "/id/fleet/coaster",
+    "httpStatus": 308,
+    "locationHeader": "/id/fleet/toyota-coaster",
+    "expectedDestination": "/id/fleet/toyota-coaster",
+    "isPermanent": true,
+    "hops": 1
+  },
+  {
+    "requestedUrl": "/fleet/camry",
+    "httpStatus": 308,
+    "locationHeader": "/en/fleet/toyota-camry",
+    "expectedDestination": "/en/fleet/toyota-camry",
+    "isPermanent": true,
+    "hops": 1
+  },
+  {
+    "requestedUrl": "/fleet/yukon",
+    "httpStatus": 308,
+    "locationHeader": "/en/fleet/gmc-yukon-xl",
+    "expectedDestination": "/en/fleet/gmc-yukon-xl",
+    "isPermanent": true,
+    "hops": 1
+  },
+  {
+    "requestedUrl": "/fleet/staria",
+    "httpStatus": 308,
+    "locationHeader": "/en/fleet/hyundai-staria",
+    "expectedDestination": "/en/fleet/hyundai-staria",
+    "isPermanent": true,
+    "hops": 1
+  },
+  {
+    "requestedUrl": "/fleet/hiace",
+    "httpStatus": 308,
+    "locationHeader": "/en/fleet/toyota-hiace",
+    "expectedDestination": "/en/fleet/toyota-hiace",
+    "isPermanent": true,
+    "hops": 1
+  },
+  {
+    "requestedUrl": "/fleet/coaster",
+    "httpStatus": 308,
+    "locationHeader": "/en/fleet/toyota-coaster",
+    "expectedDestination": "/en/fleet/toyota-coaster",
+    "isPermanent": true,
+    "hops": 1
+  },
+  {
+    "requestedUrl": "/ar/guides/vip-umrah-transport-jeddah-to-makkah",
+    "httpStatus": 308,
+    "locationHeader": "/ar/blog/vip-umrah-transport-jeddah-to-makkah",
+    "expectedDestination": "/ar/blog/vip-umrah-transport-jeddah-to-makkah",
+    "isPermanent": true,
+    "hops": 1
+  },
+  {
+    "requestedUrl": "/guides/vip-umrah-transport-jeddah-to-makkah",
+    "httpStatus": 308,
+    "locationHeader": "/en/blog/vip-umrah-transport-jeddah-to-makkah",
+    "expectedDestination": "/en/blog/vip-umrah-transport-jeddah-to-makkah",
+    "isPermanent": true,
+    "hops": 1
+  },
+  {
+    "requestedUrl": "/admin.html",
+    "httpStatus": 308,
+    "locationHeader": "/admin/login",
+    "expectedDestination": "/admin/login",
+    "isPermanent": true,
+    "hops": 1
+  },
+  {
+    "requestedUrl": "/index.html",
+    "httpStatus": 308,
+    "locationHeader": "/",
+    "expectedDestination": "/",
+    "isPermanent": true,
+    "hops": 1
+  }
+]
