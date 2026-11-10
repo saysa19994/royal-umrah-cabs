@@ -88,7 +88,7 @@ export const TRANSPORT_PLANNING_CONTENT_EN: LocalizedArticleBody = {
         '• Solo Pilgrims & Couples (1–3 passengers with 2 bags): An executive sedan like the Toyota Camry VIP provides smooth, agile, and economical transfers.',
         '• Average Families (4–7 passengers with 5–6 bags and a stroller): The Hyundai Staria VIP MPV is the preferred choice, featuring plush captain chairs, multi-zone AC, and dedicated trunk room.',
         '• Large Families & Luxury Seekers (Up to 7 passengers with 6–8 bags and wheelchairs): The GMC Yukon XL VIP extended-wheelbase SUV offers royal comfort on the expressway and a cavernous cargo bed.',
-        '• Large Groups (10–14 passengers): The Toyota HiAce and Toyota Coaster minibuses allow extended families to travel together comfortably in a single vehicle.',
+        '• Large Groups (10–14 passengers): The [Toyota HiAce VIP](/en/fleet/toyota-hiace) is ideal for up to 10 passengers, while the [Toyota Coaster VIP](/en/fleet/toyota-coaster) comfortably accommodates delegations and groups of up to 18 passengers with ample luggage and roof cooling.',
         'For comprehensive capacity specifications and bag sizing advice, see our [Guide to Umrah Vehicle Capacity and Luggage Space](/en/blog/vehicle-capacity-passengers-luggage).'
       ]
     },

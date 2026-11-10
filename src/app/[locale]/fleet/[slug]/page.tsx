@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import {
@@ -398,9 +398,17 @@ const KEY_CORRIDORS = [
   'jeddah-to-taif',
 ];
 
+// Canonical official vehicle slugs (strictly excludes duplicate aliases from pre-rendering)
+const OFFICIAL_FLEET_SLUGS = [
+  'toyota-camry',
+  'gmc-yukon-xl',
+  'hyundai-staria',
+  'toyota-hiace',
+  'toyota-coaster',
+];
+
 export function generateStaticParams() {
-  const allSlugs = Object.keys(SLUG_ALIASES);
-  return allSlugs.map((slug) => ({ slug }));
+  return OFFICIAL_FLEET_SLUGS.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata(props: FleetDetailPageProps): Promise<Metadata> {
@@ -415,7 +423,7 @@ export async function generateMetadata(props: FleetDetailPageProps): Promise<Met
   return {
     title: `${name} | Duyuf Alrahman VIP`,
     description: desc.slice(0, 160),
-    alternates: getLocalizedAlternates(locale, `/fleet/${slug}`),
+    alternates: getLocalizedAlternates(locale, `/fleet/${resolvedSlug}`),
   };
 }
 
@@ -428,6 +436,11 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
   const resolvedSlug = SLUG_ALIASES[slug];
   if (!resolvedSlug) {
     notFound();
+  }
+
+  // 301 Permanent Redirect legacy short slugs to official canonical URLs
+  if (slug !== resolvedSlug) {
+    redirect(`/${locale}/fleet/${resolvedSlug}`);
   }
 
   // Look up unified vehicle

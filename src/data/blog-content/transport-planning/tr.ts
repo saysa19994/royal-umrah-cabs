@@ -17,7 +17,7 @@ export const TRANSPORT_PLANNING_CONTENT_TR: LocalizedArticleBody = {
         '1. Varış Havalimanı ve İniş Saati: Uçağınızın Cidde Havalimanı’na mı (Terminal 1 veya Kuzey Terminali) yoksa doğrudan Medine Havalimanı’na mı indiğini belirleyin.',
         '2. İlk Durak ve Otel Konumu: İhramlı halde doğrudan Mekke’ye geçip Umre ibadetinizi mi ifa edeceğinize, yoksa ilk olarak Medine’ye gidip Mescid-i Nebevi’yi ziyaret ederek dinleneceğinize karar verin.',
         '3. Mekke ve Medine’de Konaklama Süresi: Şehirlerarası transfer saatlerinizi, merkezi otellerin standart giriş (15.00–16.00) ve çıkış (12.00) saatleriyle tam uyumlu olacak şekilde ayarlayın.',
-        '4. Şehirlerarası Mesafeler ve Sürüş Süreleri: Karayolu mesafelerini (Cidde - Mekke: ~85 km, Mekke - Medine: ~430 km, Medine - Cidde: ~420 km) ve otoyoldaki ortalama seyir sürelerini hesaba katın.',
+        '4. Şehirlerarası Mesafeler ve Sürüş Süreleri: Karayolu mesafelerini (Cidde - Mekke: ~85 km, Mekke - Medine: ~430 km, Medine - Cidde: ~420 km) ve otoyoldaki ortalama seyir sürelerini hesaba katın. Riyad üzerinden gelen yolcularımız için [Riyad - Mekke VIP Transfer](/tr/routes/riyadh-to-makkah) güzergahımız 870 km olup doğrudan otel kapısına ulaşım sağlar.',
         '5. Dönüş Havalimanı ve Şehri: Bagaj teslimi ve resmi Zemzem bidonlarının kaydı için havalimanı transferinizi geniş bir güvenlik payıyla planlayın.',
         'Önemli Dini Hatırlatma: Umre ibadetinde önce Mekke’ye gitmek veya önce Medine’ye gitmek konusunda zorunlu bir dini kural yoktur. Her iki sıralama da caiz ve mübarektir. Karar; uçuş saatlerine, otel fiyatlarına ve aile konforunuza göre verilmelidir.'
       ]
@@ -37,7 +37,7 @@ export const TRANSPORT_PLANNING_CONTENT_TR: LocalizedArticleBody = {
       paragraphs: [
         'Mekke ile Medine arasındaki karayolu Hicret Otoyolu üzerinden 430–450 km olup, özel araçla yaklaşık 4 ila 4,5 saat sürer. Yolcular çoğunlukla iki seçenek arasında tercih yapar:',
         '1. Şoförlü Özel Araç (Private Chauffeur):',
-        'Mekke’deki otel kapısından Medine’deki otel kapısına doğrudan transfer (Door-to-Door) sağlar. Ailenin uyanma saatine göre serbest hareket imkanı, otoyol dinlenme tesislerinde namaz ve yemek molası verme özgürlüğü, tam mahremiyet ve varışta ödeme kolaylığı sunar. Detaylar için [Mekke’den Medine’ye Özel Transfer Rehberi](/tr/blog/private-transfer-makkah-to-madinah) sayfamıza göz atın ve [Suudi Arabistan’da Şoförlü VIP Araç](/tr/blog/vip-car-with-driver-saudi-arabia) seçeneklerimizi inceleyin.',
+        'Mekke’deki otel kapısından Medine’deki otel kapısına doğrudan transfer (Door-to-Door) sağlar. Ailenin uyanma saatine göre serbest hareket imkanı, otoyol dinlenme tesislerinde namaz ve yemek molası verme özgürlüğü, tam mahremiyet ve varışta ödeme kolaylığı sunar. Detaylar için [Mekke - Medine VIP Güzergahı](/tr/routes/makkah-to-madinah) sayfamızı ve [Mekke’den Medine’ye Özel Transfer Rehberi](/tr/blog/private-transfer-makkah-to-madinah) yazımızı inceleyebilirsiniz.',
         '2. Haremeyn Yüksek Hızlı Treni (Haramain High-Speed Railway):',
         'Mekke İstasyonu (Al-Rusaifah) ile Medine İstasyonu’nu 300 km/s hızla yaklaşık 2 saat 20 dakikada bağlayan modern bir elektrikli tren hattıdır.',
         'Ancak istasyondan istasyona seyahatin sahadaki gerekleri unutulmamalıdır: Otelden Mekke tren istasyonuna valizlerle taksi tutulmalı, güvenlik kontrolü için 60 dakika önce gidilmeli ve Medine’de istasyondan otele tekrar taksiye binilmelidir. Tren ayrıca kişi başı bagaj ağırlığında katı kurallar uygular.',
@@ -88,7 +88,7 @@ export const TRANSPORT_PLANNING_CONTENT_TR: LocalizedArticleBody = {
         '• Yalnız Seyahat Edenler ve Çiftler (1–3 yolcu ve 2 büyük valiz): Toyota Camry VIP sedan çevik, konforlu ve tasarrufludur.',
         '• Orta Büyüklükteki Aileler (4–7 yolcu, 5–6 valiz ve bebek arabası): Kaptan koltuklu Hyundai Staria VIP MPV ferahlığıyla en çok tercih edilen aile aracıdır.',
         '• Geniş Aileler ve Üstün Lüks Arayanlar (7 yolcuya kadar, 6–8 valiz ve tekerlekli sandalye): Uzun şasili GMC Yukon XL VIP otoyolda mükemmel bir sürüş konforu ve devasa bir bagaj sunar.',
-        '• Kalabalık Gruplar (10–14 yolcu): Toyota HiAce ve Toyota Coaster minibüsleri tüm kafilenin tek araçta klimalı şekilde seyahat etmesini sağlar.',
+        '• Kalabalık Gruplar (10–14 yolcu): [Toyota HiAce VIP](/tr/fleet/toyota-hiace) ve büyük kafileler (18 yolcuya kadar) için [Toyota Coaster VIP](/tr/fleet/toyota-coaster) minibüsleri tüm kafilenin tek araçta klimalı şekilde seyahat etmesini sağlar.',
         'Ayrıntılı kapasite ölçüleri için [Umre Araç Kapasitesi ve Bagaj Rehberi](/tr/blog/vehicle-capacity-passengers-luggage) yazımızı inceleyebilirsiniz.'
       ]
     },

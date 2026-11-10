@@ -50,10 +50,28 @@ export async function generateMetadata(props: GuideSlugPageProps): Promise<Metad
   const title = guide.title[locale] || guide.title.en;
   const description = guide.subtitle[locale] || guide.summary[locale] || guide.subtitle.en;
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
+  const isFullyLocalized = locale === 'ar' || locale === 'en';
+  const alternates = isFullyLocalized
+    ? {
+        canonical: `${baseUrl}/${locale}/guides/${slug}`,
+        languages: {
+          ar: `${baseUrl}/ar/guides/${slug}`,
+          en: `${baseUrl}/en/guides/${slug}`,
+          'x-default': `${baseUrl}/en/guides/${slug}`,
+        },
+      }
+    : {
+        canonical: `${baseUrl}/en/guides/${slug}`,
+      };
+
   return {
     title: `${title} | Duyuf Alrahman VIP`,
     description,
-    alternates: getLocalizedAlternates(locale, `/guides/${slug}`),
+    robots: isFullyLocalized
+      ? { index: true, follow: true }
+      : { index: false, follow: true },
+    alternates,
     openGraph: {
       title,
       description,
