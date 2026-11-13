@@ -350,10 +350,10 @@ export function Footer({ locale, dict, settings }: FooterProps) {
   const t = FOOTER_EXTRA_I18N[locale] || FOOTER_EXTRA_I18N.en;
 
   return (
-    <footer className="bg-[#101827] text-slate-300 border-t border-[#C5A15D]/25 mt-auto pb-20 md:pb-0 relative overflow-hidden">
+    <footer className="bg-[#173F35] text-slate-200 border-t border-[#C5A15D]/30 mt-auto pb-20 md:pb-0 relative overflow-hidden">
       {/* LUXURY AMBIENT BACKGROUND GLOW */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C5A15D]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#C5A15D]/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* 5-COLUMN MAIN GRID */}
       <div className="container mx-auto px-4 max-w-7xl pt-14 pb-10 md:pt-16 relative z-10">
@@ -615,8 +615,8 @@ export function Footer({ locale, dict, settings }: FooterProps) {
         </div>
       </div>
 
-      {/* BEIGE TRUST STRIP (IN OBSIDIAN & GOLD THEME) */}
-      <div className="border-y border-[#C5A15D]/25 bg-[#060A14] py-3.5 relative z-10">
+      {/* BEIGE TRUST STRIP (IN DEEP FOREST GREEN & GOLD THEME) */}
+      <div className="border-y border-[#C5A15D]/30 bg-[#102D26] py-3.5 relative z-10">
         <div className="container mx-auto px-4 max-w-7xl flex flex-wrap items-center justify-between gap-4 text-xs text-slate-300">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-gold shrink-0" />
@@ -638,7 +638,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
       </div>
 
       {/* BOTTOM LEGAL & COPYRIGHT BAR */}
-      <div className="container mx-auto px-4 max-w-7xl py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 relative z-10">
+      <div className="container mx-auto px-4 max-w-7xl pt-5 pb-44 md:pb-24 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 relative z-10">
         <p>
           {dict.footer.copyright || `© ${new Date().getFullYear()} Duyuf Alrahman VIP. All rights reserved.`}
         </p>
