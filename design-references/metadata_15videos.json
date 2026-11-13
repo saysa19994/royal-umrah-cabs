@@ -1,0 +1,662 @@
+[
+  {
+    "id": "video-01",
+    "fileName": "11.11.2026_18.41.45_REC.mp4",
+    "duration": "68.8s",
+    "resolution": "1280x640",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "1.0s",
+        "file": "frame_01_1.0s.jpg",
+        "size": 49750
+      },
+      {
+        "index": 2,
+        "timestamp": "13.8s",
+        "file": "frame_02_13.8s.jpg",
+        "size": 123165
+      },
+      {
+        "index": 3,
+        "timestamp": "27.5s",
+        "file": "frame_03_27.5s.jpg",
+        "size": 114884
+      },
+      {
+        "index": 4,
+        "timestamp": "41.3s",
+        "file": "frame_04_41.3s.jpg",
+        "size": 129154
+      },
+      {
+        "index": 5,
+        "timestamp": "55.1s",
+        "file": "frame_05_55.1s.jpg",
+        "size": 107032
+      },
+      {
+        "index": 6,
+        "timestamp": "65.4s",
+        "file": "frame_06_65.4s.jpg",
+        "size": 106900
+      }
+    ]
+  },
+  {
+    "id": "video-02",
+    "fileName": "11.11.2026_18.43.34_REC.mp4",
+    "duration": "36.2s",
+    "resolution": "1280x650",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "1.0s",
+        "file": "frame_01_1.0s.jpg",
+        "size": 114993
+      },
+      {
+        "index": 2,
+        "timestamp": "7.2s",
+        "file": "frame_02_7.2s.jpg",
+        "size": 116277
+      },
+      {
+        "index": 3,
+        "timestamp": "14.5s",
+        "file": "frame_03_14.5s.jpg",
+        "size": 117771
+      },
+      {
+        "index": 4,
+        "timestamp": "21.7s",
+        "file": "frame_04_21.7s.jpg",
+        "size": 112646
+      },
+      {
+        "index": 5,
+        "timestamp": "29.0s",
+        "file": "frame_05_29.0s.jpg",
+        "size": 111960
+      },
+      {
+        "index": 6,
+        "timestamp": "34.4s",
+        "file": "frame_06_34.4s.jpg",
+        "size": 116372
+      }
+    ]
+  },
+  {
+    "id": "video-03",
+    "fileName": "11.11.2026_18.45.02_REC.mp4",
+    "duration": "23.9s",
+    "resolution": "1280x650",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "1.0s",
+        "file": "frame_01_1.0s.jpg",
+        "size": 173850
+      },
+      {
+        "index": 2,
+        "timestamp": "4.8s",
+        "file": "frame_02_4.8s.jpg",
+        "size": 164650
+      },
+      {
+        "index": 3,
+        "timestamp": "9.5s",
+        "file": "frame_03_9.5s.jpg",
+        "size": 154104
+      },
+      {
+        "index": 4,
+        "timestamp": "14.3s",
+        "file": "frame_04_14.3s.jpg",
+        "size": 36455
+      },
+      {
+        "index": 5,
+        "timestamp": "19.1s",
+        "file": "frame_05_19.1s.jpg",
+        "size": 153038
+      },
+      {
+        "index": 6,
+        "timestamp": "22.7s",
+        "file": "frame_06_22.7s.jpg",
+        "size": 172324
+      }
+    ]
+  },
+  {
+    "id": "video-04",
+    "fileName": "11.11.2026_18.52.27_REC.mp4",
+    "duration": "35.5s",
+    "resolution": "1280x650",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "1.0s",
+        "file": "frame_01_1.0s.jpg",
+        "size": 119655
+      },
+      {
+        "index": 2,
+        "timestamp": "7.1s",
+        "file": "frame_02_7.1s.jpg",
+        "size": 115846
+      },
+      {
+        "index": 3,
+        "timestamp": "14.2s",
+        "file": "frame_03_14.2s.jpg",
+        "size": 126083
+      },
+      {
+        "index": 4,
+        "timestamp": "21.3s",
+        "file": "frame_04_21.3s.jpg",
+        "size": 118913
+      },
+      {
+        "index": 5,
+        "timestamp": "28.4s",
+        "file": "frame_05_28.4s.jpg",
+        "size": 91864
+      },
+      {
+        "index": 6,
+        "timestamp": "33.7s",
+        "file": "frame_06_33.7s.jpg",
+        "size": 122533
+      }
+    ]
+  },
+  {
+    "id": "video-05",
+    "fileName": "12.11.2026_03.14.51_REC.mp4",
+    "duration": "40.5s",
+    "resolution": "1280x614",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "1.0s",
+        "file": "frame_01_1.0s.jpg",
+        "size": 64336
+      },
+      {
+        "index": 2,
+        "timestamp": "8.1s",
+        "file": "frame_02_8.1s.jpg",
+        "size": 66934
+      },
+      {
+        "index": 3,
+        "timestamp": "16.2s",
+        "file": "frame_03_16.2s.jpg",
+        "size": 47934
+      },
+      {
+        "index": 4,
+        "timestamp": "24.3s",
+        "file": "frame_04_24.3s.jpg",
+        "size": 38948
+      },
+      {
+        "index": 5,
+        "timestamp": "32.4s",
+        "file": "frame_05_32.4s.jpg",
+        "size": 47731
+      },
+      {
+        "index": 6,
+        "timestamp": "38.4s",
+        "file": "frame_06_38.4s.jpg",
+        "size": 47154
+      }
+    ]
+  },
+  {
+    "id": "video-06",
+    "fileName": "12.11.2026_03.16.37_REC.mp4",
+    "duration": "35.9s",
+    "resolution": "1280x616",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "1.0s",
+        "file": "frame_01_1.0s.jpg",
+        "size": 114807
+      },
+      {
+        "index": 2,
+        "timestamp": "7.2s",
+        "file": "frame_02_7.2s.jpg",
+        "size": 117654
+      },
+      {
+        "index": 3,
+        "timestamp": "14.4s",
+        "file": "frame_03_14.4s.jpg",
+        "size": 116196
+      },
+      {
+        "index": 4,
+        "timestamp": "21.5s",
+        "file": "frame_04_21.5s.jpg",
+        "size": 110589
+      },
+      {
+        "index": 5,
+        "timestamp": "28.7s",
+        "file": "frame_05_28.7s.jpg",
+        "size": 107388
+      },
+      {
+        "index": 6,
+        "timestamp": "34.1s",
+        "file": "frame_06_34.1s.jpg",
+        "size": 112314
+      }
+    ]
+  },
+  {
+    "id": "video-07",
+    "fileName": "12.11.2026_03.17.55_REC.mp4",
+    "duration": "42.0s",
+    "resolution": "1280x626",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "1.0s",
+        "file": "frame_01_1.0s.jpg",
+        "size": 38190
+      },
+      {
+        "index": 2,
+        "timestamp": "8.4s",
+        "file": "frame_02_8.4s.jpg",
+        "size": 51345
+      },
+      {
+        "index": 3,
+        "timestamp": "16.8s",
+        "file": "frame_03_16.8s.jpg",
+        "size": 51790
+      },
+      {
+        "index": 4,
+        "timestamp": "25.2s",
+        "file": "frame_04_25.2s.jpg",
+        "size": 52331
+      },
+      {
+        "index": 5,
+        "timestamp": "33.6s",
+        "file": "frame_05_33.6s.jpg",
+        "size": 40123
+      },
+      {
+        "index": 6,
+        "timestamp": "39.9s",
+        "file": "frame_06_39.9s.jpg",
+        "size": 41500
+      }
+    ]
+  },
+  {
+    "id": "video-08",
+    "fileName": "12.11.2026_03.20.23_REC.mp4",
+    "duration": "14.1s",
+    "resolution": "1280x612",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "0.7s",
+        "file": "frame_01_0.7s.jpg",
+        "size": 46356
+      },
+      {
+        "index": 2,
+        "timestamp": "2.8s",
+        "file": "frame_02_2.8s.jpg",
+        "size": 40316
+      },
+      {
+        "index": 3,
+        "timestamp": "5.6s",
+        "file": "frame_03_5.6s.jpg",
+        "size": 46840
+      },
+      {
+        "index": 4,
+        "timestamp": "8.4s",
+        "file": "frame_04_8.4s.jpg",
+        "size": 41668
+      },
+      {
+        "index": 5,
+        "timestamp": "11.3s",
+        "file": "frame_05_11.3s.jpg",
+        "size": 35472
+      },
+      {
+        "index": 6,
+        "timestamp": "13.4s",
+        "file": "frame_06_13.4s.jpg",
+        "size": 111114
+      }
+    ]
+  },
+  {
+    "id": "video-09",
+    "fileName": "12.11.2026_03.22.34_REC.mp4",
+    "duration": "39.6s",
+    "resolution": "1280x624",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "1.0s",
+        "file": "frame_01_1.0s.jpg",
+        "size": 156540
+      },
+      {
+        "index": 2,
+        "timestamp": "7.9s",
+        "file": "frame_02_7.9s.jpg",
+        "size": 82281
+      },
+      {
+        "index": 3,
+        "timestamp": "15.9s",
+        "file": "frame_03_15.9s.jpg",
+        "size": 103029
+      },
+      {
+        "index": 4,
+        "timestamp": "23.8s",
+        "file": "frame_04_23.8s.jpg",
+        "size": 99071
+      },
+      {
+        "index": 5,
+        "timestamp": "31.7s",
+        "file": "frame_05_31.7s.jpg",
+        "size": 131745
+      },
+      {
+        "index": 6,
+        "timestamp": "37.7s",
+        "file": "frame_06_37.7s.jpg",
+        "size": 84731
+      }
+    ]
+  },
+  {
+    "id": "video-10",
+    "fileName": "12.11.2026_03.24.53_REC.mp4",
+    "duration": "38.7s",
+    "resolution": "1280x624",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "1.0s",
+        "file": "frame_01_1.0s.jpg",
+        "size": 100532
+      },
+      {
+        "index": 2,
+        "timestamp": "7.7s",
+        "file": "frame_02_7.7s.jpg",
+        "size": 89577
+      },
+      {
+        "index": 3,
+        "timestamp": "15.5s",
+        "file": "frame_03_15.5s.jpg",
+        "size": 122358
+      },
+      {
+        "index": 4,
+        "timestamp": "23.2s",
+        "file": "frame_04_23.2s.jpg",
+        "size": 122512
+      },
+      {
+        "index": 5,
+        "timestamp": "31.0s",
+        "file": "frame_05_31.0s.jpg",
+        "size": 27629
+      },
+      {
+        "index": 6,
+        "timestamp": "36.8s",
+        "file": "frame_06_36.8s.jpg",
+        "size": 114789
+      }
+    ]
+  },
+  {
+    "id": "video-11",
+    "fileName": "12.11.2026_03.26.27_REC.mp4",
+    "duration": "16.8s",
+    "resolution": "1280x616",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "0.8s",
+        "file": "frame_01_0.8s.jpg",
+        "size": 56585
+      },
+      {
+        "index": 2,
+        "timestamp": "3.4s",
+        "file": "frame_02_3.4s.jpg",
+        "size": 57322
+      },
+      {
+        "index": 3,
+        "timestamp": "6.7s",
+        "file": "frame_03_6.7s.jpg",
+        "size": 57816
+      },
+      {
+        "index": 4,
+        "timestamp": "10.1s",
+        "file": "frame_04_10.1s.jpg",
+        "size": 55359
+      },
+      {
+        "index": 5,
+        "timestamp": "13.4s",
+        "file": "frame_05_13.4s.jpg",
+        "size": 56399
+      },
+      {
+        "index": 6,
+        "timestamp": "16.0s",
+        "file": "frame_06_16.0s.jpg",
+        "size": 116695
+      }
+    ]
+  },
+  {
+    "id": "video-12",
+    "fileName": "12.11.2026_03.27.54_REC.mp4",
+    "duration": "52.1s",
+    "resolution": "1280x604",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "1.0s",
+        "file": "frame_01_1.0s.jpg",
+        "size": 55864
+      },
+      {
+        "index": 2,
+        "timestamp": "10.4s",
+        "file": "frame_02_10.4s.jpg",
+        "size": 140063
+      },
+      {
+        "index": 3,
+        "timestamp": "20.8s",
+        "file": "frame_03_20.8s.jpg",
+        "size": 92060
+      },
+      {
+        "index": 4,
+        "timestamp": "31.3s",
+        "file": "frame_04_31.3s.jpg",
+        "size": 131996
+      },
+      {
+        "index": 5,
+        "timestamp": "41.7s",
+        "file": "frame_05_41.7s.jpg",
+        "size": 113254
+      },
+      {
+        "index": 6,
+        "timestamp": "49.5s",
+        "file": "frame_06_49.5s.jpg",
+        "size": 64632
+      }
+    ]
+  },
+  {
+    "id": "video-13",
+    "fileName": "12.11.2026_03.29.25_REC.mp4",
+    "duration": "46.6s",
+    "resolution": "1280x622",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "1.0s",
+        "file": "frame_01_1.0s.jpg",
+        "size": 84758
+      },
+      {
+        "index": 2,
+        "timestamp": "9.3s",
+        "file": "frame_02_9.3s.jpg",
+        "size": 84686
+      },
+      {
+        "index": 3,
+        "timestamp": "18.6s",
+        "file": "frame_03_18.6s.jpg",
+        "size": 84106
+      },
+      {
+        "index": 4,
+        "timestamp": "28.0s",
+        "file": "frame_04_28.0s.jpg",
+        "size": 123002
+      },
+      {
+        "index": 5,
+        "timestamp": "37.3s",
+        "file": "frame_05_37.3s.jpg",
+        "size": 110028
+      },
+      {
+        "index": 6,
+        "timestamp": "44.3s",
+        "file": "frame_06_44.3s.jpg",
+        "size": 160883
+      }
+    ]
+  },
+  {
+    "id": "video-14",
+    "fileName": "12.11.2026_03.30.31_REC.mp4",
+    "duration": "39.5s",
+    "resolution": "1280x624",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "1.0s",
+        "file": "frame_01_1.0s.jpg",
+        "size": 73402
+      },
+      {
+        "index": 2,
+        "timestamp": "7.9s",
+        "file": "frame_02_7.9s.jpg",
+        "size": 30475
+      },
+      {
+        "index": 3,
+        "timestamp": "15.8s",
+        "file": "frame_03_15.8s.jpg",
+        "size": 29864
+      },
+      {
+        "index": 4,
+        "timestamp": "23.7s",
+        "file": "frame_04_23.7s.jpg",
+        "size": 72217
+      },
+      {
+        "index": 5,
+        "timestamp": "31.6s",
+        "file": "frame_05_31.6s.jpg",
+        "size": 58529
+      },
+      {
+        "index": 6,
+        "timestamp": "37.5s",
+        "file": "frame_06_37.5s.jpg",
+        "size": 63065
+      }
+    ]
+  },
+  {
+    "id": "video-15",
+    "fileName": "12.11.2026_03.31.31_REC.mp4",
+    "duration": "32.9s",
+    "resolution": "1280x616",
+    "frames": [
+      {
+        "index": 1,
+        "timestamp": "1.0s",
+        "file": "frame_01_1.0s.jpg",
+        "size": 62584
+      },
+      {
+        "index": 2,
+        "timestamp": "6.6s",
+        "file": "frame_02_6.6s.jpg",
+        "size": 53189
+      },
+      {
+        "index": 3,
+        "timestamp": "13.2s",
+        "file": "frame_03_13.2s.jpg",
+        "size": 52803
+      },
+      {
+        "index": 4,
+        "timestamp": "19.7s",
+        "file": "frame_04_19.7s.jpg",
+        "size": 48543
+      },
+      {
+        "index": 5,
+        "timestamp": "26.3s",
+        "file": "frame_05_26.3s.jpg",
+        "size": 45831
+      },
+      {
+        "index": 6,
+        "timestamp": "31.3s",
+        "file": "frame_06_31.3s.jpg",
+        "size": 48326
+      }
+    ]
+  }
+]

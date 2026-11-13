@@ -29,8 +29,6 @@ import {
   Plus,
   Minus,
   MessageCircle,
-  Building2,
-  Compass,
   Sparkles,
   Award,
   Phone,
@@ -51,12 +49,26 @@ import {
   NumberTicker,
   AuroraBackground,
 } from '@/components/ui/luxury';
+import { LuxuryFleetShowcase } from '@/components/fleet/LuxuryFleetShowcase';
+import { CinematicTravelHero } from '@/components/home/CinematicTravelHero';
+import { LayeredPremiumFleetDeck } from '@/components/home/LayeredPremiumFleetDeck';
+import { PremiumHowItWorks } from '@/components/home/PremiumHowItWorks';
+import { PremiumTrustStatistics } from '@/components/home/PremiumTrustStatistics';
+import { ArcDestinationGallery } from '@/components/home/ArcDestinationGallery';
+import { EditorialServicesSection } from '@/components/home/EditorialServicesSection';
+import { InteractiveRoutesExplorer } from '@/components/home/InteractiveRoutesExplorer';
+import { PremiumFaqAccordion } from '@/components/home/PremiumFaqAccordion';
+import { EditorialBlogExperience } from '@/components/blog/EditorialBlogExperience';
+import type { EditorialPostPreview } from '@/lib/blog-editorial-mapper';
+import type { ExplorerRouteItem } from '@/lib/routes-explorer-mapper';
 
 interface RoyalHomepageExperienceProps {
   locale: Locale;
   dict: Dictionary;
   settings?: SiteSettings;
   vehicles?: any[];
+  blogPreviews?: EditorialPostPreview[];
+  explorerRoutes?: ExplorerRouteItem[];
 }
 
 interface TranslationStrings {
@@ -948,6 +960,8 @@ export function RoyalHomepageExperience({
   dict,
   settings,
   vehicles = [],
+  blogPreviews = [],
+  explorerRoutes = [],
 }: RoyalHomepageExperienceProps) {
   const router = useRouter();
   const { formatPrice } = useCurrency();
@@ -1231,283 +1245,17 @@ export function RoyalHomepageExperience({
   ];
 
   return (
-    <div className="rc-master-page" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="rc-master-page w-full max-w-full overflow-x-hidden" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 01: HERO WITH SPLIT VISUAL & STEPPED CONSOLE
+          SECTION 01: CINEMATIC TRAVEL HERO (IDEA 01 - VIDEO 01)
       ────────────────────────────────────────────────────────────── */}
-      <section className="rc-hero-section relative overflow-hidden">
-        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#D6A13A" />
-        {/* Full-width panoramic background visual */}
-        <div className="rc-hero-bg-wrapper">
-          <div className="rc-hero-bg-image hidden sm:block">
-            <Image
-              src="/assets/images/cinematic/home/hero-kaaba-twilight-desktop.jpg"
-              alt="Duyuf Al Rahman VIP - Kaaba Courtyard with Mercedes S-Class"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-right-top"
-            />
-          </div>
-          {/* Dedicated High-Res Luxury Hero for Mobile (Option 3 Tailored) */}
-          <div className="rc-hero-bg-image-mobile sm:hidden">
-            <Image
-              src="/assets/images/cinematic/home/hero-mercedes-retina-mobile.jpg"
-              alt="Duyuf Al Rahman VIP - Sovereign Mercedes Chauffeur"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-top"
-            />
-          </div>
-          {/* Subtle gradient vignette to blend seamlessly into #090D15 */}
-          <div className="rc-hero-vignette" />
-        </div>
-
-        <div className="rc-container relative z-10">
-          <div className="rc-hero-content-col">
-            {/* Royal Eyebrow Badge with AnimatedShinyText */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#101725]/85 border border-[#D6A13A]/30 backdrop-blur-md mb-4 w-fit shadow-[0_0_20px_rgba(214,161,58,0.15)]">
-              <span className="w-2 h-2 rounded-full bg-[#D6A13A] animate-pulse" />
-              <AnimatedShinyText className="text-xs sm:text-sm font-bold tracking-wide">
-                {isAr
-                  ? '★ النقل الملكي المعتمد لضيوف الرحمن • مكة وجدة والمدينة ★'
-                  : '★ Sovereign VIP Chauffeur Service • Makkah, Jeddah & Madinah ★'}
-              </AnimatedShinyText>
-            </div>
-
-            {/* Headline */}
-            <h1 className="rc-hero-headline">
-              <span className="rc-hero-white">{t.heroTitleTop} </span>
-              <span className="rc-hero-gold">{t.heroTitleGold}</span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="rc-hero-subtitle">{t.heroSubtitle}</p>
-
-            {/* Trust Badges */}
-            <div className="rc-hero-trust-row">
-              <div className="rc-trust-badge">
-                <Clock className="w-4 h-4 text-[#D6A13A]" />
-                <span>{t.trust247}</span>
-              </div>
-              <div className="rc-trust-badge">
-                <Plane className="w-4 h-4 text-[#D6A13A]" />
-                <span>{t.trustFlight}</span>
-              </div>
-              <div className="rc-trust-badge">
-                <ShieldCheck className="w-4 h-4 text-[#D6A13A]" />
-                <span>{t.trustWaiting}</span>
-              </div>
-            </div>
-
-            {/* Stepped Architectural Reservation Console with Luxury BorderBeam & Meteors */}
-            <div className="rc-stepper-console relative overflow-hidden" id="booking" data-booking-form="true">
-              <BorderBeam size={260} duration={16} colorFrom="#D6A13A" colorTo="#E5B14B" />
-              <Meteors number={8} />
-              {/* Top Tag Pill */}
-              <div className="rc-console-tag-wrap relative z-10">
-                <span className="rc-console-tag">{t.planTripPill}</span>
-              </div>
-
-              {/* 1 - 2 - 3 Stepper Header */}
-              <div className="rc-stepper-header">
-                <div className="rc-step-node rc-step-active">
-                  <span className="rc-step-num">1</span>
-                  <span className="rc-step-label">{t.step1}</span>
-                </div>
-                <div className="rc-step-line rc-line-active" />
-                <div className="rc-step-node">
-                  <span className="rc-step-num">2</span>
-                  <span className="rc-step-label">{t.step2}</span>
-                </div>
-                <div className="rc-step-line" />
-                <div className="rc-step-node">
-                  <span className="rc-step-num">3</span>
-                  <span className="rc-step-label">{t.step3}</span>
-                </div>
-              </div>
-
-              {/* Form Input Row */}
-              <form onSubmit={handleSearchSubmit} className="rc-booking-form">
-                <div className="rc-form-grid">
-                  {/* Field 01: Pickup */}
-                  <div className="rc-field-col">
-                    <label className="rc-field-label">
-                      <MapPin className="w-3.5 h-3.5 text-[#D6A13A]" />
-                      <span>{t.pickupLabel}</span>
-                    </label>
-                    <div className="rc-input-box">
-                      <select
-                        value={pickup}
-                        onChange={(e) => {
-                          setPickup(e.target.value);
-                          if (feedback) setFeedback('');
-                        }}
-                        required
-                        className="rc-select"
-                      >
-                        <option value="">{t.pickupPlaceholder}</option>
-                        <option value="jeddah-airport">{t.locJeddahAirport}</option>
-                        <option value="makkah">{t.locMakkah}</option>
-                        <option value="madinah-airport">{t.locMadinahAirport}</option>
-                        <option value="madinah">{t.locMadinah}</option>
-                        <option value="riyadh">{t.locRiyadh}</option>
-                        <option value="taif">{t.locTaif}</option>
-                      </select>
-                      <ChevronDown className="rc-chevron" />
-                    </div>
-                  </div>
-
-                  {/* Field 02: Destination */}
-                  <div className="rc-field-col">
-                    <label className="rc-field-label">
-                      <MapPin className="w-3.5 h-3.5 text-[#D6A13A]" />
-                      <span>{t.destLabel}</span>
-                    </label>
-                    <div className="rc-input-box">
-                      <select
-                        value={dropoff}
-                        onChange={(e) => {
-                          setDropoff(e.target.value);
-                          if (feedback) setFeedback('');
-                        }}
-                        required
-                        className="rc-select"
-                      >
-                        <option value="">{t.destPlaceholder}</option>
-                        <option value="makkah">{t.locMakkah}</option>
-                        <option value="madinah">{t.locMadinah}</option>
-                        <option value="jeddah-airport">{t.locJeddahAirport}</option>
-                        <option value="madinah-airport">{t.locMadinahAirport}</option>
-                        <option value="riyadh">{t.locRiyadh}</option>
-                        <option value="taif">{t.locTaif}</option>
-                      </select>
-                      <ChevronDown className="rc-chevron" />
-                    </div>
-                  </div>
-
-                  {/* Field 03: Date */}
-                  <div className="rc-field-col">
-                    <label className="rc-field-label">
-                      <Calendar className="w-3.5 h-3.5 text-[#D6A13A]" />
-                      <span>{t.dateLabel}</span>
-                    </label>
-                    <div className="rc-input-box">
-                      <input
-                        type="date"
-                        min={todayStr}
-                        value={travelDate}
-                        onChange={(e) => setTravelDate(e.target.value)}
-                        required
-                        className="rc-input"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Field 04: Time */}
-                  <div className="rc-field-col">
-                    <label className="rc-field-label">
-                      <Clock className="w-3.5 h-3.5 text-[#D6A13A]" />
-                      <span>{t.timeLabel}</span>
-                    </label>
-                    <div className="rc-input-box">
-                      <select
-                        value={travelTime}
-                        onChange={(e) => setTravelTime(e.target.value)}
-                        className="rc-select"
-                      >
-                        <option value="12:00">12:00 PM</option>
-                        <option value="13:00">01:00 PM</option>
-                        <option value="14:00">02:00 PM</option>
-                        <option value="15:00">03:00 PM</option>
-                        <option value="16:00">04:00 PM</option>
-                        <option value="17:00">05:00 PM</option>
-                        <option value="18:00">06:00 PM</option>
-                        <option value="19:00">07:00 PM</option>
-                        <option value="20:00">08:00 PM</option>
-                        <option value="21:00">09:00 PM</option>
-                        <option value="22:00">10:00 PM</option>
-                        <option value="23:00">11:00 PM</option>
-                        <option value="00:00">12:00 AM</option>
-                        <option value="01:00">01:00 AM</option>
-                        <option value="02:00">02:00 AM</option>
-                        <option value="03:00">03:00 AM</option>
-                        <option value="04:00">04:00 AM</option>
-                        <option value="05:00">05:00 AM</option>
-                        <option value="06:00">06:00 AM</option>
-                        <option value="07:00">07:00 AM</option>
-                        <option value="08:00">08:00 AM</option>
-                        <option value="09:00">09:00 AM</option>
-                        <option value="10:00">10:00 AM</option>
-                        <option value="11:00">11:00 AM</option>
-                      </select>
-                      <ChevronDown className="rc-chevron" />
-                    </div>
-                  </div>
-
-                  {/* Field 05: Passengers */}
-                  <div className="rc-field-col">
-                    <label className="rc-field-label">
-                      <Users className="w-3.5 h-3.5 text-[#D6A13A]" />
-                      <span>{t.passengersLabel}</span>
-                    </label>
-                    <div className="rc-input-box">
-                      <select
-                        value={passengers}
-                        onChange={(e) => setPassengers(e.target.value)}
-                        className="rc-select"
-                      >
-                        <option value="1">1 {t.passengersWord}</option>
-                        <option value="2">2 {t.passengersWord}</option>
-                        <option value="3">3 {t.passengersWord}</option>
-                        <option value="4">4 {t.passengersWord}</option>
-                        <option value="6">6 {t.passengersWord}</option>
-                        <option value="7">7 {t.passengersWord}</option>
-                        <option value="10">10 {t.passengersWord}</option>
-                        <option value="14">14 {t.passengersWord}</option>
-                      </select>
-                      <ChevronDown className="rc-chevron" />
-                    </div>
-                  </div>
-
-                  {/* Action Button with Luxury ShimmerButton */}
-                  <div className="rc-form-action">
-                    <ShimmerButton
-                      type="submit"
-                      className="rc-btn-search min-h-[48px] h-12 w-full"
-                      shimmerColor="#F2C94C"
-                      shimmerDuration="2.5s"
-                      background="linear-gradient(135deg, #D6A13A 0%, #B58428 100%)"
-                    >
-                      <span className="font-bold text-[#090D15] text-sm sm:text-base">{t.searchButton}</span>
-                      <span className="text-[#090D15] font-bold">{isRtl ? '←' : '→'}</span>
-                    </ShimmerButton>
-                  </div>
-                </div>
-
-                {/* Cash Guarantee Notice */}
-                <div className="rc-form-guarantee">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#D6A13A] shrink-0" />
-                  <span>{t.cashGuarantee}</span>
-                </div>
-
-                {feedback && (
-                  <p className="rc-feedback-alert" role="alert">
-                    {feedback}
-                  </p>
-                )}
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
+      <CinematicTravelHero locale={locale} dict={dict} />
 
       {/* ─────────────────────────────────────────────────────────────
           VIP LIVE RUNNING MARQUEE TICKER (OPEN-SOURCE MAGIC UI)
       ────────────────────────────────────────────────────────────── */}
-      <section className="relative z-20 bg-[#090D15] border-y border-[rgba(214,161,58,0.25)] py-3.5 overflow-hidden">
-        <Marquee pauseOnHover repeat={4} duration={35} className="[--gap:2.5rem]">
+      <section className="relative z-20 w-full max-w-full bg-[#090D15] border-y border-[rgba(214,161,58,0.25)] py-3.5 overflow-hidden">
+        <Marquee pauseOnHover repeat={4} duration={35} className="[--gap:2.5rem] w-full max-w-full">
           <div className="flex items-center gap-2.5 text-xs sm:text-sm text-[#F6F3ED] font-medium whitespace-nowrap">
             <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
             <span>{isAr ? 'سائقون معتمدون متاحون الآن في مطار جدة والحرم المكي' : 'Chauffeurs on standby at Jeddah Airport & Makkah'}</span>
@@ -1532,406 +1280,29 @@ export function RoyalHomepageExperience({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          SOVEREIGN METRICS BAR WITH NUMBER TICKER (OPEN-SOURCE MAGIC UI)
+          PROMPT 7: VERIFIED TRUST AND OPERATIONAL STATISTICS
       ────────────────────────────────────────────────────────────── */}
-      <section className="relative z-10 bg-[#0E1420] py-8 sm:py-10 border-b border-[rgba(255,255,255,0.06)]">
-        <div className="rc-container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-            {/* Metric 01 */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#101725] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(214,161,58,0.35)] transition-all flex flex-col items-center text-center group">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#D6A13A] font-display flex items-center">
-                <NumberTicker value={150000} delay={0.2} />
-                <span>+</span>
-              </span>
-              <span className="text-xs sm:text-sm font-semibold text-[#F6F3ED] mt-1.5">
-                {isAr ? 'معتمر وضيف تم خدمتهم' : 'Pilgrims & VIPs Served'}
-              </span>
-              <span className="text-[11px] text-[#AEB7C4] mt-0.5">
-                {isAr ? 'بأعلى تقييم ورضا معتمد' : 'With Top-Tier Satisfaction'}
-              </span>
-            </div>
-
-            {/* Metric 02 */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#101725] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(214,161,58,0.35)] transition-all flex flex-col items-center text-center group">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#F6F3ED] font-display flex items-center">
-                <NumberTicker value={99.8} decimalPlaces={1} delay={0.3} />
-                <span>%</span>
-              </span>
-              <span className="text-xs sm:text-sm font-semibold text-[#F6F3ED] mt-1.5">
-                {isAr ? 'دقة الالتزام بالمواعيد' : 'Punctual Arrival Rate'}
-              </span>
-              <span className="text-[11px] text-[#AEB7C4] mt-0.5">
-                {isAr ? 'وصول مبكر قبل موعدك' : 'Early Airport Pickup'}
-              </span>
-            </div>
-
-            {/* Metric 03 */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#101725] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(214,161,58,0.35)] transition-all flex flex-col items-center text-center group">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#25D366] font-display">
-                0%
-              </span>
-              <span className="text-xs sm:text-sm font-semibold text-[#F6F3ED] mt-1.5">
-                {isAr ? 'دفعة مقدمة (0 ريال)' : 'Zero Advance Payment'}
-              </span>
-              <span className="text-[11px] text-[#AEB7C4] mt-0.5">
-                {isAr ? 'الدفع 100% نقداً للسائق' : 'Pay 100% Cash-on-Arrival'}
-              </span>
-            </div>
-
-            {/* Metric 04 */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#101725] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(214,161,58,0.35)] transition-all flex flex-col items-center text-center group">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#D6A13A] font-display">
-                24/7
-              </span>
-              <span className="text-xs sm:text-sm font-semibold text-[#F6F3ED] mt-1.5">
-                {isAr ? 'دعم كبار الشخصيات' : 'VIP Concierge Dispatch'}
-              </span>
-              <span className="text-[11px] text-[#AEB7C4] mt-0.5">
-                {isAr ? 'متابعة لحظية على مدار اليوم' : 'Round-The-Clock Service'}
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PremiumTrustStatistics locale={locale} dict={dict} />
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 02: THE 3D AUTOMOTIVE SHOWROOM PEDESTAL
+          PROMPT 1: PREMIUM ARC DESTINATION GALLERY (MAKKAH & MADINAH)
       ────────────────────────────────────────────────────────────── */}
-      <section className="rc-showroom-master relative overflow-hidden" id="showroom">
-        <Spotlight className="-top-20 right-0 md:right-40" fill="#D6A13A" />
-        <div className="rc-container">
-          <div className="rc-section-header-center">
-            <div className="rc-eyebrow-divider">
-              <span className="rc-eyebrow-line" />
-              <span className="rc-eyebrow-text">{isAr ? 'صالة العرض الرقمية الملكية' : 'ROYAL DIGITAL SHOWROOM'}</span>
-              <span className="rc-eyebrow-line" />
-            </div>
-            <h2 className="rc-h2-light">{isAr ? 'أسطول الصفوة لضيوف الرحمن' : 'The Sovereign Luxury Fleet'}</h2>
-            <p className="rc-p-light">{isAr ? 'اختر مركبتك واستكشف سعات الأمتعة ومواصفات الراحة لرحلتك' : 'Explore VIP vehicle specifications, verified luggage capacity, and senior accessibility'}</p>
-          </div>
-
-          {/* Vehicle Switcher Tabs */}
-          <div className="rc-showroom-tabs">
-            {showroomVehicles.map((car, idx) => (
-              <button
-                key={car.id}
-                type="button"
-                onClick={() => setSelectedShowroomCar(idx)}
-                className={`rc-showroom-tab ${selectedShowroomCar === idx ? 'active' : ''}`}
-              >
-                <span>{car.name}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* 3-Column Studio Grid: Left Specs | Center Pedestal | Right Luggage & Senior */}
-          {(() => {
-            const currentCar = showroomVehicles[selectedShowroomCar];
-            return (
-              <div className="rc-showroom-grid">
-                {/* Left: Comfort & Specifications */}
-                <div className="rc-spec-card">
-                  <span className="rc-senior-badge">
-                    <Award className="w-3.5 h-3.5 text-[#D6A13A]" />
-                    <span>{isAr ? 'مواصفات الفخامة والسكينة' : 'Luxury & Comfort Specs'}</span>
-                  </span>
-                  <h3 className="text-xl font-bold text-white mb-2">{currentCar.name}</h3>
-                  <p className="text-xs text-[#AEB7C4] mb-4">{currentCar.subtitle}</p>
-
-                  <div className="rc-spec-item">
-                    <Users className="w-4 h-4 text-[#D6A13A] shrink-0" />
-                    <div>
-                      <strong className="text-white text-sm block">{currentCar.pax} {isAr ? 'ركاب كحد أقصى' : 'Passengers Capacity'}</strong>
-                      <span className="text-xs text-[#AEB7C4]">{isAr ? 'مقاعد مريحة برحابة فائقة' : 'Spacious seating comfort'}</span>
-                    </div>
-                  </div>
-
-                  <div className="rc-spec-item">
-                    <ShieldCheck className="w-4 h-4 text-[#D6A13A] shrink-0" />
-                    <div>
-                      <strong className="text-white text-sm block">{isAr ? 'التكييف والمناخ' : 'Climate Control'}</strong>
-                      <span className="text-xs text-[#AEB7C4]">{currentCar.climate}</span>
-                    </div>
-                  </div>
-
-                  <div className="rc-spec-item">
-                    <Sparkles className="w-4 h-4 text-[#D6A13A] shrink-0" />
-                    <div>
-                      <strong className="text-white text-sm block">{isAr ? 'العزل والهدوء' : 'Acoustic Serenity'}</strong>
-                      <span className="text-xs text-[#AEB7C4]">{currentCar.isolation}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Center: Illuminated Studio Pedestal with 3D Card Parallax */}
-                <div className="rc-pedestal-center">
-                  <CardContainer className="w-full" containerClassName="py-0 w-full">
-                    <CardBody className="w-full flex flex-col items-center">
-                      <CardItem translateZ={50} className="relative w-full h-[260px] sm:h-[320px] flex items-center justify-center">
-                        <Image
-                          src={currentCar.image}
-                          alt={currentCar.name}
-                          width={520}
-                          height={300}
-                          priority
-                          className="object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.8)] z-10 transition-transform duration-500 hover:scale-105"
-                        />
-                      </CardItem>
-                    </CardBody>
-                  </CardContainer>
-                  <div className="rc-pedestal-disc" />
-                  <div className="mt-4 flex items-center gap-3">
-                    <Link
-                      href={`/${locale}/booking?vehicle=${currentCar.id}`}
-                      className="rc-btn-search px-6 py-2.5 text-sm"
-                    >
-                      <span>{isAr ? 'احجز هذه المركبة الآن' : 'Reserve This Vehicle'}</span>
-                      <span>{isRtl ? '←' : '→'}</span>
-                    </Link>
-                    <a
-                      href={`https://wa.me/966505316971?text=${encodeURIComponent(isAr ? `السلام عليكم، أرغب في حجز سيارة ${currentCar.name}` : `Hello, I would like to reserve ${currentCar.name}`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#25D366] text-white font-bold text-sm hover:opacity-90 transition-opacity"
-                    >
-                      <MessageCircle className="w-4 h-4" />
-                      <span>{isAr ? 'واتساب VIP' : 'WhatsApp Concierge'}</span>
-                    </a>
-                  </div>
-                </div>
-
-                {/* Right: Luggage Trunk Visualizer & Senior Access */}
-                <div className="rc-spec-card">
-                  <span className="rc-senior-badge">
-                    <Baby className="w-3.5 h-3.5 text-[#D6A13A]" />
-                    <span>{isAr ? 'راحة كبار السن والعائلات' : 'Senior & Family Accessibility'}</span>
-                  </span>
-                  <p className="text-xs text-[#AEB7C4] mb-3">{currentCar.seniorAccess}</p>
-
-                  <div className="rc-luggage-box">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Luggage className="w-4 h-4 text-[#D6A13A]" />
-                      <strong className="text-white text-sm">{isAr ? 'مخطط سعة صندوق الأمتعة' : 'Luggage Trunk Visualizer'}</strong>
-                    </div>
-                    <p className="text-xs text-[#F6F3ED] leading-relaxed mb-3">
-                      {currentCar.luggageDesc}
-                    </p>
-                    <div className="flex items-center gap-2 text-xs text-[#D6A13A] font-semibold">
-                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                      <span>{isAr ? 'مياه زمزم ومقاعد الأطفال مشمولة مجاناً' : 'Zamzam containers & child seats supported'}</span>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 pt-3 border-t border-[rgba(255,255,255,0.08)]">
-                    <strong className="text-xs text-[#AEB7C4] uppercase tracking-wider block mb-2">{isAr ? 'الأسعار الثابتة للمسارات الرئيسية' : 'Authoritative Fixed Rates'}</strong>
-                    <div className="space-y-1.5">
-                      {currentCar.rates.map((r, i) => (
-                        <div key={i} className="flex items-center justify-between text-xs py-1 border-b border-[rgba(255,255,255,0.04)] last:border-none">
-                          <span className="text-white">{r.route}</span>
-                          <span className="text-[#D6A13A] font-bold">{formatPrice(r.price)}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })()}
-        </div>
-      </section>
+      <ArcDestinationGallery locale={locale} dict={dict} />
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 02B: OUR FLEET ("CHOOSE YOUR CLASS")
+          SECTION 02: LAYERED PREMIUM FLEET DECK (IDEA 15 - VIDEO 15)
       ────────────────────────────────────────────────────────────── */}
-      <section className="rc-fleet-section" id="fleet">
-        <div className="rc-container">
-          {/* Eyebrow & Title */}
-          <div className="rc-section-header-center">
-            <div className="rc-eyebrow-divider">
-              <span className="rc-eyebrow-line" />
-              <span className="rc-eyebrow-text">{t.fleetEyebrow}</span>
-              <span className="rc-eyebrow-line" />
-            </div>
-            <h2 className="rc-h2-light">{t.fleetTitle}</h2>
-            <p className="rc-p-light">{t.fleetSubtitle}</p>
-          </div>
-
-          {/* Carousel Layout with Controls */}
-          <div className="rc-carousel-wrapper">
-            {/* Left arrow button */}
-            <button
-              type="button"
-              onClick={handlePrevCar}
-              aria-label="Previous Vehicle"
-              className="rc-carousel-nav rc-nav-prev"
-            >
-              {isRtl ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
-            </button>
-
-            {/* Fleet Cards Grid / Carousel */}
-            <div className="rc-fleet-grid">
-              {fleetCards.map((car, idx) => (
-                <div
-                  key={car.id}
-                  className={`rc-car-card ${car.isPopular ? 'rc-card-featured' : ''} ${
-                    idx === carouselIndex ? 'rc-card-active-mobile' : ''
-                  }`}
-                >
-                  {/* Top Badge for Most Popular with Luxury BorderBeam & Meteors */}
-                  {car.isPopular && (
-                    <>
-                      <BorderBeam size={160} duration={12} colorFrom="#D6A13A" colorTo="#F2C94C" />
-                      <Meteors number={6} />
-                      <div className="rc-badge-popular">
-                        <span>{t.mostPopularTag}</span>
-                      </div>
-                    </>
-                  )}
-
-                  {/* Vehicle Image */}
-                  <div className="rc-car-img-wrap">
-                    <Image
-                      src={car.image}
-                      alt={car.name}
-                      width={320}
-                      height={180}
-                      className="rc-car-img"
-                    />
-                  </div>
-
-                  {/* Vehicle Title */}
-                  <h3 className="rc-car-title">{car.name}</h3>
-
-                  {/* Specifications */}
-                  <div className="rc-car-specs">
-                    <span className="inline-flex items-center gap-1.5">
-                      <Users className="w-3.5 h-3.5 text-[#D6A13A] shrink-0" />
-                      <span>{car.pax} {t.passengersWord}</span>
-                    </span>
-                    <span className="rc-spec-divider">•</span>
-                    <span className="inline-flex items-center gap-1.5">
-                      <Luggage className="w-3.5 h-3.5 text-[#D6A13A] shrink-0" />
-                      <span>{car.bags} {t.bagsWord}</span>
-                    </span>
-                  </div>
-
-                  {/* Price */}
-                  <div className="rc-car-price">
-                    <span className="rc-price-prefix">{t.fromPricePrefix}</span>
-                    <strong className="rc-price-amount">{formatPrice(car.fromPrice)}</strong>
-                  </div>
-
-                  {/* Booking CTA Button */}
-                  <Link
-                    href={`/${locale}/booking?vehicle=${car.id}`}
-                    className="rc-btn-book-card"
-                  >
-                    <span>{t.bookNowBtn}</span>
-                    <span>{isRtl ? '←' : '→'}</span>
-                  </Link>
-                </div>
-              ))}
-            </div>
-
-            {/* Right arrow button */}
-            <button
-              type="button"
-              onClick={handleNextCar}
-              aria-label="Next Vehicle"
-              className="rc-carousel-nav rc-nav-next"
-            >
-              {isRtl ? <ChevronLeft className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-            </button>
-          </div>
-
-          {/* Mobile Pagination Dots */}
-          <div className="rc-carousel-dots sm:hidden">
-            {fleetCards.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setCarouselIndex(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                className={`rc-dot ${carouselIndex === i ? 'rc-dot-active' : ''}`}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+      <LayeredPremiumFleetDeck locale={locale} dict={dict} />
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 03: PREMIUM TRANSPORTATION SERVICES
+          SECTION 02C: PREMIUM HOW IT WORKS EXPERIENCE (3-STEP CUSTOMER JOURNEY)
       ────────────────────────────────────────────────────────────── */}
-      <section className="rc-services-section" id="services">
-        <div className="rc-container">
-          <div className="rc-services-header">
-            <h2 className="rc-h2-light">{t.servicesTitle}</h2>
-            <p className="rc-p-light">{t.servicesSubtitle}</p>
-          </div>
+      <PremiumHowItWorks locale={locale} dict={dict} />
 
-          <div className="rc-services-split-grid">
-            {/* Left: 2x2 Services Cards */}
-            <div className="rc-services-cards-grid">
-              {/* Service 1: Airport Transfers with Luxury BorderBeam */}
-              <div className="rc-srv-card relative overflow-hidden group">
-                <BorderBeam size={130} duration={14} colorFrom="#D6A13A" colorTo="#E5B14B" />
-                <div className="rc-srv-icon-wrap relative z-10">
-                  <Plane className="w-5 h-5 text-[#D6A13A]" />
-                </div>
-                <div className="relative z-10">
-                  <h3 className="rc-srv-title">{t.srvAirportTitle}</h3>
-                  <p className="rc-srv-sub">{t.srvAirportSub}</p>
-                </div>
-              </div>
-
-              {/* Service 2: Ziyarat Trips */}
-              <div className="rc-srv-card">
-                <div className="rc-srv-icon-wrap">
-                  <Compass className="w-5 h-5 text-[#D6A13A]" />
-                </div>
-                <div>
-                  <h3 className="rc-srv-title">{t.srvZiyaratTitle}</h3>
-                  <p className="rc-srv-sub">{t.srvZiyaratSub}</p>
-                </div>
-              </div>
-
-              {/* Service 3: Intercity Travel */}
-              <div className="rc-srv-card">
-                <div className="rc-srv-icon-wrap">
-                  <Car className="w-5 h-5 text-[#D6A13A]" />
-                </div>
-                <div>
-                  <h3 className="rc-srv-title">{t.srvIntercityTitle}</h3>
-                  <p className="rc-srv-sub">{t.srvIntercitySub}</p>
-                </div>
-              </div>
-
-              {/* Service 4: Hotel Transfers */}
-              <div className="rc-srv-card">
-                <div className="rc-srv-icon-wrap">
-                  <Building2 className="w-5 h-5 text-[#D6A13A]" />
-                </div>
-                <div>
-                  <h3 className="rc-srv-title">{t.srvHotelTitle}</h3>
-                  <p className="rc-srv-sub">{t.srvHotelSub}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: Featured Cinematic SUV Landscape Image */}
-            <div className="rc-services-visual-wrap">
-              <Image
-                src="/assets/images/cinematic/services/services-suv-highway.jpg"
-                alt="Premium Chauffeur SUV overlooking Saudi Arabia"
-                fill
-                sizes="(max-width: 1024px) 100vw, 45vw"
-                className="object-cover"
-              />
-              <div className="rc-services-visual-overlay" />
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 03: PROMPT 2 — EDITORIAL SERVICES EXPERIENCE
+      ────────────────────────────────────────────────────────────── */}
+      <EditorialServicesSection locale={locale} dict={dict} />
 
       {/* ─────────────────────────────────────────────────────────────
           SECTION 03B: SCENIC HIJRAH HIGHWAY MILESTONE CORRIDOR (ROUTE 15)
@@ -2171,154 +1542,58 @@ export function RoyalHomepageExperience({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 04: POPULAR ROUTES & WHY CHOOSE US (WARM SANDSTONE #F7F4EE)
+          SECTION 04: PROMPT 3 — INTERACTIVE ROUTES EXPLORER
       ────────────────────────────────────────────────────────────── */}
-      <section className="rc-sandstone-section" id="routes">
-        <div className="rc-container">
-          <div className="rc-sandstone-split-grid">
-            {/* Left 60%: Popular Routes & Prices */}
-            <div className="rc-routes-col">
-              <h2 className="rc-h2-dark">{t.routesTitle}</h2>
-              <p className="rc-p-dark">{t.routesSubtitle}</p>
+      <InteractiveRoutesExplorer locale={locale} dict={dict} routes={explorerRoutes} />
 
-              <div className="rc-routes-list">
-                {/* Route 1: Jeddah Airport to Makkah */}
-                <Link
-                  href={`/${locale}/booking?route=jeddah-airport-to-makkah`}
-                  className="rc-route-white-card"
-                >
-                  <div className="rc-route-thumb">
-                    <Image
-                      src="/assets/images/routes/jeddah-airport-to-makkah.jpg"
-                      alt="Jeddah to Makkah"
-                      fill
-                      sizes="120px"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="rc-route-info">
-                    <h3 className="rc-route-name">{t.route1Title}</h3>
-                    <div className="rc-route-meta">
-                      <Clock className="w-3.5 h-3.5 text-[#D6A13A]" />
-                      <span>{t.route1Time}</span>
-                    </div>
-                  </div>
-                  <div className="rc-route-fare-box">
-                    <span className="rc-route-fare-val">{t.fromPricePrefix} {formatPrice(200)}</span>
-                    <div className="rc-route-arrow-btn">
-                      <span>{isRtl ? '←' : '→'}</span>
-                    </div>
-                  </div>
-                </Link>
-
-                {/* Route 2: Makkah to Madinah */}
-                <Link
-                  href={`/${locale}/booking?route=makkah-to-madinah`}
-                  className="rc-route-white-card"
-                >
-                  <div className="rc-route-thumb">
-                    <Image
-                      src="/assets/images/routes/makkah-to-madinah.jpg"
-                      alt="Makkah to Madinah"
-                      fill
-                      sizes="120px"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="rc-route-info">
-                    <h3 className="rc-route-name">{t.route2Title}</h3>
-                    <div className="rc-route-meta">
-                      <Clock className="w-3.5 h-3.5 text-[#D6A13A]" />
-                      <span>{t.route2Time}</span>
-                    </div>
-                  </div>
-                  <div className="rc-route-fare-box">
-                    <span className="rc-route-fare-val">{t.fromPricePrefix} {formatPrice(400)}</span>
-                    <div className="rc-route-arrow-btn">
-                      <span>{isRtl ? '←' : '→'}</span>
-                    </div>
-                  </div>
-                </Link>
-
-                {/* Route 3: Madinah Airport to Hotel */}
-                <Link
-                  href={`/${locale}/booking?route=madinah-airport-to-madinah`}
-                  className="rc-route-white-card"
-                >
-                  <div className="rc-route-thumb">
-                    <Image
-                      src="/assets/images/routes/madinah-airport.jpg"
-                      alt="Madinah Airport"
-                      fill
-                      sizes="120px"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="rc-route-info">
-                    <h3 className="rc-route-name">{t.route3Title}</h3>
-                    <div className="rc-route-meta">
-                      <Clock className="w-3.5 h-3.5 text-[#D6A13A]" />
-                      <span>{t.route3Time}</span>
-                    </div>
-                  </div>
-                  <div className="rc-route-fare-box">
-                    <span className="rc-route-fare-val">{t.fromPricePrefix} {formatPrice(200)}</span>
-                    <div className="rc-route-arrow-btn">
-                      <span>{isRtl ? '←' : '→'}</span>
-                    </div>
-                  </div>
-                </Link>
-              </div>
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 04B: WHY CHOOSE DUYUF AL RAHMAN VIP (PRESERVED TRUST BAND)
+      ────────────────────────────────────────────────────────────── */}
+      <section className="py-14 sm:py-16 bg-[#0B101C] border-b border-[rgba(255,255,255,0.06)] relative overflow-hidden" id="why-choose-us">
+        <div className="rc-container relative z-10">
+          <div className="rc-why-col max-w-4xl mx-auto">
+            <div className="rc-why-watermark">
+              <Image
+                src="/assets/brand/calligraphy-watermark.svg"
+                alt="Islamic Emblem Watermark"
+                width={240}
+                height={240}
+                className="object-contain"
+              />
             </div>
-
-            {/* Right 40%: Why Choose Duyuf Al Rahman VIP */}
-            <div className="rc-why-col">
-              {/* Islamic Calligraphy Watermark in corner */}
-              <div className="rc-why-watermark">
-                <Image
-                  src="/assets/brand/calligraphy-watermark.svg"
-                  alt="Islamic Emblem Watermark"
-                  width={240}
-                  height={240}
-                  className="object-contain"
-                />
-              </div>
-
-              <h2 className="rc-h2-dark">{t.whyTitle}</h2>
-
-              <ul className="rc-why-checklist">
-                <li className="rc-why-item">
-                  <div className="rc-why-check">
-                    <Check className="w-4 h-4 text-[#D6A13A]" />
-                  </div>
-                  <span>{t.why1}</span>
-                </li>
-                <li className="rc-why-item">
-                  <div className="rc-why-check">
-                    <Check className="w-4 h-4 text-[#D6A13A]" />
-                  </div>
-                  <span>{t.why2}</span>
-                </li>
-                <li className="rc-why-item">
-                  <div className="rc-why-check">
-                    <Check className="w-4 h-4 text-[#D6A13A]" />
-                  </div>
-                  <span>{t.why3}</span>
-                </li>
-                <li className="rc-why-item">
-                  <div className="rc-why-check">
-                    <Check className="w-4 h-4 text-[#D6A13A]" />
-                  </div>
-                  <span>{t.why4}</span>
-                </li>
-                <li className="rc-why-item">
-                  <div className="rc-why-check">
-                    <Check className="w-4 h-4 text-[#D6A13A]" />
-                  </div>
-                  <span>{t.why5}</span>
-                </li>
-              </ul>
-            </div>
+            <h2 className="rc-h2-dark">{t.whyTitle}</h2>
+            <ul className="rc-why-checklist">
+              <li className="rc-why-item">
+                <div className="rc-why-check">
+                  <Check className="w-4 h-4 text-[#D6A13A]" />
+                </div>
+                <span>{t.why1}</span>
+              </li>
+              <li className="rc-why-item">
+                <div className="rc-why-check">
+                  <Check className="w-4 h-4 text-[#D6A13A]" />
+                </div>
+                <span>{t.why2}</span>
+              </li>
+              <li className="rc-why-item">
+                <div className="rc-why-check">
+                  <Check className="w-4 h-4 text-[#D6A13A]" />
+                </div>
+                <span>{t.why3}</span>
+              </li>
+              <li className="rc-why-item">
+                <div className="rc-why-check">
+                  <Check className="w-4 h-4 text-[#D6A13A]" />
+                </div>
+                <span>{t.why4}</span>
+              </li>
+              <li className="rc-why-item">
+                <div className="rc-why-check">
+                  <Check className="w-4 h-4 text-[#D6A13A]" />
+                </div>
+                <span>{t.why5}</span>
+              </li>
+            </ul>
           </div>
         </div>
       </section>
@@ -2358,185 +1633,19 @@ export function RoyalHomepageExperience({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Card 1 */}
-            <Link
-              href={`/${locale}/blog/vip-umrah-transport-jeddah-to-makkah`}
-              className="group relative bg-[#101827] border border-white/10 hover:border-[rgba(214,161,58,0.5)] rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.6)] flex flex-col"
-            >
-              <div className="relative h-48 w-full overflow-hidden">
-                <Image
-                  src="/assets/images/blog/vip-umrah-transport-jeddah-to-makkah.webp"
-                  alt="VIP Umrah Transport Jeddah to Makkah"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#101827] via-transparent to-transparent" />
-                <span className="absolute top-3 start-3 px-2.5 py-1 rounded-md bg-[#090D15]/85 border border-[#D6A13A]/40 text-[#D6A13A] text-xs font-semibold backdrop-blur-xs">
-                  {isRtl ? 'دليل كبار الشخصيات' : 'VIP Guide'}
-                </span>
-              </div>
-              <div className="p-5 flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#D6A13A] transition-colors font-serif leading-snug">
-                    {isRtl
-                      ? 'دليل اختيار سيارة VIP من مطار جدة إلى مكة المكرمة'
-                      : 'VIP Umrah Transport from Jeddah Airport to Makkah'}
-                  </h3>
-                  <p className="mt-2 text-xs sm:text-sm text-slate-400 line-clamp-2">
-                    {isRtl
-                      ? 'مقارنة فئات السيارات، تتبع الرحلات المباشر، وخدمة الاستقبال الخاص في صالة المطار.'
-                      : 'Comprehensive chauffeur guide, flight tracking, and executive arrivals at KAIA airport.'}
-                  </p>
-                </div>
-                <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-[#D6A13A] font-semibold">
-                  <span>{isRtl ? 'اقرأ الدليل الكامل' : 'Read Full Guide'}</span>
-                  <span>{isRtl ? '←' : '→'}</span>
-                </div>
-              </div>
-            </Link>
-
-            {/* Card 2 */}
-            <Link
-              href={`/${locale}/blog/private-transfer-makkah-to-madinah`}
-              className="group relative bg-[#101827] border border-white/10 hover:border-[rgba(214,161,58,0.5)] rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.6)] flex flex-col"
-            >
-              <div className="relative h-48 w-full overflow-hidden">
-                <Image
-                  src="/assets/images/blog/private-transfer-makkah-to-madinah.webp"
-                  alt="Private Transfer Makkah to Madinah"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#101827] via-transparent to-transparent" />
-                <span className="absolute top-3 start-3 px-2.5 py-1 rounded-md bg-[#090D15]/85 border border-[#D6A13A]/40 text-[#D6A13A] text-xs font-semibold backdrop-blur-xs">
-                  {isRtl ? 'التنقل بين المدن' : 'Intercity'}
-                </span>
-              </div>
-              <div className="p-5 flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#D6A13A] transition-colors font-serif leading-snug">
-                    {isRtl
-                      ? 'الانتقال المباشر بين مكة المكرمة والمدينة المنورة'
-                      : 'Private Transfer from Makkah to Madinah: Ultimate Guide'}
-                  </h3>
-                  <p className="mt-2 text-xs sm:text-sm text-slate-400 line-clamp-2">
-                    {isRtl
-                      ? 'مقارنة مسافات السفر، أوقات الرحلة، وراحة العائلات وحقائب السفر الكبيرة بسيارات خاصة.'
-                      : 'Travel durations, route stops, baggage capacity, and seamless family comfort.'}
-                  </p>
-                </div>
-                <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-[#D6A13A] font-semibold">
-                  <span>{isRtl ? 'اقرأ الدليل الكامل' : 'Read Full Guide'}</span>
-                  <span>{isRtl ? '←' : '→'}</span>
-                </div>
-              </div>
-            </Link>
-
-            {/* Card 3 */}
-            <Link
-              href={`/${locale}/blog/jeddah-airport-pickup-umrah`}
-              className="group relative bg-[#101827] border border-white/10 hover:border-[rgba(214,161,58,0.5)] rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.6)] flex flex-col"
-            >
-              <div className="relative h-48 w-full overflow-hidden">
-                <Image
-                  src="/assets/images/blog/jeddah-airport-pickup-umrah.webp"
-                  alt="Jeddah Airport Pickup Umrah"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#101827] via-transparent to-transparent" />
-                <span className="absolute top-3 start-3 px-2.5 py-1 rounded-md bg-[#090D15]/85 border border-[#D6A13A]/40 text-[#D6A13A] text-xs font-semibold backdrop-blur-xs">
-                  {isRtl ? 'استقبال المطار' : 'Airport Pickup'}
-                </span>
-              </div>
-              <div className="p-5 flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#D6A13A] transition-colors font-serif leading-snug">
-                    {isRtl
-                      ? 'دليل الوصول واستقبال الصالة بمطار الملك عبدالعزيز'
-                      : 'Jeddah Airport Pickup for Umrah: Step-by-Step Guide'}
-                  </h3>
-                  <p className="mt-2 text-xs sm:text-sm text-slate-400 line-clamp-2">
-                    {isRtl
-                      ? 'خطوات الاستقبال بعد استلام الأمتعة، 60 دقيقة انتظار مجاني، ولقاء السائق بالصالة.'
-                      : 'Arrival procedures, 60-minute complimentary waiting, baggage assistance, and terminal meet & greet.'}
-                  </p>
-                </div>
-                <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-[#D6A13A] font-semibold">
-                  <span>{isRtl ? 'اقرأ الدليل الكامل' : 'Read Full Guide'}</span>
-                  <span>{isRtl ? '←' : '→'}</span>
-                </div>
-              </div>
-            </Link>
-          </div>
+          <EditorialBlogExperience
+            locale={locale}
+            posts={blogPreviews}
+            limit={3}
+            whatsappNumber={settings?.whatsapp_number}
+          />
         </div>
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 05: FREQUENTLY ASKED QUESTIONS & UMRAH CTA CARD
+          SECTION 05: PROMPT 8 — PREMIUM INTERACTIVE FAQ EXPERIENCE
       ────────────────────────────────────────────────────────────── */}
-      <section className="rc-faq-section" id="faq">
-        <div className="rc-container">
-          <div className="rc-faq-split-grid">
-            {/* Left 60%: FAQ Accordion */}
-            <div className="rc-faq-col">
-              <h2 className="rc-h2-light">{t.faqTitle}</h2>
-              <p className="rc-p-light">{t.faqSubtitle}</p>
-
-              <div className="rc-faq-accordion-grid">
-                {faqs.map((faq, idx) => {
-                  const isOpen = openFaq === idx;
-                  return (
-                    <div
-                      key={idx}
-                      className={`rc-faq-pill ${isOpen ? 'rc-faq-open' : ''}`}
-                      onClick={() => toggleFaq(idx)}
-                    >
-                      <div className="rc-faq-pill-header">
-                        <span className="rc-faq-q">{faq.q}</span>
-                        <div className="rc-faq-toggle-icon">
-                          {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                        </div>
-                      </div>
-                      {isOpen && (
-                        <div className="rc-faq-pill-body">
-                          <p>{faq.a}</p>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Right 40%: Umrah CTA Card */}
-            <div className="rc-cta-card-col">
-              <div className="rc-umrah-cta-card">
-                <Image
-                  src="/assets/images/cinematic/home/faq-umrah-peace.jpg"
-                  alt="Ready for Umrah Journey"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 38vw"
-                  className="object-cover"
-                />
-                <div className="rc-cta-card-overlay" />
-                <div className="rc-cta-card-content">
-                  <h3 className="rc-cta-card-title">{t.ctaCardTitle}</h3>
-                  <p className="rc-cta-card-sub">{t.ctaCardSub}</p>
-                  <Link href={`/${locale}/booking`} className="rc-btn-gold-cta">
-                    <span>{t.ctaCardBtn}</span>
-                    <span>{isRtl ? '←' : '→'}</span>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PremiumFaqAccordion locale={locale} dict={dict} settings={settings} />
     </div>
   );
 }

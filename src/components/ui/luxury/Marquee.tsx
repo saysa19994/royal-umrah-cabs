@@ -34,7 +34,7 @@ export function Marquee({
         '--gap': gap,
       } as React.CSSProperties}
       className={clsx(
-        'group flex overflow-hidden p-2 [--gap:1rem] [gap:var(--gap)]',
+        'group flex w-full max-w-full overflow-hidden p-2 [--gap:1rem] [gap:var(--gap)]',
         {
           'flex-row': !vertical,
           'flex-col': vertical,

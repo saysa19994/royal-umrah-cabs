@@ -209,7 +209,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
         {/* LOGO: NEW ROYAL CREST VECTOR EMBLEM & BRANDING */}
         <Link
           href={locale === 'en' ? '/' : `/${locale}`}
-          className="flex items-center group focus-visible:ring-2 focus-visible:ring-[#D6A13A] rounded-lg p-1 -m-1 shrink-0"
+          className="flex items-center group focus-visible:ring-2 focus-visible:ring-[#D6A13A] rounded-lg p-1 -m-1 shrink-0 max-w-[140px] sm:max-w-none"
           aria-label="Duyuf Alrahman VIP - ضيوف الرحمن VIP"
         >
           <Image
@@ -217,7 +217,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
             alt="Duyuf Alrahman VIP"
             width={240}
             height={52}
-            className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+            className="h-8 sm:h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
             priority
           />
         </Link>

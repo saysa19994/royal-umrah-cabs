@@ -39,6 +39,8 @@
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+    max-width: 100%;
   }
 
   body {
@@ -46,6 +48,8 @@
     color: var(--color-body);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -297,6 +301,142 @@
     animation: none !important;
     transform: none !important;
   }
+  .footer-strip-track {
+    animation: none !important;
+    transform: none !important;
+  }
+  .arc-gallery-drift {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Transform-only slow horizontal drift for Prompt 1 Arc Destination Gallery */
+@keyframes arcDriftMobileLtr {
+  0% { transform: translate3d(10px, 0, 0); }
+  100% { transform: translate3d(-10px, 0, 0); }
+}
+@keyframes arcDriftMobileRtl {
+  0% { transform: translate3d(-10px, 0, 0); }
+  100% { transform: translate3d(10px, 0, 0); }
+}
+@keyframes arcDriftDesktopLtr {
+  0% { transform: translate3d(28px, 0, 0); }
+  100% { transform: translate3d(-28px, 0, 0); }
+}
+@keyframes arcDriftDesktopRtl {
+  0% { transform: translate3d(-28px, 0, 0); }
+  100% { transform: translate3d(28px, 0, 0); }
+}
+
+.arc-gallery-stage {
+  --arc-dir: 1;
+}
+[dir="rtl"].arc-gallery-stage,
+[dir="rtl"] .arc-gallery-stage {
+  --arc-dir: -1;
+}
+
+.arc-gallery-drift {
+  will-change: transform;
+  animation: arcDriftMobileLtr 20s ease-in-out infinite alternate;
+}
+[dir="rtl"].arc-gallery-stage .arc-gallery-drift,
+[dir="rtl"] .arc-gallery-stage .arc-gallery-drift {
+  animation-name: arcDriftMobileRtl;
+}
+
+@media (min-width: 768px) {
+  .arc-gallery-drift {
+    animation-duration: 24s;
+  }
+}
+
+@media (min-width: 1280px) {
+  .arc-gallery-drift {
+    animation-name: arcDriftDesktopLtr;
+    animation-duration: 26s;
+  }
+  [dir="rtl"].arc-gallery-stage .arc-gallery-drift,
+  [dir="rtl"] .arc-gallery-stage .arc-gallery-drift {
+    animation-name: arcDriftDesktopRtl;
+  }
+}
+
+.arc-gallery-stage:hover .arc-gallery-drift,
+.arc-gallery-stage:focus-within .arc-gallery-drift {
+  animation-play-state: paused;
+}
+
+/* Parabolic curved slot transforms (mirrored automatically via --arc-dir) */
+.arc-slot {
+  transform: translate3d(0, var(--arc-y, 0px), 0) rotate(calc(var(--arc-r, 0deg) * var(--arc-dir, 1)));
+}
+
+/* Mobile (< 768px): 3 visible cards [3, 4, 5] forming clean arch */
+.arc-slot-3 { --arc-y: -14px; --arc-r: -7deg; }
+.arc-slot-4 { --arc-y: 8px; --arc-r: 0deg; }
+.arc-slot-5 { --arc-y: -14px; --arc-r: 7deg; }
+
+/* Tablet (768px - 1023px): 5 visible cards [2..6] */
+@media (min-width: 768px) {
+  .arc-slot-2 { --arc-y: -34px; --arc-r: -11deg; }
+  .arc-slot-3 { --arc-y: -8px; --arc-r: -5deg; }
+  .arc-slot-4 { --arc-y: 12px; --arc-r: 0deg; }
+  .arc-slot-5 { --arc-y: -8px; --arc-r: 5deg; }
+  .arc-slot-6 { --arc-y: -34px; --arc-r: 11deg; }
+}
+
+/* Desktop (1024px+): 9 visible cards curving gracefully into side shoulders */
+@media (min-width: 1024px) {
+  .arc-slot-0 { --arc-y: -84px; --arc-r: -14deg; }
+  .arc-slot-1 { --arc-y: -54px; --arc-r: -10deg; }
+  .arc-slot-2 { --arc-y: -26px; --arc-r: -6.5deg; }
+  .arc-slot-3 { --arc-y: -4px; --arc-r: -3deg; }
+  .arc-slot-4 { --arc-y: 14px; --arc-r: 0deg; }
+  .arc-slot-5 { --arc-y: -4px; --arc-r: 3deg; }
+  .arc-slot-6 { --arc-y: -26px; --arc-r: 6.5deg; }
+  .arc-slot-7 { --arc-y: -54px; --arc-r: 10deg; }
+  .arc-slot-8 { --arc-y: -84px; --arc-r: 14deg; }
+}
+
+@media (min-width: 1280px) {
+  .arc-slot-0 { --arc-y: -110px; --arc-r: -15deg; }
+  .arc-slot-1 { --arc-y: -70px; --arc-r: -11deg; }
+  .arc-slot-2 { --arc-y: -32px; --arc-r: -7deg; }
+  .arc-slot-3 { --arc-y: -4px; --arc-r: -3.5deg; }
+  .arc-slot-4 { --arc-y: 16px; --arc-r: 0deg; }
+  .arc-slot-5 { --arc-y: -4px; --arc-r: 3.5deg; }
+  .arc-slot-6 { --arc-y: -32px; --arc-r: 7deg; }
+  .arc-slot-7 { --arc-y: -70px; --arc-r: 11deg; }
+  .arc-slot-8 { --arc-y: -110px; --arc-r: 15deg; }
+}
+
+/* Transform-only slow marquee strip for Cinematic Footer CTA */
+@keyframes footerStripMarqueeLtr {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes footerStripMarqueeRtl {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(50%, 0, 0); }
+}
+
+.footer-strip-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: footerStripMarqueeLtr 52s linear infinite;
+}
+
+[dir="rtl"] .footer-strip-track {
+  animation-name: footerStripMarqueeRtl;
+}
+
+.footer-strip-viewport:hover .footer-strip-track,
+.footer-strip-viewport:focus-within .footer-strip-track {
+  animation-play-state: paused;
 }
 
 /* ==========================================================================
