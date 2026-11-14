@@ -4,6 +4,7 @@ import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { BookingEngine } from '@/components/booking/BookingEngine';
+import { BookingWizard } from '@/components/booking/BookingWizard';
 import { Spotlight } from '@/components/ui/luxury/Spotlight';
 import { ShieldCheck, Plane, Banknote } from 'lucide-react';
 import { getDbPricesCached } from '@/lib/pricing-db';
@@ -203,7 +204,7 @@ export default async function BookingPage(props: BookingPageProps) {
         </div>
 
         {/* Booking Engine & Real-Time Booking Summary */}
-        <BookingEngine
+        <BookingWizard
           locale={locale}
           dict={dict}
           settings={settings}

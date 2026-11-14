@@ -87,7 +87,7 @@ export default async function FleetPage(props: FleetPageProps) {
   };
 
   return (
-    <main className="min-h-screen bg-[#090D15]">
+    <main className="min-h-screen bg-bg text-ink">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }}

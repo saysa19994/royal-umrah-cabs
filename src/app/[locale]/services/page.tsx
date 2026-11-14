@@ -39,7 +39,6 @@ export default async function ServicesPage(props: ServicesPageProps) {
   const { locale } = params;
   const isAr = locale === 'ar';
   const isRtl = isAr || locale === 'ur';
-  const dict = getDictionary(locale);
 
   const ArrowIcon = isRtl ? ArrowLeft : ArrowRight;
 
@@ -125,18 +124,18 @@ export default async function ServicesPage(props: ServicesPageProps) {
   ];
 
   return (
-    <div className="py-12 md:py-20 bg-[#090D15] min-h-screen text-[#F6F3ED]" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="py-12 md:py-20 bg-bg min-h-screen text-ink" dir={isRtl ? 'rtl' : 'ltr'}>
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#141D2C] border border-[#D6A13A]/40 text-xs font-bold text-[#D6A13A] uppercase tracking-widest mb-3">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3 shadow-2xs">
             <Sparkles className="w-3.5 h-3.5" />
             <span>{isAr ? 'حلول النقل المتكاملة' : 'Comprehensive Transportation Solutions'}</span>
           </div>
-          <h1 className="font-playfair font-serif font-bold text-3xl sm:text-5xl text-[#F6F3ED] tracking-tight mb-4">
+          <h1 className="font-display font-semibold text-3xl sm:text-5xl text-ink tracking-tight mb-4">
             {isAr ? 'خدمات النقل الفاخرة' : 'Our Services'}
           </h1>
-          <p className="text-sm sm:text-base text-[#AEB7C4] leading-relaxed font-light">
+          <p className="text-sm sm:text-base text-ink-muted leading-relaxed font-light">
             {isAr
               ? 'حلول نقل متكاملة تلبي كافة احتياجات رحلتك الإيمانية وتنقلاتك عبر المملكة'
               : 'Comprehensive transportation solutions for your pilgrimage and travel needs'}
@@ -150,39 +149,39 @@ export default async function ServicesPage(props: ServicesPageProps) {
             return (
               <div
                 key={service.id}
-                className="bg-[#101725] rounded-2xl p-6 sm:p-7 border border-white/10 shadow-lg hover:border-[#D6A13A]/50 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group"
+                className="bg-surface rounded-2xl p-6 sm:p-7 border border-border shadow-xs hover:border-gold/60 hover:shadow-md transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-xl bg-[#141D2C] border border-[#D6A13A]/40 flex items-center justify-center text-[#D6A13A] group-hover:scale-105 group-hover:border-[#D6A13A] transition-all">
+                    <div className="w-12 h-12 rounded-xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark group-hover:scale-105 transition-all">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-[#141D2C] text-[#D6A13A] border border-[#D6A13A]/30">
+                    <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-gold-soft text-gold-dark border border-gold-line">
                       {service.badge}
                     </span>
                   </div>
 
-                  <h2 className="font-playfair font-serif text-xl font-bold text-[#F6F3ED] mb-2.5">
+                  <h2 className="font-display text-xl font-bold text-ink mb-2.5">
                     {service.title}
                   </h2>
-                  <p className="text-[#AEB7C4] text-xs leading-relaxed mb-5 font-light">
+                  <p className="text-ink-muted text-xs leading-relaxed mb-5 font-light">
                     {service.desc}
                   </p>
 
-                  <div className="space-y-2 pt-4 border-t border-white/10">
+                  <div className="space-y-2 pt-4 border-t border-border">
                     {service.highlights.map((hl, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-xs text-[#AEB7C4]">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#D6A13A] shrink-0 mt-0.5" />
+                      <div key={idx} className="flex items-start gap-2 text-xs text-ink-light">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                         <span>{hl}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-white/5">
+                <div className="pt-6 mt-6 border-t border-border">
                   <Link
                     href={`/${locale}/booking?service=${service.id}`}
-                    className="inline-flex items-center gap-2 text-xs font-bold text-[#D6A13A] hover:text-[#F6F3ED] transition-colors"
+                    className="inline-flex items-center gap-2 text-xs font-bold text-gold-dark hover:text-ink transition-colors"
                   >
                     <span>{isAr ? 'حجز هذه الخدمة' : 'Book This Service'}</span>
                     <ArrowIcon className="w-3.5 h-3.5" />
@@ -197,7 +196,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
         <div className="text-center py-8">
           <Link
             href={`/${locale}/booking`}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-[#E5B14B] via-[#D6A13A] to-[#A97B27] text-[#090D15] font-extrabold text-sm sm:text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gold-dark hover:bg-gold-hover text-surface font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300"
           >
             <span>{isAr ? 'احجز رحلتك الآن' : 'Book Your Journey Today'}</span>
             <ArrowIcon className="w-4 h-4" />

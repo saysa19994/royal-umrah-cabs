@@ -350,10 +350,10 @@ export function Footer({ locale, dict, settings }: FooterProps) {
   const t = FOOTER_EXTRA_I18N[locale] || FOOTER_EXTRA_I18N.en;
 
   return (
-    <footer className="bg-[#173F35] text-slate-200 border-t border-[#C5A15D]/30 mt-auto pb-20 md:pb-0 relative overflow-hidden">
+    <footer className="bg-[var(--footer-bg)] text-[var(--footer-text)] border-t border-[var(--footer-border)] mt-auto pb-12 md:pb-6 relative overflow-hidden transition-colors duration-200">
       {/* LUXURY AMBIENT BACKGROUND GLOW */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C5A15D]/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#C5A15D]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--accent-primary)]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[var(--accent-primary)]/5 rounded-full blur-3xl pointer-events-none" />
 
       {/* 5-COLUMN MAIN GRID */}
       <div className="container mx-auto px-4 max-w-7xl pt-14 pb-10 md:pt-16 relative z-10">
@@ -369,7 +369,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
                 className="h-11 w-auto object-contain"
               />
             </Link>
-            <p className="text-xs text-slate-300 leading-relaxed max-w-sm">
+            <p className="text-xs text-[var(--footer-text)] leading-relaxed max-w-sm">
               {t.desc}
             </p>
 
@@ -399,53 +399,53 @@ export function Footer({ locale, dict, settings }: FooterProps) {
               </div>
               <a
                 href={telUrl}
-                className="w-full inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-3 rounded-btn border border-[#C5A15D]/40 bg-white/5 text-gold text-xs font-semibold hover:bg-gold hover:text-slate-950 transition-colors focus-visible:ring-2 focus-visible:ring-gold"
+                className="w-full inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-3 rounded-btn border border-[var(--border-stone)] bg-[var(--bg-surface)] text-[var(--text-primary)] text-xs font-semibold hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--accent-primary)]"
               >
-                <Phone className="w-3.5 h-3.5" />
+                <Phone className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
                 <span>{t.voiceDispatch}: {settings.phone || '+966505316971'}</span>
               </a>
             </div>
 
             {/* DEDICATED PILGRIM CARE BADGE */}
-            <div className="pt-2 text-[11px] text-slate-300 flex items-center gap-2">
-              <Car className="w-4 h-4 text-gold shrink-0" />
+            <div className="pt-2 text-[11px] text-[var(--footer-text)] flex items-center gap-2">
+              <Car className="w-4 h-4 text-[var(--accent-primary)] shrink-0" />
               <span>{t.chauffeurBadge}</span>
             </div>
           </div>
 
           {/* COL 2: POPULAR ROUTES */}
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-serif text-sm border-b border-[#C5A15D]/25 pb-1.5">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--footer-heading)] mb-3.5 font-serif text-sm border-b border-[var(--footer-border)] pb-1.5">
               {dict.footer.popularRoutes}
             </h4>
-            <ul className="space-y-2 text-xs text-slate-300">
+            <ul className="space-y-2 text-xs text-[var(--footer-text)]">
               <li>
-                <Link href={`/${locale}/routes/jeddah-airport-to-makkah`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/routes/jeddah-airport-to-makkah`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   Jeddah Airport to Makkah
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/routes/makkah-to-madinah`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/routes/makkah-to-madinah`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   Makkah to Madinah VIP
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/routes/madinah-to-makkah`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/routes/madinah-to-makkah`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   Madinah to Makkah
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/routes/makkah-to-jeddah-airport`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/routes/makkah-to-jeddah-airport`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   Makkah to Jeddah Airport
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/routes/jeddah-to-madinah`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/routes/jeddah-to-madinah`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   Jeddah Airport to Madinah
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/routes/madinah-airport-to-hotel`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/routes/madinah-airport-to-hotel`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   Madinah Airport to Hotel
                 </Link>
               </li>
@@ -454,42 +454,42 @@ export function Footer({ locale, dict, settings }: FooterProps) {
 
           {/* COL 3: SERVICES & FLEET */}
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-serif text-sm border-b border-[#C5A15D]/25 pb-1.5">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--footer-heading)] mb-3.5 font-serif text-sm border-b border-[var(--footer-border)] pb-1.5">
               {dict.footer.servicesFleet}
             </h4>
-            <ul className="space-y-2 text-xs text-slate-300">
+            <ul className="space-y-2 text-xs text-[var(--footer-text)]">
               <li>
-                <Link href={`/${locale}/fleet/gmc-yukon-xl`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/fleet/gmc-yukon-xl`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   GMC Yukon XL VIP (7 Seats)
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/fleet/hyundai-staria`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/fleet/hyundai-staria`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   Hyundai Staria VIP (7 Seats)
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/fleet/toyota-camry`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/fleet/toyota-camry`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   Toyota Camry Executive (4 Seats)
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/fleet/toyota-hiace`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/fleet/toyota-hiace`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   Toyota HiAce Family (10 Seats)
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/fleet/toyota-coaster`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/fleet/toyota-coaster`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   Toyota Coaster VIP Coach (21 Seats)
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/services`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/services`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   Makkah & Madinah Ziyarat Tours
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/services`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/services`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   Hourly Chauffeur Rental
                 </Link>
               </li>
@@ -498,47 +498,47 @@ export function Footer({ locale, dict, settings }: FooterProps) {
 
           {/* COL 4: PILGRIM GUIDES & TOOLS */}
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-serif text-sm border-b border-[#C5A15D]/25 pb-1.5">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--footer-heading)] mb-3.5 font-serif text-sm border-b border-[var(--footer-border)] pb-1.5">
               {t.guidesHeader}
             </h4>
-            <ul className="space-y-2 text-xs text-slate-300">
+            <ul className="space-y-2 text-xs text-[var(--footer-text)]">
               <li>
-                <Link href={`/${locale}/blog`} className="hover:text-gold transition-colors inline-block py-1 text-gold font-bold">
+                <Link href={`/${locale}/blog`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1 text-[var(--accent-primary)] font-bold">
                   {t.vipBlog}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/blog/vip-umrah-transport-jeddah-to-makkah`} className="hover:text-gold transition-colors inline-block py-1 text-amber-300 font-semibold">
+                <Link href={`/${locale}/blog/vip-umrah-transport-jeddah-to-makkah`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1 text-[var(--accent-primary)] font-semibold">
                   {t.vipGuide}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/guides/jeddah-airport-arrival-pickup-guide`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/guides/jeddah-airport-arrival-pickup-guide`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {t.arrivalGuide}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/guides/jeddah-airport-to-makkah-taxi-vs-train`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/guides/jeddah-airport-to-makkah-taxi-vs-train`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {t.taxiVsTrain}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/guides/how-to-choose-the-right-vehicle-for-umrah-group`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/guides/how-to-choose-the-right-vehicle-for-umrah-group`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {t.vehicleGuide}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/guides/makkah-ziyarat-places-routes-transport`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/guides/makkah-ziyarat-places-routes-transport`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {t.ziyaratGuide}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/track-booking`} className="hover:text-gold transition-colors inline-block py-1 text-gold font-semibold">
+                <Link href={`/${locale}/track-booking`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1 text-[var(--accent-primary)] font-semibold">
                   {dict.nav.trackBooking || t.trackBooking}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/partners`} className="hover:text-gold transition-colors inline-block py-1 text-gold/80">
+                <Link href={`/${locale}/partners`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1 text-[var(--accent-primary)]/80">
                   {t.partners}
                 </Link>
               </li>
@@ -547,42 +547,42 @@ export function Footer({ locale, dict, settings }: FooterProps) {
 
           {/* COL 5: LEGAL & TRUST */}
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-white mb-3.5 font-serif text-sm border-b border-[#C5A15D]/25 pb-1.5">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--footer-heading)] mb-3.5 font-serif text-sm border-b border-[var(--footer-border)] pb-1.5">
               {t.legalHeader}
             </h4>
-            <ul className="space-y-2 text-xs text-slate-300">
+            <ul className="space-y-2 text-xs text-[var(--footer-text)]">
               <li>
-                <Link href={`/${locale}/cancellation`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/cancellation`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {dict.footer.refunds || 'Cancellation & Refunds'}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/terms`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/terms`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {dict.footer.terms || 'Terms & Conditions'}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/privacy`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/privacy`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {dict.footer.privacy || 'Privacy Policy'}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/safety`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/safety`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {t.safety}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/reviews`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/reviews`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {dict.reviews?.heading || t.reviews}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/faq`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/faq`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {dict.faq?.heading || t.faqs}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/contact`} className="hover:text-gold transition-colors inline-block py-1">
+                <Link href={`/${locale}/contact`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {dict.nav.contact || t.contact}
                 </Link>
               </li>
@@ -590,22 +590,22 @@ export function Footer({ locale, dict, settings }: FooterProps) {
           </div>
         </div>
 
-        {/* PAYMENT BADGES STRIP (SHOW ONLY PAY ON ARRIVAL BY DEFAULT - PHASE 1.6) */}
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-6">
+        {/* PAYMENT BADGES STRIP */}
+        <div className="mt-12 pt-8 border-t border-[var(--footer-border)] flex flex-wrap items-center justify-between gap-6">
           <div className="flex flex-col gap-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-gold">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--accent-primary)]">
               {LOCALIZED_PAY_TITLE[locale] || LOCALIZED_PAY_TITLE.en}
             </span>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="px-3.5 py-1.5 rounded-lg bg-gold/15 border border-[#C5A15D]/40 text-gold text-xs font-bold inline-flex items-center gap-1.5">
+              <span className="px-3.5 py-1.5 rounded-lg bg-[var(--accent-soft)] border border-[var(--accent-primary)]/40 text-[var(--accent-primary)] text-xs font-bold inline-flex items-center gap-1.5">
                 <HandCoins className="w-3.5 h-3.5" />
                 <span>{LOCALIZED_PAY_NOTICE[locale] || LOCALIZED_PAY_NOTICE.en}</span>
               </span>
             </div>
           </div>
 
-          <div className="flex flex-col gap-1 text-xs text-slate-300">
-            <span className="font-semibold text-white">
+          <div className="flex flex-col gap-1 text-xs text-[var(--footer-text)]">
+            <span className="font-semibold text-[var(--footer-heading)]">
               {t.assuranceTitle}
             </span>
             <span>
@@ -615,44 +615,44 @@ export function Footer({ locale, dict, settings }: FooterProps) {
         </div>
       </div>
 
-      {/* BEIGE TRUST STRIP (IN DEEP FOREST GREEN & GOLD THEME) */}
-      <div className="border-y border-[#C5A15D]/30 bg-[#102D26] py-3.5 relative z-10">
-        <div className="container mx-auto px-4 max-w-7xl flex flex-wrap items-center justify-between gap-4 text-xs text-slate-300">
+      {/* DUAL-THEME TRUST STRIP */}
+      <div className="border-y border-[var(--footer-border)] bg-[var(--footer-strip-bg)] py-3.5 relative z-10 transition-colors duration-200">
+        <div className="container mx-auto px-4 max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:flex lg:items-center lg:justify-between gap-3 text-xs text-[var(--footer-text)]">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-gold shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-[var(--accent-primary)] shrink-0" />
             <span>{dict.trust_strip.fixedPrices}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-gold shrink-0" />
+            <Clock className="w-4 h-4 text-[var(--accent-primary)] shrink-0" />
             <span>{`${settings.airport_waiting_minutes || 60} ${t.waitSuffix}`}</span>
           </div>
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-gold shrink-0" />
+            <ShieldCheck className="w-4 h-4 text-[var(--accent-primary)] shrink-0" />
             <span>{dict.trust_strip.payOnArrival}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Headphones className="w-4 h-4 text-gold shrink-0" />
+            <Headphones className="w-4 h-4 text-[var(--accent-primary)] shrink-0" />
             <span>{dict.trust_strip.support247}</span>
           </div>
         </div>
       </div>
 
       {/* BOTTOM LEGAL & COPYRIGHT BAR */}
-      <div className="container mx-auto px-4 max-w-7xl pt-5 pb-44 md:pb-24 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 relative z-10">
+      <div className="container mx-auto px-4 max-w-7xl pt-5 pb-16 md:pb-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--footer-text)] relative z-10">
         <p>
           {dict.footer.copyright || `© ${new Date().getFullYear()} Duyuf Alrahman VIP. All rights reserved.`}
         </p>
-        <div className="flex flex-wrap items-center gap-4 text-slate-400">
-          <Link href={`/${locale}/privacy`} className="hover:text-gold transition-colors py-1">
+        <div className="flex flex-wrap items-center gap-4 text-[var(--footer-text)]">
+          <Link href={`/${locale}/privacy`} className="hover:text-[var(--accent-primary)] transition-colors py-1">
             {dict.footer.privacy}
           </Link>
-          <Link href={`/${locale}/terms`} className="hover:text-gold transition-colors py-1">
+          <Link href={`/${locale}/terms`} className="hover:text-[var(--accent-primary)] transition-colors py-1">
             {dict.footer.terms}
           </Link>
-          <Link href={`/${locale}/cancellation`} className="hover:text-gold transition-colors py-1">
+          <Link href={`/${locale}/cancellation`} className="hover:text-[var(--accent-primary)] transition-colors py-1">
             {dict.footer.refunds}
           </Link>
-          <Link href={`/${locale}/cookies`} className="hover:text-gold transition-colors py-1">
+          <Link href={`/${locale}/cookies`} className="hover:text-[var(--accent-primary)] transition-colors py-1">
             Cookies
           </Link>
         </div>

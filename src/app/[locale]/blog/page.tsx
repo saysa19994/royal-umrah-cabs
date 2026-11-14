@@ -1,11 +1,12 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Locale, getLocalizedAlternates, LOCALES, LOCALE_CONFIG } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
-import { BLOG_POSTS } from '@/data/blog-posts';
-import { Clock, Calendar, ArrowRight, Sparkles } from 'lucide-react';
+import { getSiteSettings } from '@/lib/settings';
+import { getEditorialPosts } from '@/lib/blog-editorial-mapper';
+import { EditorialBlogExperience } from '@/components/blog/EditorialBlogExperience';
+import { Sparkles } from 'lucide-react';
 
 interface BlogIndexProps {
   params: Promise<{
@@ -74,6 +75,8 @@ export default async function BlogIndexPage(props: BlogIndexProps) {
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
+  const settings = await getSiteSettings();
+  const blogPosts = getEditorialPosts(locale);
   const localeMeta = LOCALE_CONFIG[locale] || LOCALE_CONFIG.en;
   const isRtl = localeMeta.dir === 'rtl';
 
@@ -116,22 +119,9 @@ export default async function BlogIndexPage(props: BlogIndexProps) {
     tr: 'Uzman seyahat rehberleri, araç seçim kriterleri ve huzurlu bir umre için gerekli pratik tavsiyeler.',
   };
 
-  const readMoreLabels: Record<Locale, string> = {
-    ar: 'اقرأ الدليل كاملاً',
-    en: 'Read Full Guide',
-    ms: 'Baca Panduan Penuh',
-    id: 'Baca Panduan Lengkap',
-    ur: 'مکمل گائیڈ پڑھیں',
-    fr: 'Lire le Guide Complet',
-    es: 'Leer Guía Completa',
-    de: 'Vollständigen Leitfaden Lesen',
-    hi: 'पूरी गाइड पढ़ें',
-    tr: 'Rehberin Tamamını Oku',
-  };
-
   return (
-    <div className="py-12 md:py-20 bg-bg min-h-screen text-start" dir={isRtl ? 'rtl' : 'ltr'}>
-      <div className="container mx-auto px-4 max-w-6xl">
+    <div className="py-12 md:py-20 bg-bg min-h-screen text-start text-ink relative overflow-hidden" dir={isRtl ? 'rtl' : 'ltr'}>
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
         {/* BREADCRUMB */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-ink-muted mb-8">
           <Link href={`/${locale}`} className="hover:text-gold-dark transition-colors">
@@ -142,8 +132,8 @@ export default async function BlogIndexPage(props: BlogIndexProps) {
         </nav>
 
         {/* HEADER */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3">
+        <div className="text-center max-w-3xl mx-auto mb-14 md:mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3 shadow-2xs">
             <Sparkles className="w-3.5 h-3.5 text-gold-dark" />
             <span>{badgeLabels[locale] || badgeLabels.en}</span>
           </div>
@@ -155,72 +145,12 @@ export default async function BlogIndexPage(props: BlogIndexProps) {
           </p>
         </div>
 
-        {/* ARTICLES GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {BLOG_POSTS.map((post) => (
-            <article
-              key={post.slug}
-              className="bg-surface rounded-2xl border border-border overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col group"
-            >
-              {/* Featured Image */}
-              <Link
-                href={`/${locale}/blog/${post.slug}`}
-                className="relative block aspect-[16/9] w-full overflow-hidden bg-slate-900"
-              >
-                <Image
-                  src={post.featuredImage}
-                  alt={post.imageAlt[locale] || post.imageAlt.en}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-3 right-3 rtl:right-auto rtl:left-3">
-                  <span className="inline-block px-3 py-1 rounded-full bg-navy/80 backdrop-blur-md border border-white/20 text-[11px] font-bold text-gold">
-                    {post.category[locale] || post.category.en}
-                  </span>
-                </div>
-              </Link>
-
-              {/* Content Body */}
-              <div className="p-6 flex flex-col flex-1 text-start">
-                <div className="flex items-center gap-3 text-xs text-ink-muted mb-3">
-                  <span className="inline-flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-gold-dark" />
-                    {post.readTime[locale] || post.readTime.en}
-                  </span>
-                  <span>•</span>
-                  <span className="inline-flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5 text-gold-dark" />
-                    {locale === 'ar' ? 'أكتوبر 2026' : 'October 2026'}
-                  </span>
-                </div>
-
-                <h2 className="font-display font-bold text-lg md:text-xl text-ink leading-snug group-hover:text-gold-dark transition-colors mb-3">
-                  <Link href={`/${locale}/blog/${post.slug}`}>
-                    {post.title[locale] || post.title.en}
-                  </Link>
-                </h2>
-
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-light mb-6 flex-1 line-clamp-3">
-                  {post.excerpt[locale] || post.excerpt.en}
-                </p>
-
-                <div className="pt-4 border-t border-border flex items-center justify-between">
-                  <Link
-                    href={`/${locale}/blog/${post.slug}`}
-                    className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-gold-dark hover:text-ink transition-colors"
-                  >
-                    <span>{readMoreLabels[locale] || readMoreLabels.en}</span>
-                    <ArrowRight className="w-4 h-4 rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
-                  </Link>
-                  <span className="text-[11px] text-ink-muted">
-                    {post.author[locale] || post.author.en}
-                  </span>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        {/* ASYMMETRIC EDITORIAL ARTICLES GRID & INTERACTIVE MODAL */}
+        <EditorialBlogExperience
+          locale={locale}
+          posts={blogPosts}
+          whatsappNumber={settings.whatsapp_number}
+        />
       </div>
     </div>
   );

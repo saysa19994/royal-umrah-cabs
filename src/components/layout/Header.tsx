@@ -8,6 +8,8 @@ import { Locale, LOCALES, LOCALE_CONFIG, CURRENCIES, CurrencyCode } from '@/i18n
 import type { Dictionary } from '@/i18n/get-dictionary';
 import type { SiteSettings } from '@/lib/settings';
 import { useCurrency } from '@/context/CurrencyContext';
+import { useTheme } from '@/context/ThemeContext';
+import { ThemeToggle } from '@/components/common/ThemeToggle';
 import { Globe, Menu, X, ArrowUpRight, CalendarDays, ChevronDown } from 'lucide-react';
 
 interface HeaderProps {
@@ -115,6 +117,8 @@ export function Header({ locale, dict, settings }: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { currency, setCurrency } = useCurrency();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const menuRef = useRef<HTMLDivElement>(null);
 
   const isHomePage = pathname === '/' || pathname === `/${locale}` || pathname === `/${locale}/`;
@@ -191,17 +195,21 @@ export function Header({ locale, dict, settings }: HeaderProps) {
 
   const isTransparent = isHomePage && !isScrolled;
 
+  const headerBgClass = isTransparent
+    ? (isDark ? 'bg-[#0B111A]/40 backdrop-blur-md border-b border-white/10' : 'bg-[#FBF9F5]/70 backdrop-blur-md border-b border-black/5')
+    : (isDark
+        ? 'bg-[#0B111A]/95 backdrop-blur-lg border-b border-[#222E40] shadow-[0_4px_25px_rgba(0,0,0,0.4)]'
+        : 'bg-[#FBF9F5]/95 backdrop-blur-lg border-b border-[#E8E2D6] shadow-[0_2px_15px_rgba(0,0,0,0.04)]');
+
   return (
     <header
       role="banner"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isTransparent
-          ? 'bg-[#101827]/30 backdrop-blur-md border-b border-white/10 py-3.5 sm:py-4'
-          : 'bg-[#101827]/95 backdrop-blur-lg border-b border-[#C5A15D]/25 shadow-[0_4px_25px_rgba(0,0,0,0.5)] py-2.5 sm:py-3'
-      }`}
+        isTransparent ? 'py-3.5 sm:py-4' : 'py-2.5 sm:py-3'
+      } ${headerBgClass}`}
     >
       {Boolean(settings?.promo_banner_enabled) && (
-        <div className="bg-gradient-to-r from-[#C5A15D] via-[#D7B76C] to-[#C5A15D] text-[#101827] text-[11px] sm:text-xs font-bold py-1 px-3 text-center tracking-wide shadow-sm">
+        <div className="bg-gradient-to-r from-[#A0783E] via-[#B88B4E] to-[#A0783E] text-white text-[11px] sm:text-xs font-bold py-1 px-3 text-center tracking-wide shadow-xs">
           <span>{settings?.announcement_translations?.[locale] || settings?.promo_banner_text || ''}</span>
         </div>
       )}
@@ -209,7 +217,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
         {/* LOGO: NEW ROYAL CREST VECTOR EMBLEM & BRANDING */}
         <Link
           href={locale === 'en' ? '/' : `/${locale}`}
-          className="flex items-center group focus-visible:ring-2 focus-visible:ring-[#D6A13A] rounded-lg p-1 -m-1 shrink-0 max-w-[140px] sm:max-w-none"
+          className="flex items-center group focus-visible:ring-2 focus-visible:ring-[#A0783E] rounded-lg p-1 -m-1 shrink-0 max-w-[140px] sm:max-w-none"
           aria-label="Duyuf Alrahman VIP - ضيوف الرحمن VIP"
         >
           <Image
@@ -231,10 +239,12 @@ export function Header({ locale, dict, settings }: HeaderProps) {
                 key={link.href}
                 href={link.href}
                 className={`transition-colors py-1 relative tracking-wide font-sans ${
-                  isActive
-                    ? 'text-[#D7B76C] font-semibold'
-                    : 'text-white/85 hover:text-[#D7B76C]'
-                } after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[#C5A15D] ${
+                  isDark
+                    ? (isActive ? 'text-[#B88B4E] font-semibold' : 'text-[#F7F5F0]/85 hover:text-[#B88B4E]')
+                    : (isActive ? 'text-[#A0783E] font-semibold' : 'text-[#111824]/85 hover:text-[#A0783E]')
+                } after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 ${
+                  isDark ? 'after:bg-[#B88B4E]' : 'after:bg-[#A0783E]'
+                } ${
                   isActive ? 'after:scale-x-100' : 'after:scale-x-0 hover:after:scale-x-100'
                 } after:transition-transform after:duration-300`}
               >
@@ -244,50 +254,71 @@ export function Header({ locale, dict, settings }: HeaderProps) {
           })}
         </nav>
 
-        {/* RIGHT CONTROLS: LANGUAGE, CURRENCY, BOOK ONLINE CTA, MOBILE TOGGLE */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5">
-          {/* CURRENCY SELECTOR */}
-          <div className="relative">
+        {/* RIGHT CONTROLS: THEME SWITCHER, LANGUAGE, CURRENCY, BOOK ONLINE CTA, MOBILE TOGGLE */}
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* THEME SWITCHER (ALWAYS VISIBLE — MOBILE & DESKTOP) */}
+          <div className="flex items-center">
+            <ThemeToggle locale={locale} />
+          </div>
+
+          {/* CURRENCY SELECTOR (DESKTOP / TABLET ONLY — AVAILABLE IN MOBILE MENU DRAWER) */}
+          <div className="relative hidden sm:block">
             <select
               value={currency}
               onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
               aria-label={t.selectCurrency}
-              className="h-8 sm:h-9 px-1.5 sm:px-2.5 pr-4 rtl:pr-1.5 sm:rtl:pr-2.5 rtl:pl-4 text-[11px] sm:text-xs font-semibold rounded-lg border border-white/20 bg-white/10 hover:bg-white/15 text-white cursor-pointer hover:border-[#C5A15D] focus:outline-none focus:ring-2 focus:ring-[#C5A15D] appearance-none backdrop-blur-md transition-colors max-w-[68px] sm:max-w-none truncate"
+              className={`h-8 sm:h-9 px-1.5 sm:px-2.5 pr-4 rtl:pr-1.5 sm:rtl:pr-2.5 rtl:pl-4 text-[11px] sm:text-xs font-semibold rounded-lg border cursor-pointer focus:outline-none focus:ring-2 appearance-none backdrop-blur-md transition-colors max-w-[68px] sm:max-w-none truncate ${
+                isDark
+                  ? 'border-[#222E40] bg-[#131C28] hover:bg-[#1A2534] text-white hover:border-[#B88B4E] focus:ring-[#B88B4E]'
+                  : 'border-[#E8E2D6] bg-white hover:bg-[#F2EDE4] text-[#111824] hover:border-[#A0783E] focus:ring-[#A0783E]'
+              }`}
             >
               {Object.keys(CURRENCIES).map((c) => (
-                <option key={c} value={c} className="bg-[#101827] text-white">
+                <option key={c} value={c} className={isDark ? 'bg-[#0B111A] text-white' : 'bg-white text-[#111824]'}>
                   {c} ({CURRENCIES[c as CurrencyCode].symbol.trim()})
                 </option>
               ))}
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 flex items-center px-1 text-[#C5A15D]">
+            <div className={`pointer-events-none absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 flex items-center px-1 ${
+              isDark ? 'text-[#B88B4E]' : 'text-[#A0783E]'
+            }`}>
               <ChevronDown className="w-3 h-3" />
             </div>
           </div>
 
-          {/* LANGUAGE SELECTOR */}
-          <div className="relative">
+          {/* LANGUAGE SELECTOR (DESKTOP / TABLET ONLY — AVAILABLE IN MOBILE MENU DRAWER) */}
+          <div className="relative hidden sm:block">
             <select
               value={locale}
               onChange={(e) => handleLanguageChange(e.target.value as Locale)}
               aria-label={t.selectLang}
-              className="h-8 sm:h-9 px-1.5 sm:px-2.5 pr-5 rtl:pr-1.5 sm:rtl:pr-2.5 rtl:pl-5 text-[11px] sm:text-xs font-semibold rounded-lg border border-white/20 bg-white/10 hover:bg-white/15 text-white cursor-pointer hover:border-[#C5A15D] focus:outline-none focus:ring-2 focus:ring-[#C5A15D] appearance-none flex items-center backdrop-blur-md transition-colors max-w-[72px] sm:max-w-none truncate"
+              className={`h-8 sm:h-9 px-1.5 sm:px-2.5 pr-5 rtl:pr-1.5 sm:rtl:pr-2.5 rtl:pl-5 text-[11px] sm:text-xs font-semibold rounded-lg border cursor-pointer focus:outline-none focus:ring-2 appearance-none flex items-center backdrop-blur-md transition-colors max-w-[72px] sm:max-w-none truncate ${
+                isDark
+                  ? 'border-[#222E40] bg-[#131C28] hover:bg-[#1A2534] text-white hover:border-[#B88B4E] focus:ring-[#B88B4E]'
+                  : 'border-[#E8E2D6] bg-white hover:bg-[#F2EDE4] text-[#111824] hover:border-[#A0783E] focus:ring-[#A0783E]'
+              }`}
             >
               {LOCALES.map((l) => (
-                <option key={l} value={l} className="bg-[#101827] text-white">
+                <option key={l} value={l} className={isDark ? 'bg-[#0B111A] text-white' : 'bg-white text-[#111824]'}>
                   {LOCALE_CONFIG[l].nativeName}
                 </option>
               ))}
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 flex items-center px-1.5 text-[#C5A15D]">
+            <div className={`pointer-events-none absolute inset-y-0 right-0 rtl:right-auto rtl:left-0 flex items-center px-1.5 ${
+              isDark ? 'text-[#B88B4E]' : 'text-[#A0783E]'
+            }`}>
               <Globe className="w-3 h-3" />
             </div>
           </div>
 
-          {/* GOLD BOOK ONLINE CTA */}
+          {/* BRONZE BOOK ONLINE CTA (DESKTOP ONLY) */}
           <Link
             href={`/${locale}/booking`}
-            className="hidden sm:inline-flex items-center gap-1.5 h-9 sm:h-9 px-3.5 sm:px-4 text-[11px] sm:text-xs font-bold uppercase tracking-wider rounded-lg bg-gradient-to-r from-[#C5A15D] to-[#D7B76C] text-[#101827] hover:brightness-105 active:scale-[0.98] transition-all shadow-[0_2px_14px_rgba(197,161,93,0.35)] focus-visible:ring-2 focus-visible:ring-[#C5A15D]"
+            className={`hidden sm:inline-flex items-center gap-1.5 h-8 sm:h-9 px-4 sm:px-5 text-[11px] sm:text-xs font-semibold rounded-full active:scale-[0.98] transition-all shadow-xs focus-visible:ring-2 text-white ${
+              isDark
+                ? 'bg-[#B88B4E] hover:bg-[#CDA062] focus-visible:ring-[#B88B4E]'
+                : 'bg-[#A0783E] hover:bg-[#8A6530] focus-visible:ring-[#A0783E]'
+            }`}
           >
             <span>{t.bookOnline}</span>
             <ArrowUpRight className="w-3.5 h-3.5 rtl:rotate-[-90deg]" />
@@ -300,9 +331,13 @@ export function Header({ locale, dict, settings }: HeaderProps) {
             aria-label="Open Navigation Menu"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav-fullscreen"
-            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 min-w-[36px] sm:min-w-[40px] rounded-lg border border-white/20 bg-white/10 hover:bg-white/20 text-white transition-colors flex items-center justify-center focus-visible:ring-2 focus-visible:ring-[#C5A15D] backdrop-blur-md"
+            className={`lg:hidden w-10 h-10 min-w-[40px] rounded-lg border transition-colors flex items-center justify-center focus-visible:ring-2 backdrop-blur-md ${
+              isDark
+                ? 'border-[#222E40] bg-[#131C28] text-white focus-visible:ring-[#B88B4E]'
+                : 'border-[#E8E2D6] bg-white text-[#111824] focus-visible:ring-[#A0783E]'
+            }`}
           >
-            <Menu className="w-5 h-5 text-[#C5A15D]" />
+            <Menu className={`w-5 h-5 ${isDark ? 'text-[#B88B4E]' : 'text-[#A0783E]'}`} />
           </button>
         </div>
       </div>
@@ -315,16 +350,22 @@ export function Header({ locale, dict, settings }: HeaderProps) {
           role="dialog"
           aria-modal="true"
           aria-label={t.navigation}
-          className="lg:hidden fixed inset-0 z-50 bg-[#101827]/98 backdrop-blur-2xl flex flex-col justify-between p-6 overflow-y-auto animate-fadeIn"
+          className={`lg:hidden fixed inset-0 z-50 backdrop-blur-2xl flex flex-col justify-between p-6 overflow-y-auto animate-fadeIn ${
+            isDark ? 'bg-[#0B111A]/98 text-[#F7F5F0]' : 'bg-[#FBF9F5]/98 text-[#111824]'
+          }`}
         >
           {/* DRAWER TOP BAR: BRAND + CLOSE */}
-          <div className="flex items-center justify-between border-b border-white/15 pb-4">
+          <div className={`flex items-center justify-between pb-4 border-b ${
+            isDark ? 'border-white/15' : 'border-[#E8E2D6]'
+          }`}>
             <Link
               href={locale === 'en' ? '/' : `/${locale}`}
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center gap-3"
             >
-              <div className="w-10 h-10 rounded-lg overflow-hidden border border-[#C5A15D]/60 flex items-center justify-center shadow-xs bg-[#111C30]">
+              <div className={`w-10 h-10 rounded-lg overflow-hidden border flex items-center justify-center shadow-xs ${
+                isDark ? 'border-[#B88B4E]/60 bg-[#131C28]' : 'border-[#E8E2D6] bg-white'
+              }`}>
                 <Image
                   src="/icon-192.png"
                   alt="Duyuf Alrahman VIP"
@@ -334,10 +375,10 @@ export function Header({ locale, dict, settings }: HeaderProps) {
                 />
               </div>
               <div className="flex flex-col text-start">
-                <span className="font-serif font-bold text-lg uppercase text-white leading-tight">
+                <span className="font-serif font-bold text-lg uppercase leading-tight">
                   {locale === 'ar' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
                 </span>
-                <span className="text-[10px] font-semibold text-[#C5A15D]">
+                <span className={`text-[10px] font-semibold ${isDark ? 'text-[#B88B4E]' : 'text-[#A0783E]'}`}>
                   {locale === 'ar' ? 'Duyuf Alrahman VIP' : 'ضيوف الرحمن VIP'}
                 </span>
               </div>
@@ -347,63 +388,94 @@ export function Header({ locale, dict, settings }: HeaderProps) {
               type="button"
               onClick={() => setMobileMenuOpen(false)}
               aria-label="Close Navigation Menu"
-              className="w-10 h-10 rounded-lg border border-white/20 bg-white/10 text-white hover:text-[#C5A15D] transition-colors flex items-center justify-center focus-visible:ring-2 focus-visible:ring-[#C5A15D]"
+              className={`w-10 h-10 rounded-lg border transition-colors flex items-center justify-center focus-visible:ring-2 ${
+                isDark
+                  ? 'border-white/20 bg-white/10 text-white hover:text-[#B88B4E] focus-visible:ring-[#B88B4E]'
+                  : 'border-[#E8E2D6] bg-white text-[#111824] hover:text-[#A0783E] focus-visible:ring-[#A0783E]'
+              }`}
             >
               <X className="w-6 h-6" />
             </button>
           </div>
 
           {/* DRAWER NAVIGATION LINKS */}
-          <nav aria-label={t.navigation} className="flex flex-col py-4 divide-y divide-white/10">
+          <nav aria-label={t.navigation} className={`flex flex-col py-4 divide-y ${
+            isDark ? 'divide-white/10' : 'divide-[#E8E2D6]'
+          }`}>
             {allNavLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="min-h-[44px] flex items-center justify-between text-base font-medium text-white/90 hover:text-[#C5A15D] transition-colors px-2 py-2.5"
+                className={`min-h-[44px] flex items-center justify-between text-base font-medium transition-colors px-2 py-2.5 ${
+                  isDark ? 'text-white/90 hover:text-[#B88B4E]' : 'text-[#111824]/90 hover:text-[#A0783E]'
+                }`}
               >
                 <span>{link.label}</span>
-                <span className="text-[#C5A15D] text-sm rtl:rotate-180">→</span>
+                <span className={`text-sm rtl:rotate-180 ${isDark ? 'text-[#B88B4E]' : 'text-[#A0783E]'}`}>→</span>
               </Link>
             ))}
           </nav>
 
-          {/* DRAWER CONTROLS: LANGUAGE & CURRENCY SELECTORS */}
-          <div className="py-4 border-t border-white/10 grid grid-cols-2 gap-3">
+          {/* DRAWER CONTROLS: THEME SWITCHER + LANGUAGE & CURRENCY */}
+          <div className={`py-4 border-t space-y-3 ${isDark ? 'border-white/10' : 'border-[#E8E2D6]'}`}>
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-white/60 mb-1.5">
-                {t.selectLang}
+              <label className={`block text-[11px] font-bold uppercase tracking-wider mb-1.5 ${
+                isDark ? 'text-white/60' : 'text-[#526072]'
+              }`}>
+                {isDark ? (locale === 'ar' ? 'مظهر الموقع' : 'Theme Mode') : (locale === 'ar' ? 'مظهر الموقع' : 'Theme Mode')}
               </label>
-              <select
-                value={locale}
-                onChange={(e) => {
-                  handleLanguageChange(e.target.value as Locale);
-                  setMobileMenuOpen(false);
-                }}
-                className="w-full h-11 px-3 rounded-lg bg-[#111C30] border border-white/20 text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#C5A15D]"
-              >
-                {LOCALES.map((l) => (
-                  <option key={l} value={l}>
-                    {LOCALE_CONFIG[l].nativeName}
-                  </option>
-                ))}
-              </select>
+              <ThemeToggle locale={locale} showLabel={true} className="w-full h-11" />
             </div>
-            <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-white/60 mb-1.5">
-                {t.selectCurrency}
-              </label>
-              <select
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
-                className="w-full h-11 px-3 rounded-lg bg-[#111C30] border border-white/20 text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#C5A15D]"
-              >
-                {Object.keys(CURRENCIES).map((c) => (
-                  <option key={c} value={c}>
-                    {c} ({CURRENCIES[c as CurrencyCode].symbol.trim()})
-                  </option>
-                ))}
-              </select>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className={`block text-[11px] font-bold uppercase tracking-wider mb-1.5 ${
+                  isDark ? 'text-white/60' : 'text-[#526072]'
+                }`}>
+                  {t.selectLang}
+                </label>
+                <select
+                  value={locale}
+                  onChange={(e) => {
+                    handleLanguageChange(e.target.value as Locale);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`w-full h-11 px-3 rounded-lg border text-xs font-semibold focus:outline-none focus:ring-2 ${
+                    isDark
+                      ? 'bg-[#131C28] border-white/20 text-white focus:ring-[#B88B4E]'
+                      : 'bg-white border-[#E8E2D6] text-[#111824] focus:ring-[#A0783E]'
+                  }`}
+                >
+                  {LOCALES.map((l) => (
+                    <option key={l} value={l} className={isDark ? 'bg-[#0B111A] text-white' : 'bg-white text-[#111824]'}>
+                      {LOCALE_CONFIG[l].nativeName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className={`block text-[11px] font-bold uppercase tracking-wider mb-1.5 ${
+                  isDark ? 'text-white/60' : 'text-[#526072]'
+                }`}>
+                  {t.selectCurrency}
+                </label>
+                <select
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
+                  className={`w-full h-11 px-3 rounded-lg border text-xs font-semibold focus:outline-none focus:ring-2 ${
+                    isDark
+                      ? 'bg-[#131C28] border-white/20 text-white focus:ring-[#B88B4E]'
+                      : 'bg-white border-[#E8E2D6] text-[#111824] focus:ring-[#A0783E]'
+                  }`}
+                >
+                  {Object.keys(CURRENCIES).map((c) => (
+                    <option key={c} value={c} className={isDark ? 'bg-[#0B111A] text-white' : 'bg-white text-[#111824]'}>
+                      {c} ({CURRENCIES[c as CurrencyCode].symbol.trim()})
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
 

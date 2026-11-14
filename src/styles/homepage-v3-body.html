@@ -1,0 +1,302 @@
+
+  <!-- Integration note: this is a standalone visual prototype. Connect the booking form, route pricing, locale selectors and approved review feed to the existing Next.js application before production. -->
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-row">
+      <a class="brand" href="#top" aria-label="Duyuf Al Rahman VIP home">
+        <span class="brand-main">Duyuf Al Rahman <span>VIP</span></span>
+        <span class="brand-sub">Private Chauffeur · Saudi Arabia</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#fleet">Fleet</a><a href="#routes">Routes</a><a href="#ziyarat">Ziyarat</a><a href="#services">Services</a><a href="#about">About</a>
+      </nav>
+      <div class="nav-actions">
+        <span class="locale-pill" aria-label="Current language and currency">EN <span aria-hidden="true">·</span> SAR <span aria-hidden="true">⌄</span></span>
+        <a class="btn nav-book" href="#booking">Book your ride</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">☰</button>
+      </div>
+    </div>
+    <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
+      <a href="#fleet">Fleet</a><a href="#routes">Routes</a><a href="#ziyarat">Ziyarat</a><a href="#services">Services</a><a href="#about">About</a><a href="#booking">Book your ride</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="heroTitle">
+      <video autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg" data-mobile-webm="assets/hero-mobile.webm" data-mobile-mp4="assets/hero-mobile.mp4" data-desktop-webm="assets/hero.webm" data-desktop-mp4="assets/hero.mp4" aria-hidden="true">
+        <source src="assets/hero.webm" type="video/webm">
+        <source src="assets/hero.mp4" type="video/mp4">
+      </video>
+      <div class="hero-shade"></div>
+      <div class="hero-content">
+        <p class="hero-kicker">Private journeys · Saudi Arabia</p>
+        <h1 id="heroTitle">Your journey,<br>our priority.</h1>
+        <p class="hero-copy">Premium private chauffeur transportation for Umrah pilgrims, families and travelers across Saudi Arabia.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#booking">Book your private ride <span aria-hidden="true">→</span></a>
+          <a class="btn btn--outline" href="#fleet">Explore our fleet</a>
+        </div>
+        <p class="hero-note"><span class="dot"></span> Fixed fares · Professional drivers · Pay after your journey</p>
+      </div>
+    </section>
+
+    <!-- In the full booking flow, show airline, flight number, arrival date and arrival time for airport pickups; persist these details in the existing booking record and operations dashboard. -->
+  <div class="booking-shell container" id="booking">
+      <div class="booking-heading">
+        <p class="eyebrow">PLAN YOUR RIDE</p>
+        <h2>Where would you like to go?</h2>
+        <p>Choose your route and travel details to explore the right vehicle and fare.</p>
+      </div>
+      <form class="booking-panel" id="quickBooking" novalidate>
+        <div class="field">
+          <label for="pickup">Pickup location</label>
+          <select id="pickup" name="pickup" required>
+            <option value="" selected disabled>Select pickup</option>
+            <option>Jeddah Airport</option><option>Makkah</option><option>Madinah Airport</option><option>Madinah</option><option>Taif</option><option>Riyadh</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="destination">Destination</label>
+          <select id="destination" name="destination" required>
+            <option value="" selected disabled>Select destination</option>
+            <option>Makkah</option><option>Madinah</option><option>Jeddah</option><option>Taif</option><option>Riyadh</option><option>Jeddah Airport</option><option>Madinah Airport</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="travelDate">Travel date</label>
+          <input id="travelDate" name="travelDate" type="date" required>
+        </div>
+        <div class="field">
+          <label for="pickupTime">Pickup time</label>
+          <input id="pickupTime" name="pickupTime" type="time" required>
+        </div>
+        <div class="field">
+          <label for="passengers">Passengers</label>
+          <select id="passengers" name="passengers" required>
+            <option value="" selected disabled>Guests</option>
+            <option value="1">1 passenger</option><option value="2">2 passengers</option><option value="3">3 passengers</option><option value="4">4 passengers</option><option value="5">5 passengers</option><option value="6">6 passengers</option><option value="7">7 passengers</option><option value="8">8 passengers</option><option value="9">9 passengers</option><option value="10">10 passengers</option><option value="11+">11+ passengers</option>
+          </select>
+        </div>
+        <button class="btn booking-submit" type="submit">Find vehicles & fares <span aria-hidden="true">→</span></button>
+      </form>
+      <div class="booking-assurance"><span><strong>Transparent route fares</strong> · Price depends on route and selected vehicle.</span><span>Cash payment directly to your driver after the journey. No advance payment.</span></div>
+      <div class="prototype-note" id="prototypeNote" role="status">This is a visual preview. Connect this search to the existing Duyuf booking and route-pricing flow before launch.</div>
+    </div>
+
+    <section class="trust-strip" aria-label="Service benefits">
+      <div class="container trust-grid">
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 24 24"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1m-8.6 8.6-2.1 2.1"/><circle cx="12" cy="12" r="5"/></svg></span><span><b>24/7 support</b><span>Assistance whenever you need it</span></span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 24 24"><path d="M3 12h18M5 8l7-4 7 4M5 16l7 4 7-4"/><circle cx="12" cy="12" r="2"/></svg></span><span><b>Flight tracking</b><span>We monitor your arrival</span></span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span><b>Airport waiting</b><span>60 minutes complimentary</span></span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16v13H4zM8 7V5a4 4 0 0 1 8 0v2M8 13l2.5 2.5L16 10"/></svg></span><span><b>Free cancellation</b><span>Up to 24 hours before travel</span></span></div>
+        <div class="trust-item"><span class="trust-icon"><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11M9 20v-6h6v6"/><path d="M8 10h.01M16 10h.01"/></svg></span><span><b>Child seats</b><span>Available on request</span></span></div>
+      </div>
+    </section>
+
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="section-head">
+          <div><p class="eyebrow">A simple way to travel</p><h2>Your journey in three<br>simple steps.</h2></div>
+          <p class="lead">From choosing your route to meeting your driver, we keep the booking process clear and straightforward.</p>
+        </div>
+        <div class="steps">
+          <article class="step"><div class="step-top"><span class="step-num">01</span><span class="step-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4zM7 9h4m-4 4h10M7 16h2"/></svg></span></div><h3>Choose your journey</h3><p>Select your pickup, destination, travel date and the vehicle that suits your group.</p></article>
+          <article class="step"><div class="step-top"><span class="step-num">02</span><span class="step-icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg></span></div><h3>Send your details</h3><p>Share your contact information and flight details when your journey includes an airport pickup.</p></article>
+          <article class="step"><div class="step-top"><span class="step-num">03</span><span class="step-icon"><svg viewBox="0 0 24 24"><path d="M3 15h18l-2-6H5zM6 15v3m12-3v3M7 9l2-4h6l2 4"/><circle cx="7" cy="18" r="1"/><circle cx="17" cy="18" r="1"/></svg></span></div><h3>Meet your chauffeur</h3><p>Enjoy your private journey and pay your driver in cash after the trip is completed.</p></article>
+        </div>
+        <div class="steps-foot"><a class="btn btn--navy" href="#booking">Start your booking <span aria-hidden="true">→</span></a></div>
+      </div>
+    </section>
+
+    <section class="section section--white" id="routes">
+      <div class="container">
+        <div class="section-head"><div><p class="eyebrow">Popular routes</p><h2>Routes pilgrims travel<br>with confidence.</h2></div><p class="lead">Explore some of our most requested private transfers. Choose your vehicle to see the fare for your exact journey.</p></div>
+        <div class="route-grid">
+          <a class="route-card" href="#booking"><div class="route-photo"><img src="assets/route-jeddah-makkah.jpg" alt="Private vehicle at an airport terminal" loading="lazy"></div><div class="route-body"><div class="route-meta"><span>Airport transfer</span><span>01</span></div><h3>Jeddah Airport <span aria-hidden="true">→</span> Makkah</h3><div class="route-bottom"><div><span class="fare-label">Starting fare</span><span class="fare">SAR 200</span></div><span class="round-arrow" aria-hidden="true">→</span></div></div></a>
+          <a class="route-card" href="#booking"><div class="route-photo"><img src="assets/route-makkah-madinah.jpg" alt="Private vehicle on a Saudi city highway at night" loading="lazy"></div><div class="route-body"><div class="route-meta"><span>Intercity journey</span><span>02</span></div><h3>Makkah <span aria-hidden="true">→</span> Madinah</h3><div class="route-bottom"><div><span class="fare-label">Starting fare</span><span class="fare">SAR 400</span></div><span class="round-arrow" aria-hidden="true">→</span></div></div></a>
+          <a class="route-card" href="#booking"><div class="route-photo"><img src="assets/route-madinah-hotel.jpg" alt="Private vehicle outside a hotel entrance" loading="lazy"></div><div class="route-body"><div class="route-meta"><span>Airport transfer</span><span>03</span></div><h3>Madinah Airport <span aria-hidden="true">→</span> Hotel</h3><div class="route-bottom"><div><span class="fare-label">Starting fare</span><span class="fare">SAR 200</span></div><span class="round-arrow" aria-hidden="true">→</span></div></div></a>
+        </div>
+        <p class="pricing-note">Starting fares shown are the lowest available vehicle fare for each example route. Final pricing depends on the selected route and vehicle. VAT, fuel, road fees and airport parking are included in the fare.</p>
+      </div>
+    </section>
+
+    <section class="section" id="fleet">
+      <div class="container">
+        <div class="fleet-intro"><p class="eyebrow">The Duyuf fleet</p><h2>The right ride for<br>every journey.</h2><p class="lead">From private sedan travel to family and group transportation, choose the vehicle category that fits your journey.</p></div>
+        <div class="fleet-grid">
+          <article class="fleet-experience"><img src="assets/fleet-private.jpg" alt="Private sedan transportation" loading="lazy"><span class="fleet-index">Experience 01 · Executive sedan</span><h3>Private journeys</h3><p class="fleet-models">Toyota Camry</p><a class="text-link" href="#booking">Explore vehicle <span aria-hidden="true">→</span></a></article>
+          <article class="fleet-experience featured"><img src="assets/fleet-family.jpg" alt="Family transportation vehicles" loading="lazy"><span class="fleet-index">Experience 02 · Family comfort</span><h3>More room for comfort</h3><p class="fleet-models">Hyundai Staria · GMC Yukon XL</p><a class="text-link" href="#booking">Explore vehicles <span aria-hidden="true">→</span></a></article>
+          <article class="fleet-experience"><img src="assets/fleet-group.jpg" alt="Passenger vans for group journeys" loading="lazy"><span class="fleet-index">Experience 03 · Group travel</span><h3>Travel together</h3><p class="fleet-models">Toyota HiAce · Toyota Coaster</p><a class="text-link" href="#booking">Explore vehicles <span aria-hidden="true">→</span></a></article>
+        </div>
+        <div class="fleet-all"><p><strong>Five vehicle options.</strong> Exact passenger and luggage suitability is confirmed with your selected vehicle and route.</p><a class="btn btn--navy fleet-cta" href="#booking">Choose your vehicle <span aria-hidden="true">→</span></a></div>
+      </div>
+    </section>
+
+    <section class="section section--white" id="services">
+      <div class="container">
+        <div class="section-head"><div><p class="eyebrow">Our services</p><h2>Transportation designed<br>around you.</h2></div><p class="lead">Private transportation for airport arrivals, journeys between cities and visits across the Holy Cities.</p></div>
+        <div class="service-grid">
+          <article class="service-card"><div><span class="service-number">01 / AIRPORT</span><span class="service-icon"><svg viewBox="0 0 24 24"><path d="m2 16 20-5-1-3-8 1-4-6-2 .5 2 6-6 2zM4 19h16"/></svg></span><h3>Airport transfers</h3><p>Private pickup and drop-off at Jeddah and Madinah airports, with flight monitoring.</p></div><a class="text-link" href="#booking">Plan airport transfer <span aria-hidden="true">→</span></a></article>
+          <article class="service-card service-card--photo"><img src="assets/service-intercity.jpg" alt="Private vehicle traveling on a scenic road" loading="lazy"><div><span class="service-number">02 / BETWEEN CITIES</span><h3>Intercity travel</h3><p>Comfortable private journeys between Makkah, Madinah, Jeddah, Taif and Riyadh on available routes.</p></div><a class="text-link" href="#routes">Explore routes <span aria-hidden="true">→</span></a></article>
+          <article class="service-card"><div><span class="service-number">03 / MAKKAH</span><span class="service-icon"><svg viewBox="0 0 24 24"><path d="M4 20V8l8-4 8 4v12M8 20v-6h8v6M9 9h6"/></svg></span><h3>Makkah ziyarat</h3><p>Private transportation for visits to important sites in Makkah, at your planned pace.</p></div><a class="text-link" href="#ziyarat">Explore Makkah ziyarat <span aria-hidden="true">→</span></a></article>
+          <article class="service-card service-card--photo"><img src="assets/service-madinah.jpg" alt="Madinah mosque architecture" loading="lazy"><div><span class="service-number">04 / MADINAH</span><h3>Madinah ziyarat</h3><p>Private visits to Quba, Uhud and Qiblatayn with a dedicated driver.</p></div><a class="text-link" href="#ziyarat">Explore Madinah ziyarat <span aria-hidden="true">→</span></a></article>
+          <article class="service-card"><div><span class="service-number">05 / HOTEL</span><span class="service-icon"><svg viewBox="0 0 24 24"><path d="M3 20V5h18v15M3 11h18M7 8h.01M11 8h.01M15 8h.01M7 15h3v5M14 15h3v2h-3z"/></svg></span><h3>Hotel transfers</h3><p>Arrange private transportation between airports, hotels and your selected destinations.</p></div><a class="text-link" href="#booking">Arrange a transfer <span aria-hidden="true">→</span></a></article>
+          <article class="service-card service-card--photo"><img src="assets/service-group-interior.jpg" alt="Spacious passenger vehicle interior" loading="lazy"><div><span class="service-number">06 / FAMILIES & GROUPS</span><h3>Family & group travel</h3><p>Vehicle options for families, larger parties and group transportation.</p></div><a class="text-link" href="#fleet">Explore the fleet <span aria-hidden="true">→</span></a></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="ziyarat">
+      <div class="container ziyarat-layout">
+        <div class="ziyarat-copy"><p class="eyebrow">Ziyarat experiences</p><h2>Explore the<br>Holy Cities.</h2><p class="lead">Arrange private transportation for meaningful visits in Makkah and Madinah.</p>
+          <div class="city-tabs" role="tablist" aria-label="Select ziyarat city"><button type="button" role="tab" id="tabMakkah" aria-selected="true" aria-controls="ziyaratPanel" data-city="makkah">Makkah</button><button type="button" role="tab" id="tabMadinah" aria-selected="false" aria-controls="ziyaratPanel" data-city="madinah">Madinah</button></div>
+          <div id="ziyaratPanel" role="tabpanel" aria-labelledby="tabMakkah">
+            <p class="tour-caption" id="tourCaption">Makkah Ziyarat · 2.5-hour service</p>
+            <div class="tour-list" id="tourList"><div class="tour-item"><b>Masjid al-Haram</b><span>Central destination in Makkah</span></div><div class="tour-item"><b>Jabal al-Nour</b><span>Historic site near Makkah</span></div><div class="tour-item"><b>Jabal Thawr</b><span>Historic site associated with the Hijrah</span></div><div class="tour-item"><b>Masjid Aisha (Al-Taneem)</b><span>Miqat mosque north of Makkah</span></div></div>
+          </div>
+          <a class="btn btn--navy" style="margin-top:22px" href="#booking">Arrange a ziyarat journey <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="ziyarat-visual"><img id="ziyaratImage" src="assets/ziyarat-haram.jpg" alt="Masjid al-Haram in Makkah" loading="lazy"><div class="ziyarat-caption"><b id="ziyaratImageTitle">Makkah</b><span id="ziyaratImageText">Private transportation for visits around the Holy City.</span></div></div>
+      </div>
+    </section>
+
+    <section class="section section--white" id="about">
+      <div class="container why-grid">
+        <div class="why-photo"><img src="assets/chauffeur-welcome.jpg" alt="Chauffeur welcoming a passenger beside a vehicle" loading="lazy"></div>
+        <div class="why-content"><p class="eyebrow">Why choose Duyuf</p><h2>Peace of mind,<br>from pickup to arrival.</h2><p class="lead">A clear fare, attentive service and journey details arranged before you travel.</p>
+          <div class="benefit-list">
+            <div class="benefit"><span class="benefit-mark">01</span><div><b>Fixed, transparent fares</b><p>Know the fare before you confirm. VAT is included.</p></div></div>
+            <div class="benefit"><span class="benefit-mark">02</span><div><b>Professional drivers</b><p>Courteous drivers for private journeys across Saudi Arabia.</p></div></div>
+            <div class="benefit"><span class="benefit-mark">03</span><div><b>Flight monitoring</b><p>We monitor airport arrivals to coordinate your pickup.</p></div></div>
+            <div class="benefit"><span class="benefit-mark">04</span><div><b>Complimentary waiting</b><p>60 minutes at the airport; international arrival terms may allow 60–90 minutes.</p></div></div>
+            <div class="benefit"><span class="benefit-mark">05</span><div><b>Pay after your journey</b><p>Cash directly to your driver in SAR or USD. No advance payment.</p></div></div>
+            <div class="benefit"><span class="benefit-mark">06</span><div><b>Clear trip inclusions</b><p>VAT, fuel, road fees and airport parking are included in the fare.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reviews">
+      <div class="container">
+        <div class="section-head"><div><p class="eyebrow">Guest experiences</p><h2>Trust is built one<br>journey at a time.</h2></div><p class="lead">Customer feedback belongs to the people who travel with us. Only published and approved reviews should appear here.</p></div>
+        <div class="reviews-panel"><div><span class="review-mark" aria-hidden="true">“</span><h3>Real journeys.<br>Real guest feedback.</h3><p>This section is reserved for verified customer reviews from the Duyuf Al Rahman VIP review system.</p></div><div class="review-source"><strong>Live review connection required</strong><span>Connect this area to the existing reviews database. Display approved and published reviews only, with real names or display names, review dates, ratings and original review text. Do not use generated testimonials or invented aggregate ratings.</span></div></div>
+      </div>
+    </section>
+
+    <section class="section section--white" id="faq">
+      <div class="container faq-grid">
+        <div class="faq-side"><p class="eyebrow">Frequently asked questions</p><h2>Answers before<br>you travel.</h2><p class="lead">Clear information about fares, airport pickups, payment and your journey.</p></div>
+        <div>
+          <details><summary>How do I book a private transfer?</summary><p>Choose your pickup, destination, travel date and vehicle, then submit your contact details. Your request is reviewed and confirmed by the team.</p></details>
+          <details><summary>When do I pay for my journey?</summary><p>Payment is made in cash directly to your driver after the journey is completed. You can pay in SAR or USD. No advance payment, online payment or POS payment is required.</p></details>
+          <details><summary>Do you monitor flight arrivals?</summary><p>Yes. Share your airline and flight number when booking an airport pickup so the team can monitor your arrival and coordinate the pickup.</p></details>
+          <details><summary>How much airport waiting time is included?</summary><p>60 minutes of complimentary airport waiting are included. International arrival bookings may have a 60–90 minute waiting allowance, subject to the applicable booking terms.</p></details>
+          <details><summary>Can I request a child seat?</summary><p>Child seats are available on request. Please mention your requirement when submitting the booking request.</p></details>
+          <details><summary>Can we stop at the Miqat on the way?</summary><p>A complimentary Miqat stop of approximately 30–45 minutes is available on relevant journeys. Please mention the stop when arranging your trip.</p></details>
+          <details><summary>What is the cancellation policy?</summary><p>Free cancellation is available up to 24 hours before the scheduled journey.</p></details>
+          <details><summary>Which destinations do you serve?</summary><p>Private transportation is available on selected routes serving Jeddah, Makkah, Madinah, Taif and Riyadh.</p></details>
+          <details><summary>Which vehicle should I choose?</summary><p>Choose from Toyota Camry, Hyundai Staria, GMC Yukon XL, Toyota HiAce and Toyota Coaster. The suitable option depends on your passenger count, luggage and route. Confirm the exact capacity before booking.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Preserve the existing localized SEO content and internal links in the production Next.js pages. Do not replace them with this standalone prototype. -->
+    <section class="final-cta">
+      <div class="container cta-grid"><div><p class="eyebrow" style="color:#D7B979">Your journey starts here</p><h2>Travel with comfort.<br>Arrive with peace of mind.</h2><p>Arrange your private chauffeur journey across Saudi Arabia with clear fares and attentive service.</p><div class="hero-actions"><a class="btn" href="#booking">Book your private ride <span aria-hidden="true">→</span></a><a class="btn btn--outline" href="#routes">Explore popular routes</a></div></div><div class="cta-image"><img src="assets/vehicle-interior-cta.jpg" alt="Comfortable premium passenger vehicle interior" loading="lazy"></div></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><a class="brand" href="#top"><span class="brand-main">Duyuf Al Rahman <span>VIP</span></span><span class="brand-sub">Private Chauffeur · Saudi Arabia</span></a><p>Premium private transportation for Umrah pilgrims, families and travelers across Saudi Arabia.</p></div>
+        <div class="footer-col"><h3>Popular routes</h3><a href="#routes">Jeddah Airport to Makkah</a><a href="#routes">Makkah to Madinah</a><a href="#routes">Madinah Airport transfers</a><a href="#routes">Makkah to Taif</a></div>
+        <div class="footer-col"><h3>Explore</h3><a href="#fleet">Our fleet</a><a href="#services">Transportation services</a><a href="#ziyarat">Ziyarat experiences</a><a href="#about">Why choose us</a></div>
+        <div class="footer-col"><h3>Customer support</h3><a href="#faq">Frequently asked questions</a><a href="#booking">Booking request</a><a href="#about">Service information</a><span>24/7 support</span></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 Duyuf Al Rahman VIP. All rights reserved.</span><span>English · SAR</span><div class="legal"><span>Privacy policy</span><span>Terms &amp; conditions</span><span>Cancellation policy</span></div></div>
+    </div>
+  </footer>
+
+  <div class="mobile-booking"><a class="btn btn--navy" href="#booking">Check available rides <span aria-hidden="true">→</span></a></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function(){
+      const header=document.getElementById('siteHeader');
+      const toggle=document.getElementById('menuToggle');
+      const mobileMenu=document.getElementById('mobileMenu');
+      const toast=document.getElementById('toast');
+      const mobileBooking=document.querySelector('.mobile-booking');
+      const bookingShell=document.getElementById('booking');
+      const siteFooter=document.querySelector('.footer');
+      let toastTimer;
+      const heroVideo=document.querySelector('.hero video');
+      const mobileVideoQuery=window.matchMedia('(max-width: 760px)');
+      const reducedMotionQuery=window.matchMedia('(prefers-reduced-motion: reduce)');
+      function setResponsiveHeroVideo(){
+        if(!heroVideo)return;
+        const useMobile=mobileVideoQuery.matches;
+        const webm=useMobile?heroVideo.dataset.mobileWebm:heroVideo.dataset.desktopWebm;
+        const mp4=useMobile?heroVideo.dataset.mobileMp4:heroVideo.dataset.desktopMp4;
+        if(heroVideo.dataset.activeSource===webm){
+          if(reducedMotionQuery.matches){heroVideo.pause();return;}
+          if(heroVideo.paused){const resume=heroVideo.play();if(resume&&typeof resume.catch==='function')resume.catch(()=>{});}
+          return;
+        }
+        heroVideo.pause();
+        heroVideo.replaceChildren();
+        const webmSource=document.createElement('source');webmSource.src=webm;webmSource.type='video/webm';
+        const mp4Source=document.createElement('source');mp4Source.src=mp4;mp4Source.type='video/mp4';
+        heroVideo.append(webmSource,mp4Source);
+        heroVideo.dataset.activeSource=webm;
+        heroVideo.load();
+        if(!reducedMotionQuery.matches){
+          const playAttempt=heroVideo.play();if(playAttempt&&typeof playAttempt.catch==='function')playAttempt.catch(()=>{});
+        }
+      }
+      setResponsiveHeroVideo();
+      if(typeof mobileVideoQuery.addEventListener==='function')mobileVideoQuery.addEventListener('change',setResponsiveHeroVideo);
+      else mobileVideoQuery.addListener(setResponsiveHeroVideo);
+      if(typeof reducedMotionQuery.addEventListener==='function')reducedMotionQuery.addEventListener('change',()=>{if(reducedMotionQuery.matches)heroVideo.pause();else setResponsiveHeroVideo()});
+      else reducedMotionQuery.addListener(()=>{if(reducedMotionQuery.matches)heroVideo.pause();else setResponsiveHeroVideo()});
+      function updateMobileBooking(){
+        if(!mobileBooking||window.matchMedia('(min-width: 761px)').matches)return;
+        const bookingRect=bookingShell.getBoundingClientRect();
+        const footerRect=siteFooter.getBoundingClientRect();
+        const bookingVisible=bookingRect.top<window.innerHeight&&bookingRect.bottom>0;
+        const footerVisible=footerRect.top<window.innerHeight&&footerRect.bottom>0;
+        const pastHero=window.scrollY>420;
+        mobileBooking.classList.toggle('is-visible',pastHero&&!bookingVisible&&!footerVisible);
+      }
+      window.addEventListener('scroll',updateMobileBooking,{passive:true});
+      window.addEventListener('resize',updateMobileBooking);
+      function updateHeader(){header.classList.toggle('is-scrolled',window.scrollY>40)}
+      updateHeader();updateMobileBooking();window.addEventListener('scroll',updateHeader,{passive:true});
+      toggle.addEventListener('click',()=>{const open=mobileMenu.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');toggle.textContent=open?'×':'☰'});
+      mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mobileMenu.classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Open navigation menu');toggle.textContent='☰'}));
+      const date=document.getElementById('travelDate');
+      const today=new Date();const localDate=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);date.min=localDate;
+      function showToast(message){toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),5200)}
+      document.getElementById('quickBooking').addEventListener('submit',e=>{
+        e.preventDefault();const form=e.currentTarget;const pickup=form.pickup.value;const destination=form.destination.value;
+        if(!form.reportValidity())return;
+        if(pickup===destination){showToast('Please choose two different locations.');return}
+        showToast('Your route details are ready. Connect this form to the existing booking and live pricing flow before production.');
+      });
+      const cityData={
+        makkah:{label:'Makkah Ziyarat · 2.5-hour service',title:'Makkah',text:'Private transportation for visits around the Holy City.',image:'assets/ziyarat-haram.jpg',alt:'Masjid al-Haram in Makkah',items:[['Masjid al-Haram','Central destination in Makkah'],['Jabal al-Nour','Historic site near Makkah'],['Jabal Thawr','Historic site associated with the Hijrah'],['Masjid Aisha (Al-Taneem)','Miqat mosque north of Makkah']]},
+        madinah:{label:'Madinah Ziyarat · flexible itinerary',title:'Madinah',text:'Private transportation to significant sites in the city of the Prophet’s Mosque.',image:'assets/service-madinah.jpg',alt:'Mosque architecture in Madinah',items:[['Quba Mosque','One of Madinah’s well-known mosques'],['Mount Uhud','Historic mountain north of Madinah'],['Al-Qiblatayn Mosque','Historic mosque in Madinah']]}
+      };
+      document.querySelectorAll('[data-city]').forEach(btn=>btn.addEventListener('click',()=>{
+        const data=cityData[btn.dataset.city];if(!data)return;
+        document.querySelectorAll('[data-city]').forEach(b=>b.setAttribute('aria-selected',String(b===btn)));
+        document.getElementById('tourCaption').textContent=data.label;
+        document.getElementById('ziyaratImageTitle').textContent=data.title;
+        document.getElementById('ziyaratImageText').textContent=data.text;
+        const img=document.getElementById('ziyaratImage');img.src=data.image;img.alt=data.alt;
+        const list=document.getElementById('tourList');list.innerHTML='';
+        data.items.forEach(item=>{const div=document.createElement('div');div.className='tour-item';const strong=document.createElement('b');strong.textContent=item[0];const span=document.createElement('span');span.textContent=item[1];div.append(strong,span);list.append(div)});
+        document.getElementById('ziyaratPanel').setAttribute('aria-labelledby',btn.id);
+      }));
+    })();
+  </script>

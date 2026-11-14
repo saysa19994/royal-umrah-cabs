@@ -5,10 +5,10 @@ import Image from 'next/image';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { RouteBasedPricingExperience } from '@/components/pricing/RouteBasedPricingExperience';
-import { InteractivePricingView } from '@/components/pricing/InteractivePricingView';
 import { getDbPricesCached } from '@/lib/pricing-db';
 import { getMergedSiteSettings } from '@/lib/dynamic-settings-store';
 import { PRICING_PAGE_CONTENT } from '@/data/pricing-page-content';
+import { AUTHORITATIVE_TRANSFER_RATES, LOCALIZED_ROUTE_NAMES } from '@/lib/pricing-constants';
 import {
   Shield,
   Diamond,
@@ -25,6 +25,8 @@ import {
   Sparkles,
   MapPin,
   CheckCircle2,
+  Banknote,
+  MessageCircle,
 } from 'lucide-react';
 
 interface PricingPageProps {
@@ -57,125 +59,71 @@ export default async function PricingPage(props: PricingPageProps) {
 
   const ArrowIcon = isRtl ? ArrowLeft : ArrowRight;
 
-  const packages = [
-    {
-      id: 'mercedes-s-class',
-      name: isAr ? 'مرسيدس الفئة S' : 'Mercedes S-Class',
-      category: isAr ? 'سيدان فاخرة' : 'Luxury Sedan',
-      image: '/assets/images/studio-2k/mercedes-s-class-studio-2k.webp',
-      passengers: 3,
-      bags: 3,
-      priceSar: 200,
-      isPopular: false,
-    },
-    {
-      id: 'hyundai-staria',
-      name: isAr ? 'هيونداي ستاريا VIP' : 'Hyundai Staria',
-      category: isAr ? 'فان عائلي فاخر' : 'Luxury Family Van',
-      image: '/assets/images/studio-2k/hyundai-staria-studio-2k.webp',
-      passengers: 6,
-      bags: 6,
-      priceSar: 260,
-      isPopular: true,
-      popularLabel: isAr ? 'الأكثر طلباً' : 'Most Popular',
-    },
-    {
-      id: 'toyota-camry',
-      name: isAr ? 'تويوتا كامري' : 'Toyota Camry',
-      category: isAr ? 'سيدان تنفيذية' : 'Executive Sedan',
-      image: '/assets/images/studio-2k/toyota-camry-studio-2k.webp',
-      passengers: 3,
-      bags: 6,
-      priceSar: 200,
-      isPopular: false,
-    },
-    {
-      id: 'gmc-yukon-xl',
-      name: isAr ? 'جمس يوكن XL' : 'GMC Yukon XL',
-      category: isAr ? 'دفع رباعي فاخر' : 'Premium SUV',
-      image: '/assets/images/studio-2k/gmc-yukon-studio-2k.webp',
-      passengers: 3,
-      bags: 6,
-      priceSar: 380,
-      isPopular: false,
-    },
-    {
-      id: 'hiace-van',
-      name: isAr ? 'تويوتا هايس فان' : 'Hiace Van',
-      category: isAr ? 'فان مجموعات' : 'Group Van',
-      image: '/assets/images/studio-2k/toyota-hiace-studio-2k.webp',
-      passengers: 9,
-      bags: 12,
-      priceSar: 360,
-      isPopular: false,
-    },
-  ];
+  const getDynamicPrice = (routeId: string, vehicleId: string): number => {
+    return initialRates?.[routeId]?.[vehicleId] ?? AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId] ?? 0;
+  };
 
-  const popularRoutes = [
+  const topOverviewRoutes = [
     {
-      origin: isAr ? 'مطار جدة' : 'Jeddah Airport',
-      dest: isAr ? 'مكة المكرمة' : 'Makkah',
-      camry: 200,
-      sclass: 200,
-      staria: 260,
-      yukon: 380,
+      id: 'jeddah-airport-to-makkah',
+      title: LOCALIZED_ROUTE_NAMES['jeddah-airport-to-makkah']?.[locale] || (isAr ? 'مطار جدة ➔ مكة المكرمة' : 'Jeddah Airport ➔ Makkah'),
+      distance: '95 km',
+      time: isAr ? '75 دقيقة' : '75 mins',
     },
     {
-      origin: isAr ? 'مكة المكرمة' : 'Makkah',
-      dest: isAr ? 'المدينة المنورة' : 'Madinah',
-      camry: 400,
-      sclass: 400,
-      staria: 460,
-      yukon: 580,
+      id: 'makkah-to-madinah',
+      title: LOCALIZED_ROUTE_NAMES['makkah-to-madinah']?.[locale] || (isAr ? 'مكة المكرمة ➔ المدينة المنورة' : 'Makkah ➔ Madinah'),
+      distance: '450 km',
+      time: isAr ? '4.5 ساعات' : '4.5 hours',
     },
     {
-      origin: isAr ? 'مطار المدينة' : 'Madinah Airport',
-      dest: isAr ? 'فندق المدينة' : 'Hotel',
-      camry: 200,
-      sclass: 200,
-      staria: 260,
-      yukon: 360,
+      id: 'madinah-airport-to-hotel',
+      title: LOCALIZED_ROUTE_NAMES['madinah-airport-to-hotel']?.[locale] || (isAr ? 'مطار المدينة ➔ فنادق الحرم' : 'Madinah Airport ➔ Hotel'),
+      distance: '25 km',
+      time: isAr ? '30 دقيقة' : '30 mins',
     },
     {
-      origin: isAr ? 'جدة' : 'Jeddah',
-      dest: isAr ? 'المدينة المنورة' : 'Madinah',
-      camry: 500,
-      sclass: 500,
-      staria: 560,
-      yukon: 680,
+      id: 'jeddah-to-madinah',
+      title: LOCALIZED_ROUTE_NAMES['jeddah-to-madinah']?.[locale] || (isAr ? 'جدة ➔ المدينة المنورة' : 'Jeddah ➔ Madinah'),
+      distance: '410 km',
+      time: isAr ? '4 ساعات' : '4 hours',
     },
   ];
 
   const whyChooseBadges = [
     {
-      icon: <Plane className="w-5 h-5 text-[#D6A13A]" />,
+      icon: <Plane className="w-5 h-5 text-gold-dark" />,
       title: isAr ? 'دقة بالمواعيد' : 'On-Time Service',
+      desc: isAr ? 'تتبع راداري للرحلات ومواعيد منضبطة' : 'Flight tracking & punctual arrival',
     },
     {
-      icon: <Shield className="w-5 h-5 text-[#D6A13A]" />,
-      title: isAr ? 'نقل آمن وموثوق' : 'Safe & Reliable Transportation',
+      icon: <Shield className="w-5 h-5 text-gold-dark" />,
+      title: isAr ? 'نقل آمن وموثوق' : 'Safe & Reliable',
+      desc: isAr ? 'سائقون معتمدون ومركبات مفحوصة' : 'Licensed chauffeurs & inspected fleet',
     },
     {
-      icon: <Car className="w-5 h-5 text-[#D6A13A]" />,
-      title: isAr ? 'أسطول فاخر حديث' : 'Premium Fleet',
+      icon: <Car className="w-5 h-5 text-gold-dark" />,
+      title: isAr ? 'أسطول فاخر حديث' : 'Premium VIP Fleet',
+      desc: isAr ? 'موديلات حديثة 2024-2026 فائقة الراحة' : 'Latest 2024-2026 luxury models',
     },
     {
-      icon: <Headphones className="w-5 h-5 text-[#D6A13A]" />,
-      title: isAr ? 'دعم عملاء 24/7' : '24/7 Customer Support',
+      icon: <Headphones className="w-5 h-5 text-gold-dark" />,
+      title: isAr ? 'دعم عملاء 24/7' : '24/7 Support',
+      desc: isAr ? 'متابعة مباشرة عبر الواتساب لحظة بلحظة' : 'Direct WhatsApp & phone assistance',
     },
     {
-      icon: <Handshake className="w-5 h-5 text-[#D6A13A]" />,
-      title: isAr ? 'أسعار تنافسية وثابتة' : 'Competitive Prices',
+      icon: <Banknote className="w-5 h-5 text-gold-dark" />,
+      title: isAr ? 'أسعار تنافسية وثابتة' : 'Fixed Rates',
+      desc: isAr ? 'دفع نقدي للسائق عند الوصول دون عربون' : '100% Cash on arrival, zero deposit',
     },
   ];
 
   return (
-    <div className="bg-[#090D15] min-h-screen text-start text-[#F6F3ED] w-full max-w-full overflow-x-clip" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="bg-bg min-h-screen text-start text-ink w-full max-w-full overflow-x-clip" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* ─────────────────────────────────────────────────────────────
           1. MASTER HERO: OUR PRICES & PACKAGES
-          Shared between mobile & desktop, deep royal navy aesthetic
       ────────────────────────────────────────────────────────────── */}
-      <section className="relative pt-10 sm:pt-14 pb-12 sm:pb-16 overflow-hidden border-b border-white/10">
+      <section className="relative pt-10 sm:pt-14 pb-12 sm:pb-16 overflow-hidden border-b border-border">
         <div className="absolute inset-0 z-0">
           <Image
             src="/assets/images/cinematic/home/hero-mercedes-kaaba-retina.jpg"
@@ -184,61 +132,74 @@ export default async function PricingPage(props: PricingPageProps) {
             priority
             className="object-cover object-center opacity-40 mix-blend-luminosity scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#090D15] via-[#090D15]/80 to-[#090D15]/95" />
+          <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/85 to-bg/95" />
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-xs text-[#AEB7C4] mb-6">
-            <Link href={`/${locale}`} className="hover:text-[#D6A13A] transition-colors">
+          <nav className="flex items-center gap-2 text-xs text-ink-muted mb-6">
+            <Link href={`/${locale}`} className="hover:text-gold-dark transition-colors">
               {dict.nav.home}
             </Link>
-            <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180 text-[#D6A13A]" />
-            <span className="text-[#D6A13A] font-semibold">{dict.nav.pricing}</span>
+            <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180 text-gold-dark" />
+            <span className="text-gold-dark font-semibold">{dict.nav.pricing}</span>
           </nav>
 
           {/* Heading with gold ampersand */}
           <div className="max-w-3xl mb-8">
-            <h1 className="font-playfair font-serif text-3xl sm:text-5xl md:text-6xl text-[#F6F3ED] font-bold tracking-tight leading-[1.15] mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-bg-alt border border-gold/40 text-xs font-bold text-gold-dark uppercase tracking-wider mb-4">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>{content.badge || (isAr ? 'شفافية مطلقة • أسعار معتمدة' : 'Absolute Transparency • Fixed Fares')}</span>
+            </div>
+            <h1 className="font-playfair font-serif text-3xl sm:text-5xl md:text-6xl text-ink font-bold tracking-tight leading-[1.15] mb-4">
               {isAr ? (
-                <>أسعارنا <span className="text-[#D6A13A] font-light">&amp;</span> باقاتنا الفاخرة</>
+                <>أسعارنا <span className="text-gold-dark font-light">&amp;</span> باقاتنا الفاخرة</>
               ) : (
-                <>Our Prices <span className="text-[#D6A13A] font-light">&amp;</span> Packages</>
+                <>Our Prices <span className="text-gold-dark font-light">&amp;</span> Packages</>
               )}
             </h1>
-            <p className="text-sm sm:text-lg text-[#AEB7C4] font-light leading-relaxed">
-              {isAr
-                ? 'خدمات نقل فاخرة بأسعار تنافسية ومحددة عبر جميع مدن المملكة العربية السعودية'
-                : 'Premium transportation at competitive prices across Saudi Arabia'}
+            <p className="text-sm sm:text-lg text-ink-muted font-light leading-relaxed">
+              {content.heroSubtitle || (isAr
+                ? 'خدمات نقل فاخرة بأسعار تنافسية ومحددة عبر جميع مدن المملكة العربية السعودية. دفع نقدي 100% للسائق عند الوصول بعد إتمام الرحلة وبدون أي عربون مسبق.'
+                : 'Premium transportation at competitive prices across Saudi Arabia. 100% Cash payment to the chauffeur upon arrival with zero advance deposit.')}
             </p>
           </div>
 
-          {/* 3 Circular Trust Badges */}
-          <div className="flex flex-wrap items-center gap-4 sm:gap-10 pt-2">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full border border-[#D6A13A]/50 bg-[#141D2C] flex items-center justify-center text-[#D6A13A] shadow-md shrink-0">
-                <Shield className="w-5 h-5" />
+          {/* 4 Trust Badges */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 pt-2">
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-surface/80 border border-border">
+              <div className="w-9 h-9 rounded-xl border border-gold/50 bg-bg-alt flex items-center justify-center text-gold-dark shrink-0">
+                <Shield className="w-4 h-4" />
               </div>
-              <span className="text-xs sm:text-sm font-semibold text-[#F6F3ED]">
-                {content.trustSafeReliable || (isAr ? 'نقل آمن وموثوق' : 'Safe & Reliable Transportation')}
+              <span className="text-xs font-semibold text-ink">
+                {content.trustSafeReliable || (isAr ? 'نقل آمن وموثوق' : 'Safe & Reliable')}
               </span>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full border border-[#D6A13A]/50 bg-[#141D2C] flex items-center justify-center text-[#D6A13A] shadow-md shrink-0">
-                <Diamond className="w-5 h-5" />
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-surface/80 border border-border">
+              <div className="w-9 h-9 rounded-xl border border-gold/50 bg-bg-alt flex items-center justify-center text-gold-dark shrink-0">
+                <Diamond className="w-4 h-4" />
               </div>
-              <span className="text-xs sm:text-sm font-semibold text-[#F6F3ED]">
+              <span className="text-xs font-semibold text-ink">
                 {content.trustPremiumFleet || (isAr ? 'أسطول سيارات فاخر' : 'Premium Fleet')}
               </span>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full border border-[#D6A13A]/50 bg-[#141D2C] flex items-center justify-center text-[#D6A13A] shadow-md shrink-0">
-                <Headphones className="w-5 h-5" />
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-surface/80 border border-border">
+              <div className="w-9 h-9 rounded-xl border border-gold/50 bg-bg-alt flex items-center justify-center text-gold-dark shrink-0">
+                <Headphones className="w-4 h-4" />
               </div>
-              <span className="text-xs sm:text-sm font-semibold text-[#F6F3ED]">
-                {content.trustSupport247 || (isAr ? 'دعم عملاء 24/7' : '24/7 Customer Support')}
+              <span className="text-xs font-semibold text-ink">
+                {content.trustSupport247 || (isAr ? 'دعم عملاء 24/7' : '24/7 Support')}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-surface/80 border border-gold/30">
+              <div className="w-9 h-9 rounded-xl border border-gold bg-bg-alt flex items-center justify-center text-gold-dark shrink-0">
+                <Banknote className="w-4 h-4" />
+              </div>
+              <span className="text-xs font-semibold text-gold-dark">
+                {isAr ? 'الدفع نقداً عند الوصول' : 'Cash on Arrival'}
               </span>
             </div>
           </div>
@@ -246,274 +207,228 @@ export default async function PricingPage(props: PricingPageProps) {
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          MOBILE MASTER EXPERIENCE (< 768px): Reference B 10-Section Vertical Composition
+          2. CORE DYNAMIC PRICING COMPARISON EXPERIENCE (Prompt 5)
       ────────────────────────────────────────────────────────────── */}
-      <div className="md:hidden">
-        <InteractivePricingView
-          locale={locale}
-          dict={dict}
-          content={content}
-        />
-      </div>
-
-      {/* ─────────────────────────────────────────────────────────────
-          DESKTOP MASTER EXPERIENCE (≥ 768px): The Master Desktop Showroom Design
-          5-column showroom tier with glowing Staria VIP,
-          Routes & Prices matrix table with side confidence card,
-          Why Choose ribbon, and master bottom CTA banner.
-      ────────────────────────────────────────────────────────────── */}
-      <div className="hidden md:block">
-        {/* Gold Ribbon Divider */}
-        <div className="gold-ribbon-divider">
-          <div className="gold-ribbon-curve" />
-        </div>
-
-        {/* 2. SECTION: OUR PACKAGES (5 MASTER VEHICLE CARDS)
-            Hyundai Staria highlighted with glowing border and Most Popular badge */}
-        <section className="py-12 md:py-16">
-          <div className="container mx-auto px-6 max-w-7xl">
-            <div className="text-center max-w-xl mx-auto mb-12">
-              <div className="flex items-center justify-center gap-4 mb-2">
-                <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#D6A13A]" />
-                <h2 className="font-playfair font-serif text-3xl font-bold text-[#F6F3ED]">
-                  {isAr ? 'باقاتنا الفاخرة' : 'Our Packages'}
-                </h2>
-                <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#D6A13A]" />
-              </div>
-              <p className="text-sm text-[#AEB7C4]">
-                {isAr ? 'اختر الخيار الأمثل لرحلتك الميمونة' : 'Choose the perfect option for your journey'}
-              </p>
-            </div>
-
-            <div className="packages-grid">
-              {packages.map((pkg) => (
-                <div
-                  key={pkg.id}
-                  className={`master-package-card ${pkg.isPopular ? 'is-popular' : ''}`}
-                >
-                  {pkg.isPopular && pkg.popularLabel && (
-                    <span className="popular-badge-pill">{pkg.popularLabel}</span>
-                  )}
-
-                  <div className="package-car-img">
-                    <Image
-                      src={pkg.image}
-                      alt={pkg.name}
-                      fill
-                      className="object-contain hover:scale-105 transition-transform duration-500"
-                      sizes="20vw"
-                    />
-                  </div>
-
-                  <h3 className="package-car-title">{pkg.name}</h3>
-
-                  <div className="package-specs-row">
-                    <div className="package-specs-item">
-                      <Users className="w-3.5 h-3.5 text-[#D6A13A]" />
-                      <span>{pkg.passengers} {isAr ? 'ركاب' : 'Passengers'}</span>
-                    </div>
-                    <div className="package-specs-item">
-                      <Luggage className="w-3.5 h-3.5 text-[#D6A13A]" />
-                      <span>{pkg.bags} {isAr ? 'حقائب' : 'Bags'}</span>
-                    </div>
-                  </div>
-
-                  <div className="package-price-wrap">
-                    <span className="package-price-val">{pkg.priceSar} {isAr ? 'ر.س' : 'SAR'}</span>
-                  </div>
-
-                  <Link
-                    href={`/${locale}/booking?vehicle=${pkg.id}`}
-                    className="package-cta-btn"
-                  >
-                    <span>{isAr ? 'احجز الآن' : 'Book Now'}</span>
-                    <ArrowIcon className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 3. SECTION: ROUTES & PRICES (MATRIX TABLE & SIDE CARD) */}
-        <section className="py-10 border-t border-b border-white/10 bg-[#0A0E18]">
-          <div className="container mx-auto px-6 max-w-7xl">
-            <div className="flex items-end justify-between gap-4 mb-8">
-              <div>
-                <h2 className="font-playfair font-serif text-3xl font-bold text-[#F6F3ED] mb-1.5">
-                  {isAr ? 'المسارات والأسعار' : 'Routes & Prices'}
-                </h2>
-                <p className="text-sm text-[#AEB7C4]">
-                  {isAr ? 'أسعار شفافة ومحددة لراحة بالك واطمئنانك' : 'Transparent pricing for your peace of mind'}
-                </p>
-              </div>
-
-              {/* Toggle Pills */}
-              <div className="inline-flex items-center p-1 rounded-full bg-[#101725] border border-white/10">
-                <button
-                  type="button"
-                  className="px-5 py-1.5 rounded-full text-xs font-bold bg-[#D6A13A] text-[#090D15] shadow-sm transition-all"
-                >
-                  {isAr ? 'ذهاب فقط' : 'One Way'}
-                </button>
-                <button
-                  type="button"
-                  className="px-5 py-1.5 rounded-full text-xs font-bold text-[#AEB7C4] hover:text-[#F6F3ED] transition-all"
-                >
-                  {isAr ? 'ذهاب وعودة' : 'Round Trip'}
-                </button>
-              </div>
-            </div>
-
-            <div className="pricing-matrix-layout">
-              {/* Left: Luxury Matrix Table */}
-              <div className="luxury-matrix-table-wrap">
-                <div className="matrix-header-row">
-                  <div>{isAr ? 'المسار' : 'Route'}</div>
-                  <div>Sedan (Camry)</div>
-                  <div>Luxury (S-Class)</div>
-                  <div>Van (Staria)</div>
-                  <div>Premium SUV</div>
-                </div>
-
-                {popularRoutes.map((rt, idx) => (
-                  <div key={idx} className="matrix-data-row">
-                    <div className="matrix-route-cell">
-                      <MapPin className="w-3.5 h-3.5 text-[#D6A13A] shrink-0" />
-                      <span>{rt.origin} &rarr; {rt.dest}</span>
-                    </div>
-                    <div className="matrix-price-cell">
-                      <span className="text-[11px] text-[#AEB7C4] inline font-normal">{isAr ? 'من ' : 'From '}</span>
-                      {rt.camry} {isAr ? 'ر.س' : 'SAR'}
-                    </div>
-                    <div className="matrix-price-cell">
-                      <span className="text-[11px] text-[#AEB7C4] inline font-normal">{isAr ? 'من ' : 'From '}</span>
-                      {rt.sclass} {isAr ? 'ر.س' : 'SAR'}
-                    </div>
-                    <div className="matrix-price-cell">
-                      <span className="text-[11px] text-[#AEB7C4] inline font-normal">{isAr ? 'من ' : 'From '}</span>
-                      {rt.staria} {isAr ? 'ر.س' : 'SAR'}
-                    </div>
-                    <div className="matrix-price-cell">
-                      <span className="text-[11px] text-[#AEB7C4] inline font-normal">{isAr ? 'من ' : 'From '}</span>
-                      {rt.yukon} {isAr ? 'ر.س' : 'SAR'}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Right: Confidence Promo Card */}
-              <div className="matrix-side-card">
-                <div className="matrix-side-card-img">
-                  <Image
-                    src="/assets/images/cinematic/services/services-suv-retina.jpg"
-                    alt="Travel with Confidence"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#101725] via-transparent to-transparent" />
-                </div>
-                <div className="matrix-side-card-content">
-                  <h3>
-                    {isAr ? <>سافر بكل <span>ثقة واطمئنان</span></> : <>Travel with <span>Confidence</span></>}
-                  </h3>
-                  <p>
-                    {isAr ? 'راحة فاخرة، موثوقية عالية، والتزام تام بالمواعيد.' : 'Comfortable. Reliable. On Time.'}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 4. SECTION: WHY CHOOSE DUYUF AL RAHMAN VIP? (5 BADGES) */}
-        <section className="py-14">
-          <div className="container mx-auto px-6 max-w-7xl">
-            <div className="text-center max-w-xl mx-auto mb-8">
-              <div className="flex items-center justify-center gap-4 mb-2">
-                <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#D6A13A]" />
-                <h2 className="font-playfair font-serif text-3xl font-bold text-[#F6F3ED]">
-                  {isAr ? 'لماذا تختار ضيوف الرحمن VIP؟' : 'Why Choose Duyuf Al Rahman VIP?'}
-                </h2>
-                <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#D6A13A]" />
-              </div>
-            </div>
-
-            <div className="why-choose-ribbon">
-              {whyChooseBadges.map((badge, idx) => (
-                <div key={idx} className="why-badge-item">
-                  <div className="why-badge-circle">
-                    {badge.icon}
-                  </div>
-                  <span className="why-badge-title">{badge.title}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 5. MASTER BOTTOM CTA */}
-        <section className="master-bottom-cta-banner">
-          <div className="gold-ribbon-divider mb-8">
-            <div className="gold-ribbon-curve" />
-          </div>
-
-          <Link
-            href={`/${locale}/booking`}
-            className="master-bottom-cta-btn"
-          >
-            <span>{isAr ? 'احجز رحلتك اليوم' : 'Book Your Journey Today'}</span>
-            <ArrowIcon className="w-4 h-4" />
-          </Link>
-          <span className="master-bottom-cta-sub">
-            {isAr ? 'راحتك وسلامتك هي أولويتنا القصوى' : 'Your comfort is our priority'}
-          </span>
-        </section>
-      </div>
-
-      {/* ─────────────────────────────────────────────────────────────
-          6. DETAILED INTERACTIVE ROUTE & FARE CALCULATOR
-      ────────────────────────────────────────────────────────────── */}
-      <section className="py-10 md:py-14 border-t border-white/10 bg-[#090D15]">
+      <section className="py-10 sm:py-16">
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          <details className="group md:open" open>
-            <summary className="md:hidden flex items-center justify-between p-4 rounded-xl bg-[#101725] border border-white/10 cursor-pointer list-none mb-4">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#D6A13A]" />
-                <span className="text-xs font-bold text-[#F6F3ED]">
-                  {isAr ? 'حاسبة وتفاصيل جميع المسارات المخصصة' : 'All Custom Routes & Detailed Fares'}
-                </span>
-              </div>
-              <ChevronRight className="w-4 h-4 text-[#D6A13A] transition-transform group-open:rotate-90" />
-            </summary>
-
-            <div className="hidden md:block mb-8">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#141D2C] border border-[#D6A13A]/40 text-xs font-bold text-[#D6A13A] uppercase tracking-wider mb-2">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>{isAr ? 'حاسبة وتفاصيل جميع المسارات' : 'All Routes & Interactive Fares'}</span>
-              </div>
-              <h2 className="font-playfair font-serif text-2xl sm:text-3xl text-[#F6F3ED] font-bold">
-                {isAr ? 'تصفح كافة المسارات والسيارات حسب طلبك' : 'Browse All Custom Routes & Vehicles'}
-              </h2>
-            </div>
-
-            <div className="mt-2">
-              <RouteBasedPricingExperience
-                locale={locale}
-                dict={dict}
-                initialRates={initialRates}
-                taifEnabled={settings.taif_enabled !== false}
-                riyadhEnabled={settings.riyadh_enabled !== false}
-              />
-            </div>
-          </details>
+          <RouteBasedPricingExperience
+            locale={locale}
+            dict={dict}
+            initialRates={initialRates}
+            taifEnabled={settings.taif_enabled !== false}
+            riyadhEnabled={settings.riyadh_enabled !== false}
+          />
         </div>
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          7. STICKY MOBILE CONVERSION BAR
+          3. POPULAR ROUTES QUICK OVERVIEW MATRIX (100% Database Prices)
       ────────────────────────────────────────────────────────────── */}
-      <div className="fixed bottom-0 inset-x-0 z-50 p-3 bg-[#101725]/95 backdrop-blur-xl border-t border-white/10 md:hidden flex items-center justify-between gap-3 shadow-2xl">
+      <section className="py-12 border-t border-b border-border bg-bg-alt">
+        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+          <div className="max-w-2xl mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-bg-alt border border-gold/40 text-xs font-bold text-gold-dark uppercase tracking-wider mb-2">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>{isAr ? 'جدول مقارنة سريع' : 'Quick Rates Overview'}</span>
+            </div>
+            <h2 className="font-playfair font-serif text-2xl sm:text-3xl font-bold text-ink mb-2">
+              {isAr ? 'مقارنة أسعار أشهر مسارات الحرمين الشريفين' : 'Popular Holy Sanctuary Routes Comparison'}
+            </h2>
+            <p className="text-xs sm:text-sm text-ink-muted">
+              {isAr
+                ? 'أسعار معتمدة وثابتة للسيارة بالكامل شاملة رسوم الطريق والضريبة ومواقف المطار، والدفع نقداً للسائق عند الوصول.'
+                : 'Authoritative fixed rates per vehicle including tolls, taxes, and parking. 100% Cash paid to chauffeur upon arrival.'}
+            </p>
+          </div>
+
+          <div className="overflow-x-auto rounded-2xl border border-border bg-surface shadow-xl">
+            <table className="w-full text-start text-xs sm:text-sm">
+              <thead>
+                <tr className="border-b border-border bg-bg-alt text-gold-dark">
+                  <th className="py-4 px-4 sm:px-6 text-start font-bold uppercase tracking-wider">
+                    {isAr ? 'المسار والمسافة' : 'Route & Distance'}
+                  </th>
+                  <th className="py-4 px-3 sm:px-4 text-center font-bold">
+                    <span>Camry</span>
+                    <span className="block text-[10px] text-ink-muted font-normal">4 {isAr ? 'ركاب' : 'Pax'}</span>
+                  </th>
+                  <th className="py-4 px-3 sm:px-4 text-center font-bold bg-[#D6A13A]/10 border-x border-gold/30">
+                    <span className="text-gold-dark">Staria VIP</span>
+                    <span className="block text-[10px] text-gold-dark font-semibold">{isAr ? 'الأكثر طلباً' : 'Popular'}</span>
+                  </th>
+                  <th className="py-4 px-3 sm:px-4 text-center font-bold">
+                    <span>Yukon XL</span>
+                    <span className="block text-[10px] text-ink-muted font-normal">7 {isAr ? 'ركاب' : 'Pax'}</span>
+                  </th>
+                  <th className="py-4 px-3 sm:px-4 text-center font-bold">
+                    <span>HiAce VIP</span>
+                    <span className="block text-[10px] text-ink-muted font-normal">10 {isAr ? 'ركاب' : 'Pax'}</span>
+                  </th>
+                  <th className="py-4 px-3 sm:px-4 text-center font-bold">
+                    <span>Coaster</span>
+                    <span className="block text-[10px] text-ink-muted font-normal">21 {isAr ? 'ركاب' : 'Pax'}</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {topOverviewRoutes.map((rt) => {
+                  const camryFare = getDynamicPrice(rt.id, 'camry');
+                  const stariaFare = getDynamicPrice(rt.id, 'staria');
+                  const yukonFare = getDynamicPrice(rt.id, 'yukon');
+                  const hiaceFare = getDynamicPrice(rt.id, 'hiace');
+                  const coasterFare = getDynamicPrice(rt.id, 'coaster');
+
+                  return (
+                    <tr key={rt.id} className="hover:bg-white/[0.02] transition-colors">
+                      <td className="py-4 px-4 sm:px-6">
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4 text-gold-dark shrink-0" />
+                          <div>
+                            <span className="font-bold text-ink block">{rt.title}</span>
+                            <span className="text-[11px] text-ink-muted">{rt.distance} • {rt.time}</span>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td className="py-4 px-3 sm:px-4 text-center font-extrabold text-ink">
+                        <Link
+                          href={`/${locale}/booking?route=${encodeURIComponent(rt.id)}&vehicle=camry`}
+                          className="hover:text-gold-dark transition-colors"
+                        >
+                          {camryFare > 0 ? `${camryFare} SAR` : '—'}
+                        </Link>
+                      </td>
+
+                      <td className="py-4 px-3 sm:px-4 text-center font-extrabold text-gold-dark bg-[#D6A13A]/5 border-x border-gold/20">
+                        <Link
+                          href={`/${locale}/booking?route=${encodeURIComponent(rt.id)}&vehicle=staria`}
+                          className="hover:underline"
+                        >
+                          {stariaFare > 0 ? `${stariaFare} SAR` : '—'}
+                        </Link>
+                      </td>
+
+                      <td className="py-4 px-3 sm:px-4 text-center font-extrabold text-ink">
+                        <Link
+                          href={`/${locale}/booking?route=${encodeURIComponent(rt.id)}&vehicle=yukon`}
+                          className="hover:text-gold-dark transition-colors"
+                        >
+                          {yukonFare > 0 ? `${yukonFare} SAR` : '—'}
+                        </Link>
+                      </td>
+
+                      <td className="py-4 px-3 sm:px-4 text-center font-extrabold text-ink">
+                        <Link
+                          href={`/${locale}/booking?route=${encodeURIComponent(rt.id)}&vehicle=hiace`}
+                          className="hover:text-gold-dark transition-colors"
+                        >
+                          {hiaceFare > 0 ? `${hiaceFare} SAR` : '—'}
+                        </Link>
+                      </td>
+
+                      <td className="py-4 px-3 sm:px-4 text-center font-extrabold text-ink">
+                        {coasterFare > 0 ? (
+                          <Link
+                            href={`/${locale}/booking?route=${encodeURIComponent(rt.id)}&vehicle=coaster`}
+                            className="hover:text-gold-dark transition-colors"
+                          >
+                            {`${coasterFare} SAR`}
+                          </Link>
+                        ) : (
+                          <span className="text-[#687386]">—</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          4. SECTION: WHY CHOOSE DUYUF AL RAHMAN VIP? (5 BADGES)
+      ────────────────────────────────────────────────────────────── */}
+      <section className="py-14 sm:py-16">
+        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+          <div className="text-center max-w-xl mx-auto mb-10">
+            <div className="flex items-center justify-center gap-4 mb-2">
+              <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#D6A13A]" />
+              <h2 className="font-playfair font-serif text-2xl sm:text-3xl font-bold text-ink">
+                {isAr ? 'لماذا تختار ضيوف الرحمن VIP؟' : 'Why Choose Duyuf Al Rahman VIP?'}
+              </h2>
+              <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#D6A13A]" />
+            </div>
+            <p className="text-xs sm:text-sm text-ink-muted">
+              {isAr ? 'معايير ملكية تضمن لك ولعائلتك أرقى مستويات الراحة والطمأنينة' : 'Royal standards ensuring supreme comfort and peace of mind'}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {whyChooseBadges.map((badge, idx) => (
+              <div
+                key={idx}
+                className="p-5 rounded-2xl bg-surface border border-border hover:border-gold/50 transition-all flex flex-col items-center text-center group"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-bg-alt border border-gold/40 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  {badge.icon}
+                </div>
+                <h3 className="font-bold text-sm text-ink mb-1">{badge.title}</h3>
+                <p className="text-xs text-ink-muted leading-relaxed">{badge.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          5. MASTER BOTTOM CTA
+      ────────────────────────────────────────────────────────────── */}
+      <section className="py-14 sm:py-16 border-t border-border bg-gradient-to-b from-[#090D15] to-[#101725] text-center">
+        <div className="container mx-auto px-4 sm:px-6 max-w-3xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-bg-alt border border-gold/40 text-xs font-bold text-gold-dark uppercase tracking-wider mb-4">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>{isAr ? 'حجز فوري ومؤكد' : 'Instant Guaranteed Booking'}</span>
+          </div>
+          <h2 className="font-playfair font-serif text-3xl sm:text-4xl font-bold text-ink mb-3">
+            {isAr ? 'جاهز لحجز رحلتك الميمونة؟' : 'Ready to Reserve Your Blessed Journey?'}
+          </h2>
+          <p className="text-sm text-ink-muted mb-8 max-w-xl mx-auto leading-relaxed">
+            {isAr
+              ? 'احجز سيارتك الفاخرة خلال دقائق معدودة. تأكيد فوري، بدون أي عربون، والدفع نقداً للسائق عند الوصول بأمان.'
+              : 'Book your luxury vehicle in just a few minutes. Instant confirmation, 0 advance deposit, and cash payment on safe arrival.'}
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href={`/${locale}/booking`}
+              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-[#E5B14B] via-[#D6A13A] to-[#A97B27] text-[#090D15] font-extrabold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl hover:brightness-110 active:scale-98 transition-all"
+            >
+              <span>{isAr ? 'احجز رحلتك اليوم' : 'Book Your Journey Today'}</span>
+              <ArrowIcon className="w-4 h-4 text-[#090D15]" />
+            </Link>
+
+            <a
+              href="https://wa.me/966567588261"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-bg-alt hover:bg-[#18263e] text-[#25D366] border border-[#25D366]/40 font-bold text-sm flex items-center justify-center gap-2 shadow-lg transition-all"
+            >
+              <MessageCircle className="w-4 h-4 text-[#25D366]" />
+              <span>{isAr ? 'محادثة واتساب مباشرة' : 'Direct WhatsApp Concierge'}</span>
+            </a>
+          </div>
+          <span className="block text-xs text-ink-muted mt-4">
+            {isAr ? 'راحتك وسلامتك هي أولويتنا القصوى' : 'Your comfort and safety are our highest priorities'}
+          </span>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          6. STICKY MOBILE CONVERSION BAR
+      ────────────────────────────────────────────────────────────── */}
+      <div className="fixed bottom-0 inset-x-0 z-50 p-3 bg-surface/95 backdrop-blur-xl border-t border-border md:hidden flex items-center justify-between gap-3 shadow-2xl">
         <Link
           href={`/${locale}/booking`}
           className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-[#E5B14B] via-[#D6A13A] to-[#A97B27] text-[#090D15] font-extrabold text-xs text-center shadow-lg active:scale-95 transition-transform"

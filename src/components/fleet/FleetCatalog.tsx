@@ -616,7 +616,7 @@ const APPROVED_BLUEPRINT_FLEET: StandardVehicleSpec[] = [
     slug: 'toyota-coaster',
     indexStr: '05 / 05',
     category: 'group',
-    image: '/assets/images/reference/toyota-coaster-transparent.webp',
+    image: '/assets/images/studio-2k/toyota-coaster-studio-2k.webp',
     kicker: {
       en: 'Executive Group Coach',
       ar: 'حافلة تنفيذية للمجموعات',
@@ -749,8 +749,8 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
             </div>
           </div>
 
-          {/* LARGE EDITORIAL VEHICLE CARDS */}
-          <div className="fleet-grid-large">
+          {/* LARGE EDITORIAL VEHICLE CARDS — STRICTLY MAX 3 PER ROW ON DESKTOP, 2 ON TABLET, 1 ON MOBILE */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
             {filteredVehicles.map((vehicle) => {
               const vKicker = vehicle.kicker[locale] || vehicle.kicker.en;
               const vName = vehicle.name[locale] || vehicle.name.en;
@@ -840,32 +840,42 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
             </a>
           </div>
 
-          <div className="concierge-vehicles">
+          <div className="concierge-vehicles grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Link
               href={`/${locale}/fleet/mercedes-maybach`}
               aria-label="Mercedes-Maybach S-Class"
+              className="flex flex-col items-center justify-center p-4 rounded-2xl bg-[#141D2C] border border-white/10 hover:border-[#D6A13A] transition-all group"
             >
-              <Image
-                src="/assets/images/studio-2k/mercedes-s-class-studio-2k.webp"
-                alt="Mercedes Maybach S-Class"
-                width={360}
-                height={200}
-                className="object-contain"
-              />
-              <span>Mercedes-Maybach S-Class</span>
+              <div className="w-full h-32 flex items-center justify-center mb-2">
+                <Image
+                  src="/assets/images/studio-2k/mercedes-s-class-studio-2k.webp"
+                  alt="Mercedes Maybach S-Class"
+                  width={320}
+                  height={160}
+                  className="object-contain max-h-28 transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-[#F6F3ED] group-hover:text-[#D6A13A] transition-colors text-center">
+                Mercedes-Maybach S-Class
+              </span>
             </Link>
             <Link
               href={`/${locale}/fleet/hyundai-h1`}
               aria-label="Hyundai H1"
+              className="flex flex-col items-center justify-center p-4 rounded-2xl bg-[#141D2C] border border-white/10 hover:border-[#D6A13A] transition-all group"
             >
-              <Image
-                src="/assets/images/studio-2k/hyundai-h1-studio-2k.webp"
-                alt="Hyundai H1 Starex"
-                width={360}
-                height={200}
-                className="object-contain"
-              />
-              <span>Hyundai H1</span>
+              <div className="w-full h-32 flex items-center justify-center mb-2">
+                <Image
+                  src="/assets/images/studio-2k/hyundai-h1-studio-2k.webp"
+                  alt="Hyundai H1 Starex"
+                  width={320}
+                  height={160}
+                  className="object-contain max-h-28 transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-[#F6F3ED] group-hover:text-[#D6A13A] transition-colors text-center">
+                Hyundai H1
+              </span>
             </Link>
           </div>
         </div>
@@ -881,7 +891,8 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
             </h2>
           </div>
 
-          <div className="overflow-x-auto rounded-xl border border-white/10 shadow-xl bg-[#101725]">
+          {/* DESKTOP TABLE VIEW */}
+          <div className="hidden md:block overflow-x-auto rounded-xl border border-white/10 shadow-xl bg-[#101725]">
             <table className="w-full text-start border-collapse text-xs sm:text-sm">
               <thead>
                 <tr className="bg-[#141D2C] text-[#F6F3ED] text-[11px] font-bold uppercase tracking-wider border-b border-[#D6A13A]/40">
@@ -889,7 +900,7 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
                   <th className="py-3.5 px-3 text-start">{t('colClass')}</th>
                   <th className="py-3.5 px-3 text-center">{t('colPax')}</th>
                   <th className="py-3.5 px-3 text-center">{t('colBags')}</th>
-                  <th className="py-3.5 px-4 text-start hidden md:table-cell">{t('colClimate')}</th>
+                  <th className="py-3.5 px-4 text-start">{t('colClimate')}</th>
                   <th className="py-3.5 px-4 text-center">{t('colAction')}</th>
                 </tr>
               </thead>
@@ -922,7 +933,7 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
                     <td className="py-3.5 px-3 text-center font-bold text-[#F6F3ED]">
                       {v.luggage}
                     </td>
-                    <td className="py-3.5 px-4 text-[#AEB7C4] hidden md:table-cell">
+                    <td className="py-3.5 px-4 text-[#AEB7C4]">
                       {v.acType[locale] || v.acType.en}
                     </td>
                     <td className="py-3.5 px-4 text-center">
@@ -937,6 +948,55 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* MOBILE RESPONSIVE CARDS VIEW */}
+          <div className="md:hidden space-y-4">
+            {APPROVED_BLUEPRINT_FLEET.map((v) => (
+              <div
+                key={v.id}
+                className="p-4 rounded-2xl bg-[#101725] border border-white/10 space-y-3 shadow-md"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-16 h-12 rounded-xl bg-[#141D2C] border border-white/10 p-1 flex items-center justify-center shrink-0">
+                    <Image
+                      src={v.image}
+                      alt={v.name[locale] || v.name.en}
+                      width={60}
+                      height={40}
+                      className="object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm text-[#F6F3ED]">{v.name[locale] || v.name.en}</h3>
+                    <p className="text-[11px] text-[#AEB7C4]">{v.kicker[locale] || v.kicker.en}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-xs pt-1 border-t border-white/5">
+                  <div className="flex items-center gap-1.5 text-[#AEB7C4]">
+                    <Users className="w-3.5 h-3.5 text-[#D6A13A]" />
+                    <span><strong>{v.passengers}</strong> {t('passengers')}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-[#AEB7C4]">
+                    <Briefcase className="w-3.5 h-3.5 text-[#D6A13A]" />
+                    <span><strong>{v.luggage}</strong> {t('luggage')}</span>
+                  </div>
+                </div>
+
+                <div className="text-[11px] text-[#AEB7C4] flex items-center gap-1.5 bg-[#141D2C] p-2 rounded-lg">
+                  <Snowflake className="w-3.5 h-3.5 text-[#D6A13A] shrink-0" />
+                  <span className="truncate">{v.acType[locale] || v.acType.en}</span>
+                </div>
+
+                <Link
+                  href={`/${locale}/booking?vehicle=${v.bookingVehicleId}`}
+                  className="w-full flex items-center justify-center py-2.5 rounded-xl bg-[#D6A13A] text-[#090D15] hover:bg-[#E5B14B] text-xs font-bold transition-all shadow-sm min-h-[44px]"
+                >
+                  {t('bookVehicle')}
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </section>

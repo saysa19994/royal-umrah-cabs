@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: ['class', '[data-theme="dark"]'],
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,77 +10,122 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: '#090D15',
-        'bg-alt': '#101725',
-        alabaster: '#0E1420',
-        surface: '#101725',
-        'surface-warm': '#141D2C',
-        border: 'rgba(255, 255, 255, 0.08)',
-        'border-strong': 'rgba(214, 161, 58, 0.35)',
-        ink: '#F6F3ED',
-        'ink-muted': '#AEB7C4',
-        body: '#AEB7C4',
-        mutedText: '#AEB7C4',
-        whatsappGreen: '#25d366',
+        // ====================================================================
+        // DUYUF AL RAHMAN VIP — DUAL-THEME DYNAMIC TOKENS (STAGE 2)
+        // ====================================================================
+        theme: {
+          base: 'var(--bg-base)',
+          surface: 'var(--bg-surface)',
+          elevated: 'var(--bg-elevated)',
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+          muted: 'var(--text-muted)',
+          accent: 'var(--accent-primary)',
+          accentHover: 'var(--accent-hover)',
+          accentSoft: 'var(--accent-soft)',
+          border: 'var(--border-stone)',
+          borderSubtle: 'var(--border-subtle)',
+        },
 
         // ====================================================================
-        // OFFICIAL ROYAL LUXURY DESIGN SYSTEM TOKENS (PHASE 01)
+        // DUYUF AL RAHMAN VIP — OFFICIAL MASTER REDESIGN TOKENS (PROMPT 0)
         // ====================================================================
-        // ====================================================================
-        // MASTER LUXURY DIGITAL EXPERIENCE TOKENS
-        // ====================================================================
+        ivory: {
+          DEFAULT: '#F7F5F0',
+          50: '#FCFAF7',
+          100: '#F7F5F0',
+          200: '#EFEBE2',
+          300: '#E5E0D6',
+        },
+        navy: {
+          DEFAULT: '#101827',
+          secondary: '#243247',
+          deep: '#0D1420',
+          light: '#1E293B',
+          card: '#101827',
+          border: '#243247',
+          vip: '#101827',
+          dark: '#0B101C',
+        },
+        bronze: {
+          DEFAULT: '#A77B3E',
+          hover: '#B88B4E',
+          dark: '#8E672F',
+          light: '#F5EFE6',
+          soft: 'rgba(167, 123, 62, 0.12)',
+          line: 'rgba(167, 123, 62, 0.28)',
+        },
+        stone: {
+          DEFAULT: '#E5E0D6',
+          light: '#F0ECE4',
+          border: '#E5E0D6',
+          dark: '#D5CEC0',
+        },
+        slateText: {
+          DEFAULT: '#64748B',
+          muted: '#64748B',
+          dark: '#334155',
+          heading: '#101827',
+        },
+
+        // Dynamic dual-theme tokens mapped to CSS variables
+        bg: 'var(--bg-base)',
+        'bg-alt': 'var(--bg-elevated)',
+        alabaster: 'var(--bg-base)',
+        surface: 'var(--bg-surface)',
+        'surface-warm': 'var(--bg-elevated)',
+        border: 'var(--border-stone)',
+        'border-strong': 'var(--accent-primary)',
+        ink: 'var(--text-primary)',
+        'ink-muted': 'var(--text-secondary)',
+        'ink-light': 'var(--text-muted)',
+        body: 'var(--text-secondary)',
+        mutedText: 'var(--text-muted)',
+        whatsappGreen: '#25D366',
+
+        // Compatibility tokens mapped to dynamic theme tokens
         luxury: {
-          midnight: '#090D15',       // Deep Midnight Navy: primary hero & backdrop
-          surface: '#101725',        // Royal Navy Surface: cards & container background
-          elevated: '#141D2C',       // Elevated Navy: search dock & inputs
-          cardBorder: 'rgba(255, 255, 255, 0.08)',
-          gold: '#D6A13A',           // Luxury Champagne Gold: primary CTAs & focus
-          goldHover: '#E5B14B',      // Brighter Gold hover
-          goldDark: '#A97B27',       // Antique Gold: border rules & secondary gold
-          goldLine: 'rgba(214, 161, 58, 0.3)',
-          warmWhite: '#F6F3ED',      // Warm White: headings & high contrast
-          silver: '#AEB7C4',         // Muted Silver: body text & captions
-          emerald: '#188567',        // Dignified status green (zero advance)
+          midnight: 'var(--bg-base)',
+          surface: 'var(--bg-surface)',
+          elevated: 'var(--bg-elevated)',
+          cardBorder: 'var(--border-stone)',
+          gold: 'var(--accent-primary)',
+          goldHover: 'var(--accent-hover)',
+          goldDark: 'var(--accent-primary)',
+          goldLine: 'var(--accent-soft)',
+          warmWhite: 'var(--bg-surface)',
+          silver: 'var(--text-secondary)',
+          emerald: '#188567',
         },
 
         royal: {
-          navy: '#101827',         // Midnight Navy: primary hero & luxury container
-          deepNavy: '#111C30',     // Deep Navy: contrast cards & feature strips
-          charcoal: '#161B24',     // Charcoal: dark accents & tertiary contrast
-          champagne: '#D6A13A',    // Champagne Gold: luxury CTA & primary focus
-          gold: '#D7B76C',         // Warm Gold: secondary gold & badge highlights
-          ivory: '#090D15',        // Warm Ivory: primary page background & cards
-          white: '#101725',        // Pure White: cards & high-contrast elements
-          textPrimary: '#F6F3ED',  // Primary Text: high readability dark ink
-          textSecondary: '#AEB7C4',// Secondary Text: dignified muted caption
-          border: '#E8E3DA',       // Border: soft warm hairline border
-          success: '#188567',      // Success: dignified emerald indicator
-          warning: '#B7791F',      // Warning: warm amber alert
+          navy: 'var(--bg-base)',
+          deepNavy: 'var(--bg-surface)',
+          charcoal: 'var(--bg-elevated)',
+          champagne: 'var(--accent-primary)',
+          gold: 'var(--accent-primary)',
+          ivory: 'var(--bg-base)',
+          white: 'var(--bg-surface)',
+          textPrimary: 'var(--text-primary)',
+          textSecondary: 'var(--text-secondary)',
+          border: 'var(--border-stone)',
+          success: '#188567',
+          warning: '#B7791F',
         },
 
-        // Legacy compatibility mappings to avoid breaking existing pages
-        navy: {
-          DEFAULT: '#101827',
-          vip: '#0a1224',
-          deep: '#111C30',
-          dark: '#060A14',
-          light: '#111827',
-          card: '#0F172A',
-          border: '#1E293B',
-        },
         gold: {
-          DEFAULT: '#D6A13A',
-          vip: '#D7B76C',
-          softGold: '#E5B14B',
-          hover: '#B5904C',
-          dark: '#A97B27',
-          soft: 'rgba(214, 161, 58, 0.12)',
-          line: 'rgba(214, 161, 58, 0.28)',
+          DEFAULT: '#A77B3E',
+          vip: '#A77B3E',
+          softGold: '#B88B4E',
+          hover: '#B88B4E',
+          dark: '#8E672F',
+          soft: 'rgba(167, 123, 62, 0.12)',
+          line: 'rgba(167, 123, 62, 0.28)',
         },
         charcoal: {
-          DEFAULT: '#161B24',
-          card: '#111827',
-          border: '#1E293B',
+          DEFAULT: '#1E293B',
+          card: '#243247',
+          border: '#E5E0D6',
         },
         emerald: {
           DEFAULT: '#188567',

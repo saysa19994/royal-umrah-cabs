@@ -638,7 +638,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
   };
 
   return (
-    <div className="relative py-10 sm:py-16 md:py-20 bg-[#090D15] min-h-screen text-start text-[#F6F3ED] overflow-hidden" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="relative py-10 sm:py-16 md:py-20 bg-bg min-h-screen text-start text-ink overflow-hidden transition-colors duration-200" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* Luxury Golden Ambient Spotlight */}
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#D6A13A" />
 
@@ -655,7 +655,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
         {/* 1. BREADCRUMB NAVIGATION */}
         <nav
           aria-label="Breadcrumb"
-          className="flex items-center gap-2 text-xs text-[#AEB7C4] font-semibold mb-6 sm:mb-8"
+          className="flex items-center gap-2 text-xs text-ink-muted font-semibold mb-6 sm:mb-8"
         >
           <Link href={`/${locale}`} className="hover:text-[#C5A15D] transition-colors">
             {t('home')}
@@ -675,11 +675,11 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
             <span>{category}</span>
           </div>
 
-          <h1 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-[#F6F3ED] tracking-tight leading-tight mb-3">
+          <h1 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-ink tracking-tight leading-tight mb-3">
             {name}
           </h1>
 
-          <p className="text-base sm:text-lg text-[#AEB7C4] leading-relaxed max-w-3xl font-normal mb-6">
+          <p className="text-base sm:text-lg text-ink-muted leading-relaxed max-w-3xl font-normal mb-6">
             {desc}
           </p>
 
@@ -709,7 +709,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="h-12 px-6 rounded-xl bg-[#101725] border border-white/10 hover:border-[#D6A13A] text-[#F6F3ED] hover:text-[#D6A13A] font-extrabold text-sm transition-all flex items-center justify-center gap-2 shadow-2xs active:scale-95"
+              className="h-12 px-6 rounded-xl bg-bg-alt border border-border hover:border-gold text-ink hover:text-gold font-extrabold text-sm transition-all flex items-center justify-center gap-2 shadow-2xs active:scale-95"
             >
               <MessageCircle className="w-4 h-4 text-emerald-600" />
               <span>{t('whatsappBooking')}</span>
@@ -755,60 +755,60 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
         {/* 3. 4-ITEM EXECUTIVE SPECIFICATION GRID */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
           {/* Item 1: Seats */}
-          <div className="bg-[#101725] rounded-2xl p-4 sm:p-5 border border-white/10 hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-[#141D2C] border border-white/10 text-[#D6A13A] flex items-center justify-center mb-3">
+          <div className="bg-surface rounded-2xl p-4 sm:p-5 border border-border hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
+            <div className="w-10 h-10 rounded-xl bg-bg-alt border border-border text-[#D6A13A] flex items-center justify-center mb-3">
               <Users className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#AEB7C4] block mb-0.5">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-muted block mb-0.5">
                 {t('seatsLabel')}
               </span>
-              <p className="text-base sm:text-lg font-black text-[#F6F3ED] tracking-tight">
+              <p className="text-base sm:text-lg font-black text-ink tracking-tight">
                 {v.passengers} {t('seatsSuffix')}
               </p>
             </div>
           </div>
 
           {/* Item 2: Luggage */}
-          <div className="bg-[#101725] rounded-2xl p-4 sm:p-5 border border-white/10 hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-[#141D2C] border border-white/10 text-[#D6A13A] flex items-center justify-center mb-3">
+          <div className="bg-surface rounded-2xl p-4 sm:p-5 border border-border hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
+            <div className="w-10 h-10 rounded-xl bg-bg-alt border border-border text-[#D6A13A] flex items-center justify-center mb-3">
               <Briefcase className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#AEB7C4] block mb-0.5">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-muted block mb-0.5">
                 {t('luggageLabel')}
               </span>
-              <p className="text-base sm:text-lg font-black text-[#F6F3ED] tracking-tight">
+              <p className="text-base sm:text-lg font-black text-ink tracking-tight">
                 {v.luggage} {t('luggageSuffix')}
               </p>
             </div>
           </div>
 
           {/* Item 3: Vehicle Class */}
-          <div className="bg-[#101725] rounded-2xl p-4 sm:p-5 border border-white/10 hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-[#141D2C] border border-white/10 text-[#D6A13A] flex items-center justify-center mb-3">
+          <div className="bg-surface rounded-2xl p-4 sm:p-5 border border-border hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
+            <div className="w-10 h-10 rounded-xl bg-bg-alt border border-border text-[#D6A13A] flex items-center justify-center mb-3">
               <Car className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#AEB7C4] block mb-0.5">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-muted block mb-0.5">
                 {t('classLabel')}
               </span>
-              <p className="text-xs sm:text-sm font-extrabold text-[#F6F3ED] tracking-tight truncate">
+              <p className="text-xs sm:text-sm font-extrabold text-ink tracking-tight truncate">
                 {category}
               </p>
             </div>
           </div>
 
           {/* Item 4: Air Conditioning */}
-          <div className="bg-[#101725] rounded-2xl p-4 sm:p-5 border border-white/10 hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-[#141D2C] border border-white/10 text-[#D6A13A] flex items-center justify-center mb-3">
+          <div className="bg-surface rounded-2xl p-4 sm:p-5 border border-border hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
+            <div className="w-10 h-10 rounded-xl bg-bg-alt border border-border text-[#D6A13A] flex items-center justify-center mb-3">
               <Snowflake className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#AEB7C4] block mb-0.5">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-muted block mb-0.5">
                 {t('acLabel')}
               </span>
-              <p className="text-[11px] sm:text-xs font-bold text-[#F6F3ED] leading-snug line-clamp-2">
+              <p className="text-[11px] sm:text-xs font-bold text-ink leading-snug line-clamp-2">
                 {acDescription}
               </p>
             </div>
@@ -823,27 +823,27 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
         />
 
         {/* 5. ROUTE-SPECIFIC PRICING TABLE */}
-        <div className="bg-[#101725] rounded-3xl p-6 sm:p-8 md:p-10 border border-white/10 shadow-lg mb-8">
+        <div className="bg-surface rounded-3xl p-6 sm:p-8 md:p-10 border border-border shadow-lg mb-8">
           <div className="mb-6">
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-[#141D2C] border border-white/10 text-[#D6A13A] mb-2">
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-bg-alt border border-border text-[#D6A13A] mb-2">
               Transparent Fares
             </span>
-            <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-[#F6F3ED] tracking-tight mb-2">
+            <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-ink tracking-tight mb-2">
               {t('pricingTitle')}
             </h2>
-            <p className="text-[#AEB7C4] text-xs sm:text-sm leading-relaxed font-normal">
+            <p className="text-ink-muted text-xs sm:text-sm leading-relaxed font-normal">
               {t('pricingSubtitle')}
             </p>
           </div>
 
           {isBespoke ? (
             /* Bespoke Concierge Callout for Maybach & H1 */
-            <div className="p-6 rounded-2xl bg-[#101827] text-white border border-[#C5A15D]/40 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="p-6 rounded-2xl bg-surface text-ink border border-gold/40 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
               <div className="max-w-xl">
                 <h3 className="font-display font-bold text-lg sm:text-xl text-[#C5A15D] mb-2">
                   {t('bespokeNoticeTitle')}
                 </h3>
-                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-light">
+                <p className="text-ink-muted text-xs sm:text-sm leading-relaxed font-light">
                   {t('bespokeNoticeDesc')}
                 </p>
               </div>
@@ -859,16 +859,16 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
             </div>
           ) : (
             /* Authoritative Route Pricing Table */
-            <div className="overflow-x-auto rounded-2xl border border-white/10">
+            <div className="overflow-x-auto rounded-2xl border border-border">
               <table className="w-full text-start border-collapse">
                 <thead>
-                  <tr className="bg-[#141D2C] text-[#D6A13A] text-xs font-bold uppercase tracking-wider border-b border-white/10">
+                  <tr className="bg-bg-alt text-[#D6A13A] text-xs font-bold uppercase tracking-wider border-b border-border">
                     <th className="py-3.5 px-4 sm:px-6">{t('routeCol')}</th>
                     <th className="py-3.5 px-4 text-center">{t('fareCol')}</th>
                     <th className="py-3.5 px-4 text-center">{t('actionCol')}</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5 text-xs sm:text-sm text-[#AEB7C4]">
+                <tbody className="divide-y divide-border/40 text-xs sm:text-sm text-ink-muted">
                   {KEY_CORRIDORS.map((routeKey, idx) => {
                     const price = AUTHORITATIVE_TRANSFER_RATES[routeKey]?.[v.bookingVehicleId];
                     if (!price) return null;
@@ -881,9 +881,9 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
                     return (
                       <tr
                         key={routeKey}
-                        className={idx % 2 === 0 ? 'bg-[#101725]' : 'bg-[#141D2C]/40 hover:bg-[#141D2C]/70'}
+                        className={idx % 2 === 0 ? 'bg-surface' : 'bg-bg-alt/40 hover:bg-bg-alt/70'}
                       >
-                        <td className="py-3.5 px-4 sm:px-6 font-semibold text-[#F6F3ED]">
+                        <td className="py-3.5 px-4 sm:px-6 font-semibold text-ink">
                           {routeName}
                         </td>
                         <td className="py-3.5 px-4 text-center font-display font-extrabold text-[#D6A13A] whitespace-nowrap">
@@ -892,7 +892,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
                         <td className="py-3.5 px-4 text-center whitespace-nowrap">
                           <Link
                             href={`/${locale}/booking?vehicle=${v.bookingVehicleId}&route=${routeKey}`}
-                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#141D2C] hover:bg-[#D6A13A] text-[#D6A13A] hover:text-[#090D15] border border-white/10 font-bold text-xs uppercase tracking-wider transition-colors shadow-2xs"
+                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-bg-alt hover:bg-[#D6A13A] text-[#D6A13A] hover:text-[#090D15] border border-border font-bold text-xs uppercase tracking-wider transition-colors shadow-2xs"
                           >
                             <span>{t('bookRouteBtn')}</span>
                             <ArrowRight className="w-3 h-3 rtl:rotate-180" />
@@ -908,8 +908,8 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
         </div>
 
         {/* 6. VERIFIED FEATURES & EXECUTIVE AMENITIES */}
-        <div className="bg-[#101725] rounded-3xl p-6 sm:p-8 md:p-10 border border-white/10 shadow-lg mb-8">
-          <h2 className="font-display font-extrabold text-2xl text-[#F6F3ED] mb-6 tracking-tight">
+        <div className="bg-surface rounded-3xl p-6 sm:p-8 md:p-10 border border-border shadow-lg mb-8">
+          <h2 className="font-display font-extrabold text-2xl text-ink mb-6 tracking-tight">
             {t('featuresTitle')}
           </h2>
 
@@ -920,14 +920,14 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
               return (
                 <div
                   key={idx}
-                  className="p-4 rounded-2xl bg-[#141D2C] border border-white/10 flex items-start gap-3"
+                  className="p-4 rounded-2xl bg-bg-alt border border-border flex items-start gap-3"
                 >
                   <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
-                    <h3 className="font-bold text-sm text-[#F6F3ED] mb-0.5">
+                    <h3 className="font-bold text-sm text-ink mb-0.5">
                       {featTitle}
                     </h3>
-                    <p className="text-xs text-[#AEB7C4] leading-relaxed font-normal">
+                    <p className="text-xs text-ink-muted leading-relaxed font-normal">
                       {featDesc}
                     </p>
                   </div>
@@ -937,24 +937,24 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
           </div>
 
           {/* Extra inclusions: Zamzam & Child Seat */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-6 border-t border-white/10">
-            <div className="p-4 rounded-2xl bg-[#141D2C] border border-white/10 flex items-center gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-6 border-t border-border">
+            <div className="p-4 rounded-2xl bg-bg-alt border border-border flex items-center gap-3">
               <Luggage className="w-5 h-5 text-[#D6A13A] shrink-0" />
               <div>
-                <strong className="block text-xs font-bold text-[#F6F3ED]">
+                <strong className="block text-xs font-bold text-ink">
                   {t('zamzamLabel')}
                 </strong>
-                <span className="text-[11px] text-[#AEB7C4]">{t('zamzamDesc')}</span>
+                <span className="text-[11px] text-ink-muted">{t('zamzamDesc')}</span>
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#141D2C] border border-white/10 flex items-center gap-3">
+            <div className="p-4 rounded-2xl bg-bg-alt border border-border flex items-center gap-3">
               <Baby className="w-5 h-5 text-[#D6A13A] shrink-0" />
               <div>
-                <strong className="block text-xs font-bold text-[#F6F3ED]">
+                <strong className="block text-xs font-bold text-ink">
                   {t('childSeatLabel')}
                 </strong>
-                <span className="text-[11px] text-[#AEB7C4]">{t('childSeatDesc')}</span>
+                <span className="text-[11px] text-ink-muted">{t('childSeatDesc')}</span>
               </div>
             </div>
           </div>
@@ -969,15 +969,15 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
         </div>
 
         {/* 7. SACRED JOURNEY ASSURANCE CARD */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#101827] text-white border border-[#C5A15D]/30 shadow-md mb-10 flex flex-col md:flex-row items-center gap-6">
-          <div className="w-14 h-14 rounded-2xl bg-[#111C30] border border-[#C5A15D]/40 text-[#C5A15D] flex items-center justify-center shrink-0">
+        <div className="p-6 sm:p-8 rounded-3xl bg-surface text-ink border border-gold/30 shadow-md mb-10 flex flex-col md:flex-row items-center gap-6">
+          <div className="w-14 h-14 rounded-2xl bg-gold-soft border border-[#C5A15D]/40 text-[#C5A15D] flex items-center justify-center shrink-0">
             <ShieldCheck className="w-8 h-8" />
           </div>
           <div className="flex-1 text-center md:text-start">
             <h3 className="font-display font-bold text-lg sm:text-xl text-[#C5A15D] mb-1.5">
               {t('assuranceTitle')}
             </h3>
-            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-light">
+            <p className="text-ink-muted text-xs sm:text-sm leading-relaxed font-light">
               {t('assuranceDesc')}
             </p>
           </div>

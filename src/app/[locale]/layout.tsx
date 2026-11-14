@@ -3,8 +3,10 @@ import type { Metadata } from 'next';
 import { LOCALES, Locale, LOCALE_CONFIG, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
+import { ThemeProvider } from '@/context/ThemeContext';
 import { CurrencyProvider } from '@/context/CurrencyContext';
 import { Header } from '@/components/layout/Header';
+import { CinematicFooterCta } from '@/components/layout/CinematicFooterCta';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingUI } from '@/components/layout/FloatingUI';
 import { AiChatWidget } from '@/components/chat/AiChatWidget';
@@ -133,21 +135,45 @@ export default async function LocaleLayout(props: LocaleLayoutProps) {
     <html
       lang={validLocale}
       dir={dir}
+      suppressHydrationWarning
       className={`${cormorant.variable} ${manrope.variable} ${amiri.variable} ${tajawal.variable} ${notoDevanagari.variable} ${notoUrdu.variable} ${playfair.variable} ${inter.variable} ${cairo.variable} ${ibmPlexArabic.variable}`}
     >
-      <body className="min-h-screen flex flex-col font-sans bg-bg text-body antialiased selection:bg-gold-soft selection:text-ink">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('duyuf_theme_preference');
+                  var theme = (saved === 'dark' || saved === 'light') ? saved : 'light';
+                  document.documentElement.setAttribute('data-theme', theme);
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-screen flex flex-col font-sans bg-[var(--bg-base)] text-[var(--text-primary)] antialiased selection:bg-[#A0783E]/20 selection:text-[var(--text-primary)] transition-colors duration-200">
         <JsonLd locale={validLocale} dict={dict} settings={settings} />
-        <CurrencyProvider defaultCurrency={defaultCurrency}>
-          <Header locale={validLocale} dict={dict} settings={settings} />
-          <main className="flex-1">{children}</main>
-          <Footer locale={validLocale} dict={dict} settings={settings} />
-          <FloatingUI
-            locale={validLocale}
-            dict={dict}
-            whatsappNumber={settings.whatsapp_number}
-          />
-          <AiChatWidget locale={validLocale} />
-        </CurrencyProvider>
+        <ThemeProvider>
+          <CurrencyProvider defaultCurrency={defaultCurrency}>
+            <Header locale={validLocale} dict={dict} settings={settings} />
+            <main className="flex-1">{children}</main>
+            <CinematicFooterCta locale={validLocale} dict={dict} settings={settings} />
+            <Footer locale={validLocale} dict={dict} settings={settings} />
+            <FloatingUI
+              locale={validLocale}
+              dict={dict}
+              whatsappNumber={settings.whatsapp_number}
+            />
+            <AiChatWidget locale={validLocale} />
+          </CurrencyProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

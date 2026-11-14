@@ -2,37 +2,135 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "../styles/homepage-reference.css";
+@import "../styles/homepage-v3.css";
 @import "../styles/luxury-subpages.css";
 
-:root {
-  /* OFFICIAL ROYAL LUXURY DESIGN TOKENS */
-  --color-royal-navy: #101827;
-  --color-royal-deep-navy: #111C30;
-  --color-royal-charcoal: #161B24;
-  --color-royal-champagne: #C5A15D;
-  --color-royal-warm-gold: #D7B76C;
-  --color-royal-ivory: #F7F5F0;
+/* ========================================================================== */
+/* DUYUF AL RAHMAN VIP — DUAL-THEME MASTER DESIGN TOKENS (STAGE 2)           */
+/* ========================================================================== */
+
+:root,
+[data-theme="light"] {
+  /* Core Brand Tokens — Light Mode (Warm Desert Alabaster & Royal Ink) */
+  --bg-base: #FBF9F5;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #F2EDE4;
+  --text-primary: #111824;
+  --text-secondary: #526072;
+  --text-muted: #8290A2;
+  --accent-primary: #A0783E;
+  --accent-hover: #8A6530;
+  --accent-soft: rgba(160, 120, 62, 0.08);
+  --border-stone: #E8E2D6;
+  --border-subtle: rgba(232, 226, 214, 0.6);
+  --whatsapp-green: #25D366;
+
+  /* Backward Compatibility Mappings */
+  --color-ivory: #FBF9F5;
+  --color-white: #FFFFFF;
+  --color-navy: #111824;
+  --color-navy-secondary: #1F2A38;
+  --color-bronze: #A0783E;
+  --color-bronze-hover: #8A6530;
+  --color-stone-border: #E8E2D6;
+  --color-muted-text: #526072;
+  --color-heading-dark: #111824;
+  --color-whatsapp: #25D366;
+
+  --color-royal-navy: #111824;
+  --color-royal-deep-navy: #1F2A38;
+  --color-royal-charcoal: #2A3648;
+  --color-royal-champagne: #A0783E;
+  --color-royal-warm-gold: #A0783E;
+  --color-royal-ivory: #FBF9F5;
   --color-royal-white: #FFFFFF;
-  --color-royal-text-primary: #182235;
-  --color-royal-text-secondary: #687386;
-  --color-royal-border: #E8E3DA;
+  --color-royal-text-primary: #111824;
+  --color-royal-text-secondary: #526072;
+  --color-royal-border: #E8E2D6;
   --color-royal-success: #188567;
   --color-royal-warning: #B7791F;
 
-  /* Theme Defaults */
-  --color-bg: #090D15;
-  --color-bg-alt: #101725;
-  --color-surface: #101725;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(214, 161, 58, 0.35);
-  --color-ink: #F6F3ED;
-  --color-ink-muted: #AEB7C4;
-  --color-body: #AEB7C4;
-  --color-gold: #D6A13A;
-  --color-gold-dark: #A97B27;
-  --color-charcoal: #161B24;
+  --color-bg: #FBF9F5;
+  --color-bg-alt: #F2EDE4;
+  --color-surface: #FFFFFF;
+  --color-border: #E8E2D6;
+  --color-border-strong: #A0783E;
+  --color-ink: #111824;
+  --color-ink-muted: #526072;
+  --color-body: #334155;
+  --color-gold: #A0783E;
+  --color-gold-dark: #8A6530;
+  --color-charcoal: #1E293B;
+
+  /* Dedicated Dual-Theme Footer & CTA Tokens */
+  --footer-bg: #EFEBE3;
+  --footer-surface: #E5DFD3;
+  --footer-text: #475569;
+  --footer-heading: #111824;
+  --footer-border: #DCD6CA;
+  --footer-strip-bg: #E4DDCF;
+}
+
+[data-theme="dark"],
+.dark {
+  /* Core Brand Tokens — Dark Mode (Deep Obsidian Navy & Muted Antique Bronze) */
+  --bg-base: #0B111A;
+  --bg-surface: #131C28;
+  --bg-elevated: #1A2534;
+  --text-primary: #F7F5F0;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --accent-primary: #B88B4E;
+  --accent-hover: #CDA062;
+  --accent-soft: rgba(184, 139, 78, 0.12);
+  --border-stone: #222E40;
+  --border-subtle: rgba(34, 46, 64, 0.6);
+  --whatsapp-green: #25D366;
+
+  /* Backward Compatibility Mappings in Dark Mode */
+  --color-ivory: #0B111A;
+  --color-white: #131C28;
+  --color-navy: #0B111A;
+  --color-navy-secondary: #1A2534;
+  --color-bronze: #B88B4E;
+  --color-bronze-hover: #CDA062;
+  --color-stone-border: #222E40;
+  --color-muted-text: #94A3B8;
+  --color-heading-dark: #F7F5F0;
   --color-whatsapp: #25D366;
+
+  --color-royal-navy: #0B111A;
+  --color-royal-deep-navy: #131C28;
+  --color-royal-charcoal: #1A2534;
+  --color-royal-champagne: #B88B4E;
+  --color-royal-warm-gold: #B88B4E;
+  --color-royal-ivory: #0B111A;
+  --color-royal-white: #131C28;
+  --color-royal-text-primary: #F7F5F0;
+  --color-royal-text-secondary: #94A3B8;
+  --color-royal-border: #222E40;
+  --color-royal-success: #25D366;
+  --color-royal-warning: #D97706;
+
+  --color-bg: #0B111A;
+  --color-bg-alt: #1A2534;
+  --color-surface: #131C28;
+  --color-border: #222E40;
+  --color-border-strong: #B88B4E;
+  --color-ink: #F7F5F0;
+  --color-ink-muted: #94A3B8;
+  --color-body: #94A3B8;
+  --color-gold: #B88B4E;
+  --color-gold-dark: #CDA062;
+  --color-charcoal: #0F172A;
+
+  /* Dedicated Dual-Theme Footer & CTA Tokens in Dark Mode */
+  --footer-bg: #080D14;
+  --footer-surface: #0E1622;
+  --footer-text: #94A3B8;
+  --footer-heading: #F7F5F0;
+  --footer-border: #1B2636;
+  --footer-strip-bg: #0C131D;
 }
 
 @layer base {

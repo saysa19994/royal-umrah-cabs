@@ -966,34 +966,34 @@ export default function SacredZiyaratExperience({
   return (
     <div
       dir={isRtl ? 'rtl' : 'ltr'}
-      className="w-full bg-[#0A0A0C] text-slate-100 py-16 px-4 sm:px-6 lg:px-8 border-y border-white/5"
+      className="w-full bg-bg text-ink py-16 px-4 sm:px-6 lg:px-8 border-y border-border"
     >
       <div className="max-w-7xl mx-auto space-y-16">
         {/* 1. HEADER SECTION */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-xs font-semibold text-[#D4AF37]">
-            <Compass className="w-4 h-4" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface border border-border text-xs font-semibold text-gold-dark shadow-sm">
+            <Compass className="w-4 h-4 text-gold-dark" />
             <span>{t.badge}</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight font-serif">
             {t.title}
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-light">
+          <p className="text-base sm:text-lg text-ink-muted leading-relaxed font-light">
             {t.subtitle}
           </p>
         </div>
 
         {/* 2. CITY TAB SWITCHER */}
         <div className="flex justify-center">
-          <div className="inline-flex p-1.5 rounded-2xl bg-[#101725] border border-[#D4AF37]/20 shadow-xl">
+          <div className="inline-flex p-1.5 rounded-2xl bg-surface border border-border shadow-sm">
             <button
               onClick={() => setActiveCity('makkah')}
               className={`flex items-center gap-2.5 px-6 py-3 rounded-xl font-bold text-sm transition-all ${
                 activeCity === 'makkah'
-                  ? 'bg-gradient-to-r from-[#D4AF37] to-[#B38F2B] text-[#0A0A0C] shadow-lg shadow-[#D4AF37]/20 scale-102'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  ? 'bg-gold-dark text-white shadow-sm'
+                  : 'text-ink-muted hover:text-ink hover:bg-bg'
               }`}
             >
               <MapPin className="w-4 h-4" />
@@ -1004,8 +1004,8 @@ export default function SacredZiyaratExperience({
               onClick={() => setActiveCity('madinah')}
               className={`flex items-center gap-2.5 px-6 py-3 rounded-xl font-bold text-sm transition-all ${
                 activeCity === 'madinah'
-                  ? 'bg-gradient-to-r from-[#D4AF37] to-[#B38F2B] text-[#0A0A0C] shadow-lg shadow-[#D4AF37]/20 scale-102'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  ? 'bg-gold-dark text-white shadow-sm'
+                  : 'text-ink-muted hover:text-ink hover:bg-bg'
               }`}
             >
               <MapPin className="w-4 h-4" />
@@ -1017,69 +1017,69 @@ export default function SacredZiyaratExperience({
         {/* 3. SACRED SITES DIRECTORY */}
         <div className="space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <h3 className="text-2xl font-bold text-white flex items-center justify-center gap-2">
-              <Sparkles className="w-5 h-5 text-[#D4AF37]" />
+            <h3 className="text-2xl font-bold text-ink flex items-center justify-center gap-2 font-serif">
+              <Sparkles className="w-5 h-5 text-gold-dark" />
               <span>{t.sitesHeading}</span>
             </h3>
-            <p className="text-sm text-slate-400">{t.sitesSubheading}</p>
+            <p className="text-sm text-ink-muted">{t.sitesSubheading}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {citySites.map((site) => (
               <div
                 key={site.id}
-                className="bg-[#101725]/80 backdrop-blur-md rounded-2xl p-6 border border-white/5 hover:border-[#D4AF37]/40 transition-all flex flex-col justify-between space-y-6"
+                className="bg-surface rounded-2xl p-6 border border-border hover:border-gold transition-all flex flex-col justify-between space-y-6 shadow-sm"
               >
                 <div className="space-y-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <span className="text-[11px] font-bold tracking-wider text-[#D4AF37] uppercase block mb-1">
+                      <span className="text-[11px] font-bold tracking-wider text-gold-dark uppercase block mb-1">
                         {site.arabicName}
                       </span>
-                      <h4 className="text-lg font-bold text-white">{site.name}</h4>
+                      <h4 className="text-lg font-bold text-ink">{site.name}</h4>
                     </div>
 
                     <span
                       className={`px-2.5 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap border ${
                         site.effort === 'minimal'
-                          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                           : site.effort === 'moderate'
-                          ? 'bg-amber-500/10 text-amber-300 border-amber-500/30'
-                          : 'bg-rose-500/10 text-rose-300 border-rose-500/30'
+                          ? 'bg-amber-50 text-amber-700 border-amber-200'
+                          : 'bg-rose-50 text-rose-700 border-rose-200'
                       }`}
                     >
                       {site.effortLabel}
                     </span>
                   </div>
 
-                  <p className="text-sm text-slate-300 leading-relaxed font-light">
+                  <p className="text-sm text-ink-muted leading-relaxed font-light">
                     {site.significance}
                   </p>
 
-                  <div className="space-y-2 pt-2 border-t border-white/5 text-xs text-slate-400">
+                  <div className="space-y-2 pt-2 border-t border-border text-xs text-ink-muted">
                     <div className="flex items-center gap-2">
-                      <Accessibility className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                      <Accessibility className="w-4 h-4 text-gold-dark shrink-0" />
                       <span>{site.accessibility}</span>
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                      <Clock className="w-4 h-4 text-gold-dark shrink-0" />
                       <span>
-                        <strong className="text-slate-300">{t.bestTimeLabel}</strong> {site.bestTime}
+                        <strong className="text-ink">{t.bestTimeLabel}</strong> {site.bestTime}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <Footprints className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                      <Footprints className="w-4 h-4 text-gold-dark shrink-0" />
                       <span>
-                        <strong className="text-slate-300">{t.durationLabel}</strong> {site.duration}
+                        <strong className="text-ink">{t.durationLabel}</strong> {site.duration}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-white/5 border border-white/5 flex items-center gap-2.5 text-xs text-slate-300">
-                  <Car className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                <div className="p-3 rounded-xl bg-bg border border-border flex items-center gap-2.5 text-xs text-ink-muted">
+                  <Car className="w-4 h-4 text-gold-dark shrink-0" />
                   <span>{t.standbyNote}</span>
                 </div>
               </div>
@@ -1089,22 +1089,20 @@ export default function SacredZiyaratExperience({
 
         {/* 4. CURATED TOUR PACKAGE & LIVE RATES */}
         {activeTour && (
-          <div className="bg-gradient-to-b from-[#101725] to-[#0A0A0C] rounded-3xl p-6 sm:p-10 border border-[#D4AF37]/30 shadow-2xl space-y-10 relative overflow-hidden">
-            <BorderBeam size={280} duration={14} colorFrom="#D6A13A" colorTo="#F2C94C" />
-            <Meteors number={10} />
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-white/10 relative z-10">
+          <div className="bg-surface rounded-3xl p-6 sm:p-10 border border-border shadow-md space-y-10 relative overflow-hidden">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-border relative z-10">
               <div className="space-y-2">
-                <span className="text-xs font-bold tracking-widest text-[#D4AF37] uppercase">
+                <span className="text-xs font-bold tracking-widest text-gold-dark uppercase">
                   {t.packagesHeading}
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+                <h3 className="text-2xl sm:text-3xl font-bold text-ink font-serif">
                   {activeTour.title}
                 </h3>
-                <p className="text-sm text-slate-300 font-light">{activeTour.subtitle}</p>
+                <p className="text-sm text-ink-muted font-light">{activeTour.subtitle}</p>
               </div>
 
-              <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-sm font-bold text-[#D4AF37] whitespace-nowrap">
-                <Clock className="w-4 h-4" />
+              <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-bg border border-border text-sm font-bold text-ink whitespace-nowrap">
+                <Clock className="w-4 h-4 text-gold-dark" />
                 <span>
                   {t.tourDurationLabel} {activeTour.duration}
                 </span>
@@ -1113,8 +1111,8 @@ export default function SacredZiyaratExperience({
 
             {/* ITINERARY LIST */}
             <div className="space-y-4">
-              <h4 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <CalendarCheck className="w-4 h-4 text-[#D4AF37]" />
+              <h4 className="text-sm font-bold text-ink uppercase tracking-wider flex items-center gap-2">
+                <CalendarCheck className="w-4 h-4 text-gold-dark" />
                 <span>{t.includedStopsLabel}</span>
               </h4>
 
@@ -1122,9 +1120,9 @@ export default function SacredZiyaratExperience({
                 {activeTour.itinerary.map((stop, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-3 p-3.5 rounded-xl bg-white/5 border border-white/5 text-xs text-slate-300"
+                    className="flex items-start gap-3 p-3.5 rounded-xl bg-bg border border-border text-xs text-ink"
                   >
-                    <span className="w-5 h-5 rounded-full bg-[#D4AF37]/20 text-[#D4AF37] flex items-center justify-center font-bold text-[11px] shrink-0">
+                    <span className="w-5 h-5 rounded-full bg-gold-dark text-white flex items-center justify-center font-bold text-[11px] shrink-0">
                       {index + 1}
                     </span>
                     <span className="leading-snug">{stop}</span>
@@ -1134,8 +1132,8 @@ export default function SacredZiyaratExperience({
             </div>
 
             {/* VEHICLE SELECTION & LIVE PRICE CALCULATOR */}
-            <div className="space-y-6 pt-4 border-t border-white/10">
-              <h4 className="text-sm font-bold text-white uppercase tracking-wider">
+            <div className="space-y-6 pt-4 border-t border-border">
+              <h4 className="text-sm font-bold text-ink uppercase tracking-wider">
                 {t.selectVehicle}
               </h4>
 
@@ -1151,26 +1149,23 @@ export default function SacredZiyaratExperience({
                       onClick={() => setSelectedVehicle(vehKey)}
                       className={`p-4 rounded-2xl text-start transition-all border flex flex-col justify-between space-y-3 relative overflow-hidden ${
                         isSelected
-                          ? 'bg-[#D4AF37]/15 border-[#D4AF37] shadow-lg shadow-[#D4AF37]/15 scale-102 ring-1 ring-[#D4AF37]'
-                          : 'bg-white/5 border-white/5 hover:border-white/20'
+                          ? 'bg-bg-alt border-2 border-gold shadow-sm'
+                          : 'bg-surface border-border hover:border-gold/50'
                       }`}
                     >
-                      {isSelected && (
-                        <BorderBeam size={130} duration={8} colorFrom="#D6A13A" colorTo="#F2C94C" />
-                      )}
                       <div className="space-y-1 relative z-10">
                         <div className="flex items-center justify-between">
                           <Car
-                            className={`w-5 h-5 ${isSelected ? 'text-[#D4AF37]' : 'text-slate-400'}`}
+                            className={`w-5 h-5 ${isSelected ? 'text-gold-dark' : 'text-ink-muted'}`}
                           />
                           {isSelected && (
-                            <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
+                            <CheckCircle2 className="w-4 h-4 text-gold-dark" />
                           )}
                         </div>
-                        <h5 className="font-bold text-sm text-white">{veh.name}</h5>
+                        <h5 className="font-bold text-sm text-ink">{veh.name}</h5>
                       </div>
 
-                      <div className="flex items-center gap-3 text-xs text-slate-400">
+                      <div className="flex items-center gap-3 text-xs text-ink-muted">
                         <span className="flex items-center gap-1">
                           <Users className="w-3.5 h-3.5" />
                           {veh.pax} {t.paxLabel}
@@ -1181,9 +1176,9 @@ export default function SacredZiyaratExperience({
                         </span>
                       </div>
 
-                      <div className="pt-2 border-t border-white/10 flex items-baseline justify-between">
-                        <span className="text-[11px] text-slate-400">{t.fixedFareLabel}</span>
-                        <span className="text-lg font-black text-[#D4AF37]">
+                      <div className="pt-2 border-t border-border flex items-baseline justify-between">
+                        <span className="text-[11px] text-ink-muted">{t.fixedFareLabel}</span>
+                        <span className="text-lg font-black text-gold-dark">
                           {price} {t.sarLabel}
                         </span>
                       </div>
@@ -1194,13 +1189,13 @@ export default function SacredZiyaratExperience({
             </div>
 
             {/* CALL TO ACTION BUTTONS */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-6 border-t border-white/10">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-6 border-t border-border">
               <div>
-                <span className="text-xs text-slate-400 block">{t.fixedFareLabel}</span>
+                <span className="text-xs text-ink-muted block">{t.fixedFareLabel}</span>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-black text-white">{currentPrice}</span>
-                  <span className="text-base font-bold text-[#D4AF37]">{t.sarLabel}</span>
-                  <span className="text-xs text-slate-400">
+                  <span className="text-3xl font-black text-ink">{currentPrice}</span>
+                  <span className="text-base font-bold text-gold-dark">{t.sarLabel}</span>
+                  <span className="text-xs text-ink-muted">
                     ({vehicleDetails[selectedVehicle].name})
                   </span>
                 </div>
@@ -1209,7 +1204,7 @@ export default function SacredZiyaratExperience({
               <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
                 <Link
                   href={`/${locale}/booking?service=ziyarat&city=${activeCity}&vehicle=${selectedVehicle}`}
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-extrabold text-sm text-[#0A0A0C] bg-gradient-to-r from-[#D4AF37] to-[#B38F2B] hover:from-[#E5C158] hover:to-[#C49E34] shadow-lg shadow-[#D4AF37]/25 transition-all"
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-sm text-white bg-gold-dark hover:bg-[#8E672F] shadow-md transition-all"
                 >
                   <span>{t.bookTourBtn}</span>
                   <ArrowRight className="w-4 h-4 rtl:rotate-180" />
@@ -1223,9 +1218,9 @@ export default function SacredZiyaratExperience({
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold text-sm text-white bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold text-sm text-ink bg-surface border border-border hover:bg-bg transition-all shadow-sm"
                 >
-                  <HeartHandshake className="w-4 h-4 text-[#D4AF37]" />
+                  <HeartHandshake className="w-4 h-4 text-gold-dark" />
                   <span>{t.whatsappBtn}</span>
                 </a>
               </div>
@@ -1236,24 +1231,24 @@ export default function SacredZiyaratExperience({
         {/* 5. CHAUFFEUR REVERENCE CODE (4 PILLARS) */}
         <div className="space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <h3 className="text-2xl font-bold text-white flex items-center justify-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-[#D4AF37]" />
+            <h3 className="text-2xl font-bold text-ink flex items-center justify-center gap-2 font-serif">
+              <ShieldCheck className="w-5 h-5 text-gold-dark" />
               <span>{t.etiquetteHeading}</span>
             </h3>
-            <p className="text-sm text-slate-400">{t.etiquetteSubheading}</p>
+            <p className="text-sm text-ink-muted">{t.etiquetteSubheading}</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {t.pillars.map((pillar, i) => (
               <div
                 key={i}
-                className="bg-[#101725] rounded-2xl p-6 border border-white/5 space-y-3 relative overflow-hidden group hover:border-[#D4AF37]/30 transition-all"
+                className="bg-surface rounded-2xl p-6 border border-border space-y-3 relative overflow-hidden shadow-sm hover:border-gold transition-all"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/10 text-[#D4AF37] font-black text-sm flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-bg border border-border text-gold-dark font-bold text-sm flex items-center justify-center">
                   0{i + 1}
                 </div>
-                <h4 className="font-bold text-base text-white">{pillar.title}</h4>
-                <p className="text-xs text-slate-400 leading-relaxed font-light">
+                <h4 className="font-bold text-base text-ink">{pillar.title}</h4>
+                <p className="text-xs text-ink-muted leading-relaxed font-light">
                   {pillar.desc}
                 </p>
               </div>
@@ -1262,17 +1257,17 @@ export default function SacredZiyaratExperience({
         </div>
 
         {/* 6. 100% CASH ON ARRIVAL GUARANTEE SHIELD */}
-        <div className="p-8 rounded-3xl bg-gradient-to-r from-[#D4AF37]/15 via-[#D4AF37]/5 to-transparent border border-[#D4AF37]/30 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-start">
-          <div className="w-16 h-16 rounded-2xl bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#D4AF37] flex items-center justify-center shrink-0 shadow-lg">
+        <div className="p-8 rounded-3xl bg-surface border border-border shadow-sm flex flex-col sm:flex-row items-center gap-6 text-center sm:text-start">
+          <div className="w-16 h-16 rounded-2xl bg-bg border border-border text-gold-dark flex items-center justify-center shrink-0 shadow-sm">
             <Banknote className="w-8 h-8" />
           </div>
 
           <div className="space-y-1.5 flex-1">
-            <span className="text-[11px] font-bold tracking-wider text-[#D4AF37] uppercase">
+            <span className="text-[11px] font-bold tracking-wider text-gold-dark uppercase">
               {t.guaranteeBadge}
             </span>
-            <h4 className="text-xl font-bold text-white">{t.guaranteeTitle}</h4>
-            <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
+            <h4 className="text-xl font-bold text-ink">{t.guaranteeTitle}</h4>
+            <p className="text-xs sm:text-sm text-ink-muted font-light leading-relaxed">
               {t.guaranteeDesc}
             </p>
           </div>

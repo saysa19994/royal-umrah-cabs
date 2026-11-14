@@ -52,6 +52,9 @@ interface BookingEngineProps {
   initialPickup?: string;
   initialDropoff?: string;
   initialRates?: Record<string, Record<string, number>>;
+  hideInternalStepper?: boolean;
+  onStepChange?: (step: 1 | 2 | 3 | 4) => void;
+  stepOverride?: 1 | 2 | 3 | 4;
 }
 
 interface VehicleInfo {
@@ -100,6 +103,23 @@ const VEHICLE_SPECS: Record<string, VehicleInfo> = {
   },
 };
 
+const CONCIERGE_VEHICLES: Record<string, VehicleInfo> = {
+  maybach: {
+    name: 'Mercedes-Maybach S-Class VIP',
+    category: 'Ultra VIP Presidential Sedan',
+    seats: 3,
+    bags: 3,
+    img: '/assets/images/maybach_exterior.webp',
+  },
+  h1: {
+    name: 'Hyundai H1 Starex VIP',
+    category: 'Family Executive Minivan',
+    seats: 7,
+    bags: 6,
+    img: '/assets/images/h1_exterior.webp',
+  },
+};
+
 const ROUTES: Record<string, { label: string; baseSAR: number }> = {
   'jeddah-airport-to-makkah': { label: 'Jeddah Airport (KAIA) → Makkah Hotel', baseSAR: 200 },
   'makkah-to-jeddah-airport': { label: 'Makkah Hotel → Jeddah Airport (KAIA)', baseSAR: 200 },
@@ -127,6 +147,11 @@ interface BookingEngineTranslations {
   step1Title: string;
   step2Title: string;
   step3Title: string;
+  step4Title: string;
+  conciergeBadge: string;
+  conciergeInquireBtn: string;
+  conciergeNotice: string;
+  conciergeSectionTitle: string;
   step1Btn: string;
   step2Btn: string;
   step3Btn: string;
@@ -192,9 +217,14 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     tabHourly: '⏱️ Hourly Chauffeur',
     tabZiyarat: '🕌 Ziyarat Holy Sites',
     tabGroup: '👥 Group Coach & Bus',
-    step1Title: '1. Trip & Schedule',
+    step1Title: '1. Route & Service',
     step2Title: '2. Select Vehicle & Fare',
-    step3Title: '3. Passenger & Confirmation',
+    step3Title: '3. Schedule & Trip Details',
+    step4Title: '4. Passenger Details & Confirmation',
+    conciergeBadge: 'VIP Concierge Only',
+    conciergeInquireBtn: 'Inquire via WhatsApp',
+    conciergeNotice: 'Exclusive presidential and executive transport. Coordinated directly via WhatsApp concierge.',
+    conciergeSectionTitle: 'VIP Diplomatic & Concierge Fleet',
     step1Btn: 'Continue to Select Vehicle',
     step2Btn: 'Continue to Passenger Details',
     step3Btn: 'Confirm Booking Request',
@@ -259,9 +289,14 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     tabHourly: '⏱️ سائق خاص بالساعة',
     tabZiyarat: '🕌 مزارات ومعالم دينية',
     tabGroup: '👥 حافلات ومجموعات',
-    step1Title: '1. خط السير والجدول',
+    step1Title: '1. مسار الرحلة والخدمة',
     step2Title: '2. اختيار السيارة والسعر',
-    step3Title: '3. بيانات الراكب والتأكيد',
+    step3Title: '3. الموعد وتفاصيل الرحلة',
+    step4Title: '4. بيانات الراكب والتأكيد',
+    conciergeBadge: 'خدمة الكونسيرج VIP فقط',
+    conciergeInquireBtn: 'استفسار فوري عبر واتساب',
+    conciergeNotice: 'سيارات مخصصة للوفود الدبلوماسية ورجال الأعمال. يتم التنسيق المباشر مع فريق الكونسيرج.',
+    conciergeSectionTitle: 'أسطول الكونسيرج والوفود الدبلوماسية',
     step1Btn: 'المتابعة لاختيار السيارة',
     step2Btn: 'المتابعة لبيانات الراكب',
     step3Btn: 'تأكيد طلب الحجز',
@@ -326,9 +361,14 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     tabHourly: '⏱️ Chauffeur à l’Heure',
     tabZiyarat: '🕌 Lieux Saints Ziyarat',
     tabGroup: '👥 Minibus & Autocar',
-    step1Title: '1. Trajet & Horaires',
-    step2Title: '2. Choix du Véhicule & Tarif',
-    step3Title: '3. Passager & Confirmation',
+    step1Title: '1. Trajet & Service',
+    step2Title: '2. Véhicule & Tarif',
+    step3Title: '3. Horaires & Détails',
+    step4Title: '4. Passager & Confirmation',
+    conciergeBadge: 'Conciergerie VIP Uniquement',
+    conciergeInquireBtn: 'Demande via WhatsApp',
+    conciergeNotice: 'Transport présidentiel et exécutif sur mesure. Coordination directe via notre conciergerie WhatsApp.',
+    conciergeSectionTitle: 'Flotte Diplomatique & Conciergerie VIP',
     step1Btn: 'Continuer vers les Véhicules',
     step2Btn: 'Continuer vers les Coordonnées',
     step3Btn: 'Confirmer la Réservation',
@@ -393,9 +433,14 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     tabHourly: '⏱️ Chofer por Horas',
     tabZiyarat: '🕌 Lugares Sagrados Ziyarat',
     tabGroup: '👥 Autobuses y Grupos',
-    step1Title: '1. Ruta y Horario',
-    step2Title: '2. Selección de Vehículo y Tarifa',
-    step3Title: '3. Pasajero y Confirmación',
+    step1Title: '1. Ruta y Servicio',
+    step2Title: '2. Selección de Vehículo',
+    step3Title: '3. Horario y Detalles',
+    step4Title: '4. Pasajero y Confirmación',
+    conciergeBadge: 'Solo Conserjería VIP',
+    conciergeInquireBtn: 'Consultar por WhatsApp',
+    conciergeNotice: 'Transporte ejecutivo y presidencial exclusivo. Coordinado directamente a través de WhatsApp.',
+    conciergeSectionTitle: 'Flota Diplomática y Conserjería VIP',
     step1Btn: 'Continuar a Vehículos',
     step2Btn: 'Continuar a Datos del Pasajero',
     step3Btn: 'Confirmar Solicitud de Reserva',
@@ -460,9 +505,14 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     tabHourly: '⏱️ Sopir Sewa Per Jam',
     tabZiyarat: '🕌 Ziarah Tempat Bersejarah',
     tabGroup: '👥 Rombongan Bus & Minibus',
-    step1Title: '1. Rute & Jadwal Perjalanan',
-    step2Title: '2. Pilih Kendaraan & Tarif',
-    step3Title: '3. Data Jamaah & Konfirmasi',
+    step1Title: '1. Rute & Layanan',
+    step2Title: '2. Pilih Kendaraan',
+    step3Title: '3. Jadwal & Detail',
+    step4Title: '4. Data Jamaah & Konfirmasi',
+    conciergeBadge: 'Khusus Concierge VIP',
+    conciergeInquireBtn: 'Tanya via WhatsApp',
+    conciergeNotice: 'Layanan transportasi eksklusif untuk delegasi VIP. Dikoordinasikan langsung melalui WhatsApp concierge.',
+    conciergeSectionTitle: 'Armada Eksklusif & Concierge VIP',
     step1Btn: 'Lanjut ke Pilihan Kendaraan',
     step2Btn: 'Lanjut ke Data Jamaah',
     step3Btn: 'Konfirmasi Pesanan',
@@ -527,9 +577,14 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     tabHourly: '⏱️ प्रति घंटा चौफर',
     tabZiyarat: '🕌 पवित्र स्थल ज़ियारत',
     tabGroup: '👥 समूह बस और कोच',
-    step1Title: '1. यात्रा और समय सारिणी',
-    step2Title: '2. वाहन और किराया चुनें',
-    step3Title: '3. यात्री और पुष्टि',
+    step1Title: '1. मार्ग और सेवा',
+    step2Title: '2. वाहन और किराया',
+    step3Title: '3. समय और यात्रा विवरण',
+    step4Title: '4. यात्री और पुष्टि',
+    conciergeBadge: 'केवल वीआईपी कंसीयर्ज',
+    conciergeInquireBtn: 'WhatsApp पर पूछताछ करें',
+    conciergeNotice: 'विशेष कार्यकारी और राजनयिक परिवहन। WhatsApp कंसीयर्ज के माध्यम से समन्वयित।',
+    conciergeSectionTitle: 'वीआईपी राजनयिक और कंसीयर्ज बेड़ा',
     step1Btn: 'वाहन चुनने के लिए आगे बढ़ें',
     step2Btn: 'यात्री विवरण के लिए आगे बढ़ें',
     step3Btn: 'बुकिंग अनुरोध की पुष्टि करें',
@@ -594,9 +649,14 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     tabHourly: '⏱️ Stundenweiser Chauffeur',
     tabZiyarat: '🕌 Ziyarat Heilige Stätten',
     tabGroup: '👥 Busse & Reisegruppen',
-    step1Title: '1. Route & Fahrplan',
+    step1Title: '1. Route & Service',
     step2Title: '2. Fahrzeug & Festpreis',
-    step3Title: '3. Passagier & Bestätigung',
+    step3Title: '3. Zeitplan & Reisedetails',
+    step4Title: '4. Passagier & Bestätigung',
+    conciergeBadge: 'Nur VIP-Concierge',
+    conciergeInquireBtn: 'Über WhatsApp anfragen',
+    conciergeNotice: 'Exklusiver Fuhrpark für VIP-Gäste und Delegationen. Direkte Abstimmung per WhatsApp.',
+    conciergeSectionTitle: 'VIP-Diplomaten- & Concierge-Flotte',
     step1Btn: 'Weiter zur Fahrzeugauswahl',
     step2Btn: 'Weiter zu den Passagierdaten',
     step3Btn: 'Buchungsanfrage bestätigen',
@@ -661,9 +721,14 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     tabHourly: '⏱️ فی گھنٹہ پرائیویٹ ڈرائیور',
     tabZiyarat: '🕌 مقدس زیارات',
     tabGroup: '👥 بس و گروپس',
-    step1Title: '1. سفر اور شیڈول',
-    step2Title: '2. گاڑی اور کرایہ منتخب کریں',
-    step3Title: '3. مسافر کی معلومات و تصدیق',
+    step1Title: '1. راستہ اور سروس',
+    step2Title: '2. گاڑی اور کرایہ',
+    step3Title: '3. شیڈول اور سفر کی تفصیلات',
+    step4Title: '4. مسافر کی معلومات اور تصدیق',
+    conciergeBadge: 'صرف وی آئی پی کنسیئرج',
+    conciergeInquireBtn: 'واٹس ایپ پر رابطہ کریں',
+    conciergeNotice: 'خصوصی صدارتی اور سفارتی ٹرانسپورٹ۔ واٹس ایپ کنسیئرج کے ذریعے براہ راست رابطہ۔',
+    conciergeSectionTitle: 'وی آئی پی سفارتی اور کنسیئرج فلیٹ',
     step1Btn: 'گاڑی کے انتخاب کے لیے آگے بڑھیں',
     step2Btn: 'مسافر کی تفصیلات کے لیے آگے بڑھیں',
     step3Btn: 'بکنگ کی تصدیق کریں',
@@ -728,9 +793,14 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     tabHourly: '⏱️ Pemandu Mengikut Jam',
     tabZiyarat: '🕌 Ziarah Tempat Bersejarah',
     tabGroup: '👥 Bas & Rombongan Kumpulan',
-    step1Title: '1. Laluan & Jadual',
+    step1Title: '1. Laluan & Perkhidmatan',
     step2Title: '2. Pilih Kenderaan & Tambang',
-    step3Title: '3. Maklumat Jemaah & Pengesahan',
+    step3Title: '3. Jadual & Butiran Perjalanan',
+    step4Title: '4. Maklumat Jamaah & Pengesahan',
+    conciergeBadge: 'Khusus Concierge VIP Sahaja',
+    conciergeInquireBtn: 'Pertanyaan via WhatsApp',
+    conciergeNotice: 'Pengangkutan eksekutif eksklusif. Diselaraskan secara langsung melalui concierge WhatsApp.',
+    conciergeSectionTitle: 'Armada Diplomatik & Concierge VIP',
     step1Btn: 'Teruskan ke Pilihan Kenderaan',
     step2Btn: 'Teruskan ke Maklumat Jemaah',
     step3Btn: 'Sahkan Permintaan Tempahan',
@@ -795,9 +865,14 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     tabHourly: '⏱️ Saatlik Özel Şoför',
     tabZiyarat: '🕌 Kutsal Ziyaret Yerleri',
     tabGroup: '👥 Otobüs & Grup Turları',
-    step1Title: '1. Güzergah & Zamanlama',
-    step2Title: '2. Araç & Sabit Fiyat Seçimi',
-    step3Title: '3. Yolcu Bilgileri & Onay',
+    step1Title: '1. Güzergah & Hizmet',
+    step2Title: '2. Araç & Sabit Ücret',
+    step3Title: '3. Program & Yolculuk Detayları',
+    step4Title: '4. Yolcu Bilgileri & Onay',
+    conciergeBadge: 'Yalnızca VIP Concierge',
+    conciergeInquireBtn: 'WhatsApp ile Danışın',
+    conciergeNotice: 'Özel başkanlık ve heyet taşımacılığı. WhatsApp concierge ekibimizle doğrudan koordine edilir.',
+    conciergeSectionTitle: 'VIP Diplomatik & Concierge Filosu',
     step1Btn: 'Araç Seçimine Devam Et',
     step2Btn: 'Yolcu Bilgilerine Devam Et',
     step3Btn: 'Rezervasyon Talebini Onayla',
@@ -864,7 +939,7 @@ export function BookingEngine({
   dict,
   settings,
   initialRoute = 'jeddah-airport-to-makkah',
-  initialVehicle = 'staria',
+  initialVehicle,
   initialDate = '',
   initialTime = '14:00',
   initialPassengers = '2',
@@ -874,21 +949,32 @@ export function BookingEngine({
   initialPickup = '',
   initialDropoff = '',
   initialRates,
-}: BookingEngineProps) {
+  hideInternalStepper = false, onStepChange, stepOverride }: BookingEngineProps) {
   const { currency, formatPrice } = useCurrency();
   const t = LOCALIZED_UI[locale] || LOCALIZED_UI.en;
 
-  // Wizard Step: 1 = Journey Schedule, 2 = Vehicle & Fare Selection, 3 = Passenger & Confirmation
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(() => {
-    // If vehicle and route/pickup are already provided (e.g. from Homepage quick-reserve draft), jump straight to Step 3
-    if (initialVehicle && (initialRoute || initialPickup)) {
+  // 4-Step Booking Wizard: 1 = Route, 2 = Vehicle, 3 = Trip Details, 4 = Passenger & Confirmation
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(() => {
+    if (stepOverride) return stepOverride;
+    if (initialVehicle && (initialVehicle in VEHICLE_SPECS) && (initialRoute || initialPickup)) {
       return 3;
-    }
-    if (initialRoute || initialPickup) {
-      return 2;
     }
     return 1;
   });
+
+  const changeStep = (s: 1 | 2 | 3 | 4) => {
+    setCurrentStep(s);
+    if (onStepChange) onStepChange(s);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('booking-wizard-step', { detail: { step: s } }));
+    }
+  };
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('booking-wizard-step', { detail: { step: currentStep } }));
+    }
+  }, [currentStep]);
 
   // Step 1: Trip & Route Details
   const [bookingType, setBookingType] = useState<'transfer' | 'hourly' | 'ziyarat' | 'group_bus'>(initialType);
@@ -906,11 +992,23 @@ export function BookingEngine({
   );
 
   const [routeId, setRouteId] = useState(initialRouteValid ? initialRoute : 'jeddah-airport-to-makkah');
-  const [vehicleId, setVehicleId] = useState(initialVehicle in VEHICLE_SPECS ? initialVehicle : 'staria');
+  const [vehicleId, setVehicleId] = useState<string | null>(() => {
+    if (initialVehicle && initialVehicle in VEHICLE_SPECS) {
+      return initialVehicle;
+    }
+    return null;
+  });
   const [durationHours, setDurationHours] = useState<number>(Number(initialDuration) || 4);
   const [customPickupLocation, setCustomPickupLocation] = useState(initialPickup || 'Jeddah Airport (KAIA)');
   const [customDropoffLocation, setCustomDropoffLocation] = useState(initialDropoff || 'Makkah Hotel / Haram');
-  const minDate = React.useMemo(() => new Date().toISOString().split('T')[0], []);
+  // Authoritative KSA Timezone Date (Asia/Riyadh)
+  const minDate = React.useMemo(() => {
+    try {
+      return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Riyadh' });
+    } catch (e) {
+      return new Date().toISOString().split('T')[0];
+    }
+  }, []);
   const [pickupDate, setPickupDate] = useState(initialDate || minDate);
   const [pickupTime, setPickupTime] = useState(initialTime || '14:00');
   const [passengers, setPassengers] = useState(Number(initialPassengers) || 2);
@@ -968,10 +1066,12 @@ export function BookingEngine({
 
   // Authoritative Price Calculation synced with database
   const calculateCurrentPriceSAR = (overrideVehicleId?: string) => {
+    const vId = overrideVehicleId || vehicleId;
+    if (!vId) return 0;
     const calculated = getEstimatedBasePriceSAR({
       bookingType,
       routeId: bookingType === 'transfer' ? routeId : null,
-      vehicleId: overrideVehicleId || vehicleId,
+      vehicleId: vId,
       durationHours: bookingType === 'hourly' ? durationHours : undefined,
       customRates: initialRates,
     });
@@ -980,13 +1080,8 @@ export function BookingEngine({
 
   const currentPriceSAR = calculateCurrentPriceSAR();
 
-  // Validate Step 1
+  // Step 1 -> Step 2 (Route -> Vehicle)
   const handleProceedToStep2 = () => {
-    if (!pickupDate) {
-      setStep1Error(t.dateRequiredError);
-      return;
-    }
-    setStep1Error(null);
     trackEvent({
       event: 'route_selected',
       service_type: bookingType,
@@ -994,11 +1089,16 @@ export function BookingEngine({
       passengers,
       luggage,
     });
-    setCurrentStep(2);
+    changeStep(2);
   };
 
-  // Validate Step 2
+  // Step 2 -> Step 3 (Vehicle -> Schedule & Trip Details)
   const handleProceedToStep3 = () => {
+    if (!vehicleId) {
+      setStep1Error(locale === 'ar' ? 'يرجى اختيار مركبة من القائمة للمتابعة' : 'Please select a vehicle from the fleet to proceed.');
+      return;
+    }
+    setStep1Error(null);
     trackEvent({
       event: 'quote_calculated',
       service_type: bookingType,
@@ -1007,7 +1107,17 @@ export function BookingEngine({
       price_sar: currentPriceSAR,
       currency,
     });
-    setCurrentStep(3);
+    changeStep(3);
+  };
+
+  // Step 3 -> Step 4 (Schedule -> Passenger Details)
+  const handleProceedToStep4 = () => {
+    if (!pickupDate) {
+      setStep1Error(t.dateRequiredError);
+      return;
+    }
+    setStep1Error(null);
+    changeStep(4);
   };
 
   // SUBMIT FINAL BOOKING
@@ -1237,7 +1347,8 @@ export function BookingEngine({
         </div>
 
         {/* 3-STEP PROGRESS STEPPER */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-3 bg-surface p-2 rounded-2xl border border-border shadow-xs">
+        {!hideInternalStepper && (
+          <div className="grid grid-cols-3 gap-2 sm:gap-3 bg-surface p-2 rounded-2xl border border-border shadow-xs">
           <button
             type="button"
             onClick={() => setCurrentStep(1)}
@@ -1299,9 +1410,10 @@ export function BookingEngine({
             <span className="hidden sm:inline">{t.step3Title}</span>
           </button>
         </div>
+        )}
 
         {/* ============================================================== */}
-        {/* STEP 1: ROUTE & SCHEDULE                                       */}
+        {/* STEP 1: ROUTE & SERVICE                                        */}
         {/* ============================================================== */}
         {currentStep === 1 && (
           <div className="bg-surface rounded-2xl border border-border p-5 sm:p-8 shadow-xs space-y-6 text-start animate-fadeIn">
@@ -1310,142 +1422,157 @@ export function BookingEngine({
                 {t.step1Title}
               </h3>
               <p className="text-xs text-ink-muted mt-1">
-                {t.timeNotice}
+                {t.routeLabel} • {t.fixedFareLabel}
               </p>
             </div>
 
-            {/* ROUTE SELECTION */}
-            {bookingType === 'transfer' ? (
+            {/* ROUTE SELECTOR (TRANSFER) */}
+            {bookingType === 'transfer' && (
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="route-select" className="block text-xs font-bold text-ink mb-1.5">
+                  <label htmlFor="highway-route-select" className="block text-xs font-bold text-ink mb-1.5">
                     {t.routeLabel} <span className="text-gold-dark">*</span>
                   </label>
-                  <div className="relative">
-                    <select
-                      id="route-select"
-                      value={routeId}
-                      onChange={(e) => setRouteId(e.target.value)}
-                      className="w-full min-h-[48px] h-12 pl-10 pr-4 rtl:pr-10 rtl:pl-4 rounded-btn border border-border-strong bg-bg-alt text-ink text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
-                    >
-                      {Object.entries(ROUTES).map(([rKey, rData]) => (
+                  <select
+                    id="highway-route-select"
+                    value={routeId}
+                    onChange={(e) => setRouteId(e.target.value)}
+                    className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-bg-alt text-ink text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
+                  >
+                    {availableRoutes.map(([rKey, rData]) => {
+                      const localizedName = LOCALIZED_ROUTE_NAMES[rKey]?.[locale] || rData.label;
+                      return (
                         <option key={rKey} value={rKey}>
-                          {rData.label} — Fixed from {rData.baseSAR} SAR
+                          {localizedName}
                         </option>
-                      ))}
-                    </select>
-                    <MapPin className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                  </div>
+                      );
+                    })}
+                  </select>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="pickup-custom" className="block text-xs font-bold text-ink mb-1.5">
+                    <label htmlFor="custom-pickup-input" className="block text-xs font-bold text-ink mb-1.5">
                       {t.pickupLabel}
                     </label>
-                    <input
-                      id="pickup-custom"
-                      type="text"
-                      placeholder="e.g. KAIA Terminal 1 Arrivals or Hotel Name"
-                      value={customPickupLocation}
-                      onChange={(e) => setCustomPickupLocation(e.target.value)}
-                      className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
-                    />
+                    <div className="relative">
+                      <input
+                        id="custom-pickup-input"
+                        type="text"
+                        placeholder="e.g. Terminal 1, Gate 4"
+                        value={customPickupLocation}
+                        onChange={(e) => setCustomPickupLocation(e.target.value)}
+                        className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
+                      />
+                      <MapPin className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    </div>
                   </div>
 
                   <div>
-                    <label htmlFor="dropoff-custom" className="block text-xs font-bold text-ink mb-1.5">
+                    <label htmlFor="custom-dropoff-input" className="block text-xs font-bold text-ink mb-1.5">
                       {t.dropoffLabel}
                     </label>
-                    <input
-                      id="dropoff-custom"
-                      type="text"
-                      placeholder="e.g. Clock Tower Hotel / Swissôtel Makkah"
-                      value={customDropoffLocation}
-                      onChange={(e) => setCustomDropoffLocation(e.target.value)}
-                      className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
-                    />
+                    <div className="relative">
+                      <input
+                        id="custom-dropoff-input"
+                        type="text"
+                        placeholder="e.g. Fairmont Makkah Clock Royal"
+                        value={customDropoffLocation}
+                        onChange={(e) => setCustomDropoffLocation(e.target.value)}
+                        className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
+                      />
+                      <MapPin className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    </div>
                   </div>
                 </div>
               </div>
-            ) : bookingType === 'hourly' ? (
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="hourly-pickup" className="block text-xs font-bold text-ink mb-1.5">
-                      {t.pickupLabel} <span className="text-gold-dark">*</span>
-                    </label>
-                    <input
-                      id="hourly-pickup"
-                      type="text"
-                      required
-                      placeholder="e.g. Makkah Hotel / Haram Area"
-                      value={customPickupLocation}
-                      onChange={(e) => setCustomPickupLocation(e.target.value)}
-                      className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
-                    />
-                  </div>
+            )}
 
-                  <div>
-                    <label htmlFor="duration-select" className="block text-xs font-bold text-ink mb-1.5">
-                      {t.durationLabel} <span className="text-gold-dark">*</span>
-                    </label>
-                    <select
-                      id="duration-select"
-                      value={durationHours}
-                      onChange={(e) => setDurationHours(Number(e.target.value))}
-                      className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-bg-alt text-ink text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
-                    >
-                      <option value="2">2 {t.hoursSuffix} (Minimum Block)</option>
-                      <option value="4">4 {t.hoursSuffix} (Standard Half-Day)</option>
-                      <option value="6">6 {t.hoursSuffix}</option>
-                      <option value="8">8 {t.hoursSuffix} (Full-Day Service)</option>
-                      <option value="12">12 {t.hoursSuffix} (Executive All-Day)</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            ) : bookingType === 'ziyarat' ? (
+            {/* HOURLY CHAUFFEUR DURATION */}
+            {bookingType === 'hourly' && (
               <div className="space-y-4">
+                <div>
+                  <label htmlFor="duration-select" className="block text-xs font-bold text-ink mb-1.5">
+                    {t.durationLabel} <span className="text-gold-dark">*</span>
+                  </label>
+                  <select
+                    id="duration-select"
+                    value={durationHours}
+                    onChange={(e) => setDurationHours(Number(e.target.value))}
+                    className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-bg-alt text-ink text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
+                  >
+                    {[3, 4, 6, 8, 10, 12].map((hrs) => (
+                      <option key={hrs} value={hrs}>
+                        {hrs} {t.hoursSuffix}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="ziyarat-pickup" className="block text-xs font-bold text-ink mb-1.5">
+                    <label htmlFor="hourly-pickup-input" className="block text-xs font-bold text-ink mb-1.5">
                       {t.pickupLabel} <span className="text-gold-dark">*</span>
                     </label>
                     <input
-                      id="ziyarat-pickup"
+                      id="hourly-pickup-input"
                       type="text"
-                      required
-                      placeholder="e.g. Makkah Hotel / Madinah Hotel"
+                      placeholder="e.g. Jeddah Hotel / Airport"
                       value={customPickupLocation}
                       onChange={(e) => setCustomPickupLocation(e.target.value)}
-                      className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
+                      className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
                     />
                   </div>
                   <div>
-                    <label htmlFor="ziyarat-tour" className="block text-xs font-bold text-ink mb-1.5">
+                    <label htmlFor="hourly-dest-input" className="block text-xs font-bold text-ink mb-1.5">
                       {t.dropoffLabel} <span className="text-gold-dark">*</span>
                     </label>
-                    <select
-                      id="ziyarat-tour"
+                    <input
+                      id="hourly-dest-input"
+                      type="text"
+                      placeholder="e.g. As directed by passenger"
                       value={customDropoffLocation}
                       onChange={(e) => setCustomDropoffLocation(e.target.value)}
-                      className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-bg-alt text-ink text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
-                    >
-                      <option value="Makkah Holy Sites (Jabal Thawr, Hira, Mina, Arafat)">
-                        Makkah Holy Sites (Hira, Thawr, Mina, Arafat)
-                      </option>
-                      <option value="Madinah Holy Sites (Masjid Quba, Uhud, Qiblatayn)">
-                        Madinah Holy Sites (Quba, Uhud, Qiblatayn)
-                      </option>
-                      <option value="Badr Historical Battlefield Tour">
-                        Badr Historical Battlefield Tour
-                      </option>
-                    </select>
+                      className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
+                    />
                   </div>
                 </div>
               </div>
-            ) : (
+            )}
+
+            {/* ZIYARAT DESTINATIONS */}
+            {bookingType === 'ziyarat' && (
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="ziyarat-pickup-input" className="block text-xs font-bold text-ink mb-1.5">
+                    {t.pickupLabel} (Hotel / Area) <span className="text-gold-dark">*</span>
+                  </label>
+                  <input
+                    id="ziyarat-pickup-input"
+                    type="text"
+                    placeholder="e.g. Makkah Clock Tower or Madinah Central"
+                    value={customPickupLocation}
+                    onChange={(e) => setCustomPickupLocation(e.target.value)}
+                    className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="ziyarat-dest-input" className="block text-xs font-bold text-ink mb-1.5">
+                    {t.dropoffLabel} (Ziyarat Sites) <span className="text-gold-dark">*</span>
+                  </label>
+                  <input
+                    id="ziyarat-dest-input"
+                    type="text"
+                    placeholder="e.g. Cave Hira, Jabal Thawr, Masjid Quba, Uhud"
+                    value={customDropoffLocation}
+                    onChange={(e) => setCustomDropoffLocation(e.target.value)}
+                    className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* GROUP BUS & COACH */}
+            {bookingType === 'group_bus' && (
               <div className="space-y-4">
                 <div>
                   <label htmlFor="group-route-select" className="block text-xs font-bold text-ink mb-1.5">
@@ -1467,49 +1594,8 @@ export function BookingEngine({
               </div>
             )}
 
-            {/* DATE & TIME CONTROLS */}
+            {/* PASSENGERS & LUGGAGE RECOMMENDATION */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div>
-                <label htmlFor="pickup-date-input" className="block text-xs font-bold text-ink mb-1.5">
-                  {t.dateLabel} <span className="text-gold-dark">*</span>
-                </label>
-                <div className="relative">
-                  <input
-                    id="pickup-date-input"
-                    type="date"
-                    required
-                    min={minDate}
-                    value={pickupDate}
-                    onChange={(e) => {
-                      setPickupDate(e.target.value);
-                      if (step1Error) setStep1Error(null);
-                    }}
-                    className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
-                  />
-                  <Calendar className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="pickup-time-input" className="block text-xs font-bold text-ink mb-1.5">
-                  {t.timeLabel} <span className="text-gold-dark">*</span>
-                </label>
-                <div className="relative">
-                  <input
-                    id="pickup-time-input"
-                    type="time"
-                    required
-                    value={pickupTime}
-                    onChange={(e) => setPickupTime(e.target.value)}
-                    className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
-                  />
-                  <Clock className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                </div>
-              </div>
-            </div>
-
-            {/* PASSENGERS, LUGGAGE & FLIGHT */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
               <div>
                 <label htmlFor="pax-select" className="block text-xs font-bold text-ink mb-1.5">
                   {t.passengersLabel} <span className="text-gold-dark">*</span>
@@ -1551,39 +1637,7 @@ export function BookingEngine({
                   <Luggage className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
-
-              <div>
-                <label htmlFor="flight-input" className="block text-xs font-bold text-ink mb-1.5">
-                  {t.flightLabel}
-                </label>
-                <div className="relative">
-                  <input
-                    id="flight-input"
-                    type="text"
-                    placeholder={t.flightPlaceholder}
-                    value={flightNumber}
-                    onChange={(e) => setFlightNumber(e.target.value.toUpperCase())}
-                    className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
-                  />
-                  <Plane className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                </div>
-              </div>
             </div>
-
-            {flightNumber && (
-              <p className="text-[11px] text-emerald-800 bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>{t.flightNotice}</span>
-              </p>
-            )}
-
-            {/* ERROR BANNER */}
-            {step1Error && (
-              <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
-                <span>{step1Error}</span>
-              </div>
-            )}
 
             {/* ACTION BUTTON */}
             <div className="pt-4 border-t border-border flex justify-end">
@@ -1612,17 +1666,13 @@ export function BookingEngine({
                   {activeItinerary}
                 </span>
                 <span className="text-ink-muted flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-gold-dark" />
-                  {pickupDate} • {pickupTime}
-                </span>
-                <span className="text-ink-muted flex items-center gap-1.5">
                   <Users className="w-3.5 h-3.5 text-gold-dark" />
                   {passengers} Pax • {luggage} Bags
                 </span>
               </div>
               <button
                 type="button"
-                onClick={() => setCurrentStep(1)}
+                onClick={() => changeStep(1)}
                 className="text-xs font-bold text-gold-dark hover:underline flex items-center gap-1 shrink-0 self-end sm:self-auto"
               >
                 <Edit2 className="w-3 h-3" />
@@ -1639,7 +1689,7 @@ export function BookingEngine({
               </p>
             </div>
 
-            {/* VEHICLES GRID */}
+            {/* DIRECT-BOOKING VEHICLES GRID */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {Object.entries(VEHICLE_SPECS)
                 .filter(([vId]) => (bookingType === 'group_bus' ? vId === 'hiace' || vId === 'coaster' : true))
@@ -1756,10 +1806,83 @@ export function BookingEngine({
                 })}
             </div>
 
+            {/* VIP CONCIERGE & DIPLOMATIC FLEET (Mercedes-Maybach & Hyundai H1) */}
+            {bookingType !== 'group_bus' && (
+              <div className="pt-6 border-t border-border space-y-3">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-gold-dark" />
+                  <h4 className="font-display font-bold text-sm sm:text-base text-ink">
+                    {t.conciergeSectionTitle}
+                  </h4>
+                </div>
+                <p className="text-xs text-ink-muted leading-relaxed">
+                  {t.conciergeNotice}
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                  {Object.entries(CONCIERGE_VEHICLES).map(([cvId, cvData]) => {
+                    const waGreeting = `Assalamu Alaikum Duyuf Al Rahman VIP, I would like to inquire about booking the ${cvData.name} for route: ${activeItinerary}.`;
+                    const waUrl = `https://wa.me/966505316971?text=${encodeURIComponent(waGreeting)}`;
+
+                    return (
+                      <div
+                        key={cvId}
+                        className="rounded-2xl p-4 border border-gold/30 bg-gold/5 flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="relative w-full h-28 rounded-xl overflow-hidden bg-bg-alt mb-3 border border-border/60">
+                            <Image
+                              src={cvData.img}
+                              alt={cvData.name}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 50vw"
+                              className="object-cover"
+                            />
+                            <div className="absolute top-2 right-2 rtl:right-auto rtl:left-2 bg-slate-950/90 text-gold px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border border-gold/40">
+                              {t.conciergeBadge}
+                            </div>
+                          </div>
+
+                          <span className="text-[10px] font-bold text-gold-dark uppercase tracking-wider block mb-0.5">
+                            {cvData.category}
+                          </span>
+                          <h5 className="font-display font-bold text-sm text-ink mb-2">
+                            {cvData.name}
+                          </h5>
+
+                          <div className="flex items-center gap-2 mb-3">
+                            <span className="text-[11px] px-2 py-0.5 rounded bg-bg-alt text-ink border border-border flex items-center gap-1 font-semibold">
+                              <Users className="w-3 h-3 text-gold-dark" />
+                              <span>{cvData.seats} {t.seatsLabel}</span>
+                            </span>
+                            <span className="text-[11px] px-2 py-0.5 rounded bg-bg-alt text-ink border border-border flex items-center gap-1 font-semibold">
+                              <Luggage className="w-3 h-3 text-gold-dark" />
+                              <span>{cvData.bags} {t.bagsLabel}</span>
+                            </span>
+                          </div>
+                        </div>
+
+                        <a
+                          href={waUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full min-h-[40px] px-3 py-2 rounded-btn bg-[#25D366] text-white hover:bg-[#1EB657] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-xs"
+                        >
+                          <MessageCircle className="w-3.5 h-3.5" />
+                          <span>{t.conciergeInquireBtn}</span>
+                        </a>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* NAVIGATION BUTTONS */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-border">
               <button
                 type="button"
-                onClick={() => setCurrentStep(1)}
+                onClick={() => changeStep(1)}
                 className="w-full sm:w-auto min-h-[48px] h-12 px-6 rounded-btn border border-border text-ink text-xs font-semibold hover:bg-bg-alt transition-colors flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-gold"
               >
                 <ArrowLeft className="w-4 h-4 rtl:rotate-180" />
@@ -1779,13 +1902,215 @@ export function BookingEngine({
         )}
 
         {/* ============================================================== */}
-        {/* STEP 3: PASSENGER DETAILS & MANDATORY PAYMENT POLICY (PAY DRIVER) */}
+        {/* STEP 3: SCHEDULE & TRIP DETAILS                                */}
         {/* ============================================================== */}
         {currentStep === 3 && (
-          <form onSubmit={handleSubmit} className="bg-surface rounded-2xl border border-border p-5 sm:p-8 shadow-xs space-y-6 text-start animate-fadeIn">
+          <div className="bg-surface rounded-2xl border border-border p-5 sm:p-8 shadow-xs space-y-6 text-start animate-fadeIn">
+            {/* TRIP SUMMARY PILL */}
+            <div className="bg-bg-alt p-3.5 rounded-xl border border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
+                <span className="font-bold text-ink flex items-center gap-1.5">
+                  <MapPin className="w-4 h-4 text-gold-dark" />
+                  {activeItinerary}
+                </span>
+                <span className="text-ink-muted flex items-center gap-1.5">
+                  <Car className="w-3.5 h-3.5 text-gold-dark" />
+                  {(vehicleId && VEHICLE_SPECS[vehicleId]?.name) || vehicleId || (locale === 'ar' ? 'بانتظار الاختيار' : 'Pending Selection')}
+                </span>
+                <span className="text-ink-muted font-bold text-gold-dark">
+                  {formatPrice(currentPriceSAR)}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => changeStep(2)}
+                className="text-xs font-bold text-gold-dark hover:underline flex items-center gap-1 shrink-0 self-end sm:self-auto"
+              >
+                <Edit2 className="w-3 h-3" />
+                <span>{t.stepBack}</span>
+              </button>
+            </div>
+
             <div className="border-b border-border pb-3">
               <h3 className="font-display font-bold text-xl text-ink">
-                {t.passengerInfoTitle}
+                {t.step3Title}
+              </h3>
+              <p className="text-xs text-ink-muted mt-1">
+                {t.timeNotice}
+              </p>
+            </div>
+
+            {/* DATE & TIME CONTROLS */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div>
+                <label htmlFor="pickup-date-input" className="block text-xs font-bold text-ink mb-1.5">
+                  {t.dateLabel} <span className="text-gold-dark">*</span>
+                </label>
+                <div className="relative">
+                  <input
+                    id="pickup-date-input"
+                    type="date"
+                    required
+                    min={minDate}
+                    value={pickupDate}
+                    onChange={(e) => {
+                      setPickupDate(e.target.value);
+                      if (step1Error) setStep1Error(null);
+                    }}
+                    className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
+                  />
+                  <Calendar className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="pickup-time-input" className="block text-xs font-bold text-ink mb-1.5">
+                  {t.timeLabel} <span className="text-gold-dark">*</span>
+                </label>
+                <div className="relative">
+                  <input
+                    id="pickup-time-input"
+                    type="time"
+                    required
+                    value={pickupTime}
+                    onChange={(e) => setPickupTime(e.target.value)}
+                    className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
+                  />
+                  <Clock className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+              </div>
+            </div>
+
+            {/* FLIGHT NUMBER (OPTIONAL) */}
+            <div>
+              <label htmlFor="flight-input" className="block text-xs font-bold text-ink mb-1.5">
+                {t.flightLabel}
+              </label>
+              <div className="relative">
+                <input
+                  id="flight-input"
+                  type="text"
+                  placeholder={t.flightPlaceholder}
+                  value={flightNumber}
+                  onChange={(e) => setFlightNumber(e.target.value.toUpperCase())}
+                  className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
+                />
+                <Plane className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+              {flightNumber && (
+                <p className="mt-2 text-[11px] text-emerald-800 bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>{t.flightNotice}</span>
+                </p>
+              )}
+            </div>
+
+            {/* COMPLIMENTARY INCLUSIONS (NO Zamzam water per Prompt 11 rule) */}
+            <div className="pt-2">
+              <label className="block text-xs font-bold text-ink mb-2">
+                {t.addOnsTitle}
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                <label className="flex items-center gap-2.5 p-3 min-h-[48px] rounded-xl bg-bg-alt/60 border border-border cursor-pointer hover:border-gold-line transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={addOns.child_seat}
+                    onChange={(e) => setAddOns({ ...addOns, child_seat: e.target.checked })}
+                    className="rounded text-gold focus:ring-gold w-4 h-4"
+                  />
+                  <span className="font-medium text-ink">{t.addOnChildSeat}</span>
+                </label>
+
+                <label className="flex items-center gap-2.5 p-3 min-h-[48px] rounded-xl bg-bg-alt/60 border border-border cursor-pointer hover:border-gold-line transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={addOns.flight_tracking}
+                    onChange={(e) => setAddOns({ ...addOns, flight_tracking: e.target.checked })}
+                    className="rounded text-gold focus:ring-gold w-4 h-4"
+                  />
+                  <span className="font-medium text-ink">{t.addOnFlightTracking}</span>
+                </label>
+
+                <label className="flex items-center gap-2.5 p-3 min-h-[48px] rounded-xl bg-bg-alt/60 border border-border cursor-pointer hover:border-gold-line transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={addOns.malay_driver}
+                    onChange={(e) => setAddOns({ ...addOns, malay_driver: e.target.checked })}
+                    className="rounded text-gold focus:ring-gold w-4 h-4"
+                  />
+                  <span className="font-medium text-ink">{t.addOnMalayDriver}</span>
+                </label>
+              </div>
+            </div>
+
+            {/* ERROR BANNER */}
+            {step1Error && (
+              <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
+                <span>{step1Error}</span>
+              </div>
+            )}
+
+            {/* NAVIGATION BUTTONS */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-border">
+              <button
+                type="button"
+                onClick={() => changeStep(2)}
+                className="w-full sm:w-auto min-h-[48px] h-12 px-6 rounded-btn border border-border text-ink text-xs font-semibold hover:bg-bg-alt transition-colors flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-gold"
+              >
+                <ArrowLeft className="w-4 h-4 rtl:rotate-180" />
+                <span>{t.stepBack}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleProceedToStep4}
+                className="w-full sm:w-auto min-h-[48px] h-12 px-8 rounded-btn bg-gold text-slate-950 font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-sm flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-gold"
+              >
+                <span>{t.step3Btn}</span>
+                <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ============================================================== */}
+        {/* STEP 4: PASSENGER DETAILS & MANDATORY PAYMENT POLICY           */}
+        {/* ============================================================== */}
+        {currentStep === 4 && (
+          <form onSubmit={handleSubmit} className="bg-surface rounded-2xl border border-border p-5 sm:p-8 shadow-xs space-y-6 text-start animate-fadeIn">
+            {/* TRIP SUMMARY PILL */}
+            <div className="bg-bg-alt p-3.5 rounded-xl border border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
+                <span className="font-bold text-ink flex items-center gap-1.5">
+                  <MapPin className="w-4 h-4 text-gold-dark" />
+                  {activeItinerary}
+                </span>
+                <span className="text-ink-muted flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5 text-gold-dark" />
+                  {pickupDate} • {pickupTime}
+                </span>
+                <span className="text-ink-muted flex items-center gap-1.5">
+                  <Car className="w-3.5 h-3.5 text-gold-dark" />
+                  {(vehicleId && VEHICLE_SPECS[vehicleId]?.name) || vehicleId || (locale === 'ar' ? 'بانتظار الاختيار' : 'Pending Selection')}
+                </span>
+                <span className="text-gold-dark font-bold">
+                  {formatPrice(currentPriceSAR)}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => changeStep(3)}
+                className="text-xs font-bold text-gold-dark hover:underline flex items-center gap-1 shrink-0 self-end sm:self-auto"
+              >
+                <Edit2 className="w-3 h-3" />
+                <span>{t.stepBack}</span>
+              </button>
+            </div>
+
+            <div className="border-b border-border pb-3">
+              <h3 className="font-display font-bold text-xl text-ink">
+                {t.step4Title}
               </h3>
               <p className="text-xs text-ink-muted mt-1">
                 {t.summaryZeroAdvance}
@@ -1849,54 +2174,6 @@ export function BookingEngine({
               </div>
             </div>
 
-            {/* ADD-ONS CHECKBOXES */}
-            <div className="pt-2">
-              <label className="block text-xs font-bold text-ink mb-2">
-                {t.addOnsTitle}
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                <label className="flex items-center gap-2.5 p-3 min-h-[48px] rounded-xl bg-bg-alt/60 border border-border cursor-pointer hover:border-gold-line transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={addOns.child_seat}
-                    onChange={(e) => setAddOns({ ...addOns, child_seat: e.target.checked })}
-                    className="rounded text-gold focus:ring-gold w-4 h-4"
-                  />
-                  <span className="font-medium text-ink">{t.addOnChildSeat}</span>
-                </label>
-
-                <label className="flex items-center gap-2.5 p-3 min-h-[48px] rounded-xl bg-bg-alt/60 border border-border cursor-pointer hover:border-gold-line transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={addOns.flight_tracking}
-                    onChange={(e) => setAddOns({ ...addOns, flight_tracking: e.target.checked })}
-                    className="rounded text-gold focus:ring-gold w-4 h-4"
-                  />
-                  <span className="font-medium text-ink">{t.addOnFlightTracking}</span>
-                </label>
-
-                <label className="flex items-center gap-2.5 p-3 min-h-[48px] rounded-xl bg-bg-alt/60 border border-border cursor-pointer hover:border-gold-line transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={addOns.malay_driver}
-                    onChange={(e) => setAddOns({ ...addOns, malay_driver: e.target.checked })}
-                    className="rounded text-gold focus:ring-gold w-4 h-4"
-                  />
-                  <span className="font-medium text-ink">{t.addOnMalayDriver}</span>
-                </label>
-
-                <label className="flex items-center gap-2.5 p-3 min-h-[48px] rounded-xl bg-bg-alt/60 border border-border cursor-pointer hover:border-gold-line transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={addOns.zamzam_water}
-                    onChange={(e) => setAddOns({ ...addOns, zamzam_water: e.target.checked })}
-                    className="rounded text-gold focus:ring-gold w-4 h-4"
-                  />
-                  <span className="font-medium text-ink">{t.addOnZamzam}</span>
-                </label>
-              </div>
-            </div>
-
             {/* SPECIAL NOTES */}
             <div>
               <label htmlFor="customer-notes-input" className="block text-xs font-bold text-ink mb-1.5">
@@ -1912,9 +2189,7 @@ export function BookingEngine({
               />
             </div>
 
-            {/* ============================================================ */}
-            {/* STRICT MANDATORY PAYMENT POLICY: PAY THE DRIVER ONLY CARD    */}
-            {/* ============================================================ */}
+            {/* STRICT MANDATORY PAYMENT POLICY CARD */}
             <div className="pt-2">
               <div className="bg-gold-soft/50 rounded-2xl p-5 border-2 border-gold/70 shadow-xs relative overflow-hidden">
                 <BorderBeam size={220} duration={12} colorFrom="#10B981" colorTo="#D6A13A" />
@@ -1960,7 +2235,7 @@ export function BookingEngine({
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-border">
               <button
                 type="button"
-                onClick={() => setCurrentStep(2)}
+                onClick={() => changeStep(3)}
                 disabled={isSubmitting}
                 className="w-full sm:w-auto min-h-[48px] h-12 px-6 rounded-btn border border-border text-ink text-xs font-semibold hover:bg-bg-alt transition-colors flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-gold"
               >
@@ -1983,8 +2258,8 @@ export function BookingEngine({
                   </>
                 ) : (
                   <>
-                    <span className="font-bold text-slate-950 uppercase tracking-wider text-xs sm:text-sm">{t.step3Btn}</span>
-                    <ArrowRight className="w-4 h-4 rtl:rotate-180 text-slate-950" />
+                    <span className="font-bold text-slate-950 uppercase tracking-wider text-xs sm:text-sm">{t.submitBtn}</span>
+                    <ArrowRight className="w-4 h-4 text-slate-950 rtl:rotate-180" />
                   </>
                 )}
               </ShimmerButton>
@@ -1992,9 +2267,7 @@ export function BookingEngine({
           </form>
         )}
       </div>
-
-      {/* ============================================================== */}
-      {/* RIGHT COLUMN: STICKY BOOKING SUMMARY CARD (lg:col-span-4)       */}
+{/* RIGHT COLUMN: STICKY BOOKING SUMMARY CARD (lg:col-span-4)       */}
       {/* ============================================================== */}
       <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-4">
         <div className="bg-surface rounded-2xl border border-border p-5 sm:p-6 shadow-sm text-start space-y-4 relative overflow-hidden">
@@ -2029,7 +2302,7 @@ export function BookingEngine({
             </span>
             <div className="flex items-center gap-2 text-ink font-medium">
               <Calendar className="w-4 h-4 text-gold-dark shrink-0" />
-              <span>{pickupDate ? `${pickupDate} • ${pickupTime}` : 'Date & Time not set'}</span>
+              <span>{pickupDate ? `${pickupDate} • ${pickupTime}` : (locale === 'ar' ? 'بانتظار تحديد الموعد (الخطوة 3)' : 'Schedule: Set in Step 3')}</span>
             </div>
           </div>
 
@@ -2038,27 +2311,43 @@ export function BookingEngine({
             <span className="text-[10px] font-bold text-ink-muted uppercase block">
               {t.summaryVehicle}
             </span>
-            <div className="flex items-center gap-3 bg-bg-alt/70 p-2.5 rounded-xl border border-border">
-              <div className="relative w-14 h-10 rounded-lg overflow-hidden bg-surface shrink-0 border border-border">
-                <Image
-                  src={VEHICLE_SPECS[vehicleId]?.img || '/assets/images/staria_exterior.webp'}
-                  alt={VEHICLE_SPECS[vehicleId]?.name || 'Vehicle'}
-                  fill
-                  sizes="60px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="font-bold text-ink text-xs truncate">
-                  {VEHICLE_SPECS[vehicleId]?.name}
-                </p>
-                <div className="flex items-center gap-2 text-[10px] text-ink-muted">
-                  <span>{VEHICLE_SPECS[vehicleId]?.seats} {t.seatsLabel}</span>
-                  <span>•</span>
-                  <span>{VEHICLE_SPECS[vehicleId]?.bags} {t.bagsLabel}</span>
+            {vehicleId && VEHICLE_SPECS[vehicleId] ? (
+              <div className="flex items-center gap-3 bg-bg-alt/70 p-2.5 rounded-xl border border-border">
+                <div className="relative w-14 h-10 rounded-lg overflow-hidden bg-surface shrink-0 border border-border">
+                  <Image
+                    src={VEHICLE_SPECS[vehicleId]?.img || '/assets/images/staria_exterior.webp'}
+                    alt={VEHICLE_SPECS[vehicleId]?.name || 'Vehicle'}
+                    fill
+                    sizes="60px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-bold text-ink text-xs truncate">
+                    {VEHICLE_SPECS[vehicleId]?.name}
+                  </p>
+                  <div className="flex items-center gap-2 text-[10px] text-ink-muted">
+                    <span>{VEHICLE_SPECS[vehicleId]?.seats} {t.seatsLabel}</span>
+                    <span>•</span>
+                    <span>{VEHICLE_SPECS[vehicleId]?.bags} {t.bagsLabel}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="flex items-center gap-3 bg-bg-alt/40 p-2.5 rounded-xl border border-dashed border-border-strong">
+                <div className="w-10 h-8 rounded-lg bg-surface flex items-center justify-center text-ink-muted shrink-0 border border-border">
+                  <Car className="w-4 h-4 text-gold-dark/70" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-ink text-xs">
+                    {locale === 'ar' ? 'المركبة: بانتظار الاختيار' : 'Vehicle: Pending Selection'}
+                  </p>
+                  <p className="text-[10px] text-ink-muted">
+                    {locale === 'ar' ? 'اختر مركبتك في الخطوة 2' : 'Select vehicle in Step 2'}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* PARTY SIZE */}
@@ -2094,14 +2383,25 @@ export function BookingEngine({
             <span className="text-[10px] text-ink-muted uppercase block mb-0.5">
               {t.summaryTotalFare}
             </span>
-            <div className="flex items-baseline gap-2">
-              <span className="font-display font-extrabold text-3xl text-ink">
-                {formatPrice(currentPriceSAR)}
-              </span>
-              <span className="text-xs text-ink-muted font-normal">
-                ({currentPriceSAR} SAR)
-              </span>
-            </div>
+            {vehicleId && currentPriceSAR > 0 ? (
+              <div className="flex items-baseline gap-2">
+                <span className="font-display font-extrabold text-3xl text-ink">
+                  {formatPrice(currentPriceSAR)}
+                </span>
+                <span className="text-xs text-ink-muted font-normal">
+                  ({currentPriceSAR} SAR)
+                </span>
+              </div>
+            ) : (
+              <div className="py-1">
+                <span className="font-display font-bold text-base text-gold-dark block">
+                  {locale === 'ar' ? 'بانتظار تحديد السيارة' : 'Pending Vehicle Selection'}
+                </span>
+                <span className="text-[10px] text-ink-muted block mt-0.5">
+                  {locale === 'ar' ? 'تُحسب الأجرة تلقائياً في الخطوة 2' : 'Fare calculated accurately in Step 2'}
+                </span>
+              </div>
+            )}
             <p className="text-[11px] text-ink-muted mt-1">
               {t.summaryZeroAdvance}
             </p>

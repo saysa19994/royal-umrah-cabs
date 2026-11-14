@@ -75,7 +75,7 @@ export default async function AboutPage(props: AboutPageProps) {
             <h2 className="font-display text-2xl md:text-3xl font-bold text-ink mb-6 text-start">
               {dict.page_about.storyTitle}
             </h2>
-            <div className="space-y-4 text-ink-light text-base leading-relaxed font-light text-start">
+            <div className="space-y-4 text-ink-muted text-base leading-relaxed text-start">
               <p>{dict.page_about.storyP1}</p>
               <p>{dict.page_about.storyP2}</p>
             </div>
