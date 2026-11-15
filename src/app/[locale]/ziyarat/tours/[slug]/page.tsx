@@ -2,7 +2,8 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Locale, getLocalizedAlternates } from '@/i18n/config';
+import { Locale } from '@/i18n/config';
+import { editorialAlternates, editorialRobots } from '@/lib/seo/localization-indexing';
 import { ZIYARAT_TOURS } from '@/data/ziyarat';
 import { ZiyaratTourJsonLd } from '@/components/seo/ZiyaratJsonLd';
 import { Clock, ShieldCheck, Check, X, ArrowRight, Car, Users, Luggage, MessageCircle } from 'lucide-react';
@@ -36,7 +37,8 @@ export async function generateMetadata(props: TourDetailPageProps): Promise<Meta
   return {
     title: isAr ? t.titleAr : t.titleEn,
     description: isAr ? t.metaDescAr : t.metaDescEn,
-    alternates: getLocalizedAlternates(locale, `/ziyarat/tours/${slug}`),
+    alternates: editorialAlternates(locale, `/ziyarat/tours/${slug}`),
+    robots: editorialRobots(locale),
   };
 }
 

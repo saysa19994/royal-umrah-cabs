@@ -12,16 +12,16 @@ interface FleetPageProps {
 }
 
 const LOCALIZED_DESCRIPTIONS: Record<Locale, string> = {
-  en: 'Explore our luxury modern private Umrah fleet: Mercedes-Maybach, GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce, and Toyota Coaster. 100% Cash on arrival.',
-  ar: 'استكشف أسطولنا الملكي الفاخر لنقل ضيوف الرحمن: مرسيدس مايباخ، جي إم سي يوكون، هيونداي ستاريا، كامري، وتويوتا هايس وكوستر. الدفع نقداً عند الوصول.',
-  ms: 'Terokai armada mewah moden kami untuk Umrah: Mercedes-Maybach, GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce, dan Coaster. Bayar tunai semasa tiba.',
-  id: 'Jelajahi armada mewah privat kami untuk Umrah: Mercedes-Maybach, GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce, dan Coaster. Bayar tunai saat tiba.',
-  ur: 'عمرہ زائرین کے لیے ہمارا شاہی لگژری بیڑا دریافت کریں: مرسڈیز میباخ، جی ایم سی یوکون، ہیونڈائی اسٹاریا، ٹویوٹا کیمری، ہائی ایس اور کوسٹر۔',
-  fr: 'Découvrez notre flotte privée de luxe pour la Omra : Mercedes-Maybach, GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce et Coaster. Paiement à l\'arrivée.',
-  es: 'Descubra nuestra flota privada de lujo para Umrah: Mercedes-Maybach, GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce y Coaster. Pago a la llegada.',
-  de: 'Entdecken Sie unsere luxuriöse Privatflotte für die Umrah: Mercedes-Maybach, GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce und Coaster. Barzahlung bei Ankunft.',
-  hi: 'उमरा के लिए हमारे निजी लक्जरी बेड़े का अन्वेषण करें: मर्सिडीज-मेबैक, जीएमसी युकोन, हुंडई स्टारिया, टोयोटा कैमरी, हाईऐस और कोस्टर। आगमन पर नकद भुगतान।',
-  tr: 'Umre için lüks özel araç filomuzu keşfedin: Mercedes-Maybach, GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce ve Coaster. Varışta nakit ödeme.',
+  en: 'Explore our luxury modern private Umrah fleet: GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce, Toyota Coaster, and VIP Concierge Mercedes-Maybach & Hyundai H1. Cash paid to driver after journey completion.',
+  ar: 'استكشف أسطولنا الملكي الفاخر لنقل ضيوف الرحمن: جي إم سي يوكون، هيونداي ستاريا، كامري، تويوتا هايس وكوستر، مع مرسيدس مايباخ وهيونداي H1 عبر الكونسيرج. الدفع نقداً للسائق بعد إتمام الرحلة.',
+  ms: 'Terokai armada mewah moden kami untuk Umrah: GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce, dan Coaster. Bayar tunai kepada pemandu selepas selesai perjalanan.',
+  id: 'Jelajahi armada mewah privat kami untuk Umrah: GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce, dan Coaster. Bayar tunai ke sopir setelah perjalanan selesai.',
+  ur: 'عمرہ زائرین کے لیے ہمارا شاہی لگژری بیڑا دریافت کریں: جی ایم سی یوکون، ہیونڈائی اسٹاریا، ٹویوٹا کیمری، ہائی ایس اور کوسٹر۔ سفر مکمل ہونے پر ڈرائیور کو نقد ادائیگی۔',
+  fr: 'Découvrez notre flotte privée de luxe pour la Omra : GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce et Coaster. Paiement en espèces au chauffeur après le trajet.',
+  es: 'Descubra nuestra flota privada de lujo para Umrah: GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce y Coaster. Pago en efectivo al chofer al finalizar el viaje.',
+  de: 'Entdecken Sie unsere luxuriöse Privatflotte für die Umrah: GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce und Coaster. Barzahlung beim Fahrer nach Fahrtende.',
+  hi: 'उमरा के लिए हमारे निजी लक्जरी बेड़े का अन्वेषण करें: जीएमसी युकोन, हुंडई स्टारिया, टोयोटा कैमरी, हाईऐस और कोस्टर। यात्रा पूरी होने के बाद ड्राइवर को नकद भुगतान।',
+  tr: 'Umre için lüks özel araç filomuzu keşfedin: GMC Yukon XL, Hyundai Staria, Toyota Camry, Toyota HiAce ve Coaster. Yolculuk tamamlandığında şoföre nakit ödeme.',
 };
 
 export async function generateMetadata(props: FleetPageProps): Promise<Metadata> {
@@ -39,10 +39,10 @@ export async function generateMetadata(props: FleetPageProps): Promise<Metadata>
 export default async function FleetPage(props: FleetPageProps) {
   const params = await props.params;
   const { locale } = params;
+  const dict = getDictionary(locale);
   const vehicles = await getDbVehiclesCached();
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
-  const isAr = locale === 'ar';
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -51,13 +51,13 @@ export default async function FleetPage(props: FleetPageProps) {
       {
         '@type': 'ListItem',
         position: 1,
-        name: isAr ? 'الرئيسية' : 'Home',
+        name: dict.nav.home,
         item: `${baseUrl}/${locale}`,
       },
       {
         '@type': 'ListItem',
         position: 2,
-        name: isAr ? 'أسطولنا الملكي' : 'Our Fleet',
+        name: dict.nav.fleet,
         item: `${baseUrl}/${locale}/fleet`,
       },
     ],
@@ -66,22 +66,18 @@ export default async function FleetPage(props: FleetPageProps) {
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: isAr ? 'أسطول ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP Fleet Collection',
+    name: `${dict.nav.fleet} — Duyuf Alrahman VIP`,
     itemListElement: vehicles.map((v, idx) => ({
       '@type': 'ListItem',
       position: idx + 1,
       item: {
-        '@type': 'Product',
+        '@type': 'Service',
+        serviceType: 'Private driver transportation',
         name: v.name[locale] || v.name.en,
         description: v.desc[locale] || v.desc.en,
         image: `${baseUrl}${v.gallery?.[0]?.src || `/assets/images/vehicles/${v.slug}/exterior-studio.webp`}`,
         url: `${baseUrl}/${locale}/fleet/${v.slug}`,
-        offers: {
-          '@type': 'Offer',
-          priceCurrency: 'SAR',
-          price: v.startingPriceSAR,
-          availability: 'https://schema.org/InStock',
-        },
+        provider: { '@type': 'TravelAgency', name: 'Duyuf Al Rahman VIP', url: baseUrl },
       },
     })),
   };

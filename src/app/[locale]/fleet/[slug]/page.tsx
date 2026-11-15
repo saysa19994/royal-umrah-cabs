@@ -458,36 +458,49 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
     return DETAIL_I18N[key]?.[locale] || DETAIL_I18N[key]?.en || key;
   };
 
-  // Build standard 5-photo verified gallery
+  const GALLERY_TAGS_I18N: Record<Locale, { front: string; side: string; rear: string; seats: string; dash: string }> = {
+    en: { front: 'Exterior Front', side: 'Side Profile', rear: 'Exterior Rear', seats: 'VIP Seats', dash: 'Dashboard' },
+    ar: { front: 'الواجهة الأمامية', side: 'الجانب الكامل', rear: 'الواجهة الخلفية', seats: 'المقصورة والمقاعد', dash: 'لوحة القيادة' },
+    ms: { front: 'Hadapan Luaran', side: 'Profil Sisi', rear: 'Belakang Luaran', seats: 'Kerusi VIP', dash: 'Papan Pemuka' },
+    id: { front: 'Tampak Depan', side: 'Profil Samping', rear: 'Tampak Belakang', seats: 'Kursi VIP', dash: 'Dasbor' },
+    ur: { front: 'سامنے کا منظر', side: 'سائیڈ پروفائل', rear: 'پچھلا منظر', seats: 'وی آئی پی نشستیں', dash: 'ڈیش بورڈ' },
+    fr: { front: 'Avant Extérieur', side: 'Profil Latéral', rear: 'Arrière Extérieur', seats: 'Sièges VIP', dash: 'Tableau de Bord' },
+    es: { front: 'Frente Exterior', side: 'Perfil Lateral', rear: 'Parte Trasera', seats: 'Asientos VIP', dash: 'Tablero' },
+    de: { front: 'Frontansicht', side: 'Seitenprofil', rear: 'Heckansicht', seats: 'VIP-Sitze', dash: 'Cockpit' },
+    tr: { front: 'Ön Görünüm', side: 'Yan Profil', rear: 'Arka Görünüm', seats: 'VIP Koltuklar', dash: 'Kokpit' },
+    hi: { front: 'बाहरी अग्रभाग', side: 'साइड प्रोफाइल', rear: 'पिछला भाग', seats: 'वीआईपी सीटें', dash: 'डैशबोर्ड' },
+  };
+  const gTag = GALLERY_TAGS_I18N[locale] || GALLERY_TAGS_I18N.en;
+
   const galleryPhotos: GalleryPhoto[] = [
     {
       src: `/assets/images/vehicles/${resolvedSlug}/exterior_front.jpg`,
-      title: isAr ? 'الواجهة الأمامية وهيبة المركبة' : `${name} Front Stance & Grille`,
-      tag: isAr ? 'الواجهة الأمامية' : 'Exterior Front',
+      title: `${name} — ${gTag.front}`,
+      tag: gTag.front,
       type: 'exterior',
     },
     {
       src: `/assets/images/vehicles/${resolvedSlug}/side_profile.jpg`,
-      title: isAr ? 'المظهر الجانبي وانسيابية الهيكل' : `${name} Side Profile & Aerodynamics`,
-      tag: isAr ? 'الجانب الكامل' : 'Side Profile',
+      title: `${name} — ${gTag.side}`,
+      tag: gTag.side,
       type: 'exterior',
     },
     {
       src: `/assets/images/vehicles/${resolvedSlug}/exterior_rear.jpg`,
-      title: isAr ? 'الواجهة الخلفية وسعة التحميل' : `${name} Rear Profile & Cargo Access`,
-      tag: isAr ? 'الواجهة الخلفية' : 'Exterior Rear',
+      title: `${name} — ${gTag.rear}`,
+      tag: gTag.rear,
       type: 'exterior',
     },
     {
       src: `/assets/images/vehicles/${resolvedSlug}/interior_seats.jpg`,
-      title: isAr ? 'المقصورة الملكية ومقاعد الراحة' : `${name} VIP Cabin Seating & Luxury Leather`,
-      tag: isAr ? 'المقصورة والمقاعد' : 'VIP Seats',
+      title: `${name} — ${gTag.seats}`,
+      tag: gTag.seats,
       type: 'interior',
     },
     {
       src: `/assets/images/vehicles/${resolvedSlug}/interior_dashboard.jpg`,
-      title: isAr ? 'لوحة القيادة والتحكم الرقمي' : `${name} Cockpit & Digital Controls`,
-      tag: isAr ? 'لوحة القيادة' : 'Dashboard',
+      title: `${name} — ${gTag.dash}`,
+      tag: gTag.dash,
       type: 'interior',
     },
   ];
@@ -622,23 +635,19 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
     ],
   };
 
-  const productSchema = {
+  const vehicleServiceSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Product',
+    '@type': 'Service',
+    serviceType: 'Private chauffeur vehicle service',
     name,
     category,
     description: desc,
     image: `${baseUrl}/assets/images/vehicles/${resolvedSlug}/exterior-studio.webp`,
-    offers: {
-      '@type': 'Offer',
-      priceCurrency: 'SAR',
-      price: v.startingPriceSAR,
-      availability: 'https://schema.org/InStock',
-    },
+    provider: { '@type': 'TravelAgency', name: 'Duyuf Al Rahman VIP', url: baseUrl },
   };
 
   return (
-    <div className="relative py-10 sm:py-16 md:py-20 bg-bg min-h-screen text-start text-ink overflow-hidden transition-colors duration-200" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="duyuf-vehicle-detail relative py-10 sm:py-16 md:py-20 bg-bg min-h-screen text-start text-ink overflow-hidden transition-colors duration-200" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* Luxury Golden Ambient Spotlight */}
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#D6A13A" />
 
@@ -648,7 +657,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema).replace(/</g, '\\u003c') }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(vehicleServiceSchema).replace(/</g, '\\u003c') }}
       />
 
       <div className="container mx-auto px-4 max-w-5xl relative z-10">
@@ -669,7 +678,8 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
         </nav>
 
         {/* 2. HERO VEHICLE TITLE & DUAL ACTION BUTTONS */}
-        <div className="mb-8 sm:mb-10">
+        <div className="duyuf-vehicle-intro mb-8 sm:mb-10">
+          <div className="duyuf-vehicle-copy">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-[#101827] text-[#C5A15D] border border-[#C5A15D]/30 mb-3 shadow-xs">
             <Sparkles className="w-3 h-3" />
             <span>{category}</span>
@@ -716,7 +726,9 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
             </a>
           </div>
 
-          {/* CINEMATIC VEHICLE STUDIO PEDESTAL */}
+          </div>
+          {/* Real vehicle photography. Preserve the actual fleet asset. */}
+          <div className="duyuf-vehicle-showcase">
           <div className="relative mt-8 sm:mt-10 mb-4 w-full flex flex-col items-center justify-center">
             {/* Ambient Studio Lighting Glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] sm:w-[650px] h-[260px] bg-gradient-to-r from-[#D4AF37]/15 via-[#D4AF37]/30 to-[#D4AF37]/15 rounded-full blur-[110px] pointer-events-none" />
@@ -749,6 +761,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
 
             {/* Studio Pedestal Oval Base with Gold Rim */}
             <div className="w-[85%] sm:w-[520px] md:w-[700px] h-4 sm:h-5 rounded-[100%] bg-gradient-to-r from-transparent via-[#D4AF37]/60 to-transparent blur-[2px] -mt-2 sm:-mt-3 shadow-[0_10px_35px_rgba(214,161,58,0.5)]" />
+          </div>
           </div>
         </div>
 
@@ -968,7 +981,32 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
           />
         </div>
 
-        {/* 7. SACRED JOURNEY ASSURANCE CARD */}
+        {/* 7. VEHICLE FAQS (LOCALIZED IN ALL 10 LANGUAGES) */}
+        <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-md mb-10 space-y-5">
+          <h2 className="font-display font-extrabold text-xl sm:text-2xl text-ink tracking-tight">
+            {name} — FAQ
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 rounded-2xl bg-bg-alt border border-border space-y-1.5">
+              <h3 className="font-bold text-sm text-ink">
+                {t('seatsLabel')} &amp; {t('luggageLabel')}
+              </h3>
+              <p className="text-xs text-ink-muted leading-relaxed">
+                {name}: {v.passengers} {t('seatsSuffix')}, {v.luggage} {t('luggageSuffix')}.
+              </p>
+            </div>
+            <div className="p-4 rounded-2xl bg-bg-alt border border-border space-y-1.5">
+              <h3 className="font-bold text-sm text-ink">
+                {t('pricingTitle')}
+              </h3>
+              <p className="text-xs text-ink-muted leading-relaxed">
+                {t('pricingSubtitle')}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* 8. SACRED JOURNEY ASSURANCE CARD */}
         <div className="p-6 sm:p-8 rounded-3xl bg-surface text-ink border border-gold/30 shadow-md mb-10 flex flex-col md:flex-row items-center gap-6">
           <div className="w-14 h-14 rounded-2xl bg-gold-soft border border-[#C5A15D]/40 text-[#C5A15D] flex items-center justify-center shrink-0">
             <ShieldCheck className="w-8 h-8" />

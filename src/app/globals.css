@@ -12,7 +12,7 @@
 :root,
 [data-theme="light"] {
   /* Core Brand Tokens — Light Mode (Warm Desert Alabaster & Royal Ink) */
-  --bg-base: #FBF9F5;
+  --bg-base: #F7F5F0;
   --bg-surface: #FFFFFF;
   --bg-elevated: #F2EDE4;
   --text-primary: #111824;

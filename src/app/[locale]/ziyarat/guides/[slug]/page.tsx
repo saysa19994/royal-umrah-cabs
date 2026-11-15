@@ -2,7 +2,8 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Locale, getLocalizedAlternates } from '@/i18n/config';
+import { Locale } from '@/i18n/config';
+import { editorialAlternates, editorialRobots } from '@/lib/seo/localization-indexing';
 import { ZIYARAT_GUIDES } from '@/data/ziyarat';
 import { Clock, Calendar, ArrowRight, Car, Compass, MessageCircle, ShieldCheck } from 'lucide-react';
 
@@ -35,7 +36,8 @@ export async function generateMetadata(props: GuideDetailPageProps): Promise<Met
   return {
     title: isAr ? g.titleAr : g.titleEn,
     description: isAr ? g.metaDescAr : g.metaDescEn,
-    alternates: getLocalizedAlternates(locale, `/ziyarat/guides/${slug}`),
+    alternates: editorialAlternates(locale, `/ziyarat/guides/${slug}`),
+    robots: editorialRobots(locale),
   };
 }
 

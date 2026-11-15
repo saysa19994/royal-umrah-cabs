@@ -626,11 +626,11 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
   const [step1Error, setStep1Error] = useState<string | null>(null);
 
   // Step 2: Vehicle Selection
-  const [vehicle, setVehicle] = useState('staria');
+  const [vehicle, setVehicle] = useState('');
 
   const handleSelectVehicle = (vId: string) => {
     setVehicle(vId);
-    const fareSAR = activeRates[route]?.[vId] ?? BASE_RATES[route]?.[vId] ?? 260;
+    const fareSAR = activeRates[route]?.[vId] ?? BASE_RATES[route]?.[vId] ?? null;
     trackEvent({
       event: 'vehicle_selected',
       vehicle_id: vId,
@@ -645,19 +645,21 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerNotes, setCustomerNotes] = useState('');
-  const [turnstileToken, setTurnstileToken] = useState<string>('verified_client');
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
   const [waPopupUrl, setWaPopupUrl] = useState<string | null>(null);
   const [isSubmittingWa, setIsSubmittingWa] = useState(false);
 
   // Helpers
-  const minDate = new Date().toISOString().split('T')[0];
+  const minDate = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Riyadh', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
   const activeRates = initialRates || BASE_RATES;
   const currentVehicleSpec = FLEET_OPTIONS.find((v) => v.id === vehicle) || FLEET_OPTIONS[1];
-  const baseSAR = activeRates[route]?.[vehicle] ?? BASE_RATES[route]?.[vehicle] ?? 260;
+  const priceCandidate = activeRates[route]?.[vehicle] ?? BASE_RATES[route]?.[vehicle];
+  const baseSAR = typeof priceCandidate === 'number' && Number.isFinite(priceCandidate) && priceCandidate > 0 ? priceCandidate : null;
 
   const isAirportRoute = route.includes('airport');
 
   const availableRouteKeys = Object.keys(ROUTE_LABELS).filter((key) => {
+    if (key === 'riyadh-airport-transfer') return false;
     if (TAIF_ROUTE_KEYS.has(key) && !settings?.taif_enabled) return false;
     if (RIYADH_ROUTE_KEYS.has(key) && !settings?.riyadh_enabled) return false;
     return true;
@@ -671,6 +673,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
       return;
     }
     setStep1Error(null);
+    setVehicle(''); // Fresh route requires an explicit vehicle choice; avoid stale fare and vehicle.
     trackEvent({
       event: 'route_selected',
       service_type: 'airport_transfer',
@@ -683,6 +686,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
 
   // STEP 2 PROCEED TO REVIEW
   const handleProceedToReview = () => {
+    if (!vehicle || baseSAR === null || passengers > (FLEET_OPTIONS.find(v => v.id === vehicle)?.seats || 0) || luggage > (FLEET_OPTIONS.find(v => v.id === vehicle)?.bags || 0)) return;
     trackEvent({
       event: 'quote_calculated',
       service_type: 'airport_transfer',
@@ -748,16 +752,15 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
     if (!targetUrl) {
       const isNumB = Math.random() > 0.5;
       const targetPhone = isNumB ? '966505316971' : '966567588261';
-      const refPrefix = isNumB ? 'REF-B' : 'REF-A';
-      const fallbackRef = `${refPrefix}-` + Math.floor(10000 + Math.random() * 90000);
-      const formattedPrice = baseSAR ? `${baseSAR} SAR` : 'Quote';
+      // A contact request is not a confirmed booking; never fabricate a reservation reference.
+      const formattedPrice = baseSAR !== null ? `${baseSAR} SAR` : 'Quote required';
       const isArLocale = locale === 'ar';
       const paymentRuleNotice = isArLocale
         ? 'الدفع نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل (ريال سعودي أو دولار أمريكي)'
         : 'Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD)';
       const fallbackMsg = isArLocale
-        ? `السلام عليكم، أود حجز سيارة خاصة مع ضيوف الرحمن VIP [${fallbackRef}]:\n• المسار: ${routeText}\n• السيارة: ${vehicleText}\n• التاريخ: ${date || 'اليوم'}\n• الوقت: ${time}\n• رقم الرحلة: ${flightNumber || 'غير محدد'}\n• المسافر: ${customerName || 'غير مسجل'}\n• الركاب: ${passengers} | الأمتعة: ${luggage}\n• السعر الإجمالي: ${formattedPrice}\n• سياسة الدفع: ${paymentRuleNotice}`
-        : `Salam, I would like to reserve private chauffeur transport with Duyuf Alrahman VIP [${fallbackRef}]:\n• Route: ${routeText}\n• Vehicle: ${vehicleText}\n• Date: ${date || 'Today'}\n• Time: ${time}\n• Flight: ${flightNumber || 'TBD'}\n• Passenger: ${customerName || 'Guest'}\n• Pax: ${passengers} | Luggage: ${luggage}\n• Total Fare: ${formattedPrice}\n• Payment Policy: ${paymentRuleNotice}`;
+        ? `السلام عليكم، أود حجز سيارة خاصة مع ضيوف الرحمن VIP:\n• المسار: ${routeText}\n• السيارة: ${vehicleText}\n• التاريخ: ${date || 'اليوم'}\n• الوقت: ${time}\n• رقم الرحلة: ${flightNumber || 'غير محدد'}\n• المسافر: ${customerName || 'غير مسجل'}\n• الركاب: ${passengers} | الأمتعة: ${luggage}\n• السعر الإجمالي: ${formattedPrice}\n• سياسة الدفع: ${paymentRuleNotice}`
+        : `Salam, I would like to reserve private chauffeur transport with Duyuf Alrahman VIP:\n• Route: ${routeText}\n• Vehicle: ${vehicleText}\n• Date: ${date || 'Today'}\n• Time: ${time}\n• Flight: ${flightNumber || 'TBD'}\n• Passenger: ${customerName || 'Guest'}\n• Pax: ${passengers} | Luggage: ${luggage}\n• Total Fare: ${formattedPrice}\n• Payment Policy: ${paymentRuleNotice}`;
       targetUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(fallbackMsg)}`;
     }
 
@@ -999,7 +1002,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                   onChange={(e) => setRoute(e.target.value)}
                   className="w-full min-h-[48px] h-12 pl-10 pr-8 rtl:pr-10 rtl:pl-8 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold hover:border-gold-dark focus:outline-none focus:ring-2 focus:ring-gold appearance-none cursor-pointer"
                 >
-                  {Object.keys(ROUTE_LABELS).map((key) => (
+                  {availableRouteKeys.map((key) => (
                     <option key={key} value={key}>
                       {ROUTE_LABELS[key]?.[locale] || ROUTE_LABELS[key]?.en || key}
                     </option>
@@ -1187,16 +1190,18 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
             {/* VEHICLE SELECTION CARDS GRID (KISWAH-INSPIRED SIDE-BY-SIDE DISPLAY) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-start">
               {FLEET_OPTIONS.map((carOpt) => {
-                const fareSAR = activeRates[route]?.[carOpt.id] ?? BASE_RATES[route]?.[carOpt.id] ?? 260;
+                const candidateSAR = activeRates[route]?.[carOpt.id] ?? BASE_RATES[route]?.[carOpt.id];
+                const fareSAR = typeof candidateSAR === 'number' && Number.isFinite(candidateSAR) && candidateSAR > 0 ? candidateSAR : null;
                 const isSelected = vehicle === carOpt.id;
                 const isOverPax = passengers > carOpt.seats;
                 const isOverBags = luggage > carOpt.bags;
+                const isUnavailable = isOverPax || isOverBags || fareSAR === null;
 
                 return (
                   <div
                     key={carOpt.id}
-                    onClick={() => handleSelectVehicle(carOpt.id)}
-                    className={`rounded-2xl p-4 border-2 transition-all cursor-pointer relative flex flex-col justify-between ${
+                    onClick={() => { if (!isUnavailable) handleSelectVehicle(carOpt.id); }}
+                    className={`rounded-2xl p-4 border-2 transition-all relative flex flex-col justify-between ${isUnavailable ? 'opacity-65 cursor-not-allowed' : 'cursor-pointer'} ${
                       isSelected
                         ? 'border-gold bg-gold-soft/50 shadow-md ring-2 ring-gold/30'
                         : 'border-border bg-surface hover:border-gold-line hover:shadow-xs'
@@ -1270,10 +1275,10 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                         </span>
                         <div className="flex items-baseline gap-1">
                           <span className="font-display font-bold text-xl sm:text-2xl text-ink">
-                            {formatPrice(fareSAR)}
+                            {fareSAR === null ? (locale === 'ar' ? 'السعر عند الطلب' : locale === 'tr' ? 'Teklif alın' : 'Request quote') : formatPrice(fareSAR)}
                           </span>
                           <span className="text-[11px] text-ink-muted font-normal">
-                            ({fareSAR} SAR)
+                            {fareSAR === null ? '' : `(${fareSAR} SAR)`}
                           </span>
                         </div>
                       </div>
@@ -1282,9 +1287,10 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleSelectVehicle(carOpt.id);
+                          if (!isUnavailable) handleSelectVehicle(carOpt.id);
                         }}
-                        className={`min-h-[40px] px-4 rounded-btn text-xs font-bold transition-all ${
+                        disabled={isUnavailable}
+                        className={`min-h-[44px] px-4 rounded-btn text-xs font-bold transition-all ${
                           isSelected
                             ? 'bg-slate-950 text-gold shadow-xs'
                             : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
@@ -1312,6 +1318,7 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
               <button
                 type="button"
                 onClick={handleProceedToReview}
+                disabled={!vehicle || baseSAR === null || passengers > (FLEET_OPTIONS.find(v => v.id === vehicle)?.seats || 0) || luggage > (FLEET_OPTIONS.find(v => v.id === vehicle)?.bags || 0)}
                 className="w-full sm:w-auto min-h-[48px] h-12 px-8 rounded-btn bg-gold text-slate-950 font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-gold-hover hover:text-white transition-all shadow-xs flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-gold"
               >
                 <span>{t.continueToStep3}</span>
@@ -1360,10 +1367,10 @@ export function BookingCard({ locale, dict, initialRates, settings }: BookingCar
                   </span>
                   <div className="flex items-baseline gap-2">
                     <span className="font-display font-bold text-3xl sm:text-4xl text-ink">
-                      {formatPrice(baseSAR)}
+                      {baseSAR === null ? (locale === 'ar' ? 'السعر عند الطلب' : locale === 'tr' ? 'Fiyat teklifi isteyin' : 'Request a quote') : formatPrice(baseSAR)}
                     </span>
                     <span className="text-xs text-ink-muted font-normal">
-                      ({baseSAR} SAR)
+                      {baseSAR === null ? '' : `(${baseSAR} SAR)`}
                     </span>
                   </div>
                   <p className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1.5 mt-1">

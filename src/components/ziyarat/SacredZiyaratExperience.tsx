@@ -143,7 +143,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
     ],
     guaranteeBadge: 'ضمان الدفع عند العودة 100%',
     guaranteeTitle: 'لا نطلب أي دفعة مقدمة ولا بطاقات ائتمانية',
-    guaranteeDesc: 'احجز جولتك بضمان كامل وسدد قيمة الرحلة نقداً أو بالتحويل الفوري للسائق بعد اكتمال الجولة وسلامة عودتكم لفندقكم.',
+    guaranteeDesc: 'احجز جولتك بضمان كامل وسدد قيمة الرحلة نقداً للسائق مباشرة بعد انتهاء الجولة للسائق بعد اكتمال الجولة وسلامة عودتكم لفندقكم.',
     sites: {
       'cave-hira': {
         id: 'cave-hira',
@@ -270,10 +270,10 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
           'العودة الكريمة لباب فندقكم دون أي استعجال',
         ],
         pricing: {
-          camry: 200,
-          staria: 250,
-          yukon: 350,
-          hiace: 300,
+          camry: 250,
+          staria: 300,
+          yukon: 450,
+          hiace: 330,
         },
       },
       'madinah-tour': {
@@ -292,10 +292,10 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
           'العودة السالمة لفندقكم مع التمنيات بالقبول',
         ],
         pricing: {
-          camry: 200,
-          staria: 250,
-          yukon: 350,
-          hiace: 300,
+          camry: 250,
+          staria: 300,
+          yukon: 450,
+          hiace: 330,
         },
       },
     },
@@ -347,7 +347,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
     ],
     guaranteeBadge: '100% Cash-on-Arrival Guarantee',
     guaranteeTitle: 'Zero Prepayment & Zero Credit Card Required',
-    guaranteeDesc: 'Book with complete peace of mind. Settle the fixed fare in cash or instantaneous local transfer directly with your chauffeur upon safe return to your hotel.',
+    guaranteeDesc: 'Book with complete peace of mind. Settle the fixed fare in cash directly to your chauffeur upon tour completion directly with your chauffeur upon safe return to your hotel.',
     sites: {
       'cave-hira': {
         id: 'cave-hira',
@@ -474,10 +474,10 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
           'Serene return drop-off directly to your hotel portico without rush',
         ],
         pricing: {
-          camry: 200,
-          staria: 250,
-          yukon: 350,
-          hiace: 300,
+          camry: 250,
+          staria: 300,
+          yukon: 450,
+          hiace: 330,
         },
       },
       'madinah-tour': {
@@ -496,10 +496,10 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
           'Safe return to your hotel lobby with heartfelt prayers for accepted visits',
         ],
         pricing: {
-          camry: 200,
-          staria: 250,
-          yukon: 350,
-          hiace: 300,
+          camry: 250,
+          staria: 300,
+          yukon: 450,
+          hiace: 330,
         },
       },
     },
@@ -551,7 +551,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
     ],
     guaranteeBadge: 'Jaminan Bayar Semasa Tiba 100%',
     guaranteeTitle: 'Tanpa Bayaran Pendahuluan & Tanpa Kad Kredit',
-    guaranteeDesc: 'Tempah dengan keyakinan penuh. Bayar terus kepada pemandu secara tunai atau pindahan semasa tiba di hotel anda.',
+    guaranteeDesc: 'Tempah dengan keyakinan penuh. Bayar terus kepada pemandu secara tunai terus kepada pemandu selepas selesai semasa tiba di hotel anda.',
     sites: {} as any,
     tours: {} as any,
   },
@@ -941,23 +941,23 @@ export default function SacredZiyaratExperience({
   const vehicleDetails = {
     camry: {
       name: locale === 'ar' ? 'تويوتا كامري سيدان' : 'Toyota Camry Executive',
-      pax: 3,
-      bags: 2,
+      pax: 4,
+      bags: 3,
     },
     staria: {
       name: locale === 'ar' ? 'هيونداي ستاريا VIP' : 'Hyundai Staria VIP',
-      pax: 6,
-      bags: 4,
+      pax: 7,
+      bags: 6,
     },
     yukon: {
       name: locale === 'ar' ? 'جي إم سي يوكن XL' : 'GMC Yukon XL Prestige',
-      pax: 6,
-      bags: 6,
+      pax: 7,
+      bags: 8,
     },
     hiace: {
       name: locale === 'ar' ? 'تويوتا هاي إيس فان' : 'Toyota HiAce Family Van',
       pax: 10,
-      bags: 8,
+      bags: 10,
     },
   };
 

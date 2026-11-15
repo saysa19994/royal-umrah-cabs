@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { cormorant, manrope, amiri, tajawal } from './fonts';
 import './globals.css';
+import '../styles/duyuf-premium-final.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com'),

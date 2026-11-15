@@ -5,8 +5,9 @@ import { AUTHORITATIVE_TRANSFER_RATES } from './pricing-constants';
 export type TransferRatesMap = Record<string, Record<string, number>>;
 
 function getSupabaseClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://skyhpzdeapmttgmvcoeh.supabase.co';
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
   return createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
@@ -19,6 +20,7 @@ export const getDbPricesCached = unstable_cache(
 
     try {
       const supabase = getSupabaseClient();
+      if (!supabase) return rates;
       const { data, error } = await supabase.from('prices').select('route_id, vehicle_id, price_sar');
 
       if (!error && data && data.length > 0) {
@@ -56,6 +58,8 @@ export const getDbPricesCached = unstable_cache(
       }
     }
 
+    // The Riyadh Airport product is inactive, so it must not surface in public fare views.
+    delete rates['riyadh-airport-transfer'];
     return rates;
   },
   ['site_prices_cache_tag'],

@@ -1,7 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { LOCALES, DEFAULT_LOCALE } from './i18n/config';
+import { LOCALES, DEFAULT_LOCALE, Locale } from './i18n/config';
 
-function getPreferredLocale(request: NextRequest): string {
+export const LOCALE_COOKIE_NAME = 'duyuf_locale_preference';
+
+export function getPreferredLocale(request: NextRequest): Locale {
+  // 1. Explicit user preference saved in cookie takes top priority
+  const cookieLocale = request.cookies.get(LOCALE_COOKIE_NAME)?.value;
+  if (cookieLocale && (LOCALES as readonly string[]).includes(cookieLocale)) {
+    return cookieLocale as Locale;
+  }
+
+  // 2. Inspect browser Accept-Language header
   const acceptLanguage = request.headers.get('accept-language');
   if (!acceptLanguage) return DEFAULT_LOCALE;
 
@@ -17,7 +26,7 @@ function getPreferredLocale(request: NextRequest): string {
   for (const { lang } of languages) {
     const primary = lang.split('-')[0];
     if ((LOCALES as readonly string[]).includes(primary)) {
-      return primary;
+      return primary as Locale;
     }
     if (primary === 'in' && (LOCALES as readonly string[]).includes('id')) {
       return 'id';
@@ -29,13 +38,13 @@ function getPreferredLocale(request: NextRequest): string {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  // 0. Canonical domain redirect: disabled by default until the custom domain DNS is fully activated
+
+  // 0. Canonical domain redirect: disabled by default until custom domain DNS is fully activated
   const host = request.headers.get('host') || '';
   if (process.env.ENFORCE_CANONICAL_REDIRECT === 'true' && host.includes('.vercel.app')) {
     const canonicalUrl = new URL(request.nextUrl.pathname + request.nextUrl.search, 'https://duyufalrahmanvip.com');
     return NextResponse.redirect(canonicalUrl, { status: 301 });
   }
-
 
   // 1. Explicit legacy redirects to eliminate old cached HTML files
   if (pathname === '/admin.html') {
@@ -75,28 +84,36 @@ export function middleware(request: NextRequest) {
     pathname === '/sitemap.xml' ||
     pathname.startsWith('/sitemap') ||
     pathname === '/favicon.ico' ||
+    pathname === '/llms.txt' ||
+    pathname === '/llms-full.txt' ||
     (pathname.startsWith('/google') && pathname.endsWith('.html')) ||
     (pathname.includes('.') && !pathname.endsWith('.html'))
   ) {
     return NextResponse.next();
   }
 
-  // 3. Check if pathname starts with a supported locale
-  const pathnameHasLocale = LOCALES.some(
+  // 3. Check if pathname already starts with a supported locale (/ar, /en, /ms, /id, /ur, /fr, /es, /de, /tr, /hi)
+  const matchedLocale = LOCALES.find(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  if (!pathnameHasLocale) {
-    // Rewrite internally to default locale (Arabic) without redirecting the browser address bar.
-    // The user's address bar remains clean: https://duyufalrahmanvip.com/
-    // Users who want another language can switch manually via the language selector.
-    const targetLocale = DEFAULT_LOCALE;
-    const url = request.nextUrl.clone();
-    url.pathname = '/' + targetLocale + (pathname === '/' ? '' : pathname);
-    return NextResponse.rewrite(url);
+  if (matchedLocale) {
+    // Do NOT redirect someone who explicitly opens a localized URL (e.g. /ar/ or /tr/).
+    // Search engines and visitors can access every explicit locale URL independently.
+    return NextResponse.next();
   }
 
-  return NextResponse.next();
+  // 4. First-time or root URL visitor without locale prefix:
+  // Detect preferred locale from saved cookie or Accept-Language header, fallback to 'en',
+  // and redirect to the explicit locale URL while preventing shared cache cross-contamination.
+  const targetLocale = getPreferredLocale(request);
+  const url = request.nextUrl.clone();
+  url.pathname = `/${targetLocale}${pathname === '/' ? '' : pathname}`;
+
+  const response = NextResponse.redirect(url, { status: 307 });
+  response.headers.set('Vary', 'Accept-Language, Cookie');
+  response.headers.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  return response;
 }
 
 export const config = {

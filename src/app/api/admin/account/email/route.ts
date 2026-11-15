@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     const { user: currentUser } = authResult;
 
     // Rate limit: 3 attempts per 15 minutes
-    const rl = await rateLimit(`owner_email_change:${clientIp}:${currentUser.id}`, 3, 900);
+    const rl = await rateLimit(`owner_email_change:${clientIp}:${currentUser.auth_user_id}`, 3, 900);
     if (!rl.success) {
       return NextResponse.json({ error: 'Too many email change requests. Please wait 15 minutes.' }, { status: 429 });
     }
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
 
     // 3. Update Email via Supabase Admin Client
     const { error: updateAuthError } = await serviceClient.auth.admin.updateUserById(
-      currentUser.id,
+      currentUser.auth_user_id,
       { email: cleanEmail }
     );
 
@@ -112,7 +112,7 @@ export async function POST(request: Request) {
     await serviceClient
       .from('user_profiles')
       .update({ email: cleanEmail, updated_at: new Date().toISOString() })
-      .eq('auth_user_id', currentUser.id);
+      .eq('auth_user_id', currentUser.auth_user_id);
 
     // 5. Log Audit Event
     await logAuditEvent({
@@ -120,7 +120,7 @@ export async function POST(request: Request) {
       userRole: 'owner',
       action: 'owner_email_changed',
       resource: 'account',
-      resourceId: currentUser.id,
+      resourceId: currentUser.auth_user_id,
       oldValues: { email: currentUser.email },
       newValues: { email: cleanEmail, message: 'Owner email updated with AAL2 confirmation' },
       ip: clientIp,

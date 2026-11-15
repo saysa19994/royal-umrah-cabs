@@ -1,8 +1,11 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
+import { getDictionary } from '@/i18n/get-dictionary';
 import { notFound } from 'next/navigation';
-import { Locale, getLocalizedAlternates } from '@/i18n/config';
+import { Locale } from '@/i18n/config';
+import { editorialAlternates, editorialRobots } from '@/lib/seo/localization-indexing';
 import { ZIYARAT_SITES, ZIYARAT_TOURS } from '@/data/ziyarat';
 import { ZiyaratSiteJsonLd } from '@/components/seo/ZiyaratJsonLd';
 import { MapPin, Clock, ShieldCheck, Check, ArrowRight, Car, Compass, AlertCircle, MessageCircle } from 'lucide-react';
@@ -33,13 +36,16 @@ export async function generateMetadata(props: SiteDetailPageProps): Promise<Meta
 
   const s = ZIYARAT_SITES[site];
   if (!s || s.city !== city) return {};
+  const dict = getDictionary(locale);
   const isAr = locale === 'ar';
+  const isRtl = locale === 'ar' || locale === 'ur';
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
   return {
     title: isAr ? s.titleAr : s.titleEn,
     description: isAr ? s.metaDescAr : s.metaDescEn,
-    alternates: getLocalizedAlternates(locale, `/ziyarat/${city}/${site}`),
+    alternates: editorialAlternates(locale, `/ziyarat/${city}/${site}`),
+    robots: editorialRobots(locale),
   };
 }
 
@@ -57,24 +63,26 @@ export default async function SiteDetailPage(props: SiteDetailPageProps) {
     notFound();
   }
 
+  const dict = getDictionary(locale);
   const isAr = locale === 'ar';
+  const isRtl = locale === 'ar' || locale === 'ur';
   const isMakkah = city === 'makkah';
   const relatedToursList = s.relatedTours.map((slug) => ZIYARAT_TOURS[slug]).filter(Boolean);
   const currentUrl = `https://duyufalrahmanvip.com/${locale}/ziyarat/${city}/${site}`;
 
   return (
-    <div className="py-12 md:py-20 bg-bg min-h-screen text-start">
+    <div className="py-12 md:py-20 bg-bg min-h-screen text-start" dir={isRtl ? 'rtl' : 'ltr'}>
       <ZiyaratSiteJsonLd site={s} locale={locale} url={currentUrl} />
 
       <div className="container mx-auto px-4 max-w-4xl">
         {/* BREADCRUMB */}
         <div className="flex flex-wrap items-center gap-2 text-xs text-ink-muted mb-6">
           <Link href={`/${locale}`} className="hover:text-gold-dark">
-            {isAr ? 'الرئيسية' : 'Home'}
+            {dict.nav.home}
           </Link>
           <span>/</span>
           <Link href={`/${locale}/ziyarat`} className="hover:text-gold-dark">
-            {isAr ? 'المزارات' : 'Ziyarat'}
+            {(dict.nav as any).ziyarat || (isAr ? 'المزارات' : 'Ziyarat')}
           </Link>
           <span>/</span>
           <Link href={`/${locale}/ziyarat/${city}`} className="hover:text-gold-dark">
@@ -94,9 +102,18 @@ export default async function SiteDetailPage(props: SiteDetailPageProps) {
           <h1 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight mb-3">
             {isAr ? s.titleAr : s.titleEn}
           </h1>
-          <p className="text-sm md:text-base text-ink-muted leading-relaxed font-light">
+          <p className="text-sm md:text-base text-ink-muted leading-relaxed font-light mb-6">
             {isAr ? s.subtitleAr : s.subtitleEn}
           </p>
+          <div className="relative h-60 sm:h-80 w-full rounded-2xl overflow-hidden border border-border bg-bg-alt shadow-xs">
+            <Image
+              src={s.image}
+              alt={isAr ? s.titleAr : s.titleEn}
+              fill
+              sizes="(max-width: 1024px) 100vw, 896px"
+              className="object-cover"
+            />
+          </div>
         </div>
 
         {/* 1. ANSWER-FIRST QUICK OVERVIEW */}

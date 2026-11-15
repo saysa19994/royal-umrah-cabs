@@ -1,11 +1,10 @@
 import React from 'react';
-import { headers, cookies } from 'next/headers';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { AdminLayoutClient } from '@/components/admin/AdminLayoutClient';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { inter, cairo, ibmPlexArabic } from '@/app/fonts';
-import { OWNER_EMAIL, verifyOwnerSessionToken } from '@/lib/auth/owner-session';
 import { UserProfile } from '@/types/auth';
 
 export const dynamic = 'force-dynamic';
@@ -37,35 +36,6 @@ export default async function AdminLayout({
   const headerList = await headers();
   const currentPath = headerList.get('x-pathname') || '';
   const isLoginPage = currentPath === '/admin/login' || currentPath.startsWith('/admin/login');
-
-  // Check Direct Owner Master Session
-  const cookieStore = await cookies();
-  const ownerSessionToken = cookieStore.get('vip_owner_session')?.value;
-  const isDirectOwner = verifyOwnerSessionToken(ownerSessionToken);
-
-  if (isDirectOwner) {
-    if (isLoginPage) {
-      redirect('/admin');
-    }
-
-    const ownerProfile: UserProfile = {
-      id: 'owner-master-id',
-      email: OWNER_EMAIL,
-      name: 'Sayed Saed (Owner)',
-      role: 'owner',
-      is_suspended: false,
-      totp_enabled: false,
-      created_at: new Date().toISOString(),
-    };
-
-    return (
-      <AdminShell>
-        <AdminLayoutClient currentUser={ownerProfile}>
-          {children}
-        </AdminLayoutClient>
-      </AdminShell>
-    );
-  }
 
   const supabase = createClient();
   const { data: authData } = await supabase.auth.getUser();

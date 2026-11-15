@@ -26,7 +26,7 @@ export async function GET(request: Request) {
       const { data: profile } = await serviceClient
         .from('user_profiles')
         .select('id, auth_user_id, email, name, role, totp_enabled, created_at, updated_at')
-        .eq('auth_user_id', currentUser.id)
+        .eq('auth_user_id', currentUser.auth_user_id)
         .maybeSingle();
       if (profile) activeProfile = profile;
     } catch (e) {
@@ -35,8 +35,8 @@ export async function GET(request: Request) {
 
     if (!activeProfile) {
       activeProfile = {
-        id: currentUser.id || 'owner-master-id',
-        auth_user_id: currentUser.auth_user_id || 'owner-master-id',
+        id: currentUser.id,
+        auth_user_id: currentUser.auth_user_id,
         email: currentUser.email,
         name: currentUser.name || 'Sayed (Owner)',
         role: 'owner',

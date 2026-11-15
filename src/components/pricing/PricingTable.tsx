@@ -68,9 +68,9 @@ export const ALL_PRICING_ROUTES: PricingRouteMeta[] = [
     cities: ['makkah', 'madinah'],
     defCamry: AUTHORITATIVE_TRANSFER_RATES['makkah-to-madinah']?.camry ?? 400,
     defStaria: AUTHORITATIVE_TRANSFER_RATES['makkah-to-madinah']?.staria ?? 500,
-    defYukon: AUTHORITATIVE_TRANSFER_RATES['makkah-to-madinah']?.yukon ?? 1000,
+    defYukon: AUTHORITATIVE_TRANSFER_RATES['makkah-to-madinah']?.yukon ?? 0,
     defHiace: AUTHORITATIVE_TRANSFER_RATES['makkah-to-madinah']?.hiace ?? 600,
-    defCoaster: AUTHORITATIVE_TRANSFER_RATES['makkah-to-madinah']?.coaster ?? 1000,
+    defCoaster: AUTHORITATIVE_TRANSFER_RATES['makkah-to-madinah']?.coaster ?? 0,
   },
   {
     id: 'madinah-to-makkah',
@@ -78,9 +78,9 @@ export const ALL_PRICING_ROUTES: PricingRouteMeta[] = [
     cities: ['madinah', 'makkah'],
     defCamry: AUTHORITATIVE_TRANSFER_RATES['madinah-to-makkah']?.camry ?? 400,
     defStaria: AUTHORITATIVE_TRANSFER_RATES['madinah-to-makkah']?.staria ?? 500,
-    defYukon: AUTHORITATIVE_TRANSFER_RATES['madinah-to-makkah']?.yukon ?? 1000,
+    defYukon: AUTHORITATIVE_TRANSFER_RATES['madinah-to-makkah']?.yukon ?? 0,
     defHiace: AUTHORITATIVE_TRANSFER_RATES['madinah-to-makkah']?.hiace ?? 600,
-    defCoaster: AUTHORITATIVE_TRANSFER_RATES['madinah-to-makkah']?.coaster ?? 1000,
+    defCoaster: AUTHORITATIVE_TRANSFER_RATES['madinah-to-makkah']?.coaster ?? 0,
   },
   {
     id: 'madinah-airport-to-hotel',
@@ -98,9 +98,9 @@ export const ALL_PRICING_ROUTES: PricingRouteMeta[] = [
     cities: ['jeddah', 'madinah'],
     defCamry: AUTHORITATIVE_TRANSFER_RATES['jeddah-to-madinah']?.camry ?? 400,
     defStaria: AUTHORITATIVE_TRANSFER_RATES['jeddah-to-madinah']?.staria ?? 500,
-    defYukon: AUTHORITATIVE_TRANSFER_RATES['jeddah-to-madinah']?.yukon ?? 1000,
+    defYukon: AUTHORITATIVE_TRANSFER_RATES['jeddah-to-madinah']?.yukon ?? 0,
     defHiace: AUTHORITATIVE_TRANSFER_RATES['jeddah-to-madinah']?.hiace ?? 600,
-    defCoaster: AUTHORITATIVE_TRANSFER_RATES['jeddah-to-madinah']?.coaster ?? 1000,
+    defCoaster: AUTHORITATIVE_TRANSFER_RATES['jeddah-to-madinah']?.coaster ?? 0,
   },
 
   // Holy Ziyarat Corridors (Official Fares: 250/300/330/450/500)
@@ -176,7 +176,7 @@ export const ALL_PRICING_ROUTES: PricingRouteMeta[] = [
     defStaria: AUTHORITATIVE_TRANSFER_RATES['riyadh-to-makkah']?.staria ?? 2200,
     defYukon: AUTHORITATIVE_TRANSFER_RATES['riyadh-to-makkah']?.yukon ?? 2600,
     defHiace: AUTHORITATIVE_TRANSFER_RATES['riyadh-to-makkah']?.hiace ?? 2500,
-    defCoaster: AUTHORITATIVE_TRANSFER_RATES['riyadh-to-makkah']?.coaster ?? 3500,
+    defCoaster: AUTHORITATIVE_TRANSFER_RATES['riyadh-to-makkah']?.coaster ?? 0,
   },
   {
     id: 'riyadh-to-madinah',
@@ -186,7 +186,7 @@ export const ALL_PRICING_ROUTES: PricingRouteMeta[] = [
     defStaria: AUTHORITATIVE_TRANSFER_RATES['riyadh-to-madinah']?.staria ?? 2200,
     defYukon: AUTHORITATIVE_TRANSFER_RATES['riyadh-to-madinah']?.yukon ?? 2500,
     defHiace: AUTHORITATIVE_TRANSFER_RATES['riyadh-to-madinah']?.hiace ?? 2400,
-    defCoaster: AUTHORITATIVE_TRANSFER_RATES['riyadh-to-madinah']?.coaster ?? 3500,
+    defCoaster: AUTHORITATIVE_TRANSFER_RATES['riyadh-to-madinah']?.coaster ?? 0,
   },
 ];
 
@@ -773,7 +773,7 @@ export function PricingTable({
         <div className="relative z-10 px-6 sm:px-8 md:px-10 py-8 md:py-10 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-8">
           {/* Left Side: Headline, Subtitle & 6 Filter Tabs */}
           <div className="max-w-2xl">
-            <h1 className="font-playfair font-serif text-3xl sm:text-4xl md:text-[44px] text-white font-normal tracking-tight leading-[1.15] mb-2 drop-shadow-md">
+            <h1 className="font-playfair font-serif text-3xl sm:text-4xl md:text-[44px] text-ink font-normal tracking-tight leading-[1.15] mb-2 drop-shadow-md">
               {t.heroTitle}
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed mb-6">
@@ -792,7 +792,7 @@ export function PricingTable({
                     className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 active:scale-95 ${
                       isActive
                         ? 'bg-[#151D2E] text-[#F4C84F] border border-[#C5A059] shadow-[0_0_15px_rgba(197,160,89,0.3)]'
-                        : 'bg-[#0B101E]/80 text-slate-300 border border-white/10 hover:border-[#C5A059]/40 hover:text-white'
+                        : 'bg-[#0B101E]/80 text-slate-300 border border-border hover:border-[#C5A059]/40 hover:text-ink'
                     }`}
                   >
                     <span className={isActive ? 'text-[#F4C84F]' : 'text-slate-400'}>
@@ -867,7 +867,7 @@ export function PricingTable({
                     className={`px-2 py-0.5 text-[11px] font-bold rounded border transition-all ${
                       currency === c
                         ? 'bg-[#C5A059] text-black border-[#C5A059] font-extrabold shadow-2xs'
-                        : 'bg-[#0D1322]/80 text-slate-300 border-white/10 hover:border-[#C5A059]/40'
+                        : 'bg-[#0D1322]/80 text-slate-300 border-border hover:border-[#C5A059]/40'
                     }`}
                   >
                     {c}
@@ -888,7 +888,7 @@ export function PricingTable({
           <table className="w-full text-start text-xs border-collapse min-w-[1020px]">
             {/* TABLE HEADER WITH 5 VEHICLE CARDS (Image 2) */}
             <thead>
-              <tr className="bg-[#0C1222] border-b border-[#C5A059]/25 text-white">
+              <tr className="bg-[#0C1222] border-b border-[#C5A059]/25 text-ink">
                 {/* Column 1: Route / Journey */}
                 <th className="py-6 px-6 text-start w-[290px] align-middle">
                   <div className="flex items-center gap-2.5 text-sm font-bold text-[#F4C84F]">
@@ -901,7 +901,7 @@ export function PricingTable({
 
                 {/* Column 2: Toyota Camry Card */}
                 <th className="py-4 px-2.5 text-center w-[140px] align-bottom">
-                  <div className="rounded-xl bg-[#0D1527] border border-white/10 p-2.5 flex flex-col items-center">
+                  <div className="rounded-xl bg-[#0D1527] border border-border p-2.5 flex flex-col items-center">
                     <div className="relative w-24 h-12 mb-1">
                       <Image
                         src="/assets/images/camry_studio.webp"
@@ -911,7 +911,7 @@ export function PricingTable({
                         sizes="100px"
                       />
                     </div>
-                    <span className="text-xs font-bold text-white block leading-tight">
+                    <span className="text-xs font-bold text-ink block leading-tight">
                       Toyota Camry
                     </span>
                     <span className="text-[10px] text-slate-400 font-normal">
@@ -943,7 +943,7 @@ export function PricingTable({
 
                 {/* Column 4: GMC Yukon XL Card */}
                 <th className="py-4 px-2.5 text-center w-[140px] align-bottom">
-                  <div className="rounded-xl bg-[#0D1527] border border-white/10 p-2.5 flex flex-col items-center">
+                  <div className="rounded-xl bg-[#0D1527] border border-border p-2.5 flex flex-col items-center">
                     <div className="relative w-24 h-12 mb-1">
                       <Image
                         src="/assets/images/yukon_studio.webp"
@@ -953,7 +953,7 @@ export function PricingTable({
                         sizes="100px"
                       />
                     </div>
-                    <span className="text-xs font-bold text-white block leading-tight">
+                    <span className="text-xs font-bold text-ink block leading-tight">
                       GMC Yukon XL
                     </span>
                     <span className="text-[10px] text-slate-400 font-normal">
@@ -964,7 +964,7 @@ export function PricingTable({
 
                 {/* Column 5: Toyota HiAce Card */}
                 <th className="py-4 px-2.5 text-center w-[140px] align-bottom">
-                  <div className="rounded-xl bg-[#0D1527] border border-white/10 p-2.5 flex flex-col items-center">
+                  <div className="rounded-xl bg-[#0D1527] border border-border p-2.5 flex flex-col items-center">
                     <div className="relative w-24 h-12 mb-1">
                       <Image
                         src="/assets/images/hiace_studio.webp"
@@ -974,7 +974,7 @@ export function PricingTable({
                         sizes="100px"
                       />
                     </div>
-                    <span className="text-xs font-bold text-white block leading-tight">
+                    <span className="text-xs font-bold text-ink block leading-tight">
                       Toyota HiAce
                     </span>
                     <span className="text-[10px] text-slate-400 font-normal">
@@ -985,7 +985,7 @@ export function PricingTable({
 
                 {/* Column 6: Toyota Coaster Card */}
                 <th className="py-4 px-2.5 text-center w-[140px] align-bottom">
-                  <div className="rounded-xl bg-[#0D1527] border border-white/10 p-2.5 flex flex-col items-center">
+                  <div className="rounded-xl bg-[#0D1527] border border-border p-2.5 flex flex-col items-center">
                     <div className="relative w-24 h-12 mb-1">
                       <Image
                         src="/assets/images/coaster_studio.webp"
@@ -995,7 +995,7 @@ export function PricingTable({
                         sizes="100px"
                       />
                     </div>
-                    <span className="text-xs font-bold text-white block leading-tight">
+                    <span className="text-xs font-bold text-ink block leading-tight">
                       Toyota Coaster
                     </span>
                     <span className="text-[10px] text-slate-400 font-normal">
@@ -1044,7 +1044,7 @@ export function PricingTable({
                           {getRegionBadge(row.region)}
                         </span>
                         <div>
-                          <span className="text-xs sm:text-sm font-semibold text-white block leading-snug group-hover:text-[#F4C84F] transition-colors">
+                          <span className="text-xs sm:text-sm font-semibold text-ink block leading-snug group-hover:text-[#F4C84F] transition-colors">
                             {localizedTitle}
                           </span>
                           {citySubtitle && (
@@ -1116,7 +1116,7 @@ export function PricingTable({
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold shrink-0 transition-all ${
                   activeMobileVehicle === v.id
                     ? 'bg-[#F4C84F] text-slate-950 shadow-sm font-extrabold'
-                    : 'bg-[#131B2E] text-slate-300 border border-white/10'
+                    : 'bg-[#131B2E] text-slate-300 border border-border'
                 }`}
               >
                 <span>{v.name}</span>
@@ -1158,7 +1158,7 @@ export function PricingTable({
                       <span className="inline-block text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider border border-[#C5A059]/40 text-[#D4AF37] bg-[#C5A059]/5 mb-1.5">
                         {getRegionBadge(row.region)}
                       </span>
-                      <h4 className="text-sm font-bold text-white leading-snug">
+                      <h4 className="text-sm font-bold text-ink leading-snug">
                         {localizedTitle}
                       </h4>
                       {citySubtitle && (
@@ -1178,7 +1178,7 @@ export function PricingTable({
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t border-white/5 flex items-center justify-between gap-2">
+                  <div className="pt-2 border-t border-border flex items-center justify-between gap-2">
                     <span className="text-[10px] text-slate-400">
                       {TOLLS_INCLUDED_MAP[locale] || TOLLS_INCLUDED_MAP.en}
                     </span>
@@ -1210,7 +1210,7 @@ export function PricingTable({
                 <Car className="w-5 h-5 text-[#E5B23D]" />
               </div>
               <div>
-                <h4 className="text-xs sm:text-sm font-bold text-white leading-tight">
+                <h4 className="text-xs sm:text-sm font-bold text-ink leading-tight">
                   {t.trust1Title}
                 </h4>
                 <p className="text-[11px] text-slate-400 mt-0.5">
@@ -1225,7 +1225,7 @@ export function PricingTable({
                 <ShieldCheck className="w-5 h-5 text-[#E5B23D]" />
               </div>
               <div>
-                <h4 className="text-xs sm:text-sm font-bold text-white leading-tight">
+                <h4 className="text-xs sm:text-sm font-bold text-ink leading-tight">
                   {t.trust2Title}
                 </h4>
                 <p className="text-[11px] text-slate-400 mt-0.5">
@@ -1240,7 +1240,7 @@ export function PricingTable({
                 <Clock className="w-5 h-5 text-[#E5B23D]" />
               </div>
               <div>
-                <h4 className="text-xs sm:text-sm font-bold text-white leading-tight">
+                <h4 className="text-xs sm:text-sm font-bold text-ink leading-tight">
                   {t.trust3Title}
                 </h4>
                 <p className="text-[11px] text-slate-400 mt-0.5">
@@ -1255,7 +1255,7 @@ export function PricingTable({
                 <Shield className="w-5 h-5 text-[#E5B23D]" />
               </div>
               <div>
-                <h4 className="text-xs sm:text-sm font-bold text-white leading-tight">
+                <h4 className="text-xs sm:text-sm font-bold text-ink leading-tight">
                   {t.trust4Title}
                 </h4>
                 <p className="text-[11px] text-slate-400 mt-0.5">

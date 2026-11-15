@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { Role } from '@/types/auth';
-import { OWNER_EMAIL, verifyOwnerSessionToken } from '@/lib/auth/owner-session';
 
 export interface AuthenticatedStaff {
   id: string;
@@ -34,25 +32,6 @@ export async function requireRole(
   options: { allowEnrollmentFlow?: boolean } = {}
 ): Promise<{ user: AuthenticatedStaff; errorResponse?: never } | { user?: never; errorResponse: NextResponse }> {
   try {
-    // 0. Direct Owner Master Session check
-    const cookieStore = await cookies();
-    const ownerSessionToken = cookieStore.get('vip_owner_session')?.value;
-    if (verifyOwnerSessionToken(ownerSessionToken)) {
-      if (allowedRoles.includes('owner')) {
-        const ownerUser: AuthenticatedStaff = {
-          id: 'owner-master-id',
-          auth_user_id: 'owner-master-id',
-          email: OWNER_EMAIL,
-          name: 'Sayed (Owner)',
-          role: 'owner',
-          is_suspended: false,
-          totp_enabled: false,
-          aal: 'aal2',
-        };
-        return { user: ownerUser };
-      }
-    }
-
     const supabase = createClient();
     const { data: authData, error: authError } = await supabase.auth.getUser();
 

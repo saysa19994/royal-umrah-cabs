@@ -34,7 +34,7 @@ export const TAIF_ROUTES: Record<string, boolean> = {
 };
 
 export const RIYADH_ROUTES: Record<string, boolean> = {
-  'riyadh-airport-transfer': true,
+  'riyadh-airport-transfer': false,
   'riyadh-to-makkah': true,
   'riyadh-to-madinah': true,
 };
@@ -124,6 +124,9 @@ export async function calculateServerPrice(params: {
   if (bookingType === 'transfer') {
     if (!routeId) {
       throw new Error('route_id is required for transfer bookings');
+    }
+    if (routeId === 'riyadh-airport-transfer') {
+      throw new Error('Riyadh Airport transfer service is not active. Request a manual quotation for another service.');
     }
 
     // Verify route is active

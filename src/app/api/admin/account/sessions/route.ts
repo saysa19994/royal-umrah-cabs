@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
     // Sign out user globally across all other devices via Supabase admin API
     try {
-      await serviceClient.auth.admin.signOut(currentUser.id, 'others');
+      await serviceClient.auth.admin.signOut(currentUser.auth_user_id, 'others');
     } catch (e: any) {
       console.warn('signOut others warning:', e);
     }
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       userRole: 'owner',
       action: 'owner_sessions_revoked',
       resource: 'account',
-      resourceId: currentUser.id,
+      resourceId: currentUser.auth_user_id,
       newValues: { message: 'Owner signed out of all other remote active sessions' },
       ip: clientIp,
     });

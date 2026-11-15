@@ -12,7 +12,7 @@ Duyuf Al Rahman VIP (ضيوف الرحمن VIP) is a dedicated private chauffeur
 - Genuine verified pilgrim feedback from travelers across the United Kingdom, Malaysia, Indonesia, Pakistan, Turkey, and the GCC.
 - Modern sanitized fleet consisting of Toyota Camry, Mercedes-Maybach VIP, Hyundai Staria VIP, Hyundai H1 Royal, GMC Yukon XL VIP, Toyota HiAce VIP Minibus, and Toyota Coaster VIP Coach.
 - Strict non-smoking policy enforced across all cabins.
-- Verified courteous chauffeurs fluent in Arabic, English, Malay, and Urdu with local road expertise.
+- Verified courteous chauffeurs communicating in Arabic and English with local road expertise. Note: Turkish-speaking drivers are not offered (Turkish website interface /tr and written WhatsApp support are available).
 - 24/7 operations, dispatch monitoring, and round-the-clock customer support.
 
 ---
@@ -95,14 +95,14 @@ All fares quoted on the platform are fixed, guaranteed per vehicle, and include:
 
 | Route | Distance | Camry (4 Pax) | Staria (7 Pax) | Yukon XL (7 Pax) | HiAce (10 Pax) | Coaster (21 Pax) |
 |---|---|---|---|---|---|---|
-| Jeddah Airport (KAIA) to Makkah Hotel | 95 km (75-90 min) | 200 SAR | 260 SAR | 380 SAR | 340 SAR | 650 SAR |
-| Makkah Hotel to Jeddah Airport (KAIA) | 95 km (75-90 min) | 200 SAR | 260 SAR | 380 SAR | 340 SAR | 650 SAR |
-| Makkah Hotel to Madinah Hotel | 440 km (4.5 hrs) | 450 SAR | 500 SAR | 750 SAR | 650 SAR | 1,200 SAR |
-| Madinah Hotel to Makkah (via Miqat Bir Ali) | 440 km (4.5-5 hrs) | 450 SAR | 500 SAR | 750 SAR | 650 SAR | 1,200 SAR |
-| Jeddah Airport / City to Madinah Hotel | 410 km (4-4.5 hrs) | 680 SAR | 750 SAR | 980 SAR | 850 SAR | 1,500 SAR |
-| Madinah Airport (MED) to Central Hotel | 25 km (20-25 min) | 150 SAR | 190 SAR | 280 SAR | 250 SAR | 500 SAR |
-| Makkah Holy Sites Ziyarat Tour (3 hrs) | Holy Sites | 200 SAR | 280 SAR | 450 SAR | 380 SAR | 700 SAR |
-| Madinah Holy Sites Ziyarat Tour (3 hrs) | Holy Sites | 180 SAR | 250 SAR | 400 SAR | 350 SAR | 650 SAR |
+| Jeddah Airport (KAIA) to Makkah Hotel | 95 km (75-90 min) | 200 SAR | 250 SAR | 450 SAR | 280 SAR | 450 SAR |
+| Makkah Hotel to Jeddah Airport (KAIA) | 95 km (75-90 min) | 200 SAR | 250 SAR | 450 SAR | 280 SAR | 450 SAR |
+| Makkah Hotel to Madinah Hotel | 450 km (4.5 hrs) | 400 SAR | 500 SAR | 1,000 SAR | 600 SAR | Quote on Request |
+| Madinah Hotel to Makkah (via Miqat Bir Ali) | 450 km (4.5-5 hrs) | 400 SAR | 500 SAR | 1,000 SAR | 600 SAR | Quote on Request |
+| Jeddah Airport / City to Madinah Hotel | 410 km (4-4.5 hrs) | 400 SAR | 500 SAR | 1,000 SAR | 600 SAR | 1,000 SAR |
+| Madinah Airport (MED) to Central Hotel | 25 km (25-30 min) | 200 SAR | 250 SAR | 500 SAR | 300 SAR | 600 SAR |
+| Makkah Holy Sites Ziyarat Tour (2.5 hrs) | Holy Sites | 250 SAR | 300 SAR | 450 SAR | 330 SAR | 500 SAR |
+| Madinah Holy Sites Ziyarat Tour (2.5 hrs) | Holy Sites | 250 SAR | 300 SAR | 450 SAR | 330 SAR | 500 SAR |
 
 ---
 
@@ -110,6 +110,20 @@ All fares quoted on the platform are fixed, guaranteed per vehicle, and include:
 1. Visit https://duyufalrahmanvip.com/booking or message WhatsApp +966567588261 / +966505316971.
 2. Select pickup location, drop-off destination, date, time, passenger count, luggage count, and vehicle class.
 3. System outputs guaranteed fixed price in SAR or selected currency.
-4. Booking is confirmed instantly with unique reference number (e.g., VIP-74291).
+4. A booking request is submitted for dispatch review; final confirmation is provided by the team after availability is checked.
 5. Driver details (name, phone, vehicle plate) sent prior to departure.
 6. Pay your driver in cash after the journey is completed and the customer reaches the requested destination.
+
+---
+
+## 6. Multilingual Support (All 10 Locales)
+- Arabic (ar): https://duyufalrahmanvip.com/ar
+- English (en): https://duyufalrahmanvip.com/en
+- Malay (ms): https://duyufalrahmanvip.com/ms
+- Indonesian (id): https://duyufalrahmanvip.com/id
+- Urdu (ur): https://duyufalrahmanvip.com/ur
+- French (fr): https://duyufalrahmanvip.com/fr
+- Spanish (es): https://duyufalrahmanvip.com/es
+- German (de): https://duyufalrahmanvip.com/de
+- Turkish (tr): https://duyufalrahmanvip.com/tr
+- Hindi (hi): https://duyufalrahmanvip.com/hi

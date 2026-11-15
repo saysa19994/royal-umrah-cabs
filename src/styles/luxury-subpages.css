@@ -6,17 +6,17 @@
 /* Universal Master Design Tokens — Dual-Theme Powered */
 :root,
 [data-theme="light"] {
-  --ink: var(--ink);
-  --navy: var(--ink);
-  --navy-2: var(--navy-2);
-  --ivory: var(--ivory);
-  --paper: var(--paper);
-  --stone: var(--stone);
-  --bronze: var(--bronze);
-  --gold: var(--bronze);
+  --ink: #111824;
+  --navy: #111824;
+  --navy-2: #1F2A38;
+  --ivory: #F7F5F0;
+  --paper: #FFFFFF;
+  --stone: #E5E0D6;
+  --bronze: #A0783E;
+  --gold: #A0783E;
   --gold-light: #B88B4E;
-  --muted: var(--muted);
-  --line: var(--stone);
+  --muted: #526072;
+  --line: #E5E0D6;
   --sand: #F0EDE5;
   --shadow: 0 10px 30px -5px rgba(16, 24, 39, 0.06);
 }

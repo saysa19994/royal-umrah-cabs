@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import {
@@ -42,13 +43,25 @@ export default async function ServicesPage(props: ServicesPageProps) {
 
   const ArrowIcon = isRtl ? ArrowLeft : ArrowRight;
 
+  const labels = {
+    locationsLabel: isAr ? 'المواقع المشمولة:' : 'Covered Locations:',
+    availabilityLabel: isAr ? 'جاهزية 24/7' : '24/7 Availability',
+    relatedRoutesLabel: isAr ? 'المسارات المقترحة:' : 'Related Routes:',
+  };
+
   const servicesList = [
     {
       id: 'airport-transfer',
       title: isAr ? 'استقبال وتوصيل المطارات' : 'Airport Transfers',
       desc: isAr ? 'من مطار جدة والمدينة إلى فنادق مكة والمدينة مع تتبع الرحلات' : 'From Jeddah & Madinah to Makkah & Madinah with flight tracking',
+      image: '/assets/images/routes/jeddah-airport-to-makkah.jpg',
       icon: Plane,
       badge: isAr ? 'الأكثر طلباً' : 'Bestseller',
+      locations: isAr ? 'مطار جدة (KAIA)، مطار المدينة (MED)، فنادق مكة والمدينة' : 'Jeddah Airport (KAIA), Madinah Airport (MED), Holy Mosques',
+      relatedRoutes: [
+        { href: `/${locale}/routes/jeddah-airport-to-makkah`, title: isAr ? 'مطار جدة ➔ مكة' : 'Jeddah ➔ Makkah' },
+        { href: `/${locale}/routes/madinah-airport-to-hotel`, title: isAr ? 'مطار المدينة ➔ الفندق' : 'Madinah Airport ➔ Hotel' },
+      ],
       highlights: [
         isAr ? 'مطار الملك عبدالعزيز الدولي (جدة صالة 1 والشمالية)' : 'King Abdulaziz International Airport (JED)',
         isAr ? 'مطار الأمير محمد بن عبدالعزيز بالمدينة المنورة (MED)' : 'Prince Mohammad Bin Abdulaziz Airport (MED)',
@@ -60,8 +73,13 @@ export default async function ServicesPage(props: ServicesPageProps) {
       id: 'ziyarat-tour',
       title: isAr ? 'جولات المزارات والمعالم' : 'Ziyarat Trips',
       desc: isAr ? 'استكشاف الأماكن التاريخية والمشاعر المقدسة بصحبة سائق خبير' : 'Explore the Holy Sites & historic landmarks in Makkah & Madinah',
+      image: '/assets/images/routes/makkah-ziyarat.jpg',
       icon: Landmark,
       badge: isAr ? 'روحاني' : 'Spiritual',
+      locations: isAr ? 'غار حراء، ثور، عرفات، مسجد قباء، جبل أحد' : 'Ghar Hira, Thawr, Arafat, Quba Mosque, Mount Uhud',
+      relatedRoutes: [
+        { href: `/${locale}/ziyarat`, title: isAr ? 'مزارات مكة والمدينة' : 'Makkah & Madinah Ziyarat' },
+      ],
       highlights: [
         isAr ? 'مزارات مكة: غار حراء، غار ثور، منى، مزدلفة، عرفات' : 'Makkah: Ghar Hira, Jabal Thawr, Mina, Muzdalifah, Arafat',
         isAr ? 'مزارات المدينة: مسجد قباء، جبل أحد، مسجد القبلتين' : 'Madinah: Masjid Quba, Mount Uhud, Masjid al-Qiblatayn',
@@ -73,8 +91,14 @@ export default async function ServicesPage(props: ServicesPageProps) {
       id: 'intercity-travel',
       title: isAr ? 'التنقل بين المدن' : 'Intercity Travel',
       desc: isAr ? 'رحلات مريحة وآمنة بين مكة، المدينة، وجدة عبر الطرق السريعة' : 'Across Saudi Arabia: Makkah, Madinah, and Jeddah expressways',
+      image: '/assets/images/routes/makkah-to-madinah.jpg',
       icon: Navigation,
       badge: isAr ? 'مميز' : 'Popular',
+      locations: isAr ? 'طريق الهجرة، قطار الحرمين، محطات الميقات' : 'Hijrah Highway, Haramain Corridors, Miqat Points',
+      relatedRoutes: [
+        { href: `/${locale}/routes/makkah-to-madinah`, title: isAr ? 'مكة ➔ المدينة' : 'Makkah ➔ Madinah' },
+        { href: `/${locale}/routes/jeddah-to-madinah`, title: isAr ? 'جدة ➔ المدينة' : 'Jeddah ➔ Madinah' },
+      ],
       highlights: [
         isAr ? 'مكة ⇄ المدينة المنورة عبر طريق الهجرة السريع' : 'Makkah ⇄ Madinah via Hijrah Expressway',
         isAr ? 'جدة ⇄ مكة المكرمة وجدة ⇄ المدينة المنورة' : 'Jeddah ⇄ Makkah & Jeddah ⇄ Madinah',
@@ -86,8 +110,13 @@ export default async function ServicesPage(props: ServicesPageProps) {
       id: 'hotel-transfers',
       title: isAr ? 'التوصيل الفندقي المباشر' : 'Hotel Transfers',
       desc: isAr ? 'تنقل سلس ومريح بين الفنادق والحرمين الشريفين والأسواق' : 'Comfortable & reliable transfers between hotels, Haram, and malls',
+      image: '/assets/images/vip-umrah-transport-jeddah-to-makkah.jpg',
       icon: Building2,
       badge: isAr ? 'مريح' : 'Comfortable',
+      locations: isAr ? 'أبراج البيت، جبل عمر، فنادق المنطقة المركزية' : 'Abraj Al Bait, Jabal Omar, Central District Hotels',
+      relatedRoutes: [
+        { href: `/${locale}/routes/jeddah-airport-to-makkah`, title: isAr ? 'جدة ➔ فنادق مكة' : 'Jeddah ➔ Makkah Hotels' },
+      ],
       highlights: [
         isAr ? 'نقل سريع ومريح بين فنادق مكة والمدينة' : 'Fast and smooth transfer between Makkah & Madinah hotels',
         isAr ? 'مساعدة كاملة في تحميل وتنزيل الحقائب والأمتعة' : 'Complete luggage loading and unloading assistance',
@@ -99,8 +128,14 @@ export default async function ServicesPage(props: ServicesPageProps) {
       id: 'group-travel',
       title: isAr ? 'رحلات المجموعات والعائلات' : 'Group Travel',
       desc: isAr ? 'حافلات وفانات سياحية واسعة للعائلات الكبيرة وحملات العمرة' : 'For families & groups: spacious vans, Hiaces, and luxury buses',
+      image: '/assets/images/studio-2k/toyota-coaster-studio-2k.webp',
       icon: Users,
       badge: isAr ? 'للعائلات' : 'For Groups',
+      locations: isAr ? 'كافة مطارات ومحطات ومزارات المنطقة الغربية' : 'All Western Region Airports, Stations & Sacred Sites',
+      relatedRoutes: [
+        { href: `/${locale}/fleet/toyota-coaster`, title: isAr ? 'حافلة كوستر VIP' : 'Toyota Coaster VIP' },
+        { href: `/${locale}/fleet/toyota-hiace`, title: isAr ? 'تويوتا هايس عائلي' : 'Toyota HiAce Family' },
+      ],
       highlights: [
         isAr ? 'تويوتا هايس (10 ركاب) وتويوتا كوستر (21 راكب)' : 'Toyota Hiace (10 pax) & Toyota Coaster (21 pax)',
         isAr ? 'مساحات واسعة ومخصصة للأمتعة والحقائب الكبيرة' : 'Generous luggage compartments for large baggage',
@@ -112,8 +147,13 @@ export default async function ServicesPage(props: ServicesPageProps) {
       id: '24-7-support',
       title: isAr ? 'دعم ومتابعة على مدار الساعة' : '24/7 Support',
       desc: isAr ? 'فريق عمليات وخدمة عملاء دائم لمتابعة رحلتك في أي لحظة' : 'Always here: round-the-clock operations and customer assistance',
+      image: '/assets/images/cinematic/home/hero-mercedes-kaaba-retina.jpg',
       icon: Headphones,
       badge: isAr ? 'دائم' : 'Always Here',
+      locations: isAr ? 'غرفة عمليات مركزية - مكة وجدة والمدينة' : 'Central Dispatch Operations - Makkah, Madinah, Jeddah',
+      relatedRoutes: [
+        { href: `/${locale}/contact`, title: isAr ? 'اتصل بخدمة العملاء' : 'Contact Support' },
+      ],
       highlights: [
         isAr ? 'خط ساخن ومباشر عبر الواتساب على مدار 24 ساعة' : 'Dedicated 24/7 instant WhatsApp and phone hotline',
         isAr ? 'متابعة حية لموقع السيارة وتوقيت الوصول' : 'Live trip tracking and driver dispatch monitoring',
@@ -149,26 +189,51 @@ export default async function ServicesPage(props: ServicesPageProps) {
             return (
               <div
                 key={service.id}
-                className="bg-surface rounded-2xl p-6 sm:p-7 border border-border shadow-xs hover:border-gold/60 hover:shadow-md transition-all duration-300 flex flex-col justify-between group"
+                className="bg-surface rounded-2xl p-6 sm:p-7 border border-border shadow-xs hover:border-gold/60 hover:shadow-md transition-all duration-300 flex flex-col justify-between group overflow-hidden"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark group-hover:scale-105 transition-all">
-                      <Icon className="w-6 h-6" />
+                  {/* Service Photo */}
+                  <div className="relative w-full h-44 rounded-xl overflow-hidden mb-5 border border-border bg-bg-alt">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 360px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-3 end-3">
+                      <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-surface/90 text-gold-dark border border-gold-line backdrop-blur-md shadow-xs">
+                        {service.badge}
+                      </span>
                     </div>
-                    <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-gold-soft text-gold-dark border border-gold-line">
-                      {service.badge}
-                    </span>
                   </div>
 
-                  <h2 className="font-display text-xl font-bold text-ink mb-2.5">
-                    {service.title}
-                  </h2>
-                  <p className="text-ink-muted text-xs leading-relaxed mb-5 font-light">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark shrink-0">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h2 className="font-display text-lg font-bold text-ink">
+                        {service.title}
+                      </h2>
+                      <span className="text-[11px] font-medium text-emerald-600 block">
+                        {labels.availabilityLabel}
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-ink-muted text-xs leading-relaxed mb-4 font-light">
                     {service.desc}
                   </p>
 
-                  <div className="space-y-2 pt-4 border-t border-border">
+                  {/* Locations Covered */}
+                  <div className="mb-4 p-2.5 rounded-lg bg-bg-alt border border-border text-[11px]">
+                    <span className="font-bold text-ink block mb-0.5">{labels.locationsLabel}</span>
+                    <span className="text-ink-muted leading-tight">{service.locations}</span>
+                  </div>
+
+                  {/* Highlights */}
+                  <div className="space-y-1.5 pt-3 border-t border-border">
                     {service.highlights.map((hl, idx) => (
                       <div key={idx} className="flex items-start gap-2 text-xs text-ink-light">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
@@ -176,9 +241,27 @@ export default async function ServicesPage(props: ServicesPageProps) {
                       </div>
                     ))}
                   </div>
+
+                  {/* Related Routes */}
+                  {service.relatedRoutes && service.relatedRoutes.length > 0 && (
+                    <div className="pt-3 mt-3 border-t border-border text-xs">
+                      <span className="text-[11px] font-bold text-ink-muted block mb-1.5">{labels.relatedRoutesLabel}</span>
+                      <div className="flex flex-wrap gap-2">
+                        {service.relatedRoutes.map((route, rIdx) => (
+                          <Link
+                            key={rIdx}
+                            href={route.href}
+                            className="text-[11px] text-gold-dark hover:underline font-semibold"
+                          >
+                            {route.title}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-border">
+                <div className="pt-5 mt-5 border-t border-border">
                   <Link
                     href={`/${locale}/booking?service=${service.id}`}
                     className="inline-flex items-center gap-2 text-xs font-bold text-gold-dark hover:text-ink transition-colors"

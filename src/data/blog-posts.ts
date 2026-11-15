@@ -940,7 +940,7 @@ export const BLOG_POSTS: BlogPost[] = [
       },
       answer: {
         ar: 'يمكنك الحجز بسهولة عبر نموذج الحجز الإلكتروني في الموقع أو عبر التواصل المباشر بالواتساب. حدد اسم فندقك في مكة، تاريخ ووقت المغادرة، وعدد الركاب والحقائب، وسيقوم فريقنا بتأكيد الحجز فوراً بدون أي دفع مسبق.',
-        en: 'You can book easily via our online booking form or directly on WhatsApp. Simply specify your Makkah hotel, departure date and time, passenger count, and luggage. Your booking is confirmed instantly with zero deposit.',
+        en: 'You can book easily via our online booking form or directly on WhatsApp. Simply specify your Makkah hotel, departure date and time, passenger count, and luggage. Your booking request is sent for dispatch confirmation, with no deposit required.',
         ms: 'Anda boleh menempah dengan mudah melalui borang tempahan atas talian atau terus melalui WhatsApp. Nyatakan hotel Makkah, tarikh dan masa bertolak, bilangan penumpang dan beg. Tempahan disahkan serta-merta tanpa bayaran pendahuluan.',
         id: 'Anda dapat memesan dengan mudah melalui formulir online atau WhatsApp langsung. Tentukan nama hotel di Makkah, tanggal dan jam berangkat, serta jumlah penumpang dan koper. Pesanan langsung terkonfirmasi tanpa uang muka.',
         ur: 'آپ ویب سائٹ کے بکنگ فارم یا براہِ راست واٹس ایپ کے ذریعے باآسانی بکنگ کر سکتے ہیں۔ مکہ میں ہوٹل کا نام، روانگی کی تاریخ اور وقت، مسافروں اور سامان کی تعداد بتائیں؛ بکنگ بغیر کسی پیشگی رقم کے فوری کنفرم ہو جائے گی۔',

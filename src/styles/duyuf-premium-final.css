@@ -1,0 +1,490 @@
+/* ===========================================================================
+   DUYUF / ORIGINAL HOSPITALITY DESIGN SYSTEM — 2026
+   A real code-level visual refinement, not a separate mockup.
+   Every large canvas follows the chosen global theme; photography is exempt.
+   =========================================================================== */
+:root,
+html[data-theme="light"] {
+  --bg-base: #F6F5F1;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #EEECE6;
+  --text-primary: #182D31;
+  --text-secondary: #52666A;
+  --text-muted: #64777A;
+  --border-stone: #E0E3DF;
+  --border-subtle: rgba(28,65,67,.09);
+  --accent-primary: #265F58;
+  --accent-hover: #194A45;
+  --accent-soft: rgba(38,95,88,.085);
+  --duyuf-copper: #AA8355;
+  --duyuf-copper-soft: #E8DDCA;
+  --white: #FFFFFF;
+  --ivory: #F6F5F1;
+  --paper: #FFFFFF;
+  --ink: #182D31;
+  --navy: #182D31;
+  --bronze: #265F58;
+  --gold: #265F58;
+  --muted: #52666A;
+  --line: #E0E3DF;
+  --sand: #EEECE6;
+  --color-bg: #F6F5F1;
+  --color-bg-alt: #EEECE6;
+  --color-surface: #FFFFFF;
+  --color-border: #E0E3DF;
+  --color-ink: #182D31;
+  --color-ink-muted: #52666A;
+  --color-gold: #265F58;
+  --color-gold-dark: #265F58;
+  --color-bronze: #265F58;
+  --color-bronze-hover: #194A45;
+  --footer-bg: #F1F0E9;
+  --footer-surface: #E8E8E0;
+  --footer-text: #52666A;
+  --footer-heading: #182D31;
+  --footer-border: #DDE0DC;
+  --footer-strip-bg: #E8E8E0;
+}
+html[data-theme="dark"],
+html.dark {
+  --bg-base: #0E1C1F;
+  --bg-surface: #15282C;
+  --bg-elevated: #1D363A;
+  --text-primary: #F4F3EC;
+  --text-secondary: #B9CDCA;
+  --text-muted: #A4BBB7;
+  --border-stone: #2A4448;
+  --border-subtle: rgba(194,220,212,.1);
+  --accent-primary: #327D75;
+  --accent-hover: #266C64;
+  --accent-soft: rgba(111,174,164,.13);
+  --duyuf-copper: #C5A87C;
+  --duyuf-copper-soft: #302C25;
+  --white: #15282C;
+  --ivory: #0E1C1F;
+  --paper: #15282C;
+  --ink: #F4F3EC;
+  --navy: #F4F3EC;
+  --bronze: #7CC5B5;
+  --gold: #7CC5B5;
+  --muted: #B9CDCA;
+  --line: #2A4448;
+  --sand: #1D363A;
+  --color-bg: #0E1C1F;
+  --color-bg-alt: #1D363A;
+  --color-surface: #15282C;
+  --color-border: #2A4448;
+  --color-ink: #F4F3EC;
+  --color-ink-muted: #B9CDCA;
+  --color-gold: #7CC5B5;
+  --color-gold-dark: #A5D8CB;
+  --color-bronze: #7CC5B5;
+  --color-bronze-hover: #B0DDD1;
+  --footer-bg: #112329;
+  --footer-surface: #172D32;
+  --footer-text: #B9CDCA;
+  --footer-heading: #F4F3EC;
+  --footer-border: #294248;
+  --footer-strip-bg: #0B191C;
+}
+
+/* Deliberate typography; one hierarchy for Saudi RTL and international LTR. */
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-manrope), var(--font-inter), var(--font-cairo), sans-serif;
+  text-rendering: optimizeLegibility;
+}
+[dir="rtl"] body,
+[dir="rtl"] main { font-family: var(--font-ibm-plex-arabic), var(--font-cairo), sans-serif; }
+main { min-width: 0; overflow-x: clip; }
+main h1, main h2, main h3, .serif,
+.font-playfair, .font-serif {
+  font-family: var(--font-manrope), var(--font-inter), var(--font-cairo), sans-serif;
+  letter-spacing: -.027em;
+}
+[dir="rtl"] main h1, [dir="rtl"] main h2, [dir="rtl"] main h3,
+[dir="rtl"] .serif, [dir="rtl"] .font-playfair {
+  font-family: var(--font-ibm-plex-arabic), var(--font-cairo), sans-serif;
+  letter-spacing: normal;
+}
+main h1 { font-weight: 750; }
+main h2 { font-weight: 720; }
+main h3 { font-weight: 680; }
+main p { line-height: 1.75; }
+
+/* Header: calmer navigation and proper touch-size controls on mobile. */
+.duyuf-site-header {
+  background: var(--bg-base) !important;
+  color: var(--text-primary);
+  border-color: var(--border-stone) !important;
+  box-shadow: 0 1px 0 var(--border-stone) !important;
+}
+.duyuf-site-header > .container { min-height: 54px; }
+.duyuf-site-header nav a { letter-spacing: -.01em; }
+.duyuf-site-header .duyuf-header-cta {
+  background: var(--accent-primary) !important;
+  color: #fff !important;
+  border-radius: 10px;
+  box-shadow: none;
+}
+.duyuf-site-header .duyuf-header-cta:hover { background: var(--accent-hover) !important; }
+.duyuf-site-header :focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 3px;
+}
+
+/* Homepage hero: photographic editorial split; the mode controls the whole page. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 615px;
+  display: flex;
+  align-items: center;
+  padding: 102px 0 80px;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-stone);
+  overflow: hidden;
+}
+.hero video {
+  position: absolute;
+  inset: 42px max(28px, calc((100vw - 1240px) / 2)) 42px auto;
+  width: min(45%, 590px);
+  height: calc(100% - 84px);
+  object-fit: cover;
+  object-position: center;
+  border-radius: 22px;
+  border: 1px solid var(--border-stone);
+  filter: saturate(.92);
+  box-shadow: 0 22px 70px rgba(15, 37, 39, .1);
+}
+[dir="rtl"] .hero video {
+  inset-inline-start: max(28px, calc((100vw - 1240px) / 2));
+  inset-inline-end: auto;
+}
+.hero .hero-shade { display: none; }
+.hero .hero-content {
+  width: min(1240px, calc(100% - 56px));
+  padding-inline-end: min(50%, 625px);
+}
+[dir="rtl"] .hero .hero-content { padding-inline-end: min(50%, 625px); }
+.hero .hero-kicker {
+  font-size: 11px;
+  font-weight: 680;
+  color: var(--accent-primary);
+  letter-spacing: .1em;
+  margin-bottom: 19px;
+}
+.hero .hero-kicker::before { background: var(--accent-primary); width: 22px; }
+.hero h1 {
+  font-size: clamp(2.65rem, 4.8vw, 4.5rem);
+  line-height: 1.1;
+  font-weight: 740;
+  letter-spacing: -.046em;
+  color: var(--text-primary) !important;
+  max-width: 560px;
+  margin-bottom: 26px;
+}
+[dir="rtl"] .hero h1 { letter-spacing: normal; }
+.hero .hero-copy {
+  color: var(--text-secondary);
+  max-width: 490px;
+  font-size: clamp(.96rem, 1.2vw, 1.12rem);
+  line-height: 1.85;
+  margin-bottom: 30px;
+}
+.hero .hero-note { color: var(--text-secondary); margin-top: 22px; }
+.hero .hero-note .dot { background: var(--accent-primary); }
+.hero .btn--outline { border-color: var(--border-stone); color: var(--text-primary); background: var(--bg-surface); }
+.hero .btn--outline:hover { background: var(--bg-elevated); }
+.hero .btn:not(.btn--outline) { background: var(--accent-primary); color: white; }
+.hero .btn:hover { box-shadow: 0 8px 20px rgba(15, 50, 46, .12); }
+
+/* Booking search is a comfortable service tool, not tiny airline check-in controls. */
+.booking-shell {
+  margin-top: 0;
+  padding-top: clamp(42px, 5vw, 68px);
+  padding-bottom: clamp(24px, 3vw, 45px);
+}
+.booking-heading { margin-bottom: 22px; }
+.booking-heading h2 { font-size: clamp(1.55rem, 2.7vw, 2.4rem); font-weight: 730; }
+.booking-heading p { max-width: 660px; font-size: 14px; }
+.booking-panel {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0,1fr));
+  gap: 12px;
+  padding: clamp(15px, 2.5vw, 26px);
+  border-radius: 20px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-stone);
+  box-shadow: 0 14px 46px rgba(23, 45, 48, .075);
+}
+.booking-panel .field {
+  grid-column: span 4;
+  border: 1px solid var(--border-stone);
+  background: var(--bg-base);
+  border-radius: 11px;
+  padding: 10px 14px !important;
+  margin: 0;
+  min-width: 0;
+}
+.booking-panel .field:nth-child(3),
+.booking-panel .field:nth-child(4) { grid-column: span 2; }
+.booking-panel .field:nth-child(5) { grid-column: span 6; }
+.booking-panel .booking-submit { grid-column: span 6; align-self: stretch; height: auto; min-height: 58px; }
+.booking-panel .field label {
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  font-size: 11px;
+  letter-spacing: .02em;
+  text-transform: none;
+}
+.booking-panel .field select,
+.booking-panel .field input { min-height: 36px; font-size: 14px; background: transparent; }
+.booking-panel .field:focus-within { border-color: var(--accent-primary); box-shadow: 0 0 0 3px var(--accent-soft); }
+.booking-panel .booking-submit { background: var(--accent-primary); color: white; }
+.booking-assurance { font-size: 12px; padding-block: 18px 0; }
+
+/* Sections: editorial rhythm instead of endless nested boxes. */
+.section { padding-block: clamp(62px, 7vw, 104px); }
+.section--white { background: var(--bg-surface); }
+.section-head { align-items: center; margin-bottom: 40px; }
+.section-head h2 { font-size: clamp(2rem, 3.8vw, 3rem); line-height: 1.16; }
+.eyebrow { letter-spacing: .095em; font-size: 10px; }
+.trust-strip { margin-top: 20px; padding-block: 20px; }
+.trust-grid { align-items: center; }
+.trust-item { min-width: 0; }
+.trust-icon { border-color: var(--border-stone); background: var(--bg-surface); border-radius: 12px; }
+.trust-item b { font-size: 13px; }
+.trust-item span { font-size: 12px; line-height: 1.55; }
+.service-card, .route-card, .step, .vehicle-card {
+  border-radius: 18px;
+  border-color: var(--border-stone);
+  box-shadow: 0 5px 22px rgba(11,34,37,.04);
+}
+.service-card:hover, .route-card:hover, .step:hover { border-color: var(--accent-primary); }
+.step { padding: 28px; }
+.step-num { color: var(--accent-primary); font-family: inherit; font-size: 27px; }
+.step-icon { border-radius: 14px; }
+
+/* Fleet: museum-quality spacing, large truthful photos, 3 / 2 / 1. */
+.ref-fleet-page { background: var(--bg-base); color: var(--text-primary); }
+.ref-fleet-page .page-hero { background: var(--bg-base) !important; padding-block: 58px 56px; }
+.ref-fleet-page .page-hero h1 { font-size: clamp(2.4rem, 4.8vw, 4.5rem); line-height: 1.07; max-width: 800px; }
+.ref-fleet-page .page-hero p { font-size: 1rem; max-width: 665px; }
+.ref-fleet-page .fleet-directory { padding-block: 42px 90px; background: var(--bg-base); }
+.ref-fleet-page .vehicle-card { background: var(--bg-surface); border: 1px solid var(--border-stone); border-radius: 20px; }
+.ref-fleet-page .vehicle-card-image {
+  height: clamp(235px, 21vw, 300px);
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-stone);
+  padding: 26px 18px;
+}
+.ref-fleet-page .vehicle-card-image img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 13px 13px rgba(6,26,27,.14)); }
+.ref-fleet-page .vehicle-index { border-radius: 999px; color: var(--text-secondary); background: var(--bg-surface); }
+.ref-fleet-page .vehicle-card-body { padding: clamp(19px, 2.2vw, 29px); }
+.ref-fleet-page .vehicle-card-body h2 { font-size: 21px; line-height: 1.23; margin-bottom: 11px; }
+.ref-fleet-page .vehicle-card-body p { font-size: 14px; line-height: 1.7; }
+.ref-fleet-page .vehicle-specs { gap: 12px; flex-wrap: wrap; font-size: 13px; }
+.ref-fleet-page .vehicle-card-actions { gap: 8px; flex-wrap: wrap; }
+.ref-fleet-page .filter { min-height: 44px; }
+.ref-fleet-page .filter.active { background: var(--accent-primary); border-color: var(--accent-primary); color: white; box-shadow: none; }
+.ref-fleet-page .concierge-band,
+.ref-fleet-page .section,
+.ref-fleet-page .comparison-section { background: var(--bg-base); color: var(--text-primary); }
+.ref-fleet-page .concierge-vehicles { min-width: 0; }
+.ref-fleet-page .concierge-vehicles a { min-width: 0; background: var(--bg-surface) !important; }
+.ref-fleet-page .concierge-vehicles a span { overflow-wrap: anywhere; color: var(--text-primary) !important; }
+
+/* Booking: one clear form / summary hierarchy, no dashboard-like glow. */
+.duyuf-booking-page { background: var(--bg-base); color: var(--text-primary); }
+.duyuf-booking-page .booking-page-heading h1 { font-size: clamp(2rem, 4vw, 3.65rem); line-height: 1.12; max-width: 770px; margin-inline: auto; }
+.duyuf-booking-page .booking-page-heading p { color: var(--text-secondary); }
+.duyuf-booking-page .duyuf-booking-layout { display: grid; grid-template-columns: minmax(0, 1.86fr) minmax(290px, .9fr); gap: 25px; align-items: start; }
+.duyuf-booking-page .duyuf-booking-workspace,
+.duyuf-booking-page .duyuf-booking-summary { min-width: 0; }
+.duyuf-booking-page .duyuf-booking-workspace > .bg-surface,
+.duyuf-booking-page .duyuf-booking-workspace > div,
+.duyuf-booking-page .duyuf-booking-summary > div {
+  border-color: var(--border-stone);
+}
+.duyuf-booking-page .duyuf-booking-workspace input,
+.duyuf-booking-page .duyuf-booking-workspace select,
+.duyuf-booking-page .duyuf-booking-workspace textarea {
+  min-height: 48px;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  border-color: var(--border-stone);
+  font-size: 14px;
+}
+.duyuf-booking-page .duyuf-booking-workspace label { font-size: 13px; color: var(--text-primary); }
+.duyuf-booking-page .duyuf-booking-workspace h3 { font-size: clamp(19px, 2vw, 24px); }
+.duyuf-booking-page .duyuf-booking-summary { position: sticky; top: 112px; }
+.duyuf-booking-page .duyuf-booking-summary > div { border-radius: 19px; box-shadow: 0 10px 30px rgba(7,29,31,.04); }
+.duyuf-booking-page .duyuf-booking-summary .text-\[10px\] { font-size: 11px; }
+.duyuf-booking-page .duyuf-booking-workspace > .grid { gap: 10px; }
+.duyuf-booking-page .duyuf-booking-workspace button { min-height: 44px; }
+
+/* Pricing page: neutral canvas + generous photo cards with readable fares. */
+.duyuf-pricing-page { background: var(--bg-base); color: var(--text-primary); }
+.duyuf-pricing-page h1 { font-size: clamp(2rem, 4vw, 3.55rem); }
+.duyuf-pricing-page h2 { font-size: clamp(1.75rem, 3vw, 2.4rem); }
+.duyuf-pricing-page [class*="rounded-3xl"],
+.duyuf-pricing-page [class*="rounded-2xl"] { border-color: var(--border-stone); }
+.duyuf-pricing-page section { color: var(--text-primary); }
+.duyuf-pricing-page input, .duyuf-pricing-page select { background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-stone); min-height: 44px; }
+.duyuf-pricing-page .duyuf-price-explorer [class*="grid-cols-3"] { gap: 22px; }
+.duyuf-pricing-page .duyuf-price-explorer img { object-fit: contain; }
+
+/* Vehicle details: photography first, copy and actions in a deliberate split layout. */
+.duyuf-vehicle-detail { background: var(--bg-base); color: var(--text-primary); }
+.duyuf-vehicle-detail > .container { max-width: 1240px; }
+.duyuf-vehicle-detail .duyuf-vehicle-intro {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: clamp(20px, 3vw, 44px);
+  align-items: center;
+  min-height: 435px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-stone);
+  border-radius: 24px;
+  padding: clamp(18px, 3.2vw, 45px);
+  overflow: hidden;
+}
+.duyuf-vehicle-detail .duyuf-vehicle-intro h1 { font-size: clamp(2rem, 3.6vw, 3.45rem); line-height: 1.11; }
+.duyuf-vehicle-detail .duyuf-vehicle-copy { position: relative; z-index: 2; min-width: 0; }
+.duyuf-vehicle-detail .duyuf-vehicle-copy p { font-size: clamp(14px, 1.15vw, 17px); }
+.duyuf-vehicle-detail .duyuf-vehicle-copy a { min-height: 48px; }
+.duyuf-vehicle-detail .duyuf-vehicle-showcase {
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  min-height: 360px;
+  border-radius: 19px;
+  background: var(--bg-elevated);
+}
+.duyuf-vehicle-detail .duyuf-vehicle-showcase > div { margin: 0 !important; width: 100%; }
+.duyuf-vehicle-detail .duyuf-vehicle-showcase img {
+  max-height: 305px !important;
+  width: 94%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 22px rgba(14,30,30,.18));
+}
+.duyuf-vehicle-detail .duyuf-vehicle-showcase .blur-\[110px\] { display: none; }
+.duyuf-vehicle-detail .duyuf-vehicle-showcase .rounded-\[100\%\] { display: none; }
+.duyuf-vehicle-detail .grid > .bg-surface { border-color: var(--border-stone); }
+.duyuf-vehicle-detail table th, .duyuf-vehicle-detail table td { padding-block: 17px; }
+.duyuf-vehicle-detail table thead tr { background: var(--bg-elevated); }
+.duyuf-vehicle-detail table tbody tr { background: var(--bg-surface); }
+
+/* Make primary call-to-action buttons purposeful instead of metallic gradients. */
+.duyuf-vehicle-detail a[class*="bg-[#D6A13A]"],
+.duyuf-vehicle-detail a[class*="bg-[#C5A15D]"],
+.duyuf-pricing-page a[class*="bg-gradient-to-r"],
+.duyuf-pricing-page button[class*="bg-gradient-to-r"] {
+  background: var(--accent-primary) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+/* Contrast and a11y across themes. Native media are not recolored. */
+[data-theme="dark"] main .bg-white:not(img),
+[data-theme="dark"] main .bg-ivory { background: var(--bg-surface) !important; }
+:where(main) a:focus-visible,
+:where(main) button:focus-visible,
+:where(main) input:focus-visible,
+:where(main) select:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero video { display: none; }
+  .hero, .vehicle-card, .service-card, .route-card, .btn { transition: none !important; }
+}
+
+@media (max-width: 1080px) {
+  .booking-panel { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .booking-panel .field,
+  .booking-panel .field:nth-child(3),
+  .booking-panel .field:nth-child(4),
+  .booking-panel .field:nth-child(5) { grid-column: span 1; }
+  .booking-panel .booking-submit { grid-column: span 2; min-height: 52px; }
+  .duyuf-booking-page .duyuf-booking-layout { grid-template-columns: minmax(0,1.5fr) minmax(270px,1fr); }
+}
+@media (max-width: 850px) {
+  .hero { display: block; min-height: 0; padding: 95px 0 345px; }
+  .hero .hero-content { width: min(100% - 44px, 690px); padding: 0 !important; margin: 0 auto; }
+  .hero video, [dir="rtl"] .hero video {
+    inset: auto 22px 22px;
+    display: block;
+    width: calc(100% - 44px);
+    height: 292px;
+    border-radius: 18px;
+  }
+  .hero h1 { max-width: 630px; font-size: clamp(2.1rem, 6vw, 3.6rem); }
+  .hero .hero-copy { max-width: 600px; }
+  .duyuf-vehicle-detail .duyuf-vehicle-intro { grid-template-columns: 1fr; gap: 12px; }
+  .duyuf-vehicle-detail .duyuf-vehicle-showcase { min-height: 260px; }
+  .duyuf-booking-page .duyuf-booking-layout { display: block; }
+  .duyuf-booking-page .duyuf-booking-summary { position: static; margin-top: 28px; }
+}
+@media (max-width: 600px) {
+  .duyuf-site-header > .container { min-height: 48px; }
+  .hero { padding-top: 94px; padding-bottom: 286px; }
+  .hero h1 { font-size: clamp(2.05rem, 8.4vw, 3.2rem); line-height: 1.14; }
+  .hero .hero-copy { font-size: 15px; }
+  .hero video, [dir="rtl"] .hero video { height: 248px; inset: auto 17px 17px; width: calc(100% - 34px); }
+  .hero .hero-kicker { font-size: 10px; letter-spacing: .065em; }
+  .hero .hero-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero .hero-actions .btn { padding-inline: 10px; min-height: 48px; font-size: 12px; }
+  .hero .hero-note { font-size: 12px; }
+  .booking-shell { padding-top: 42px; }
+  .booking-panel { grid-template-columns: 1fr; padding: 14px; }
+  .booking-panel .field,
+  .booking-panel .field:nth-child(3),
+  .booking-panel .field:nth-child(4),
+  .booking-panel .field:nth-child(5),
+  .booking-panel .booking-submit { grid-column: 1 / -1; }
+  .booking-panel .field { padding: 9px 13px !important; }
+  .booking-panel .field select, .booking-panel .field input { font-size: 16px; }
+  .trust-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+  .trust-item { align-items: flex-start; gap: 9px; padding: 5px 0; }
+  .trust-icon { width: 33px; height: 33px; }
+  .trust-item b { font-size: 12px; }
+  .trust-item span { font-size: 11px; }
+  .section { padding-block: 58px; }
+  .section-head h2 { font-size: clamp(1.75rem, 7vw, 2.4rem); }
+  .step, .service-card { padding: 20px; }
+  .ref-fleet-page .page-hero { padding-block: 32px 28px; }
+  .ref-fleet-page .page-hero h1 { font-size: 2.2rem; }
+  .ref-fleet-page .fleet-directory { padding-block: 24px 56px; }
+  .ref-fleet-page .vehicle-card-image { height: 250px; }
+  .ref-fleet-page .vehicle-card-body { padding: 20px; }
+  .ref-fleet-page .filter-pills { flex-wrap: nowrap; width: 100%; overflow-x: auto; padding-bottom: 5px; }
+  .ref-fleet-page .filter-pills .filter { min-width: max-content; }
+  .duyuf-vehicle-detail { padding-top: 20px; }
+  .duyuf-vehicle-detail .duyuf-vehicle-intro { padding: 22px 17px; border-radius: 18px; }
+  .duyuf-vehicle-detail .duyuf-vehicle-intro h1 { font-size: 2.1rem; }
+  .duyuf-vehicle-detail .duyuf-vehicle-showcase { min-height: 218px; }
+  .duyuf-vehicle-detail .duyuf-vehicle-showcase img { max-height: 215px !important; }
+  .duyuf-vehicle-detail .duyuf-vehicle-intro a { flex: 1 1 150px; }
+  .duyuf-booking-page .booking-page-heading h1 { font-size: 2.15rem; }
+  .duyuf-booking-page .duyuf-booking-summary { margin-top: 20px; }
+  .duyuf-pricing-page [class*="grid-cols-3"] { gap: 12px; }
+}
+
+/* Footer stays in the selected mode and retains a calm 10-language rhythm. */
+.duyuf-site-footer {
+  background: var(--footer-bg) !important;
+  color: var(--text-primary);
+  border-top: 1px solid var(--footer-border);
+}
+.duyuf-site-footer h3 { font-size: 13px; letter-spacing: .025em; color: var(--text-primary); }
+.duyuf-site-footer li a { font-size: 13px; line-height: 1.65; }
+.duyuf-site-footer a:hover { color: var(--accent-primary); }
+.duyuf-site-footer [class*="border-"] { border-color: var(--border-stone); }
+@media (max-width: 600px) {
+  .duyuf-site-footer h3 { font-size: 14px; }
+  .duyuf-site-footer li a { font-size: 14px; }
+}

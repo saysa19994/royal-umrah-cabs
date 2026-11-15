@@ -247,7 +247,7 @@ export function RoutePageJsonLd({
 }: {
   route: any;
   locale: Locale;
-  minPriceSAR: number;
+  minPriceSAR?: number;
   localizedContent?: {
     seoTitle?: string;
     seoDescription?: string;
@@ -333,24 +333,23 @@ export function RoutePageJsonLd({
       ...(route.id?.includes('taif') ? [{ '@type': 'City', name: 'Taif' }] : []),
       ...(route.id?.includes('riyadh') ? [{ '@type': 'City', name: 'Riyadh' }] : []),
     ],
-    offers: (() => {
-      const routeFares = AUTHORITATIVE_TRANSFER_RATES[route.id]
-        ? Object.values(AUTHORITATIVE_TRANSFER_RATES[route.id])
-        : [minPriceSAR || 200];
-      const lowPrice = Math.min(...routeFares);
-      const highPrice = Math.max(...routeFares);
-      const offerCount = routeFares.length;
-
-      return {
-        '@type': 'AggregateOffer',
-        lowPrice,
-        highPrice,
-        offerCount,
-        priceCurrency: 'SAR',
-        availability: 'https://schema.org/InStock',
-        url: pageUrl,
-      };
-    })(),
+    ...(Array.isArray(Object.values(AUTHORITATIVE_TRANSFER_RATES[route.id] || {})) &&
+    Object.values(AUTHORITATIVE_TRANSFER_RATES[route.id] || {}).some((v) => typeof v === 'number' && v > 0)
+      ? {
+          offers: (() => {
+            const valid = Object.values(AUTHORITATIVE_TRANSFER_RATES[route.id] || {})
+              .filter((v): v is number => typeof v === 'number' && Number.isFinite(v) && v > 0);
+            return {
+              '@type': 'AggregateOffer',
+              lowPrice: Math.min(...valid),
+              highPrice: Math.max(...valid),
+              offerCount: valid.length,
+              priceCurrency: 'SAR',
+              url: pageUrl,
+            };
+          })(),
+        }
+      : {}),
   };
 
   function safeJsonLd(data: unknown): string {

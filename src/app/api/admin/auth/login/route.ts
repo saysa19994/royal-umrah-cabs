@@ -4,7 +4,6 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
 import { UserProfile, Role } from '@/types/auth';
-import { OWNER_EMAIL, createOwnerSessionToken } from '@/lib/auth/owner-session';
 
 export async function POST(request: Request) {
   try {
@@ -20,43 +19,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // Direct Owner Master Login
-    if (cleanEmail === OWNER_EMAIL && (password === 'admin' || password === 'admin123')) {
-      const token = createOwnerSessionToken();
-      const response = NextResponse.json({
-        success: true,
-        user: {
-          id: 'owner-master-id',
-          email: OWNER_EMAIL,
-          name: 'Sayed (Owner)',
-          role: 'owner',
-        },
-      });
-
-      response.cookies.set('vip_owner_session', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        path: '/',
-        maxAge: 60 * 60 * 24 * 14, // 14 days
-      });
-
-      await logAuditEvent({
-        userEmail: cleanEmail,
-        userRole: 'owner',
-        action: 'owner_login_success',
-        resource: 'auth',
-        oldValues: null,
-        newValues: { message: 'Owner authenticated via direct master session' },
-        ip: clientIp,
-      });
-
-      return response;
-    }
-
-    // Rate limiting: 50 attempts
-    const ipRate = await rateLimit(`login_ip:${clientIp}`, 50, 60);
-    const accountRate = await rateLimit(`login_acc:${clientIp}:${cleanEmail}`, 50, 300);
+    // Rate limiting enforced BEFORE any credential evaluation
+    const ipRate = await rateLimit(`login_ip:${clientIp}`, 20, 60);
+    const accountRate = await rateLimit(`login_acc:${clientIp}:${cleanEmail}`, 15, 300);
 
     if (!ipRate.success || !accountRate.success) {
       const resetTime = Math.max(ipRate.reset, accountRate.reset);

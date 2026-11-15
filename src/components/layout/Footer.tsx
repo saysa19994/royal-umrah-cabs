@@ -3,9 +3,10 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Locale } from '@/i18n/config';
+import { Locale, LOCALES } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import type { SiteSettings } from '@/lib/settings';
+import { LOCALIZED_ROUTE_NAMES } from '@/lib/pricing-constants';
 import {
   Phone,
   MessageCircle,
@@ -421,32 +422,32 @@ export function Footer({ locale, dict, settings }: FooterProps) {
             <ul className="space-y-2 text-xs text-[var(--footer-text)]">
               <li>
                 <Link href={`/${locale}/routes/jeddah-airport-to-makkah`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
-                  Jeddah Airport to Makkah
+                  {LOCALIZED_ROUTE_NAMES['jeddah-airport-to-makkah']?.[locale] || 'Jeddah Airport to Makkah'}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/routes/makkah-to-madinah`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
-                  Makkah to Madinah VIP
+                  {LOCALIZED_ROUTE_NAMES['makkah-to-madinah']?.[locale] || 'Makkah to Madinah VIP'}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/routes/madinah-to-makkah`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
-                  Madinah to Makkah
+                  {LOCALIZED_ROUTE_NAMES['madinah-to-makkah']?.[locale] || 'Madinah to Makkah'}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/routes/makkah-to-jeddah-airport`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
-                  Makkah to Jeddah Airport
+                  {LOCALIZED_ROUTE_NAMES['makkah-to-jeddah-airport']?.[locale] || 'Makkah to Jeddah Airport'}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/routes/jeddah-to-madinah`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
-                  Jeddah Airport to Madinah
+                  {LOCALIZED_ROUTE_NAMES['jeddah-to-madinah']?.[locale] || 'Jeddah Airport to Madinah'}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/routes/madinah-airport-to-hotel`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
-                  Madinah Airport to Hotel
+                  {LOCALIZED_ROUTE_NAMES['madinah-airport-to-hotel']?.[locale] || 'Madinah Airport to Hotel'}
                 </Link>
               </li>
             </ul>
@@ -638,10 +639,28 @@ export function Footer({ locale, dict, settings }: FooterProps) {
       </div>
 
       {/* BOTTOM LEGAL & COPYRIGHT BAR */}
-      <div className="container mx-auto px-4 max-w-7xl pt-5 pb-16 md:pb-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--footer-text)] relative z-10">
+      <div className="container mx-auto px-4 max-w-7xl pt-5 pb-16 md:pb-10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[var(--footer-text)] relative z-10">
         <p>
           {dict.footer.copyright || `© ${new Date().getFullYear()} Duyuf Alrahman VIP. All rights reserved.`}
         </p>
+
+        {/* Footer Language Selector */}
+        <nav aria-label="Footer Language Selector" className="flex flex-wrap items-center justify-center gap-1.5">
+          {LOCALES.map((loc) => (
+            <Link
+              key={loc}
+              href={`/${loc}`}
+              className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-colors border ${
+                loc === locale
+                  ? 'border-[var(--accent-primary)] bg-[var(--accent-soft)] text-[var(--accent-primary)]'
+                  : 'border-[var(--footer-border)] bg-[var(--bg-surface)] text-[var(--footer-text)] hover:text-[var(--accent-primary)]'
+              }`}
+            >
+              {loc.toUpperCase()}
+            </Link>
+          ))}
+        </nav>
+
         <div className="flex flex-wrap items-center gap-4 text-[var(--footer-text)]">
           <Link href={`/${locale}/privacy`} className="hover:text-[var(--accent-primary)] transition-colors py-1">
             {dict.footer.privacy}

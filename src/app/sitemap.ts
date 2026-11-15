@@ -35,8 +35,6 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
     '/cancellation',
     '/cookies',
     '/guides',
-    '/guides/jeddah-airport-arrival-guide',
-    '/guides/malaysia-umrah-transport',
     '/blog',
     ...BLOG_POSTS.map((post) => `/blog/${post.slug}`),
     '/ziyarat',
@@ -44,9 +42,12 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
     '/ziyarat/madinah',
   ];
 
-  const dynamicRoutes = Object.keys(ROUTES_COMPREHENSIVE_DATA).map(
-    (slug) => '/routes/' + slug
-  );
+  const nativeLongForm = locale === 'ar' || locale === 'en';
+  const dynamicRoutes = nativeLongForm
+    ? Object.keys(ROUTES_COMPREHENSIVE_DATA)
+        .filter((slug) => slug !== 'riyadh-airport-transfer')
+        .map((slug) => `/routes/${slug}`)
+    : [];
 
   // Authoritative verified fleet vehicles (Mercedes-Maybach intentionally excluded per strict indexing eligibility)
   const dynamicVehicles = [
@@ -59,25 +60,26 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
 
   // Comprehensive Guides: Eligible only for fully localized versions (Arabic & English) per approved Sitemap Condition 2
   // Other language versions remain accessible on-site but are kept out of sitemaps until their body text is translated.
-  const eligibleGuides =
-    locale === 'ar' || locale === 'en'
-      ? COMPREHENSIVE_GUIDES.map((g) => `/guides/${g.slug}`)
-      : [];
+  const eligibleGuides = nativeLongForm
+    ? [...COMPREHENSIVE_GUIDES.map((g) => `/guides/${g.slug}`),
+       '/guides/jeddah-airport-arrival-guide',
+       '/guides/malaysia-umrah-transport']
+    : [];
 
   // Dynamic Ziyarat Sites
-  const ziyaratSitePaths = Object.values(ZIYARAT_SITES).map(
-    (s) => `/ziyarat/${s.city}/${s.slug}`
-  );
+  const ziyaratSitePaths = nativeLongForm
+    ? Object.values(ZIYARAT_SITES).map((s) => `/ziyarat/${s.city}/${s.slug}`)
+    : [];
 
   // Dynamic Ziyarat Tours
-  const ziyaratTourPaths = Object.values(ZIYARAT_TOURS).map(
-    (t) => `/ziyarat/tours/${t.slug}`
-  );
+  const ziyaratTourPaths = nativeLongForm
+    ? Object.values(ZIYARAT_TOURS).map((t) => `/ziyarat/tours/${t.slug}`)
+    : [];
 
   // Dynamic Ziyarat Guides
-  const ziyaratGuidePaths = Object.values(ZIYARAT_GUIDES).map(
-    (g) => `/ziyarat/guides/${g.slug}`
-  );
+  const ziyaratGuidePaths = nativeLongForm
+    ? Object.values(ZIYARAT_GUIDES).map((g) => `/ziyarat/guides/${g.slug}`)
+    : [];
 
   // Dynamic Country Landing Pages (strictly exclude noindex pages like greece, and draft/unverified markets)
   const pilgrimCountryPaths = Object.values(PILGRIM_COUNTRIES)
@@ -108,13 +110,14 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
 
     // If path is a comprehensive guide, only include verified localized alternates (ar & en) to protect hreflang integrity
     let alternateLanguages = alternates.languages;
-    const isCompGuide =
-      path.startsWith('/guides/') &&
-      path !== '/guides' &&
-      path !== '/guides/jeddah-airport-arrival-guide' &&
-      path !== '/guides/malaysia-umrah-transport';
+    const isNativeEditorialPath =
+      path.startsWith('/guides/') ||
+      path.startsWith('/routes/') ||
+      path.startsWith('/ziyarat/tours/') ||
+      path.startsWith('/ziyarat/guides/') ||
+      /^\/ziyarat\/(makkah|madinah)\/[^/]+$/.test(path);
 
-    if (isCompGuide) {
+    if (isNativeEditorialPath) {
       alternateLanguages = {
         ar: `${baseUrl}/ar${path}`,
         en: `${baseUrl}/en${path}`,

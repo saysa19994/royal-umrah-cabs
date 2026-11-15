@@ -15,6 +15,8 @@ import {
 import { Locale } from '@/i18n/config';
 import { FleetShowcaseVehicle } from '@/data/fleet-showcase-data';
 import { useCurrency } from '@/context/CurrencyContext';
+import { APPROVED_5_FLEET } from '@/data/approved-fleet-homepage';
+import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
 
 interface FleetCatalogProps {
   vehicles: FleetShowcaseVehicle[];
@@ -179,6 +181,18 @@ const FLEET_I18N: Record<string, Record<Locale, string>> = {
     de: 'Koffer',
     hi: 'सामान',
     tr: 'valiz',
+  },
+  startingFrom: {
+    en: 'Starting from',
+    ar: 'تبدأ من',
+    ms: 'Bermula dari',
+    id: 'Mulai dari',
+    ur: 'ابتدائی کرایہ',
+    fr: 'À partir de',
+    es: 'Desde',
+    de: 'Ab',
+    hi: 'शुरुआती किराया',
+    tr: 'Başlangıç fiyatı',
   },
   fullDetails: {
     en: 'Full Details',
@@ -672,6 +686,7 @@ const APPROVED_BLUEPRINT_FLEET: StandardVehicleSpec[] = [
 ];
 
 export function FleetCatalog({ locale }: FleetCatalogProps) {
+  const { formatPrice } = useCurrency();
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
   const isAr = locale === 'ar';
   const isRtl = isAr || locale === 'ur';
@@ -785,15 +800,41 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
 
                     <div className="vehicle-specs">
                       <span className="inline-flex items-center gap-1.5">
-                        <Users className="w-3.5 h-3.5 text-[#9C815A]" />
+                        <Users className="w-3.5 h-3.5 text-gold-dark" />
                         <strong>{vehicle.passengers}</strong> {t('passengers')}
                       </span>
-                      <span className="text-[#DEDBD4]">•</span>
+                      <span className="text-border-strong">•</span>
                       <span className="inline-flex items-center gap-1.5">
-                        <Briefcase className="w-3.5 h-3.5 text-[#9C815A]" />
+                        <Briefcase className="w-3.5 h-3.5 text-gold-dark" />
                         <strong>{vehicle.luggage}</strong> {t('luggage')}
                       </span>
                     </div>
+
+                    {(() => {
+                      const approved = APPROVED_5_FLEET.find((item) => item.bookingParam === vehicle.bookingVehicleId);
+                      const feats = (approved?.features[locale] || approved?.features.en || []).slice(0, 3);
+                      const startSAR = AUTHORITATIVE_TRANSFER_RATES['jeddah-airport-to-makkah']?.[vehicle.bookingVehicleId] ?? null;
+                      return (
+                        <div className="mt-3 pt-3 border-t border-border space-y-3">
+                          <ul className="space-y-1.5 text-xs text-ink-muted">
+                            {feats.map((f, fIdx) => (
+                              <li key={fIdx} className="flex items-center gap-2">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-gold-dark shrink-0" />
+                                <span className="truncate">{f}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <div className="flex items-baseline justify-between pt-2 border-t border-border/60">
+                            <span className="text-[11px] font-semibold uppercase tracking-wider text-ink-muted">
+                              {t('startingFrom')}
+                            </span>
+                            <span className="font-serif font-bold text-xl text-gold-dark">
+                              {startSAR !== null ? (<>{formatPrice(startSAR)} <span className="text-[11px] font-normal text-ink-muted">({startSAR} SAR)</span></>) : (locale === 'ar' ? 'السعر عند الطلب' : locale === 'tr' ? 'Fiyat teklifi alın' : 'Request a quote')}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })()}
 
                     <div className="vehicle-card-actions">
                       <Link
@@ -844,7 +885,7 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
             <Link
               href={`/${locale}/fleet/mercedes-maybach`}
               aria-label="Mercedes-Maybach S-Class"
-              className="flex flex-col items-center justify-center p-4 rounded-2xl bg-[#141D2C] border border-white/10 hover:border-[#D6A13A] transition-all group"
+              className="flex flex-col items-center justify-center p-4 rounded-2xl bg-surface border border-border hover:border-[#D6A13A] transition-all group"
             >
               <div className="w-full h-32 flex items-center justify-center mb-2">
                 <Image
@@ -855,14 +896,14 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
                   className="object-contain max-h-28 transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
-              <span className="text-xs sm:text-sm font-semibold text-[#F6F3ED] group-hover:text-[#D6A13A] transition-colors text-center">
+              <span className="text-xs sm:text-sm font-semibold text-ink group-hover:text-[#D6A13A] transition-colors text-center">
                 Mercedes-Maybach S-Class
               </span>
             </Link>
             <Link
               href={`/${locale}/fleet/hyundai-h1`}
               aria-label="Hyundai H1"
-              className="flex flex-col items-center justify-center p-4 rounded-2xl bg-[#141D2C] border border-white/10 hover:border-[#D6A13A] transition-all group"
+              className="flex flex-col items-center justify-center p-4 rounded-2xl bg-surface border border-border hover:border-[#D6A13A] transition-all group"
             >
               <div className="w-full h-32 flex items-center justify-center mb-2">
                 <Image
@@ -873,7 +914,7 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
                   className="object-contain max-h-28 transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
-              <span className="text-xs sm:text-sm font-semibold text-[#F6F3ED] group-hover:text-[#D6A13A] transition-colors text-center">
+              <span className="text-xs sm:text-sm font-semibold text-ink group-hover:text-[#D6A13A] transition-colors text-center">
                 Hyundai H1
               </span>
             </Link>
@@ -882,20 +923,20 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
       </section>
 
       {/* 4. COMPARISON SPECIFICATION MATRIX */}
-      <section className="section bg-[#090D15] border-t border-white/10">
+      <section className="section bg-bg-alt border-t border-border">
         <div className="wrap">
           <div className="mb-8 text-center sm:text-start">
             <span className="eyebrow">{t('comparisonBadge')}</span>
-            <h2 className="text-2xl sm:text-3xl font-serif text-[#F6F3ED]">
+            <h2 className="text-2xl sm:text-3xl font-serif text-ink">
               {t('comparisonTitle')}
             </h2>
           </div>
 
           {/* DESKTOP TABLE VIEW */}
-          <div className="hidden md:block overflow-x-auto rounded-xl border border-white/10 shadow-xl bg-[#101725]">
+          <div className="hidden md:block overflow-x-auto rounded-xl border border-border shadow-md bg-surface">
             <table className="w-full text-start border-collapse text-xs sm:text-sm">
               <thead>
-                <tr className="bg-[#141D2C] text-[#F6F3ED] text-[11px] font-bold uppercase tracking-wider border-b border-[#D6A13A]/40">
+                <tr className="bg-bg-alt text-ink text-[11px] font-bold uppercase tracking-wider border-b border-[#D6A13A]/40">
                   <th className="py-3.5 px-4 text-start">{t('colVehicle')}</th>
                   <th className="py-3.5 px-3 text-start">{t('colClass')}</th>
                   <th className="py-3.5 px-3 text-center">{t('colPax')}</th>
@@ -904,15 +945,15 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
                   <th className="py-3.5 px-4 text-center">{t('colAction')}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-border">
                 {APPROVED_BLUEPRINT_FLEET.map((v, idx) => (
                   <tr
                     key={v.id}
-                    className={idx % 2 === 0 ? 'bg-[#101725]' : 'bg-[#141D2C]/60 hover:bg-[#141D2C]'}
+                    className={idx % 2 === 0 ? 'bg-surface' : 'bg-bg-alt/60 hover:bg-bg-alt'}
                   >
-                    <td className="py-3.5 px-4 font-bold text-[#F6F3ED]">
+                    <td className="py-3.5 px-4 font-bold text-ink">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-8 rounded bg-[#141D2C] border border-white/10 overflow-hidden shrink-0 flex items-center justify-center p-1">
+                        <div className="w-12 h-8 rounded bg-surface border border-border overflow-hidden shrink-0 flex items-center justify-center p-1">
                           <Image
                             src={v.image}
                             alt={v.name[locale] || v.name.en}
@@ -924,16 +965,16 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
                         <span>{v.name[locale] || v.name.en}</span>
                       </div>
                     </td>
-                    <td className="py-3.5 px-3 text-[#AEB7C4]">
+                    <td className="py-3.5 px-3 text-ink-muted">
                       {v.kicker[locale] || v.kicker.en}
                     </td>
-                    <td className="py-3.5 px-3 text-center font-bold text-[#F6F3ED]">
+                    <td className="py-3.5 px-3 text-center font-bold text-ink">
                       {v.passengers}
                     </td>
-                    <td className="py-3.5 px-3 text-center font-bold text-[#F6F3ED]">
+                    <td className="py-3.5 px-3 text-center font-bold text-ink">
                       {v.luggage}
                     </td>
-                    <td className="py-3.5 px-4 text-[#AEB7C4]">
+                    <td className="py-3.5 px-4 text-ink-muted">
                       {v.acType[locale] || v.acType.en}
                     </td>
                     <td className="py-3.5 px-4 text-center">
@@ -955,10 +996,10 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
             {APPROVED_BLUEPRINT_FLEET.map((v) => (
               <div
                 key={v.id}
-                className="p-4 rounded-2xl bg-[#101725] border border-white/10 space-y-3 shadow-md"
+                className="p-4 rounded-2xl bg-surface border border-border space-y-3 shadow-md"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-16 h-12 rounded-xl bg-[#141D2C] border border-white/10 p-1 flex items-center justify-center shrink-0">
+                  <div className="w-16 h-12 rounded-xl bg-surface border border-border p-1 flex items-center justify-center shrink-0">
                     <Image
                       src={v.image}
                       alt={v.name[locale] || v.name.en}
@@ -968,23 +1009,23 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
                     />
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm text-[#F6F3ED]">{v.name[locale] || v.name.en}</h3>
-                    <p className="text-[11px] text-[#AEB7C4]">{v.kicker[locale] || v.kicker.en}</p>
+                    <h3 className="font-bold text-sm text-ink">{v.name[locale] || v.name.en}</h3>
+                    <p className="text-[11px] text-ink-muted">{v.kicker[locale] || v.kicker.en}</p>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 text-xs pt-1 border-t border-white/5">
-                  <div className="flex items-center gap-1.5 text-[#AEB7C4]">
+                <div className="grid grid-cols-2 gap-2 text-xs pt-1 border-t border-border">
+                  <div className="flex items-center gap-1.5 text-ink-muted">
                     <Users className="w-3.5 h-3.5 text-[#D6A13A]" />
                     <span><strong>{v.passengers}</strong> {t('passengers')}</span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-[#AEB7C4]">
+                  <div className="flex items-center gap-1.5 text-ink-muted">
                     <Briefcase className="w-3.5 h-3.5 text-[#D6A13A]" />
                     <span><strong>{v.luggage}</strong> {t('luggage')}</span>
                   </div>
                 </div>
 
-                <div className="text-[11px] text-[#AEB7C4] flex items-center gap-1.5 bg-[#141D2C] p-2 rounded-lg">
+                <div className="text-[11px] text-ink-muted flex items-center gap-1.5 bg-bg-alt p-2 rounded-lg">
                   <Snowflake className="w-3.5 h-3.5 text-[#D6A13A] shrink-0" />
                   <span className="truncate">{v.acType[locale] || v.acType.en}</span>
                 </div>

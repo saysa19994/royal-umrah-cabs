@@ -1,0 +1,42 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+const read = (file) => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
+
+test('The route price has no hardcoded SAR 200 minimum', () => {
+  const s = read('src/app/[locale]/routes/[slug]/page.tsx');
+  assert.match(s, /Math\.min\(\.\.\.configuredFares\)/);
+  assert.doesNotMatch(s, /Math\.min\([^)]*\b200\b/);
+});
+test('No legacy direct-owner-session bypass remains in admin auth', () => {
+  for (const f of ['src/app/api/admin/auth/login/route.ts','src/app/admin/layout.tsx','src/lib/auth/server-auth.ts']) {
+    const s = read(f);
+    assert.doesNotMatch(s, /createOwnerSession\(/, `unexpected bypass in ${f}`);
+    assert.doesNotMatch(s, /verifyOwnerSession\(/, `unexpected legacy cookie in ${f}`);
+    assert.doesNotMatch(s, /OWNER_MASTER_PASSWORD/, `legacy master password in ${f}`);
+  }
+});
+test('Password updates use the Supabase Auth API, not plaintext site settings', () => {
+  const s = read('src/app/api/admin/account/password/route.ts');
+  assert.match(s, /auth\.admin\.updateUserById/);
+  assert.doesNotMatch(s, /telegram_chat_id/);
+});
+test('Long-form language fallbacks cannot publish ten-locale alternate links', () => {
+  const s = read('src/lib/seo/localization-indexing.ts');
+  assert.match(s,/NATIVE_EDITORIAL_LOCALES/);
+  assert.match(s,/index: hasNativeEditorialContent\(locale\)/);
+  const sitemap=read('src/app/sitemap.ts');
+  assert.match(sitemap,/const nativeLongForm/);
+  assert.match(sitemap,/isNativeEditorialPath/);
+});
+test('Riyadh airport is disabled for new bookings and public route landing', () => {
+  assert.match(read('src/lib/pricing-server.ts'), /'riyadh-airport-transfer': false/);
+  assert.match(read('src/app/[locale]/routes/[slug]/page.tsx'), /slug === 'riyadh-airport-transfer'/);
+});
+test('Theme CSS is imported globally and both modes have explicit tokens', () => {
+  assert.match(read('src/app/layout.tsx'), /duyuf-premium-final\.css/);
+  const css=read('src/styles/duyuf-premium-final.css');
+  assert.match(css, /html\[data-theme="dark"\]/);
+  assert.match(css, /\.duyuf-vehicle-detail/);
+  assert.match(css, /\.duyuf-pricing-page/);
+});

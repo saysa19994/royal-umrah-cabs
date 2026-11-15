@@ -126,7 +126,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
         num: '01',
         title: 'الانطلاق من فندقك بمكة أو المدينة',
         subtitle: 'تحميل الأمتعة وتبريد المقصورة ودعاء السفر',
-        desc: 'يصل سائقك في الموعد المحدد أمام بهو الفندق، ويساعدك في تحميل كافة الحقائب، لتبدأ رحلتك بأدعية السفر وضيافة ماء زمزم البارد.',
+        desc: 'يصل سائقك في الموعد المحدد أمام بهو الفندق، ويساعدك في تحميل كافة الحقائب، لتبدأ رحلتك بأدعية السفر في مقصورة مكيفة ومريحة.',
         highlight: 'انطلاق فندقي مريح',
       },
       {
@@ -219,7 +219,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
         num: '01',
         title: 'Private Hotel Lobby Departure',
         subtitle: 'Luggage loading, cabin climate pre-cool, and travel prayer',
-        desc: 'Your uniformed chauffeur arrives on time at your hotel portico, handles all bags, and starts the journey with travel prayers and chilled Zamzam water.',
+        desc: 'Your uniformed chauffeur arrives on time at your hotel portico, handles all bags, and begins the journey in a pre-cooled executive cabin.',
         highlight: 'Lobby Curbside Departure',
       },
       {
@@ -312,7 +312,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
         num: '01',
         title: 'Bertolak dari Lobi Hotel',
         subtitle: 'Penyusunan beg dan doa bermusafir',
-        desc: 'Pemandu tiba tepat pada masanya di lobi hotel anda, memuatkan semua beg, dan memulakan perjalanan dengan doa musafir dan air Zamzam.',
+        desc: 'Pemandu tiba tepat pada masanya di lobi hotel anda, memuatkan semua beg, dan memulakan perjalanan dengan doa musafir dalam kabin berhawa dingin.',
         highlight: 'Bertolak Dari Hotel',
       },
       {
@@ -405,7 +405,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
         num: '01',
         title: 'Berangkat dari Lobi Hotel',
         subtitle: 'Pemuatan koper dan doa safar',
-        desc: 'Sopir tiba tepat waktu di depan lobi hotel, membantu mengangkat seluruh koper, dan memulai perjalanan dengan doa safar dan air Zamzam dingin.',
+        desc: 'Sopir tiba tepat waktu di depan lobi hotel, membantu mengangkat seluruh koper, dan memulai perjalanan dengan doa safar di kabin ber-AC yang nyaman.',
         highlight: 'Jemput Langsung di Lobi',
       },
       {
@@ -498,7 +498,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
         num: '01',
         title: 'ہوٹل لابی سے باعزت روانگی',
         subtitle: 'سامان لوڈنگ، ٹھنڈا کیبن اور مسنون دعائے سفر',
-        desc: 'ڈرائیور مقررہ وقت پر ہوٹل کے پورٹیکو پر حاضر ہوگا، تمام سامان لوڈ کرے گا اور دعائے سفر و آبِ زمزم کے ساتھ سفر شروع ہوگا۔',
+        desc: 'ڈرائیور مقررہ وقت پر ہوٹل کے پورٹیکو پر حاضر ہوگا، تمام سامان لوڈ کرے گا اور دعائے سفر کے ساتھ آرام دہ ایئر کنڈیشنڈ کیبن میں سفر شروع ہوگا۔',
         highlight: 'ہوٹل سے براہ راست روانگی',
       },
       {
@@ -591,7 +591,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
         num: '01',
         title: 'Départ du Hall de Votre Hôtel',
         subtitle: 'Prise en charge des bagages et invocation du voyage',
-        desc: 'Votre chauffeur ponctuel charge toutes vos valises et entame la route avec l\'invocation du voyageur et des bouteilles d\'eau de Zamzam fraîches.',
+        desc: 'Votre chauffeur ponctuel charge toutes vos valises et entame la route en toute sérénité dans une cabine climatisée.',
         highlight: 'Départ Personnalisé à l\'Hôtel',
       },
       {
@@ -777,7 +777,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
         num: '01',
         title: 'Abfahrt an Ihrer Hotellobby',
         subtitle: 'Gepäckverladung und Reisegebet',
-        desc: 'Ihr pünktlicher Chauffeur lädt Ihr gesamtes Gepäck ein und beginnt die Fahrt mit Reisegebeten und gekühltem Zamzam-Wasser.',
+        desc: 'Ihr pünktlicher Chauffeur lädt Ihr gesamtes Gepäck ein und beginnt die Fahrt entspannt im vorgekühlten Fahrzeug.',
         highlight: 'Direkte Hotelabfahrt',
       },
       {
@@ -870,7 +870,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
         num: '01',
         title: 'Salida desde su Hotel',
         subtitle: 'Carga de equipaje y oración del viajero',
-        desc: 'Su chófer llega puntual al hotel, guarda las maletas y comienza el viaje con oraciones y agua Zamzam fría.',
+        desc: 'Su chófer llega puntual al hotel, guarda las maletas y comienza el viaje cómodamente en una cabina climatizada.',
         highlight: 'Salida Directa del Hotel',
       },
       {
@@ -963,7 +963,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
         num: '01',
         title: 'होटल लॉबी से प्रस्थान',
         subtitle: 'सामान लोड करना और सफ़र की दुआ',
-        desc: 'ड्राइवर समय पर होटल के द्वार पर पहुंचता है, सामान रखता है और सफ़र की दुआ व ठंडे ज़मज़म पानी के साथ यात्रा शुरू होती है।',
+        desc: 'ड्राइवर समय पर होटल के द्वार पर पहुंचता है, सामान रखता है और सफ़र की दुआ और वातानुकूलित केबिन के आराम के साथ यात्रा शुरू होती है।',
         highlight: 'होटल से सीधी रवानगी',
       },
       {
@@ -1013,9 +1013,9 @@ export function IntercityRouteExperience({
   const isRtl = locale === 'ar' || locale === 'ur';
 
   // Authoritative database rates for intercity routes
-  const stariaPrice = rates['staria'] || 550;
-  const yukonPrice = rates['yukon'] || 750;
-  const hiacePrice = rates['hiace'] || 750;
+  const stariaPrice = rates['staria'] || 500;
+  const yukonPrice = rates['yukon'] || 1000;
+  const hiacePrice = rates['hiace'] || 600;
   const maybachPrice = rates['maybach'] || 1800;
 
   const highwayFleet = [
@@ -1024,8 +1024,8 @@ export function IntercityRouteExperience({
       name: locale === 'ar' ? 'هيونداي ستاريا VIP' : 'Hyundai Staria VIP',
       category: locale === 'ar' ? 'فان عائلي فاخر' : 'Luxury Family Van',
       image: '/assets/images/studio-2k/hyundai-staria-studio-2k.webp',
-      pax: 6,
-      bags: 4,
+      pax: 7,
+      bags: 6,
       price: stariaPrice,
       isRecommended: true,
     },
@@ -1034,8 +1034,8 @@ export function IntercityRouteExperience({
       name: locale === 'ar' ? 'جي إم سي يوكن XL برستيج' : 'GMC Yukon XL Prestige',
       category: locale === 'ar' ? 'دفع رباعي رئاسي' : 'Presidential SUV',
       image: '/assets/images/studio-2k/gmc-yukon-studio-2k.webp',
-      pax: 6,
-      bags: 6,
+      pax: 7,
+      bags: 8,
       price: yukonPrice,
       isRecommended: false,
     },
@@ -1045,7 +1045,7 @@ export function IntercityRouteExperience({
       category: locale === 'ar' ? 'فان عائلي كبير' : 'Executive Minibus',
       image: '/assets/images/studio-2k/toyota-hiace-studio-2k.webp',
       pax: 10,
-      bags: 8,
+      bags: 10,
       price: hiacePrice,
       isRecommended: false,
     },
@@ -1069,34 +1069,34 @@ export function IntercityRouteExperience({
           <Compass className="w-3.5 h-3.5" />
           <span>{t.badge}</span>
         </div>
-        <h2 className="font-display font-black text-2xl sm:text-3xl md:text-4xl text-white tracking-tight mb-3">
+        <h2 className="font-display font-black text-2xl sm:text-3xl md:text-4xl text-ink tracking-tight mb-3">
           {t.title}
         </h2>
-        <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-light">
+        <p className="text-sm sm:text-base text-ink-muted leading-relaxed font-light">
           {t.subtitle}
         </p>
       </div>
 
       {/* 1. FACTUAL INTERCITY TRANSPORT COMPARISON MATRIX */}
-      <div className="bg-[#101725] rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl mb-12 overflow-hidden">
+      <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-2xl mb-12 overflow-hidden">
         <div className="flex items-center justify-between gap-3 mb-6 flex-wrap">
           <div>
             <span className="text-[11px] font-bold text-[#D4AF37] uppercase tracking-widest block mb-1">
               Objective Travel Analysis
             </span>
-            <h3 className="font-display font-black text-lg sm:text-xl text-white">
+            <h3 className="font-display font-black text-lg sm:text-xl text-ink">
               {t.compareHeaderFeature}
             </h3>
           </div>
 
           {/* MOBILE TABS */}
-          <div className="flex md:hidden p-1 bg-[#141D2C] rounded-xl border border-white/5 w-full">
+          <div className="flex md:hidden p-1 bg-bg-alt rounded-xl border border-border w-full">
             <button
               onClick={() => setActiveCompareTab('vip')}
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
                 activeCompareTab === 'vip'
                   ? 'bg-gradient-to-r from-[#D4AF37] to-[#B38F2B] text-[#0A0A0C]'
-                  : 'text-slate-400'
+                  : 'text-ink-muted'
               }`}
             >
               Duyuf VIP
@@ -1106,7 +1106,7 @@ export function IntercityRouteExperience({
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
                 activeCompareTab === 'train'
                   ? 'bg-[#D4AF37]/20 text-[#D4AF37]'
-                  : 'text-slate-400'
+                  : 'text-ink-muted'
               }`}
             >
               Haramain Train
@@ -1116,7 +1116,7 @@ export function IntercityRouteExperience({
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
                 activeCompareTab === 'bus'
                   ? 'bg-[#D4AF37]/20 text-[#D4AF37]'
-                  : 'text-slate-400'
+                  : 'text-ink-muted'
               }`}
             >
               Public Bus
@@ -1125,10 +1125,10 @@ export function IntercityRouteExperience({
         </div>
 
         {/* COMPARISON TABLE */}
-        <div className="overflow-x-auto rounded-2xl border border-white/10">
+        <div className="overflow-x-auto rounded-2xl border border-border">
           <table className="w-full text-start border-collapse text-xs sm:text-sm">
             <thead>
-              <tr className="bg-[#141D2C] text-slate-300 border-b border-white/10">
+              <tr className="bg-bg-alt text-ink-muted border-b border-border">
                 <th className="py-4 px-4 sm:px-6 font-bold uppercase tracking-wider text-start">
                   Criterion
                 </th>
@@ -1138,26 +1138,26 @@ export function IntercityRouteExperience({
                     <span>{t.compareHeaderVip}</span>
                   </div>
                 </th>
-                <th className="py-4 px-4 sm:px-6 font-semibold text-slate-300 text-start hidden md:table-cell">
+                <th className="py-4 px-4 sm:px-6 font-semibold text-ink-muted text-start hidden md:table-cell">
                   {t.compareHeaderTrain}
                 </th>
-                <th className="py-4 px-4 sm:px-6 font-semibold text-slate-400 text-start hidden md:table-cell">
+                <th className="py-4 px-4 sm:px-6 font-semibold text-ink-muted text-start hidden md:table-cell">
                   {t.compareHeaderBus}
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5 text-slate-300">
+            <tbody className="divide-y divide-border text-ink-muted">
               {t.features.map((feat, idx) => (
                 <tr
                   key={idx}
-                  className={`${idx % 2 === 0 ? 'bg-[#101725]' : 'bg-[#141D2C]/40'} hover:bg-white/5 transition-colors`}
+                  className={`${idx % 2 === 0 ? 'bg-surface' : 'bg-bg-alt/60'} hover:bg-bg transition-colors`}
                 >
-                  <td className="py-4 px-4 sm:px-6 font-bold text-white whitespace-nowrap">
+                  <td className="py-4 px-4 sm:px-6 font-bold text-ink whitespace-nowrap">
                     {feat.name}
                   </td>
 
                   {/* VIP COLUMN */}
-                  <td className="py-4 px-4 sm:px-6 bg-[#D4AF37]/5 text-slate-200 font-medium">
+                  <td className="py-4 px-4 sm:px-6 bg-[#D4AF37]/5 text-ink font-medium">
                     <div className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
                       <span>{feat.vip}</span>
@@ -1165,12 +1165,12 @@ export function IntercityRouteExperience({
                   </td>
 
                   {/* TRAIN COLUMN */}
-                  <td className="py-4 px-4 sm:px-6 text-slate-400 font-light hidden md:table-cell">
+                  <td className="py-4 px-4 sm:px-6 text-ink-muted font-light hidden md:table-cell">
                     {feat.train}
                   </td>
 
                   {/* BUS COLUMN */}
-                  <td className="py-4 px-4 sm:px-6 text-slate-500 font-light hidden md:table-cell">
+                  <td className="py-4 px-4 sm:px-6 text-ink-muted font-light hidden md:table-cell">
                     {feat.bus}
                   </td>
                 </tr>
@@ -1181,15 +1181,15 @@ export function IntercityRouteExperience({
       </div>
 
       {/* 2. HIJRAH EXPRESSWAY 4-STAGE MILESTONES */}
-      <div className="bg-[#101725] rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl mb-12 space-y-6">
+      <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-2xl mb-12 space-y-6">
         <div className="text-center max-w-2xl mx-auto space-y-1">
           <span className="text-[11px] font-bold text-[#D4AF37] uppercase tracking-widest block">
             Sacred Expressway Journey
           </span>
-          <h3 className="font-display font-black text-xl sm:text-2xl text-white">
+          <h3 className="font-display font-black text-xl sm:text-2xl text-ink">
             {t.milestonesTitle}
           </h3>
-          <p className="text-xs text-slate-400 font-light">
+          <p className="text-xs text-ink-muted font-light">
             {t.milestonesSubtitle}
           </p>
         </div>
@@ -1198,7 +1198,7 @@ export function IntercityRouteExperience({
           {t.milestones.map((m, idx) => (
             <div
               key={idx}
-              className="p-5 rounded-2xl bg-[#141D2C] border border-white/5 space-y-3 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all flex flex-col justify-between"
+              className="p-5 rounded-2xl bg-bg-alt border border-border space-y-3 relative overflow-hidden group hover:border-[#D4AF37]/40 transition-all flex flex-col justify-between"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
@@ -1211,20 +1211,20 @@ export function IntercityRouteExperience({
                 </div>
 
                 <div>
-                  <h4 className="font-bold text-sm text-white group-hover:text-[#D4AF37] transition-colors mb-0.5">
+                  <h4 className="font-bold text-sm text-ink group-hover:text-[#D4AF37] transition-colors mb-0.5">
                     {m.title}
                   </h4>
-                  <span className="text-[11px] text-slate-400 block font-light">
+                  <span className="text-[11px] text-ink-muted block font-light">
                     {m.subtitle}
                   </span>
                 </div>
 
-                <p className="text-xs text-slate-300 leading-relaxed font-light">
+                <p className="text-xs text-ink-muted leading-relaxed font-light">
                   {m.desc}
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-white/5 flex items-center gap-1.5 text-[10px] text-[#D4AF37] font-bold uppercase tracking-wider">
+              <div className="pt-3 border-t border-border flex items-center gap-1.5 text-[10px] text-[#D4AF37] font-bold uppercase tracking-wider">
                 <Coffee className="w-3.5 h-3.5" />
                 <span>Executive Rest Facility</span>
               </div>
@@ -1234,15 +1234,15 @@ export function IntercityRouteExperience({
       </div>
 
       {/* 3. HIGHWAY FLEET WITH REAL 2K TRANSPARENT CAR IMAGES */}
-      <div className="bg-[#101725] rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl mb-12 space-y-6">
+      <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-2xl mb-12 space-y-6">
         <div className="text-center sm:text-start">
           <span className="text-[11px] font-bold text-[#D4AF37] uppercase tracking-widest block mb-1">
             Long-Distance Executive Fleet
           </span>
-          <h3 className="font-display font-black text-xl sm:text-2xl text-white">
+          <h3 className="font-display font-black text-xl sm:text-2xl text-ink">
             {t.fleetTitle}
           </h3>
-          <p className="text-xs text-slate-400 font-light mt-0.5">
+          <p className="text-xs text-ink-muted font-light mt-0.5">
             {t.fleetSubtitle}
           </p>
         </div>
@@ -1251,7 +1251,7 @@ export function IntercityRouteExperience({
           {highwayFleet.map((veh) => (
             <div
               key={veh.id}
-              className="bg-[#141D2C] rounded-2xl p-5 border border-white/10 hover:border-[#D4AF37]/60 transition-all duration-300 flex flex-col justify-between group shadow-xl hover:-translate-y-1"
+              className="bg-bg-alt rounded-2xl p-5 border border-border hover:border-[#D4AF37]/60 transition-all duration-300 flex flex-col justify-between group shadow-xl hover:-translate-y-1"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
@@ -1265,7 +1265,7 @@ export function IntercityRouteExperience({
                   )}
                 </div>
 
-                <h4 className="font-extrabold text-base text-white group-hover:text-[#D4AF37] transition-colors">
+                <h4 className="font-extrabold text-base text-ink group-hover:text-[#D4AF37] transition-colors">
                   {veh.name}
                 </h4>
 
@@ -1280,7 +1280,7 @@ export function IntercityRouteExperience({
                   />
                 </div>
 
-                <div className="flex items-center gap-4 text-xs text-slate-300 py-2 border-y border-white/5">
+                <div className="flex items-center gap-4 text-xs text-ink-muted py-2 border-y border-border">
                   <span className="flex items-center gap-1.5 font-medium">
                     <Users className="w-4 h-4 text-[#D4AF37]" /> {veh.pax} {t.paxLabel}
                   </span>
@@ -1292,14 +1292,14 @@ export function IntercityRouteExperience({
 
               <div className="pt-4 flex items-center justify-between mt-4">
                 <div>
-                  <span className="text-[10px] text-slate-400 block uppercase tracking-wider">
+                  <span className="text-[10px] text-ink-muted block uppercase tracking-wider">
                     {t.fixedFareLabel}
                   </span>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-black text-[#D4AF37]">
                       {veh.price}
                     </span>
-                    <span className="text-xs font-bold text-white">{t.sarLabel}</span>
+                    <span className="text-xs font-bold text-ink">{t.sarLabel}</span>
                   </div>
                 </div>
 
@@ -1326,8 +1326,8 @@ export function IntercityRouteExperience({
           <span className="text-[11px] font-bold tracking-wider text-[#D4AF37] uppercase">
             {t.guaranteeBadge}
           </span>
-          <h4 className="text-lg font-bold text-white">{t.guaranteeTitle}</h4>
-          <p className="text-xs text-slate-300 font-light leading-relaxed">
+          <h4 className="text-lg font-bold text-ink">{t.guaranteeTitle}</h4>
+          <p className="text-xs text-ink-muted font-light leading-relaxed">
             {t.guaranteeDesc}
           </p>
         </div>
@@ -1340,7 +1340,7 @@ export function IntercityRouteExperience({
           )}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-wider transition-all whitespace-nowrap shrink-0"
+          className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/5 border border-border hover:bg-white/10 text-ink font-bold text-xs uppercase tracking-wider transition-all whitespace-nowrap shrink-0"
         >
           <Sparkles className="w-4 h-4 text-[#D4AF37]" />
           <span>WhatsApp Concierge</span>

@@ -125,8 +125,8 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
       },
       {
         title: '3. خدمة مناولة الأمتعة والمقصورة المعقمة',
-        desc: 'يتولى السائق نقل وتحميل كافة الحقائب إلى صندوق السيارة برفق، لتدخل مقصورة مبردة ومجهزة بعبوات ماء زمزم وشواحن هواتف سريعة.',
-        highlight: 'ضيافة زمزم مبردة',
+        desc: 'يتولى السائق نقل وتحميل كافة الحقائب إلى صندوق السيارة برفق، لتدخل مقصورة مبردة ومزودة بشواحن هواتف سريعة ومساحة مخصصة لحقائبكم.',
+        highlight: 'مقصورة مكيفة ومعقمة',
       },
       {
         title: '4. الانطلاق عبر طريق مكة - جدة السريع المباشر',
@@ -199,8 +199,8 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
       },
       {
         title: '3. Luggage Porterage & Chilled Boarding',
-        desc: 'Your chauffeur handles all heavy luggage. Step into a sanitized, climate-controlled cabin stocked with chilled Zamzam water and device chargers.',
-        highlight: 'Chilled Zamzam Hospitality',
+        desc: 'Your chauffeur handles all heavy luggage. Step into a sanitized, climate-controlled cabin equipped with fast device chargers and spacious luggage capacity.',
+        highlight: 'Sanitized Pre-Cooled Cabin',
       },
       {
         title: '4. Direct Highway 40 Express Transit',
@@ -273,8 +273,8 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
       },
       {
         title: '3. Bantuan Bagasi & Kenderaan Sejuk',
-        desc: 'Pemandu menguruskan semua beg. Masuk ke ruang selesa berhawa dingin lengkap dengan air Zamzam sejuk.',
-        highlight: 'Air Zamzam Disediakan',
+        desc: 'Pemandu menguruskan semua beg. Masuk ke ruang selesa berhawa dingin lengkap dengan pengecas peranti dan ruang bagasi luas.',
+        highlight: 'Kabin Sejuk & Bersih',
       },
       {
         title: '4. Perjalanan Terus Lebuhraya Makkah (Laluan 40)',
@@ -347,8 +347,8 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
       },
       {
         title: '3. Layanan Angkut Koper & Kabin Dingin',
-        desc: 'Sopir mengangkat semua koper Anda ke bagasi. Nikmati kabin bersih ber-AC dengan air Zamzam dingin.',
-        highlight: 'Air Zamzam Dingin Siap Saji',
+        desc: 'Sopir mengangkat semua koper Anda ke bagasi. Nikmati kabin bersih ber-AC dengan pengisi daya perangkat dan ruang bagasi luas.',
+        highlight: 'Kabin Dingin & Bersih',
       },
       {
         title: '4. Perjalanan Tol Cepat Makkah - Jeddah (Rute 40)',
@@ -421,8 +421,8 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
       },
       {
         title: '3. سامان اٹھانے کی خدمت اور ٹھنڈا کیبن',
-        desc: 'ڈرائیور تمام بھاری سامان گاڑی میں لوڈ کرے گا۔ مکمل ایئر کنڈیشنڈ گاڑی میں ٹھنڈا آبِ زمزم پیش کیا جائے گا۔',
-        highlight: 'ٹھنڈا آبِ زمزم دستیاب',
+        desc: 'ڈرائیور تمام بھاری سامان گاڑی میں لوڈ کرے گا۔ مکمل ایئر کنڈیشنڈ گاڑی میں فون چارجرز اور کشادہ سامان کی جگہ دستیاب ہوگی۔',
+        highlight: 'ایئر کنڈیشنڈ اور صاف کیبن',
       },
       {
         title: '4. مکہ ایکسپریس وے (روٹ 40) پر براہ راست سفر',
@@ -495,8 +495,8 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
       },
       {
         title: '3. Prise en Charge des Bagages & Confort Climatisé',
-        desc: 'Vos bagages sont chargés par le chauffeur. Bouteilles d\'eau de Zamzam fraîches et chargeurs disponibles à bord.',
-        highlight: 'Eau de Zamzam Fraîche',
+        desc: 'Vos bagages sont chargés par le chauffeur. Cabine climatisée, propre et équipée de chargeurs rapides à bord.',
+        highlight: 'Cabine Climatisée VIP',
       },
       {
         title: '4. Trajet Direct Autoroute 40 Djeddah - La Mecque',
@@ -643,8 +643,8 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
       },
       {
         title: '3. Gepäckservice & kühler Komfort',
-        desc: 'Der Fahrer verstaut Ihr Gepäck. Erfrischen Sie sich mit gekühltem Zamzam-Wasser im klimatisierten Wagen.',
-        highlight: 'Gekühltes Zamzam-Wasser',
+        desc: 'Der Fahrer verstaut Ihr Gepäck. Genießen Sie den voll klimatisierten, gepflegten Wagen mit Ladeanschlüssen.',
+        highlight: 'Vorgekühlte VIP-Kabine',
       },
       {
         title: '4. Direkte Fahrt über den Makkah Expressway (Route 40)',
@@ -717,8 +717,8 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
       },
       {
         title: '3. Asistencia con Equipaje y Confort Fresco',
-        desc: 'El chófer guarda su equipaje. Disfrute de agua Zamzam fresca y cargadores de móvil a bordo.',
-        highlight: 'Agua Zamzam Fresca',
+        desc: 'El chófer guarda su equipaje. Disfrute de una cabina climatizada y cargadores de móvil a bordo.',
+        highlight: 'Cabina Climatizada VIP',
       },
       {
         title: '4. Trayecto Directo por la Autovía 40',
@@ -824,7 +824,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
 export function AirportTransferExperience({
   locale,
   slug,
-  minPriceSAR = 200,
+  minPriceSAR,
   rates = {},
 }: AirportTransferExperienceProps) {
   const [activeTerminal, setActiveTerminal] = useState<'t1' | 'north'>('t1');
@@ -834,11 +834,18 @@ export function AirportTransferExperience({
   const isRtl = locale === 'ar' || locale === 'ur';
 
   // Real authoritative rates from database/constants
-  const camryPrice = rates['camry'] || 200;
-  const stariaPrice = rates['staria'] || 350;
-  const yukonPrice = rates['yukon'] || 450;
-  const hiacePrice = rates['hiace'] || 450;
-  const maybachPrice = rates['maybach'] || 1200;
+  const quoteLabels: Record<Locale, string> = {
+    en: 'Request a quote', ar: 'السعر عند الطلب', ms: 'Minta sebut harga',
+    id: 'Minta penawaran', ur: 'قیمت دریافت کریں', fr: 'Demander un devis',
+    es: 'Solicitar presupuesto', de: 'Angebot anfordern',
+    hi: 'मूल्य पूछें', tr: 'Fiyat teklifi isteyin',
+  };
+
+  const camryPrice = (typeof rates['camry'] === 'number' && rates['camry'] > 0 ? rates['camry'] : null);
+  const stariaPrice = (typeof rates['staria'] === 'number' && rates['staria'] > 0 ? rates['staria'] : null);
+  const yukonPrice = (typeof rates['yukon'] === 'number' && rates['yukon'] > 0 ? rates['yukon'] : null);
+  const hiacePrice = (typeof rates['hiace'] === 'number' && rates['hiace'] > 0 ? rates['hiace'] : null);
+  const maybachPrice = (typeof rates['maybach'] === 'number' && rates['maybach'] > 0 ? rates['maybach'] : null);
 
   const terminalInfo = activeTerminal === 't1' ? t.terminal1Details : t.terminal2Details;
 
@@ -849,8 +856,8 @@ export function AirportTransferExperience({
       category: locale === 'ar' ? 'سيدان فاخرة' : 'Executive Sedan',
       image: '/assets/images/studio-2k/toyota-camry-studio-2k.webp',
       filter: 'couples',
-      pax: 3,
-      bags: 2,
+      pax: 4,
+      bags: 3,
       price: camryPrice,
       isOptimal: activeFilter === 'couples',
     },
@@ -860,8 +867,8 @@ export function AirportTransferExperience({
       category: locale === 'ar' ? 'فان عائلي فاخر' : 'Luxury Family Van',
       image: '/assets/images/studio-2k/hyundai-staria-studio-2k.webp',
       filter: 'family',
-      pax: 6,
-      bags: 4,
+      pax: 7,
+      bags: 6,
       price: stariaPrice,
       isOptimal: activeFilter === 'family' || activeFilter === 'all',
     },
@@ -871,8 +878,8 @@ export function AirportTransferExperience({
       category: locale === 'ar' ? 'دفع رباعي رئاسي' : 'Presidential SUV',
       image: '/assets/images/studio-2k/gmc-yukon-studio-2k.webp',
       filter: 'family',
-      pax: 6,
-      bags: 6,
+      pax: 7,
+      bags: 8,
       price: yukonPrice,
       isOptimal: false,
     },
@@ -883,7 +890,7 @@ export function AirportTransferExperience({
       image: '/assets/images/studio-2k/toyota-hiace-studio-2k.webp',
       filter: 'extended',
       pax: 10,
-      bags: 8,
+      bags: 10,
       price: hiacePrice,
       isOptimal: activeFilter === 'extended',
     },
@@ -895,7 +902,7 @@ export function AirportTransferExperience({
       filter: 'executive',
       pax: 3,
       bags: 3,
-      price: maybachPrice,
+      price: null,
       isOptimal: activeFilter === 'executive',
     },
   ];
@@ -917,24 +924,24 @@ export function AirportTransferExperience({
           <Plane className="w-3.5 h-3.5" />
           <span>{t.badge}</span>
         </div>
-        <h2 className="font-display font-black text-2xl sm:text-3xl md:text-4xl text-white tracking-tight mb-3">
+        <h2 className="font-display font-black text-2xl sm:text-3xl md:text-4xl text-ink tracking-tight mb-3">
           {t.title}
         </h2>
-        <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-light">
+        <p className="text-sm sm:text-base text-ink-muted leading-relaxed font-light">
           {t.subtitle}
         </p>
       </div>
 
       {/* 1. INTERACTIVE TERMINAL SELECTOR */}
-      <div className="bg-[#101725] rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl mb-12">
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 mb-6 p-1.5 bg-[#0A0A0C] rounded-2xl border border-white/10">
+      <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-2xl mb-12">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 mb-6 p-1.5 bg-bg-alt rounded-2xl border border-border">
           <button
             type="button"
             onClick={() => setActiveTerminal('t1')}
             className={`flex-1 flex flex-col items-center justify-center py-3.5 px-4 rounded-xl text-center transition-all duration-300 cursor-pointer ${
               activeTerminal === 't1'
                 ? 'bg-gradient-to-r from-[#D4AF37] to-[#B38F2B] text-[#0A0A0C] font-black shadow-lg shadow-[#D4AF37]/20 scale-101'
-                : 'text-slate-400 hover:text-white hover:bg-white/5'
+                : 'text-ink-muted hover:text-ink hover:bg-bg'
             }`}
           >
             <span className="text-sm font-bold flex items-center gap-2">
@@ -950,7 +957,7 @@ export function AirportTransferExperience({
             className={`flex-1 flex flex-col items-center justify-center py-3.5 px-4 rounded-xl text-center transition-all duration-300 cursor-pointer ${
               activeTerminal === 'north'
                 ? 'bg-gradient-to-r from-[#D4AF37] to-[#B38F2B] text-[#0A0A0C] font-black shadow-lg shadow-[#D4AF37]/20 scale-101'
-                : 'text-slate-400 hover:text-white hover:bg-white/5'
+                : 'text-ink-muted hover:text-ink hover:bg-bg'
             }`}
           >
             <span className="text-sm font-bold flex items-center gap-2">
@@ -963,33 +970,33 @@ export function AirportTransferExperience({
 
         {/* TERMINAL DETAILS CARD */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-          <div className="p-5 rounded-2xl bg-[#141D2C] border border-white/5 flex flex-col justify-between space-y-3">
+          <div className="p-5 rounded-2xl bg-bg-alt border border-border flex flex-col justify-between space-y-3">
             <div>
-              <div className="flex items-center gap-2 text-white font-bold text-sm mb-1.5">
+              <div className="flex items-center gap-2 text-ink font-bold text-sm mb-1.5">
                 <Compass className="w-4 h-4 text-[#D4AF37] shrink-0" />
                 <span>{terminalInfo.gateTitle}</span>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed font-light">
+              <p className="text-xs text-ink-muted leading-relaxed font-light">
                 {terminalInfo.gateDesc}
               </p>
             </div>
-            <div className="pt-3 border-t border-white/5 text-[11px] text-[#D4AF37] font-semibold flex items-center gap-1.5">
+            <div className="pt-3 border-t border-border text-[11px] text-[#D4AF37] font-semibold flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5 shrink-0" />
               <span>{terminalInfo.walkingTime}</span>
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#141D2C] border border-white/5 md:col-span-2 flex flex-col justify-between space-y-3">
+          <div className="p-5 rounded-2xl bg-bg-alt border border-border md:col-span-2 flex flex-col justify-between space-y-3">
             <div>
-              <div className="flex items-center gap-2 text-white font-bold text-sm mb-1.5">
+              <div className="flex items-center gap-2 text-ink font-bold text-sm mb-1.5">
                 <Sparkles className="w-4 h-4 text-[#D4AF37] shrink-0" />
                 <span>{terminalInfo.meetingSpotTitle}</span>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed font-light">
+              <p className="text-xs text-ink-muted leading-relaxed font-light">
                 {terminalInfo.meetingSpotDesc}
               </p>
             </div>
-            <div className="pt-3 border-t border-white/5 text-[11px] text-emerald-400 flex items-center gap-2 font-medium">
+            <div className="pt-3 border-t border-border text-[11px] text-emerald-400 flex items-center gap-2 font-medium">
               <ShieldCheck className="w-4 h-4 shrink-0" />
               <span>GACA & Ministry of Hajj & Umrah Licensed Chauffeur Protocol</span>
             </div>
@@ -998,16 +1005,16 @@ export function AirportTransferExperience({
       </div>
 
       {/* 2. FLEET MATCHING WITH REAL VEHICLE IMAGES */}
-      <div className="bg-[#101725] rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl mb-12 space-y-6">
+      <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-2xl mb-12 space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <span className="text-[11px] font-bold text-[#D4AF37] uppercase tracking-widest block mb-1">
               Smart Fleet Selection
             </span>
-            <h3 className="font-display font-extrabold text-xl sm:text-2xl text-white">
+            <h3 className="font-display font-extrabold text-xl sm:text-2xl text-ink">
               {t.filterTitle}
             </h3>
-            <p className="text-xs text-slate-400 font-light mt-0.5">
+            <p className="text-xs text-ink-muted font-light mt-0.5">
               {t.filterSubtitle}
             </p>
           </div>
@@ -1028,7 +1035,7 @@ export function AirportTransferExperience({
                 className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer ${
                   activeFilter === item.id
                     ? 'bg-gradient-to-r from-[#D4AF37] to-[#B38F2B] text-[#0A0A0C] shadow-md shadow-[#D4AF37]/20'
-                    : 'bg-[#141D2C] text-slate-400 hover:text-white border border-white/5 hover:border-white/20'
+                    : 'bg-bg-alt text-ink-muted hover:text-ink border border-border hover:border-white/20'
                 }`}
               >
                 {item.label}
@@ -1042,7 +1049,7 @@ export function AirportTransferExperience({
           {filteredVehicles.map((veh) => (
             <div
               key={veh.id}
-              className="bg-[#141D2C] rounded-2xl p-5 border border-white/10 hover:border-[#D4AF37]/60 transition-all duration-300 flex flex-col justify-between group shadow-xl hover:-translate-y-1"
+              className="bg-bg-alt rounded-2xl p-5 border border-border hover:border-[#D4AF37]/60 transition-all duration-300 flex flex-col justify-between group shadow-xl hover:-translate-y-1"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
@@ -1056,7 +1063,7 @@ export function AirportTransferExperience({
                   )}
                 </div>
 
-                <h4 className="font-extrabold text-base text-white group-hover:text-[#D4AF37] transition-colors">
+                <h4 className="font-extrabold text-base text-ink group-hover:text-[#D4AF37] transition-colors">
                   {veh.name}
                 </h4>
 
@@ -1071,7 +1078,7 @@ export function AirportTransferExperience({
                   />
                 </div>
 
-                <div className="flex items-center gap-4 text-xs text-slate-300 py-2 border-y border-white/5">
+                <div className="flex items-center gap-4 text-xs text-ink-muted py-2 border-y border-border">
                   <span className="flex items-center gap-1.5 font-medium">
                     <Users className="w-4 h-4 text-[#D4AF37]" /> {veh.pax} {t.paxLabel}
                   </span>
@@ -1083,19 +1090,21 @@ export function AirportTransferExperience({
 
               <div className="pt-4 flex items-center justify-between mt-4">
                 <div>
-                  <span className="text-[10px] text-slate-400 block uppercase tracking-wider">
+                  <span className="text-[10px] text-ink-muted block uppercase tracking-wider">
                     {t.fixedFareLabel}
                   </span>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-black text-[#D4AF37]">
-                      {veh.price}
+                    <span className="text-xl font-bold text-gold-dark">
+                      {veh.price === null ? quoteLabels[locale] : veh.price}
                     </span>
-                    <span className="text-xs font-bold text-white">{t.sarLabel}</span>
+                    {veh.price !== null && <span className="text-xs font-bold text-ink">{t.sarLabel}</span>}
                   </div>
                 </div>
 
                 <Link
-                  href={`/${locale}/booking?route=${slug}&vehicle=${veh.id}`}
+                  href={veh.price !== null
+                    ? `/${locale}/booking?route=${slug}&vehicle=${veh.id}`
+                    : `https://wa.me/966567588261?text=${encodeURIComponent(`Hello, I would like a quotation for ${veh.name} on ${slug}.`)}`}
                   className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B38F2B] hover:from-[#E5C158] hover:to-[#C49E34] text-[#0A0A0C] text-xs font-extrabold uppercase tracking-wider transition-all shadow-md shadow-[#D4AF37]/20 flex items-center gap-1.5 active:scale-95"
                 >
                   <span>{t.bookNowButton}</span>
@@ -1108,15 +1117,15 @@ export function AirportTransferExperience({
       </div>
 
       {/* 3. 6-STAGE FLIGHT ARRIVAL TIMELINE */}
-      <div className="bg-[#101725] rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl mb-12 space-y-6">
+      <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-2xl mb-12 space-y-6">
         <div className="text-center max-w-2xl mx-auto space-y-1">
           <span className="text-[11px] font-bold text-[#D4AF37] uppercase tracking-widest block">
             Arrival Protocol
           </span>
-          <h3 className="font-display font-extrabold text-xl sm:text-2xl text-white">
+          <h3 className="font-display font-extrabold text-xl sm:text-2xl text-ink">
             {t.timelineTitle}
           </h3>
-          <p className="text-xs text-slate-400 font-light">
+          <p className="text-xs text-ink-muted font-light">
             {t.timelineSubtitle}
           </p>
         </div>
@@ -1125,7 +1134,7 @@ export function AirportTransferExperience({
           {t.steps.map((step, idx) => (
             <div
               key={idx}
-              className="p-5 rounded-2xl bg-[#141D2C] border border-white/5 space-y-3 relative overflow-hidden group hover:border-[#D4AF37]/30 transition-all"
+              className="p-5 rounded-2xl bg-bg-alt border border-border space-y-3 relative overflow-hidden group hover:border-[#D4AF37]/30 transition-all"
             >
               <div className="flex items-center justify-between">
                 <span className="w-8 h-8 rounded-xl bg-[#D4AF37]/15 text-[#D4AF37] font-black text-xs flex items-center justify-center">
@@ -1136,11 +1145,11 @@ export function AirportTransferExperience({
                 </span>
               </div>
 
-              <h4 className="font-bold text-sm text-white group-hover:text-[#D4AF37] transition-colors">
+              <h4 className="font-bold text-sm text-ink group-hover:text-[#D4AF37] transition-colors">
                 {step.title}
               </h4>
 
-              <p className="text-xs text-slate-300 leading-relaxed font-light">
+              <p className="text-xs text-ink-muted leading-relaxed font-light">
                 {step.desc}
               </p>
             </div>
@@ -1158,8 +1167,8 @@ export function AirportTransferExperience({
           <span className="text-[11px] font-bold tracking-wider text-[#D4AF37] uppercase">
             {t.guaranteeBadge}
           </span>
-          <h4 className="text-lg font-bold text-white">{t.guaranteeTitle}</h4>
-          <p className="text-xs text-slate-300 font-light leading-relaxed">
+          <h4 className="text-lg font-bold text-ink">{t.guaranteeTitle}</h4>
+          <p className="text-xs text-ink-muted font-light leading-relaxed">
             {t.guaranteeDesc}
           </p>
         </div>
@@ -1172,7 +1181,7 @@ export function AirportTransferExperience({
           )}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-wider transition-all whitespace-nowrap shrink-0"
+          className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/5 border border-border hover:bg-white/10 text-ink font-bold text-xs uppercase tracking-wider transition-all whitespace-nowrap shrink-0"
         >
           <Award className="w-4 h-4 text-[#D4AF37]" />
           <span>{t.contactWhatsApp}</span>

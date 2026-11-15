@@ -1,143 +1,63 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { requireRole } from '@/lib/auth/server-auth';
-import { createServiceClient } from '@/lib/supabase/service';
 import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 const ChangePasswordSchema = z.object({
-  currentPassword: z.string().min(1, 'Current password is required'),
-  newPassword: z.string().min(6, 'New password must be at least 6 characters'),
-  totpCode: z.string().optional().default(''),
+  currentPassword: z.string().min(1),
+  newPassword: z.string().min(12, 'Use at least 12 characters for the new password').max(128),
+  totpCode: z.string().regex(/^\d{6}$/, 'A 6-digit authenticator code is required'),
 });
 
-/**
- * POST /api/admin/account/password
- * Owner-only password change. Validates current password and updates master credentials.
- */
+/** Owner password change; no plaintext password storage and no master-password bypass. */
 export async function POST(request: Request) {
   try {
     const clientIp = getClientIp(request);
-    const authResult = await requireRole(request, ['owner']);
-    if (authResult.errorResponse) {
-      return authResult.errorResponse;
-    }
+    const auth = await requireRole(request, ['owner']);
+    if (auth.errorResponse) return auth.errorResponse;
+    const owner = auth.user;
+    const limit = await rateLimit(`owner_pwd_change:${clientIp}:${owner.auth_user_id}`, 5, 900);
+    if (!limit.success) return NextResponse.json({ error: 'Too many attempts.' }, { status: 429 });
 
-    const { user: currentUser } = authResult;
+    const parsed = ChangePasswordSchema.safeParse(await request.json());
+    if (!parsed.success) return NextResponse.json({ error: parsed.error.errors[0]?.message || 'Invalid input' }, { status: 400 });
+    const { currentPassword, newPassword, totpCode } = parsed.data;
+    if (currentPassword === newPassword) return NextResponse.json({ error: 'Choose a different password.' }, { status: 400 });
 
-    // Rate limit: 10 attempts per 15 minutes
-    const rl = await rateLimit(`owner_pwd_change:${clientIp}:${currentUser.id}`, 10, 900);
-    if (!rl.success) {
-      return NextResponse.json({ error: 'Too many password change attempts. Please wait.' }, { status: 429 });
-    }
-
-    const body = await request.json();
-    const parseResult = ChangePasswordSchema.safeParse(body);
-    if (!parseResult.success) {
-      return NextResponse.json(
-        { error: parseResult.error.errors[0]?.message || 'Invalid input data' },
-        { status: 400 }
-      );
-    }
-
-    const { currentPassword, newPassword, totpCode } = parseResult.data;
     const supabase = createClient();
-    const serviceClient = createServiceClient();
+    // Fail closed if there is no active and verified authenticator factor.
+    const { data: aal, error: aalError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (aalError || aal?.currentLevel !== 'aal2') return NextResponse.json({ error: 'Verified MFA session required.' }, { status: 403 });
+    const { data: factors, error: factorsError } = await supabase.auth.mfa.listFactors();
+    const verifiedFactor = factors?.totp?.find(f => f.status === 'verified');
+    if (factorsError || !verifiedFactor) return NextResponse.json({ error: 'Enroll a TOTP authenticator first.' }, { status: 403 });
+    const { error: challengeError } = await supabase.auth.mfa.challengeAndVerify({ factorId: verifiedFactor.id, code: totpCode });
+    if (challengeError) return NextResponse.json({ error: 'Invalid authenticator code.' }, { status: 401 });
 
-    // 1. Verify AAL2 only if an MFA factor is verified and active
-    try {
-      const { data: factorsData } = await supabase.auth.mfa.listFactors();
-      const verifiedFactor = factorsData?.totp?.find((f) => f.status === 'verified');
+    // Verify the existing password on the verified owner's own Supabase account.
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email: owner.email, password: currentPassword });
+    if (signInError) return NextResponse.json({ error: 'Current password verification failed.' }, { status: 401 });
 
-      if (verifiedFactor) {
-        if (!totpCode || totpCode.trim().length !== 6) {
-          return NextResponse.json(
-            { error: 'A 6-digit authenticator code is required.' },
-            { status: 400 }
-          );
-        }
+    const service = createServiceClient();
+    const { error: updateError } = await service.auth.admin.updateUserById(owner.auth_user_id, { password: newPassword });
+    if (updateError) return NextResponse.json({ error: 'Password update failed.' }, { status: 500 });
 
-        const challengeRes = await supabase.auth.mfa.challengeAndVerify({
-          factorId: verifiedFactor.id,
-          code: totpCode.trim(),
-        });
-
-        if (!challengeRes.data || challengeRes.error) {
-          return NextResponse.json(
-            { error: 'Invalid two-factor authentication (AAL2) code. Please check your authenticator app.' },
-            { status: 401 }
-          );
-        }
-      }
-    } catch (mfaErr) {
-      console.warn('MFA check notice:', mfaErr);
-    }
-
-    // 2. Verify current password
-    const { data: settings } = await serviceClient
-      .from('site_settings')
-      .select('telegram_chat_id')
-      .eq('lock_id', true)
-      .maybeSingle();
-
-    const storedCustomPwd = settings?.telegram_chat_id?.startsWith('pwd:')
-      ? settings.telegram_chat_id.replace('pwd:', '')
-      : null;
-
-    let pwdValid =
-      currentPassword === 'admin' ||
-      currentPassword === 'admin123' ||
-      (storedCustomPwd !== null && currentPassword === storedCustomPwd);
-
-    if (!pwdValid) {
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: currentUser.email,
-        password: currentPassword,
-      });
-      if (!signInError) {
-        pwdValid = true;
-      }
-    }
-
-    if (!pwdValid) {
-      return NextResponse.json(
-        { error: 'Current password verification failed. Please enter your correct current password.' },
-        { status: 401 }
-      );
-    }
-
-    // 3. Save new password to site_settings and Supabase
-    await serviceClient
-      .from('site_settings')
-      .update({
-        telegram_chat_id: `pwd:${newPassword}`,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('lock_id', true);
-
-    try {
-      if (currentUser.id && currentUser.id !== 'owner-master-id') {
-        await serviceClient.auth.admin.updateUserById(currentUser.id, { password: newPassword });
-      }
-    } catch {}
-
+    await supabase.auth.signOut(); // require a new verified MFA sign-in
     await logAuditEvent({
-      userEmail: currentUser.email,
+      userEmail: owner.email,
       userRole: 'owner',
       action: 'owner_password_changed',
       resource: 'account',
-      resourceId: currentUser.id,
-      newValues: { message: 'Owner password updated successfully' },
+      resourceId: owner.auth_user_id,
+      newValues: { message: 'Owner changed password with AAL2 and TOTP verification' },
       ip: clientIp,
     });
-
-    return NextResponse.json({
-      success: true,
-      message: 'Password updated successfully! You can now use your new password.',
-    });
-  } catch (err: any) {
-    console.error('Change password error:', err);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ success: true, message: 'Password changed. Sign in again with MFA.' });
+  } catch (err) {
+    console.error('Owner password change failed', err);
+    return NextResponse.json({ error: 'Password change failed' }, { status: 500 });
   }
 }

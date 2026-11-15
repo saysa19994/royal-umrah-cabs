@@ -1,4 +1,5 @@
 import { Locale } from '@/i18n/config';
+import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
 
 export interface CityServiceFaq {
   question: string;
@@ -949,7 +950,7 @@ export const TAIF_SERVICE_DATA: Record<Locale, CityServiceContent> = {
   },
 };
 
-export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
+const RIYADH_SERVICE_SOURCE: Record<Locale, CityServiceContent> = {
   ar: {
     metaTitle: 'خدمة سيارات وسائق VIP في الرياض ومطار الملك خالد | ضيوف الرحمن',
     metaDescription:
@@ -1858,3 +1859,48 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = {
     ctaSecondaryBtn: "WhatsApp'tan Yazın",
   },
 };
+
+/**
+ * Only the confirmed Riyadh–Makkah/Madinah intercity transfers are publicly
+ * available. RUH airport transfers are disabled operationally and must not
+ * appear in the page, its JSON-LD, route offers, or booking links.
+ */
+const RIYADH_INTERCITY_COPY: Record<Locale, { title: string; description: string; payment: string }> = {
+  ar: { title: 'نقل خاص من الرياض إلى مكة والمدينة | ضيوف الرحمن VIP', description: 'احجز رحلات برية خاصة بين الرياض ومكة المكرمة أو المدينة المنورة بسيارات تناسب عدد الركاب والحقائب. أسعار حسب المسار والسيارة ودفع نقدي للسائق بعد اكتمال الرحلة.', payment: 'الدفع نقدًا للسائق بعد اكتمال الرحلة ووصولك إلى الوجهة المطلوبة، دون دفع مقدم.' },
+  en: { title: 'Private Transfers from Riyadh to Makkah & Madinah | Duyuf VIP', description: 'Plan a private intercity journey from Riyadh to Makkah or Madinah. Compare eligible vehicles and confirmed route fares. Pay the driver in cash after reaching your requested destination.', payment: 'Cash payment directly to the driver after your journey is completed. No advance payment.' },
+  ms: { title: 'Pengangkutan Peribadi Riyadh ke Makkah dan Madinah | Duyuf VIP', description: 'Rancang perjalanan antara bandar dari Riyadh ke Makkah atau Madinah dengan kereta persendirian. Bandingkan kenderaan dan tambang laluan yang disahkan. Bayar tunai kepada pemandu selepas perjalanan selesai.', payment: 'Bayar tunai kepada pemandu selepas perjalanan selesai. Tiada bayaran pendahuluan.' },
+  id: { title: 'Transfer Pribadi Riyadh ke Makkah dan Madinah | Duyuf VIP', description: 'Rencanakan perjalanan darat pribadi dari Riyadh ke Makkah atau Madinah. Bandingkan pilihan kendaraan dan tarif sesuai rute. Bayar tunai kepada sopir setelah perjalanan selesai.', payment: 'Pembayaran tunai kepada sopir setelah perjalanan selesai. Tanpa uang muka.' },
+  ur: { title: 'ریاض سے مکہ اور مدینہ نجی ٹرانسفر | ضیوف الرحمن VIP', description: 'ریاض سے مکہ مکرمہ یا مدینہ منورہ تک نجی زمینی سفر کی منصوبہ بندی کریں۔ دستیاب گاڑیاں اور راستے کے مطابق کرائے دیکھیں۔ سفر مکمل ہونے کے بعد ڈرائیور کو نقد ادائیگی کریں۔', payment: 'سفر مکمل ہونے اور منزل پر پہنچنے کے بعد ڈرائیور کو نقد ادائیگی کریں، پیشگی ادائیگی نہیں۔' },
+  fr: { title: 'Transferts privés de Riyad vers La Mecque et Médine | Duyuf VIP', description: 'Organisez un transfert privé de Riyad vers La Mecque ou Médine. Comparez les véhicules compatibles et les tarifs des trajets. Payez le chauffeur en espèces après l’arrivée à destination.', payment: 'Paiement en espèces au chauffeur après la fin du trajet et l’arrivée à destination. Aucun acompte.' },
+  es: { title: 'Traslados privados de Riad a La Meca y Medina | Duyuf VIP', description: 'Organiza un viaje privado por carretera desde Riad a La Meca o Medina. Compara vehículos disponibles y tarifas por ruta. Paga en efectivo al conductor al finalizar el viaje.', payment: 'Pago en efectivo al conductor tras finalizar el viaje y llegar al destino. Sin anticipos.' },
+  de: { title: 'Privattransfer von Riad nach Mekka und Medina | Duyuf VIP', description: 'Planen Sie Ihre private Fahrt von Riad nach Mekka oder Medina. Vergleichen Sie verfügbare Fahrzeuge und streckenabhängige Festpreise. Barzahlung an den Fahrer nach Fahrtende am Zielort.', payment: 'Barzahlung an den Fahrer nach Abschluss der Fahrt am Zielort. Keine Vorauszahlung.' },
+  tr: { title: 'Riyad’dan Mekke ve Medine’ye Özel Transfer | Duyuf VIP', description: 'Riyad’dan Mekke veya Medine’ye özel kara yolu ulaşımınızı planlayın. Uygun araçları ve güzergâha göre ücretleri karşılaştırın. Yolculuk tamamlandıktan sonra şoföre nakit ödeme yapın.', payment: 'Yolculuk tamamlandıktan ve varış noktasına ulaştıktan sonra şoföre nakit ödeme yapılır. Ön ödeme yoktur.' },
+  hi: { title: 'रियाद से मक्का और मदीना निजी ट्रांसफ़र | Duyuf VIP', description: 'रियाद से मक्का या मदीना तक निजी सड़क यात्रा की योजना बनाएं। उपलब्ध वाहनों और मार्ग के अनुसार किराए की तुलना करें। यात्रा पूरी होने पर चालक को नकद भुगतान करें।', payment: 'यात्रा पूरी होने और गंतव्य पर पहुँचने के बाद चालक को नकद भुगतान करें। कोई अग्रिम भुगतान नहीं।' },
+};
+
+export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = Object.fromEntries(
+  (Object.keys(RIYADH_SERVICE_SOURCE) as Locale[]).map((locale) => {
+    const source = RIYADH_SERVICE_SOURCE[locale];
+    const clean = RIYADH_INTERCITY_COPY[locale];
+    return [locale, {
+      ...source,
+      metaTitle: clean.title,
+      metaDescription: clean.description,
+      heroTitle: clean.title.split(' | ')[0],
+      heroSubtitle: clean.description,
+      overviewParagraphs: [clean.description, ...source.overviewParagraphs.filter((_, i) => i !== 1)],
+      routesSubtitle: clean.description,
+      routes: source.routes
+        .filter((route) => route.id !== 'riyadh-airport-transfer')
+        .map((route) => {
+          const fares = Object.values(AUTHORITATIVE_TRANSFER_RATES[route.id] || {})
+            .filter((price): price is number => typeof price === 'number' && Number.isFinite(price) && price > 0);
+          return { ...route, priceFromSAR: fares.length ? Math.min(...fares) : route.priceFromSAR };
+        }),
+      // Source FAQ 0/3 advertise the inactive RUH airport pickup/flight service.
+      faqs: source.faqs.filter((_, i) => i === 1 || i === 2).map((f, idx) =>
+        idx === 1 ? { ...f, answer: clean.payment } : f),
+      ctaSubtitle: clean.description,
+    }];
+  })
+) as Record<Locale, CityServiceContent>;
