@@ -177,14 +177,30 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
           };
           document.head.appendChild(script);
         } else {
-          // Poll until turnstile is available
+          // Another form may already be loading Cloudflare's script.
+          // Stop polling after 15s and give a useful error instead of
+          // spinning indefinitely on networks that block the script.
+          let attempts = 0;
           const interval = setInterval(() => {
+            if (!isMounted) return;
+            attempts++;
             if (window.turnstile) {
               clearInterval(interval);
               initTurnstile();
+            } else if (attempts >= 150) {
+              clearInterval(interval);
+              setStatusMessage(ERROR_MESSAGES[locale as Locale] || ERROR_MESSAGES.en);
+              callbacksRef.current.onError?.(new Error('Turnstile script timeout'));
             }
           }, 100);
-          return () => clearInterval(interval);
+          return () => {
+            isMounted = false;
+            clearInterval(interval);
+            if (widgetIdRef.current && window.turnstile) {
+              try { window.turnstile.remove(widgetIdRef.current); } catch {}
+              widgetIdRef.current = null;
+            }
+          };
         }
       }
 
