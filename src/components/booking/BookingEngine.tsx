@@ -33,8 +33,6 @@ import {
 } from 'lucide-react';
 import { TurnstileWidget } from '@/components/common/TurnstileWidget';
 import type { TurnstileWidgetRef } from '@/components/common/TurnstileWidget';
-import { BorderBeam } from '@/components/ui/luxury/BorderBeam';
-import { ShimmerButton } from '@/components/ui/luxury/ShimmerButton';
 import { getEstimatedBasePriceSAR, LOCALIZED_ROUTE_NAMES } from '@/lib/pricing-constants';
 import { trackEvent } from '@/lib/analytics';
 import { COUNTRY_DIAL_CODES, countryFlag } from '@/lib/country-dial-codes';
@@ -2307,7 +2305,6 @@ export function BookingEngine({
             {/* STRICT MANDATORY PAYMENT POLICY CARD */}
             <div className="pt-2">
               <div className="bg-gold-soft/50 rounded-2xl p-5 border-2 border-gold/70 shadow-xs relative overflow-hidden">
-                <BorderBeam size={220} duration={12} colorFrom="#10B981" colorTo="#D6A13A" />
                 <div className="flex items-start gap-4 relative z-10">
                   <div className="w-12 h-12 rounded-xl bg-gold text-slate-950 flex items-center justify-center shrink-0 shadow-xs">
                     <Banknote className="w-6 h-6" />
@@ -2361,26 +2358,23 @@ export function BookingEngine({
                 <span>{t.stepBack}</span>
               </button>
 
-              <ShimmerButton
+              <button
                 type="submit"
                 disabled={isSubmitting || !turnstileToken}
-                className="w-full sm:w-auto min-h-[48px] h-12 px-8 rounded-btn"
-                shimmerColor="#F2C94C"
-                shimmerDuration="2.5s"
-                background="linear-gradient(135deg, #D6A13A 0%, #B58428 100%)"
+                className="duyuf-booking-primary-action w-full sm:w-auto min-h-[52px] px-8 rounded-xl bg-[#1C4148] text-white font-semibold transition-colors hover:bg-[#2C535B] disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>
-                    <span className="w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
-                    <span className="font-bold text-slate-950 uppercase tracking-wider text-xs sm:text-sm">{t.submittingText}</span>
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span className="font-bold text-white tracking-wide text-sm">{t.submittingText}</span>
                   </>
                 ) : (
                   <>
-                    <span className="font-bold text-slate-950 uppercase tracking-wider text-xs sm:text-sm">{t.submitBtn}</span>
-                    <ArrowRight className="w-4 h-4 text-slate-950 rtl:rotate-180" />
+                    <span className="font-bold text-white tracking-wide text-sm">{t.submitBtn}</span>
+                    <ArrowRight className="w-4 h-4 text-white rtl:rotate-180" />
                   </>
                 )}
-              </ShimmerButton>
+              </button>
             </div>
           </form>
         )}
@@ -2389,7 +2383,6 @@ export function BookingEngine({
       {/* ============================================================== */}
       <div className="duyuf-booking-aside lg:col-span-4 lg:sticky lg:top-24 space-y-4">
         <div className="duyuf-booking-summary bg-surface rounded-2xl border border-border p-5 sm:p-6 shadow-sm text-start space-y-4 relative overflow-hidden">
-          <BorderBeam size={220} duration={14} colorFrom="#D6A13A" colorTo="#F2C94C" />
           <div className="flex items-center justify-between border-b border-border pb-3">
             <div>
               <span className="text-[10px] font-bold text-gold-dark uppercase tracking-widest block">
