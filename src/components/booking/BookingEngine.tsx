@@ -1742,8 +1742,8 @@ export function BookingEngine({
               </p>
             </div>
 
-            {/* DIRECT-BOOKING VEHICLES GRID */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Large vehicle portraits; no narrow three-column tiles. */}
+            <div className="duyuf-booking-direct-fleet grid grid-cols-1 md:grid-cols-2 gap-5">
               {Object.entries(VEHICLE_SPECS)
                 .filter(([vId]) => (bookingType === 'group_bus' ? vId === 'hiace' || vId === 'coaster' : true))
                 .map(([vId, vData]) => {
@@ -1783,12 +1783,12 @@ export function BookingEngine({
                       )}
 
                       <div>
-                        <div className="relative w-full h-32 rounded-xl overflow-hidden bg-bg-alt mb-3 border border-border/60">
+                        <div className="duyuf-booking-vehicle-photo relative w-full h-48 rounded-xl overflow-hidden bg-bg-alt mb-4 border border-border/60">
                           <Image
                             src={vData.img}
                             alt={vData.name}
                             fill
-                            sizes="(max-width: 768px) 100vw, 33vw"
+                            sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 32vw"
                             className="object-cover"
                           />
                         </div>
@@ -2383,6 +2383,10 @@ export function BookingEngine({
       {/* ============================================================== */}
       <div className="duyuf-booking-aside lg:col-span-4 lg:sticky lg:top-24 space-y-4">
         <div className="duyuf-booking-summary bg-surface rounded-2xl border border-border p-5 sm:p-6 shadow-sm text-start space-y-4 relative overflow-hidden">
+          <div className="duyuf-booking-summary-visual" aria-hidden="true">
+            <Image src="/assets/homepage-v2/vehicle-interior-cta.jpg" alt="" fill sizes="(max-width: 1023px) 100vw, 35vw" className="object-cover" />
+            <span className="duyuf-booking-summary-visual-caption">DUYUF ALRAHMAN VIP</span>
+          </div>
           <div className="flex items-center justify-between border-b border-border pb-3">
             <div>
               <span className="text-[10px] font-bold text-gold-dark uppercase tracking-widest block">
