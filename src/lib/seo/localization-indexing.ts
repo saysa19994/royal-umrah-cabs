@@ -11,7 +11,10 @@ export function editorialAlternates(locale: Locale, path: string) {
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   const clean = path.startsWith('/') ? path : `/${path}`;
   if (!hasNativeEditorialContent(locale)) {
-    return { canonical: `${base}/en${clean}` };
+    // Keep the locale's own canonical even while it is noindex; do not
+    // misidentify untranslated editorial pages as duplicate English URLs.
+    // Only the fully reviewed locales participate in reciprocal hreflang.
+    return { canonical: `${base}/${locale}${clean}` };
   }
   return {
     canonical: `${base}/${locale}${clean}`,
