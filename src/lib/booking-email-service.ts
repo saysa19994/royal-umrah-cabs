@@ -487,67 +487,52 @@ export async function dispatchBookingEmails(data: BookingEmailData): Promise<{ c
   const fromEmail = process.env.BOOKING_FROM_EMAIL || 'Duyuf Alrahman VIP <booking@duyufalrahmanvip.com>';
   const companyEmail = process.env.BOOKING_NOTIFICATION_EMAIL || 'vip@duyufalrahmanvip.com';
 
-  let customerSent = false;
-  let companySent = false;
-
-  // 1. Dispatch Customer Email if customer provided email
-  if (data.customerEmail && resendApiKey) {
-    try {
-      const { subject, html } = buildCustomerEmailHtml(data);
-      const res = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        signal: AbortSignal.timeout(8000),
-        headers: {
-          Authorization: `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: fromEmail,
-          to: [data.customerEmail],
-          subject,
-          html,
-        }),
-      });
-      customerSent = res.ok;
-      if (!res.ok) {
-        console.error('[EmailService] Customer email dispatch failed with status:', res.status);
-      }
-    } catch (err: any) {
-      console.error('[EmailService] Exception dispatching customer email:', err?.message);
-    }
-  }
-
-  // 2. Dispatch Company Operations Notification
-  if (companyEmail && resendApiKey) {
-    try {
-      const { subject, html } = buildCompanyNotificationHtml(data);
-      const res = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        signal: AbortSignal.timeout(8000),
-        headers: {
-          Authorization: `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: fromEmail,
-          to: [companyEmail],
-          subject,
-          html,
-        }),
-      });
-      companySent = res.ok;
-      if (!res.ok) {
-        console.error('[EmailService] Company email dispatch failed with status:', res.status);
-      }
-    } catch (err: any) {
-      console.error('[EmailService] Exception dispatching company email:', err?.message);
-    }
-  }
-
   if (!resendApiKey) {
     console.warn(`[EmailService] Resend is not configured; no emails were sent for booking #${data.reference}.`);
     return { customerSent: false, companySent: false, error: 'Email provider not configured' };
   }
+
+  // These are provider-acceptance results, not proof of inbox delivery.
+  // Dispatch both emails concurrently so a slow provider never doubles the
+  // booking response latency. Booking persistence is handled by the caller.
+  const send = async (
+    kind: 'Customer' | 'Company',
+    to: string,
+    message: { subject: string; html: string }
+  ): Promise<boolean> => {
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        signal: AbortSignal.timeout(8000),
+        headers: {
+          Authorization: `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: fromEmail,
+          to: [to],
+          subject: message.subject,
+          html: message.html,
+        }),
+      });
+      if (!res.ok) {
+        console.error(`[EmailService] ${kind} email dispatch failed with status:`, res.status);
+      }
+      return res.ok;
+    } catch (err: unknown) {
+      console.error(`[EmailService] Exception dispatching ${kind.toLowerCase()} email:`, err instanceof Error ? err.message : 'Unknown error');
+      return false;
+    }
+  };
+
+  const [customerSent, companySent] = await Promise.all([
+    data.customerEmail
+      ? send('Customer', data.customerEmail, buildCustomerEmailHtml(data))
+      : Promise.resolve(false),
+    companyEmail
+      ? send('Company', companyEmail, buildCompanyNotificationHtml(data))
+      : Promise.resolve(false),
+  ]);
 
   return { customerSent, companySent };
 }
