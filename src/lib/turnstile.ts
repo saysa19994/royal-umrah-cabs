@@ -21,15 +21,14 @@ export async function verifyTurnstileToken(
     !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY.includes('placeholder')
   );
 
-  // If production keys are not yet configured in environment variables,
-  // allow requests to pass gracefully so legitimate customers are not blocked with 503
+  // Production must never bypass bot verification when credentials are missing.
   if (isProd && (!hasSecret || !hasSiteKey)) {
-    return { success: true };
+    return { success: false, error: 'Anti-bot verification is temporarily unavailable', status: 503 };
   }
 
   // Always strictly fail if token is missing
   if (!token) {
-    if (!hasSecret) {
+    if (!hasSecret && !isProd) {
       return { success: true };
     }
     return {
