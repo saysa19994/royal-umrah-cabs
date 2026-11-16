@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { DuyufSignature } from '@/components/brand/DuyufSignature';
 import { usePathname, useRouter } from 'next/navigation';
 import { Locale, LOCALES, LOCALE_CONFIG, CURRENCIES, CurrencyCode } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
@@ -220,14 +220,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
           className="flex items-center gap-2.5 group shrink-0 min-w-0 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-primary)]"
           aria-label="Duyuf Alrahman VIP — ضيوف الرحمن VIP"
         >
-          <Image
-            src="/icon-192.png"
-            alt=""
-            width={45}
-            height={45}
-            className="h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 object-contain shrink-0"
-            priority
-          />
+          <DuyufSignature className="h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 shrink-0 text-[var(--text-primary)]" />
           <span className="flex min-w-0 flex-col text-start leading-tight">
             <strong className="text-[12px] sm:text-sm md:text-[15px] tracking-[0.025em] font-extrabold text-[var(--text-primary)] whitespace-nowrap">
               {locale === 'ar' || locale === 'ur' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
@@ -374,13 +367,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
               <div className={`w-10 h-10 rounded-lg overflow-hidden border flex items-center justify-center shadow-xs ${
                 isDark ? 'border-[#B88B4E]/60 bg-[#131C28]' : 'border-[#E8E2D6] bg-white'
               }`}>
-                <Image
-                  src="/icon-192.png"
-                  alt="Duyuf Alrahman VIP"
-                  width={40}
-                  height={40}
-                  className="w-full h-full object-cover"
-                />
+                <DuyufSignature className={`h-9 w-9 ${isDark ? 'text-[#F4EDE0]' : 'text-[#173B45]'}`} />
               </div>
               <div className="flex flex-col text-start">
                 <span className="font-serif font-bold text-lg uppercase leading-tight">
