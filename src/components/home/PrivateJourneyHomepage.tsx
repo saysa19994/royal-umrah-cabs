@@ -23,6 +23,7 @@ import { useCurrency } from '@/context/CurrencyContext';
 import { APPROVED_5_FLEET } from '@/data/approved-fleet-homepage';
 import { AUTHORITATIVE_TRANSFER_RATES, LOCALIZED_ROUTE_NAMES } from '@/lib/pricing-constants';
 import styles from './PrivateJourneyHomepage.module.css';
+import { DuyufSignature } from '@/components/brand/DuyufSignature';
 
 interface Props {
   locale: Locale;
@@ -177,7 +178,10 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
                 <strong>{L.privateLabel}</strong>
                 <span>JEDDAH · MAKKAH · MADINAH</span>
               </div>
-              <div className={styles.cornerMark} aria-hidden>DUYUF<span>VIP</span></div>
+              <div className={styles.cornerMark} aria-hidden="true">
+                <DuyufSignature className={styles.heroBrandGlyph} />
+                <span className={styles.heroBrandWord}>DUYUF <strong>VIP</strong></span>
+              </div>
             </div>
           </div>
 
@@ -327,6 +331,9 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
           <div className={styles.fleetStage}>
             <div className={styles.fleetImage}>
               <img key={selectedFleetVehicle.id + (interior?'in':'out')} src={interior?selectedFleetVehicle.interiorImage:selectedFleetVehicle.exteriorImage} alt={selectedFleetVehicle.name[locale]} loading="lazy" />
+              <div className={styles.fleetSignature} aria-hidden="true">
+                <DuyufSignature className={styles.fleetSignatureGlyph} />
+              </div>
               <div className={styles.imageToggle} role="group" aria-label={dict.fleet.viewExterior}>
                 <button type="button" aria-pressed={!interior} className={!interior?styles.photoActive:''} onClick={()=>setInterior(false)}>{dict.fleet.viewExterior}</button>
                 <button type="button" aria-pressed={interior} className={interior?styles.photoActive:''} onClick={()=>setInterior(true)}>{dict.fleet.viewInterior}</button>
