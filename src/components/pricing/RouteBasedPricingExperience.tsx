@@ -1342,6 +1342,12 @@ export function RouteBasedPricingExperience({
     }
   };
 
+  const journeyImage = activeRoute?.category === 'ziyarat'
+    ? '/assets/homepage-v2/ziyarat-haram.jpg'
+    : activeRoute?.category === 'airports'
+      ? '/assets/homepage-v2/route-jeddah-makkah.jpg'
+      : '/assets/homepage-v2/service-intercity.jpg';
+
   const categories = [
     { key: 'airports' as RouteCategoryKey, label: t.catAirports, icon: <Plane className="w-4 h-4" /> },
     { key: 'intercity' as RouteCategoryKey, label: t.catIntercity, icon: <Building className="w-4 h-4" /> },
@@ -1350,11 +1356,11 @@ export function RouteBasedPricingExperience({
   ];
 
   return (
-    <div className="w-full text-start" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="duyuf-pricing-experience w-full text-start" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* ─────────────────────────────────────────────────────────────
           STEP 1: CHOOSE TRIP CATEGORY
       ────────────────────────────────────────────────────────────── */}
-      <div className="mb-8 sm:mb-10">
+      <div className="duyuf-pricing-categories mb-8 sm:mb-10">
         <div className="flex items-center gap-2 mb-3">
           <span className="w-6 h-6 rounded-full bg-bg-alt text-gold-dark border border-border text-xs font-bold flex items-center justify-center shrink-0">
             1
@@ -1365,7 +1371,7 @@ export function RouteBasedPricingExperience({
         </div>
 
         {/* 4 Clean, Elegant Category Segmented Tabs */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
+        <div className="duyuf-pricing-category-tabs grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
           {categories.map((cat) => {
             const isActive = activeCategory === cat.key;
             return (
@@ -1398,7 +1404,7 @@ export function RouteBasedPricingExperience({
       {/* ─────────────────────────────────────────────────────────────
           STEP 2: SELECT ROUTE & PROMINENT ROUTE SHOWCASE
       ────────────────────────────────────────────────────────────── */}
-      <div className="mb-10 sm:mb-12">
+      <div className="duyuf-pricing-route-section mb-10 sm:mb-12">
         <div className="flex items-center gap-2 mb-3">
           <span className="w-6 h-6 rounded-full bg-bg-alt text-gold-dark border border-border text-xs font-bold flex items-center justify-center shrink-0">
             2
@@ -1409,7 +1415,7 @@ export function RouteBasedPricingExperience({
         </div>
 
         {/* Route Selector Ribbon */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+        <div className="duyuf-pricing-route-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
           {categoryRoutes.map((route) => {
             const isSelected = selectedRouteId === route.id;
             const routeTitle = LOCALIZED_ROUTE_NAMES[route.id]?.[locale] || route.id;
@@ -1420,7 +1426,7 @@ export function RouteBasedPricingExperience({
                 key={route.id}
                 type="button"
                 onClick={() => setSelectedRouteId(route.id)}
-                className={`p-4 sm:p-5 rounded-2xl border text-start transition-all cursor-pointer flex flex-col justify-between ${
+                className={`duyuf-pricing-route-option p-4 sm:p-5 rounded-2xl border text-start transition-all cursor-pointer flex flex-col justify-between ${
                   isSelected
                     ? 'bg-surface border-gold shadow-md ring-2 ring-[#D6A13A]/30'
                     : 'bg-surface/80 border-border hover:border-gold/60 hover:bg-surface'
@@ -1452,7 +1458,7 @@ export function RouteBasedPricingExperience({
                     {isAr ? 'تبدأ من:' : 'From:'}
                   </span>
                   <span className="text-sm font-extrabold text-gold-dark">
-                    {formatPrice(camryStarting)}
+                    {camryStarting > 0 ? formatPrice(camryStarting) : '—'}
                   </span>
                 </div>
               </button>
@@ -1461,7 +1467,11 @@ export function RouteBasedPricingExperience({
         </div>
 
         {/* Selected Route Showcase Card (Prominent & Regal) */}
-        <div className="rounded-2xl sm:rounded-3xl bg-surface text-ink p-5 sm:p-8 border border-gold/40 shadow-lg">
+        <div className="duyuf-pricing-selected rounded-2xl sm:rounded-3xl bg-surface text-ink p-5 sm:p-8 border border-gold/40 shadow-lg">
+          <div className="duyuf-pricing-selected-photo">
+            <Image src={journeyImage} fill sizes="(max-width: 767px) 100vw, 38vw" alt="" aria-hidden="true" className="object-cover" />
+          </div>
+          <div className="duyuf-pricing-selected-content">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-bold text-gold-dark uppercase tracking-wider mb-2">
@@ -1498,7 +1508,8 @@ export function RouteBasedPricingExperience({
             <div className="mt-4 pt-4 border-t border-border text-xs text-slate-300 flex items-start gap-2.5 leading-relaxed">
               <Compass className="w-4 h-4 text-gold-dark shrink-0 mt-0.5" />
               <span>{activeRoute.miqatNotice[locale]}</span>
-            </div>
+              </div>
+        </div>
           )}
         </div>
       </div>
@@ -1506,7 +1517,7 @@ export function RouteBasedPricingExperience({
       {/* ─────────────────────────────────────────────────────────────
           STEP 3: COMPARE VEHICLES & INSTANT LUXURY BOOKING
       ────────────────────────────────────────────────────────────── */}
-      <div className="mb-12">
+      <div className="duyuf-pricing-vehicle-section mb-12">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-2">
             <span className="w-6 h-6 rounded-full bg-bg-alt text-gold-dark border border-border text-xs font-bold flex items-center justify-center shrink-0">
@@ -1553,7 +1564,7 @@ export function RouteBasedPricingExperience({
         </div>
 
         {/* 5 VEHICLE CARDS (Generous, High-End Presentation) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="duyuf-pricing-vehicle-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {FLEET_SPECS.map((vehicle) => {
             const fareSAR = getVehicleFare(activeRoute.id, vehicle.id);
             if (fareSAR <= 0) {
