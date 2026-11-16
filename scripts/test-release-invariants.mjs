@@ -135,8 +135,8 @@ test('Full-width cinematic hero is composed as a background layer with an access
   const css = read('src/components/home/PrivateJourneyHomepage.module.css');
   const home = read('src/components/home/PrivateJourneyHomepage.tsx');
   assert.match(css, /\.heroVisual\{position:absolute;inset:0;width:100%;height:100%/);
-  assert.match(css, /\.heroGrid\{display:grid;grid-template-columns:minmax\(0,1fr\)/);
-  assert.match(css, /\.searchShell\{position:relative;z-index:3/);
+  assert.match(css, /\.heroGrid\{position:relative;min-height:clamp\(550px,74svh,740px\)/);
+  assert.match(css, /\.searchShell\{position:relative;z-index:2/);
   assert.match(home, /poster="\/assets\/homepage-v2\/hero-poster\.jpg"/);
   assert.match(home, /hero-mobile\.webm/);
 });
