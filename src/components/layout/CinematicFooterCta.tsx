@@ -51,7 +51,9 @@ export function CinematicFooterCta({
     ? /(booking|manage-booking|track-booking|about|contact|services|fleet|blog|ziyarat|privacy|terms|cancellation)/.test(pathname)
     : false;
 
-  if (isSubpage) {
+  // The homepage now owns its own compact conversion ending.
+  // Do not reintroduce the generic photographic CTA over the new design.
+  if (isSubpage || isHomePage) {
     return null;
   }
 
