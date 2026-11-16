@@ -182,7 +182,12 @@ export default async function BookingPage(props: BookingPageProps) {
   let resolvedDropoff = searchParams.dropoff;
 
   if (searchParams.draft) {
-    const draft = await getBookingDraft(searchParams.draft);
+    let draft = null;
+    try {
+      draft = await getBookingDraft(searchParams.draft);
+    } catch (error) {
+      console.error('Booking draft lookup unavailable:', error);
+    }
     if (draft) {
       resolvedRoute = draft.routeId || resolvedRoute;
       resolvedVehicle = draft.vehicleId || resolvedVehicle;
