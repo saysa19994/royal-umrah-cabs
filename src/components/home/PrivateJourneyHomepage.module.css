@@ -32,6 +32,9 @@
   transition:background .2s,transform .2s;
 }
 .buttonPrimary:hover{background:#2c555d;color:#fff;transform:translateY(-1px)}
+:global([data-theme="dark"]) .page .buttonPrimary{color:#14272c}
+:global([data-theme="dark"]) .page .buttonPrimary:hover{color:#fff}
+:global([data-theme="dark"]) .page .serviceArrow{color:#e9cf9d}
 .buttonText,.inlineLink{display:inline-flex;align-items:center;gap:10px;color:var(--ink);font-size:12px;font-weight:800;line-height:1.4}
 .inlineLink:hover,.buttonText:hover{color:var(--bronze)}
 
@@ -178,6 +181,7 @@
 .faqIntro h2{font-size:clamp(35px,3.7vw,55px);line-height:1.14;margin:12px 0 14px!important}
 .faqIntro>p:not(.overline){color:var(--secondary);font-size:13px;line-height:1.8}
 .faqLinks{display:flex;flex-wrap:wrap;gap:21px;margin-top:25px}
+.faqItems{min-width:0;display:flex;flex-direction:column}
 .faqItem{border-bottom:1px solid var(--line)}
 .faqItem:first-child{border-top:1px solid var(--line)}
 .faqItem h3{font-family:inherit;font-size:inherit;font-weight:inherit}
