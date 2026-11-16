@@ -7,7 +7,7 @@
  * Booking is handed to the established booking wizard; this component does not
  * submit reservations, create vehicle availability, or invent fares.
  */
-import { useMemo, useState, type FormEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -44,8 +44,8 @@ const COPY: Record<Locale, {
   payment: string; flight: string; cancellation: string; allIncluded: string;
   stepDetails: string; stepChoose: string; stepReview: string;
 }> = {
-  en: { heroA: 'Every sacred journey', heroB: 'deserves', heroC: 'exceptional care.', feature: 'PRIVATE TRANSPORT · SAUDI ARABIA', privateLabel: 'Private journeys for pilgrims & families', planJourney: 'Plan your transfer', routePlaceholder: 'Choose your journey', routeLabel: 'Your route', chooseDate: 'Travel date', guestsLabel: 'Travelers', luggageLabel: 'Bags', discoverFares: 'Find your vehicle', explore: 'Discover the journey', curated: 'Places worth the journey', destinations: 'Destinations, thoughtfully connected.', servicesKicker: 'THE JOURNEY, REIMAGINED', exploreRoutes: 'Explore transfers', carGallery: 'A fleet for every kind of journey', openGallery: 'View vehicle', next: 'Next', previous: 'Previous', servicePromise: 'Thoughtful service from arrival to destination', howLabel: 'A SIMPLE JOURNEY', reviewRequest: 'Explore verified guest experiences', faqNote: 'Clear answers before you travel', payment: 'Cash paid after the completed journey', flight: 'Flight tracking for airport arrivals', cancellation: 'Free cancellation up to 24h before pickup', allIncluded: 'VAT, fuel, tolls & airport parking included', stepDetails: 'Add travel details', stepChoose: 'Choose a suitable vehicle', stepReview: 'Review & send a request' },
-  ar: { heroA: 'رحلتك المباركة', heroB: 'تستحق عناية', heroC: 'استثنائية.', feature: 'نقل خاص · المملكة العربية السعودية', privateLabel: 'رحلات خاصة للمعتمرين والعائلات', planJourney: 'خطّط لرحلتك', routePlaceholder: 'اختر مسار الرحلة', routeLabel: 'مسار الرحلة', chooseDate: 'تاريخ الرحلة', guestsLabel: 'عدد المسافرين', luggageLabel: 'عدد الحقائب', discoverFares: 'اختر سيارتك', explore: 'اكتشف التجربة', curated: 'وجهات تستحق الزيارة', destinations: 'وجهات مباركة، ورحلات بعناية.', servicesKicker: 'تجربة نقل مختلفة', exploreRoutes: 'استكشف الرحلات', carGallery: 'أسطول يناسب كل رحلة', openGallery: 'تفاصيل السيارة', next: 'التالي', previous: 'السابق', servicePromise: 'نعتني بتفاصيل رحلتك من الاستقبال حتى الوصول', howLabel: 'حجز بسيط وواضح', reviewRequest: 'اطّلع على تجارب الضيوف الموثّقة', faqNote: 'إجابات واضحة قبل الانطلاق', payment: 'الدفع نقدًا للسائق بعد اكتمال الرحلة', flight: 'متابعة الرحلات الجوية عند الاستقبال', cancellation: 'إلغاء مجاني حتى 24 ساعة قبل الموعد', allIncluded: 'الضريبة والوقود والرسوم ومواقف المطار مشمولة', stepDetails: 'أضف تفاصيل الرحلة', stepChoose: 'اختر السيارة المناسبة', stepReview: 'راجع الطلب وأرسله' },
+  en: { heroA: 'Your Journey,', heroB: 'Our', heroC: 'Priority.', feature: 'PRIVATE TRANSPORT · SAUDI ARABIA', privateLabel: 'Private journeys for pilgrims & families', planJourney: 'Book Your Private Ride', routePlaceholder: 'Choose your journey', routeLabel: 'Your route', chooseDate: 'Travel date', guestsLabel: 'Travelers', luggageLabel: 'Bags', discoverFares: 'Find your vehicle', explore: 'Discover the journey', curated: 'Places worth the journey', destinations: 'Destinations, thoughtfully connected.', servicesKicker: 'THE JOURNEY, REIMAGINED', exploreRoutes: 'Explore transfers', carGallery: 'A fleet for every kind of journey', openGallery: 'View vehicle', next: 'Next', previous: 'Previous', servicePromise: 'Thoughtful service from arrival to destination', howLabel: 'A SIMPLE JOURNEY', reviewRequest: 'Explore verified guest experiences', faqNote: 'Clear answers before you travel', payment: 'Cash paid after the completed journey', flight: 'Flight tracking for airport arrivals', cancellation: 'Free cancellation up to 24h before pickup', allIncluded: 'VAT, fuel, tolls & airport parking included', stepDetails: 'Add travel details', stepChoose: 'Choose a suitable vehicle', stepReview: 'Review & send a request' },
+  ar: { heroA: 'رحلتك', heroB: 'تستحق عناية', heroC: 'استثنائية.', feature: 'نقل خاص · المملكة العربية السعودية', privateLabel: 'رحلات خاصة للمعتمرين والعائلات', planJourney: 'خطّط لرحلتك', routePlaceholder: 'اختر مسار الرحلة', routeLabel: 'مسار الرحلة', chooseDate: 'تاريخ الرحلة', guestsLabel: 'عدد المسافرين', luggageLabel: 'عدد الحقائب', discoverFares: 'اختر سيارتك', explore: 'اكتشف التجربة', curated: 'وجهات تستحق الزيارة', destinations: 'وجهات مباركة، ورحلات بعناية.', servicesKicker: 'تجربة نقل مختلفة', exploreRoutes: 'استكشف الرحلات', carGallery: 'أسطول يناسب كل رحلة', openGallery: 'تفاصيل السيارة', next: 'التالي', previous: 'السابق', servicePromise: 'نعتني بتفاصيل رحلتك من الاستقبال حتى الوصول', howLabel: 'حجز بسيط وواضح', reviewRequest: 'اطّلع على تجارب الضيوف الموثّقة', faqNote: 'إجابات واضحة قبل الانطلاق', payment: 'الدفع نقدًا للسائق بعد اكتمال الرحلة', flight: 'متابعة الرحلات الجوية عند الاستقبال', cancellation: 'إلغاء مجاني حتى 24 ساعة قبل الموعد', allIncluded: 'الضريبة والوقود والرسوم ومواقف المطار مشمولة', stepDetails: 'أضف تفاصيل الرحلة', stepChoose: 'اختر السيارة المناسبة', stepReview: 'راجع الطلب وأرسله' },
   ms: { heroA: 'Setiap perjalanan suci', heroB: 'berhak menerima', heroC: 'layanan istimewa.', feature: 'PENGANGKUTAN PERIBADI · ARAB SAUDI', privateLabel: 'Perjalanan peribadi untuk jemaah dan keluarga', planJourney: 'Rancang perjalanan', routePlaceholder: 'Pilih laluan', routeLabel: 'Laluan anda', chooseDate: 'Tarikh perjalanan', guestsLabel: 'Penumpang', luggageLabel: 'Beg', discoverFares: 'Cari kenderaan', explore: 'Terokai perjalanan', curated: 'Destinasi bermakna', destinations: 'Destinasi dihubungkan dengan teliti.', servicesKicker: 'PENGALAMAN PERJALANAN', exploreRoutes: 'Lihat laluan', carGallery: 'Armada untuk setiap perjalanan', openGallery: 'Lihat kenderaan', next: 'Seterusnya', previous: 'Sebelumnya', servicePromise: 'Layanan prihatin dari ketibaan hingga destinasi', howLabel: 'TEMPAHAN MUDAH', reviewRequest: 'Lihat pengalaman tetamu disahkan', faqNote: 'Jawapan jelas sebelum berlepas', payment: 'Tunai selepas perjalanan selesai', flight: 'Penjejakan penerbangan', cancellation: 'Pembatalan percuma sehingga 24 jam', allIncluded: 'Cukai, bahan api, tol dan parkir termasuk', stepDetails: 'Butiran perjalanan', stepChoose: 'Pilih kenderaan', stepReview: 'Semak dan hantar permintaan' },
   id: { heroA: 'Setiap perjalanan ibadah', heroB: 'layak mendapatkan', heroC: 'perhatian istimewa.', feature: 'TRANSPORTASI PRIVAT · ARAB SAUDI', privateLabel: 'Perjalanan privat untuk jamaah dan keluarga', planJourney: 'Rencanakan perjalanan', routePlaceholder: 'Pilih rute', routeLabel: 'Rute perjalanan', chooseDate: 'Tanggal perjalanan', guestsLabel: 'Penumpang', luggageLabel: 'Koper', discoverFares: 'Cari kendaraan', explore: 'Jelajahi perjalanan', curated: 'Destinasi penuh makna', destinations: 'Destinasi terhubung dengan penuh perhatian.', servicesKicker: 'PENGALAMAN PERJALANAN', exploreRoutes: 'Lihat rute', carGallery: 'Armada untuk setiap perjalanan', openGallery: 'Lihat kendaraan', next: 'Berikutnya', previous: 'Sebelumnya', servicePromise: 'Layanan penuh perhatian dari kedatangan hingga tujuan', howLabel: 'PEMESANAN MUDAH', reviewRequest: 'Lihat ulasan tamu terverifikasi', faqNote: 'Jawaban jelas sebelum berangkat', payment: 'Tunai setelah perjalanan selesai', flight: 'Pemantauan penerbangan', cancellation: 'Pembatalan gratis hingga 24 jam', allIncluded: 'Pajak, bahan bakar, tol, parkir termasuk', stepDetails: 'Detail perjalanan', stepChoose: 'Pilih kendaraan', stepReview: 'Tinjau dan kirim permintaan' },
   ur: { heroA: 'ہر مقدس سفر', heroB: 'غیر معمولی', heroC: 'توجہ کا مستحق ہے۔', feature: 'نجی ٹرانسپورٹ · سعودی عرب', privateLabel: 'زائرین اور خاندانوں کے لیے نجی سفر', planJourney: 'اپنا سفر ترتیب دیں', routePlaceholder: 'سفر کا راستہ منتخب کریں', routeLabel: 'سفر کا راستہ', chooseDate: 'تاریخ سفر', guestsLabel: 'مسافر', luggageLabel: 'بیگ', discoverFares: 'گاڑی منتخب کریں', explore: 'سفر دریافت کریں', curated: 'قابل دید مقامات', destinations: 'سوچ سمجھ کر منسلک مقدس مقامات۔', servicesKicker: 'خصوصی سفری تجربہ', exploreRoutes: 'راستے دیکھیں', carGallery: 'ہر سفر کے لیے گاڑیاں', openGallery: 'گاڑی کی تفصیل', next: 'اگلا', previous: 'پچھلا', servicePromise: 'آمد سے منزل تک خیال رکھنے والی خدمت', howLabel: 'آسان بکنگ', reviewRequest: 'تصدیق شدہ مہمانوں کے تجربات', faqNote: 'روانگی سے پہلے واضح جوابات', payment: 'سفر مکمل ہونے کے بعد نقد ادائیگی', flight: 'پرواز کی نگرانی', cancellation: '24 گھنٹے پہلے تک مفت منسوخی', allIncluded: 'ٹیکس، ایندھن اور ٹول شامل', stepDetails: 'سفر کی تفصیلات', stepChoose: 'مناسب گاڑی منتخب کریں', stepReview: 'جائزہ لیں اور درخواست بھیجیں' },
@@ -83,6 +83,26 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
   const L = COPY[locale];
   const router = useRouter();
   const { formatPrice } = useCurrency();
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = heroVideoRef.current;
+    if (!video) return;
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncMotion = () => {
+      if (motionPreference.matches) {
+        video.pause();
+        video.currentTime = 0;
+      } else {
+        void video.play().catch(() => {
+          // Poster stays visible if autoplay is blocked by the browser.
+        });
+      }
+    };
+    syncMotion();
+    motionPreference.addEventListener('change', syncMotion);
+    return () => motionPreference.removeEventListener('change', syncMotion);
+  }, []);
   const [route, setRoute] = useState('');
   const [date, setDate] = useState('');
   const [travelers, setTravelers] = useState('2');
@@ -134,12 +154,23 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
               <p className={styles.underHero}><ShieldCheck size={16} aria-hidden /> {dict.booking_card.noPrepayNotice}</p>
             </div>
             <div className={styles.heroVisual}>
-              <img
+              <video
+                ref={heroVideoRef}
                 className={styles.heroImage}
-                src="/assets/images/yukon_exterior.jpg"
-                alt={`GMC Yukon XL — ${L.privateLabel}`}
-                fetchPriority="high"
-              />
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/assets/homepage-v2/hero-poster.jpg"
+                aria-hidden="true"
+                tabIndex={-1}
+              >
+                <source media="(max-width: 767px)" src="/assets/homepage-v2/hero-mobile.webm" type="video/webm" />
+                <source media="(max-width: 767px)" src="/assets/homepage-v2/hero-mobile.mp4" type="video/mp4" />
+                <source src="/assets/homepage-v2/hero.webm" type="video/webm" />
+                <source src="/assets/homepage-v2/hero.mp4" type="video/mp4" />
+              </video>
               <div className={styles.imageVeil} aria-hidden />
               <div className={styles.heroSideCaption}>
                 <div className={styles.captionLine} />
