@@ -29,66 +29,96 @@ interface BookingPageProps {
   }>;
 }
 
-const PAGE_TEXT: Record<Locale, { badge: string; title: string; subtitle: string }> = {
+const PAGE_TEXT: Record<Locale, { badge: string; title: string; subtitle: string; trust1: string; trust2: string; trust3: string }> = {
   en: {
     badge: 'Direct VIP Chauffeur Reservation',
     title: 'Reserve Your Private Chauffeur',
     subtitle:
       'Guaranteed fixed fares. Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD) — zero advance payment or deposit required.',
+    trust1: "Cash paid after the completed journey · No deposit",
+    trust2: "24/7 flight tracking",
+    trust3: "VAT, fuel, tolls & airport parking included",
   },
   ar: {
     badge: 'حجز مباشر لسائق VIP خاص',
     title: 'احجز رحلتك الخاصة وسائقك الشخصي',
     subtitle:
       'أسعار ثابتة ومحددة بدقة. الدفع نقداً مباشرة للسائق عند الوصول (بالريال السعودي أو الدولار الأمريكي) — لا يلزم أي دفع مسبق أو عربون.',
+    trust1: "الدفع نقدًا للسائق بعد اكتمال الرحلة · دون عربون",
+    trust2: "متابعة الرحلات الجوية على مدار الساعة",
+    trust3: "الضريبة والوقود ورسوم الطرق ومواقف المطار مشمولة",
   },
   fr: {
     badge: 'Réservation Directe de Chauffeur VIP',
     title: 'Réservez Votre Chauffeur Privé',
     subtitle:
       "Tarifs fixes garantis. Paiement direct au chauffeur à l'arrivée en espèces (SAR ou USD) — aucun paiement d'avance ni caution requis.",
+    trust1: "Paiement en espèces après le trajet · Sans acompte",
+    trust2: "Suivi des vols 24 h/24",
+    trust3: "TVA, carburant, péages et parking aéroport inclus",
   },
   es: {
     badge: 'Reserva Directa de Chofer VIP',
     title: 'Reserve Su Chofer Privado',
     subtitle:
       'Tarifas fijas garantizadas. Pago directo al chofer a la llegada en efectivo (SAR o USD) — sin pagos por adelantado ni depósitos.',
+    trust1: "Pago en efectivo tras completar el viaje · Sin depósito",
+    trust2: "Seguimiento de vuelos 24/7",
+    trust3: "IVA, combustible, peajes y estacionamiento incluidos",
   },
   id: {
     badge: 'Pemesanan Langsung Sopir VIP',
     title: 'Pesan Sopir Privat Anda',
     subtitle:
       'Tarif pasti transparan. Bayar tunai langsung ke sopir saat tiba (SAR atau USD) — tanpa uang muka atau deposit sama sekali.',
+    trust1: "Bayar tunai setelah perjalanan selesai · Tanpa deposit",
+    trust2: "Pemantauan penerbangan 24/7",
+    trust3: "Pajak, bahan bakar, tol dan parkir bandara termasuk",
   },
   hi: {
     badge: 'सीधा वीआईपी चौफर आरक्षण',
     title: 'अपना निजी चौफर बुक करें',
     subtitle:
       'निश्चित गारंटीकृत किराया। पहुंचने पर सीधे ड्राइवर को नकद (SAR या USD) भुगतान करें — कोई अग्रिम भुगतान या जमा राशि आवश्यक नहीं है।',
+    trust1: "यात्रा पूरी होने के बाद नकद भुगतान · कोई जमा नहीं",
+    trust2: "24/7 उड़ान निगरानी",
+    trust3: "कर, ईंधन, टोल और हवाई अड्डे की पार्किंग शामिल",
   },
   de: {
     badge: 'Direkte VIP-Chauffeur-Reservierung',
     title: 'Reservieren Sie Ihren Privatchauffeur',
     subtitle:
       'Garantierte Festpreise. Zahlung direkt beim Fahrer bei Ankunft in bar (SAR oder USD) — keinerlei Vorauszahlung oder Kaution erforderlich.',
+    trust1: "Barzahlung nach Fahrtende · Keine Anzahlung",
+    trust2: "Flugüberwachung rund um die Uhr",
+    trust3: "MwSt., Kraftstoff, Maut und Flughafenparkplatz inklusive",
   },
   ur: {
     badge: 'براہ راست وی آئی پی ڈرائیور بکنگ',
     title: 'اپنا پرائیویٹ ڈرائیور بک کریں',
     subtitle:
       'طے شدہ اور شفاف کرائے۔ آمد پر ڈرائیور کو نقد (سعودی ریال یا امریکی ڈالر) براہ راست ادائیگی — کسی پیشگی رقم یا ایڈوانس کی قطعاً ضرورت نہیں۔',
+    trust1: "سفر مکمل ہونے کے بعد نقد ادائیگی · بغیر پیشگی رقم",
+    trust2: "پرواز کی نگرانی 24 گھنٹے",
+    trust3: "ٹیکس، ایندھن، ٹول اور ایئرپورٹ پارکنگ شامل ہیں",
   },
   ms: {
     badge: 'Tempahan Terus Pemandu VIP',
     title: 'Tempah Pemandu Peribadi Anda',
     subtitle:
       'Kadar tetap terjamin. Bayar tunai terus kepada pemandu semasa tiba (SAR atau USD) — tiada bayaran pendahuluan atau deposit diperlukan.',
+    trust1: "Bayar tunai selepas perjalanan selesai · Tiada deposit",
+    trust2: "Penjejakan penerbangan 24/7",
+    trust3: "Cukai, bahan api, tol dan parkir lapangan terbang termasuk",
   },
   tr: {
     badge: 'Doğrudan VIP Şoför Rezervasyonu',
     title: 'Özel Şoförünüzü Ayırtın',
     subtitle:
       'Garantili sabit fiyatlar. Varışta şoföre doğrudan nakit (SAR veya USD) ödeme yapın — ön ödeme veya depozito gerekmez.',
+    trust1: "Yolculuk tamamlandıktan sonra nakit ödeme · Kapora yok",
+    trust2: "7/24 uçuş takibi",
+    trust3: "KDV, yakıt, geçiş ücretleri ve havalimanı otoparkı dahil",
   },
 };
 
