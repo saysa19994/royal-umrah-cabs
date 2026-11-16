@@ -7,6 +7,33 @@
 
 const DEV_TEST_SECRET = '1x0000000000000000000000000000000AA';
 
+// Cloudflare publishes predictable test credentials. Never accept them in a
+// production or Vercel preview runtime, where NODE_ENV is 'production'.
+const TEST_SECRET_KEYS = new Set([
+  '1x0000000000000000000000000000000AA',
+  '2x0000000000000000000000000000000AA',
+  '3x0000000000000000000000000000000AA',
+]);
+const TEST_SITE_KEYS = new Set([
+  '1x00000000000000000000AA',
+  '2x00000000000000000000AB',
+  '1x00000000000000000000BB',
+  '2x00000000000000000000BB',
+  '3x00000000000000000000FF',
+]);
+
+export function isProductionTurnstileConfigured(): boolean {
+  const secret = process.env.TURNSTILE_SECRET_KEY?.trim() || '';
+  const site = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() || '';
+  return Boolean(
+    secret && site &&
+    !secret.includes('placeholder') &&
+    !site.includes('placeholder') &&
+    !TEST_SECRET_KEYS.has(secret) &&
+    !TEST_SITE_KEYS.has(site)
+  );
+}
+
 export async function verifyTurnstileToken(
   token: string | null | undefined,
   remoteIp?: string
@@ -22,7 +49,7 @@ export async function verifyTurnstileToken(
   );
 
   // Production must never bypass bot verification when credentials are missing.
-  if (isProd && (!hasSecret || !hasSiteKey)) {
+  if (isProd && !isProductionTurnstileConfigured()) {
     return { success: false, error: 'Anti-bot verification is temporarily unavailable', status: 503 };
   }
 
