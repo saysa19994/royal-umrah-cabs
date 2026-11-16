@@ -65,8 +65,6 @@
 .page[dir="rtl"] .heroTitle em{font-style:normal}
 .heroDescription{font-size:clamp(15px,1.35vw,19px);color:#EEEDE7;line-height:1.75;max-width:580px;text-wrap:pretty}
 .heroActions{display:flex;flex-wrap:wrap;gap:24px;align-items:center;margin:34px 0 27px}
-.underHero{display:flex;align-items:center;gap:10px;color:#E5E7E2;font-size:12px;line-height:1.6;max-width:520px}
-.underHero svg{flex:none;color:var(--p-bronze)}
 .heroVisual{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;background:#13242A;z-index:0;box-shadow:none}
 .heroVisual:before{content:none}
 .heroImage{position:absolute;inset:0;width:100%!important;height:100%;object-fit:cover;object-position:center 45%;transform:none}
@@ -108,44 +106,30 @@
 .assuranceGrid svg{flex-shrink:0;color:var(--p-bronze);stroke-width:1.5}
 .assuranceGrid span{line-height:1.65;font-size:11px;color:var(--p-secondary);font-weight:650}
 
-/* CURVED DESTINATIONS: PHOTO ARC FROM THE FIRST VIDEO BRIEF */
-.destinationSection{background:var(--p-paper);padding:100px 0 68px;overflow:hidden;border-block:1px solid var(--p-line)}
-.centerHead{text-align:center;max-width:770px;margin:0 auto 55px;display:flex;flex-direction:column;align-items:center;gap:12px}
-.centerHead .overline{justify-content:center}
-.centerHead h2{font-size:clamp(38px,4.2vw,66px);line-height:1.1;margin:5px 0!important}
-.centerHead>p:last-child{font-size:14px;line-height:1.8;color:var(--p-secondary)}
-.arcTrack{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:13px;align-items:start;max-width:1250px;margin:auto;min-height:278px}
-.arcPhoto{height:185px;background:var(--p-lift);border:6px solid var(--p-paper);box-shadow:0 16px 29px rgba(15,25,24,.12);position:relative;transition:transform .35s ease;overflow:hidden;transform-origin:center center}
-.arcPhoto:nth-child(1){transform:translateY(84px) rotate(-9deg)}
-.arcPhoto:nth-child(2){transform:translateY(47px) rotate(-6deg)}
-.arcPhoto:nth-child(3){transform:translateY(16px) rotate(-3deg)}
-.arcPhoto:nth-child(4){transform:translateY(0) rotate(0)}
-.arcPhoto:nth-child(5){transform:translateY(16px) rotate(3deg)}
-.arcPhoto:nth-child(6){transform:translateY(47px) rotate(6deg)}
-.arcPhoto:nth-child(7){transform:translateY(84px) rotate(9deg)}
-.arcPhoto:hover{z-index:3;transform:translateY(0) scale(1.065)}
-.arcPhoto img{height:100%;object-fit:cover}
-.arcPhoto span{position:absolute;bottom:9px;inset-inline-start:9px;color:white;font-size:10px;text-shadow:0 1px 6px #000}
 
-/* ASYMMETRIC EDITORIAL SERVICES */
-.editorialSection,.routesSection,.fleetSection,.processSection,.guidesSection,.faqSection{padding:105px 0}
-.editorialSection{background:var(--p-bg)}
+/* SINGLE HOSPITALITY CHAPTER / a photographic story, not another route grid. */
+.experienceSection,.routesSection,.fleetSection,.guidesSection,.faqSection{padding:clamp(80px,9vw,135px) 0}
 .sectionHeading{display:flex;justify-content:space-between;align-items:end;gap:36px;margin-bottom:35px}
 .sectionHeading>div{max-width:735px}
 .sectionHeading h2{font-size:clamp(38px,4.15vw,62px);line-height:1.08;margin-top:13px!important}
 .sectionHeading h2 em{font-style:normal;color:var(--p-bronze)}
 .sectionHeading>p{font-size:14px;color:var(--p-secondary);line-height:1.8;max-width:380px}
-.editorialGrid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-rows:255px 255px;gap:16px}
-.editorialCard{overflow:hidden;position:relative;isolation:isolate;color:#fff;min-width:0;background:#253941}
-.editorialMain{grid-row:span 2}
-.editorialCard img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
-.editorialCard:hover img{transform:scale(1.055)}
-.cardShade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,14,17,.87) 0%,rgba(6,14,17,.06) 70%)}
-.editorialContent{position:absolute;inset-inline:clamp(20px,3vw,40px);bottom:27px;z-index:2;max-width:560px}
-.editorialContent>span:first-child{font-size:11px;letter-spacing:.16em;color:#DFC19A}
-.editorialContent h3{font-size:clamp(27px,2.8vw,42px);line-height:1.1;font-family:var(--font-cormorant,Georgia),var(--font-amiri,Georgia),Georgia,serif;font-weight:650;margin-top:10px!important;max-width:480px}
-.editorialContent p{font-size:13px;line-height:1.7;margin-top:12px!important;max-width:350px;color:#E5E6E3}
-.edArrow{position:absolute;inset-inline-end:0;bottom:0;border:1px solid rgba(255,255,255,.55);width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.experienceSection{background:var(--p-bg);border-bottom:1px solid var(--p-line);overflow:hidden}
+.experienceLayout{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:clamp(45px,7vw,116px);align-items:center}
+.experienceVisual{position:relative;min-height:640px;margin-inline-end:24px}
+.experiencePrimaryPhoto{display:block;width:100%;height:625px;object-fit:cover;object-position:center;background:#a7b4ad;border-radius:3px 63px 3px 3px}
+.experienceInset{position:absolute;inset-block-end:-24px;inset-inline-end:-35px;width:45%;height:40%;border:11px solid var(--p-bg);border-radius:3px 3px 3px 38px;overflow:hidden;background:#243b40;box-shadow:0 21px 52px rgba(5,21,24,.2)}
+.experienceInset img{width:100%;height:100%;object-fit:cover;object-position:center}
+.experiencePhotoMark{position:absolute;z-index:1;inset-block-start:25px;inset-inline-start:25px;display:grid;place-items:center;background:rgba(250,251,246,.94);color:#1d4850;width:62px;height:62px;padding:14px;border-radius:50%;box-shadow:0 7px 20px rgba(11,27,32,.14)}
+.experienceSignature{width:100%;height:100%}
+.experienceCopy{max-width:630px;padding-block:25px}
+.experienceCopy h2{font-size:clamp(49px,4.9vw,83px);line-height:1.04;margin:29px 0 25px!important;letter-spacing:-.035em;text-wrap:balance}
+.page[dir="rtl"] .experienceCopy h2{letter-spacing:0;line-height:1.36;font-size:clamp(42px,4.2vw,72px)}
+.experienceCopy>p:not(.overline){font-size:15px;line-height:1.95;color:var(--p-secondary);max-width:460px}
+.experienceRule{height:1px;width:90px;background:var(--p-bronze);margin:42px 0 24px}
+.experienceFoot{display:flex;justify-content:space-between;align-items:end;gap:25px;flex-wrap:wrap}
+.experienceFoot>span{font-size:12px;line-height:1.8;max-width:220px;color:var(--p-secondary)}
+.experienceFoot .inlineLink{border-bottom:1px solid var(--p-ink);padding-bottom:8px;white-space:nowrap}
 
 /* ROUTE EXPLORER: SAME ROUTE DATA AS BOOKING */
 .routesSection{background:var(--p-paper)}
@@ -202,16 +186,6 @@
 .fleetActions{display:flex;align-items:center;flex-wrap:wrap;gap:22px;margin-top:27px}
 .fleetFootnote{margin-top:19px!important;color:var(--p-secondary);font-size:11px;line-height:1.8}
 
-/* A VERY SIMPLE EXPLANATION IN FOUR STEPS */
-.processSection{background:var(--p-paper);padding:105px 0}
-.processGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-block:1px solid var(--p-line)}
-.processStep{padding:30px 25px 26px;border-inline-end:1px solid var(--p-line)}
-.processStep:first-child{padding-inline-start:0}
-.processStep:last-child{border-inline-end:0}
-.processStep>span{font-family:var(--font-cormorant),Georgia,serif;font-size:42px;font-weight:650;color:var(--p-bronze)}
-.processStep h3{font-size:17px;font-weight:850;line-height:1.4;margin:14px 0 10px!important}
-.processStep p{font-size:12px;color:var(--p-secondary);line-height:1.85}
-
 /* EDITORIAL GUIDES */
 .guidesSection{background:var(--p-bg);padding:105px 0}
 .guideGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:21px}
@@ -241,58 +215,37 @@
 .faqItems>.buttonText{margin-top:28px}
 
 @keyframes vehicleReveal{from{opacity:.4;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* One responsive cascade. Obsolete split-hero, photo-arc and steps rules removed. */
 @media (max-width:1220px){
  .wrap{width:min(100% - 52px,1280px)}
- .heroGrid{gap:35px}
- .heroTitle{font-size:clamp(48px,5vw,70px)}
  .searchShell{width:100%}
  .searchFields{grid-template-columns:minmax(180px,2fr) minmax(135px,1fr) 90px 90px minmax(160px,1.1fr);gap:8px}
  .searchField{padding-inline:10px}
  .assuranceGrid>div{padding-inline:12px}
 }
 @media (max-width:960px){
- .hero{padding-top:104px}
- .heroGrid{grid-template-columns:1fr 1fr;min-height:auto;gap:20px}
- .heroContent{padding:10px 0 55px}
- .heroTitle{font-size:clamp(42px,5.8vw,58px)}
- .heroTitle span:nth-child(2){white-space:normal}
- .heroVisual{height:510px}
  .searchFields{grid-template-columns:repeat(4,1fr)}
- .searchField:first-child{grid-column:span 2}
- .searchField:nth-child(2){grid-column:span 2}
+ .searchField:first-child,.searchField:nth-child(2){grid-column:span 2}
  .searchButton{grid-column:span 4;min-height:52px}
  .searchHint{display:none}
  .assuranceGrid{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:18px}
  .assuranceGrid>div:nth-child(2){border-inline-end:0}
- .arcTrack{min-height:240px}
- .arcPhoto{height:170px}
+ .experienceLayout{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:40px}
+ .experienceVisual{min-height:490px}
+ .experiencePrimaryPhoto{height:485px}
+ .experienceInset{width:49%;height:40%}
+ .experienceCopy h2{font-size:clamp(40px,4.9vw,62px)}
  .fleetStage{grid-template-columns:1.1fr .9fr}
  .fleetImage{min-height:460px}
  .guidePhoto{height:185px}
 }
 @media (max-width:767px){
  .wrap{width:calc(100% - 36px)}
- .hero{padding:102px 0 0}
- .heroGrid{grid-template-columns:1fr;gap:0}
- .heroContent{padding:8px 5px 31px}
- .heroTitle{font-size:clamp(39px,10.2vw,50px);margin:18px 0 15px!important;line-height:1.08}
- .page[dir="rtl"] .heroTitle{font-size:clamp(37px,9vw,48px);line-height:1.26}
- .heroDescription{font-size:13px;line-height:1.75}
- .heroActions{margin:24px 0 15px;gap:15px}
- .heroActions .buttonPrimary{min-height:49px}
- .underHero{font-size:10px}
- .heroVisual{height:355px;order:2}
- .heroVisual:before{inset:11px}
- .heroImage{object-position:center 45%}
- .heroSideCaption{inset-inline:24px;bottom:25px;gap:6px}
- .heroSideCaption>strong{font-size:24px}
- .cornerMark{top:22px;inset-inline-end:26px}
- .searchShell{width:calc(100% - 18px);margin:-27px auto 0;padding:17px 15px 16px}
  .searchHead{padding-bottom:12px}
  .searchTitle{font-size:13px}
  .searchFields{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
- .searchField:first-child{grid-column:1/-1}
- .searchField:nth-child(2){grid-column:1/-1}
+ .searchField:first-child,.searchField:nth-child(2){grid-column:1/-1}
  .searchField:nth-child(3),.searchField:nth-child(4){grid-column:span 1}
  .searchButton{grid-column:1/-1;min-height:51px;margin-top:3px}
  .searchField{padding:9px 12px}
@@ -301,28 +254,20 @@
  .assuranceGrid>div{border:none!important;padding:0;gap:8px;align-items:flex-start}
  .assuranceGrid svg{width:20px;height:20px}
  .assuranceGrid span{font-size:10px;line-height:1.55}
- .destinationSection,.editorialSection,.routesSection,.fleetSection,.processSection,.guidesSection,.faqSection{padding:65px 0}
+ .experienceSection,.routesSection,.fleetSection,.guidesSection,.faqSection{padding:70px 0}
  .sectionHeading{align-items:flex-start;flex-direction:column;gap:15px;margin-bottom:27px}
  .sectionHeading h2{font-size:clamp(37px,9vw,49px)}
  .sectionHeading>p{font-size:12px}
- .centerHead{margin-bottom:32px}
- .centerHead h2{font-size:clamp(36px,8vw,45px)}
- .arcTrack{display:flex;gap:10px;align-items:center;overflow:auto;scroll-snap-type:x mandatory;padding:10px 0 35px;min-height:225px;scrollbar-width:none}
- .arcTrack::-webkit-scrollbar{display:none}
- .arcPhoto{flex:0 0 36%;height:175px;scroll-snap-align:center}
- .arcPhoto:nth-child(1),.arcPhoto:nth-child(2),.arcPhoto:nth-child(3),.arcPhoto:nth-child(4),.arcPhoto:nth-child(5),.arcPhoto:nth-child(6),.arcPhoto:nth-child(7){transform:none}
- .arcPhoto:nth-child(3n+1){transform:translateY(18px) rotate(-3deg)}
- .arcPhoto:nth-child(3n+2){transform:translateY(0) rotate(0)}
- .arcPhoto:nth-child(3n){transform:translateY(18px) rotate(3deg)}
- .editorialGrid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:380px 215px;gap:10px}
- .editorialMain{grid-column:1/-1;grid-row:auto}
- .editorialCard:not(.editorialMain){min-width:0}
- .editorialContent{inset-inline:18px;bottom:18px}
- .editorialContent h3{font-size:25px}
- .editorialCard:not(.editorialMain) .editorialContent h3{font-size:19px}
- .editorialContent p{font-size:12px;margin-top:8px!important}
- .edArrow{width:30px;height:30px}
- .edArrow svg{width:17px}
+ .experienceLayout{grid-template-columns:1fr;gap:34px}
+ .experienceVisual{min-height:0;margin-inline-end:10px}
+ .experiencePrimaryPhoto{height:390px;border-radius:3px 35px 3px 3px}
+ .experienceInset{inset-block-end:-24px;inset-inline-end:-17px;width:43%;height:42%;border-width:7px;border-radius:3px 3px 3px 24px}
+ .experiencePhotoMark{top:16px;inset-inline-start:16px;width:47px;height:47px;padding:10px}
+ .experienceCopy{max-width:100%;padding-top:26px;padding-bottom:0}
+ .experienceCopy h2{font-size:clamp(45px,10vw,63px);margin:22px 0 18px!important}
+ .page[dir="rtl"] .experienceCopy h2{font-size:clamp(42px,9.4vw,60px)}
+ .experienceCopy>p:not(.overline){font-size:13px}
+ .experienceRule{margin:27px 0 18px}
  .routeExplorer{grid-template-columns:1fr}
  .routeText{padding:28px 25px}
  .routeText h3{font-size:36px;margin:18px 0 10px!important}
@@ -340,13 +285,6 @@
  .fleetSpecs{margin:8px 0 17px}
  .fleetPrice{margin-top:0!important}
  .fleetActions{margin-top:17px}
- .processGrid{grid-template-columns:1fr 1fr}
- .processStep{border-bottom:1px solid var(--p-line);padding:25px 15px}
- .processStep:nth-child(even){border-inline-end:0}
- .processStep:nth-child(3),.processStep:nth-child(4){border-bottom:0}
- .processStep>span{font-size:33px}
- .processStep h3{font-size:14px}
- .processStep p{font-size:11px}
  .guideGrid{grid-template-columns:1fr;gap:17px}
  .guidePhoto{height:230px}
  .guideBody{padding:20px}
@@ -356,11 +294,7 @@
  .faqItem button{font-size:13px}
 }
 @media (max-width:390px){
- .heroTitle{font-size:40px}
- .heroVisual{height:308px}
- .editorialGrid{grid-template-rows:330px 200px}
- .editorialCard:not(.editorialMain) .editorialContent h3{font-size:17px}
- .arcPhoto{flex-basis:42%}
+ .experiencePrimaryPhoto{height:350px}
  .routeText h3{font-size:31px}
  .searchShell{width:100%}
  .fleetActions{gap:14px}
@@ -368,9 +302,7 @@
 }
 @media (prefers-reduced-motion:reduce){
  .page *,.page *::before,.page *::after{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
- .arcPhoto:nth-child(n){transform:none!important}
 }
-
 
 /* Hero overlays use one full-bleed moving image; content remains in the
    accessible document flow and is not nested in the moving layer. */
@@ -380,7 +312,6 @@
 .heroActions .buttonPrimary:hover{background:#E6D9C1;color:#18383F}
 .heroActions .buttonText{color:#fff}
 .heroActions .buttonText:hover{color:#E7D2AE}
-.hero .underHero svg{color:#E1C79B}
 @media (max-width:960px){
  .hero{padding:0 0 28px}
  .heroGrid{grid-template-columns:1fr;gap:0;min-height:clamp(650px,86svh,810px);padding-top:78px}
