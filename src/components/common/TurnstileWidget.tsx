@@ -72,6 +72,10 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
   ({ onSuccess, onVerify, onExpire, onError, locale = 'en', theme = 'auto', className = '' }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const widgetIdRef = useRef<string | null>(null);
+    // Keep the newest callbacks without remounting the challenge on each
+    // parent form keystroke (BookingCard provides inline callbacks).
+    const callbacksRef = useRef({ onSuccess, onVerify, onExpire, onError });
+    callbacksRef.current = { onSuccess, onVerify, onExpire, onError };
     const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
     const configuredSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() || '';
@@ -103,6 +107,9 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
     }));
 
     useEffect(() => {
+      // Missing production configuration is explained inline. Avoid loading
+      // a challenge script that cannot validate any booking submissions.
+      if (!siteKey) return;
       let isMounted = true;
 
       const initTurnstile = () => {
@@ -126,19 +133,19 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
             callback: (token: string) => {
               if (!isMounted) return;
               setStatusMessage(null);
-              onSuccess?.(token);
-              onVerify?.(token);
+              callbacksRef.current.onSuccess?.(token);
+              callbacksRef.current.onVerify?.(token);
             },
             'expired-callback': () => {
               if (!isMounted) return;
               setStatusMessage(EXPIRED_MESSAGES[locale as Locale] || EXPIRED_MESSAGES.en);
-              onExpire?.();
+              callbacksRef.current.onExpire?.();
               resetWidget();
             },
             'error-callback': (err: any) => {
               if (!isMounted) return;
               setStatusMessage(ERROR_MESSAGES[locale as Locale] || ERROR_MESSAGES.en);
-              onError?.(err);
+              callbacksRef.current.onError?.(err);
               resetWidget();
             },
           });
@@ -146,7 +153,7 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
         } catch (renderError) {
           console.warn('Turnstile render warning:', renderError);
           setStatusMessage(ERROR_MESSAGES[locale as Locale] || ERROR_MESSAGES.en);
-          onError?.(renderError);
+          callbacksRef.current.onError?.(renderError);
         }
       };
 
@@ -166,7 +173,7 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
           script.onerror = () => {
             if (!isMounted) return;
             setStatusMessage(ERROR_MESSAGES[locale as Locale] || ERROR_MESSAGES.en);
-            onError?.(new Error('Turnstile script unavailable'));
+            callbacksRef.current.onError?.(new Error('Turnstile script unavailable'));
           };
           document.head.appendChild(script);
         } else {
@@ -191,7 +198,7 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
           }
         }
       };
-    }, [siteKey, locale, theme, onSuccess, onExpire, onError]);
+    }, [siteKey, locale, theme]);
 
     return (
       <div className={`turnstile-container flex w-full min-h-[64px] flex-col items-center justify-center gap-2 ${className}`}>
