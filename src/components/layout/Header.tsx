@@ -214,20 +214,28 @@ export function Header({ locale, dict, settings }: HeaderProps) {
         </div>
       )}
       <div className="container mx-auto px-3 sm:px-4 max-w-7xl flex items-center justify-between">
-        {/* LOGO: NEW ROYAL CREST VECTOR EMBLEM & BRANDING */}
+        {/* DUYUF WORDMARK — legible in both color themes */}
         <Link
-          href={locale === 'en' ? '/' : `/${locale}`}
-          className="flex items-center group focus-visible:ring-2 focus-visible:ring-[#A0783E] rounded-lg p-1 -m-1 shrink-0 max-w-[140px] sm:max-w-none"
-          aria-label="Duyuf Alrahman VIP - ضيوف الرحمن VIP"
+          href={`/${locale}`}
+          className="flex items-center gap-2.5 group shrink-0 min-w-0 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-primary)]"
+          aria-label="Duyuf Alrahman VIP — ضيوف الرحمن VIP"
         >
           <Image
-            src="/assets/brand/logo-royal-crest-gold.svg"
-            alt="Duyuf Alrahman VIP"
-            width={240}
-            height={52}
-            className="h-8 sm:h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+            src="/icon-192.png"
+            alt=""
+            width={45}
+            height={45}
+            className="h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 object-contain shrink-0"
             priority
           />
+          <span className="flex min-w-0 flex-col text-start leading-tight">
+            <strong className="text-[12px] sm:text-sm md:text-[15px] tracking-[0.025em] font-extrabold text-[var(--text-primary)] whitespace-nowrap">
+              {locale === 'ar' || locale === 'ur' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
+            </strong>
+            <span className="mt-0.5 text-[9px] sm:text-[10px] font-semibold text-[var(--accent-primary)] whitespace-nowrap tracking-[0.025em]">
+              {locale === 'ar' || locale === 'ur' ? 'DUYUF AL RAHMAN' : 'ضيوف الرحمن · PRIVATE TRANSFERS'}
+            </span>
+          </span>
         </Link>
 
         {/* DESKTOP CENTER NAVIGATION LINKS */}
