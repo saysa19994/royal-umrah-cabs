@@ -2,7 +2,6 @@ import React from 'react';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import type { SiteSettings } from '@/lib/settings';
-import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
 
 interface JsonLdProps {
   locale: Locale;
@@ -303,7 +302,6 @@ export function RoutePageJsonLd({
       name: 'Duyuf Al Rahman VIP',
       url: baseUrl,
       telephone: '+966567588261',
-      priceRange: '$',
       image: `${baseUrl}/assets/images/og-image.jpg`,
     },
     areaServed: [
@@ -313,23 +311,9 @@ export function RoutePageJsonLd({
       ...(route.id?.includes('taif') ? [{ '@type': 'City', name: 'Taif' }] : []),
       ...(route.id?.includes('riyadh') ? [{ '@type': 'City', name: 'Riyadh' }] : []),
     ],
-    ...(Array.isArray(Object.values(AUTHORITATIVE_TRANSFER_RATES[route.id] || {})) &&
-    Object.values(AUTHORITATIVE_TRANSFER_RATES[route.id] || {}).some((v) => typeof v === 'number' && v > 0)
-      ? {
-          offers: (() => {
-            const valid = Object.values(AUTHORITATIVE_TRANSFER_RATES[route.id] || {})
-              .filter((v): v is number => typeof v === 'number' && Number.isFinite(v) && v > 0);
-            return {
-              '@type': 'AggregateOffer',
-              lowPrice: Math.min(...valid),
-              highPrice: Math.max(...valid),
-              offerCount: valid.length,
-              priceCurrency: 'SAR',
-              url: pageUrl,
-            };
-          })(),
-        }
-      : {}),
+    // Prices are managed by the booking/pricing engine and may be overridden
+    // in the database. Do not publish stale static AggregateOffer amounts.
+
   };
 
   function safeJsonLd(data: unknown): string {
