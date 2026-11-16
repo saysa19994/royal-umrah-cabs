@@ -1342,13 +1342,13 @@ export function BookingEngine({
       : `${customPickupLocation} → ${customDropoffLocation}`;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <div className="duyuf-booking-engine grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
       {/* ============================================================== */}
       {/* LEFT COLUMN: 3-STEP BOOKING WIZARD FORM (lg:col-span-8)         */}
       {/* ============================================================== */}
-      <div className="lg:col-span-8 space-y-6">
+      <div className="duyuf-booking-main lg:col-span-8 space-y-6">
         {/* SERVICE CATEGORY TABS */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-surface p-1.5 rounded-2xl border border-border shadow-xs">
+        <div className="duyuf-booking-service-tabs grid grid-cols-2 sm:grid-cols-4 gap-2 bg-surface p-1.5 rounded-2xl border border-border shadow-xs">
           <button
             type="button"
             onClick={() => handleBookingTypeChange('transfer')}
@@ -1751,7 +1751,7 @@ export function BookingEngine({
                       vehicleId: vId,
                       durationHours: bookingType === 'hourly' ? durationHours : undefined,
                       customRates: initialRates,
-                    }) || 200;
+                    }) ?? 0;
 
                   const isOverSeats = passengers > vData.seats;
                   const isOverBags = luggage > vData.bags;
@@ -1760,7 +1760,7 @@ export function BookingEngine({
                     <div
                       key={vId}
                       onClick={() => handleSelectVehicle(vId)}
-                      className={`rounded-2xl p-4 border-2 transition-all cursor-pointer relative flex flex-col justify-between overflow-hidden ${
+                      className={`duyuf-booking-vehicle-card rounded-2xl p-4 border-2 transition-all cursor-pointer relative flex flex-col justify-between overflow-hidden ${
                         isSelected
                           ? 'border-gold bg-gold-soft/35 shadow-md ring-2 ring-gold/40'
                           : 'border-border bg-surface hover:border-gold-line'
@@ -1828,10 +1828,18 @@ export function BookingEngine({
                         <div>
                           <span className="text-[10px] text-ink-muted uppercase block">{t.authoritativeFare}</span>
                           <div className="flex items-baseline gap-1">
-                            <span className="font-display font-bold text-xl text-ink">
-                              {formatPrice(vehicleEstimatedFare)}
-                            </span>
-                            <span className="text-[11px] text-ink-muted">({vehicleEstimatedFare} SAR)</span>
+                            {vehicleEstimatedFare > 0 ? (
+                              <>
+                                <span className="font-display font-bold text-xl text-ink">
+                                  {formatPrice(vehicleEstimatedFare)}
+                                </span>
+                                <span className="text-[11px] text-ink-muted">({vehicleEstimatedFare} SAR)</span>
+                              </>
+                            ) : (
+                              <span className="text-sm font-semibold text-ink-muted">
+                                {locale === 'ar' ? 'السعر عند الطلب' : 'Fare on request'}
+                              </span>
+                            )}
                           </div>
                         </div>
 
@@ -2371,8 +2379,8 @@ export function BookingEngine({
       </div>
 {/* RIGHT COLUMN: STICKY BOOKING SUMMARY CARD (lg:col-span-4)       */}
       {/* ============================================================== */}
-      <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-4">
-        <div className="bg-surface rounded-2xl border border-border p-5 sm:p-6 shadow-sm text-start space-y-4 relative overflow-hidden">
+      <div className="duyuf-booking-aside lg:col-span-4 lg:sticky lg:top-24 space-y-4">
+        <div className="duyuf-booking-summary bg-surface rounded-2xl border border-border p-5 sm:p-6 shadow-sm text-start space-y-4 relative overflow-hidden">
           <BorderBeam size={220} duration={14} colorFrom="#D6A13A" colorTo="#F2C94C" />
           <div className="flex items-center justify-between border-b border-border pb-3">
             <div>
