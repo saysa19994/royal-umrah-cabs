@@ -31,7 +31,14 @@ export async function POST(request: Request) {
     if (contentLength > 32_768) {
       return NextResponse.json({ error: 'Chat request is too large' }, { status: 413 });
     }
-    const { messages, locale = 'en' } = await request.json();
+    const rawBody = await request.text();
+    if (Buffer.byteLength(rawBody, 'utf8') > 32_768) {
+      return NextResponse.json({ error: 'Chat request is too large' }, { status: 413 });
+    }
+    const { messages, locale: requestedLocale = 'en' } = JSON.parse(rawBody);
+    const supportedLocales = ['ar', 'en', 'ms', 'id', 'ur', 'fr', 'es', 'de', 'tr', 'hi'];
+    const locale = typeof requestedLocale === 'string' && supportedLocales.includes(requestedLocale)
+      ? requestedLocale : 'en';
 
     if (!Array.isArray(messages) || messages.length === 0 || messages.length > 24) {
       return NextResponse.json({ error: 'Provide between 1 and 24 messages' }, { status: 400 });
