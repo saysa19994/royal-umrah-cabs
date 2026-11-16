@@ -186,6 +186,8 @@ export async function POST(request: Request) {
       performed_by: 'customer_online',
     });
 
+    // Email acceptance is separate from booking persistence and from inbox delivery.
+    let customerEmailAccepted = false;
     // 7. Non-blocking Multilingual Transactional Email Dispatch (Customer + Operations)
     try {
       const emailDispatch = await dispatchBookingEmails({
@@ -207,6 +209,7 @@ export async function POST(request: Request) {
         status: 'pending',
         language: lang,
       });
+      customerEmailAccepted = emailDispatch.customerSent;
       if (!emailDispatch.customerSent || !emailDispatch.companySent) {
         console.warn('[Booking API] Booking saved but one or more transactional emails were not accepted by the provider:', {
           reference,
@@ -239,6 +242,7 @@ export async function POST(request: Request) {
       booking: {
         id: insertedBooking.id,
         reference,
+        customerEmailAccepted,
         finalPriceSAR,
         currency: currKey,
         finalPriceCurrency,
