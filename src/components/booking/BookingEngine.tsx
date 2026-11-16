@@ -1141,7 +1141,9 @@ export function BookingEngine({
       return;
     }
 
-    const localDigits = customerPhone.replace(/\D/g, '').replace(phoneCountry === 'IT' || phoneCountry === 'SM' || phoneCountry === 'VA' ? /^(?!)$/ : /^0+/, '');
+    const enteredDigits = customerPhone.replace(/\D/g, '');
+    // Italian and San Marino landline numbers can have a significant leading zero.
+    const localDigits = ['IT', 'SM', 'VA'].includes(phoneCountry) ? enteredDigits : enteredDigits.replace(/^0+/, '');
     const callingCode = COUNTRY_DIAL_CODES.find((country) => country.iso === phoneCountry)?.dial || '+966';
     const normalizedPhone = callingCode + localDigits;
     if (localDigits.length < 5 || normalizedPhone.replace(/\D/g, '').length < 8 || normalizedPhone.replace(/\D/g, '').length > 15) {
