@@ -274,7 +274,7 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
             <div className={styles.fleetInfo}>
               <span className={styles.overline}>{selectedFleetVehicle.categoryBadge[locale]}</span>
               <h3>{selectedFleetVehicle.name[locale]}</h3>
-              <p>{selectedFleetVehicle.summary[locale] || selectedFleetVehicle.summary.en}</p>
+              <p>{selectedFleetVehicle.summary[locale] || E.interiorSubtitle}</p>
               <div className={styles.fleetSpecs}>
                 <div><Users size={17} aria-hidden="true" /><strong>{selectedFleetVehicle.passengers}</strong> {dict.cinematic_fleet.passengers}</div>
                 <div><Luggage size={17} aria-hidden="true" /><strong>{selectedFleetVehicle.luggage}</strong> {dict.cinematic_fleet.luggage}</div>
@@ -389,7 +389,7 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
                       <span>{item.question}</span><span className={styles.faqSymbol} aria-hidden="true">{activeFaq===i?'−':'+'}</span>
                     </button>
                   </h3>
-                  {activeFaq===i && <p id={`pj-faq-${i}`}>{item.answer}</p>}
+                  <p id={`pj-faq-${i}`} hidden={activeFaq!==i}>{item.answer}</p>
                 </div>
               ))}
             </div>
