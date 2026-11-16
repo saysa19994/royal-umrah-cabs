@@ -1250,7 +1250,7 @@ export function BookingEngine({
           <div className="flex justify-between items-center">
             <span className="text-ink-muted">{dict.booking_card.passengersLabel} &amp; {dict.booking_card.luggageLabel}:</span>
             <span className="font-bold text-ink">
-              {confirmedBooking.passengers_count || 1} {dict.booking_card.passengersLabel} • {confirmedBooking.luggage_count || 1} {dict.booking_card.luggageLabel}
+              {confirmedBooking.passengers_count || 1} {dict.booking_card.passengersLabel} • {confirmedBooking.luggage_count ?? 0} {dict.booking_card.luggageLabel}
             </span>
           </div>
           <div className="flex justify-between items-center pt-2 border-t border-border/60">
