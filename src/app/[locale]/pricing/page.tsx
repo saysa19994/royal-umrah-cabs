@@ -119,7 +119,7 @@ export default async function PricingPage(props: PricingPageProps) {
   ];
 
   return (
-    <div className="bg-bg min-h-screen text-start text-ink w-full max-w-full overflow-x-clip" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="duyuf-pricing-page min-h-screen text-start w-full max-w-full overflow-x-clip" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* ─────────────────────────────────────────────────────────────
           1. MASTER HERO: OUR PRICES & PACKAGES
       ────────────────────────────────────────────────────────────── */}
@@ -151,13 +151,7 @@ export default async function PricingPage(props: PricingPageProps) {
               <Sparkles className="w-3.5 h-3.5" />
               <span>{content.badge || (isAr ? 'شفافية مطلقة • أسعار معتمدة' : 'Absolute Transparency • Fixed Fares')}</span>
             </div>
-            <h1 className="font-playfair font-serif text-3xl sm:text-5xl md:text-6xl text-ink font-bold tracking-tight leading-[1.15] mb-4">
-              {isAr ? (
-                <>أسعارنا <span className="text-gold-dark font-light">&amp;</span> باقاتنا الفاخرة</>
-              ) : (
-                <>Our Prices <span className="text-gold-dark font-light">&amp;</span> Packages</>
-              )}
-            </h1>
+            <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.15] mb-4 text-[var(--text-primary)]">{content.heroTitle}</h1>
             <p className="text-sm sm:text-lg text-ink-muted font-light leading-relaxed">
               {content.heroSubtitle || (isAr
                 ? 'خدمات نقل فاخرة بأسعار تنافسية ومحددة عبر جميع مدن المملكة العربية السعودية. دفع نقدي 100% للسائق عند الوصول بعد إتمام الرحلة وبدون أي عربون مسبق.'
@@ -199,7 +193,7 @@ export default async function PricingPage(props: PricingPageProps) {
                 <Banknote className="w-4 h-4" />
               </div>
               <span className="text-xs font-semibold text-gold-dark">
-                {isAr ? 'الدفع نقداً عند الوصول' : 'Cash on Arrival'}
+                {dict.booking_card.noPrepayNotice}
               </span>
             </div>
           </div>

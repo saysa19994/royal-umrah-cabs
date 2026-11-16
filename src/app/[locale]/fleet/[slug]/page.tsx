@@ -647,7 +647,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
   };
 
   return (
-    <div className="duyuf-vehicle-detail relative py-10 sm:py-16 md:py-20 bg-bg min-h-screen text-start text-ink overflow-hidden transition-colors duration-200" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="duyuf-vehicle-detail duyuf-vehicle-page relative py-10 sm:py-16 md:py-20 bg-bg min-h-screen text-start text-ink overflow-hidden transition-colors duration-200" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* Luxury Golden Ambient Spotlight */}
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#D6A13A" />
 

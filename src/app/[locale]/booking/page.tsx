@@ -169,13 +169,13 @@ export default async function BookingPage(props: BookingPageProps) {
   }
 
   return (
-    <div className="relative py-10 md:py-16 bg-bg min-h-screen overflow-hidden">
+    <div className="duyuf-booking-page relative py-10 md:py-16 min-h-screen overflow-hidden">
       {/* Luxury Golden Ambient Illumination */}
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#D6A13A" />
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {/* Section A: Booking Page Header */}
-        <div className="text-center mb-8 md:mb-12">
+        <div className="duyuf-booking-intro text-center mb-8 md:mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-4 shadow-xs">
             <span>{pageText.badge}</span>
           </div>
@@ -187,23 +187,24 @@ export default async function BookingPage(props: BookingPageProps) {
           </p>
 
           {/* Luxury Executive Trust Badges */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs">
+          <div className="duyuf-booking-trust mt-6 flex flex-wrap items-center justify-center gap-3 text-xs">
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface border border-border text-ink font-medium shadow-2xs">
               <Banknote className="w-3.5 h-3.5 text-emerald-600" />
-              <span>0% دفعة مقدمة • الدفع نقداً للسائق عند الوصول</span>
+              <span>{pageText.trust1}</span>
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface border border-border text-ink font-medium shadow-2xs">
               <Plane className="w-3.5 h-3.5 text-gold-dark" />
-              <span>تتبع راداري للرحلات الجوية 24/7</span>
+              <span>{pageText.trust2}</span>
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface border border-border text-ink font-medium shadow-2xs">
               <ShieldCheck className="w-3.5 h-3.5 text-gold-dark" />
-              <span>أسعار ثابتة شاملة الضريبة ورسوم الطرق</span>
+              <span>{pageText.trust3}</span>
             </span>
           </div>
         </div>
 
         {/* Booking Engine & Real-Time Booking Summary */}
+        <div className="duyuf-booking-wizard">
         <BookingWizard
           locale={locale}
           dict={dict}
@@ -220,6 +221,7 @@ export default async function BookingPage(props: BookingPageProps) {
           initialDropoff={resolvedDropoff}
           initialRates={await getDbPricesCached()}
         />
+        </div>
       </div>
     </div>
   );

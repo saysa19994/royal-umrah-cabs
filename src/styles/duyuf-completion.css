@@ -1,0 +1,97 @@
+/* DUYUF — The Private Journey · Completion pass
+   Applied only to public booking, pricing and vehicle pages.
+   All surfaces follow global light/dark design tokens. */
+.duyuf-booking-page,
+.duyuf-pricing-page,
+.duyuf-vehicle-page { background: var(--bg-base); color: var(--text-primary); }
+
+.duyuf-booking-page .duyuf-booking-intro { max-width: 880px; margin-inline: auto; }
+.duyuf-booking-page .duyuf-booking-intro h1 {
+  font-family: var(--font-manrope), var(--font-ibm-plex-arabic), sans-serif;
+  font-size: clamp(2.2rem, 4.2vw, 3.9rem); font-weight: 750; letter-spacing: -.045em;
+  line-height: 1.12; color: var(--text-primary); text-wrap: balance;
+}
+.duyuf-booking-page .duyuf-booking-intro > p { line-height: 1.85; max-width: 730px; }
+.duyuf-booking-page .duyuf-booking-intro > div:first-child {
+  border-color: var(--border-stone); background: var(--bg-elevated); color: var(--accent-primary);
+  box-shadow: none; padding: 7px 14px; letter-spacing: .055em;
+}
+.duyuf-booking-page .duyuf-booking-trust > span {
+  background: var(--bg-surface); color: var(--text-secondary);
+  border: 1px solid var(--border-stone); box-shadow: none;
+  min-height: 40px; border-radius: 12px; padding: 8px 12px;
+}
+.duyuf-booking-wizard > div.hidden.md\:block > div,
+.duyuf-booking-wizard > div.md\:hidden > div {
+  background: var(--bg-surface); border: 1px solid var(--border-stone);
+  border-radius: 18px; box-shadow: 0 5px 24px rgba(15,23,42,.045);
+}
+.duyuf-booking-wizard input,
+.duyuf-booking-wizard select,
+.duyuf-booking-wizard textarea {
+  background-color: var(--bg-surface); color: var(--text-primary);
+  border-color: var(--border-stone); min-height: 44px;
+}
+.duyuf-booking-wizard input:focus-visible,
+.duyuf-booking-wizard select:focus-visible,
+.duyuf-booking-wizard textarea:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; }
+.duyuf-booking-wizard [aria-current="step"] { background: var(--bg-elevated); border-color: var(--accent-primary); }
+.duyuf-booking-wizard .bg-gold-soft { background: var(--accent-soft); }
+
+.duyuf-pricing-page > section:first-child { background: var(--bg-base); border-bottom: 1px solid var(--border-stone); }
+.duyuf-pricing-page > section:first-child h1 {
+  font-family: var(--font-manrope), var(--font-ibm-plex-arabic), sans-serif;
+  font-weight: 750; letter-spacing: -.045em; line-height: 1.12;
+  font-size: clamp(2.2rem, 4.5vw, 4.5rem);
+}
+.duyuf-pricing-page .rounded-3xl,
+.duyuf-pricing-page .rounded-2xl { border-color: var(--border-stone); }
+.duyuf-pricing-page input,
+.duyuf-pricing-page select { background-color: var(--bg-surface); color: var(--text-primary); border-color: var(--border-stone); min-height: 44px; }
+
+.duyuf-vehicle-page > .container { max-width: 1200px; }
+.duyuf-vehicle-page h1 { font-family: var(--font-manrope), var(--font-ibm-plex-arabic), sans-serif;
+  font-weight: 760; letter-spacing: -.04em; text-wrap: balance; }
+.duyuf-vehicle-page .bg-surface { background: var(--bg-surface); }
+.duyuf-vehicle-page .bg-bg-alt { background: var(--bg-elevated); }
+.duyuf-vehicle-page .rounded-3xl,
+.duyuf-vehicle-page .rounded-2xl { border-color: var(--border-stone); }
+.duyuf-vehicle-page .vehicle-gallery-main { aspect-ratio: 16 / 9; }
+.duyuf-vehicle-page .vehicle-studio {
+  background: radial-gradient(ellipse at center 80%, var(--accent-soft) 0%, transparent 65%), var(--bg-elevated);
+  border: 1px solid var(--border-stone); border-radius: 24px;
+}
+
+[data-theme="dark"] .duyuf-booking-page .duyuf-booking-wizard,
+[data-theme="dark"] .duyuf-pricing-page,
+[data-theme="dark"] .duyuf-vehicle-page { color-scheme: dark; }
+
+@media (max-width: 767px) {
+  .duyuf-booking-page { padding-block: 32px 56px; }
+  .duyuf-booking-page .duyuf-booking-intro h1 { font-size: clamp(1.9rem, 8vw, 2.65rem); }
+  .duyuf-booking-page .duyuf-booking-trust { display: grid; grid-template-columns: 1fr; }
+  .duyuf-booking-page .duyuf-booking-trust > span { justify-content: flex-start; }
+  .duyuf-vehicle-page { padding-block: 32px 56px; }
+  .duyuf-vehicle-page .vehicle-gallery-main { aspect-ratio: 4 / 3; }
+  .duyuf-vehicle-page .vehicle-studio { border-radius: 16px; }
+  .duyuf-pricing-page > section:first-child { padding-block: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .duyuf-booking-page *, .duyuf-pricing-page *, .duyuf-vehicle-page * { scroll-behavior: auto; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* Airport landing: a continuous, readable booking-oriented page in both themes. */
+.duyuf-airport-experience { color: var(--text-primary); }
+.duyuf-airport-experience > div:is(.bg-surface,.bg-bg-alt),
+.duyuf-airport-experience [class*="bg-surface"] { border-color: var(--border-stone); background: var(--bg-surface); }
+.duyuf-airport-experience .rounded-3xl { border-radius: 20px; }
+.duyuf-airport-experience .rounded-2xl { border-radius: 15px; }
+.duyuf-airport-experience h2,
+.duyuf-airport-experience h3 { letter-spacing: -.025em; line-height: 1.2; }
+.duyuf-airport-experience button:focus-visible,
+.duyuf-airport-experience a:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 3px; }
+@media (max-width: 767px) {
+  .duyuf-airport-experience { padding-inline: 12px; }
+  .duyuf-airport-experience > div { padding: 18px; }
+  .duyuf-airport-experience .grid { min-width: 0; }
+}
