@@ -137,13 +137,12 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
               <img
                 className={styles.heroImage}
                 src="/assets/images/yukon_exterior.jpg"
-                alt="GMC Yukon XL with private chauffeur outside Jeddah Airport"
+                alt={`GMC Yukon XL — ${L.privateLabel}`}
                 fetchPriority="high"
               />
               <div className={styles.imageVeil} aria-hidden />
               <div className={styles.heroSideCaption}>
                 <div className={styles.captionLine} />
-                <span>01 / 04</span>
                 <strong>{L.privateLabel}</strong>
                 <span>JEDDAH · MAKKAH · MADINAH</span>
               </div>
