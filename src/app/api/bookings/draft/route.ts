@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, draftId: draft.id, draft });
   } catch (err: any) {
     console.error('[Draft API Error]', err);
-    return NextResponse.json({ success: false, error: err.message || 'Failed to create booking draft' }, { status: 400 });
+    return NextResponse.json({ success: false, error: 'Failed to create booking draft' }, { status: 503 });
   }
 }
 
@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Draft ID is required' }, { status: 400 });
     }
 
-    const draft = getBookingDraft(id);
+    const draft = await getBookingDraft(id);
     if (!draft) {
       return NextResponse.json({ success: false, error: 'Draft session has expired or is invalid' }, { status: 404 });
     }
@@ -71,6 +71,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ success: true, draft });
   } catch (err: any) {
     console.error('[Draft GET Error]', err);
-    return NextResponse.json({ success: false, error: 'Internal server error retrieving draft' }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'Draft storage temporarily unavailable' }, { status: 503 });
   }
 }
