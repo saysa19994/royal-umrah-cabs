@@ -2138,6 +2138,7 @@ export function BookingEngine({
                   <input
                     id="customer-name-input"
                     type="text"
+                    autoComplete="name"
                     required
                     placeholder={t.namePlaceholder}
                     value={customerName}
@@ -2157,6 +2158,8 @@ export function BookingEngine({
                     id="customer-phone-input"
                     type="tel"
                     inputMode="tel"
+                    autoComplete="tel"
+                    dir="ltr"
                     required
                     placeholder={t.phonePlaceholder}
                     value={customerPhone}
@@ -2175,6 +2178,7 @@ export function BookingEngine({
                   <input
                     id="customer-email-input"
                     type="email"
+                    dir="ltr"
                     required
                     autoComplete="email"
                     placeholder={t.emailPlaceholder}
