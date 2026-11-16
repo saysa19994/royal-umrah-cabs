@@ -1,4 +1,5 @@
 import React from 'react';
+import './booking-editorial.css';
 import type { Metadata } from 'next';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
