@@ -129,3 +129,30 @@ test('Booking recovery always explains failed draft restoration in all supported
     assert.match(page, new RegExp('\\b' + lang + ': '));
   }
 });
+
+
+test('Full-width cinematic hero is composed as a background layer with an accessible booking panel', () => {
+  const css = read('src/components/home/PrivateJourneyHomepage.module.css');
+  const home = read('src/components/home/PrivateJourneyHomepage.tsx');
+  assert.match(css, /\.heroVisual\{position:absolute;inset:0;width:100%;height:100%/);
+  assert.match(css, /\.heroGrid\{display:grid;grid-template-columns:minmax\(0,1fr\)/);
+  assert.match(css, /\.searchShell\{position:relative;z-index:3/);
+  assert.match(home, /poster="\/assets\/homepage-v2\/hero-poster\.jpg"/);
+  assert.match(home, /hero-mobile\.webm/);
+});
+
+test('Editorial booking styling is responsive and keeps the actual booking engine', () => {
+  const page = read('src/app/[locale]/booking/page.tsx');
+  const css = read('src/app/[locale]/booking/booking-editorial.css');
+  const wizard = read('src/components/booking/BookingWizard.tsx');
+  const engine = read('src/components/booking/BookingEngine.tsx');
+  assert.match(page, /import '\.\/booking-editorial\.css'/);
+  assert.match(page, /<BookingWizard/);
+  assert.match(page, /duyuf-booking-intro/);
+  assert.match(wizard, /duyuf-booking-stepper/);
+  assert.match(engine, /duyuf-booking-summary/);
+  assert.match(engine, /data-selected=\{isSelected/);
+  assert.doesNotMatch(engine, /\}\) \|\| 200;/);
+  assert.match(css, /@media \(max-width: 767px\)/);
+  assert.match(css, /duyuf-booking-vehicle-card/);
+});
