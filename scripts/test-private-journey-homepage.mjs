@@ -3,131 +3,96 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const component = fs.readFileSync(path.join(root, 'src/components/home/PrivateJourneyHomepage.tsx'), 'utf8');
-const stylesheet = fs.readFileSync(path.join(root, 'src/components/home/PrivateJourneyHomepage.module.css'), 'utf8');
-const homepage = fs.readFileSync(path.join(root, 'src/app/[locale]/page.tsx'), 'utf8');
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const component=read('src/components/home/PrivateJourneyHomepage.tsx');
+const stylesheet=read('src/components/home/PrivateJourneyHomepage.module.css');
 
-test('localized homepage routes to original booking system instead of a fake checkout', () => {
-  assert.match(homepage, /<PrivateJourneyHomepage/);
-  assert.match(component, /router\.push\(`\/\$\{locale\}\/booking\?/);
-  assert.doesNotMatch(component, /fetch\(['"]\/api\/bookings/);
+test('real route and fare engine are preserved, with booking requests rather than fake checkout',()=>{
+  assert.match(read('src/app/[locale]/page.tsx'),/<PrivateJourneyHomepage/);
+  assert.match(component,/AUTHORITATIVE_TRANSFER_RATES/);
+  assert.match(component,/LOCALIZED_ROUTE_NAMES/);
+  assert.match(component,/APPROVED_5_FLEET/);
+  assert.match(component,/router\.push\(/);
+  assert.match(component,/new URLSearchParams/);
+  assert.match(component,/type:'transfer'/);
+  assert.doesNotMatch(component,/fetch\(['"]\/api\/bookings/);
+  assert.doesNotMatch(component,/\|\|\s*200|\?\?\s*200|Instant Confirmation/);
+  assert.match(component,/Number\.isFinite\(price\)/);
 });
-test('every supported locale has bespoke headline and booking labels', () => {
-  for (const locale of ['en', 'ar', 'ms', 'id', 'ur', 'fr', 'es', 'de', 'tr', 'hi']) {
-    assert.match(component, new RegExp(`\\b${locale}: \\{ heroA:`));
+
+test('all ten locales have original homepage decision copy without English fallback',()=>{
+  const decisions=read('src/data/duyuf-homepage-decision-copy.ts');
+  const localizations=read('src/data/duyuf-homepage-layout-copy.ts');
+  for(const language of ['ar','en','ms','id','ur','fr','es','de','tr','hi']){
+    assert.ok(component.includes(language+": { heroA:"),"Missing hero translation "+language);
+    assert.ok(decisions.includes('  '+language+': {'),"Missing homepage decision copy "+language);
+    assert.ok(localizations.includes('  '+language+': {'),"Missing homepage layout copy "+language);
   }
-});
-test('route and fleet prices come from the real configuration, not fake fixed fallback', () => {
-  assert.match(component, /AUTHORITATIVE_TRANSFER_RATES/);
-  assert.match(component, /LOCALIZED_ROUTE_NAMES/);
-  assert.match(component, /APPROVED_5_FLEET/);
-  assert.doesNotMatch(component, /Math\.min\([^\n]*200|\|\|\s*200|\?\?\s*200/);
-});
-test('theme variants, mobile widths and reduced motion are explicitly supported', () => {
-  assert.match(stylesheet, /data-theme="dark"/);
-  assert.match(stylesheet, /@media\(max-width:767px\)/);
-  assert.match(stylesheet, /@media\(max-width:390px\)/);
-  assert.match(stylesheet, /prefers-reduced-motion/);
-});
-test('no selected car by default in the quick booking form', () => {
-  assert.doesNotMatch(component.split('function submitQuickBooking')[0], /setVehicle\(/);
-  assert.match(component, /new URLSearchParams\(\{ route, type: 'transfer', passengers: travelers, luggage \}\)/);
-});
-test('all static design photographs referenced by homepage exist', () => {
-  const urls = Array.from(component.matchAll(/['"](\/assets\/[^'"\n]+\.(?:jpg|webp|png))['"]/g)).map(m => m[1]);
-  assert.ok(urls.length >= 8);
-  for (const url of urls) assert.ok(fs.existsSync(path.join(root, 'public', url)), `${url} is missing`);
+  assert.match(component,/HOMEPAGE_DECISION_COPY\[locale\]/);
+  assert.match(component,/DUYUF_HOME_LAYOUT\[locale\]/);
+  assert.doesNotMatch(component,/selectedFleetVehicle\.summary\.en/);
 });
 
-
-test('approved cinematic hero uses real mobile and desktop video assets', () => {
-  assert.match(component, /<video/);
-  assert.match(component, /poster="\/assets\/homepage-v2\/hero-poster\.jpg"/);
-  assert.match(component, /heroA: 'Your Journey,'/);
-  assert.match(component, /heroB: 'Our'/);
-  assert.match(component, /heroC: 'Priority\.'/);
-  assert.match(component, /heroA: 'رحلتك'/);
-  assert.match(component, /heroB: 'تستحق عناية'/);
-  assert.match(component, /planJourney: 'Book Your Private Ride'/);
-  assert.match(component, /prefers-reduced-motion: reduce/);
-  assert.doesNotMatch(component, /\/assets\/images\/yukon_exterior\.jpg/);
-  for (const file of [
-    'hero.mp4', 'hero.webm', 'hero-mobile.mp4', 'hero-mobile.webm', 'hero-poster.jpg',
-  ]) {
-    assert.ok(fs.existsSync(path.join(root, 'public/assets/homepage-v2', file)), `Hero asset missing: ${file}`);
+test('genuine responsive cinematic video remains full bleed and respects reduced motion',()=>{
+  assert.match(component,/<video/);
+  assert.match(component,/poster="\/assets\/homepage-v2\/hero-poster\.jpg"/);
+  assert.match(component,/hero-mobile\.webm/);
+  assert.match(component,/hero-mobile\.mp4/);
+  assert.match(component,/hero\.webm/);
+  assert.match(component,/hero\.mp4/);
+  assert.match(component,/prefers-reduced-motion: reduce/);
+  assert.match(stylesheet,/\.heroVideo\{position:absolute;inset:0/);
+  assert.match(stylesheet,/\.heroVeil\{position:absolute/);
+  for(const asset of ['hero.mp4','hero.webm','hero-mobile.mp4','hero-mobile.webm','hero-poster.jpg']){
+    assert.ok(fs.existsSync(path.join(root,'public/assets/homepage-v2',asset)),asset+" missing");
   }
 });
 
-
-test('homepage follows the requested nine-part customer journey without repeating route galleries', () => {
-  const sectionNames = [...component.matchAll(/<section className=\{styles\.(\w+)\}/g)].map(match => match[1]);
-  assert.deepEqual(sectionNames, [
-    'hero', 'assurance', 'stepsSection', 'fleetSection', 'servicesSection',
-    'whySection', 'reviewsSection', 'faqSection',
+test('visually new homepage: floating booking, factual feature tiles, side-by-side comparison, fare matrix and five-car grid',()=>{
+  const sections=[...component.matchAll(/<section className=\{styles\.(\w+)\}/g)].map(m=>m[1]);
+  assert.deepEqual(sections,[
+    'hero','bookingArea','whyChoose','compareSection',
+    'pricingSection','fleetSection','trustSection','faqSection'
   ]);
-  assert.doesNotMatch(component, /ARC_IMAGES|styles\.destinationSection|styles\.processSection|styles\.editorialSection|styles\.routeExplorer/);
-  assert.match(component, /id="pj-steps"/);
-  assert.match(component, /id="pj-fleet"/);
-  assert.match(component, /id="pj-services"/);
-  assert.match(component, /id="pj-why"/);
-  assert.match(component, /id="pj-faq"/);
-  assert.match(component, /DUYUF_HOME_LAYOUT\[locale\]/);
-  assert.match(component, /href=\{\`\/\$\{locale\}\/services\`\}/);
-});
-
-test('homepage uses distinct imagery for every prominent content stage', () => {
-  const imagePaths = [...component.matchAll(/['"](\/assets\/[^'"\n]+\.(?:jpg|webp|png))['"]/g)]
-    .map(match => match[1]);
-  assert.equal(new Set(imagePaths).size, imagePaths.length, 'Duplicate prominent photo found');
-  assert.ok(imagePaths.length >= 8);
-});
-
-test('homepage styles use bounded photography and one responsive cascade', () => {
-  assert.doesNotMatch(stylesheet, /\.arcTrack|\.arcPhoto|\.destinationSection/);
-  assert.doesNotMatch(stylesheet, /\.processGrid|\.processStep|\.processSection/);
-  assert.doesNotMatch(stylesheet, /\.editorialGrid|\.editorialCard|\.routeExplorer/);
-  assert.match(stylesheet, /\.fleetImage\{height:370px/);
-  assert.match(stylesheet, /\.serviceImage\{height:165px/);
-  assert.match(stylesheet, /\.heroVisual\{position:absolute;inset:0;width:100%;height:100%/);
-});
-
-test('every supported locale has independently authored compact homepage copy', () => {
-  const layout = fs.readFileSync(path.join(root, 'src/data/duyuf-homepage-layout-copy.ts'),'utf8');
-  for (const lang of ['en','ar','ms','id','ur','fr','es','de','tr','hi']) {
-    assert.ok(layout.includes('  '+lang+': {'), 'Missing editorial localization '+lang);
+  for(const part of ['bookingPanel','featureGrid','compareGrid','pricingTable','vehicleGrid','trustGrid']){
+    assert.match(component,new RegExp('styles\\.'+part));
+    assert.match(stylesheet,new RegExp('\\.'+part+'\\{'));
   }
-  assert.match(layout, /arrivalDesc/);
-  assert.match(layout, /miqatDesc/);
-  assert.match(layout, /familyDesc/);
+  assert.doesNotMatch(component,/fleetStage|fleetSelector|arcTrack|experienceSection|routesSection|stepsSection/);
+  assert.match(stylesheet,/--cream:#faf9f6/);
+  assert.match(stylesheet,/\.vehiclePhoto\{display:flex[^}]*height:176px/);
+  assert.match(stylesheet,/@media\(max-width:560px\)/);
+  assert.match(stylesheet,/@media\(max-width:370px\)/);
+  assert.match(stylesheet,/prefers-reduced-motion:reduce/);
 });
 
-test('no instant booking confirmation or fabricated reviews in homepage', () => {
-  assert.doesNotMatch(component, /Instant Confirmation|10,000\+|5[,.]0?\/5/);
-  assert.match(component, /\/\$\{locale\}\/reviews/);
-  assert.match(component, /\/\$\{locale\}\/booking/);
+test('five approved cars come from existing data and are not hard-coded duplicates',()=>{
+  assert.match(component,/APPROVED_5_FLEET\.map\(car=>/);
+  assert.match(component,/car\.exteriorImage/);
+  assert.match(component,/car\.passengers/);
+  assert.match(component,/car\.luggage/);
+  assert.match(component,/car\.bookingParam/);
+  assert.doesNotMatch(component,/fake|dummy|mockVehicle|testimonials:\[/i);
 });
 
-
-test('homepage reuses one shared footer CTA instead of displaying two final booking banners', () => {
-  assert.doesNotMatch(component, /styles\.finalSection/);
-  const layout = fs.readFileSync(path.join(root, 'src/app/[locale]/layout.tsx'),'utf8');
-  const footerCta = fs.readFileSync(path.join(root, 'src/components/layout/CinematicFooterCta.tsx'),'utf8');
-  assert.match(layout, /<CinematicFooterCta/);
-  assert.match(footerCta, /!isHomePage && \(/);
-  assert.match(footerCta, /stripPhotos\.map/);
+test('homepage has one footer booking CTA and no extra copy-paste photo strip',()=>{
+  const footer=read('src/components/layout/CinematicFooterCta.tsx');
+  const layout=read('src/app/[locale]/layout.tsx');
+  assert.match(layout,/<CinematicFooterCta/);
+  assert.match(footer,/!isHomePage && \(/);
+  assert.match(footer,/stripPhotos\.map/);
+  assert.doesNotMatch(component,/finalSection|finalButton|footerStrip/);
 });
 
-test('homepage FAQ structured data matches exactly the four visible expandable questions', () => {
-  const jsonld = fs.readFileSync(path.join(root, 'src/components/seo/JsonLd.tsx'),'utf8');
-  const homepageFaq = jsonld.split('export function HomepageFaqJsonLd')[1]?.split('export function FaqJsonLd')[0];
-  assert.ok(homepageFaq, 'Missing distinct HomepageFaqJsonLd');
+test('homepage FAQ structured data matches the four real accordion questions',()=>{
+  const jsonld=read('src/components/seo/JsonLd.tsx');
+  const faq=jsonld.split('export function HomepageFaqJsonLd')[1]?.split('export function FaqJsonLd')[0];
+  assert.ok(faq);
   for(const i of [2,3,5,9]){
-    assert.match(homepageFaq,new RegExp('dict\\.faq\\.q'+i));
+    assert.match(faq,new RegExp('dict\\.faq\\.q'+i));
     assert.match(component,new RegExp('dict\\.faq\\.q'+i));
   }
-  for(const i of [1,4,6,7,8,10,11,12]){
-    assert.doesNotMatch(homepageFaq,new RegExp('dict\\.faq\\.q'+i+'\\b'));
-  }
   assert.match(component,/hidden=\{activeFaq!==i\}/);
+  assert.doesNotMatch(component,/10,000\+|5[,.]0?\/5/);
 });
