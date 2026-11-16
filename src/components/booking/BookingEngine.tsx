@@ -1760,6 +1760,9 @@ export function BookingEngine({
                     <div
                       key={vId}
                       onClick={() => handleSelectVehicle(vId)}
+                      role="group"
+                      aria-label={vData.name}
+                      data-selected={isSelected ? 'true' : 'false'}
                       className={`duyuf-booking-vehicle-card rounded-2xl p-4 border-2 transition-all cursor-pointer relative flex flex-col justify-between overflow-hidden ${
                         isSelected
                           ? 'border-gold bg-gold-soft/35 shadow-md ring-2 ring-gold/40'
