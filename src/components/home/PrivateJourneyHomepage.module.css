@@ -251,3 +251,20 @@
 @media(prefers-reduced-motion:reduce){
  .page *, .page *::before, .page *::after{transition-duration:.01ms!important;animation-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+
+/* Site-specific final action, not the reused oversized footer photo banner. */
+.finalBand{background:#233a3a;color:#fff;padding:35px 0}
+.finalInside{display:flex;align-items:center;justify-content:space-between;gap:30px}
+.finalOverline{font-size:10px;letter-spacing:.12em;color:#e5be7c;font-weight:800;margin-bottom:7px!important}
+.finalInside h2{font-family:var(--serif);font-size:clamp(26px,2.6vw,39px);line-height:1.14;font-weight:650;color:#fff;margin:0 0 8px!important}
+.page[dir="rtl"] .finalInside h2{font-family:var(--arabic);line-height:1.35}
+.finalInside>div>p:last-child{font-size:11px;color:#d8e1dc}
+.finalLink{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:47px;white-space:nowrap;padding:0 22px;background:#dda443;color:#192f2e;border-radius:5px;font-size:12px;font-weight:850}
+.finalLink:hover{background:#f0bd63;color:#192f2e}
+@media(max-width:560px){
+ .finalBand{padding:32px 0}
+ .finalInside{flex-direction:column;align-items:flex-start;gap:18px}
+ .finalInside h2{font-size:30px}
+ .finalLink{width:100%}
+}
