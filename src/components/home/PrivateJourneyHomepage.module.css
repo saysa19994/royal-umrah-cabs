@@ -1,382 +1,304 @@
-/*
- * DUYUF — THE PRIVATE JOURNEY
- * Intentional editorial, automotive and Saudi hospitality presentation.
- * Scoped CSS Modules: respects the existing application-wide theme controller.
- */
-.page {
-  --p-bg:var(--bg-base,#F8F6F1);
-  --p-paper:var(--bg-surface,#fff);
-  --p-lift:var(--bg-elevated,#F0EBE2);
-  --p-ink:var(--text-primary,#182B32);
-  --p-secondary:var(--text-secondary,#637076);
-  --p-line:var(--border-stone,#DDDAD0);
-  --p-bronze:#986E3E;
-  --p-primary:#173D45;
-  --p-primary-hover:#26545A;
-  --p-white:#FFFFFF;
-  --p-shadow:0 26px 60px rgba(31,35,32,.085);
-  background:var(--p-bg);
-  color:var(--p-ink);
+/* DUYUF AL RAHMAN VIP — HOMEPAGE
+   A concise Saudi hospitality journey inspired by effective category UX,
+   not a copy of any competitor. One cascade, no accumulated overrides. */
+.page{
+  --bg:#f8f7f3;--surface:#fffefa;--lift:#eef0eb;
+  --ink:#172f36;--secondary:#627276;--line:#dfdfd6;
+  --navy:#183b43;--bronze:#9d8058;--soft-gold:#eedbc0;
+  --serif:var(--font-cormorant,Georgia),Georgia,serif;
+  --arabic:var(--font-amiri,Georgia),Georgia,serif;
+  background:var(--bg);color:var(--ink);overflow-x:clip;
   font-family:var(--font-manrope,Arial),var(--font-ibm-plex-arabic,Arial),Arial,sans-serif;
-  overflow:clip;
 }
-:global([data-theme="dark"]) .page,
-:global(.dark) .page {
-  --p-bg:#0D1B20;
-  --p-paper:#152830;
-  --p-lift:#20343A;
-  --p-ink:#F3F2EC;
-  --p-secondary:#B2C1BE;
-  --p-line:#344B50;
-  --p-bronze:#CCAA78;
-  --p-primary:#CFAD79;
-  --p-primary-hover:#E3C99B;
-  --p-white:#142328;
-  --p-shadow:0 26px 70px rgba(0,0,0,.27);
+:global([data-theme="dark"]) .page,:global(.dark) .page{
+  --bg:#10262d;--surface:#193139;--lift:#294249;--ink:#f4f1e9;
+  --secondary:#b9c5c5;--line:#385058;--navy:#d9c3a1;--bronze:#e2c293;
 }
-.page :is(button,select,input){font:inherit}
+.page :is(h1,h2,h3,p){margin:0}
+.page :is(h1,h2){font-family:var(--serif);font-weight:600;letter-spacing:-.035em}
+.page[dir="rtl"] :is(h1,h2){font-family:var(--arabic);letter-spacing:0;line-height:1.35}
+.page :is(button,input,select){font:inherit}
 .page a{text-decoration:none}
-.page img{display:block;width:100%;max-width:100%}
-.page :is(button,a,input,select):focus-visible{outline:3px solid var(--p-bronze);outline-offset:3px}
-.wrap{width:min(1320px,calc(100% - 80px));margin-inline:auto}
-.page h1,.page h2,.page h3,.page p{margin:0}
-.page h1,.page h2,.page h3{letter-spacing:-.035em}
-.page h1,.page h2{font-family:var(--font-cormorant,Georgia),var(--font-amiri,Georgia),Georgia,serif;font-weight:600}
-.page[dir="rtl"] h1,.page[dir="rtl"] h2{font-family:var(--font-amiri,Georgia),var(--font-ibm-plex-arabic,Arial),serif}
-.overline{display:flex;align-items:center;gap:12px;font-size:11px;font-weight:750;letter-spacing:.15em;text-transform:uppercase;color:var(--p-bronze);line-height:1.5}
+.page img{display:block;max-width:100%}
+.page :is(a,button,input,select):focus-visible{outline:3px solid var(--bronze);outline-offset:3px}
+.wrap{width:min(1180px,calc(100% - 56px));margin-inline:auto}
+.overline{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--bronze);line-height:1.5}
 .page[dir="rtl"] .overline{letter-spacing:0;font-size:12px}
-.overlineRule{display:inline-block;width:30px;height:1px;flex:0 0 auto;background:currentColor}
-.buttonPrimary{background:var(--p-primary);color:var(--p-bg);display:inline-flex;align-items:center;justify-content:center;gap:18px;min-height:55px;padding:0 24px;font-weight:750;font-size:13px;border:1px solid var(--p-primary);border-radius:5px;transition:background .2s,transform .2s,color .2s}
-:global([data-theme="light"]) .buttonPrimary{color:#fff}
-.buttonPrimary:hover{background:var(--p-primary-hover);transform:translateY(-2px)}
-.buttonText,.inlineLink{display:inline-flex;align-items:center;gap:12px;font-size:13px;font-weight:800;color:var(--p-ink);transition:color .2s}
-.buttonText:hover,.inlineLink:hover{color:var(--p-bronze)}
+.overlineRule{display:inline-block;width:28px;height:1px;background:currentColor;margin-inline-end:9px;vertical-align:middle}
+.buttonPrimary,.finalButton{
+  background:var(--navy);color:#fff;min-height:49px;padding:0 22px;
+  display:inline-flex;align-items:center;justify-content:center;gap:13px;
+  font-size:12px;font-weight:800;border:1px solid var(--navy);border-radius:7px;
+  transition:background .2s,transform .2s;
+}
+.buttonPrimary:hover,.finalButton:hover{background:#2c555d;color:#fff;transform:translateY(-1px)}
+.buttonText,.inlineLink{display:inline-flex;align-items:center;gap:10px;color:var(--ink);font-size:12px;font-weight:800;line-height:1.4}
+.inlineLink:hover,.buttonText:hover{color:var(--bronze)}
 
-/* HERO / CINEMATIC CHAUFFEUR VISUAL */
-.hero{position:relative;isolation:isolate;min-height:clamp(760px,94svh,1020px);padding:0 0 42px;background:#0D2026;color:#fff;overflow:hidden}
+/* 01 — Hero remains full bleed. Content stays human-size and legible. */
+.hero{position:relative;isolation:isolate;background:#0d2329;color:#fff;padding:0 0 30px;overflow:hidden}
 .heroAura{display:none}
-.heroGrid{display:grid;grid-template-columns:minmax(0,1fr);align-items:center;min-height:clamp(675px,88svh,910px);padding-top:94px}
-.heroContent{padding:70px 0 182px;z-index:2;position:relative;max-width:760px}
-.heroTitle{font-size:clamp(72px,7.2vw,118px);line-height:.95;max-width:760px;margin:26px 0 30px!important;letter-spacing:-.047em!important;color:#FBFAF7;text-wrap:balance;text-shadow:0 6px 38px rgba(0,0,0,.16)}
+.heroGrid{position:relative;min-height:clamp(550px,74svh,740px);display:flex;align-items:center;padding:95px 0 130px}
+.heroContent{position:relative;z-index:2;max-width:645px;padding:20px 0 75px}
+.heroContent .overline{color:#e7cc9f}
+.heroTitle{color:#f9f6ef;font-size:clamp(47px,5.25vw,79px);line-height:1.06;margin:22px 0!important;text-wrap:balance;text-shadow:0 3px 22px rgba(0,0,0,.16)}
 .heroTitle span,.heroTitle em{display:block}
-.heroTitle span:nth-child(2){white-space:normal}
-.heroTitle em{color:#E7D2AE;font-style:italic;font-weight:500}
-.page[dir="rtl"] .heroTitle{font-size:clamp(58px,6vw,96px);line-height:1.25;letter-spacing:0!important}
-.page[dir="rtl"] .heroTitle em{font-style:normal}
-.heroDescription{font-size:clamp(15px,1.35vw,19px);color:#EEEDE7;line-height:1.75;max-width:580px;text-wrap:pretty}
-.heroActions{display:flex;flex-wrap:wrap;gap:24px;align-items:center;margin:34px 0 27px}
-.heroVisual{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;background:#13242A;z-index:0;box-shadow:none}
-.heroVisual:before{content:none}
-.heroImage{position:absolute;inset:0;width:100%!important;height:100%;object-fit:cover;object-position:center 45%;transform:none}
-.heroVisual:hover .heroImage{transform:none}
-.imageVeil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,20,24,.88) 0%,rgba(9,23,28,.75) 32%,rgba(11,25,29,.37) 64%,rgba(8,20,25,.2) 100%),linear-gradient(0deg,rgba(7,20,24,.72),transparent 47%);pointer-events:none}
-.heroSideCaption{position:absolute;z-index:3;bottom:178px;inset-inline-end:5vw;color:white;display:grid;gap:9px;max-width:325px;text-align:end;justify-items:end}
-.heroSideCaption>span:first-of-type{font-size:11px;letter-spacing:.18em;color:#E5C796}
-.heroSideCaption>strong{font-family:var(--font-cormorant,Georgia),var(--font-amiri,Georgia),Georgia,serif;font-size:30px;line-height:1.05;font-weight:650}
-.heroSideCaption>span:last-of-type{font-size:10px;letter-spacing:.14em;font-weight:650}
-.captionLine{width:44px;height:2px;background:#D7AF71}
-.cornerMark{position:absolute;z-index:2;top:115px;inset-inline-end:4vw;color:#fff;font-size:14px;letter-spacing:.21em;font-weight:800;text-shadow:0 2px 7px #000}
-.cornerMark span{font-size:9px;letter-spacing:.14em;color:#E7C998;margin-inline-start:5px}
-
-/* BOOKING: SEPARATE TRANSACTION ZONE WITH RESPONSIVE FIELDS */
-.searchShell{position:relative;z-index:3;width:min(100%,1240px);margin:-102px auto 0;background:var(--p-paper);color:var(--p-ink);border:1px solid rgba(235,228,213,.8);border-radius:18px;box-shadow:0 23px 75px rgba(0,0,0,.24);padding:24px 27px 27px}
-.searchHead{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:0 3px 16px;border-bottom:1px solid var(--p-line)}
-.searchTitle{display:flex;align-items:center;gap:11px;font-size:15px;font-weight:850}
-.searchTitle svg{color:var(--p-bronze)}
-.searchHint{display:flex;align-items:center;gap:9px;color:var(--p-secondary);font-size:11px}
-.searchHint>span{width:7px;height:7px;border-radius:50%;background:#38886C}
-.searchFields{display:grid;grid-template-columns:minmax(230px,2fr) minmax(150px,1.2fr) minmax(100px,.7fr) minmax(100px,.7fr) minmax(172px,1.3fr);gap:13px;margin-top:17px;align-items:stretch}
-.searchField{min-width:0;display:flex;flex-direction:column;gap:8px;background:var(--p-bg);border:1px solid var(--p-line);border-radius:9px;padding:12px 14px;transition:border-color .2s}
-.searchField:focus-within{border-color:var(--p-bronze)}
-.searchField>span{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:750;color:var(--p-secondary)}
-.searchField>span svg{color:var(--p-bronze)}
-.searchField select,.searchField input{width:100%;max-width:100%;min-width:0;background:transparent;border:0;padding:0;color:var(--p-ink);font-weight:750;font-size:12px;outline:none;min-height:25px;color-scheme:light}
-:global([data-theme="dark"]) .searchField select,:global([data-theme="dark"]) .searchField input{color-scheme:dark}
-.searchButton{min-height:64px;border:1px solid var(--p-primary);background:var(--p-primary);color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;font-size:13px;font-weight:750;cursor:pointer;border-radius:9px;transition:background .2s,transform .2s}
-:global([data-theme="dark"]) .searchButton{color:#111E22}
-.searchButton:hover{background:var(--p-primary-hover);transform:translateY(-1px)}
-.validation{color:#C74E3C;margin-top:8px!important;font-size:12px}
-
-/* A WHITE/CHARCOAL TRUTH STRIP, NOT A ROW OF FAKE STATISTICS */
-.assurance{padding:27px 0 33px;background:var(--p-bg)}
-.assuranceGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:center}
-.assuranceGrid>div{display:flex;align-items:center;gap:13px;min-height:56px;padding-inline:20px;border-inline-end:1px solid var(--p-line)}
-.assuranceGrid>div:first-child{padding-inline-start:0}
-.assuranceGrid>div:last-child{border-inline-end:0}
-.assuranceGrid svg{flex-shrink:0;color:var(--p-bronze);stroke-width:1.5}
-.assuranceGrid span{line-height:1.65;font-size:11px;color:var(--p-secondary);font-weight:650}
-
-
-/* SINGLE HOSPITALITY CHAPTER / a photographic story, not another route grid. */
-.experienceSection,.routesSection,.fleetSection,.guidesSection,.faqSection{padding:clamp(80px,9vw,135px) 0}
-.sectionHeading{display:flex;justify-content:space-between;align-items:end;gap:36px;margin-bottom:35px}
-.sectionHeading>div{max-width:735px}
-.sectionHeading h2{font-size:clamp(38px,4.15vw,62px);line-height:1.08;margin-top:13px!important}
-.sectionHeading h2 em{font-style:normal;color:var(--p-bronze)}
-.sectionHeading>p{font-size:14px;color:var(--p-secondary);line-height:1.8;max-width:380px}
-.experienceSection{background:var(--p-bg);border-bottom:1px solid var(--p-line);overflow:hidden}
-.experienceLayout{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:clamp(45px,7vw,116px);align-items:center}
-.experienceVisual{position:relative;min-height:640px;margin-inline-end:24px}
-.experiencePrimaryPhoto{display:block;width:100%;height:625px;object-fit:cover;object-position:center;background:#a7b4ad;border-radius:3px 63px 3px 3px}
-.experienceInset{position:absolute;inset-block-end:-24px;inset-inline-end:-35px;width:45%;height:40%;border:11px solid var(--p-bg);border-radius:3px 3px 3px 38px;overflow:hidden;background:#243b40;box-shadow:0 21px 52px rgba(5,21,24,.2)}
-.experienceInset img{width:100%;height:100%;object-fit:cover;object-position:center}
-.experiencePhotoMark{position:absolute;z-index:1;inset-block-start:25px;inset-inline-start:25px;display:grid;place-items:center;background:rgba(250,251,246,.94);color:#1d4850;width:62px;height:62px;padding:14px;border-radius:50%;box-shadow:0 7px 20px rgba(11,27,32,.14)}
-.experienceSignature{width:100%;height:100%}
-.experienceCopy{max-width:630px;padding-block:25px}
-.experienceCopy h2{font-size:clamp(49px,4.9vw,83px);line-height:1.04;margin:29px 0 25px!important;letter-spacing:-.035em;text-wrap:balance}
-.page[dir="rtl"] .experienceCopy h2{letter-spacing:0;line-height:1.36;font-size:clamp(42px,4.2vw,72px)}
-.experienceCopy>p:not(.overline){font-size:15px;line-height:1.95;color:var(--p-secondary);max-width:460px}
-.experienceRule{height:1px;width:90px;background:var(--p-bronze);margin:42px 0 24px}
-.experienceFoot{display:flex;justify-content:space-between;align-items:end;gap:25px;flex-wrap:wrap}
-.experienceFoot>span{font-size:12px;line-height:1.8;max-width:220px;color:var(--p-secondary)}
-.experienceFoot .inlineLink{border-bottom:1px solid var(--p-ink);padding-bottom:8px;white-space:nowrap}
-
-/* ROUTE EXPLORER: SAME ROUTE DATA AS BOOKING */
-.routesSection{background:var(--p-paper)}
-.routeExplorer{display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);min-height:480px;background:var(--p-bg);border:1px solid var(--p-line)}
-.routeText{padding:clamp(32px,4vw,62px);display:flex;flex-direction:column;align-items:flex-start}
-.routeCount{color:var(--p-bronze);font-weight:850;font-size:13px;letter-spacing:.16em}
-.routeCount>span{color:var(--p-secondary);font-weight:550}
-.routeText h3{font-size:clamp(30px,3vw,46px);font-family:var(--font-cormorant,Georgia),var(--font-amiri,Georgia),Georgia,serif;font-weight:650;line-height:1.2;margin:24px 0 18px!important}
-.routeText>p{font-size:14px;color:var(--p-secondary);line-height:1.85;max-width:450px}
-.routeFare{display:flex;align-items:baseline;gap:14px;margin:28px 0}
-.routeFare>span{font-size:12px;color:var(--p-secondary)}
-.routeFare strong{font-size:28px;color:var(--p-ink);font-weight:800;letter-spacing:-.035em}
-.routeFoot{width:100%;display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:auto}
-.carouselControls{display:flex;gap:10px}
-.carouselControls button{width:46px;height:46px;border:1px solid var(--p-line);color:var(--p-ink);background:var(--p-paper);cursor:pointer;display:grid;place-items:center;transition:background .2s}
-.carouselControls button:hover{background:var(--p-lift)}
-.routeImage{position:relative;min-height:480px;overflow:hidden;background:#27393C}
-.routeImage img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-.routeImage:after{content:'';position:absolute;inset:55% 0 0;background:linear-gradient(0deg,rgba(4,11,15,.77),transparent)}
-.routeImageMarker{display:flex;gap:12px;align-items:center;position:absolute;z-index:2;bottom:33px;inset-inline:32px;color:#fff;font-size:14px;font-weight:700}
-.routeImageMarker svg{color:#E8C89B;flex:none}
-.routeRail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:20px}
-.routeRailItem{min-width:0;min-height:92px;border:1px solid var(--p-line);border-radius:8px;background:var(--p-bg);color:var(--p-ink);cursor:pointer;padding:17px 15px;display:grid;grid-template-columns:25px minmax(0,1fr) 18px;gap:10px;align-items:start;text-align:start;transition:border-color .2s,background .2s}
-.routeRailItem:hover{border-color:var(--p-bronze)}
-.routeRailItem strong{font-size:12px;line-height:1.6;font-weight:700;overflow-wrap:anywhere}
-.routeRailIndex{font-size:10px;letter-spacing:.1em;color:var(--p-bronze);font-weight:750}
-.routeRailItem svg{opacity:.6}
-.routeRailActive{border-color:var(--p-bronze);background:var(--p-lift);box-shadow:inset 0 -3px var(--p-bronze)}
-.routeRailActive svg{opacity:1;color:var(--p-bronze)}
-
-/* FLEET: A REAL 2-COLUMN SHOWROOM WITH EXTERIOR / INTERIOR */
-.fleetSection{background:var(--p-bg);padding:105px 0}
-.fleetSelector{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;padding-bottom:14px;max-width:100%}
-.fleetSelector button{flex:1 0 auto;min-height:50px;border:1px solid var(--p-line);background:var(--p-paper);color:var(--p-secondary);padding:0 16px;cursor:pointer;white-space:nowrap;font-size:11px;font-weight:800;transition:all .2s}
-.fleetSelector button:hover,.fleetSelector .carSelected{background:var(--p-primary);border-color:var(--p-primary);color:#fff}
-:global([data-theme="dark"]) .fleetSelector .carSelected{color:#132127}
-.fleetStage{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);background:var(--p-paper);min-height:540px;border:1px solid var(--p-line)}
-.fleetImage{min-height:540px;position:relative;overflow:hidden;background:var(--p-lift);display:flex;align-items:center;justify-content:center}
-.fleetImage:before{content:'';position:absolute;inset:20px;border:1px solid var(--p-line);pointer-events:none;z-index:1}
-.fleetImage>img{max-width:90%;width:90%;max-height:445px;object-fit:contain;animation:vehicleReveal .4s ease both;filter:drop-shadow(0 18px 18px rgba(0,0,0,.12))}
-.imageToggle{position:absolute;bottom:25px;inset-inline-start:25px;display:flex;z-index:2;padding:4px;background:var(--p-paper);box-shadow:0 5px 30px rgba(0,0,0,.1)}
-.imageToggle button{cursor:pointer;color:var(--p-secondary);background:transparent;padding:11px 15px;font-size:11px;font-weight:750;border:0}
-.imageToggle .photoActive{background:var(--p-primary);color:#fff}
-:global([data-theme="dark"]) .imageToggle .photoActive{color:#132127}
-.fleetInfo{padding:clamp(30px,3.7vw,58px);display:flex;align-items:flex-start;flex-direction:column}
-.fleetInfo>h3{font-size:clamp(37px,3.5vw,58px);font-family:var(--font-cormorant,Georgia),var(--font-amiri,Georgia),Georgia,serif;font-weight:650;line-height:1.05;margin:15px 0 20px!important}
-.fleetInfo>p:nth-of-type(2){font-size:14px;line-height:1.82;color:var(--p-secondary)}
-.fleetSpecs{display:flex;flex-wrap:wrap;gap:24px;padding:22px 0;border-bottom:1px solid var(--p-line);width:100%;margin:10px 0 21px}
-.fleetSpecs>div{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--p-secondary)}
-.fleetSpecs svg{color:var(--p-bronze)}
-.fleetSpecs strong{font-size:19px;color:var(--p-ink)}
-.featureList{padding:0;list-style:none;display:grid;gap:12px;margin:0 0 25px}
-.featureList li{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--p-secondary)}
-.featureList svg{color:var(--p-bronze);flex:none}
-.fleetPrice{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-top:auto!important;color:var(--p-secondary);font-size:11px}
-.fleetPrice strong{color:var(--p-ink);font-size:25px;letter-spacing:-.03em}
-.fleetPrice small{font-size:10px;display:block;flex-basis:100%}
-.fleetActions{display:flex;align-items:center;flex-wrap:wrap;gap:22px;margin-top:27px}
-.fleetFootnote{margin-top:19px!important;color:var(--p-secondary);font-size:11px;line-height:1.8}
-
-/* EDITORIAL GUIDES */
-.guidesSection{background:var(--p-bg);padding:105px 0}
-.guideGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:21px}
-.guideCard{min-width:0;background:var(--p-paper);border:1px solid var(--p-line);display:flex;flex-direction:column;overflow:hidden;transition:transform .25s,box-shadow .25s}
-.guideCard:hover{transform:translateY(-4px);box-shadow:var(--p-shadow)}
-.guidePhoto{height:240px;overflow:hidden;background:var(--p-lift)}
-.guidePhoto img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
-.guideCard:hover img{transform:scale(1.06)}
-.guideBody{padding:24px 25px;flex:1;display:flex;flex-direction:column}
-.guideBody>span:first-child{color:var(--p-bronze);font-size:10px;letter-spacing:.08em;font-weight:800}
-.guideBody h3{font-size:23px;line-height:1.28;margin:13px 0!important;font-family:var(--font-cormorant,Georgia),var(--font-amiri,Georgia),Georgia,serif;font-weight:650}
-.guideBody p{font-size:12px;color:var(--p-secondary);line-height:1.8;margin-bottom:22px!important}
-.guideRead{margin-top:auto;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--p-line);padding-top:16px;font-size:12px;font-weight:800;color:var(--p-ink)}
-
-/* FAQs / ORIGINAL APPROVED CONTENT, NO INSTANT CONFIRMATION CLAIMS */
-.faqSection{padding:105px 0 120px;background:var(--p-paper)}
-.faqGrid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(55px,7vw,120px)}
-.faqIntro h2{font-size:clamp(38px,4.2vw,64px);margin:14px 0 20px!important;line-height:1.1}
-.faqIntro>p:not(.overline){color:var(--p-secondary);font-size:14px;margin-bottom:21px!important}
-.faqImage{margin-top:30px;width:85%;height:255px;overflow:hidden;background:var(--p-lift)}
-.faqImage img{height:100%;width:100%;object-fit:cover;object-position:50% 35%}
-.faqItem{border-bottom:1px solid var(--p-line)}
-.faqItem:first-child{border-top:1px solid var(--p-line)}
-.faqItem button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:79px;border:0;background:transparent;color:var(--p-ink);text-align:start;cursor:pointer;font-size:14px;font-weight:800;line-height:1.65;padding:18px 0}
-.faqSymbol{font-size:27px;font-weight:450;color:var(--p-bronze);min-width:20px;text-align:center}
-.faqItem>p{padding-bottom:22px;font-size:12px;line-height:1.95;color:var(--p-secondary)}
-.faqItems>.buttonText{margin-top:28px}
-
-@keyframes vehicleReveal{from{opacity:.4;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-/* One responsive cascade. Obsolete split-hero, photo-arc and steps rules removed. */
-@media (max-width:1220px){
- .wrap{width:min(100% - 52px,1280px)}
- .searchShell{width:100%}
- .searchFields{grid-template-columns:minmax(180px,2fr) minmax(135px,1fr) 90px 90px minmax(160px,1.1fr);gap:8px}
- .searchField{padding-inline:10px}
- .assuranceGrid>div{padding-inline:12px}
-}
-@media (max-width:960px){
- .searchFields{grid-template-columns:repeat(4,1fr)}
- .searchField:first-child,.searchField:nth-child(2){grid-column:span 2}
- .searchButton{grid-column:span 4;min-height:52px}
- .searchHint{display:none}
- .assuranceGrid{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:18px}
- .assuranceGrid>div:nth-child(2){border-inline-end:0}
- .experienceLayout{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:40px}
- .experienceVisual{min-height:490px}
- .experiencePrimaryPhoto{height:485px}
- .experienceInset{width:49%;height:40%}
- .experienceCopy h2{font-size:clamp(40px,4.9vw,62px)}
- .fleetStage{grid-template-columns:1.1fr .9fr}
- .fleetImage{min-height:460px}
- .guidePhoto{height:185px}
-}
-@media (max-width:767px){
- .wrap{width:calc(100% - 36px)}
- .searchHead{padding-bottom:12px}
- .searchTitle{font-size:13px}
- .searchFields{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
- .searchField:first-child,.searchField:nth-child(2){grid-column:1/-1}
- .searchField:nth-child(3),.searchField:nth-child(4){grid-column:span 1}
- .searchButton{grid-column:1/-1;min-height:51px;margin-top:3px}
- .searchField{padding:9px 12px}
- .assurance{padding:23px 0}
- .assuranceGrid{gap:14px 12px}
- .assuranceGrid>div{border:none!important;padding:0;gap:8px;align-items:flex-start}
- .assuranceGrid svg{width:20px;height:20px}
- .assuranceGrid span{font-size:10px;line-height:1.55}
- .experienceSection,.routesSection,.fleetSection,.guidesSection,.faqSection{padding:70px 0}
- .sectionHeading{align-items:flex-start;flex-direction:column;gap:15px;margin-bottom:27px}
- .sectionHeading h2{font-size:clamp(37px,9vw,49px)}
- .sectionHeading>p{font-size:12px}
- .experienceLayout{grid-template-columns:1fr;gap:34px}
- .experienceVisual{min-height:0;margin-inline-end:10px}
- .experiencePrimaryPhoto{height:390px;border-radius:3px 35px 3px 3px}
- .experienceInset{inset-block-end:-24px;inset-inline-end:-17px;width:43%;height:42%;border-width:7px;border-radius:3px 3px 3px 24px}
- .experiencePhotoMark{top:16px;inset-inline-start:16px;width:47px;height:47px;padding:10px}
- .experienceCopy{max-width:100%;padding-top:26px;padding-bottom:0}
- .experienceCopy h2{font-size:clamp(45px,10vw,63px);margin:22px 0 18px!important}
- .page[dir="rtl"] .experienceCopy h2{font-size:clamp(42px,9.4vw,60px)}
- .experienceCopy>p:not(.overline){font-size:13px}
- .experienceRule{margin:27px 0 18px}
- .routeExplorer{grid-template-columns:1fr}
- .routeText{padding:28px 25px}
- .routeText h3{font-size:36px;margin:18px 0 10px!important}
- .routeFare{margin:16px 0}
- .routeFoot{gap:12px}
- .routeImage{height:275px;min-height:275px}
- .routeImageMarker{bottom:21px;inset-inline:20px;font-size:12px}
- .routeRail{grid-template-columns:repeat(4,minmax(240px,1fr));overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:10px;gap:10px}
- .routeRailItem{scroll-snap-align:start;min-height:85px;padding:14px 12px}
- .routeRailItem strong{font-size:12px}
- .fleetSelector{margin-bottom:0}
- .fleetSelector button{font-size:11px;padding-inline:15px;min-height:45px}
- .fleetStage{grid-template-columns:1fr}
- .fleetImage{min-height:340px;height:340px}
- .fleetImage img{height:280px;max-width:90%}
- .fleetInfo{padding:25px}
- .fleetInfo>h3{font-size:42px;margin:10px 0 14px!important}
- .fleetSpecs{margin:8px 0 17px}
- .fleetPrice{margin-top:0!important}
- .fleetActions{margin-top:17px}
- .guideGrid{grid-template-columns:1fr;gap:17px}
- .guidePhoto{height:230px}
- .guideBody{padding:20px}
- .faqGrid{grid-template-columns:1fr;gap:35px}
- .faqIntro h2{font-size:44px}
- .faqImage{display:none}
- .faqItem button{font-size:13px}
-}
-@media (max-width:390px){
- .experiencePrimaryPhoto{height:350px}
- .routeText h3{font-size:31px}
- .searchShell{width:100%}
- .fleetActions{gap:14px}
- .fleetActions .buttonPrimary{width:100%}
-}
-@media (prefers-reduced-motion:reduce){
- .page *,.page *::before,.page *::after{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
-}
-
-/* Hero overlays use one full-bleed moving image; content remains in the
-   accessible document flow and is not nested in the moving layer. */
-.hero .overline{color:#EBD6B3;letter-spacing:.19em}
-.hero .overlineRule{width:38px}
-.heroActions .buttonPrimary{background:#F5F0E5;color:#18383F;border-color:#F5F0E5;border-radius:6px;min-height:58px;padding-inline:28px}
-.heroActions .buttonPrimary:hover{background:#E6D9C1;color:#18383F}
+.heroTitle em{font-style:normal;color:#e8d1aa}
+.page[dir="rtl"] .heroTitle{font-size:clamp(42px,4.9vw,74px);line-height:1.26}
+.heroDescription{max-width:475px;color:#e9ebe7;font-size:14px;line-height:1.9}
+.heroActions{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:27px}
+.heroActions .buttonPrimary{background:#f3eee4;color:#1b3a40;border-color:#f3eee4;font-size:13px;min-height:51px}
+.heroActions .buttonPrimary:hover{background:#e1d3bd;color:#1b3a40}
 .heroActions .buttonText{color:#fff}
-.heroActions .buttonText:hover{color:#E7D2AE}
-@media (max-width:960px){
- .hero{padding:0 0 28px}
- .heroGrid{grid-template-columns:1fr;gap:0;min-height:clamp(650px,86svh,810px);padding-top:78px}
- .heroContent{padding:70px 0 158px;max-width:630px}
- .heroTitle{font-size:clamp(62px,8vw,88px)}
- .page[dir="rtl"] .heroTitle{font-size:clamp(50px,7.4vw,78px)}
- .heroVisual{inset:0;height:100%;width:100%}
+.heroActions .buttonText:hover{color:#e8d1aa}
+.heroVisual{position:absolute;inset:0;width:100%;height:100%;z-index:0;overflow:hidden;background:#16343a}
+.heroImage{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.imageVeil{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(10,27,32,.86),rgba(10,27,32,.5) 53%,rgba(10,27,32,.25)),linear-gradient(0deg,rgba(7,22,26,.68),transparent 55%)}
+.page[dir="rtl"] .imageVeil{background:linear-gradient(270deg,rgba(10,27,32,.86),rgba(10,27,32,.5) 53%,rgba(10,27,32,.25)),linear-gradient(0deg,rgba(7,22,26,.68),transparent 55%)}
+.heroSideCaption{position:absolute;inset-inline-end:clamp(20px,4vw,80px);bottom:135px;z-index:1;color:#f8f6f0;max-width:200px;text-align:end}
+.heroSideCaption strong{display:block;font-size:14px;line-height:1.5;font-weight:700}
+.heroSideCaption>span{font-size:9px;letter-spacing:.07em;color:#ded6c9}
+.captionLine{width:34px;height:2px;background:#d6bc90;margin:0 0 12px auto}
+.cornerMark{position:absolute;z-index:1;inset-inline-end:28px;top:106px;display:flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid rgba(255,255,255,.28);border-radius:8px;background:rgba(10,28,32,.33)}
+.heroBrandGlyph{width:27px;height:27px;color:#f6f0e5}
+.heroBrandWord{color:#fff;font-size:10px;letter-spacing:.12em;font-weight:800}
+.heroBrandWord strong{color:#d7bd8e;font-size:9px}
+.searchShell{position:relative;z-index:2;width:min(1080px,100%);margin:-111px auto 0;padding:20px 22px 21px;background:#fffefa;color:#19353b;border:1px solid #e3e0d6;border-radius:13px;box-shadow:0 18px 55px rgba(3,14,20,.23)}
+.searchHead{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:13px}
+.searchTitle{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:800}
+.searchTitle svg{color:#9d8058}
+.searchHint{display:flex;align-items:center;gap:9px;color:#596f72;font-size:11px}
+.searchHint>span{width:7px;height:7px;background:#408c74;border-radius:50%}
+.searchFields{display:grid;grid-template-columns:minmax(190px,1.75fr) minmax(155px,1.12fr) minmax(90px,.7fr) minmax(90px,.7fr) minmax(155px,1.12fr);gap:9px;align-items:stretch}
+.searchField{min-width:0;display:flex;flex-direction:column;gap:6px;background:#f7f7f3;border:1px solid #e6e4da;border-radius:8px;padding:10px 12px}
+.searchField:focus-within{border-color:#a98e67}
+.searchField>span{display:flex;align-items:center;gap:6px;font-size:10px;color:#61767a;font-weight:700}
+.searchField>span svg{color:#9d8058}
+.searchField select,.searchField input{width:100%;min-width:0;max-width:100%;min-height:26px;font-size:12px;color:#15363b;border:0;background:transparent;padding:0;outline:0;color-scheme:light;font-weight:700}
+.searchButton{display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:0 12px;background:#193e46;border:1px solid #193e46;border-radius:8px;color:#fff;font-size:12px;font-weight:800;cursor:pointer}
+.searchButton:hover{background:#2e5960}
+.validation{font-size:11px;color:#b9403f;margin-top:8px!important}
+
+/* 02 — compact operational strip; no fake numbers. */
+.assurance{padding:22px 0;background:var(--surface);border-bottom:1px solid var(--line)}
+.assuranceGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:center}
+.assuranceGrid>div{display:flex;align-items:center;gap:10px;min-height:40px;padding-inline:17px;border-inline-end:1px solid var(--line)}
+.assuranceGrid>div:first-child{padding-inline-start:0}
+.assuranceGrid>div:last-child{border:0}
+.assuranceGrid svg{flex:none;color:var(--bronze)}
+.assuranceGrid span{font-size:11px;line-height:1.6;color:var(--secondary);font-weight:650}
+
+/* 03 — readable three-step story, deliberately not oversized cards. */
+.stepsSection{padding:73px 0 76px;background:var(--bg)}
+.centerHeading{text-align:center;max-width:690px;margin:0 auto 34px}
+.centerHeading .overline{margin-bottom:10px}
+.centerHeading h2{font-size:clamp(34px,3.3vw,49px);line-height:1.2;text-wrap:balance}
+.stepsGrid{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.stepItem{padding:27px 26px;display:flex;align-items:flex-start;gap:17px;border-inline-end:1px solid var(--line)}
+.stepItem:last-child{border:0}
+.stepNumber{font-family:var(--serif);font-size:38px;line-height:.95;font-weight:650;color:var(--bronze);flex:none}
+.stepItem h3{font-size:15px;font-weight:800;line-height:1.5;margin-bottom:10px}
+.stepItem p{font-size:12px;color:var(--secondary);line-height:1.8}
+
+/* Shared editorial heading */
+.sectionHeading{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:23px}
+.sectionHeading>div{max-width:700px}
+.sectionHeading h2{font-size:clamp(35px,3.7vw,55px);line-height:1.18;margin-top:8px!important}
+.headingDescription{max-width:520px;margin-top:10px!important;color:var(--secondary);font-size:13px;line-height:1.75}
+
+/* 04 — Interior gallery kept under 400px high; not another full page hero. */
+.fleetSection{padding:76px 0;background:var(--surface);border-block:1px solid var(--line)}
+.fleetSelector{display:flex;gap:7px;overflow-x:auto;scrollbar-width:thin;padding-bottom:12px}
+.fleetSelector button{flex:1 0 auto;min-height:42px;padding:9px 17px;font-size:11px;font-weight:750;border:1px solid var(--line);background:var(--bg);color:var(--secondary);border-radius:7px;cursor:pointer}
+.fleetSelector button:hover{border-color:var(--bronze)}
+.fleetSelector .carSelected{background:#1d424b;border-color:#1d424b;color:#fff}
+.fleetStage{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);min-height:370px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}
+.fleetImage{height:370px;position:relative;display:flex;align-items:center;justify-content:center;background:#e4e8e3;overflow:hidden}
+.fleetImage>img{width:100%;height:100%;object-fit:cover;object-position:center;animation:fadeVehicle .18s ease}
+.fleetImage>img[src*="exterior"]{object-fit:contain;max-width:93%;max-height:90%}
+.imageToggle{position:absolute;inset-inline-start:15px;bottom:14px;background:#fffefa;display:flex;gap:3px;padding:4px;border-radius:8px;box-shadow:0 4px 22px rgba(13,30,33,.13)}
+.imageToggle button{background:transparent;border:0;border-radius:5px;min-height:35px;padding:7px 11px;font-size:11px;font-weight:750;color:#335256;cursor:pointer}
+.imageToggle .photoActive{background:#1b4149;color:#fff}
+.fleetInfo{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:clamp(25px,3.3vw,48px)}
+.fleetInfo>h3{font-family:var(--serif);font-size:clamp(33px,3.25vw,48px);line-height:1.05;margin:12px 0!important}
+.page[dir="rtl"] .fleetInfo>h3{font-family:var(--arabic);line-height:1.32}
+.fleetInfo>p:not(.fleetPrice){font-size:12px;line-height:1.8;color:var(--secondary)}
+.fleetSpecs{display:flex;flex-wrap:wrap;gap:17px;margin:17px 0 5px;padding:14px 0;width:100%;border-block:1px solid var(--line)}
+.fleetSpecs>div{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--secondary)}
+.fleetSpecs svg{color:var(--bronze)}
+.fleetSpecs strong{color:var(--ink);font-size:16px}
+.fleetPrice{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;font-size:11px;color:var(--secondary);margin-top:10px!important}
+.fleetPrice strong{font-size:22px;color:var(--ink)}
+.fleetPrice small{font-size:10px;flex-basis:100%}
+.fleetActions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:17px}
+.fleetActions .buttonPrimary{min-height:45px}
+
+/* 05 — three service chapters, moderate photography. */
+.servicesSection{padding:78px 0 80px;background:var(--bg)}
+.serviceGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.serviceCard{display:flex;flex-direction:column;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:transform .2s,border-color .2s}
+.serviceCard:hover{transform:translateY(-3px);border-color:var(--bronze)}
+.serviceImage{height:165px;overflow:hidden;background:var(--lift)}
+.serviceImage img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+.serviceCard:hover img{transform:scale(1.035)}
+.serviceContent{padding:21px 23px 20px;display:flex;flex:1;flex-direction:column}
+.serviceIndex{font-size:9px;letter-spacing:.12em;color:var(--bronze);font-weight:800}
+.serviceContent h3{font-family:var(--serif);font-size:clamp(24px,2.15vw,32px);line-height:1.2;margin:10px 0!important;color:var(--ink)}
+.page[dir="rtl"] .serviceContent h3{font-family:var(--arabic);line-height:1.45}
+.serviceContent p{font-size:11.5px;line-height:1.85;color:var(--secondary)}
+.serviceArrow{margin-top:auto;padding-top:17px;display:flex;gap:10px;align-items:center;font-size:11px;font-weight:800;color:var(--navy)}
+.routesCompact{margin-top:32px;padding-top:25px;border-top:1px solid var(--line)}
+.routesCompactHead{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:14px}
+.routesCompactHead h3{font-family:var(--serif);font-size:24px;line-height:1.2}
+.page[dir="rtl"] .routesCompactHead h3{font-family:var(--arabic)}
+.routeLinks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.routeLink{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:54px;padding:12px 15px;border:1px solid var(--line);border-radius:7px;background:var(--surface);font-size:11px;color:var(--ink);font-weight:750}
+.routeLink:hover{border-color:var(--bronze)}
+.routeLinkFare{display:flex;align-items:center;gap:9px;color:var(--bronze);white-space:nowrap;font-size:11px}
+
+/* 06 — Why us: three real operational details, no fabricated reviews. */
+.whySection{padding:74px 0;background:var(--surface);border-block:1px solid var(--line)}
+.whyGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.whyItem{border-top:2px solid var(--bronze);padding:22px 15px 0}
+.whyIcon{width:38px;height:38px;color:var(--bronze);display:flex;align-items:center}
+.whyItem h3{font-size:16px;font-weight:800;line-height:1.45;margin:10px 0!important}
+.whyItem p{font-size:12px;line-height:1.82;color:var(--secondary)}
+
+/* 07 — Guest reviews link without invented ratings. */
+.reviewsSection{padding:30px 0;background:var(--bg)}
+.reviewPanel{display:flex;align-items:center;justify-content:space-between;gap:25px;border:1px solid var(--line);border-radius:12px;padding:24px 29px;background:var(--surface)}
+.reviewPanel h2{font-size:clamp(27px,2.5vw,36px);line-height:1.2;margin:6px 0!important}
+.reviewPanel>div>p:last-child{font-size:12px;color:var(--secondary)}
+.reviewPanel .buttonPrimary{flex:none;background:transparent;color:var(--ink);border-color:var(--line)}
+.reviewPanel .buttonPrimary:hover{border-color:var(--bronze);color:var(--ink);background:var(--lift)}
+
+/* 08 — FAQ: readable content is more important than decorative screenshots. */
+.faqSection{padding:72px 0;background:var(--bg)}
+.faqGrid{display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);gap:clamp(36px,5vw,90px)}
+.faqIntro h2{font-size:clamp(35px,3.7vw,55px);line-height:1.14;margin:12px 0 14px!important}
+.faqIntro>p:not(.overline){color:var(--secondary);font-size:13px;line-height:1.8}
+.faqLinks{display:flex;flex-wrap:wrap;gap:21px;margin-top:25px}
+.faqItem{border-bottom:1px solid var(--line)}
+.faqItem:first-child{border-top:1px solid var(--line)}
+.faqItem h3{font-family:inherit;font-size:inherit;font-weight:inherit}
+.faqItem button{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;min-height:66px;padding:12px 0;border:0;background:transparent;text-align:start;color:var(--ink);font-size:12px;font-weight:800;line-height:1.7;cursor:pointer}
+.faqItem>p{font-size:12px;line-height:1.85;color:var(--secondary);padding:0 0 20px}
+.faqSymbol{font-size:23px;color:var(--bronze);font-weight:400}
+
+/* 09 — One meaningful, explicit booking request CTA. */
+.finalSection{padding:59px 0;background:#142d35;color:#f9f7f0}
+.finalLayout{display:flex;align-items:center;justify-content:space-between;gap:45px}
+.finalLayout>div{max-width:710px}
+.finalLayout .overline{color:#e1be86}
+.finalLayout h2{color:#fff;font-size:clamp(35px,3.9vw,56px);line-height:1.1;margin:10px 0!important}
+.finalLayout p:last-child{font-size:13px;line-height:1.75;color:#d4ddda;max-width:670px}
+.finalButton{flex:none;background:#efe7d9;color:#153b41;border-color:#efe7d9}
+.finalButton:hover{background:#d8c6a8;color:#153b41}
+
+@keyframes fadeVehicle{from{opacity:.66}to{opacity:1}}
+@media(max-width:1100px){
+ .wrap{width:min(100% - 42px,1060px)}
+ .searchFields{grid-template-columns:minmax(160px,1.4fr) minmax(120px,1fr) 78px 78px minmax(145px,1fr);gap:7px}
+ .searchField{padding:9px}
  .heroSideCaption{display:none}
- .cornerMark{top:94px}
- .searchShell{margin:-91px auto 0;width:100%}
 }
-@media (max-width:767px){
- .hero{min-height:0;padding:0 0 22px}
- .heroGrid{min-height:clamp(670px,90svh,830px);padding-top:55px}
- .heroContent{padding:74px 2px 195px}
- .heroTitle{font-size:clamp(52px,13.4vw,72px);line-height:1.02;margin:23px 0 20px!important}
- .page[dir="rtl"] .heroTitle{font-size:clamp(44px,11vw,64px);line-height:1.28}
- .heroDescription{font-size:14px;line-height:1.74;max-width:400px}
- .heroActions{gap:19px;margin:26px 0 21px}
- .heroActions .buttonPrimary{min-height:53px;padding-inline:19px}
- .heroActions .buttonText{font-size:12px}
- .heroVisual{height:100%;order:initial}
- .heroImage{object-position:center}
- .imageVeil{background:linear-gradient(180deg,rgba(6,17,23,.57),rgba(6,17,23,.71) 32%,rgba(6,17,23,.21) 68%,rgba(6,17,23,.76)),linear-gradient(90deg,rgba(6,17,23,.35),transparent)}
- .cornerMark{top:92px;inset-inline-end:18px}
- .searchShell{width:100%;margin:-158px auto 0;border-radius:15px;padding:19px 15px 17px;box-shadow:0 22px 42px rgba(5,18,22,.32)}
+@media(max-width:960px){
+ .heroGrid{min-height:580px}
+ .heroContent{max-width:610px}
+ .searchFields{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .searchField:nth-child(1),.searchField:nth-child(2){grid-column:span 2}
+ .searchButton{grid-column:1/-1;min-height:48px}
+ .searchHint{display:none}
+ .assuranceGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .assuranceGrid>div:nth-child(2){border:0}
+ .stepsGrid{gap:0}
+ .stepItem{padding:24px 17px}
+ .stepNumber{font-size:32px}
+ .fleetInfo{padding:25px}
+ .serviceGrid{gap:11px}
+ .serviceContent{padding:18px}
 }
-@media (max-width:390px){
- .heroGrid{min-height:710px}
- .heroTitle{font-size:clamp(48px,12.6vw,54px)}
- .page[dir="rtl"] .heroTitle{font-size:clamp(42px,10.5vw,51px)}
- .heroVisual{height:100%}
+@media(max-width:767px){
+ .wrap{width:calc(100% - 34px)}
+ .hero{padding-bottom:21px}
+ .heroGrid{min-height:560px;padding:95px 0 150px;align-items:flex-start}
+ .heroContent{padding:12px 0 35px;max-width:510px}
+ .heroTitle{font-size:clamp(38px,9.2vw,54px);line-height:1.12;margin:18px 0!important}
+ .page[dir="rtl"] .heroTitle{font-size:clamp(37px,8.5vw,50px);line-height:1.3}
+ .heroDescription{font-size:12px;max-width:390px}
+ .heroActions{margin-top:20px;gap:15px}
+ .heroActions .buttonPrimary{min-height:45px;font-size:11px;padding-inline:15px}
+ .heroActions .buttonText{font-size:11px}
+ .imageVeil,.page[dir="rtl"] .imageVeil{background:linear-gradient(180deg,rgba(7,25,30,.58),rgba(7,25,30,.66) 54%,rgba(7,25,30,.26) 78%,rgba(7,25,30,.7))}
+ .cornerMark{top:79px;inset-inline-end:13px;padding:5px 7px}
+ .heroBrandGlyph{width:22px;height:22px}
+ .heroBrandWord{font-size:9px}
+ .searchShell{margin:-133px auto 0;padding:15px;border-radius:11px}
+ .searchHead{margin-bottom:11px}
+ .searchTitle{font-size:12px}
+ .searchFields{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .searchField:nth-child(1),.searchField:nth-child(2){grid-column:1/-1}
+ .searchField:nth-child(3),.searchField:nth-child(4){grid-column:span 1}
+ .searchButton{grid-column:1/-1;min-height:44px}
+ .assurance{padding:19px 0}
+ .assuranceGrid{gap:13px 10px}
+ .assuranceGrid>div{border:0;padding:0;min-height:36px;align-items:flex-start}
+ .assuranceGrid svg{width:17px;height:17px}
+ .assuranceGrid span{font-size:10px}
+ .stepsSection,.fleetSection,.servicesSection,.whySection,.faqSection{padding:54px 0}
+ .centerHeading{margin-bottom:24px}
+ .centerHeading h2{font-size:clamp(32px,8vw,44px)}
+ .stepsGrid{grid-template-columns:1fr}
+ .stepItem{padding:19px 22px;border-inline-end:0;border-bottom:1px solid var(--line);gap:17px}
+ .stepItem:last-child{border:0}
+ .stepNumber{font-size:34px}
+ .stepItem h3{font-size:14px;margin-bottom:5px}
+ .stepItem p{font-size:11px}
+ .sectionHeading{align-items:flex-start;flex-direction:column;gap:12px;margin-bottom:20px}
+ .sectionHeading h2{font-size:clamp(32px,8vw,43px)}
+ .headingDescription{font-size:12px}
+ .fleetSelector{gap:6px}
+ .fleetSelector button{padding:9px 13px;min-height:40px}
+ .fleetStage{grid-template-columns:1fr}
+ .fleetImage{height:265px}
+ .fleetInfo{padding:24px 22px}
+ .fleetInfo>h3{font-size:38px}
+ .fleetSpecs{margin:13px 0 4px}
+ .fleetActions{gap:14px}
+ .serviceGrid{grid-template-columns:1fr;gap:12px}
+ .serviceCard{display:grid;grid-template-columns:135px minmax(0,1fr);min-height:166px}
+ .serviceImage{height:100%;min-height:166px}
+ .serviceContent{padding:15px 14px}
+ .serviceContent h3{font-size:clamp(22px,5.8vw,30px);margin:7px 0!important}
+ .serviceContent p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:11px}
+ .serviceArrow{padding-top:8px}
+ .routesCompact{margin-top:20px}
+ .routesCompactHead h3{font-size:23px}
+ .routeLinks{grid-template-columns:1fr;gap:6px}
+ .routeLink{min-height:46px}
+ .whyGrid{grid-template-columns:1fr;gap:16px}
+ .whyItem{display:grid;grid-template-columns:36px minmax(0,1fr);column-gap:10px;padding:13px 0 0}
+ .whyIcon{grid-row:1/3}
+ .whyItem h3{font-size:14px;margin:0 0 5px!important}
+ .whyItem p{font-size:11px}
+ .reviewPanel{flex-direction:column;align-items:flex-start;padding:20px;gap:17px}
+ .reviewPanel h2{font-size:29px}
+ .faqGrid{grid-template-columns:1fr;gap:22px}
+ .faqIntro h2{font-size:39px}
+ .faqItem button{min-height:61px}
+ .finalSection{padding:45px 0}
+ .finalLayout{flex-direction:column;align-items:flex-start;gap:22px}
+ .finalLayout h2{font-size:38px}
+ .finalButton{width:100%}
 }
-
-
-/* Signature: an owned, scalable identity, never a stock car/crest mark. */
-.cornerMark{
- display:flex;align-items:center;gap:10px;padding:9px 12px;
- border:1px solid rgba(255,255,255,.26);border-radius:10px;
- background:rgba(6,24,29,.36);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
- letter-spacing:.09em;text-shadow:none;
+@media(max-width:390px){
+ .heroTitle{font-size:38px}
+ .page[dir="rtl"] .heroTitle{font-size:36px}
+ .heroGrid{min-height:590px}
+ .searchShell{margin-top:-140px}
+ .serviceCard{grid-template-columns:120px minmax(0,1fr)}
+ .serviceImage{min-height:174px}
 }
-.heroBrandGlyph{width:36px;height:36px;flex:none;color:#F6F2E9}
-.cornerMark .heroBrandWord{font-size:12px;letter-spacing:.16em;color:#F7F4ED;margin:0;font-weight:800}
-.cornerMark .heroBrandWord strong{font-size:9px;letter-spacing:.1em;color:#D4C3A5;font-weight:700}
-.fleetSignature{
- position:absolute;z-index:3;inset-block-start:25px;inset-inline-end:25px;
- display:grid;place-items:center;width:54px;height:54px;padding:10px;
- background:rgba(248,247,240,.93);border:1px solid rgba(55,77,80,.18);
- border-radius:50%;box-shadow:0 9px 28px rgba(10,34,40,.08);
- pointer-events:none;
-}
-.fleetSignatureGlyph{width:35px;height:35px;color:#183E46}
-@media (max-width:767px){
- .cornerMark{padding:7px 9px;gap:7px;top:86px}
- .heroBrandGlyph{width:26px;height:26px}
- .cornerMark .heroBrandWord{font-size:10px}
- .cornerMark .heroBrandWord strong{font-size:8px}
- .fleetSignature{width:44px;height:44px;padding:7px;inset-block-start:16px;inset-inline-end:16px}
- .fleetSignatureGlyph{width:29px;height:29px}
+@media(prefers-reduced-motion:reduce){
+ .page *,.page *::before,.page *::after{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important}
 }
