@@ -131,16 +131,19 @@ test('Booking recovery always explains failed draft restoration in all supported
 });
 
 
-test('Original full-width cinema video has separate route-booking search and original light design', () => {
-  const css=read('src/components/home/PrivateJourneyHomepage.module.css');
-  const home=read('src/components/home/PrivateJourneyHomepage.tsx');
+test('Live homepage uses the original cinematic video, real booking engine, and V4 visual architecture', () => {
+  const css=read('src/components/home/SignatureJourneyHomepage.module.css');
+  const home=read('src/components/home/SignatureJourneyHomepage.tsx');
+  const page=read('src/app/[locale]/page.tsx');
+  assert.match(page,/<SignatureJourneyHomepage/);
   assert.match(css,/\.heroVideo\{position:absolute;inset:0/);
-  assert.match(css,/\.bookingPanel\{transform:translateY\(-94px\)/);
-  assert.match(css,/--cream:#faf9f6/);
-  assert.match(css,/\.pricingTable\{border-collapse:collapse/);
+  assert.match(css,/\.routeExplorer\{display:grid/);
+  assert.match(css,/\.fleetShowroom\{display:grid/);
+  assert.match(css,/\.experienceLayout\{display:grid/);
   assert.match(home,/poster="\/assets\/homepage-v2\/hero-poster\.jpg"/);
   assert.match(home,/hero-mobile\.webm/);
   assert.match(home,/AUTHORITATIVE_TRANSFER_RATES/);
+  assert.match(home,/APPROVED_5_FLEET/);
 });
 
 test('Editorial booking styling is responsive and keeps the actual booking engine', () => {
