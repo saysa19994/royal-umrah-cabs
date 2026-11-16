@@ -300,12 +300,12 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
             <div className={styles.fleetInfo}>
               <p className={styles.overline}>{selectedFleetVehicle.categoryBadge[locale]}</p>
               <h3>{selectedFleetVehicle.name[locale]}</h3>
-              <p>{selectedFleetVehicle.summary[locale]}</p>
+              <p>{(selectedFleetVehicle.summary[locale] || L.servicePromise)}</p>
               <div className={styles.fleetSpecs}>
                 <div><Users size={19}/><span><strong>{selectedFleetVehicle.passengers}</strong> {dict.cinematic_fleet.passengers}</span></div>
                 <div><Luggage size={19}/><span><strong>{selectedFleetVehicle.luggage}</strong> {dict.cinematic_fleet.luggage}</span></div>
               </div>
-              <ul className={styles.featureList}>{selectedFleetVehicle.features[locale].slice(0,3).map(f=><li key={f}><Check size={16}/>{f}</li>)}</ul>
+              <ul className={styles.featureList}>{(selectedFleetVehicle.features[locale] ?? [L.servicePromise]).slice(0,3).map(f=><li key={f}><Check size={16}/>{f}</li>)}</ul>
               {typeof selectedFleetPrice==='number' && <p className={styles.fleetPrice}>{dict.cinematic_fleet.startingFrom} <strong>{formatPrice(selectedFleetPrice)}</strong><small>{LOCALIZED_ROUTE_NAMES['jeddah-airport-to-makkah'][locale]}</small></p>}
               <div className={styles.fleetActions}>
                 <Link href={`/${locale}/fleet/${selectedFleetVehicle.slug}`} className={styles.buttonPrimary}>{L.openGallery} {arrow}</Link>
