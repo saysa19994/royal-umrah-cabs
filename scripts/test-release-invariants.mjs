@@ -40,3 +40,38 @@ test('Theme CSS is imported globally and both modes have explicit tokens', () =>
   assert.match(css, /\.duyuf-vehicle-detail/);
   assert.match(css, /\.duyuf-pricing-page/);
 });
+
+
+test('Country landing pages are indexed only after human editorial approval', () => {
+  const country = read('src/app/[locale]/pilgrims/[country]/page.tsx');
+  const sitemap = read('src/app/sitemap.ts');
+  assert.match(country, /c\.status === 'published' && !c\.noindex/);
+  assert.match(country, /locale === 'en' \|\| isMatchLocale/);
+  assert.match(country, /robots: \{ index: canIndex, follow: true \}/);
+  assert.match(sitemap, /c\.status === 'published' && !c\.noindex/);
+  assert.match(sitemap, /locale === 'en' \|\| locale === c\.primaryLanguage/);
+  assert.match(sitemap, /country\.primaryLanguage !== 'en'/);
+});
+
+test('Country copy never contradicts the approved cash-only SAR/USD policy', () => {
+  const content = read('src/data/pilgrims.ts');
+  assert.doesNotMatch(content, /cash \(SAR or USD\)s/);
+  assert.doesNotMatch(content, /EUR or SAR/);
+  assert.doesNotMatch(content, /Cards, cash \(SAR or USD\), and/);
+});
+
+test('Booking emails are concurrent, bounded and independent of saving the booking', () => {
+  const email = read('src/lib/booking-email-service.ts');
+  assert.match(email, /await Promise\.all\(/);
+  assert.match(email, /AbortSignal\.timeout\(8000\)/);
+  const booking = read('src/app/api/bookings/route.ts');
+  assert.match(booking, /emailDispatch = await dispatchBookingEmails/);
+  assert.match(booking, /Booking saved but one or more transactional emails/);
+});
+
+test('Chat payloads are limited during streaming and rejected if malformed', () => {
+  const chat = read('src/app/api/chat/route.ts');
+  assert.match(chat, /request\.body\?\.getReader\(\)/);
+  assert.match(chat, /receivedBytes > 32_768/);
+  assert.match(chat, /Malformed chat JSON/);
+});
