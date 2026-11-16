@@ -27,10 +27,20 @@ export async function POST(request: Request) {
       );
     }
 
+    const contentLength = Number(request.headers.get('content-length') || 0);
+    if (contentLength > 32_768) {
+      return NextResponse.json({ error: 'Chat request is too large' }, { status: 413 });
+    }
     const { messages, locale = 'en' } = await request.json();
 
-    if (!messages || !Array.isArray(messages) || messages.length === 0) {
-      return NextResponse.json({ error: 'Messages array is required' }, { status: 400 });
+    if (!Array.isArray(messages) || messages.length === 0 || messages.length > 24) {
+      return NextResponse.json({ error: 'Provide between 1 and 24 messages' }, { status: 400 });
+    }
+
+    if (messages.some((m: unknown) => !m || typeof m !== 'object' ||
+      !('content' in m) || typeof m.content !== 'string' ||
+      !('role' in m) || !['user', 'assistant'].includes(String(m.role)))) {
+      return NextResponse.json({ error: 'Invalid chat message format' }, { status: 400 });
     }
 
     // Sanitize user inputs & guard against prompt injection
