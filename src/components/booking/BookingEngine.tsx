@@ -255,7 +255,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     namePlaceholder: 'e.g. Muhammad Al-Ahmad',
     phoneLabel: 'WhatsApp / Mobile (with Country Code)',
     phonePlaceholder: '+966 50 123 4567',
-    emailLabel: 'Email Address (Optional)',
+    emailLabel: 'Email Address (Booking Updates)',
     emailPlaceholder: 'pilgrim@example.com',
     addOnsTitle: 'Trip Preferences & Complimentary Inclusions',
     addOnChildSeat: 'Child Safety Booster Seat (Complimentary)',
@@ -327,7 +327,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     namePlaceholder: 'مثال: عبد الرحمن محمد الأحمد',
     phoneLabel: 'رقم الجوال / واتساب (مع رمز الدولة)',
     phonePlaceholder: '+966 50 123 4567',
-    emailLabel: 'البريد الإلكتروني (اختياري)',
+    emailLabel: 'البريد الإلكتروني (لتفاصيل الحجز)',
     emailPlaceholder: 'pilgrim@example.com',
     addOnsTitle: 'تفضيلات الرحلة والخدمات المجانية المرفقة',
     addOnChildSeat: 'مقعد أمان للأطفال (مجاناً)',
@@ -1148,7 +1148,7 @@ export function BookingEngine({
       vehicle_id: vehicleId,
       customer_name: customerName,
       customer_phone: customerPhone,
-      customer_email: customerEmail || undefined,
+      customer_email: customerEmail.trim(),
       pickup_datetime: `${pickupDate} ${pickupTime}`,
       pickup_location: pickupLocation,
       dropoff_location: dropoffLocation,
@@ -2122,8 +2122,14 @@ export function BookingEngine({
               </p>
             </div>
 
-            {/* PASSENGER INPUTS */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* Guest contact details: a dedicated, responsive concierge panel */}
+            <section aria-label={locale === 'ar' ? 'بيانات التواصل مع الضيف' : 'Guest contact details'} className="rounded-3xl border border-border bg-surface p-5 sm:p-7 shadow-sm">
+              <div className="mb-5 border-b border-border pb-4">
+                <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-gold-dark">{locale === 'ar' ? 'بيانات الضيف' : 'GUEST DETAILS'}</p>
+                <h4 className="mt-2 font-display text-xl font-semibold text-ink">{locale === 'ar' ? 'كيف يمكننا التواصل معك؟' : 'How may we reach you?'}</h4>
+                <p className="mt-1 text-sm leading-relaxed text-ink-muted">{locale === 'ar' ? 'سنستخدم بياناتك لإرسال تفاصيل طلب الحجز والتواصل بشأن الرحلة.' : 'We use these details for your booking request and journey updates.'}</p>
+              </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <div>
                 <label htmlFor="customer-name-input" className="block text-xs font-bold text-ink mb-1.5">
                   {t.nameLabel} <span className="text-gold-dark">*</span>
@@ -2163,12 +2169,14 @@ export function BookingEngine({
 
               <div>
                 <label htmlFor="customer-email-input" className="block text-xs font-bold text-ink mb-1.5">
-                  {t.emailLabel}
+                  {t.emailLabel} <span className="text-gold-dark">*</span>
                 </label>
                 <div className="relative">
                   <input
                     id="customer-email-input"
                     type="email"
+                    required
+                    autoComplete="email"
                     placeholder={t.emailPlaceholder}
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
@@ -2178,6 +2186,8 @@ export function BookingEngine({
                 </div>
               </div>
             </div>
+
+            </section>
 
             {/* SPECIAL NOTES */}
             <div>
