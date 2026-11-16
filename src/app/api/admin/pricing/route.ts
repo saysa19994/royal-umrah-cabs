@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
     }
 
     const numericPrice = Number(price_sar);
-    if (isNaN(numericPrice) || numericPrice < 0) {
+    if (!Number.isFinite(numericPrice) || numericPrice < 0) {
       return NextResponse.json({ error: 'Invalid price value' }, { status: 400 });
     }
 
