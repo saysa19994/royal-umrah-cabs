@@ -182,8 +182,7 @@ export default async function BookingPage(props: BookingPageProps) {
   let resolvedDropoff = searchParams.dropoff;
 
   if (searchParams.draft) {
-    const { getBookingDraft } = await import('@/lib/booking-draft-store');
-    const draft = getBookingDraft(searchParams.draft);
+    const draft = await getBookingDraft(searchParams.draft);
     if (draft) {
       resolvedRoute = draft.routeId || resolvedRoute;
       resolvedVehicle = draft.vehicleId || resolvedVehicle;
