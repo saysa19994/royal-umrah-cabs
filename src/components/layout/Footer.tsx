@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { DuyufSignature } from '@/components/brand/DuyufSignature';
 import { Locale, LOCALES } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import type { SiteSettings } from '@/lib/settings';
@@ -362,13 +362,17 @@ export function Footer({ locale, dict, settings }: FooterProps) {
           {/* COL 1: WORDMARK, SHORT TAGLINE, WHATSAPP & CALL BUTTONS */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">
             <Link href={locale === 'en' ? '/' : `/${locale}`} className="inline-flex items-center">
-              <Image
-                src="/assets/brand/logo-royal-crest-gold.svg"
-                alt="Duyuf Alrahman VIP"
-                width={220}
-                height={50}
-                className="h-11 w-auto object-contain"
-              />
+              <span className="flex items-center gap-3">
+                <DuyufSignature className="h-12 w-12 shrink-0 text-[var(--footer-text)]" />
+                <span className="flex flex-col gap-0.5 text-start">
+                  <strong className="font-display text-lg font-semibold leading-tight tracking-tight text-[var(--footer-text)]">
+                    {locale === 'ar' || locale === 'ur' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
+                  </strong>
+                  <small className="text-[10px] font-semibold tracking-wide text-[var(--accent-primary)]">
+                    {locale === 'ar' || locale === 'ur' ? 'Duyuf Alrahman VIP' : 'ضيوف الرحمن · PRIVATE TRANSFERS'}
+                  </small>
+                </span>
+              </span>
             </Link>
             <p className="text-xs text-[var(--footer-text)] leading-relaxed max-w-sm">
               {t.desc}
