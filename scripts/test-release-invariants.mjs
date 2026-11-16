@@ -131,14 +131,16 @@ test('Booking recovery always explains failed draft restoration in all supported
 });
 
 
-test('Full-width cinematic hero is composed as a background layer with an accessible booking panel', () => {
-  const css = read('src/components/home/PrivateJourneyHomepage.module.css');
-  const home = read('src/components/home/PrivateJourneyHomepage.tsx');
-  assert.match(css, /\.heroVisual\{position:absolute;inset:0;width:100%;height:100%/);
-  assert.match(css, /\.heroGrid\{position:relative;min-height:clamp\(550px,74svh,740px\)/);
-  assert.match(css, /\.searchShell\{position:relative;z-index:2/);
-  assert.match(home, /poster="\/assets\/homepage-v2\/hero-poster\.jpg"/);
-  assert.match(home, /hero-mobile\.webm/);
+test('Original full-width cinema video has separate route-booking search and original light design', () => {
+  const css=read('src/components/home/PrivateJourneyHomepage.module.css');
+  const home=read('src/components/home/PrivateJourneyHomepage.tsx');
+  assert.match(css,/\.heroVideo\{position:absolute;inset:0/);
+  assert.match(css,/\.bookingPanel\{transform:translateY\(-94px\)/);
+  assert.match(css,/--cream:#faf9f6/);
+  assert.match(css,/\.pricingTable\{border-collapse:collapse/);
+  assert.match(home,/poster="\/assets\/homepage-v2\/hero-poster\.jpg"/);
+  assert.match(home,/hero-mobile\.webm/);
+  assert.match(home,/AUTHORITATIVE_TRANSFER_RATES/);
 });
 
 test('Editorial booking styling is responsive and keeps the actual booking engine', () => {
