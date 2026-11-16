@@ -41,6 +41,7 @@ export function CinematicFooterCta({
   settings,
 }: CinematicFooterCtaProps) {
   const pathname = usePathname();
+  const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
   const localeMeta = LOCALE_CONFIG[locale] || LOCALE_CONFIG.en;
   const dir = localeMeta.dir;
   const isRtl = dir === 'rtl';
@@ -115,7 +116,7 @@ export function CinematicFooterCta({
           </div>
 
           {/* Content */}
-          <div className="relative z-10 px-6 pb-8 pt-6 sm:px-10 sm:pb-12 lg:px-14 lg:py-16 xl:py-20">
+          <div className={`relative z-10 px-6 pb-8 pt-6 sm:px-10 sm:pb-12 lg:px-14 ${isHomePage ? 'lg:py-11 xl:py-12' : 'lg:py-16 xl:py-20'}`}>
             <div className="max-w-xl text-start space-y-5">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--accent-soft)] border border-[var(--accent-primary)]/30 text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-[var(--accent-primary)]">
                 <Sparkles className="w-3.5 h-3.5 text-[var(--accent-primary)] shrink-0" />
@@ -167,6 +168,8 @@ export function CinematicFooterCta({
           </div>
         </div>
 
+        {/* The homepage already features the routes; suppress this repeated image strip there. */}
+        {!isHomePage && (
         {/* Photography Strip */}
         <div
           className="relative overflow-hidden rounded-xl border border-[var(--border-stone)] bg-[var(--bg-surface)] py-2.5 shadow-xs transition-colors duration-200"
@@ -190,6 +193,7 @@ export function CinematicFooterCta({
             ))}
           </div>
         </div>
+        )}
       </div>
     </section>
   );
