@@ -23,9 +23,13 @@ export async function POST(req: NextRequest) {
     const settings = await getSiteSettingsCached();
     const recipient = settings.owner_notification_email || settings.email || 'info@duyufalrahmanvip.com';
     const fromAddress = process.env.RESEND_FROM || 'Duyuf Alrahman VIP <notifications@duyufalrahmanvip.com>';
+    const safeRecipient = recipient.replace(/[&<>"']/g, (char: string) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    })[char] || char);
 
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
+      signal: AbortSignal.timeout(8000),
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
@@ -38,7 +42,7 @@ export async function POST(req: NextRequest) {
           <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background: #0A0D14; color: #FAF9F6; border: 1px solid #D9A031; border-radius: 12px;">
             <h2 style="color: #D9A031; margin-top: 0;">Duyuf Alrahman VIP — Test Dispatch</h2>
             <p>This is a verified test email sent from the Duyuf Alrahman VIP Operations Portal.</p>
-            <p><strong>Recipient:</strong> ${recipient}</p>
+            <p><strong>Recipient:</strong> ${safeRecipient}</p>
             <p><strong>Timestamp:</strong> ${new Date().toISOString()}</p>
             <p style="color: #34D399;">✓ Email infrastructure is connected and operational.</p>
           </div>
