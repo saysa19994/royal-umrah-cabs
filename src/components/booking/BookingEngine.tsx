@@ -1995,9 +1995,14 @@ export function BookingEngine({
                 <input
                   id="flight-input"
                   type="text"
+                  autoComplete="off"
+                  dir="ltr"
+                  maxLength={20}
+                  pattern="[A-Za-z0-9 ]{0,20}"
+                  title={locale === 'ar' ? 'أدخل رقم الرحلة بحروف إنجليزية وأرقام فقط' : 'Use letters and digits only for the flight number'}
                   placeholder={t.flightPlaceholder}
                   value={flightNumber}
-                  onChange={(e) => setFlightNumber(e.target.value.toUpperCase())}
+                  onChange={(e) => setFlightNumber(e.target.value.toUpperCase().replace(/[^A-Z0-9 ]/g, '').slice(0, 20))}
                   className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
                 />
                 <Plane className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
