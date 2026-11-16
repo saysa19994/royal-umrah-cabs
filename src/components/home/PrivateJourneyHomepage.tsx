@@ -289,8 +289,21 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
               <div className={styles.routeImageMarker}><Compass size={19}/><span>{LOCALIZED_ROUTE_NAMES[selectedRoute.slug]?.[locale]}</span></div>
             </div>
           </div>
-          <div className={styles.routeDots} role="group" aria-label={dict.popular_routes.heading}>
-            {FEATURED_ROUTES.map((r,i)=><button key={r.slug} aria-label={LOCALIZED_ROUTE_NAMES[r.slug]?.[locale]} aria-pressed={i===activeRoute} className={i===activeRoute?styles.dotActive:''} onClick={()=>setActiveRoute(i)}><span/></button>)}
+          {/* The whole route list is visible; visitors never have to guess what four decorative dots mean. */}
+          <div className={styles.routeRail} role="group" aria-label={dict.popular_routes.heading}>
+            {FEATURED_ROUTES.map((item,i) => (
+              <button
+                key={item.slug}
+                type="button"
+                aria-pressed={i === activeRoute}
+                onClick={() => setActiveRoute(i)}
+                className={`${styles.routeRailItem} ${i === activeRoute ? styles.routeRailActive : ''}`}
+              >
+                <span className={styles.routeRailIndex}>{String(i+1).padStart(2,'0')}</span>
+                <strong>{LOCALIZED_ROUTE_NAMES[item.slug]?.[locale] || item.slug}</strong>
+                <ArrowUpRight size={17} aria-hidden="true" />
+              </button>
+            ))}
           </div>
         </div>
       </section>
