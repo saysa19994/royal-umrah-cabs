@@ -188,7 +188,7 @@ export async function POST(request: Request) {
 
     // 7. Non-blocking Multilingual Transactional Email Dispatch (Customer + Operations)
     try {
-      await dispatchBookingEmails({
+      const emailDispatch = await dispatchBookingEmails({
         reference,
         customerName: validated.customer_name,
         customerEmail: validated.customer_email || '',
@@ -207,6 +207,13 @@ export async function POST(request: Request) {
         status: 'pending',
         language: lang,
       });
+      if (!emailDispatch.customerSent || !emailDispatch.companySent) {
+        console.warn('[Booking API] Booking saved but one or more transactional emails were not accepted by the provider:', {
+          reference,
+          customerSent: emailDispatch.customerSent,
+          companySent: emailDispatch.companySent,
+        });
+      }
     } catch (emailErr) {
       console.warn('[Booking API] Transactional email dispatch error (booking preserved):', emailErr);
     }
