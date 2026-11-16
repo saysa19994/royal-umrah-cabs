@@ -99,12 +99,12 @@ export default async function PricingPage(props: PricingPageProps) {
     {
       icon: <Shield className="w-5 h-5 text-gold-dark" />,
       title: isAr ? 'نقل آمن وموثوق' : 'Safe & Reliable',
-      desc: isAr ? 'سائقون معتمدون ومركبات مفحوصة' : 'Licensed chauffeurs & inspected fleet',
+      desc: isAr ? 'خدمة نقل خاصة مع اهتمام بالراحة والسلامة' : 'Private transport with a focus on comfort and safety',
     },
     {
       icon: <Car className="w-5 h-5 text-gold-dark" />,
       title: isAr ? 'أسطول فاخر حديث' : 'Premium VIP Fleet',
-      desc: isAr ? 'موديلات حديثة 2024-2026 فائقة الراحة' : 'Latest 2024-2026 luxury models',
+      desc: isAr ? 'مركبات مريحة وخيارات مناسبة للعائلات والمجموعات' : 'Comfortable vehicles for families and groups',
     },
     {
       icon: <Headphones className="w-5 h-5 text-gold-dark" />,
@@ -305,7 +305,7 @@ export default async function PricingPage(props: PricingPageProps) {
         <div className="container mx-auto px-4 sm:px-6 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-bg-alt border border-gold/40 text-xs font-bold text-gold-dark uppercase tracking-wider mb-4">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>{isAr ? 'حجز فوري ومؤكد' : 'Instant Guaranteed Booking'}</span>
+            <span>{({ ar: 'طلب حجز بدون دفع مقدم', en: 'Request a booking — no deposit', ms: 'Mohon tempahan — tanpa deposit', id: 'Ajukan pemesanan — tanpa deposit', ur: 'بغیر پیشگی ادائیگی بکنگ کی درخواست', fr: 'Demandez une réservation sans acompte', es: 'Solicite su reserva sin anticipo', de: 'Buchung anfragen – ohne Anzahlung', tr: 'Ön ödemesiz rezervasyon talebi', hi: 'बिना अग्रिम भुगतान बुकिंग अनुरोध' } as Record<Locale, string>)[locale]}</span>
           </div>
           <h2 className="font-playfair font-serif text-3xl sm:text-4xl font-bold text-ink mb-3">
             {isAr ? 'جاهز لحجز رحلتك الميمونة؟' : 'Ready to Reserve Your Blessed Journey?'}
