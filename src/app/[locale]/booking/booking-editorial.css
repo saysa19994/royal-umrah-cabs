@@ -313,3 +313,56 @@ html[dir="rtl"] .duyuf-booking-editorial .duyuf-booking-summary :is(h2,h3) {
 @media (prefers-reduced-motion: reduce) {
   .duyuf-booking-editorial * { scroll-behavior: auto; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+
+/* Image-led car selection and a genuine hospitality summary, not a tiny box. */
+.duyuf-booking-editorial .duyuf-booking-direct-fleet{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:20px;
+}
+.duyuf-booking-editorial .duyuf-booking-direct-fleet .duyuf-booking-vehicle-card{
+  padding:14px;border-radius:16px;display:flex;flex-direction:column;
+  min-width:0;background:var(--booking-paper);border-color:var(--booking-line)
+}
+.duyuf-booking-editorial .duyuf-booking-direct-fleet .duyuf-booking-vehicle-photo{
+  position:relative;height:210px;min-height:210px;
+  border:0;border-radius:12px;background:#edf0ec;overflow:hidden;
+}
+.duyuf-booking-editorial .duyuf-booking-direct-fleet .duyuf-booking-vehicle-photo img{
+  object-fit:contain;object-position:center;padding:14px;
+}
+.duyuf-booking-editorial .duyuf-booking-direct-fleet .duyuf-booking-vehicle-card[data-selected="true"]{
+  border:2px solid #a98a60;background:var(--booking-paper);
+  box-shadow:0 12px 30px rgba(21,48,52,.08);
+}
+.duyuf-booking-editorial .duyuf-booking-summary{
+  overflow:hidden;
+}
+.duyuf-booking-editorial .duyuf-booking-summary-visual{
+  position:relative;height:165px;
+  margin:-32px -32px 25px;
+  width:calc(100% + 64px);
+  background:#374b48;
+}
+.duyuf-booking-editorial .duyuf-booking-summary-visual img{
+  object-fit:cover;object-position:center 46%;
+}
+.duyuf-booking-editorial .duyuf-booking-summary-visual::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(9,25,31,.54),transparent 75%);
+}
+.duyuf-booking-editorial .duyuf-booking-summary-visual-caption{
+  position:absolute;z-index:1;inset-block-end:17px;inset-inline-start:19px;
+  color:#fff;font-size:10px;font-weight:800;letter-spacing:.15em;
+}
+@media(max-width:767px){
+ .duyuf-booking-editorial .duyuf-booking-direct-fleet{
+  grid-template-columns:1fr;gap:14px;
+ }
+ .duyuf-booking-editorial .duyuf-booking-direct-fleet .duyuf-booking-vehicle-photo{
+  height:240px;min-height:240px;
+ }
+ .duyuf-booking-editorial .duyuf-booking-summary-visual{
+  margin:-22px -19px 21px;width:calc(100% + 38px);height:150px
+ }
+}
