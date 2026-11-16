@@ -249,7 +249,12 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
             <Link className={styles.inlineLink} href={`/${locale}/routes`}>{L.exploreRoutes} {arrow}</Link>
           </div>
           <div className={styles.routeExplorer} tabIndex={0} onKeyDown={(e)=>{
-            if(e.key==='ArrowRight'||e.key==='ArrowLeft') { e.preventDefault(); const delta = (e.key==='ArrowRight') !== isRtl ? 1 : -1; setActiveRoute(i=>(i+delta+FEATURED_ROUTES.length)%FEATURED_ROUTES.length); }
+            if (e.target !== e.currentTarget) return;
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+              e.preventDefault();
+              const delta = (e.key === 'ArrowRight') !== isRtl ? 1 : -1;
+              setActiveRoute(i => (i + delta + FEATURED_ROUTES.length) % FEATURED_ROUTES.length);
+            }
           }} aria-label={dict.popular_routes.heading}>
             <div className={styles.routeText}>
               <span className={styles.routeCount}>0{activeRoute+1} <span>/ 0{FEATURED_ROUTES.length}</span></span>
