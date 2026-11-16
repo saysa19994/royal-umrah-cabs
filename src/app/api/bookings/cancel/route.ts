@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     if (!turnstileCheck.success) {
       return NextResponse.json(
         { error: turnstileCheck.error || 'Anti-bot verification failed.' },
-        { status: 400 }
+        { status: turnstileCheck.status ?? 400 }
       );
     }
 
@@ -93,7 +93,7 @@ export async function POST(request: Request) {
     }
 
     const settings = await getSiteSettings();
-    const freeCancelHours = settings.free_cancellation_hours || 24;
+    const freeCancelHours = settings.free_cancellation_hours ?? 24;
 
     const pickupTime = new Date(data.pickup_datetime).getTime();
     const now = Date.now();
@@ -109,13 +109,22 @@ export async function POST(request: Request) {
       );
     }
 
-    const { error: updateError } = await serviceClient
+    // Compare-and-set: never overwrite a status changed by dispatch after the lookup.
+    const { data: cancelled, error: updateError } = await serviceClient
       .from('bookings')
       .update({ status: 'cancelled', updated_at: new Date().toISOString() })
-      .eq('id', data.id);
+      .eq('id', data.id)
+      .eq('status', data.status)
+      .eq('pickup_datetime', data.pickup_datetime)
+      .select('id')
+      .maybeSingle();
 
-    if (updateError) {
-      throw updateError;
+    if (updateError) throw updateError;
+    if (!cancelled) {
+      return NextResponse.json(
+        { error: 'Booking details changed. Please refresh and try again or contact dispatch.' },
+        { status: 409 }
+      );
     }
 
     // Audit log

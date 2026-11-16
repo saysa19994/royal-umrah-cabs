@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { DuyufSignature } from '@/components/brand/DuyufSignature';
 import { usePathname, useRouter } from 'next/navigation';
 import { Locale, LOCALES, LOCALE_CONFIG, CURRENCIES, CurrencyCode } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
@@ -214,20 +214,21 @@ export function Header({ locale, dict, settings }: HeaderProps) {
         </div>
       )}
       <div className="container mx-auto px-3 sm:px-4 max-w-7xl flex items-center justify-between">
-        {/* LOGO: NEW ROYAL CREST VECTOR EMBLEM & BRANDING */}
+        {/* DUYUF WORDMARK — legible in both color themes */}
         <Link
-          href={locale === 'en' ? '/' : `/${locale}`}
-          className="flex items-center group focus-visible:ring-2 focus-visible:ring-[#A0783E] rounded-lg p-1 -m-1 shrink-0 max-w-[140px] sm:max-w-none"
-          aria-label="Duyuf Alrahman VIP - ضيوف الرحمن VIP"
+          href={`/${locale}`}
+          className="flex items-center gap-2.5 group shrink-0 min-w-0 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-primary)]"
+          aria-label="Duyuf Alrahman VIP — ضيوف الرحمن VIP"
         >
-          <Image
-            src="/assets/brand/logo-royal-crest-gold.svg"
-            alt="Duyuf Alrahman VIP"
-            width={240}
-            height={52}
-            className="h-8 sm:h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
-            priority
-          />
+          <DuyufSignature className="h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 shrink-0 text-[var(--text-primary)]" />
+          <span className="flex min-w-0 flex-col text-start leading-tight">
+            <strong className="text-[12px] sm:text-sm md:text-[15px] tracking-[0.025em] font-extrabold text-[var(--text-primary)] whitespace-nowrap">
+              {locale === 'ar' || locale === 'ur' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
+            </strong>
+            <span className="mt-0.5 text-[9px] sm:text-[10px] font-semibold text-[var(--accent-primary)] whitespace-nowrap tracking-[0.025em]">
+              {locale === 'ar' || locale === 'ur' ? 'DUYUF AL RAHMAN' : 'ضيوف الرحمن · PRIVATE TRANSFERS'}
+            </span>
+          </span>
         </Link>
 
         {/* DESKTOP CENTER NAVIGATION LINKS */}
@@ -366,13 +367,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
               <div className={`w-10 h-10 rounded-lg overflow-hidden border flex items-center justify-center shadow-xs ${
                 isDark ? 'border-[#B88B4E]/60 bg-[#131C28]' : 'border-[#E8E2D6] bg-white'
               }`}>
-                <Image
-                  src="/icon-192.png"
-                  alt="Duyuf Alrahman VIP"
-                  width={40}
-                  height={40}
-                  className="w-full h-full object-cover"
-                />
+                <DuyufSignature className={`h-9 w-9 ${isDark ? 'text-[#F4EDE0]' : 'text-[#173B45]'}`} />
               </div>
               <div className="flex flex-col text-start">
                 <span className="font-serif font-bold text-lg uppercase leading-tight">

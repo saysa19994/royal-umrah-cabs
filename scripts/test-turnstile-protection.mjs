@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { verifyTurnstileToken as verifyRealTurnstile, isProductionTurnstileConfigured } from '../src/lib/turnstile.ts';
 
 /**
  * End-to-end and unit tests verifying that all public endpoints and forms
@@ -186,4 +187,30 @@ test('Turnstile Security: missing keys in production returns 503 fail-closed', a
 
   const trackRes = await simulatePostTrack({ 'cf-turnstile-response': 'valid' }, '127.0.0.1', prodEnvWithoutKeys);
   assert.equal(trackRes.status, 503, 'Must return 503 for track endpoint');
+});
+
+
+test('Real Turnstile helper blocks public dummy keys in deployed environments', async () => {
+  const keys = ['NODE_ENV', 'TURNSTILE_SECRET_KEY', 'NEXT_PUBLIC_TURNSTILE_SITE_KEY'];
+  const oldValues = Object.fromEntries(keys.map((key) => [key, process.env[key]]));
+  try {
+    process.env.NODE_ENV = 'production';
+    process.env.TURNSTILE_SECRET_KEY = '1x0000000000000000000000000000000AA';
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY = '1x00000000000000000000AA';
+    assert.equal(isProductionTurnstileConfigured(), false);
+    const result = await verifyRealTurnstile('XXXX.DUMMY.TOKEN.XXXX');
+    assert.equal(result.success, false);
+    assert.equal(result.status, 503);
+
+    delete process.env.TURNSTILE_SECRET_KEY;
+    delete process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+    assert.equal(isProductionTurnstileConfigured(), false);
+    const missing = await verifyRealTurnstile('some-token');
+    assert.equal(missing.status, 503);
+  } finally {
+    for (const key of keys) {
+      if (oldValues[key] === undefined) delete process.env[key];
+      else process.env[key] = oldValues[key];
+    }
+  }
 });

@@ -7,6 +7,33 @@
 
 const DEV_TEST_SECRET = '1x0000000000000000000000000000000AA';
 
+// Cloudflare publishes predictable test credentials. Never accept them in a
+// production or Vercel preview runtime, where NODE_ENV is 'production'.
+const TEST_SECRET_KEYS = new Set([
+  '1x0000000000000000000000000000000AA',
+  '2x0000000000000000000000000000000AA',
+  '3x0000000000000000000000000000000AA',
+]);
+const TEST_SITE_KEYS = new Set([
+  '1x00000000000000000000AA',
+  '2x00000000000000000000AB',
+  '1x00000000000000000000BB',
+  '2x00000000000000000000BB',
+  '3x00000000000000000000FF',
+]);
+
+export function isProductionTurnstileConfigured(): boolean {
+  const secret = process.env.TURNSTILE_SECRET_KEY?.trim() || '';
+  const site = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() || '';
+  return Boolean(
+    secret && site &&
+    !secret.includes('placeholder') &&
+    !site.includes('placeholder') &&
+    !TEST_SECRET_KEYS.has(secret) &&
+    !TEST_SITE_KEYS.has(site)
+  );
+}
+
 export async function verifyTurnstileToken(
   token: string | null | undefined,
   remoteIp?: string
@@ -16,22 +43,14 @@ export async function verifyTurnstileToken(
     process.env.TURNSTILE_SECRET_KEY &&
     !process.env.TURNSTILE_SECRET_KEY.includes('placeholder')
   );
-  const hasSiteKey = Boolean(
-    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY &&
-    !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY.includes('placeholder')
-  );
 
-  // If production keys are not yet configured in environment variables,
-  // allow requests to pass gracefully so legitimate customers are not blocked with 503
-  if (isProd && (!hasSecret || !hasSiteKey)) {
-    return { success: true };
+  // Production must never bypass bot verification when credentials are missing.
+  if (isProd && !isProductionTurnstileConfigured()) {
+    return { success: false, error: 'Anti-bot verification is temporarily unavailable', status: 503 };
   }
 
-  // Always strictly fail if token is missing
-  if (!token) {
-    if (!hasSecret) {
-      return { success: true };
-    }
+  // Missing or whitespace-only tokens are always rejected, including development.
+  if (!token || !token.trim()) {
     return {
       success: false,
       error: 'Anti-bot verification required (missing Turnstile token)',
@@ -64,7 +83,11 @@ export async function verifyTurnstileToken(
     const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       body: formData,
+      signal: AbortSignal.timeout(8000),
     });
+    if (!res.ok) {
+      return { success: false, error: 'Verification service temporarily unavailable', status: 503 };
+    }
 
     const outcome = await res.json();
     if (outcome.success) {

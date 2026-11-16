@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
@@ -32,10 +32,10 @@ import {
   Shield,
 } from 'lucide-react';
 import { TurnstileWidget } from '@/components/common/TurnstileWidget';
-import { BorderBeam } from '@/components/ui/luxury/BorderBeam';
-import { ShimmerButton } from '@/components/ui/luxury/ShimmerButton';
+import type { TurnstileWidgetRef } from '@/components/common/TurnstileWidget';
 import { getEstimatedBasePriceSAR, LOCALIZED_ROUTE_NAMES } from '@/lib/pricing-constants';
 import { trackEvent } from '@/lib/analytics';
+import { COUNTRY_DIAL_CODES, countryFlag } from '@/lib/country-dial-codes';
 
 interface BookingEngineProps {
   locale: Locale;
@@ -255,7 +255,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     namePlaceholder: 'e.g. Muhammad Al-Ahmad',
     phoneLabel: 'WhatsApp / Mobile (with Country Code)',
     phonePlaceholder: '+966 50 123 4567',
-    emailLabel: 'Email Address (Optional)',
+    emailLabel: 'Email Address (Booking Updates)',
     emailPlaceholder: 'pilgrim@example.com',
     addOnsTitle: 'Trip Preferences & Complimentary Inclusions',
     addOnChildSeat: 'Child Safety Booster Seat (Complimentary)',
@@ -327,7 +327,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     namePlaceholder: 'مثال: عبد الرحمن محمد الأحمد',
     phoneLabel: 'رقم الجوال / واتساب (مع رمز الدولة)',
     phonePlaceholder: '+966 50 123 4567',
-    emailLabel: 'البريد الإلكتروني (اختياري)',
+    emailLabel: 'البريد الإلكتروني (لتفاصيل الحجز)',
     emailPlaceholder: 'pilgrim@example.com',
     addOnsTitle: 'تفضيلات الرحلة والخدمات المجانية المرفقة',
     addOnChildSeat: 'مقعد أمان للأطفال (مجاناً)',
@@ -399,7 +399,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     namePlaceholder: 'ex. Mohamed Diallo',
     phoneLabel: 'Téléphone / WhatsApp (avec indicatif)',
     phonePlaceholder: '+33 6 12 34 56 78',
-    emailLabel: 'Adresse E-mail (Optionnel)',
+    emailLabel: 'Adresse e-mail (détails de réservation)',
     emailPlaceholder: 'pelerin@example.com',
     addOnsTitle: 'Options & Avantages Inclus',
     addOnChildSeat: 'Siège enfant sécurisé (Gratuit)',
@@ -471,7 +471,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     namePlaceholder: 'ej. Juan Pérez',
     phoneLabel: 'WhatsApp / Teléfono (con código de país)',
     phonePlaceholder: '+34 600 000 000',
-    emailLabel: 'Correo Electrónico (Opcional)',
+    emailLabel: 'Correo electrónico (detalles de reserva)',
     emailPlaceholder: 'peregrino@example.com',
     addOnsTitle: 'Preferencias y Servicios de Cortesía',
     addOnChildSeat: 'Asiento para niños (Gratis)',
@@ -543,7 +543,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     namePlaceholder: 'contoh: H. Ahmad Subagio',
     phoneLabel: 'Nomor WhatsApp / HP (dengan Kode Negara)',
     phonePlaceholder: '+62 812 3456 7890',
-    emailLabel: 'Alamat Email (Opsional)',
+    emailLabel: 'Alamat email (detail pemesanan)',
     emailPlaceholder: 'jamaah@example.com',
     addOnsTitle: 'Preferensi Perjalanan & Fasilitas Gratis',
     addOnChildSeat: 'Kursi Anak / Balita (Gratis)',
@@ -615,7 +615,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     namePlaceholder: 'उदा. मोहम्मद अली',
     phoneLabel: 'व्हाट्सएप / मोबाइल (देश कोड सहित)',
     phonePlaceholder: '+91 98765 43210',
-    emailLabel: 'ईमेल पता (वैकल्पिक)',
+    emailLabel: 'ईमेल पता (बुकिंग विवरण के लिए)',
     emailPlaceholder: 'pilgrim@example.com',
     addOnsTitle: 'यात्रा प्राथमिकताएं और निःशुल्क सुविधाएं',
     addOnChildSeat: 'बाल सुरक्षा सीट (निःशुल्क)',
@@ -687,7 +687,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     namePlaceholder: 'z.B. Tariq Müller',
     phoneLabel: 'WhatsApp / Mobilfunknummer (mit Ländervorwahl)',
     phonePlaceholder: '+49 170 1234567',
-    emailLabel: 'E-Mail-Adresse (Optional)',
+    emailLabel: 'E-Mail-Adresse (Buchungsdetails)',
     emailPlaceholder: 'pilger@example.com',
     addOnsTitle: 'Reisepräferenzen & Kostenlose Extras',
     addOnChildSeat: 'Kindersitz (Kostenlos)',
@@ -759,7 +759,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     namePlaceholder: 'مثال: محمد احمد قریشی',
     phoneLabel: 'واٹس ایپ / موبائل نمبر (کنٹری کوڈ سمیت)',
     phonePlaceholder: '+92 300 1234567',
-    emailLabel: 'ای میل ایڈریس (اختیاری)',
+    emailLabel: 'ای میل (بکنگ کی تفصیلات کے لیے)',
     emailPlaceholder: 'pilgrim@example.com',
     addOnsTitle: 'سفر کی ترجیحات اور مفت سہولیات',
     addOnChildSeat: 'بچوں کی حفاظتی نشست (مفت)',
@@ -831,7 +831,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     namePlaceholder: 'cth. Haji Ismail bin Hassan',
     phoneLabel: 'Nombor WhatsApp / Telefon (dengan Kod Negara)',
     phonePlaceholder: '+60 12 345 6789',
-    emailLabel: 'Alamat Emel (Pilihan)',
+    emailLabel: 'Alamat e-mel (butiran tempahan)',
     emailPlaceholder: 'jemaah@example.com',
     addOnsTitle: 'Pilihan Tambahan & Keistimewaan Percuma',
     addOnChildSeat: 'Kerusi Keselamatan Kanak-kanak (Percuma)',
@@ -903,7 +903,7 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
     namePlaceholder: 'örn. Ahmet Yılmaz',
     phoneLabel: 'WhatsApp / Telefon (Ülke Koduyla)',
     phonePlaceholder: '+90 532 123 4567',
-    emailLabel: 'E-posta Adresi (İsteğe Bağlı)',
+    emailLabel: 'E-posta adresi (rezervasyon bilgileri)',
     emailPlaceholder: 'yolcu@example.com',
     addOnsTitle: 'Ek Tercihler ve Ücretsiz Hizmetler',
     addOnChildSeat: 'Çocuk Güvenlik Koltuğu (Ücretsiz)',
@@ -1012,13 +1012,20 @@ export function BookingEngine({
   const [pickupDate, setPickupDate] = useState(initialDate || minDate);
   const [pickupTime, setPickupTime] = useState(initialTime || '14:00');
   const [passengers, setPassengers] = useState(Number(initialPassengers) || 2);
-  const [luggage, setLuggage] = useState(Number(initialLuggage) || 2);
+  const [luggage, setLuggage] = useState(() => {
+    // Zero bags is a valid choice; avoid treating it as an absent query parameter.
+    if (initialLuggage === undefined || initialLuggage.trim() === '') return 2;
+    const parsed = Number(initialLuggage);
+    return Number.isInteger(parsed) && parsed >= 0 && parsed <= 20 ? parsed : 2;
+  });
   const [flightNumber, setFlightNumber] = useState('');
   const [step1Error, setStep1Error] = useState<string | null>(null);
 
   // Step 3: Passenger Details
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
+  const [phoneCountry, setPhoneCountry] = useState('SA');
+  const [countrySearch, setCountrySearch] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
   const [specialNotes, setSpecialNotes] = useState('');
 
@@ -1035,8 +1042,16 @@ export function BookingEngine({
 
   // Submission State
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [turnstileToken, setTurnstileToken] = useState<string>('verified_client');
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const turnstileWidgetRef = useRef<TurnstileWidgetRef>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const handleTurnstileVerified = useCallback((token: string) => {
+    setTurnstileToken(token);
+    setErrorMessage(null);
+  }, []);
+  const handleTurnstileInvalidated = useCallback(() => {
+    setTurnstileToken('');
+  }, []);
   const [confirmedBooking, setConfirmedBooking] = useState<any | null>(null);
 
 
@@ -1075,7 +1090,7 @@ export function BookingEngine({
       durationHours: bookingType === 'hourly' ? durationHours : undefined,
       customRates: initialRates,
     });
-    return calculated || 200;
+    return typeof calculated === 'number' && Number.isFinite(calculated) && calculated > 0 ? calculated : 0;
   };
 
   const currentPriceSAR = calculateCurrentPriceSAR();
@@ -1096,6 +1111,12 @@ export function BookingEngine({
   const handleProceedToStep3 = () => {
     if (!vehicleId) {
       setStep1Error(locale === 'ar' ? 'يرجى اختيار مركبة من القائمة للمتابعة' : 'Please select a vehicle from the fleet to proceed.');
+      return;
+    }
+    if (bookingType === 'transfer' && currentPriceSAR <= 0) {
+      setStep1Error(locale === 'ar'
+        ? 'تعذر تحديد أجرة صحيحة لهذا المسار والسيارة. يرجى التواصل معنا عبر واتساب لطلب السعر.'
+        : 'A verified fare is unavailable for this route and vehicle. Please request a quote via WhatsApp.');
       return;
     }
     setStep1Error(null);
@@ -1124,6 +1145,30 @@ export function BookingEngine({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
+    if (!turnstileToken) {
+      setErrorMessage(locale === 'ar'
+        ? 'يرجى إكمال التحقق الأمني قبل إرسال طلب الحجز.'
+        : 'Please complete the security verification before sending your booking request.');
+      return;
+    }
+
+    // Native required attributes do not guarantee validation when the flow
+    // invokes this handler programmatically. Keep the booking email mandatory.
+    const normalizedEmail = customerEmail.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setErrorMessage(({ ar: 'يرجى إدخال بريد إلكتروني صحيح لإرسال تفاصيل طلب الحجز.', en: 'Enter a valid email to receive your booking request details.', ms: 'Masukkan e-mel yang sah untuk menerima butiran tempahan.', id: 'Masukkan email yang valid untuk menerima detail pemesanan.', ur: 'بکنگ کی تفصیلات کے لیے درست ای میل درج کریں۔', fr: 'Saisissez une adresse e-mail valide pour recevoir les détails de votre réservation.', es: 'Introduce un correo válido para recibir los detalles de tu reserva.', de: 'Geben Sie eine gültige E-Mail-Adresse für Ihre Buchungsdetails ein.', tr: 'Rezervasyon bilgileri için geçerli bir e-posta adresi girin.', hi: 'बुकिंग विवरण पाने के लिए मान्य ईमेल दर्ज करें।' } as Record<Locale, string>)[locale]);
+      return;
+    }
+
+    const enteredDigits = customerPhone.replace(/\D/g, '');
+    // Italian and San Marino landline numbers can have a significant leading zero.
+    const localDigits = ['IT', 'SM', 'VA'].includes(phoneCountry) ? enteredDigits : enteredDigits.replace(/^0+/, '');
+    const callingCode = COUNTRY_DIAL_CODES.find((country) => country.iso === phoneCountry)?.dial || '+966';
+    const normalizedPhone = callingCode + localDigits;
+    if (localDigits.length < 5 || normalizedPhone.replace(/\D/g, '').length < 8 || normalizedPhone.replace(/\D/g, '').length > 15) {
+      setErrorMessage(locale === 'ar' ? 'أدخل رقم جوال صحيحًا بعد اختيار مفتاح الدولة.' : 'Enter a valid phone number after selecting its country code.');
+      return;
+    }
 
     setIsSubmitting(true);
     setErrorMessage(null);
@@ -1142,8 +1187,8 @@ export function BookingEngine({
       route_id: bookingType === 'transfer' ? routeId : null,
       vehicle_id: vehicleId,
       customer_name: customerName,
-      customer_phone: customerPhone,
-      customer_email: customerEmail || undefined,
+      customer_phone: normalizedPhone,
+      customer_email: normalizedEmail,
       pickup_datetime: `${pickupDate} ${pickupTime}`,
       pickup_location: pickupLocation,
       dropoff_location: dropoffLocation,
@@ -1168,6 +1213,9 @@ export function BookingEngine({
 
       const data = await res.json();
       if (!res.ok || !data.success) {
+        // Turnstile tokens are single-use; request a fresh token on failure.
+        setTurnstileToken('');
+        turnstileWidgetRef.current?.reset();
         trackEvent({
           event: 'booking_form_validation_failed',
           form: 'booking_engine',
@@ -1182,14 +1230,6 @@ export function BookingEngine({
         service_type: bookingType,
         payment_method: 'pay_upon_arrival',
       });
-      trackEvent({
-        event: 'booking_confirmed',
-        booking_reference: data.booking?.reference || '',
-        service_type: bookingType,
-        payment_method: 'pay_upon_arrival',
-        total_sar: data.booking?.finalPriceSAR || currentPriceSAR,
-      });
-
       setConfirmedBooking(data.booking);
     } catch (err: any) {
       setErrorMessage(err.message || 'An unexpected error occurred. Please try again.');
@@ -1232,7 +1272,7 @@ export function BookingEngine({
           <div className="flex justify-between items-center">
             <span className="text-ink-muted">{dict.booking_card.passengersLabel} &amp; {dict.booking_card.luggageLabel}:</span>
             <span className="font-bold text-ink">
-              {confirmedBooking.passengers_count || 1} {dict.booking_card.passengersLabel} • {confirmedBooking.luggage_count || 1} {dict.booking_card.luggageLabel}
+              {confirmedBooking.passengers_count || 1} {dict.booking_card.passengersLabel} • {confirmedBooking.luggage_count ?? 0} {dict.booking_card.luggageLabel}
             </span>
           </div>
           <div className="flex justify-between items-center pt-2 border-t border-border/60">
@@ -1251,7 +1291,20 @@ export function BookingEngine({
         </div>
 
         <p className="text-xs text-ink-muted leading-relaxed mb-6 font-light">
-          {dict.booking_modal.messageSentNotice}
+          {confirmedBooking.customerEmailAccepted
+            ? dict.booking_modal.messageSentNotice
+            : ({
+                ar: 'تم حفظ طلب الحجز بنجاح، لكن لم نتمكن من إرسال رسالة البريد الإلكتروني حاليًا. احتفظ برقم الطلب وتواصل معنا عبر واتساب.',
+                en: 'Your booking request was saved, but we could not send the email right now. Keep your reference and contact us on WhatsApp.',
+                ms: 'Permintaan tempahan disimpan, tetapi e-mel belum dapat dihantar. Simpan nombor rujukan dan hubungi kami melalui WhatsApp.',
+                id: 'Permintaan pemesanan tersimpan, tetapi email belum dapat dikirim. Simpan nomor referensi dan hubungi kami melalui WhatsApp.',
+                ur: 'آپ کی بکنگ کی درخواست محفوظ ہوگئی ہے، مگر ای میل نہیں بھیجی جا سکی۔ حوالہ نمبر محفوظ کریں اور واٹس ایپ پر رابطہ کریں۔',
+                fr: 'Votre demande est enregistrée, mais l’e-mail n’a pas pu être envoyé. Conservez votre référence et contactez-nous sur WhatsApp.',
+                es: 'Tu solicitud se guardó, pero no pudimos enviar el correo. Conserva la referencia y contáctanos por WhatsApp.',
+                de: 'Ihre Buchungsanfrage wurde gespeichert, aber die E-Mail konnte nicht gesendet werden. Bewahren Sie die Referenz auf und kontaktieren Sie uns per WhatsApp.',
+                tr: 'Rezervasyon talebiniz kaydedildi ancak e-posta gönderilemedi. Referans numaranızı saklayın ve WhatsApp üzerinden bize ulaşın.',
+                hi: 'आपका बुकिंग अनुरोध सहेज लिया गया है, लेकिन ईमेल नहीं भेजा जा सका। संदर्भ संख्या रखें और WhatsApp पर संपर्क करें।',
+              } as Record<Locale, string>)[locale]}
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -1293,13 +1346,13 @@ export function BookingEngine({
       : `${customPickupLocation} → ${customDropoffLocation}`;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <div className="duyuf-booking-engine grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
       {/* ============================================================== */}
       {/* LEFT COLUMN: 3-STEP BOOKING WIZARD FORM (lg:col-span-8)         */}
       {/* ============================================================== */}
-      <div className="lg:col-span-8 space-y-6">
+      <div className="duyuf-booking-main lg:col-span-8 space-y-6">
         {/* SERVICE CATEGORY TABS */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-surface p-1.5 rounded-2xl border border-border shadow-xs">
+        <div className="duyuf-booking-service-tabs grid grid-cols-2 sm:grid-cols-4 gap-2 bg-surface p-1.5 rounded-2xl border border-border shadow-xs">
           <button
             type="button"
             onClick={() => handleBookingTypeChange('transfer')}
@@ -1667,7 +1720,7 @@ export function BookingEngine({
                 </span>
                 <span className="text-ink-muted flex items-center gap-1.5">
                   <Users className="w-3.5 h-3.5 text-gold-dark" />
-                  {passengers} Pax • {luggage} Bags
+                  {passengers} {t.passengersLabel} • {luggage} {t.luggageLabel}
                 </span>
               </div>
               <button
@@ -1689,8 +1742,8 @@ export function BookingEngine({
               </p>
             </div>
 
-            {/* DIRECT-BOOKING VEHICLES GRID */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Large vehicle portraits; no narrow three-column tiles. */}
+            <div className="duyuf-booking-direct-fleet grid grid-cols-1 md:grid-cols-2 gap-5">
               {Object.entries(VEHICLE_SPECS)
                 .filter(([vId]) => (bookingType === 'group_bus' ? vId === 'hiace' || vId === 'coaster' : true))
                 .map(([vId, vData]) => {
@@ -1702,7 +1755,7 @@ export function BookingEngine({
                       vehicleId: vId,
                       durationHours: bookingType === 'hourly' ? durationHours : undefined,
                       customRates: initialRates,
-                    }) || 200;
+                    }) ?? 0;
 
                   const isOverSeats = passengers > vData.seats;
                   const isOverBags = luggage > vData.bags;
@@ -1711,7 +1764,10 @@ export function BookingEngine({
                     <div
                       key={vId}
                       onClick={() => handleSelectVehicle(vId)}
-                      className={`rounded-2xl p-4 border-2 transition-all cursor-pointer relative flex flex-col justify-between overflow-hidden ${
+                      role="group"
+                      aria-label={vData.name}
+                      data-selected={isSelected ? 'true' : 'false'}
+                      className={`duyuf-booking-vehicle-card rounded-2xl p-4 border-2 transition-all cursor-pointer relative flex flex-col justify-between overflow-hidden ${
                         isSelected
                           ? 'border-gold bg-gold-soft/35 shadow-md ring-2 ring-gold/40'
                           : 'border-border bg-surface hover:border-gold-line'
@@ -1719,7 +1775,6 @@ export function BookingEngine({
                     >
                       {isSelected && (
                         <>
-                          <BorderBeam size={180} duration={8} colorFrom="#D6A13A" colorTo="#F2C94C" />
                           <div className="absolute top-3 right-3 rtl:right-auto rtl:left-3 bg-gold text-slate-950 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest flex items-center gap-1 shadow-xs z-10">
                             <Check className="w-3 h-3" />
                             <span>{t.selectedBadge}</span>
@@ -1728,12 +1783,12 @@ export function BookingEngine({
                       )}
 
                       <div>
-                        <div className="relative w-full h-32 rounded-xl overflow-hidden bg-bg-alt mb-3 border border-border/60">
+                        <div className="duyuf-booking-vehicle-photo relative w-full h-48 rounded-xl overflow-hidden bg-bg-alt mb-4 border border-border/60">
                           <Image
                             src={vData.img}
                             alt={vData.name}
                             fill
-                            sizes="(max-width: 768px) 100vw, 33vw"
+                            sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 32vw"
                             className="object-cover"
                           />
                         </div>
@@ -1779,10 +1834,18 @@ export function BookingEngine({
                         <div>
                           <span className="text-[10px] text-ink-muted uppercase block">{t.authoritativeFare}</span>
                           <div className="flex items-baseline gap-1">
-                            <span className="font-display font-bold text-xl text-ink">
-                              {formatPrice(vehicleEstimatedFare)}
-                            </span>
-                            <span className="text-[11px] text-ink-muted">({vehicleEstimatedFare} SAR)</span>
+                            {vehicleEstimatedFare > 0 ? (
+                              <>
+                                <span className="font-display font-bold text-xl text-ink">
+                                  {formatPrice(vehicleEstimatedFare)}
+                                </span>
+                                <span className="text-[11px] text-ink-muted">({vehicleEstimatedFare} SAR)</span>
+                              </>
+                            ) : (
+                              <span className="text-sm font-semibold text-ink-muted">
+                                {locale === 'ar' ? 'السعر عند الطلب' : 'Fare on request'}
+                              </span>
+                            )}
                           </div>
                         </div>
 
@@ -1990,9 +2053,14 @@ export function BookingEngine({
                 <input
                   id="flight-input"
                   type="text"
+                  autoComplete="off"
+                  dir="ltr"
+                  maxLength={20}
+                  pattern="[A-Za-z0-9 ]{0,20}"
+                  title={locale === 'ar' ? 'أدخل رقم الرحلة بحروف إنجليزية وأرقام فقط' : 'Use letters and digits only for the flight number'}
                   placeholder={t.flightPlaceholder}
                   value={flightNumber}
-                  onChange={(e) => setFlightNumber(e.target.value.toUpperCase())}
+                  onChange={(e) => setFlightNumber(e.target.value.toUpperCase().replace(/[^A-Z0-9 ]/g, '').slice(0, 20))}
                   className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
                 />
                 <Plane className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -2117,8 +2185,14 @@ export function BookingEngine({
               </p>
             </div>
 
-            {/* PASSENGER INPUTS */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* Guest contact details: a dedicated, responsive concierge panel */}
+            <section aria-label={locale === 'ar' ? 'بيانات التواصل مع الضيف' : 'Guest contact details'} className="rounded-3xl border border-border bg-surface p-5 sm:p-7 shadow-sm">
+              <div className="mb-5 border-b border-border pb-4">
+                <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-gold-dark">{locale === 'ar' ? 'بيانات الضيف' : 'GUEST DETAILS'}</p>
+                <h4 className="mt-2 font-display text-xl font-semibold text-ink">{locale === 'ar' ? 'كيف يمكننا التواصل معك؟' : 'How may we reach you?'}</h4>
+                <p className="mt-1 text-sm leading-relaxed text-ink-muted">{locale === 'ar' ? 'سنستخدم بياناتك لإرسال تفاصيل طلب الحجز والتواصل بشأن الرحلة.' : 'We use these details for your booking request and journey updates.'}</p>
+              </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <div>
                 <label htmlFor="customer-name-input" className="block text-xs font-bold text-ink mb-1.5">
                   {t.nameLabel} <span className="text-gold-dark">*</span>
@@ -2127,6 +2201,7 @@ export function BookingEngine({
                   <input
                     id="customer-name-input"
                     type="text"
+                    autoComplete="name"
                     required
                     placeholder={t.namePlaceholder}
                     value={customerName}
@@ -2141,29 +2216,65 @@ export function BookingEngine({
                 <label htmlFor="customer-phone-input" className="block text-xs font-bold text-ink mb-1.5">
                   {t.phoneLabel} <span className="text-gold-dark">*</span>
                 </label>
-                <div className="relative">
+                <div className="flex min-h-12 items-stretch gap-2" dir="ltr">
+                  <div className="flex w-[46%] min-w-[130px] max-w-[210px] flex-col gap-1">
+                    <label htmlFor="phone-country-search" className="sr-only">{locale === 'ar' ? 'ابحث عن الدولة' : 'Search country'}</label>
+                    <input
+                      id="phone-country-search"
+                      type="search"
+                      autoComplete="off"
+                      value={countrySearch}
+                      onChange={(e) => setCountrySearch(e.target.value)}
+                      placeholder={locale === 'ar' ? 'بحث عن دولة...' : 'Search country...'}
+                      className="h-8 w-full rounded-lg border border-border-strong bg-surface px-2 text-xs text-ink focus:outline-none focus:ring-2 focus:ring-gold"
+                    />
+                    <label htmlFor="phone-country-select" className="sr-only">{locale === 'ar' ? 'اختر مفتاح الدولة' : 'Choose country calling code'}</label>
+                    <select
+                      id="phone-country-select"
+                      value={phoneCountry}
+                      onChange={(e) => { setPhoneCountry(e.target.value); setCountrySearch(''); }}
+                      className="h-12 w-full rounded-btn border border-border-strong bg-surface px-1 text-xs text-ink focus:outline-none focus:ring-2 focus:ring-gold"
+                    >
+                      {COUNTRY_DIAL_CODES.filter((country) => {
+                        if (country.iso === phoneCountry) return true;
+                        const q = countrySearch.trim().toLocaleLowerCase();
+                        if (!q) return true;
+                        const countryName = new Intl.DisplayNames([locale, 'en'], { type: 'region' }).of(country.iso) || country.iso;
+                        const englishName = new Intl.DisplayNames(['en'], { type: 'region' }).of(country.iso) || country.iso;
+                        return country.iso.toLowerCase().includes(q) || country.dial.includes(q) || countryName.toLocaleLowerCase().includes(q) || englishName.toLowerCase().includes(q);
+                      }).map((country) => (
+                        <option key={country.iso} value={country.iso}>
+                          {countryFlag(country.iso)} {new Intl.DisplayNames([locale, 'en'], { type: 'region' }).of(country.iso)} ({country.dial})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   <input
                     id="customer-phone-input"
                     type="tel"
                     inputMode="tel"
+                    autoComplete="tel-national"
                     required
-                    placeholder={t.phonePlaceholder}
+                    dir="ltr"
+                    placeholder="5XXXXXXXX"
                     value={customerPhone}
-                    onChange={(e) => setCustomerPhone(e.target.value)}
-                    className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
+                    onChange={(e) => setCustomerPhone(e.target.value.replace(/[^0-9 ()-]/g, '').slice(0, 22))}
+                    className="h-12 min-w-0 flex-1 rounded-btn border border-border-strong bg-surface px-3 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-gold"
                   />
-                  <Phone className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
 
               <div>
                 <label htmlFor="customer-email-input" className="block text-xs font-bold text-ink mb-1.5">
-                  {t.emailLabel}
+                  {t.emailLabel} <span className="text-gold-dark">*</span>
                 </label>
                 <div className="relative">
                   <input
                     id="customer-email-input"
                     type="email"
+                    dir="ltr"
+                    required
+                    autoComplete="email"
                     placeholder={t.emailPlaceholder}
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
@@ -2173,6 +2284,8 @@ export function BookingEngine({
                 </div>
               </div>
             </div>
+
+            </section>
 
             {/* SPECIAL NOTES */}
             <div>
@@ -2192,7 +2305,6 @@ export function BookingEngine({
             {/* STRICT MANDATORY PAYMENT POLICY CARD */}
             <div className="pt-2">
               <div className="bg-gold-soft/50 rounded-2xl p-5 border-2 border-gold/70 shadow-xs relative overflow-hidden">
-                <BorderBeam size={220} duration={12} colorFrom="#10B981" colorTo="#D6A13A" />
                 <div className="flex items-start gap-4 relative z-10">
                   <div className="w-12 h-12 rounded-xl bg-gold text-slate-950 flex items-center justify-center shrink-0 shadow-xs">
                     <Banknote className="w-6 h-6" />
@@ -2218,8 +2330,11 @@ export function BookingEngine({
             {/* TURNSTILE ANTI-BOT WIDGET */}
             <div className="pt-2 flex justify-center">
               <TurnstileWidget
+                ref={turnstileWidgetRef}
                 locale={locale}
-                onVerify={(token) => setTurnstileToken(token)}
+                onVerify={handleTurnstileVerified}
+                onExpire={handleTurnstileInvalidated}
+                onError={handleTurnstileInvalidated}
               />
             </div>
 
@@ -2243,35 +2358,35 @@ export function BookingEngine({
                 <span>{t.stepBack}</span>
               </button>
 
-              <ShimmerButton
+              <button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full sm:w-auto min-h-[48px] h-12 px-8 rounded-btn"
-                shimmerColor="#F2C94C"
-                shimmerDuration="2.5s"
-                background="linear-gradient(135deg, #D6A13A 0%, #B58428 100%)"
+                disabled={isSubmitting || !turnstileToken}
+                className="duyuf-booking-primary-action w-full sm:w-auto min-h-[52px] px-8 rounded-xl bg-[#1C4148] text-white font-semibold transition-colors hover:bg-[#2C535B] disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>
-                    <span className="w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
-                    <span className="font-bold text-slate-950 uppercase tracking-wider text-xs sm:text-sm">{t.submittingText}</span>
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span className="font-bold text-white tracking-wide text-sm">{t.submittingText}</span>
                   </>
                 ) : (
                   <>
-                    <span className="font-bold text-slate-950 uppercase tracking-wider text-xs sm:text-sm">{t.submitBtn}</span>
-                    <ArrowRight className="w-4 h-4 text-slate-950 rtl:rotate-180" />
+                    <span className="font-bold text-white tracking-wide text-sm">{t.submitBtn}</span>
+                    <ArrowRight className="w-4 h-4 text-white rtl:rotate-180" />
                   </>
                 )}
-              </ShimmerButton>
+              </button>
             </div>
           </form>
         )}
       </div>
 {/* RIGHT COLUMN: STICKY BOOKING SUMMARY CARD (lg:col-span-4)       */}
       {/* ============================================================== */}
-      <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-4">
-        <div className="bg-surface rounded-2xl border border-border p-5 sm:p-6 shadow-sm text-start space-y-4 relative overflow-hidden">
-          <BorderBeam size={220} duration={14} colorFrom="#D6A13A" colorTo="#F2C94C" />
+      <div className="duyuf-booking-aside lg:col-span-4 lg:sticky lg:top-24 space-y-4">
+        <div className="duyuf-booking-summary bg-surface rounded-2xl border border-border p-5 sm:p-6 shadow-sm text-start space-y-4 relative overflow-hidden">
+          <div className="duyuf-booking-summary-visual" aria-hidden="true">
+            <Image src="/assets/homepage-v2/vehicle-interior-cta.jpg" alt="" fill sizes="(max-width: 1023px) 100vw, 35vw" className="object-cover" />
+            <span className="duyuf-booking-summary-visual-caption">DUYUF ALRAHMAN VIP</span>
+          </div>
           <div className="flex items-center justify-between border-b border-border pb-3">
             <div>
               <span className="text-[10px] font-bold text-gold-dark uppercase tracking-widest block">
@@ -2370,7 +2485,7 @@ export function BookingEngine({
               </span>
               <span className="text-emerald-700 font-extrabold text-[11px] flex items-center gap-1">
                 <Check className="w-3 h-3" />
-                <span>Zero Advance</span>
+                <span>{t.paymentBadge}</span>
               </span>
             </div>
             <p className="font-bold text-ink text-xs">

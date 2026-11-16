@@ -116,7 +116,7 @@ export async function PATCH(request: Request) {
         );
       }
 
-      let checkQuery = serviceClient.from('bookings').select('id, driver_phone');
+      let checkQuery = serviceClient.from('bookings').select('id, whatsapp_number');
       if (id) checkQuery = checkQuery.eq('id', id);
       else if (reference) checkQuery = checkQuery.eq('reference', reference);
 
@@ -125,7 +125,7 @@ export async function PATCH(request: Request) {
         return NextResponse.json({ error: 'Booking not found' }, { status: 404 });
       }
 
-      if (existingBooking.driver_phone !== currentUser.assigned_whatsapp_number) {
+      if (existingBooking.whatsapp_number !== currentUser.assigned_whatsapp_number) {
         return NextResponse.json(
           { error: 'Forbidden: You cannot modify bookings outside your assigned scope' },
           { status: 403 }
@@ -183,10 +183,10 @@ export async function PATCH(request: Request) {
           vehicleName: (data.vehicle_id || '').toUpperCase(),
           pickupDateTime: data.pickup_datetime || '',
           passengers: data.passengers_count || 1,
-          luggage: data.luggage_count || 1,
-          finalPriceSAR: data.total_price_sar || data.base_price_sar || 0,
-          currency: data.currency || 'SAR',
-          finalPriceCurrency: data.total_price_currency || data.total_price_sar || data.base_price_sar || 0,
+          luggage: data.luggage_count ?? 0,
+          finalPriceSAR: data.final_price_sar ?? data.base_price_sar ?? 0,
+          currency: data.currency_charged || data.currency || 'SAR',
+          finalPriceCurrency: data.final_price_currency ?? data.final_price_sar ?? data.base_price_sar ?? 0,
           paymentMethod: data.payment_method || 'pay_upon_arrival',
           flightNumber: data.flight_number || undefined,
           specialRequests: data.special_notes || undefined,

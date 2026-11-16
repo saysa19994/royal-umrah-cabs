@@ -647,7 +647,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
   };
 
   return (
-    <div className="duyuf-vehicle-detail relative py-10 sm:py-16 md:py-20 bg-bg min-h-screen text-start text-ink overflow-hidden transition-colors duration-200" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="duyuf-vehicle-detail duyuf-vehicle-page relative py-10 sm:py-16 md:py-20 bg-bg min-h-screen text-start text-ink overflow-hidden transition-colors duration-200" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* Luxury Golden Ambient Spotlight */}
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#D6A13A" />
 
@@ -839,7 +839,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
         <div className="bg-surface rounded-3xl p-6 sm:p-8 md:p-10 border border-border shadow-lg mb-8">
           <div className="mb-6">
             <span className="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-bg-alt border border-border text-[#D6A13A] mb-2">
-              Transparent Fares
+              {t('fareCol')}
             </span>
             <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-ink tracking-tight mb-2">
               {t('pricingTitle')}
@@ -871,51 +871,38 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
               </a>
             </div>
           ) : (
-            /* Authoritative Route Pricing Table */
-            <div className="overflow-x-auto rounded-2xl border border-border">
-              <table className="w-full text-start border-collapse">
-                <thead>
-                  <tr className="bg-bg-alt text-[#D6A13A] text-xs font-bold uppercase tracking-wider border-b border-border">
-                    <th className="py-3.5 px-4 sm:px-6">{t('routeCol')}</th>
-                    <th className="py-3.5 px-4 text-center">{t('fareCol')}</th>
-                    <th className="py-3.5 px-4 text-center">{t('actionCol')}</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border/40 text-xs sm:text-sm text-ink-muted">
-                  {KEY_CORRIDORS.map((routeKey, idx) => {
-                    const price = AUTHORITATIVE_TRANSFER_RATES[routeKey]?.[v.bookingVehicleId];
-                    if (!price) return null;
+            /* Editorial fare cards — no spreadsheet-like pricing tables */
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+              {KEY_CORRIDORS.map((routeKey) => {
+                const price = AUTHORITATIVE_TRANSFER_RATES[routeKey]?.[v.bookingVehicleId];
+                if (!price) return null;
+                const routeName =
+                  LOCALIZED_ROUTE_NAMES[routeKey]?.[locale] ||
+                  LOCALIZED_ROUTE_NAMES[routeKey]?.en ||
+                  routeKey;
 
-                    const routeName =
-                      LOCALIZED_ROUTE_NAMES[routeKey]?.[locale] ||
-                      LOCALIZED_ROUTE_NAMES[routeKey]?.en ||
-                      routeKey;
-
-                    return (
-                      <tr
-                        key={routeKey}
-                        className={idx % 2 === 0 ? 'bg-surface' : 'bg-bg-alt/40 hover:bg-bg-alt/70'}
-                      >
-                        <td className="py-3.5 px-4 sm:px-6 font-semibold text-ink">
-                          {routeName}
-                        </td>
-                        <td className="py-3.5 px-4 text-center font-display font-extrabold text-[#D6A13A] whitespace-nowrap">
-                          {price} SAR
-                        </td>
-                        <td className="py-3.5 px-4 text-center whitespace-nowrap">
-                          <Link
-                            href={`/${locale}/booking?vehicle=${v.bookingVehicleId}&route=${routeKey}`}
-                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-bg-alt hover:bg-[#D6A13A] text-[#D6A13A] hover:text-[#090D15] border border-border font-bold text-xs uppercase tracking-wider transition-colors shadow-2xs"
-                          >
-                            <span>{t('bookRouteBtn')}</span>
-                            <ArrowRight className="w-3 h-3 rtl:rotate-180" />
-                          </Link>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                return (
+                  <article key={routeKey} className="group flex flex-col justify-between gap-5 rounded-2xl border border-border bg-bg-alt/50 p-5 sm:p-6 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-lg">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="min-w-0 flex-1">
+                        <span className="mb-2 block text-xs font-semibold text-ink-muted">{t('routeCol')}</span>
+                        <h3 className="text-base sm:text-lg font-bold leading-snug text-ink">{routeName}</h3>
+                      </div>
+                      <div className="shrink-0 rounded-xl border border-border bg-surface px-3 py-2 text-end">
+                        <span className="block text-[10px] font-semibold text-ink-muted">{t('fareCol')}</span>
+                        <strong className="block text-lg sm:text-xl tabular-nums text-gold-dark" dir="ltr">{price} SAR</strong>
+                      </div>
+                    </div>
+                    <Link
+                      href={`/${locale}/booking?vehicle=${v.bookingVehicleId}&route=${routeKey}`}
+                      className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-ink px-5 py-3 text-sm font-bold text-bg transition-colors hover:bg-gold-dark hover:text-white focus-visible:outline-offset-4"
+                    >
+                      <span>{t('bookRouteBtn')}</span>
+                      <ArrowRight className="h-4 w-4 rtl:rotate-180" />
+                    </Link>
+                  </article>
+                );
+              })}
             </div>
           )}
         </div>

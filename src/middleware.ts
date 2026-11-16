@@ -100,7 +100,13 @@ export function middleware(request: NextRequest) {
   if (matchedLocale) {
     // Do NOT redirect someone who explicitly opens a localized URL (e.g. /ar/ or /tr/).
     // Search engines and visitors can access every explicit locale URL independently.
-    return NextResponse.next();
+    const response = NextResponse.next();
+    // Staging should be accessible for QA, but should never compete with the
+    // live ten-language site in search results.
+    if (process.env.VERCEL_ENV === 'preview') {
+      response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+    }
+    return response;
   }
 
   // 4. First-time or root URL visitor without locale prefix:

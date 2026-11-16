@@ -60,7 +60,7 @@ test('Turnstile Security: Identifies production environment configuration requir
   assert.ok(turnstileServer.includes('1x0000000000000000000000000000000AA'), 'Contains server test secret for non-prod');
 
   // Verify server rejects missing tokens fail-closed
-  assert.ok(turnstileServer.includes('if (!token)'), 'Server-side turnstile strictly rejects requests without token');
+  assert.match(turnstileServer, /if\s*\(!token\s*\|\|\s*!token\.trim\(\)\)/, 'Server-side turnstile rejects missing and whitespace-only tokens');
 });
 
 test('Phase 1 Truth, Brand & Hygiene: Unverifiable claims removed from components and footers', () => {

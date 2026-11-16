@@ -1,0 +1,193 @@
+/* DUYUF / THE FARE ATELIER — source-backed prices without gold template cards */
+.duyuf-pricing-page {
+ --fare-paper:#fffefa;--fare-canvas:#f7f6f1;--fare-ink:#1b353b;
+ --fare-muted:#63767a;--fare-line:#e0dfd8;--fare-accent:#a68354;
+ background:var(--fare-canvas);color:var(--fare-ink)
+}
+html[data-theme="dark"] .duyuf-pricing-page{
+ --fare-paper:#183038;--fare-canvas:#10262d;--fare-ink:#edf2ef;
+ --fare-muted:#b3c5c5;--fare-line:#385158;--fare-accent:#e0bb7d
+}
+.duyuf-pricing-page .duyuf-pricing-hero {
+ padding:90px 0 48px;min-height:630px;background:#ebeae3;
+ border-bottom:1px solid var(--fare-line)
+}
+html[data-theme="dark"] .duyuf-pricing-page .duyuf-pricing-hero{background:#182e33}
+.duyuf-pricing-page .duyuf-pricing-hero-media {
+ inset:0 0 0 auto;width:48%;height:100%;opacity:1;
+ background:#526c6d;
+}
+.duyuf-pricing-page[dir="rtl"] .duyuf-pricing-hero-media{inset:0 auto 0 0}
+.duyuf-pricing-page .duyuf-pricing-hero-media img{
+ object-fit:cover;object-position:center;opacity:1;transform:none;mix-blend-mode:normal
+}
+.duyuf-pricing-page .duyuf-pricing-hero-veil {
+ background:linear-gradient(90deg,#ebeae3 0%,#ebeae3 44%,rgba(235,234,227,.4) 66%,rgba(235,234,227,0) 100%)
+}
+.duyuf-pricing-page[dir="rtl"] .duyuf-pricing-hero-veil{
+ background:linear-gradient(270deg,#ebeae3 0%,#ebeae3 44%,rgba(235,234,227,.4) 66%,rgba(235,234,227,0) 100%)
+}
+html[data-theme="dark"] .duyuf-pricing-page .duyuf-pricing-hero-veil{
+ background:linear-gradient(90deg,#182e33 0%,#182e33 43%,rgba(24,46,51,.55) 71%,transparent 100%)
+}
+html[data-theme="dark"] .duyuf-pricing-page[dir="rtl"] .duyuf-pricing-hero-veil{
+ background:linear-gradient(270deg,#182e33 0%,#182e33 43%,rgba(24,46,51,.55) 71%,transparent 100%)
+}
+.duyuf-pricing-page .duyuf-pricing-hero-inner{position:relative}
+.duyuf-pricing-page .duyuf-pricing-hero-copy{width:54%;max-width:680px;margin:44px 0 62px}
+.duyuf-pricing-page .duyuf-pricing-hero-copy>div:first-child{
+ border:0;background:transparent;border-radius:0;box-shadow:none;
+ padding:0;color:var(--fare-accent);letter-spacing:.15em
+}
+.duyuf-pricing-page .duyuf-pricing-heading{
+ font-family:var(--font-cormorant,Georgia),Georgia,serif;
+ font-size:clamp(62px,5.7vw,100px);
+ font-weight:600;line-height:1;letter-spacing:-.045em;
+ text-wrap:balance;color:var(--fare-ink)
+}
+html[dir="rtl"] .duyuf-pricing-page .duyuf-pricing-heading{
+ font-family:var(--font-amiri,Georgia),Georgia,serif;
+ font-size:clamp(52px,5vw,86px);line-height:1.35;letter-spacing:0
+}
+.duyuf-pricing-page .duyuf-pricing-hero-copy>p{
+ color:var(--fare-muted);font-size:14px;line-height:1.9;max-width:530px
+}
+.duyuf-pricing-page .duyuf-pricing-assurance{
+ position:relative;width:min(100%,1220px);gap:0;
+ padding:18px;background:var(--fare-paper);
+ border:1px solid var(--fare-line);border-radius:14px;
+ box-shadow:0 19px 45px rgba(21,48,52,.09);
+}
+.duyuf-pricing-page .duyuf-pricing-assurance>div{
+ background:transparent;border:0;border-inline-end:1px solid var(--fare-line);
+ border-radius:0;box-shadow:none;gap:10px;padding-inline:16px
+}
+.duyuf-pricing-page .duyuf-pricing-assurance>div:last-child{border:0}
+.duyuf-pricing-page .duyuf-pricing-assurance>div>div{
+ background:#eff0ec;border-radius:50%;border:0;color:var(--fare-accent)
+}
+.duyuf-pricing-page .duyuf-pricing-dashboard{padding:84px 0}
+.duyuf-pricing-page .duyuf-pricing-categories{margin-bottom:36px}
+.duyuf-pricing-page .duyuf-pricing-category-tabs{gap:10px}
+.duyuf-pricing-page .duyuf-pricing-category-tabs button{
+ border-radius:10px;padding:16px 20px;min-height:65px;
+ background:var(--fare-paper);border:1px solid var(--fare-line);
+ color:var(--fare-ink);box-shadow:none;outline-offset:3px
+}
+.duyuf-pricing-page .duyuf-pricing-category-tabs button.bg-gold-dark{
+ background:#1c424b;color:#fff;border-color:#1c424b;box-shadow:none;outline-offset:3px
+}
+.duyuf-pricing-page .duyuf-pricing-category-tabs button>div{
+ border-radius:50%;background:#e7e8e4;color:#1c424b
+}
+.duyuf-pricing-page .duyuf-pricing-category-tabs button.bg-gold-dark>div{
+ background:#345d64;color:#fff
+}
+.duyuf-pricing-page .duyuf-pricing-route-section{
+ display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);
+ gap:24px 35px;align-items:stretch;
+ margin:0 0 90px
+}
+.duyuf-pricing-page .duyuf-pricing-route-section>div:first-child{grid-column:1/-1}
+.duyuf-pricing-page .duyuf-pricing-route-list{
+ grid-column:1;display:flex;flex-direction:column;gap:9px;margin:0;
+ align-self:start;max-height:580px;overflow:auto;padding:1px 8px 1px 1px;
+ scrollbar-width:thin;
+}
+.duyuf-pricing-page .duyuf-pricing-route-option{
+ border:1px solid var(--fare-line);border-radius:11px;
+ background:var(--fare-paper);padding:15px 18px;
+ min-height:91px;box-shadow:none;transition:border-color .15s,background .15s
+}
+.duyuf-pricing-page .duyuf-pricing-route-option:hover{border-color:#ac9575}
+.duyuf-pricing-page .duyuf-pricing-route-option.border-gold{
+ border-color:#ad8a5d;background:#f4f0e6;box-shadow:inset 3px 0 #aa8554;
+ outline:0
+}
+html[data-theme="dark"] .duyuf-pricing-page .duyuf-pricing-route-option.border-gold{background:#244249}
+.duyuf-pricing-page .duyuf-pricing-route-option h3{
+ font-size:14px;line-height:1.45;font-weight:750
+}
+.duyuf-pricing-page .duyuf-pricing-selected{
+ grid-column:2;display:flex;flex-direction:column;min-width:0;
+ background:var(--fare-paper);border:1px solid var(--fare-line);
+ border-radius:15px;padding:0;overflow:hidden;
+ box-shadow:0 20px 45px rgba(21,46,52,.07)
+}
+.duyuf-pricing-page .duyuf-pricing-selected-photo{
+ position:relative;width:100%;height:270px;min-height:270px;
+ overflow:hidden;background:#d2dad7
+}
+.duyuf-pricing-page .duyuf-pricing-selected-photo img{
+ object-fit:cover;object-position:center
+}
+.duyuf-pricing-page .duyuf-pricing-selected-content{
+ padding:clamp(23px,3.3vw,44px);flex:1;
+ display:flex;flex-direction:column;justify-content:center
+}
+.duyuf-pricing-page .duyuf-pricing-selected-content h3{
+ font-family:var(--font-cormorant,Georgia),Georgia,serif;
+ font-size:clamp(33px,3.4vw,51px);
+ font-weight:600;line-height:1.07;color:var(--fare-ink);
+ letter-spacing:-.03em;max-width:590px
+}
+html[dir="rtl"] .duyuf-pricing-page .duyuf-pricing-selected-content h3{
+ font-family:var(--font-amiri,Georgia),Georgia,serif;line-height:1.34;letter-spacing:0
+}
+.duyuf-pricing-page .duyuf-pricing-selected-content .text-slate-300{color:var(--fare-muted)}
+.duyuf-pricing-page .duyuf-pricing-selected-content svg{color:var(--fare-accent)}
+.duyuf-pricing-page .duyuf-pricing-vehicle-section{
+ padding-top:35px;border-top:1px solid var(--fare-line)
+}
+.duyuf-pricing-page .duyuf-pricing-vehicle-grid{
+ grid-template-columns:repeat(2,minmax(0,1fr));gap:22px
+}
+.duyuf-pricing-page .duyuf-pricing-vehicle-grid>div{
+ border-radius:15px;border-color:var(--fare-line);background:var(--fare-paper);
+ box-shadow:0 12px 35px rgba(19,42,48,.035);overflow:hidden
+}
+.duyuf-pricing-page .duyuf-pricing-vehicle-grid img{object-fit:contain}
+@media(max-width:1023px){
+ .duyuf-pricing-page .duyuf-pricing-hero-copy{width:59%}
+ .duyuf-pricing-page .duyuf-pricing-heading{font-size:clamp(47px,6vw,70px)}
+ .duyuf-pricing-page .duyuf-pricing-route-section{grid-template-columns:1fr 1fr;gap:19px}
+ .duyuf-pricing-page .duyuf-pricing-route-list{max-height:640px}
+}
+@media(max-width:767px){
+ .duyuf-pricing-page .duyuf-pricing-hero{padding:310px 0 34px;min-height:0}
+ .duyuf-pricing-page .duyuf-pricing-hero-media{
+  top:0;right:0;left:0;width:100%;height:300px
+ }
+ .duyuf-pricing-page .duyuf-pricing-hero-veil{
+  background:linear-gradient(0deg,#ebeae3 0%,rgba(235,234,227,.6) 17%,transparent 66%)
+ }
+ .duyuf-pricing-page[dir="rtl"] .duyuf-pricing-hero-veil{
+  background:linear-gradient(0deg,#ebeae3 0%,rgba(235,234,227,.6) 17%,transparent 66%)
+ }
+ html[data-theme="dark"] .duyuf-pricing-page .duyuf-pricing-hero-veil{
+  background:linear-gradient(0deg,#182e33 0%,rgba(24,46,51,.5) 20%,transparent 70%)
+ }
+ .duyuf-pricing-page .duyuf-pricing-hero-copy{width:100%;margin:18px 0 28px}
+ .duyuf-pricing-page .duyuf-pricing-heading{font-size:clamp(49px,11vw,68px)}
+ html[dir="rtl"] .duyuf-pricing-page .duyuf-pricing-heading{font-size:clamp(43px,10vw,62px)}
+ .duyuf-pricing-page .duyuf-pricing-assurance{
+  padding:12px;gap:8px;grid-template-columns:repeat(2,minmax(0,1fr))
+ }
+ .duyuf-pricing-page .duyuf-pricing-assurance>div{
+  border:0;border-bottom:1px solid var(--fare-line);padding:9px 4px
+ }
+ .duyuf-pricing-page .duyuf-pricing-dashboard{padding:55px 0}
+ .duyuf-pricing-page .duyuf-pricing-category-tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .duyuf-pricing-page .duyuf-pricing-category-tabs button{min-height:56px;padding:11px}
+ .duyuf-pricing-page .duyuf-pricing-route-section{grid-template-columns:1fr;gap:17px;margin-bottom:50px}
+ .duyuf-pricing-page .duyuf-pricing-route-list{grid-column:1;max-height:360px}
+ .duyuf-pricing-page .duyuf-pricing-selected{grid-column:1}
+ .duyuf-pricing-page .duyuf-pricing-selected-photo{height:200px;min-height:200px}
+ .duyuf-pricing-page .duyuf-pricing-selected-content{padding:23px}
+ .duyuf-pricing-page .duyuf-pricing-selected-content h3{font-size:37px}
+ .duyuf-pricing-page .duyuf-pricing-vehicle-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+ .duyuf-pricing-page .duyuf-pricing-category-tabs button,
+ .duyuf-pricing-page .duyuf-pricing-route-option{transition:none!important}
+}

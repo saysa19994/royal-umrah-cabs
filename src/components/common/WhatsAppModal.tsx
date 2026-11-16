@@ -33,9 +33,9 @@ const MODAL_I18N: Record<
     close: 'إغلاق',
     modalTitle: 'محادثة مباشرة عبر واتساب',
     modalSubtitle: 'اختر خط الاتصال المناسب للتواصل الفوري مع الفريق:',
-    primaryTag: 'الخط الأساسي • حجز فوري',
+    primaryTag: 'الخط الأساسي • طلب حجز',
     primaryTitle: 'إدارة حجوزات وسائقي VIP',
-    primaryDesc: 'تأكيد الحجز الفوري، تنسيق السيارات، وتعيين السائق الخاص',
+    primaryDesc: 'استقبال طلب الحجز ومراجعة الرحلة والسيارة قبل التأكيد من فريق الحجوزات',
     secondaryTag: 'خط المساندة • خدمة 24/7',
     secondaryTitle: 'خدمة العملاء ومتابعة الرحلات',
     secondaryDesc: 'متابعة مواعيد رحلات الطيران، استفسارات المطار والمزارات',
@@ -47,9 +47,9 @@ const MODAL_I18N: Record<
     close: 'Close',
     modalTitle: 'Direct WhatsApp Concierge',
     modalSubtitle: 'Select your preferred line for immediate private assistance:',
-    primaryTag: 'Primary Line • Instant Booking',
+    primaryTag: 'Primary Line • Booking Request',
     primaryTitle: 'VIP Chauffeur & Dispatch',
-    primaryDesc: 'Instant booking confirmation, luxury vehicle dispatch & chauffeur assignment',
+    primaryDesc: 'Send a booking request. Our team reviews availability before confirming your journey.',
     secondaryTag: 'Secondary Line • 24/7 Support',
     secondaryTitle: 'Customer Care & Flight Support',
     secondaryDesc: 'Live flight tracking, airport meeting point assistance & general inquiries',
@@ -61,9 +61,9 @@ const MODAL_I18N: Record<
     close: 'Tutup',
     modalTitle: 'Bantuan Langsung WhatsApp VIP',
     modalSubtitle: 'Pilih talian pilihan anda untuk bantuan peribadi segera:',
-    primaryTag: 'Talian Utama • Tempahan Segera',
+    primaryTag: 'Talian Utama • Permintaan Tempahan',
     primaryTitle: 'Pemandu & Penghantaran VIP',
-    primaryDesc: 'Pengesahan tempahan segera, penghantaran armada mewah & penetapan pemandu peribadi',
+    primaryDesc: 'Hantar permintaan tempahan. Pasukan kami menyemak perjalanan sebelum pengesahan.',
     secondaryTag: 'Talian Sokongan • Bantuan 24/7',
     secondaryTitle: 'Khidmat Pelanggan & Sokongan Penerbangan',
     secondaryDesc: 'Penjejakan penerbangan langsung, bantuan titik pertemuan lapangan terbang & pertanyaan umum',
@@ -75,9 +75,9 @@ const MODAL_I18N: Record<
     close: 'Tutup',
     modalTitle: 'Layanan Langsung WhatsApp VIP',
     modalSubtitle: 'Pilih jalur komunikasi untuk bantuan privat segera:',
-    primaryTag: 'Jalur Utama • Pemesanan Cepat',
+    primaryTag: 'Jalur Utama • Permintaan Pemesanan',
     primaryTitle: 'Pengemudi & Pengiriman VIP',
-    primaryDesc: 'Konfirmasi pemesanan instan, koordinasi armada mewah & penetapan sopir privat',
+    primaryDesc: 'Kirim permintaan perjalanan. Tim kami memeriksa ketersediaan sebelum konfirmasi.',
     secondaryTag: 'Jalur Dukungan • Layanan 24/7',
     secondaryTitle: 'Layanan Tamu & Dukungan Penerbangan',
     secondaryDesc: 'Pelacakan penerbangan langsung, titik temu bandara & panduan ziarah',
@@ -89,9 +89,9 @@ const MODAL_I18N: Record<
     close: 'بند کریں',
     modalTitle: 'براہ راست واٹس ایپ سروس',
     modalSubtitle: 'فوری اور نجی معاونت کے لیے اپنی پسندیدہ لائن منتخب کریں:',
-    primaryTag: 'پرائمری لائن • فوری بکنگ',
+    primaryTag: 'پرائمری لائن • بکنگ کی درخواست',
     primaryTitle: 'وی آئی پی شافر اور ڈسپیچ',
-    primaryDesc: 'فوری بکنگ تصدیق، لگژری گاڑیوں کی فراہمی اور پرائیویٹ شافر کی تعیناتی',
+    primaryDesc: 'اپنی بکنگ کی درخواست بھیجیں۔ ہماری ٹیم دستیابی چیک کرنے کے بعد تصدیق کرے گی۔',
     secondaryTag: 'سپورٹ لائن • 24/7 سروس',
     secondaryTitle: 'کسٹمر کیئر اور پروازوں کی نگرانی',
     secondaryDesc: 'براہ راست پروازوں کی نگرانی، ائیرپورٹ پر ملاقات اور زیارات کی رہنمائی',
@@ -103,9 +103,9 @@ const MODAL_I18N: Record<
     close: 'Fermer',
     modalTitle: 'Conciergerie WhatsApp Directe',
     modalSubtitle: 'Sélectionnez votre ligne pour une assistance privée immédiate :',
-    primaryTag: 'Ligne Principale • Réservation Immédiate',
+    primaryTag: 'Ligne Principale • Demande de Réservation',
     primaryTitle: 'Chauffeur VIP et Régulation',
-    primaryDesc: 'Confirmation immédiate, affectation de véhicule de prestige et chauffeur privé',
+    primaryDesc: 'Envoyez votre demande. Notre équipe vérifiera les disponibilités avant toute confirmation.',
     secondaryTag: 'Ligne d’Assistance • Support 24/7',
     secondaryTitle: 'Service Client & Suivi des Vols',
     secondaryDesc: 'Suivi de vol en direct, accueil à l’aéroport et assistance pèlerinage',
@@ -117,9 +117,9 @@ const MODAL_I18N: Record<
     close: 'Cerrar',
     modalTitle: 'Conserjería Directa por WhatsApp',
     modalSubtitle: 'Seleccione su línea preferida para asistencia privada inmediata:',
-    primaryTag: 'Línea Principal • Reserva Inmediata',
+    primaryTag: 'Línea Principal • Solicitud de Reserva',
     primaryTitle: 'Chófer VIP y Asignación',
-    primaryDesc: 'Confirmación instantánea de reserva, asignación de vehículo de lujo y chófer privado',
+    primaryDesc: 'Envíe su solicitud. Nuestro equipo verificará la disponibilidad antes de confirmarla.',
     secondaryTag: 'Línea de Soporte • Atención 24/7',
     secondaryTitle: 'Atención al Cliente y Rastreo de Vuelos',
     secondaryDesc: 'Seguimiento de vuelos en tiempo real, punto de encuentro en aeropuerto y consultas',
@@ -131,9 +131,9 @@ const MODAL_I18N: Record<
     close: 'Schließen',
     modalTitle: 'Direkter WhatsApp-Concierge',
     modalSubtitle: 'Wählen Sie Ihre bevorzugte Rufnummer für sofortige persönliche Betreuung:',
-    primaryTag: 'Hauptlinie • Sofortbuchung',
+    primaryTag: 'Hauptlinie • Buchungsanfrage',
     primaryTitle: 'VIP-Chauffeur & Disposition',
-    primaryDesc: 'Sofortige Buchungsbestätigung, VIP-Fahrzeugbereitstellung und Chauffeur-Zuweisung',
+    primaryDesc: 'Senden Sie Ihre Buchungsanfrage. Unser Team prüft die Verfügbarkeit vor der Bestätigung.',
     secondaryTag: 'Support-Linie • 24/7 Betreuung',
     secondaryTitle: 'Kundenservice & Flugverfolgung',
     secondaryDesc: 'Live-Flugverfolgung, Treffpunkt-Koordination am Flughafen & allgemeine Auskünfte',
@@ -145,9 +145,9 @@ const MODAL_I18N: Record<
     close: 'Kapat',
     modalTitle: 'Doğrudan WhatsApp İletişimi',
     modalSubtitle: 'Anında özel destek için tercih ettiğiniz hattı seçin:',
-    primaryTag: 'Ana Hat • Anında Rezervasyon',
+    primaryTag: 'Ana Hat • Rezervasyon Talebi',
     primaryTitle: 'VIP Şoför ve Koordinasyon',
-    primaryDesc: 'Anında rezervasyon onayı, lüks araç tahsisi ve özel şoför yönlendirme',
+    primaryDesc: 'Rezervasyon talebinizi gönderin. Ekibimiz uygunluğu kontrol ettikten sonra onay verir.',
     secondaryTag: 'Destek Hattı • 7/24 Hizmet',
     secondaryTitle: 'Müşteri Hizmetleri ve Uçuş Takibi',
     secondaryDesc: 'Canlı uçuş takibi, havalimanı karşılama noktası yardımı ve genel danışmanlık',
@@ -159,9 +159,9 @@ const MODAL_I18N: Record<
     close: 'बंद करें',
     modalTitle: 'सीधी व्हाट्सएप दरबान सेवा',
     modalSubtitle: 'तत्काल निजी सहायता के लिए अपनी पसंदीदा लाइन चुनें:',
-    primaryTag: 'प्राथमिक लाइन • त्वरित बुकिंग',
+    primaryTag: 'प्राथमिक लाइन • बुकिंग अनुरोध',
     primaryTitle: 'वीआईपी ड्राइवर और प्रेषण',
-    primaryDesc: 'त्वरित बुकिंग पुष्टि, लक्जरी वाहन प्रेषण और निजी ड्राइवर आवंटन',
+    primaryDesc: 'अपना बुकिंग अनुरोध भेजें। हमारी टीम उपलब्धता जाँचकर ही पुष्टि करेगी।',
     secondaryTag: 'सहायता लाइन • 24/7 सेवा',
     secondaryTitle: 'ग्राहक सेवा और उड़ान सहायता',
     secondaryDesc: 'लाइव उड़ान ट्रैकिंग, हवाई अड्डा मीटिंग पॉइंट सहायता और सामान्य पूछताछ',
@@ -207,7 +207,7 @@ export function WhatsAppModal({ isOpen, onClose, locale, source }: WhatsAppModal
     },
   ];
 
-  const handleSelectNumber = async (num: string, lineId: string) => {
+  const handleSelectNumber = (num: string, lineId: string) => {
     trackEvent({
       event: 'whatsapp_handoff_initiated',
       source,
@@ -220,25 +220,8 @@ export function WhatsAppModal({ isOpen, onClose, locale, source }: WhatsAppModal
     const fullMessage = `${greeting} [${refCode}]`;
     const targetUrl = `https://wa.me/${num}?text=${encodeURIComponent(fullMessage)}`;
 
-    try {
-      fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          page: typeof window !== 'undefined' ? window.location.pathname : '/',
-          language: locale,
-          'cf-turnstile-response': 'verified_client',
-          source_utm: {
-            assigned_number: num,
-            line_id: lineId,
-            trigger: source,
-            url: typeof window !== 'undefined' ? window.location.href : '',
-          },
-        }),
-      }).catch((err) => console.warn('Lead logging non-blocking error:', err));
-    } catch {
-      // Non-blocking
-    }
+    // Analytics are recorded above; do not forge Turnstile tokens to create leads.
+    // Only confirmed, verified booking submissions may create server-side leads.
 
     window.open(targetUrl, '_blank', 'noopener,noreferrer');
     onClose();
@@ -253,7 +236,7 @@ export function WhatsAppModal({ isOpen, onClose, locale, source }: WhatsAppModal
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-lg bg-[#0A1224] border border-gold/30 rounded-2xl p-6 sm:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.8)] text-white"
+        className="relative w-full max-w-lg bg-[var(--bg-surface)] border border-[var(--border-stone)] rounded-2xl p-6 sm:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.25)] text-[var(--text-primary)]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* CLOSE BUTTON */}
@@ -261,7 +244,7 @@ export function WhatsAppModal({ isOpen, onClose, locale, source }: WhatsAppModal
           type="button"
           onClick={onClose}
           aria-label={t.close}
-          className="absolute top-4 right-4 rtl:right-auto rtl:left-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white flex items-center justify-center transition-colors focus-visible:ring-2 focus-visible:ring-gold"
+          className="absolute top-4 right-4 rtl:right-auto rtl:left-4 w-9 h-9 rounded-full bg-[var(--bg-elevated)] hover:opacity-80 text-[var(--text-primary)] flex items-center justify-center transition-colors focus-visible:ring-2 focus-visible:ring-gold"
         >
           <X className="w-5 h-5" />
         </button>
@@ -272,10 +255,10 @@ export function WhatsAppModal({ isOpen, onClose, locale, source }: WhatsAppModal
             <MessageCircle className="w-7 h-7" />
           </div>
           <div>
-            <h3 id="whatsapp-modal-title" className="text-lg sm:text-xl font-bold font-display text-white">
+            <h3 id="whatsapp-modal-title" className="text-lg sm:text-xl font-bold font-display text-[var(--text-primary)]">
               {t.modalTitle}
             </h3>
-            <p className="text-xs text-mutedText mt-0.5">
+            <p className="text-xs text-[var(--text-secondary)] mt-0.5">
               {t.modalSubtitle}
             </p>
           </div>
@@ -288,38 +271,38 @@ export function WhatsAppModal({ isOpen, onClose, locale, source }: WhatsAppModal
               key={item.id}
               type="button"
               onClick={() => handleSelectNumber(item.number, item.id)}
-              className="w-full text-start p-4 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-gold/40 transition-all flex flex-col gap-2 group focus-visible:ring-2 focus-visible:ring-gold relative"
+              className="w-full text-start p-4 rounded-xl border border-[var(--border-stone)] bg-[var(--bg-elevated)] hover:border-[var(--accent-primary)] transition-all flex flex-col gap-2 group focus-visible:ring-2 focus-visible:ring-gold relative"
             >
               <div className="flex items-center justify-between w-full">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-gold px-2.5 py-0.5 rounded-full bg-gold/10 border border-gold/30">
                   {item.tag}
                 </span>
-                <span className="text-xs font-mono font-bold text-white/90 group-hover:text-gold transition-colors flex items-center gap-1">
+                <span className="text-xs font-mono font-bold text-[var(--text-primary)] group-hover:text-gold transition-colors flex items-center gap-1">
                   {item.formatted}
                   <ExternalLink className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100" />
                 </span>
               </div>
 
               <div>
-                <h4 className="text-sm sm:text-base font-semibold text-white group-hover:text-gold transition-colors">
+                <h4 className="text-sm sm:text-base font-semibold text-[var(--text-primary)] group-hover:text-gold transition-colors">
                   {item.title}
                 </h4>
-                <p className="text-xs text-mutedText mt-0.5 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-[var(--text-secondary)] mt-0.5 leading-relaxed">{item.desc}</p>
               </div>
 
-              <div className="pt-2 mt-1 border-t border-white/10 flex items-center justify-between text-xs font-semibold text-[#25d366]">
+              <div className="pt-2 mt-1 border-t border-[var(--border-stone)] flex items-center justify-between text-xs font-semibold text-[#168954]">
                 <span className="flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-[#25d366] animate-pulse" />
                   {t.connectAction}
                 </span>
-                <span className="text-white/60 text-[11px]">Duyuf Alrahman VIP</span>
+                <span className="text-[var(--text-muted)] text-[11px]">Duyuf Alrahman VIP</span>
               </div>
             </button>
           ))}
         </div>
 
         {/* SECURITY & TRUST FOOTER */}
-        <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-between text-[11px] text-white/70">
+        <div className="mt-5 pt-4 border-t border-[var(--border-stone)] flex items-center justify-between text-[11px] text-[var(--text-secondary)]">
           <span className="flex items-center gap-1.5">
             <ShieldCheck className="w-3.5 h-3.5 text-gold" />
             {t.trustOfficial}

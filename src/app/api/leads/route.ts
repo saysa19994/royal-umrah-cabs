@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
     if (!turnstileCheck.success) {
       return NextResponse.json(
         { success: false, error: turnstileCheck.error || 'Verification failed.' },
-        { status: 400 }
+        { status: turnstileCheck.status ?? 400 }
       );
     }
 

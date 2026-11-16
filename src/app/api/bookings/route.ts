@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     if (!turnstileCheck.success) {
       return NextResponse.json(
         { success: false, error: turnstileCheck.error || 'Bot verification failed.' },
-        { status: 400 }
+        { status: turnstileCheck.status ?? 400 }
       );
     }
 
@@ -143,7 +143,7 @@ export async function POST(request: Request) {
       pickup_location: validated.pickup_location,
       dropoff_location: validated.dropoff_location,
       passengers_count: validated.passengers_count,
-      luggage_count: validated.luggage_count || 1,
+      luggage_count: validated.luggage_count,
       flight_number: validated.flight_number || null,
       add_ons: validated.add_ons,
       special_notes: validated.special_notes || null,
@@ -186,9 +186,11 @@ export async function POST(request: Request) {
       performed_by: 'customer_online',
     });
 
+    // Email acceptance is separate from booking persistence and from inbox delivery.
+    let customerEmailAccepted = false;
     // 7. Non-blocking Multilingual Transactional Email Dispatch (Customer + Operations)
     try {
-      await dispatchBookingEmails({
+      const emailDispatch = await dispatchBookingEmails({
         reference,
         customerName: validated.customer_name,
         customerEmail: validated.customer_email || '',
@@ -197,7 +199,7 @@ export async function POST(request: Request) {
         vehicleName: validated.vehicle_id.toUpperCase(),
         pickupDateTime: pickupISO.replace('T', ' ').slice(0, 16) + ' (KSA Time)',
         passengers: validated.passengers_count,
-        luggage: validated.luggage_count || 1,
+        luggage: validated.luggage_count,
         finalPriceSAR,
         currency: currKey,
         finalPriceCurrency,
@@ -207,6 +209,14 @@ export async function POST(request: Request) {
         status: 'pending',
         language: lang,
       });
+      customerEmailAccepted = emailDispatch.customerSent;
+      if (!emailDispatch.customerSent || !emailDispatch.companySent) {
+        console.warn('[Booking API] Booking saved but one or more transactional emails were not accepted by the provider:', {
+          reference,
+          customerSent: emailDispatch.customerSent,
+          companySent: emailDispatch.companySent,
+        });
+      }
     } catch (emailErr) {
       console.warn('[Booking API] Transactional email dispatch error (booking preserved):', emailErr);
     }
@@ -219,7 +229,7 @@ export async function POST(request: Request) {
       `• To: ${validated.dropoff_location}`,
       `• Date & Time: ${pickupISO.replace('T', ' ').slice(0, 16)} (KSA Time)`,
       `• Vehicle: ${validated.vehicle_id.toUpperCase()}`,
-      `• Passengers: ${validated.passengers_count} | Luggage: ${validated.luggage_count || 1}`,
+      `• Passengers: ${validated.passengers_count} | Luggage: ${validated.luggage_count}`,
       `• Fixed Fare: ${currSymbol}${finalPriceCurrency} (${finalPriceSAR} SAR)`,
       'Please confirm driver dispatch. Jazakum Allah Khair.',
     ];
@@ -232,6 +242,7 @@ export async function POST(request: Request) {
       booking: {
         id: insertedBooking.id,
         reference,
+        customerEmailAccepted,
         finalPriceSAR,
         currency: currKey,
         finalPriceCurrency,
@@ -240,7 +251,7 @@ export async function POST(request: Request) {
         pickup_datetime: pickupISO,
         vehicle_id: validated.vehicle_id,
         passengers_count: validated.passengers_count,
-        luggage_count: validated.luggage_count || 1,
+        luggage_count: validated.luggage_count,
         whatsappUrl,
       },
     });

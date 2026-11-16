@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { Redis } from '@upstash/redis';
 import { calculateServerPrice } from '@/lib/pricing-server';
 
 export interface BookingDraft {
@@ -22,7 +23,12 @@ export interface BookingDraft {
   finalPriceCurrency: number;
 }
 
-// In-memory serverless cache with automatic cleanup for drafts (TTL: 2 hours)
+// Shared storage in production; local fallback only for development.
+const redis = process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+  ? new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN })
+  : null;
+const draftKey = (id: string) => `booking_draft:${id}`;
+const draftTtlSeconds = 2 * 60 * 60;
 const draftsMemoryStore = new Map<string, BookingDraft>();
 
 function cleanupExpiredDrafts() {
@@ -48,7 +54,10 @@ export async function createBookingDraft(params: {
   durationHours?: number;
   currency?: string;
 }): Promise<BookingDraft> {
-  cleanupExpiredDrafts();
+  if (process.env.NODE_ENV === 'production' && !redis) {
+    throw new Error('Booking draft storage is not configured');
+  }
+  if (!redis) cleanupExpiredDrafts();
 
   const bookingType = params.bookingType || 'transfer';
   const currency = params.currency || 'SAR';
@@ -90,16 +99,22 @@ export async function createBookingDraft(params: {
     finalPriceCurrency: pricingResult.finalPriceCurrency,
   };
 
-  draftsMemoryStore.set(id, draft);
+  if (redis) await redis.set(draftKey(id), draft, { ex: draftTtlSeconds });
+  else draftsMemoryStore.set(id, draft);
   return draft;
 }
 
-export function getBookingDraft(id: string): BookingDraft | null {
-  cleanupExpiredDrafts();
-  const draft = draftsMemoryStore.get(id);
+export async function getBookingDraft(id: string): Promise<BookingDraft | null> {
+  if (!/^DFT-[A-Z0-9]+-[A-F0-9]{12}$/.test(id)) return null;
+  if (process.env.NODE_ENV === 'production' && !redis) {
+    throw new Error('Booking draft storage is not configured');
+  }
+  if (!redis) cleanupExpiredDrafts();
+  const draft = redis ? await redis.get<BookingDraft>(draftKey(id)) : draftsMemoryStore.get(id);
   if (!draft) return null;
   if (draft.expiresAt < Date.now()) {
-    draftsMemoryStore.delete(id);
+    if (redis) await redis.del(draftKey(id));
+    else draftsMemoryStore.delete(id);
     return null;
   }
   return draft;

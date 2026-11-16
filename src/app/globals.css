@@ -4,10 +4,37 @@
 
 @import "../styles/homepage-v3.css";
 @import "../styles/luxury-subpages.css";
+@import "../styles/duyuf-completion.css";
 
 /* ========================================================================== */
 /* DUYUF AL RAHMAN VIP — DUAL-THEME MASTER DESIGN TOKENS (STAGE 2)           */
 /* ========================================================================== */
+
+/* Locale-aware, network-independent typography. Font variables in fonts.ts are
+   placeholders, so supply real CSS family stacks for every supported script. */
+:root {
+  --font-playfair: Georgia, "Times New Roman", serif;
+  --font-cormorant: Georgia, "Times New Roman", serif;
+  --font-amiri: "Noto Naskh Arabic", "Traditional Arabic", serif;
+  --font-manrope: "Segoe UI", Arial, sans-serif;
+  --font-inter: "Segoe UI", Arial, sans-serif;
+  --font-ibm-plex-arabic: "Noto Sans Arabic", Tahoma, Arial, sans-serif;
+  --font-tajawal: "Noto Sans Arabic", Tahoma, Arial, sans-serif;
+  --font-cairo: "Noto Sans Arabic", Tahoma, Arial, sans-serif;
+  --font-urdu: "Noto Nastaliq Urdu", "Noto Naskh Arabic", Tahoma, serif;
+  --font-devanagari: "Noto Sans Devanagari", "Mangal", sans-serif;
+}
+
+[lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3,
+[lang="ur"] h1, [lang="ur"] h2, [lang="ur"] h3 {
+  font-family: var(--font-amiri);
+  line-height: 1.35;
+}
+
+[lang="hi"] h1, [lang="hi"] h2, [lang="hi"] h3 {
+  font-family: var(--font-devanagari);
+  line-height: 1.35;
+}
 
 :root,
 [data-theme="light"] {
