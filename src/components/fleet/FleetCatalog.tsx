@@ -774,12 +774,12 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
               return (
                 <article
                   key={vehicle.id}
-                  className="vehicle-card"
+                  className="vehicle-card group transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-xl focus-within:shadow-xl"
                   data-category={vehicle.category}
                 >
                   <Link
                     href={`/${locale}/fleet/${vehicle.slug}`}
-                    className="vehicle-card-image"
+                    className="vehicle-card-image overflow-hidden"
                     aria-label={vName}
                   >
                     <Image
@@ -820,7 +820,7 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
                             {feats.map((f, fIdx) => (
                               <li key={fIdx} className="flex items-center gap-2">
                                 <CheckCircle2 className="w-3.5 h-3.5 text-gold-dark shrink-0" />
-                                <span className="truncate">{f}</span>
+                                <span className="leading-relaxed">{f}</span>
                               </li>
                             ))}
                           </ul>
@@ -1027,7 +1027,7 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
 
                 <div className="text-[11px] text-ink-muted flex items-center gap-1.5 bg-bg-alt p-2 rounded-lg">
                   <Snowflake className="w-3.5 h-3.5 text-[#D6A13A] shrink-0" />
-                  <span className="truncate">{v.acType[locale] || v.acType.en}</span>
+                  <span className="leading-relaxed">{v.acType[locale] || v.acType.en}</span>
                 </div>
 
                 <Link
