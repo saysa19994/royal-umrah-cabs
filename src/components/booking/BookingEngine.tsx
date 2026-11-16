@@ -1208,14 +1208,6 @@ export function BookingEngine({
         service_type: bookingType,
         payment_method: 'pay_upon_arrival',
       });
-      trackEvent({
-        event: 'booking_confirmed',
-        booking_reference: data.booking?.reference || '',
-        service_type: bookingType,
-        payment_method: 'pay_upon_arrival',
-        total_sar: data.booking?.finalPriceSAR || currentPriceSAR,
-      });
-
       setConfirmedBooking(data.booking);
     } catch (err: any) {
       setErrorMessage(err.message || 'An unexpected error occurred. Please try again.');
