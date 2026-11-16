@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
@@ -32,6 +32,7 @@ import {
   Shield,
 } from 'lucide-react';
 import { TurnstileWidget } from '@/components/common/TurnstileWidget';
+import type { TurnstileWidgetRef } from '@/components/common/TurnstileWidget';
 import { BorderBeam } from '@/components/ui/luxury/BorderBeam';
 import { ShimmerButton } from '@/components/ui/luxury/ShimmerButton';
 import { getEstimatedBasePriceSAR, LOCALIZED_ROUTE_NAMES } from '@/lib/pricing-constants';
@@ -1043,8 +1044,16 @@ export function BookingEngine({
 
   // Submission State
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [turnstileToken, setTurnstileToken] = useState<string>('verified_client');
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const turnstileWidgetRef = useRef<TurnstileWidgetRef>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const handleTurnstileVerified = useCallback((token: string) => {
+    setTurnstileToken(token);
+    setErrorMessage(null);
+  }, []);
+  const handleTurnstileInvalidated = useCallback(() => {
+    setTurnstileToken('');
+  }, []);
   const [confirmedBooking, setConfirmedBooking] = useState<any | null>(null);
 
 
@@ -1132,6 +1141,12 @@ export function BookingEngine({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
+    if (!turnstileToken) {
+      setErrorMessage(locale === 'ar'
+        ? 'يرجى إكمال التحقق الأمني قبل إرسال طلب الحجز.'
+        : 'Please complete the security verification before sending your booking request.');
+      return;
+    }
 
     // Native required attributes do not guarantee validation when the flow
     // invokes this handler programmatically. Keep the booking email mandatory.
@@ -1194,6 +1209,9 @@ export function BookingEngine({
 
       const data = await res.json();
       if (!res.ok || !data.success) {
+        // Turnstile tokens are single-use; request a fresh token on failure.
+        setTurnstileToken('');
+        turnstileWidgetRef.current?.reset();
         trackEvent({
           event: 'booking_form_validation_failed',
           form: 'booking_engine',
@@ -2299,8 +2317,11 @@ export function BookingEngine({
             {/* TURNSTILE ANTI-BOT WIDGET */}
             <div className="pt-2 flex justify-center">
               <TurnstileWidget
+                ref={turnstileWidgetRef}
                 locale={locale}
-                onVerify={(token) => setTurnstileToken(token)}
+                onVerify={handleTurnstileVerified}
+                onExpire={handleTurnstileInvalidated}
+                onError={handleTurnstileInvalidated}
               />
             </div>
 
@@ -2326,7 +2347,7 @@ export function BookingEngine({
 
               <ShimmerButton
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !turnstileToken}
                 className="w-full sm:w-auto min-h-[48px] h-12 px-8 rounded-btn"
                 shimmerColor="#F2C94C"
                 shimmerDuration="2.5s"
