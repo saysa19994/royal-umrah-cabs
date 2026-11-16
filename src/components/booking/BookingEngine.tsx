@@ -1092,7 +1092,7 @@ export function BookingEngine({
       durationHours: bookingType === 'hourly' ? durationHours : undefined,
       customRates: initialRates,
     });
-    return calculated || 200;
+    return typeof calculated === 'number' && Number.isFinite(calculated) && calculated > 0 ? calculated : 0;
   };
 
   const currentPriceSAR = calculateCurrentPriceSAR();
@@ -1113,6 +1113,12 @@ export function BookingEngine({
   const handleProceedToStep3 = () => {
     if (!vehicleId) {
       setStep1Error(locale === 'ar' ? 'يرجى اختيار مركبة من القائمة للمتابعة' : 'Please select a vehicle from the fleet to proceed.');
+      return;
+    }
+    if (bookingType === 'transfer' && currentPriceSAR <= 0) {
+      setStep1Error(locale === 'ar'
+        ? 'تعذر تحديد أجرة صحيحة لهذا المسار والسيارة. يرجى التواصل معنا عبر واتساب لطلب السعر.'
+        : 'A verified fare is unavailable for this route and vehicle. Please request a quote via WhatsApp.');
       return;
     }
     setStep1Error(null);
@@ -1716,7 +1722,7 @@ export function BookingEngine({
                 </span>
                 <span className="text-ink-muted flex items-center gap-1.5">
                   <Users className="w-3.5 h-3.5 text-gold-dark" />
-                  {passengers} Pax • {luggage} Bags
+                  {passengers} {t.passengersLabel} • {luggage} {t.luggageLabel}
                 </span>
               </div>
               <button
@@ -1771,7 +1777,6 @@ export function BookingEngine({
                     >
                       {isSelected && (
                         <>
-                          <BorderBeam size={180} duration={8} colorFrom="#D6A13A" colorTo="#F2C94C" />
                           <div className="absolute top-3 right-3 rtl:right-auto rtl:left-3 bg-gold text-slate-950 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest flex items-center gap-1 shadow-xs z-10">
                             <Check className="w-3 h-3" />
                             <span>{t.selectedBadge}</span>
@@ -2483,7 +2488,7 @@ export function BookingEngine({
               </span>
               <span className="text-emerald-700 font-extrabold text-[11px] flex items-center gap-1">
                 <Check className="w-3 h-3" />
-                <span>Zero Advance</span>
+                <span>{t.paymentBadge}</span>
               </span>
             </div>
             <p className="font-bold text-ink text-xs">
