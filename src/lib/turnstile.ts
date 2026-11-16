@@ -26,11 +26,8 @@ export async function verifyTurnstileToken(
     return { success: false, error: 'Anti-bot verification is temporarily unavailable', status: 503 };
   }
 
-  // Always strictly fail if token is missing
-  if (!token) {
-    if (!hasSecret && !isProd) {
-      return { success: true };
-    }
+  // Missing or whitespace-only tokens are always rejected, including development.
+  if (!token || !token.trim()) {
     return {
       success: false,
       error: 'Anti-bot verification required (missing Turnstile token)',
@@ -63,7 +60,11 @@ export async function verifyTurnstileToken(
     const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       body: formData,
+      signal: AbortSignal.timeout(8000),
     });
+    if (!res.ok) {
+      return { success: false, error: 'Verification service temporarily unavailable', status: 503 };
+    }
 
     const outcome = await res.json();
     if (outcome.success) {
