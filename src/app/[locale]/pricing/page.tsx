@@ -1,4 +1,5 @@
 import React from 'react';
+import './pricing-editorial.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -123,19 +124,19 @@ export default async function PricingPage(props: PricingPageProps) {
       {/* ─────────────────────────────────────────────────────────────
           1. MASTER HERO: OUR PRICES & PACKAGES
       ────────────────────────────────────────────────────────────── */}
-      <section className="relative pt-10 sm:pt-14 pb-12 sm:pb-16 overflow-hidden border-b border-border">
-        <div className="absolute inset-0 z-0">
+      <section className="duyuf-pricing-hero relative pt-10 sm:pt-14 pb-12 sm:pb-16 overflow-hidden border-b border-border">
+        <div className="duyuf-pricing-hero-media absolute inset-0 z-0">
           <Image
-            src="/assets/images/cinematic/home/hero-mercedes-kaaba-retina.jpg"
+            src="/assets/homepage-v2/route-jeddah-makkah.jpg"
             alt="Duyuf Al Rahman VIP Fleet"
             fill
             priority
-            className="object-cover object-center opacity-40 mix-blend-luminosity scale-105"
+            className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/85 to-bg/95" />
+          <div className="duyuf-pricing-hero-veil absolute inset-0" />
         </div>
 
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
+        <div className="duyuf-pricing-hero-inner container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-xs text-ink-muted mb-6">
             <Link href={`/${locale}`} className="hover:text-gold-dark transition-colors">
@@ -146,12 +147,12 @@ export default async function PricingPage(props: PricingPageProps) {
           </nav>
 
           {/* Heading with gold ampersand */}
-          <div className="max-w-3xl mb-8">
+          <div className="duyuf-pricing-hero-copy max-w-3xl mb-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-bg-alt border border-gold/40 text-xs font-bold text-gold-dark uppercase tracking-wider mb-4">
               <Sparkles className="w-3.5 h-3.5" />
               <span>{content.badge || (isAr ? 'شفافية مطلقة • أسعار معتمدة' : 'Absolute Transparency • Fixed Fares')}</span>
             </div>
-            <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.15] mb-4 text-[var(--text-primary)]">{content.heroTitle}</h1>
+            <h1 className="duyuf-pricing-heading font-display text-3xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.15] mb-4 text-[var(--text-primary)]">{content.heroTitle}</h1>
             <p className="text-sm sm:text-lg text-ink-muted font-light leading-relaxed">
               {content.heroSubtitle || (isAr
                 ? 'خدمات نقل فاخرة بأسعار تنافسية ومحددة عبر جميع مدن المملكة العربية السعودية. دفع نقدي 100% للسائق عند الوصول بعد إتمام الرحلة وبدون أي عربون مسبق.'
@@ -160,7 +161,7 @@ export default async function PricingPage(props: PricingPageProps) {
           </div>
 
           {/* 4 Trust Badges */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 pt-2">
+          <div className="duyuf-pricing-assurance grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 pt-2">
             <div className="flex items-center gap-3 p-3 rounded-2xl bg-surface/80 border border-border">
               <div className="w-9 h-9 rounded-xl border border-gold/50 bg-bg-alt flex items-center justify-center text-gold-dark shrink-0">
                 <Shield className="w-4 h-4" />
@@ -203,7 +204,7 @@ export default async function PricingPage(props: PricingPageProps) {
       {/* ─────────────────────────────────────────────────────────────
           2. CORE DYNAMIC PRICING COMPARISON EXPERIENCE (Prompt 5)
       ────────────────────────────────────────────────────────────── */}
-      <section className="py-10 sm:py-16">
+      <section className="duyuf-pricing-dashboard py-10 sm:py-16">
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
           <RouteBasedPricingExperience
             locale={locale}
