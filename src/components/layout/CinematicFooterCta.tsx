@@ -170,7 +170,6 @@ export function CinematicFooterCta({
 
         {/* The homepage already features the routes; suppress this repeated image strip there. */}
         {!isHomePage && (
-        {/* Photography Strip */}
         <div
           className="relative overflow-hidden rounded-xl border border-[var(--border-stone)] bg-[var(--bg-surface)] py-2.5 shadow-xs transition-colors duration-200"
           role="region"
