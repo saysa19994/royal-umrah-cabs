@@ -12,9 +12,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, Check,
-  ChevronLeft, ChevronRight, Clock3, Headphones, Luggage,
-  MapPin, Plane, ShieldCheck, Users, Wallet, BookOpen,
-  Navigation, CarFront, Compass, Sparkles,
+  ChevronLeft, ChevronRight, Clock3, Luggage,
+  MapPin, Plane, ShieldCheck, Users, Wallet,
+  Navigation, Compass,
 } from 'lucide-react';
 import type { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
@@ -64,15 +64,6 @@ const FEATURED_ROUTES = [
   { slug: 'makkah-to-taif', image: '/assets/images/routes/makkah-to-taif.jpg', category: 'intercity' },
 ] as const;
 
-const ARC_IMAGES = [
-  { src: '/assets/homepage-v2/ziyarat-haram.jpg', alt: 'Makkah Masjid al-Haram' },
-  { src: '/assets/homepage-v2/route-makkah-madinah.jpg', alt: 'Makkah and Madinah transfer' },
-  { src: '/assets/homepage-v2/route-jeddah-makkah.jpg', alt: 'Jeddah airport transfer' },
-  { src: '/assets/homepage-v2/service-madinah.jpg', alt: 'Madinah and private transportation' },
-  { src: '/assets/images/routes/makkah-to-taif.jpg', alt: 'Taif mountains' },
-  { src: '/assets/homepage-v2/chauffeur-welcome.jpg', alt: 'Saudi hospitality chauffeur welcome' },
-  { src: '/assets/images/routes/makkah-ziyarat.jpg', alt: 'Makkah ziyarat visits' },
-];
 
 function safeLocalDate() {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Riyadh', year: 'numeric', month: '2-digit', day: '2-digit' })
@@ -152,7 +143,6 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
                 <a href="#plan" className={styles.buttonPrimary}>{L.planJourney} {arrow}</a>
                 <a href="#fleet" className={styles.buttonText}>{dict.hero.ctaFleet} <ArrowUpRight size={18} aria-hidden /></a>
               </div>
-              <p className={styles.underHero}><ShieldCheck size={16} aria-hidden /> {dict.booking_card.noPrepayNotice}</p>
             </div>
             <div className={styles.heroVisual}>
               <video
@@ -232,46 +222,35 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
         </div>
       </section>
 
-      <section className={styles.destinationSection} aria-labelledby="pj-destinations">
-        <div className={styles.wrap}>
-          <div className={styles.centerHead}>
-            <p className={styles.overline}>{L.curated}</p>
-            <h2 id="pj-destinations">{L.destinations}</h2>
-            <p>{dict.services.subtitle}</p>
-          </div>
-          <div className={styles.arcTrack} role="list" aria-label={L.curated}>
-            {ARC_IMAGES.map((item,i)=>(
-              <div className={styles.arcPhoto} role="listitem" key={item.src}>
-                <img src={item.src} alt={item.alt} loading="lazy" />
-                <span>{String(i+1).padStart(2,'0')}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      <section className={styles.editorialSection} id="services" aria-labelledby="pj-services">
-        <div className={styles.wrap}>
-          <div className={styles.sectionHeading}>
-            <div><p className={styles.overline}>{L.servicesKicker}</p><h2 id="pj-services">{dict.services.heading} <em>{dict.services.headingHighlight}</em></h2></div>
-            <p>{dict.services.subtitle}</p>
+      {/* One hospitality story; no duplicated destination gallery or extra route cards. */}
+      <section className={styles.experienceSection} id="services" aria-labelledby="pj-experience">
+        <div className={`${styles.wrap} ${styles.experienceLayout}`}>
+          <div className={styles.experienceVisual}>
+            <img
+              src="/assets/homepage-v2/chauffeur-welcome.jpg"
+              alt={dict.services.airportTitle}
+              className={styles.experiencePrimaryPhoto}
+              loading="lazy"
+            />
+            <div className={styles.experienceInset}>
+              <img src="/assets/homepage-v2/vehicle-interior-cta.jpg" alt={dict.fleet.subtitle} loading="lazy" />
+            </div>
+            <span className={styles.experiencePhotoMark} aria-hidden="true">
+              <DuyufSignature className={styles.experienceSignature} />
+            </span>
           </div>
-          <div className={styles.editorialGrid}>
-            <Link href={`/${locale}/booking?route=jeddah-airport-to-makkah`} className={`${styles.editorialCard} ${styles.editorialMain}`}>
-              <img src="/assets/homepage-v2/route-jeddah-makkah.jpg" alt={dict.services.airportTitle} loading="lazy" />
-              <div className={styles.cardShade} />
-              <div className={styles.editorialContent}><span>01 / {dict.nav.services}</span><h3>{dict.services.airportTitle}</h3><p>{dict.services.airportDesc}</p><span className={styles.edArrow}><ArrowUpRight size={24}/></span></div>
-            </Link>
-            <Link href={`/${locale}/routes`} className={styles.editorialCard}>
-              <img src="/assets/homepage-v2/route-makkah-madinah.jpg" alt={dict.services.intercityTitle} loading="lazy" />
-              <div className={styles.cardShade} />
-              <div className={styles.editorialContent}><span>02 / {dict.nav.services}</span><h3>{dict.services.intercityTitle}</h3><span className={styles.edArrow}><ArrowUpRight size={21}/></span></div>
-            </Link>
-            <Link href={`/${locale}/ziyarat`} className={styles.editorialCard}>
-              <img src="/assets/homepage-v2/service-madinah.jpg" alt={dict.services.ziyaratTitle} loading="lazy" />
-              <div className={styles.cardShade} />
-              <div className={styles.editorialContent}><span>03 / {dict.nav.services}</span><h3>{dict.services.ziyaratTitle}</h3><span className={styles.edArrow}><ArrowUpRight size={21}/></span></div>
-            </Link>
+          <div className={styles.experienceCopy}>
+            <p className={styles.overline}><span className={styles.overlineRule} />{L.servicesKicker}</p>
+            <h2 id="pj-experience">{L.servicePromise}</h2>
+            <p>{dict.services.subtitle}</p>
+            <div className={styles.experienceRule} aria-hidden="true" />
+            <div className={styles.experienceFoot}>
+              <span>{L.privateLabel}</span>
+              <Link href={`/${locale}/services`} className={styles.inlineLink}>
+                {dict.nav.services} {arrow}
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -359,20 +338,6 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
         </div>
       </section>
 
-      <section className={styles.processSection} id="how-it-works">
-        <div className={styles.wrap}>
-          <div className={styles.sectionHeading}><div><p className={styles.overline}>{L.howLabel}</p><h2>{L.privateLabel}</h2></div></div>
-          <div className={styles.processGrid}>
-            {[
-              [dict.steps.step1Title, dict.steps.step1Desc],
-              [L.stepDetails, dict.booking_card.subtitle],
-              [L.stepChoose, dict.steps.step2Desc],
-              [L.stepReview, L.payment],
-            ].map(([title, desc],i)=><div className={styles.processStep} key={i}><span>0{i+1}</span><h3>{title}</h3><p>{desc}</p></div>)}
-          </div>
-        </div>
-      </section>
-
       <section className={styles.guidesSection} id="guides">
         <div className={styles.wrap}>
           <div className={styles.sectionHeading}><div><p className={styles.overline}>{dict.guides_section.sectionPill}</p><h2>{dict.guides_section.heading} <em>{dict.guides_section.headingHighlight}</em></h2></div><Link className={styles.inlineLink} href={`/${locale}/guides`}>{dict.nav.guides} {arrow}</Link></div>
@@ -394,7 +359,7 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
             <div className={styles.faqIntro}>
               <p className={styles.overline}>{dict.faq.sectionPill}</p><h2>{dict.faq.heading}</h2><p>{L.faqNote}</p>
               <Link href={`/${locale}/reviews`} className={styles.inlineLink}><ShieldCheck size={17}/>{L.reviewRequest} {arrow}</Link>
-              <div className={styles.faqImage}><img src="/assets/homepage-v2/chauffeur-welcome.jpg" alt="Private chauffeur greeting a guest" loading="lazy" /></div>
+              <div className={styles.faqImage}><img src="/assets/homepage-v2/service-madinah.jpg" alt={dict.services.ziyaratTitle} loading="lazy" /></div>
             </div>
             <div className={styles.faqItems}>
               {faqItems.map((item,i)=><div key={item.question} className={styles.faqItem}>
