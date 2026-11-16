@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { isProductionTurnstileConfigured } from '@/lib/turnstile';
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 
@@ -114,6 +115,15 @@ function getUpstashSlidingLimiter(limit: number, windowSeconds: number): Ratelim
  * If Cloudflare Turnstile keys are missing in production, public forms fail-closed with 503.
  */
 export function checkRequiredEnv(): { ok: boolean; response?: NextResponse } {
+  if (process.env.NODE_ENV === 'production' && !isProductionTurnstileConfigured()) {
+    return {
+      ok: false,
+      response: NextResponse.json(
+        { success: false, error: 'Anti-bot verification is temporarily unavailable' },
+        { status: 503 }
+      ),
+    };
+  }
   return { ok: true };
 }
 
