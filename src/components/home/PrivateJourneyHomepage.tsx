@@ -52,7 +52,24 @@ const ROUTES = [
   { slug:'makkah-to-madinah', type:'intercity' },
   { slug:'madinah-airport-to-hotel', type:'airport' },
   { slug:'makkah-to-taif', type:'intercity' },
+  { slug:'jeddah-airport-to-madinah', type:'airport' },
+  { slug:'jeddah-to-taif', type:'intercity' },
+  { slug:'riyadh-to-makkah', type:'intercity' },
+  { slug:'riyadh-to-madinah', type:'intercity' },
+  { slug:'makkah-ziyarat', type:'ziyarat' },
+  { slug:'madinah-ziyarat', type:'ziyarat' },
 ] as const;
+const POPULAR_ROUTES = ROUTES.slice(0,4);
+
+// Public fleet slugs differ from authoritative fare-table keys.
+// Booking links still pass the existing public vehicle ID unchanged.
+const FARE_VEHICLE_KEYS: Record<string,string> = {
+  'toyota-camry':'camry',
+  'hyundai-staria':'staria',
+  'gmc-yukon-xl':'yukon',
+  'toyota-hiace':'hiace',
+  'toyota-coaster':'coaster',
+};
 
 function safeLocalDate() {
   return new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Riyadh',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -247,11 +264,11 @@ export function PrivateJourneyHomepage({locale,dict}:Props) {
                 {APPROVED_5_FLEET.map(car=><th key={car.id} scope="col">{car.name[locale]}</th>)}
               </tr></thead>
               <tbody>
-                {ROUTES.map(item=>(
+                {POPULAR_ROUTES.map(item=>(
                   <tr key={item.slug}>
                     <th scope="row"><Link href={`/${locale}/booking?route=${item.slug}`}>{LOCALIZED_ROUTE_NAMES[item.slug]?.[locale] || item.slug}</Link></th>
                     {APPROVED_5_FLEET.map(car=>{
-                      const price=AUTHORITATIVE_TRANSFER_RATES[item.slug]?.[car.bookingParam];
+                      const price=AUTHORITATIVE_TRANSFER_RATES[item.slug]?.[FARE_VEHICLE_KEYS[car.bookingParam]];
                       return <td key={car.id}>
                         {typeof price==='number' && Number.isFinite(price) && price>0
                           ? <Link href={`/${locale}/booking?route=${item.slug}&vehicle=${car.bookingParam}`}>{price.toLocaleString(locale==='ar'?'ar-SA':'en-US')} <small>{D.sar}</small></Link>
