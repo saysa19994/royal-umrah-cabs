@@ -70,7 +70,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required pricing fields' }, { status: 400 });
     }
 
-    const numericPrice = Number(price_sar);
+    // Avoid silently converting blank strings, nulls, booleans or arrays to 0/1.
+    const priceIsNumericInput = typeof price_sar === 'number' ||
+      (typeof price_sar === 'string' && price_sar.trim().length > 0);
+    const numericPrice = priceIsNumericInput ? Number(price_sar) : NaN;
     if (!Number.isFinite(numericPrice) || numericPrice < 0) {
       return NextResponse.json({ error: 'Invalid price value' }, { status: 400 });
     }
