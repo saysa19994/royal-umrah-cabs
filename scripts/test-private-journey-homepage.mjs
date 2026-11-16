@@ -64,7 +64,7 @@ test('homepage follows the requested nine-part customer journey without repeatin
   const sectionNames = [...component.matchAll(/<section className=\{styles\.(\w+)\}/g)].map(match => match[1]);
   assert.deepEqual(sectionNames, [
     'hero', 'assurance', 'stepsSection', 'fleetSection', 'servicesSection',
-    'whySection', 'reviewsSection', 'faqSection', 'finalSection',
+    'whySection', 'reviewsSection', 'faqSection',
   ]);
   assert.doesNotMatch(component, /ARC_IMAGES|styles\.destinationSection|styles\.processSection|styles\.editorialSection|styles\.routeExplorer/);
   assert.match(component, /id="pj-steps"/);
@@ -106,4 +106,28 @@ test('no instant booking confirmation or fabricated reviews in homepage', () => 
   assert.doesNotMatch(component, /Instant Confirmation|10,000\+|5[,.]0?\/5/);
   assert.match(component, /\/\$\{locale\}\/reviews/);
   assert.match(component, /\/\$\{locale\}\/booking/);
+});
+
+
+test('homepage reuses one shared footer CTA instead of displaying two final booking banners', () => {
+  assert.doesNotMatch(component, /styles\.finalSection/);
+  const layout = fs.readFileSync(path.join(root, 'src/app/[locale]/layout.tsx'),'utf8');
+  const footerCta = fs.readFileSync(path.join(root, 'src/components/layout/CinematicFooterCta.tsx'),'utf8');
+  assert.match(layout, /<CinematicFooterCta/);
+  assert.match(footerCta, /!isHomePage && \(/);
+  assert.match(footerCta, /stripPhotos\.map/);
+});
+
+test('homepage FAQ structured data matches exactly the four visible expandable questions', () => {
+  const jsonld = fs.readFileSync(path.join(root, 'src/components/seo/JsonLd.tsx'),'utf8');
+  const homepageFaq = jsonld.split('export function HomepageFaqJsonLd')[1]?.split('export function FaqJsonLd')[0];
+  assert.ok(homepageFaq, 'Missing distinct HomepageFaqJsonLd');
+  for(const i of [2,3,5,9]){
+    assert.match(homepageFaq,new RegExp('dict\\.faq\\.q'+i));
+    assert.match(component,new RegExp('dict\\.faq\\.q'+i));
+  }
+  for(const i of [1,4,6,7,8,10,11,12]){
+    assert.doesNotMatch(homepageFaq,new RegExp('dict\\.faq\\.q'+i+'\\b'));
+  }
+  assert.match(component,/hidden=\{activeFaq!==i\}/);
 });
