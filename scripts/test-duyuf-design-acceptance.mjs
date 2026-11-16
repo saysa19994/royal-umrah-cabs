@@ -15,3 +15,8 @@ test('pricing and fleet details share complete theme-aware mobile surfaces',()=>
   assert.match(pricing,/duyuf-pricing-page/);assert.match(pricing,/\{content\.heroTitle\}/);
   assert.match(vehicle,/duyuf-vehicle-page/);assert.match(css,/prefers-reduced-motion/);
 });
+
+test('Vercel deployment includes PNG brand icons and fleet photography',()=>{
+  const ignore=read('.vercelignore');
+  assert.equal(ignore.split('\\n').some(line=>line.trim()==='*.png'),false);
+});
