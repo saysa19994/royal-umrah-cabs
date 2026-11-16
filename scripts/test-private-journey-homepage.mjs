@@ -53,7 +53,7 @@ test('visually new homepage: floating booking, factual feature tiles, side-by-si
   const sections=[...component.matchAll(/<section className=\{styles\.(\w+)\}/g)].map(m=>m[1]);
   assert.deepEqual(sections,[
     'hero','bookingArea','whyChoose','compareSection',
-    'pricingSection','fleetSection','trustSection','faqSection'
+    'pricingSection','fleetSection','trustSection','faqSection','finalBand'
   ]);
   for(const part of ['bookingPanel','featureGrid','compareGrid','pricingTable','vehicleGrid','trustGrid']){
     assert.match(component,new RegExp('styles\\.'+part));
@@ -76,13 +76,15 @@ test('five approved cars come from existing data and are not hard-coded duplicat
   assert.doesNotMatch(component,/fake|dummy|mockVehicle|testimonials:\[/i);
 });
 
-test('homepage has one footer booking CTA and no extra copy-paste photo strip',()=>{
+test('homepage has precisely one custom final CTA and suppresses the generic photo banner',()=>{
   const footer=read('src/components/layout/CinematicFooterCta.tsx');
   const layout=read('src/app/[locale]/layout.tsx');
+  assert.match(component,/className=\{styles\.finalBand\}/);
+  assert.match(component,/className=\{styles\.finalLink\}/);
   assert.match(layout,/<CinematicFooterCta/);
-  assert.match(footer,/!isHomePage && \(/);
+  assert.match(footer,/isSubpage \|\| isHomePage/);
   assert.match(footer,/stripPhotos\.map/);
-  assert.doesNotMatch(component,/finalSection|finalButton|footerStrip/);
+  assert.doesNotMatch(component,/cinematic-footer-cta-heading|footerStrip/);
 });
 
 test('homepage FAQ structured data matches the four real accordion questions',()=>{
