@@ -839,7 +839,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
         <div className="bg-surface rounded-3xl p-6 sm:p-8 md:p-10 border border-border shadow-lg mb-8">
           <div className="mb-6">
             <span className="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-bg-alt border border-border text-[#D6A13A] mb-2">
-              Transparent Fares
+              {t('fareCol')}
             </span>
             <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-ink tracking-tight mb-2">
               {t('pricingTitle')}
