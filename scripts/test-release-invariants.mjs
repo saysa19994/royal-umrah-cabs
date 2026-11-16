@@ -91,3 +91,17 @@ test('Draft booking validates actual calendar dates before server pricing', () =
   const draft = read('src/app/api/bookings/draft/route.ts');
   assert.match(draft, /date\.toISOString\(\)\.slice\(0, 10\) === value/);
 });
+
+
+test('Checkout never uses a pretend verification token or hides the security widget', () => {
+  const engine = read('src/components/booking/BookingEngine.tsx');
+  const widget = read('src/components/common/TurnstileWidget.tsx');
+  assert.match(engine, /useState<string>\(''\)/);
+  assert.doesNotMatch(engine, /verified_client/);
+  assert.match(engine, /disabled=\{isSubmitting \|\| !turnstileToken\}/);
+  assert.match(engine, /onExpire=\{handleTurnstileInvalidated\}/);
+  assert.match(engine, /turnstileWidgetRef\.current\?\.reset\(\)/);
+  assert.match(widget, /isDeployed \? '' : DEV_TEST_SITE_KEY/);
+  assert.doesNotMatch(widget, /pointer-events-none fixed -top-\[9999px\]/);
+  assert.match(widget, /role="alert"/);
+});
