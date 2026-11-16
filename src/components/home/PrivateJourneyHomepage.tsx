@@ -89,7 +89,9 @@ export function PrivateJourneyHomepage({locale,dict}:Props) {
   const [luggage,setLuggage] = useState('2');
   const [validation,setValidation] = useState(false);
   const [activeFaq,setActiveFaq] = useState<number|null>(0);
+  const [selectedFleetIndex,setSelectedFleetIndex] = useState(0);
   const minDate = useMemo(safeLocalDate,[]);
+  const activeCar = APPROVED_5_FLEET[selectedFleetIndex] ?? APPROVED_5_FLEET[0];
 
   useEffect(()=>{
     const video=videoRef.current;
@@ -213,17 +215,18 @@ export function PrivateJourneyHomepage({locale,dict}:Props) {
       </section>
 
       <section className={styles.whyChoose} aria-labelledby="pj-why">
-        <div className={styles.wrap}>
-          <div className={styles.centerHeading}>
+        <div className={`${styles.wrap} ${styles.whyEditorial}`}>
+          <div className={styles.whyIntro}>
             <p className={styles.sectionEyebrow}>{E.whyEyebrow}</p>
             <h2 id="pj-why">{D.whyTitle}</h2>
             <p>{D.whyDesc}</p>
           </div>
           <div className={styles.featureGrid}>
-            {chooseFeatures.map(item=>(
+            {chooseFeatures.map((item,index)=>(
               <article className={styles.featureCard} key={item.title}>
+                <span className={styles.featureNumber} aria-hidden="true">{String(index+1).padStart(2,'0')}</span>
                 <span className={styles.featureIcon}>{item.icon}</span>
-                <h3>{item.title}</h3><p>{item.desc}</p>
+                <div className={styles.featureContent}><h3>{item.title}</h3><p>{item.desc}</p></div>
               </article>
             ))}
           </div>
@@ -286,27 +289,42 @@ export function PrivateJourneyHomepage({locale,dict}:Props) {
 
       <section className={styles.fleetSection} id="fleet" aria-labelledby="pj-fleet">
         <div className={styles.wrap}>
-          <div className={styles.centerHeading}>
-            <p className={styles.sectionEyebrow}>{dict.cinematic_fleet.eyebrow}</p>
-            <h2 id="pj-fleet">{D.chooseCar}</h2>
+          <div className={styles.fleetIntro}>
+            <div>
+              <p className={styles.sectionEyebrow}>{dict.cinematic_fleet.eyebrow}</p>
+              <h2 id="pj-fleet">{D.chooseCar}</h2>
+            </div>
             <p>{dict.fleet.subtitle}</p>
           </div>
-          <div className={styles.vehicleGrid}>
-            {APPROVED_5_FLEET.map(car=>(
-              <article className={styles.vehicleCard} key={car.id}>
-                <Link href={`/${locale}/fleet/${car.slug}`} className={styles.vehiclePhoto} aria-label={car.name[locale]}>
-                  <img src={car.exteriorImage} loading="lazy" alt={car.name[locale]}/>
-                </Link>
-                <div className={styles.vehicleBody}>
-                  <span className={styles.vehicleCategory}>{car.categoryBadge[locale]}</span>
-                  <h3>{car.name[locale]}</h3>
-                  <div className={styles.vehicleCapacity}>
-                    <span><Users size={13} aria-hidden="true"/>{car.passengers} {dict.cinematic_fleet.passengers}</span>
-                    <span><Luggage size={13} aria-hidden="true"/>{car.luggage} {dict.cinematic_fleet.luggage}</span>
-                  </div>
-                  <Link href={`/${locale}/booking?vehicle=${car.bookingParam}`} className={styles.vehicleLink}>{dict.fleet.bookNowButton} {arrow}</Link>
-                </div>
-              </article>
+          <div className={styles.fleetShowcase}>
+            <div className={styles.fleetVisual}>
+              <div className={styles.vehiclePhoto}>
+                <img src={activeCar.exteriorImage} alt={activeCar.name[locale]} loading="lazy"/>
+              </div>
+            </div>
+            <div className={styles.fleetDetails}>
+              <span className={styles.vehicleCategory}>{activeCar.categoryBadge[locale]}</span>
+              <h3>{activeCar.name[locale]}</h3>
+              <div className={styles.vehicleCapacity}>
+                <span><Users size={16} aria-hidden="true"/>{activeCar.passengers} {dict.cinematic_fleet.passengers}</span>
+                <span><Luggage size={16} aria-hidden="true"/>{activeCar.luggage} {dict.cinematic_fleet.luggage}</span>
+              </div>
+              <div className={styles.fleetActions}>
+                <Link href={`/${locale}/booking?vehicle=${activeCar.bookingParam}`} className={styles.fleetBook}>{dict.fleet.bookNowButton} {arrow}</Link>
+                <Link href={`/${locale}/fleet/${activeCar.slug}`} className={styles.vehicleLink}>{L.openGallery} {arrow}</Link>
+              </div>
+            </div>
+          </div>
+          <div className={styles.vehicleGrid} role="group" aria-label={D.chooseCar}>
+            {APPROVED_5_FLEET.map((car,index)=>(
+              <button type="button" key={car.id}
+                className={`${styles.vehicleCard} ${selectedFleetIndex===index ? styles.vehicleActive : ''}`}
+                aria-pressed={selectedFleetIndex===index}
+                onClick={()=>setSelectedFleetIndex(index)}>
+                <img className={styles.vehicleThumb} src={car.exteriorImage} loading="lazy" alt=""/>
+                <span className={styles.vehicleChoiceName}>{car.name[locale]}</span>
+                <span className={styles.vehicleChoiceCapacity}><Users size={12} aria-hidden="true"/>{car.passengers} · <Luggage size={12} aria-hidden="true"/>{car.luggage}</span>
+              </button>
             ))}
           </div>
           <div className={styles.belowFleet}><Link href={`/${locale}/fleet`}>{dict.hero.ctaFleet} {arrow}</Link></div>
@@ -314,15 +332,20 @@ export function PrivateJourneyHomepage({locale,dict}:Props) {
       </section>
 
       <section className={styles.trustSection} aria-labelledby="pj-trust">
-        <div className={styles.wrap}>
-          <div className={styles.centerHeading}><p className={styles.sectionEyebrow}>{E.whyEyebrow}</p><h2 id="pj-trust">{E.whyTitle}</h2></div>
-          <div className={styles.trustGrid}>
-            {trustFeatures.map(item=><article key={item.title} className={styles.trustCard}>
-              <span className={styles.trustIcon}>{item.icon}</span>
-              <h3>{item.title}</h3><p>{item.desc}</p>
-            </article>)}
+        <div className={`${styles.wrap} ${styles.trustEditorial}`}>
+          <div className={styles.trustIntro}>
+            <p className={styles.sectionEyebrow}>{E.whyEyebrow}</p>
+            <h2 id="pj-trust">{E.whyTitle}</h2>
+            <p className={styles.reviewLink}><Link href={`/${locale}/reviews`}>{E.reviewTitle} {arrow}</Link></p>
           </div>
-          <p className={styles.reviewLink}><Link href={`/${locale}/reviews`}>{E.reviewTitle} {arrow}</Link></p>
+          <div className={styles.trustGrid}>
+            {trustFeatures.map(item=>(
+              <article key={item.title} className={styles.trustCard}>
+                <span className={styles.trustIcon}>{item.icon}</span>
+                <h3>{item.title}</h3><p>{item.desc}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 

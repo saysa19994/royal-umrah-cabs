@@ -120,3 +120,17 @@ test('public fleet slugs are mapped to authoritative short rate keys, never disp
     assert.ok(component.includes("slug:'"+slug+"'"),'Route missing from homepage booking: '+slug);
   }
 });
+
+
+test('editorial v3 uses numbered service rows, one focused fleet vehicle, and unboxed trust facts',()=>{
+  assert.match(component,/styles\\.whyEditorial/);
+  assert.match(component,/styles\\.featureNumber/);
+  assert.match(component,/selectedFleetIndex,setSelectedFleetIndex/);
+  assert.match(component,/setSelectedFleetIndex\\(index\\)/);
+  assert.match(component,/aria-pressed=\\{selectedFleetIndex===index\\}/);
+  assert.match(component,/styles\\.fleetShowcase/);
+  assert.match(component,/styles\\.trustEditorial/);
+  assert.match(stylesheet,/\\.fleetShowcase\\{display:grid/);
+  assert.match(stylesheet,/\\.trustEditorial\\{display:grid/);
+  assert.match(stylesheet,/scroll-snap-type:x mandatory/);
+});
