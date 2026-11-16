@@ -38,7 +38,6 @@ export function JsonLd({
     description: dict.meta.seoDescription,
     telephone: settings?.phone || '+966567588261',
     email: settings?.email || 'info@duyufalrahmanvip.com',
-    priceRange: '$',
     currenciesAccepted: 'SAR, USD',
     paymentAccepted:
       'Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR, USD)',
@@ -58,31 +57,12 @@ export function JsonLd({
         closes: '23:59',
       },
     ],
+    // Publishing ten localized pages does not imply phone support in ten spoken languages.
     contactPoint: [
       {
         '@type': 'ContactPoint',
-        telephone: '+966567588261',
+        telephone: settings?.phone || '+966567588261',
         contactType: 'customer service',
-        contactOption: 'WhatsApp',
-        availableLanguage: [
-          'Arabic',
-          'English',
-          'Malay',
-          'Indonesian',
-          'Urdu',
-          'French',
-          'Spanish',
-          'German',
-          'Turkish',
-          'Hindi',
-        ],
-      },
-      {
-        '@type': 'ContactPoint',
-        telephone: settings?.phone || '+966505316971',
-        contactType: 'reservations',
-        contactOption: 'WhatsApp',
-        availableLanguage: ['Arabic', 'English', 'Urdu'],
       },
     ],
     areaServed: [
