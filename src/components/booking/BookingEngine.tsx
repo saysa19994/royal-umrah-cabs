@@ -36,6 +36,7 @@ import { BorderBeam } from '@/components/ui/luxury/BorderBeam';
 import { ShimmerButton } from '@/components/ui/luxury/ShimmerButton';
 import { getEstimatedBasePriceSAR, LOCALIZED_ROUTE_NAMES } from '@/lib/pricing-constants';
 import { trackEvent } from '@/lib/analytics';
+import { COUNTRY_DIAL_CODES, countryFlag } from '@/lib/country-dial-codes';
 
 interface BookingEngineProps {
   locale: Locale;
@@ -1024,6 +1025,8 @@ export function BookingEngine({
   // Step 3: Passenger Details
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
+  const [phoneCountry, setPhoneCountry] = useState('SA');
+  const [countrySearch, setCountrySearch] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
   const [specialNotes, setSpecialNotes] = useState('');
 
@@ -1155,7 +1158,7 @@ export function BookingEngine({
       route_id: bookingType === 'transfer' ? routeId : null,
       vehicle_id: vehicleId,
       customer_name: customerName,
-      customer_phone: customerPhone,
+      customer_phone: customerPhone.trim().startsWith('+') ? customerPhone.trim() : (COUNTRY_DIAL_CODES.find((country) => country.iso === phoneCountry)?.dial || '+966') + customerPhone.replace(/\\D/g, '').replace(/^0+/, ''),
       customer_email: normalizedEmail,
       pickup_datetime: `${pickupDate} ${pickupTime}`,
       pickup_location: pickupLocation,
@@ -2166,20 +2169,38 @@ export function BookingEngine({
                 <label htmlFor="customer-phone-input" className="block text-xs font-bold text-ink mb-1.5">
                   {t.phoneLabel} <span className="text-gold-dark">*</span>
                 </label>
-                <div className="relative">
+                <div className="flex min-h-12 items-stretch gap-2" dir="ltr">
+                  <div className="relative w-[42%] min-w-[125px] max-w-[190px]">
+                    <label htmlFor="phone-country-search" className="sr-only">{locale === 'ar' ? 'ابحث عن الدولة أو مفتاح الاتصال' : 'Search country or calling code'}</label>
+                    <input
+                      id="phone-country-search"
+                      type="search"
+                      autoComplete="off"
+                      value={countrySearch}
+                      onChange={(e) => setCountrySearch(e.target.value)}
+                      placeholder={countryFlag(phoneCountry) + ' ' + (COUNTRY_DIAL_CODES.find((c) => c.iso === phoneCountry)?.dial || '+966')}
+                      aria-label={locale === 'ar' ? 'ابحث عن الدولة أو مفتاح الاتصال' : 'Search country or calling code'}
+                      className="h-12 w-full rounded-btn border border-border-strong bg-surface px-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-gold"
+                      list="booking-country-codes"
+                    />
+                    <datalist id="booking-country-codes">
+                      {COUNTRY_DIAL_CODES.map((country) => (
+                        <option key={country.iso} value={country.iso + ' ' + country.dial} />
+                      ))}
+                    </datalist>
+                  </div>
                   <input
                     id="customer-phone-input"
                     type="tel"
                     inputMode="tel"
-                    autoComplete="tel"
-                    dir="ltr"
+                    autoComplete="tel-national"
                     required
-                    placeholder={t.phonePlaceholder}
+                    dir="ltr"
+                    placeholder="5XXXXXXXX"
                     value={customerPhone}
-                    onChange={(e) => setCustomerPhone(e.target.value)}
-                    className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-gold"
+                    onChange={(e) => setCustomerPhone(e.target.value.replace(/[^0-9 ()-]/g, '').slice(0, 22))}
+                    className="h-12 min-w-0 flex-1 rounded-btn border border-border-strong bg-surface px-3 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-gold"
                   />
-                  <Phone className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
 
