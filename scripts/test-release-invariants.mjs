@@ -75,3 +75,19 @@ test('Chat payloads are limited during streaming and rejected if malformed', () 
   assert.match(chat, /receivedBytes > 32_768/);
   assert.match(chat, /Malformed chat JSON/);
 });
+
+
+test('Production form verification rejects missing or test-only Turnstile credentials', () => {
+  const turnstile = read('src/lib/turnstile.ts');
+  const limiter = read('src/lib/rate-limit.ts');
+  assert.match(turnstile, /TEST_SECRET_KEYS/);
+  assert.match(turnstile, /TEST_SITE_KEYS/);
+  assert.match(turnstile, /isProductionTurnstileConfigured\(\)/);
+  assert.match(limiter, /!isProductionTurnstileConfigured\(\)/);
+  assert.match(limiter, /status: 503/);
+});
+
+test('Draft booking validates actual calendar dates before server pricing', () => {
+  const draft = read('src/app/api/bookings/draft/route.ts');
+  assert.match(draft, /date\.toISOString\(\)\.slice\(0, 10\) === value/);
+});
