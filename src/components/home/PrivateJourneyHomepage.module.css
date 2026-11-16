@@ -414,3 +414,31 @@
  .page[dir="rtl"] .heroTitle{font-size:clamp(42px,10.5vw,51px)}
  .heroVisual{height:100%}
 }
+
+
+/* Signature: an owned, scalable identity, never a stock car/crest mark. */
+.cornerMark{
+ display:flex;align-items:center;gap:10px;padding:9px 12px;
+ border:1px solid rgba(255,255,255,.26);border-radius:10px;
+ background:rgba(6,24,29,.36);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+ letter-spacing:.09em;text-shadow:none;
+}
+.heroBrandGlyph{width:36px;height:36px;flex:none;color:#F6F2E9}
+.cornerMark .heroBrandWord{font-size:12px;letter-spacing:.16em;color:#F7F4ED;margin:0;font-weight:800}
+.cornerMark .heroBrandWord strong{font-size:9px;letter-spacing:.1em;color:#D4C3A5;font-weight:700}
+.fleetSignature{
+ position:absolute;z-index:3;inset-block-start:25px;inset-inline-end:25px;
+ display:grid;place-items:center;width:54px;height:54px;padding:10px;
+ background:rgba(248,247,240,.93);border:1px solid rgba(55,77,80,.18);
+ border-radius:50%;box-shadow:0 9px 28px rgba(10,34,40,.08);
+ pointer-events:none;
+}
+.fleetSignatureGlyph{width:35px;height:35px;color:#183E46}
+@media (max-width:767px){
+ .cornerMark{padding:7px 9px;gap:7px;top:86px}
+ .heroBrandGlyph{width:26px;height:26px}
+ .cornerMark .heroBrandWord{font-size:10px}
+ .cornerMark .heroBrandWord strong{font-size:8px}
+ .fleetSignature{width:44px;height:44px;padding:7px;inset-block-start:16px;inset-inline-end:16px}
+ .fleetSignatureGlyph{width:29px;height:29px}
+}
