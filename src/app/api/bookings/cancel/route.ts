@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     if (!turnstileCheck.success) {
       return NextResponse.json(
         { error: turnstileCheck.error || 'Anti-bot verification failed.' },
-        { status: 400 }
+        { status: turnstileCheck.status ?? 400 }
       );
     }
 
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     if (!reference || !phone) {
       return NextResponse.json(
         { error: 'Both reference and phone number are required to verify cancellation eligibility.' },
-        { status: 400 }
+        { status: turnstileCheck.status ?? 400 }
       );
     }
 
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     if (cleanPhone.length < 8) {
       return NextResponse.json(
         { error: 'Please enter a valid telephone number with country code.' },
-        { status: 400 }
+        { status: turnstileCheck.status ?? 400 }
       );
     }
 
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
         {
           error: 'This booking is already in progress or completed and cannot be cancelled online. Please contact dispatch via WhatsApp.',
         },
-        { status: 400 }
+        { status: turnstileCheck.status ?? 400 }
       );
     }
 
@@ -105,7 +105,7 @@ export async function POST(request: Request) {
           error: `Pickup is scheduled in less than ${freeCancelHours} hours. Please contact dispatch via WhatsApp for late cancellation assistance.`,
           allowed: false,
         },
-        { status: 400 }
+        { status: turnstileCheck.status ?? 400 }
       );
     }
 
