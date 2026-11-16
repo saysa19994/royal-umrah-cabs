@@ -43,10 +43,6 @@ export async function verifyTurnstileToken(
     process.env.TURNSTILE_SECRET_KEY &&
     !process.env.TURNSTILE_SECRET_KEY.includes('placeholder')
   );
-  const hasSiteKey = Boolean(
-    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY &&
-    !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY.includes('placeholder')
-  );
 
   // Production must never bypass bot verification when credentials are missing.
   if (isProd && !isProductionTurnstileConfigured()) {
