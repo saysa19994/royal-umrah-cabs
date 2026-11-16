@@ -543,8 +543,8 @@ export async function dispatchBookingEmails(data: BookingEmailData): Promise<{ c
   }
 
   if (!resendApiKey) {
-    console.info(`[EmailService DEV] Resend API key not configured. Mocking dispatch for reference #${data.reference}.`);
-    return { customerSent: true, companySent: true };
+    console.warn(`[EmailService] Resend is not configured; no emails were sent for booking #${data.reference}.`);
+    return { customerSent: false, companySent: false, error: 'Email provider not configured' };
   }
 
   return { customerSent, companySent };
