@@ -397,16 +397,6 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
         </div>
       </section>
 
-      <section className={styles.finalSection} aria-labelledby="pj-final">
-        <div className={`${styles.wrap} ${styles.finalLayout}`}>
-          <div>
-            <p className={styles.overline}>{L.feature}</p>
-            <h2 id="pj-final">{E.finalTitle}</h2>
-            <p>{E.finalSubtitle}</p>
-          </div>
-          <Link href={`/${locale}/booking`} className={styles.finalButton}>{L.planJourney} {arrow}</Link>
-        </div>
-      </section>
     </div>
   );
 }
