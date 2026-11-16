@@ -178,7 +178,36 @@ export function JsonLd({
   );
 }
 
-export const HomepageFaqJsonLd = FaqJsonLd;
+/**
+ * The homepage visibly renders exactly q2, q3, q5 and q9.
+ * Structured data must not include questions hidden on another page.
+ * The full FAQ page can continue using FaqJsonLd with all twelve.
+ */
+export function HomepageFaqJsonLd({ dict }: { dict: Dictionary }) {
+  const questions = [
+    { q: dict.faq.q2, a: dict.faq.a2 },
+    { q: dict.faq.q3, a: dict.faq.a3 },
+    { q: dict.faq.q5, a: dict.faq.a5 },
+    { q: dict.faq.q9, a: dict.faq.a9 },
+  ].filter(item => Boolean(item.q && item.a));
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: questions.map(item => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(schema).replace(/</g, '\\u003c'),
+      }}
+    />
+  );
+}
 export function FaqJsonLd({ dict }: { dict: Dictionary }) {
   const faqList = [
     { q: dict.faq.q1, a: dict.faq.a1 },
