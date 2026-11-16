@@ -25,13 +25,13 @@
 .overline{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--bronze);line-height:1.5}
 .page[dir="rtl"] .overline{letter-spacing:0;font-size:12px}
 .overlineRule{display:inline-block;width:28px;height:1px;background:currentColor;margin-inline-end:9px;vertical-align:middle}
-.buttonPrimary,.finalButton{
+.buttonPrimary{
   background:var(--navy);color:#fff;min-height:49px;padding:0 22px;
   display:inline-flex;align-items:center;justify-content:center;gap:13px;
   font-size:12px;font-weight:800;border:1px solid var(--navy);border-radius:7px;
   transition:background .2s,transform .2s;
 }
-.buttonPrimary:hover,.finalButton:hover{background:#2c555d;color:#fff;transform:translateY(-1px)}
+.buttonPrimary:hover{background:#2c555d;color:#fff;transform:translateY(-1px)}
 .buttonText,.inlineLink{display:inline-flex;align-items:center;gap:10px;color:var(--ink);font-size:12px;font-weight:800;line-height:1.4}
 .inlineLink:hover,.buttonText:hover{color:var(--bronze)}
 
@@ -185,16 +185,6 @@
 .faqItem>p{font-size:12px;line-height:1.85;color:var(--secondary);padding:0 0 20px}
 .faqSymbol{font-size:23px;color:var(--bronze);font-weight:400}
 
-/* 09 — One meaningful, explicit booking request CTA. */
-.finalSection{padding:59px 0;background:#142d35;color:#f9f7f0}
-.finalLayout{display:flex;align-items:center;justify-content:space-between;gap:45px}
-.finalLayout>div{max-width:710px}
-.finalLayout .overline{color:#e1be86}
-.finalLayout h2{color:#fff;font-size:clamp(35px,3.9vw,56px);line-height:1.1;margin:10px 0!important}
-.finalLayout p:last-child{font-size:13px;line-height:1.75;color:#d4ddda;max-width:670px}
-.finalButton{flex:none;background:#efe7d9;color:#153b41;border-color:#efe7d9}
-.finalButton:hover{background:#d8c6a8;color:#153b41}
-
 @keyframes fadeVehicle{from{opacity:.66}to{opacity:1}}
 @media(max-width:1100px){
  .wrap{width:min(100% - 42px,1060px)}
@@ -286,10 +276,6 @@
  .faqGrid{grid-template-columns:1fr;gap:22px}
  .faqIntro h2{font-size:39px}
  .faqItem button{min-height:61px}
- .finalSection{padding:45px 0}
- .finalLayout{flex-direction:column;align-items:flex-start;gap:22px}
- .finalLayout h2{font-size:38px}
- .finalButton{width:100%}
 }
 @media(max-width:390px){
  .heroTitle{font-size:38px}
