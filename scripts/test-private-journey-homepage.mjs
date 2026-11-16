@@ -95,7 +95,7 @@ test('homepage styles use bounded photography and one responsive cascade', () =>
 test('every supported locale has independently authored compact homepage copy', () => {
   const layout = fs.readFileSync(path.join(root, 'src/data/duyuf-homepage-layout-copy.ts'),'utf8');
   for (const lang of ['en','ar','ms','id','ur','fr','es','de','tr','hi']) {
-    assert.match(layout, new RegExp('\\\\b'+lang+': \\{'));
+    assert.ok(layout.includes('  '+lang+': {'), 'Missing editorial localization '+lang);
   }
   assert.match(layout, /arrivalDesc/);
   assert.match(layout, /miqatDesc/);
