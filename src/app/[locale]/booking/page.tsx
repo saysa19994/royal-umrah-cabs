@@ -180,6 +180,7 @@ export default async function BookingPage(props: BookingPageProps) {
   let resolvedDuration = searchParams.duration;
   let resolvedPickup = searchParams.pickup;
   let resolvedDropoff = searchParams.dropoff;
+  let draftRestoreFailed = false;
 
   if (searchParams.draft) {
     let draft = null;
@@ -188,6 +189,7 @@ export default async function BookingPage(props: BookingPageProps) {
     } catch (error) {
       console.error('Booking draft lookup unavailable:', error);
     }
+    if (!draft) draftRestoreFailed = true;
     if (draft) {
       resolvedRoute = draft.routeId || resolvedRoute;
       resolvedVehicle = draft.vehicleId || resolvedVehicle;
@@ -236,6 +238,23 @@ export default async function BookingPage(props: BookingPageProps) {
             </span>
           </div>
         </div>
+
+        {draftRestoreFailed && (
+          <div role="status" className="mx-auto mb-6 max-w-3xl rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-center text-sm font-medium text-amber-900">
+            {({
+              ar: 'تعذر استعادة اختيارات الحجز السابقة. يرجى اختيار الرحلة والسيارة من جديد؛ لن يتم حفظ أي حجز أو خصم أي مبلغ تلقائيًا.',
+              en: 'We could not restore your previous booking selections. Please choose your journey and vehicle again. No booking or payment was made automatically.',
+              ms: 'Pilihan tempahan anda yang terdahulu tidak dapat dipulihkan. Sila pilih perjalanan dan kenderaan semula. Tiada tempahan atau bayaran dibuat secara automatik.',
+              id: 'Pilihan pemesanan sebelumnya tidak dapat dipulihkan. Silakan pilih perjalanan dan kendaraan kembali. Tidak ada pemesanan atau pembayaran otomatis.',
+              ur: 'آپ کی پچھلی بکنگ کی تفصیلات بحال نہیں ہو سکیں۔ براہ کرم سفر اور گاڑی دوبارہ منتخب کریں۔ کوئی بکنگ یا ادائیگی خود بخود نہیں ہوئی۔',
+              fr: 'Impossible de restaurer votre sélection précédente. Veuillez choisir à nouveau votre trajet et votre véhicule. Aucune réservation ni aucun paiement automatique.',
+              es: 'No se pudo recuperar tu selección anterior. Vuelve a elegir el trayecto y el vehículo. No se realizó ninguna reserva ni pago automático.',
+              de: 'Ihre vorherige Auswahl konnte nicht wiederhergestellt werden. Bitte wählen Sie Fahrt und Fahrzeug erneut. Es wurde keine Buchung oder Zahlung automatisch durchgeführt.',
+              tr: 'Önceki rezervasyon seçimleriniz geri yüklenemedi. Lütfen güzergâhı ve aracı yeniden seçin. Otomatik rezervasyon veya ödeme yapılmadı.',
+              hi: 'पिछले बुकिंग विकल्प वापस नहीं मिल सके। कृपया यात्रा और वाहन फिर चुनें। कोई बुकिंग या भुगतान अपने आप नहीं हुआ।',
+            } as Record<Locale, string>)[locale]}
+          </div>
+        )}
 
         {/* Booking Engine & Real-Time Booking Summary */}
         <div className="duyuf-booking-wizard">
