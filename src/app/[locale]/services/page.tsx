@@ -38,6 +38,7 @@ export async function generateMetadata(props: ServicesPageProps): Promise<Metada
 export default async function ServicesPage(props: ServicesPageProps) {
   const params = await props.params;
   const { locale } = params;
+  const dict = getDictionary(locale);
   const isAr = locale === 'ar';
   const isRtl = isAr || locale === 'ur';
 
@@ -164,36 +165,50 @@ export default async function ServicesPage(props: ServicesPageProps) {
   ];
 
   return (
-    <div className="py-12 md:py-20 bg-bg min-h-screen text-ink" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="duyuf-services-editorial bg-bg min-h-screen text-ink" dir={isRtl ? 'rtl' : 'ltr'}>
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
+        {/* Service editorial, an asymmetric visual introduction instead of a template heading. */}
+        <div className="duyuf-services-intro">
+          <div className="duyuf-services-intro-copy">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-widest mb-3 shadow-2xs">
             <Sparkles className="w-3.5 h-3.5" />
             <span>{isAr ? 'حلول النقل المتكاملة' : 'Comprehensive Transportation Solutions'}</span>
           </div>
-          <h1 className="font-display font-semibold text-3xl sm:text-5xl text-ink tracking-tight mb-4">
-            {isAr ? 'خدمات النقل الفاخرة' : 'Our Services'}
+          <h1 className="duyuf-services-title font-display font-semibold text-3xl sm:text-5xl text-ink tracking-tight mb-4">
+            {dict.page_services.title}
           </h1>
           <p className="text-sm sm:text-base text-ink-muted leading-relaxed font-light">
-            {isAr
-              ? 'حلول نقل متكاملة تلبي كافة احتياجات رحلتك الإيمانية وتنقلاتك عبر المملكة'
-              : 'Comprehensive transportation solutions for your pilgrimage and travel needs'}
+            {dict.page_services.subtitle}
           </p>
+          <Link href={`/${locale}/booking`} className="duyuf-services-intro-cta">
+            <span>{isAr ? 'ابدأ حجز رحلتك' : 'Plan your private transfer'}</span>
+            <ArrowIcon size={18} aria-hidden="true" />
+          </Link>
+          </div>
+          <div className="duyuf-services-intro-visual">
+            <Image
+              src="/assets/homepage-v2/service-group-interior.jpg"
+              alt={dict.page_services.title}
+              fill
+              priority
+              sizes="(max-width: 767px) 100vw, 52vw"
+              className="object-cover"
+            />
+          </div>
         </div>
 
-        {/* 6-Card Luxury Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {servicesList.map((service) => {
+        {/* Mixed-feature service editorial: one full narrative feature + five image-led chapters. */}
+        <div className="duyuf-services-grid">
+          {servicesList.map((service, index) => {
             const Icon = service.icon;
             return (
               <div
                 key={service.id}
-                className="bg-surface rounded-2xl p-6 sm:p-7 border border-border shadow-xs hover:border-gold/60 hover:shadow-md transition-all duration-300 flex flex-col justify-between group overflow-hidden"
+                className="duyuf-service-card bg-surface rounded-2xl p-6 sm:p-7 border border-border shadow-xs hover:border-gold/60 hover:shadow-md transition-all duration-300 flex flex-col justify-between group overflow-hidden"
               >
-                <div>
+                <div className="duyuf-service-card-content">
                   {/* Service Photo */}
-                  <div className="relative w-full h-44 rounded-xl overflow-hidden mb-5 border border-border bg-bg-alt">
+                  <div className="duyuf-service-photo relative w-full h-44 rounded-xl overflow-hidden mb-5 border border-border bg-bg-alt">
                     <Image
                       src={service.image}
                       alt={service.title}
@@ -208,6 +223,8 @@ export default async function ServicesPage(props: ServicesPageProps) {
                     </div>
                   </div>
 
+                  <div className="duyuf-service-details">
+                  <span className="duyuf-service-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-10 h-10 rounded-xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark shrink-0">
                       <Icon className="w-5 h-5" />
@@ -259,12 +276,13 @@ export default async function ServicesPage(props: ServicesPageProps) {
                       </div>
                     </div>
                   )}
+                  </div>
                 </div>
 
-                <div className="pt-5 mt-5 border-t border-border">
+                <div className="duyuf-service-card-footer pt-5 mt-5 border-t border-border">
                   <Link
                     href={`/${locale}/booking?service=${service.id}`}
-                    className="inline-flex items-center gap-2 text-xs font-bold text-gold-dark hover:text-ink transition-colors"
+                    className="duyuf-service-link inline-flex items-center gap-2 text-xs font-bold text-gold-dark hover:text-ink transition-colors"
                   >
                     <span>{isAr ? 'حجز هذه الخدمة' : 'Book This Service'}</span>
                     <ArrowIcon className="w-3.5 h-3.5" />
