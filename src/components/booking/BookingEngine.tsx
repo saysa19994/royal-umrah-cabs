@@ -1141,6 +1141,14 @@ export function BookingEngine({
       return;
     }
 
+    const localDigits = customerPhone.replace(/\D/g, '').replace(/^0+/, '');
+    const callingCode = COUNTRY_DIAL_CODES.find((country) => country.iso === phoneCountry)?.dial || '+966';
+    const normalizedPhone = callingCode + localDigits;
+    if (localDigits.length < 5 || normalizedPhone.replace(/\D/g, '').length < 8 || normalizedPhone.replace(/\D/g, '').length > 15) {
+      setErrorMessage(locale === 'ar' ? 'أدخل رقم جوال صحيحًا بعد اختيار مفتاح الدولة.' : 'Enter a valid phone number after selecting its country code.');
+      return;
+    }
+
     setIsSubmitting(true);
     setErrorMessage(null);
 
@@ -1158,7 +1166,7 @@ export function BookingEngine({
       route_id: bookingType === 'transfer' ? routeId : null,
       vehicle_id: vehicleId,
       customer_name: customerName,
-      customer_phone: customerPhone.trim().startsWith('+') ? customerPhone.trim() : (COUNTRY_DIAL_CODES.find((country) => country.iso === phoneCountry)?.dial || '+966') + customerPhone.replace(/\\D/g, '').replace(/^0+/, ''),
+      customer_phone: normalizedPhone,
       customer_email: normalizedEmail,
       pickup_datetime: `${pickupDate} ${pickupTime}`,
       pickup_location: pickupLocation,
