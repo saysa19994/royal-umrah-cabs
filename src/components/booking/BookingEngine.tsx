@@ -2170,24 +2170,37 @@ export function BookingEngine({
                   {t.phoneLabel} <span className="text-gold-dark">*</span>
                 </label>
                 <div className="flex min-h-12 items-stretch gap-2" dir="ltr">
-                  <div className="relative w-[42%] min-w-[125px] max-w-[190px]">
-                    <label htmlFor="phone-country-search" className="sr-only">{locale === 'ar' ? 'ابحث عن الدولة أو مفتاح الاتصال' : 'Search country or calling code'}</label>
+                  <div className="flex w-[46%] min-w-[130px] max-w-[210px] flex-col gap-1">
+                    <label htmlFor="phone-country-search" className="sr-only">{locale === 'ar' ? 'ابحث عن الدولة' : 'Search country'}</label>
                     <input
                       id="phone-country-search"
                       type="search"
                       autoComplete="off"
                       value={countrySearch}
                       onChange={(e) => setCountrySearch(e.target.value)}
-                      placeholder={countryFlag(phoneCountry) + ' ' + (COUNTRY_DIAL_CODES.find((c) => c.iso === phoneCountry)?.dial || '+966')}
-                      aria-label={locale === 'ar' ? 'ابحث عن الدولة أو مفتاح الاتصال' : 'Search country or calling code'}
-                      className="h-12 w-full rounded-btn border border-border-strong bg-surface px-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-gold"
-                      list="booking-country-codes"
+                      placeholder={locale === 'ar' ? 'بحث عن دولة...' : 'Search country...'}
+                      className="h-8 w-full rounded-lg border border-border-strong bg-surface px-2 text-xs text-ink focus:outline-none focus:ring-2 focus:ring-gold"
                     />
-                    <datalist id="booking-country-codes">
-                      {COUNTRY_DIAL_CODES.map((country) => (
-                        <option key={country.iso} value={country.iso + ' ' + country.dial} />
+                    <label htmlFor="phone-country-select" className="sr-only">{locale === 'ar' ? 'اختر مفتاح الدولة' : 'Choose country calling code'}</label>
+                    <select
+                      id="phone-country-select"
+                      value={phoneCountry}
+                      onChange={(e) => { setPhoneCountry(e.target.value); setCountrySearch(''); }}
+                      className="h-12 w-full rounded-btn border border-border-strong bg-surface px-1 text-xs text-ink focus:outline-none focus:ring-2 focus:ring-gold"
+                    >
+                      {COUNTRY_DIAL_CODES.filter((country) => {
+                        if (country.iso === phoneCountry) return true;
+                        const q = countrySearch.trim().toLocaleLowerCase();
+                        if (!q) return true;
+                        const countryName = new Intl.DisplayNames([locale, 'en'], { type: 'region' }).of(country.iso) || country.iso;
+                        const englishName = new Intl.DisplayNames(['en'], { type: 'region' }).of(country.iso) || country.iso;
+                        return country.iso.toLowerCase().includes(q) || country.dial.includes(q) || countryName.toLocaleLowerCase().includes(q) || englishName.toLowerCase().includes(q);
+                      }).map((country) => (
+                        <option key={country.iso} value={country.iso}>
+                          {countryFlag(country.iso)} {new Intl.DisplayNames([locale, 'en'], { type: 'region' }).of(country.iso)} ({country.dial})
+                        </option>
                       ))}
-                    </datalist>
+                    </select>
                   </div>
                   <input
                     id="customer-phone-input"
