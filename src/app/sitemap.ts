@@ -13,7 +13,8 @@ export async function generateSitemaps() {
 export default async function sitemap({ id }: { id: string }): Promise<MetadataRoute.Sitemap> {
   const locale = (id as Locale) || 'en';
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
-  const lastmod = new Date().toISOString().slice(0, 10);
+  // Do not invent a fresh modification date on every sitemap request.
+  // Add lastModified only when a real per-page publish/update timestamp is available.
 
   const staticPages = [
     '',
@@ -127,7 +128,6 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
 
     return {
       url: alternates.canonical,
-      lastModified: lastmod,
       changeFrequency: changeFrequency as any,
       priority,
       alternates: {
