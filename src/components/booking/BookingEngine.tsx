@@ -1269,7 +1269,20 @@ export function BookingEngine({
         </div>
 
         <p className="text-xs text-ink-muted leading-relaxed mb-6 font-light">
-          {dict.booking_modal.messageSentNotice}
+          {confirmedBooking.customerEmailAccepted
+            ? dict.booking_modal.messageSentNotice
+            : ({
+                ar: 'تم حفظ طلب الحجز بنجاح، لكن لم نتمكن من إرسال رسالة البريد الإلكتروني حاليًا. احتفظ برقم الطلب وتواصل معنا عبر واتساب.',
+                en: 'Your booking request was saved, but we could not send the email right now. Keep your reference and contact us on WhatsApp.',
+                ms: 'Permintaan tempahan disimpan, tetapi e-mel belum dapat dihantar. Simpan nombor rujukan dan hubungi kami melalui WhatsApp.',
+                id: 'Permintaan pemesanan tersimpan, tetapi email belum dapat dikirim. Simpan nomor referensi dan hubungi kami melalui WhatsApp.',
+                ur: 'آپ کی بکنگ کی درخواست محفوظ ہوگئی ہے، مگر ای میل نہیں بھیجی جا سکی۔ حوالہ نمبر محفوظ کریں اور واٹس ایپ پر رابطہ کریں۔',
+                fr: 'Votre demande est enregistrée, mais l’e-mail n’a pas pu être envoyé. Conservez votre référence et contactez-nous sur WhatsApp.',
+                es: 'Tu solicitud se guardó, pero no pudimos enviar el correo. Conserva la referencia y contáctanos por WhatsApp.',
+                de: 'Ihre Buchungsanfrage wurde gespeichert, aber die E-Mail konnte nicht gesendet werden. Bewahren Sie die Referenz auf und kontaktieren Sie uns per WhatsApp.',
+                tr: 'Rezervasyon talebiniz kaydedildi ancak e-posta gönderilemedi. Referans numaranızı saklayın ve WhatsApp üzerinden bize ulaşın.',
+                hi: 'आपका बुकिंग अनुरोध सहेज लिया गया है, लेकिन ईमेल नहीं भेजा जा सका। संदर्भ संख्या रखें और WhatsApp पर संपर्क करें।',
+              } as Record<Locale, string>)[locale]}
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
