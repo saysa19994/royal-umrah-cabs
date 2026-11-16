@@ -31,11 +31,36 @@ export async function POST(request: Request) {
     if (contentLength > 32_768) {
       return NextResponse.json({ error: 'Chat request is too large' }, { status: 413 });
     }
-    const rawBody = await request.text();
-    if (Buffer.byteLength(rawBody, 'utf8') > 32_768) {
-      return NextResponse.json({ error: 'Chat request is too large' }, { status: 413 });
+    // Enforce the size limit while reading, not after buffering the entire
+    // incoming stream. Content-Length can be omitted or forged by clients.
+    const bodyReader = request.body?.getReader();
+    if (!bodyReader) {
+      return NextResponse.json({ error: 'Chat request body is required' }, { status: 400 });
     }
-    const { messages, locale: requestedLocale = 'en' } = JSON.parse(rawBody);
+    const bodyChunks: Uint8Array[] = [];
+    let receivedBytes = 0;
+    while (true) {
+      const { done, value } = await bodyReader.read();
+      if (done) break;
+      receivedBytes += value.byteLength;
+      if (receivedBytes > 32_768) {
+        await bodyReader.cancel();
+        return NextResponse.json({ error: 'Chat request is too large' }, { status: 413 });
+      }
+      bodyChunks.push(value);
+    }
+
+    let payload: unknown;
+    try {
+      payload = JSON.parse(Buffer.concat(bodyChunks).toString('utf8'));
+    } catch {
+      return NextResponse.json({ error: 'Malformed chat JSON' }, { status: 400 });
+    }
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+      return NextResponse.json({ error: 'Invalid chat request body' }, { status: 400 });
+    }
+    const { messages, locale: requestedLocale = 'en' } =
+      payload as { messages?: unknown; locale?: unknown };
     const supportedLocales = ['ar', 'en', 'ms', 'id', 'ur', 'fr', 'es', 'de', 'tr', 'hi'];
     const locale = typeof requestedLocale === 'string' && supportedLocales.includes(requestedLocale)
       ? requestedLocale : 'en';
@@ -125,9 +150,11 @@ export async function POST(request: Request) {
                 }
               } catch (streamErr) {
                 controller.error(streamErr);
+                return;
               } finally {
-                controller.close();
+                reader.releaseLock();
               }
+              controller.close();
             },
           });
 
