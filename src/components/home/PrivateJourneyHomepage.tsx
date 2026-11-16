@@ -11,7 +11,7 @@ import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, Check,
+  ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays,
   Clock3, Luggage,
   MapPin, Plane, ShieldCheck, Users, Wallet,
   Navigation, Compass,
@@ -303,7 +303,7 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
           </div>
           <div className={styles.serviceGrid}>
             {[
-              { href:`/${locale}/booking?route=jeddah-airport-to-makkah`, src:'/assets/homepage-v2/route-jeddah-makkah.jpg', title:dict.services.airportTitle, description:dict.services.airportDesc },
+              { href:`/${locale}/booking?route=jeddah-airport-to-makkah`, src:'/assets/images/jeddah-airport-pickup-umrah.webp', title:dict.services.airportTitle, description:dict.services.airportDesc },
               { href:`/${locale}/routes`, src:'/assets/homepage-v2/service-intercity.jpg', title:dict.services.intercityTitle, description:dict.services.intercityDesc },
               { href:`/${locale}/ziyarat`, src:'/assets/homepage-v2/ziyarat-haram.jpg', title:dict.services.ziyaratTitle, description:dict.services.ziyaratDesc },
             ].map((service,index)=>(
