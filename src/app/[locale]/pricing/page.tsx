@@ -215,128 +215,50 @@ export default async function PricingPage(props: PricingPageProps) {
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────
-          3. POPULAR ROUTES QUICK OVERVIEW MATRIX (100% Database Prices)
-      ────────────────────────────────────────────────────────────── */}
-      <section className="py-12 border-t border-b border-border bg-bg-alt">
+      {/* 3. Editorial popular route fare cards — consistent with the interactive explorer */}
+      <section className="py-12 sm:py-16 border-y border-border bg-bg-alt">
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          <div className="max-w-2xl mb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-bg-alt border border-gold/40 text-xs font-bold text-gold-dark uppercase tracking-wider mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>{isAr ? 'جدول مقارنة سريع' : 'Quick Rates Overview'}</span>
-            </div>
-            <h2 className="font-playfair font-serif text-2xl sm:text-3xl font-bold text-ink mb-2">
-              {isAr ? 'مقارنة أسعار أشهر مسارات الحرمين الشريفين' : 'Popular Holy Sanctuary Routes Comparison'}
-            </h2>
-            <p className="text-xs sm:text-sm text-ink-muted">
-              {isAr
-                ? 'أسعار معتمدة وثابتة للسيارة بالكامل شاملة رسوم الطريق والضريبة ومواقف المطار، والدفع نقداً للسائق عند الوصول.'
-                : 'Authoritative fixed rates per vehicle including tolls, taxes, and parking. 100% Cash paid to chauffeur upon arrival.'}
-            </p>
+          <div className="mb-8 max-w-2xl">
+            <span className="text-xs font-bold uppercase tracking-widest text-gold-dark">
+              {({ ar: 'الرحلات الأكثر طلبًا', en: 'POPULAR JOURNEYS', ms: 'PERJALANAN POPULAR', id: 'RUTE POPULER', ur: 'مقبول سفر', fr: 'TRAJETS POPULAIRES', es: 'RUTAS POPULARES', de: 'BELIEBTE ROUTEN', tr: 'POPÜLER ROTALAR', hi: 'लोकप्रिय यात्राएँ' } as Record<Locale, string>)[locale]}
+            </span>
+            <h2 className="mt-2 text-2xl sm:text-4xl font-display font-semibold text-ink">{content.heroTitle}</h2>
+            <p className="mt-3 text-sm leading-relaxed text-ink-muted">{content.heroSubtitle}</p>
           </div>
-
-          <div className="overflow-x-auto rounded-2xl border border-border bg-surface shadow-xl">
-            <table className="w-full text-start text-xs sm:text-sm">
-              <thead>
-                <tr className="border-b border-border bg-bg-alt text-gold-dark">
-                  <th className="py-4 px-4 sm:px-6 text-start font-bold uppercase tracking-wider">
-                    {isAr ? 'المسار والمسافة' : 'Route & Distance'}
-                  </th>
-                  <th className="py-4 px-3 sm:px-4 text-center font-bold">
-                    <span>Camry</span>
-                    <span className="block text-[10px] text-ink-muted font-normal">4 {isAr ? 'ركاب' : 'Pax'}</span>
-                  </th>
-                  <th className="py-4 px-3 sm:px-4 text-center font-bold bg-[#D6A13A]/10 border-x border-gold/30">
-                    <span className="text-gold-dark">Staria VIP</span>
-                    <span className="block text-[10px] text-gold-dark font-semibold">{isAr ? 'الأكثر طلباً' : 'Popular'}</span>
-                  </th>
-                  <th className="py-4 px-3 sm:px-4 text-center font-bold">
-                    <span>Yukon XL</span>
-                    <span className="block text-[10px] text-ink-muted font-normal">7 {isAr ? 'ركاب' : 'Pax'}</span>
-                  </th>
-                  <th className="py-4 px-3 sm:px-4 text-center font-bold">
-                    <span>HiAce VIP</span>
-                    <span className="block text-[10px] text-ink-muted font-normal">10 {isAr ? 'ركاب' : 'Pax'}</span>
-                  </th>
-                  <th className="py-4 px-3 sm:px-4 text-center font-bold">
-                    <span>Coaster</span>
-                    <span className="block text-[10px] text-ink-muted font-normal">21 {isAr ? 'ركاب' : 'Pax'}</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/5">
-                {topOverviewRoutes.map((rt) => {
-                  const camryFare = getDynamicPrice(rt.id, 'camry');
-                  const stariaFare = getDynamicPrice(rt.id, 'staria');
-                  const yukonFare = getDynamicPrice(rt.id, 'yukon');
-                  const hiaceFare = getDynamicPrice(rt.id, 'hiace');
-                  const coasterFare = getDynamicPrice(rt.id, 'coaster');
-
-                  return (
-                    <tr key={rt.id} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="py-4 px-4 sm:px-6">
-                        <div className="flex items-center gap-2">
-                          <MapPin className="w-4 h-4 text-gold-dark shrink-0" />
-                          <div>
-                            <span className="font-bold text-ink block">{rt.title}</span>
-                            <span className="text-[11px] text-ink-muted">{rt.distance} • {rt.time}</span>
-                          </div>
-                        </div>
-                      </td>
-
-                      <td className="py-4 px-3 sm:px-4 text-center font-extrabold text-ink">
-                        <Link
-                          href={`/${locale}/booking?route=${encodeURIComponent(rt.id)}&vehicle=camry`}
-                          className="hover:text-gold-dark transition-colors"
-                        >
-                          {camryFare > 0 ? `${camryFare} SAR` : '—'}
-                        </Link>
-                      </td>
-
-                      <td className="py-4 px-3 sm:px-4 text-center font-extrabold text-gold-dark bg-[#D6A13A]/5 border-x border-gold/20">
-                        <Link
-                          href={`/${locale}/booking?route=${encodeURIComponent(rt.id)}&vehicle=staria`}
-                          className="hover:underline"
-                        >
-                          {stariaFare > 0 ? `${stariaFare} SAR` : '—'}
-                        </Link>
-                      </td>
-
-                      <td className="py-4 px-3 sm:px-4 text-center font-extrabold text-ink">
-                        <Link
-                          href={`/${locale}/booking?route=${encodeURIComponent(rt.id)}&vehicle=yukon`}
-                          className="hover:text-gold-dark transition-colors"
-                        >
-                          {yukonFare > 0 ? `${yukonFare} SAR` : '—'}
-                        </Link>
-                      </td>
-
-                      <td className="py-4 px-3 sm:px-4 text-center font-extrabold text-ink">
-                        <Link
-                          href={`/${locale}/booking?route=${encodeURIComponent(rt.id)}&vehicle=hiace`}
-                          className="hover:text-gold-dark transition-colors"
-                        >
-                          {hiaceFare > 0 ? `${hiaceFare} SAR` : '—'}
-                        </Link>
-                      </td>
-
-                      <td className="py-4 px-3 sm:px-4 text-center font-extrabold text-ink">
-                        {coasterFare > 0 ? (
-                          <Link
-                            href={`/${locale}/booking?route=${encodeURIComponent(rt.id)}&vehicle=coaster`}
-                            className="hover:text-gold-dark transition-colors"
-                          >
-                            {`${coasterFare} SAR`}
-                          </Link>
-                        ) : (
-                          <span className="text-[#687386]">—</span>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+            {topOverviewRoutes.map((rt) => (
+              <article key={rt.id} className="rounded-3xl border border-border bg-surface p-5 sm:p-7 shadow-sm transition-[box-shadow,transform] hover:-translate-y-0.5 hover:shadow-lg">
+                <div className="mb-5 flex items-start gap-3">
+                  <div className="rounded-xl bg-bg-alt p-3 text-gold-dark"><MapPin className="h-5 w-5" /></div>
+                  <div className="min-w-0">
+                    <h3 className="text-lg sm:text-xl font-semibold leading-snug text-ink">{rt.title}</h3>
+                    <p className="mt-1 text-xs text-ink-muted">{rt.distance} • {rt.time}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {([
+                    ['camry', 'Toyota Camry'],
+                    ['staria', 'Hyundai Staria'],
+                    ['yukon', 'GMC Yukon XL'],
+                    ['hiace', 'Toyota Hiace'],
+                    ['coaster', 'Toyota Coaster'],
+                  ] as const).map(([vehicleId, vehicleName]) => {
+                    const fare = getDynamicPrice(rt.id, vehicleId);
+                    if (fare <= 0) return null;
+                    return (
+                      <Link
+                        key={vehicleId}
+                        href={`/${locale}/booking?route=${encodeURIComponent(rt.id)}&vehicle=${vehicleId}`}
+                        className="group flex min-h-16 items-center justify-between gap-3 rounded-xl border border-border bg-bg-alt/50 px-4 py-3 transition-colors hover:border-gold/60 hover:bg-bg-alt focus-visible:outline-offset-2"
+                      >
+                        <span className="text-sm font-medium text-ink">{vehicleName}</span>
+                        <span className="shrink-0 text-end font-bold tabular-nums text-gold-dark" dir="ltr">{fare} SAR</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
