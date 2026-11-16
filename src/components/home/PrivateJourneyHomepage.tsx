@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, Check, Clock3, Luggage, MapPin, Plane, ShieldCheck, Users, Wallet, Navigation, Compass, ArrowUpLeft } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, Check, Clock3, Luggage, MapPin, Plane, ShieldCheck, Users, Wallet, Navigation, Compass } from 'lucide-react';
 import type { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import type { SiteSettings } from '@/lib/settings';
@@ -313,7 +313,7 @@ export function PrivateJourneyHomepage({locale,dict}:Props) {
         <div className={styles.wrap}>
           <div className={styles.centerHeading}>
             <p className={styles.sectionEyebrow}>{dict.faq.sectionPill}</p>
-            <h2 id="pj-faq">{dict.faq.heading}</h2><p>{E.reviewSubtitle}</p>
+            <h2 id="pj-faq">{dict.faq.heading}</h2><p>{L.faqNote}</p>
           </div>
           <div className={styles.faqList}>
             {faqItems.map((item,i)=>(
