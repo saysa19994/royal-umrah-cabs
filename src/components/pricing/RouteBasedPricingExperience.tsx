@@ -1508,9 +1508,9 @@ export function RouteBasedPricingExperience({
             <div className="mt-4 pt-4 border-t border-border text-xs text-slate-300 flex items-start gap-2.5 leading-relaxed">
               <Compass className="w-4 h-4 text-gold-dark shrink-0 mt-0.5" />
               <span>{activeRoute.miqatNotice[locale]}</span>
-              </div>
-        </div>
+            </div>
           )}
+          </div>
         </div>
       </div>
 
