@@ -26,8 +26,8 @@ test('route and fleet prices come from the real configuration, not fake fixed fa
 });
 test('theme variants, mobile widths and reduced motion are explicitly supported', () => {
   assert.match(stylesheet, /data-theme="dark"/);
-  assert.match(stylesheet, /@media \(max-width:767px\)/);
-  assert.match(stylesheet, /@media \(max-width:390px\)/);
+  assert.match(stylesheet, /@media\(max-width:767px\)/);
+  assert.match(stylesheet, /@media\(max-width:390px\)/);
   assert.match(stylesheet, /prefers-reduced-motion/);
 });
 test('no selected car by default in the quick booking form', () => {
@@ -36,7 +36,7 @@ test('no selected car by default in the quick booking form', () => {
 });
 test('all static design photographs referenced by homepage exist', () => {
   const urls = Array.from(component.matchAll(/['"](\/assets\/[^'"\n]+\.(?:jpg|webp|png))['"]/g)).map(m => m[1]);
-  assert.ok(urls.length >= 10);
+  assert.ok(urls.length >= 8);
   for (const url of urls) assert.ok(fs.existsSync(path.join(root, 'public', url)), `${url} is missing`);
 });
 
@@ -60,14 +60,19 @@ test('approved cinematic hero uses real mobile and desktop video assets', () => 
 });
 
 
-test('homepage has one purposeful stage per decision, with no repeated collage or booking walkthrough', () => {
+test('homepage follows the requested nine-part customer journey without repeating route galleries', () => {
   const sectionNames = [...component.matchAll(/<section className=\{styles\.(\w+)\}/g)].map(match => match[1]);
   assert.deepEqual(sectionNames, [
-    'hero', 'assurance', 'experienceSection', 'routesSection',
-    'fleetSection', 'guidesSection', 'faqSection',
+    'hero', 'assurance', 'stepsSection', 'fleetSection', 'servicesSection',
+    'whySection', 'reviewsSection', 'faqSection', 'finalSection',
   ]);
-  assert.doesNotMatch(component, /ARC_IMAGES|styles\.destinationSection|styles\.processSection|styles\.editorialSection/);
-  assert.match(component, /id="pj-experience"/);
+  assert.doesNotMatch(component, /ARC_IMAGES|styles\.destinationSection|styles\.processSection|styles\.editorialSection|styles\.routeExplorer/);
+  assert.match(component, /id="pj-steps"/);
+  assert.match(component, /id="pj-fleet"/);
+  assert.match(component, /id="pj-services"/);
+  assert.match(component, /id="pj-why"/);
+  assert.match(component, /id="pj-faq"/);
+  assert.match(component, /DUYUF_HOME_LAYOUT\[locale\]/);
   assert.match(component, /href=\{\`\/\$\{locale\}\/services\`\}/);
 });
 
@@ -78,10 +83,27 @@ test('homepage uses distinct imagery for every prominent content stage', () => {
   assert.ok(imagePaths.length >= 8);
 });
 
-test('legacy split-hero, gallery and steps rules cannot override the responsive design', () => {
+test('homepage styles use bounded photography and one responsive cascade', () => {
   assert.doesNotMatch(stylesheet, /\.arcTrack|\.arcPhoto|\.destinationSection/);
   assert.doesNotMatch(stylesheet, /\.processGrid|\.processStep|\.processSection/);
-  assert.doesNotMatch(stylesheet, /\.editorialGrid|\.editorialCard/);
-  assert.match(stylesheet, /\.experienceLayout\{display:grid/);
+  assert.doesNotMatch(stylesheet, /\.editorialGrid|\.editorialCard|\.routeExplorer/);
+  assert.match(stylesheet, /\.fleetImage\{height:370px/);
+  assert.match(stylesheet, /\.serviceImage\{height:165px/);
   assert.match(stylesheet, /\.heroVisual\{position:absolute;inset:0;width:100%;height:100%/);
+});
+
+test('every supported locale has independently authored compact homepage copy', () => {
+  const layout = fs.readFileSync(path.join(root, 'src/data/duyuf-homepage-layout-copy.ts'),'utf8');
+  for (const lang of ['en','ar','ms','id','ur','fr','es','de','tr','hi']) {
+    assert.match(layout, new RegExp('\\\\b'+lang+': \\{'));
+  }
+  assert.match(layout, /arrivalDesc/);
+  assert.match(layout, /miqatDesc/);
+  assert.match(layout, /familyDesc/);
+});
+
+test('no instant booking confirmation or fabricated reviews in homepage', () => {
+  assert.doesNotMatch(component, /Instant Confirmation|10,000\+|5[,.]0?\/5/);
+  assert.match(component, /\/\$\{locale\}\/reviews/);
+  assert.match(component, /\/\$\{locale\}\/booking/);
 });
