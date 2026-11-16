@@ -1130,6 +1130,14 @@ export function BookingEngine({
     e.preventDefault();
     if (isSubmitting) return;
 
+    // Native required attributes do not guarantee validation when the flow
+    // invokes this handler programmatically. Keep the booking email mandatory.
+    const normalizedEmail = customerEmail.trim();
+    if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(normalizedEmail)) {
+      setErrorMessage(({ ar: 'يرجى إدخال بريد إلكتروني صحيح لإرسال تفاصيل طلب الحجز.', en: 'Enter a valid email to receive your booking request details.', ms: 'Masukkan e-mel yang sah untuk menerima butiran tempahan.', id: 'Masukkan email yang valid untuk menerima detail pemesanan.', ur: 'بکنگ کی تفصیلات کے لیے درست ای میل درج کریں۔', fr: 'Saisissez une adresse e-mail valide pour recevoir les détails de votre réservation.', es: 'Introduce un correo válido para recibir los detalles de tu reserva.', de: 'Geben Sie eine gültige E-Mail-Adresse für Ihre Buchungsdetails ein.', tr: 'Rezervasyon bilgileri için geçerli bir e-posta adresi girin.', hi: 'बुकिंग विवरण पाने के लिए मान्य ईमेल दर्ज करें।' } as Record<Locale, string>)[locale]);
+      return;
+    }
+
     setIsSubmitting(true);
     setErrorMessage(null);
 
@@ -1148,7 +1156,7 @@ export function BookingEngine({
       vehicle_id: vehicleId,
       customer_name: customerName,
       customer_phone: customerPhone,
-      customer_email: customerEmail.trim(),
+      customer_email: normalizedEmail,
       pickup_datetime: `${pickupDate} ${pickupTime}`,
       pickup_location: pickupLocation,
       dropoff_location: dropoffLocation,
