@@ -39,3 +39,22 @@ test('all static design photographs referenced by homepage exist', () => {
   assert.ok(urls.length >= 10);
   for (const url of urls) assert.ok(fs.existsSync(path.join(root, 'public', url)), `${url} is missing`);
 });
+
+
+test('approved cinematic hero uses real mobile and desktop video assets', () => {
+  assert.match(component, /<video/);
+  assert.match(component, /poster="\/assets\/homepage-v2\/hero-poster\.jpg"/);
+  assert.match(component, /heroA: 'Your Journey,'/);
+  assert.match(component, /heroB: 'Our'/);
+  assert.match(component, /heroC: 'Priority\.'/);
+  assert.match(component, /heroA: 'رحلتك'/);
+  assert.match(component, /heroB: 'تستحق عناية'/);
+  assert.match(component, /planJourney: 'Book Your Private Ride'/);
+  assert.match(component, /prefers-reduced-motion: reduce/);
+  assert.doesNotMatch(component, /\/assets\/images\/yukon_exterior\.jpg/);
+  for (const file of [
+    'hero.mp4', 'hero.webm', 'hero-mobile.mp4', 'hero-mobile.webm', 'hero-poster.jpg',
+  ]) {
+    assert.ok(fs.existsSync(path.join(root, 'public/assets/homepage-v2', file)), `Hero asset missing: ${file}`);
+  }
+});
