@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     if (!turnstileCheck.success) {
       return NextResponse.json(
         { error: turnstileCheck.error || 'Anti-bot verification failed.' },
-        { status: 400 }
+        { status: turnstileCheck.status ?? 400 }
       );
     }
 
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     if (!reference || !phone) {
       return NextResponse.json(
         { error: 'Both booking reference and telephone number are strictly required for security.' },
-        { status: 400 }
+        { status: turnstileCheck.status ?? 400 }
       );
     }
 
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     if (cleanPhone.length < 8) {
       return NextResponse.json(
         { error: 'Please enter a valid telephone number with country code.' },
-        { status: 400 }
+        { status: turnstileCheck.status ?? 400 }
       );
     }
 
