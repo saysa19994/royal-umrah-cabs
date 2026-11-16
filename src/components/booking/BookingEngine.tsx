@@ -1012,7 +1012,12 @@ export function BookingEngine({
   const [pickupDate, setPickupDate] = useState(initialDate || minDate);
   const [pickupTime, setPickupTime] = useState(initialTime || '14:00');
   const [passengers, setPassengers] = useState(Number(initialPassengers) || 2);
-  const [luggage, setLuggage] = useState(Number(initialLuggage) || 2);
+  const [luggage, setLuggage] = useState(() => {
+    // Zero bags is a valid choice; avoid treating it as an absent query parameter.
+    if (initialLuggage === undefined || initialLuggage.trim() === '') return 2;
+    const parsed = Number(initialLuggage);
+    return Number.isInteger(parsed) && parsed >= 0 && parsed <= 20 ? parsed : 2;
+  });
   const [flightNumber, setFlightNumber] = useState('');
   const [step1Error, setStep1Error] = useState<string | null>(null);
 
