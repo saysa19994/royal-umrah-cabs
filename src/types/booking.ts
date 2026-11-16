@@ -15,7 +15,7 @@ export const BookingSchema = z.object({
     .refine((val) => val.replace(/\D/g, '').length >= 8, {
       message: 'Phone number must contain at least 8 digits after normalization',
     }),
-  customer_email: z.string().trim().email('Invalid email address').max(200, 'Email cannot exceed 200 characters').optional().or(z.literal('')),
+  customer_email: z.string().trim().min(1, 'Email is required to send booking details').email('Invalid email address').max(200, 'Email cannot exceed 200 characters'),
   pickup_datetime: z.string().min(1, 'Pickup date and time is required'),
   pickup_location: z.string().trim().min(2, 'Pickup location is required').max(200, 'Pickup location cannot exceed 200 characters'),
   dropoff_location: z.string().trim().min(2, 'Dropoff location is required').max(200, 'Dropoff location cannot exceed 200 characters'),
