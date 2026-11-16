@@ -58,3 +58,30 @@ test('approved cinematic hero uses real mobile and desktop video assets', () => 
     assert.ok(fs.existsSync(path.join(root, 'public/assets/homepage-v2', file)), `Hero asset missing: ${file}`);
   }
 });
+
+
+test('homepage has one purposeful stage per decision, with no repeated collage or booking walkthrough', () => {
+  const sectionNames = [...component.matchAll(/<section className=\{styles\.(\w+)\}/g)].map(match => match[1]);
+  assert.deepEqual(sectionNames, [
+    'hero', 'assurance', 'experienceSection', 'routesSection',
+    'fleetSection', 'guidesSection', 'faqSection',
+  ]);
+  assert.doesNotMatch(component, /ARC_IMAGES|styles\.destinationSection|styles\.processSection|styles\.editorialSection/);
+  assert.match(component, /id="pj-experience"/);
+  assert.match(component, /href=\{\`\/\$\{locale\}\/services\`\}/);
+});
+
+test('homepage uses distinct imagery for every prominent content stage', () => {
+  const imagePaths = [...component.matchAll(/['"](\/assets\/[^'"\n]+\.(?:jpg|webp|png))['"]/g)]
+    .map(match => match[1]);
+  assert.equal(new Set(imagePaths).size, imagePaths.length, 'Duplicate prominent photo found');
+  assert.ok(imagePaths.length >= 8);
+});
+
+test('legacy split-hero, gallery and steps rules cannot override the responsive design', () => {
+  assert.doesNotMatch(stylesheet, /\.arcTrack|\.arcPhoto|\.destinationSection/);
+  assert.doesNotMatch(stylesheet, /\.processGrid|\.processStep|\.processSection/);
+  assert.doesNotMatch(stylesheet, /\.editorialGrid|\.editorialCard/);
+  assert.match(stylesheet, /\.experienceLayout\{display:grid/);
+  assert.match(stylesheet, /\.heroVisual\{position:absolute;inset:0;width:100%;height:100%/);
+});
