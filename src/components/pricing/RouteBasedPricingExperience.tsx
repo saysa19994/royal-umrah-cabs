@@ -1556,8 +1556,8 @@ export function RouteBasedPricingExperience({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {FLEET_SPECS.map((vehicle) => {
             const fareSAR = getVehicleFare(activeRoute.id, vehicle.id);
-            if (fareSAR <= 0 && (vehicle.id === 'coaster' || activeRoute.id.includes('riyadh'))) {
-              return null; // Skip non-applicable vehicle on this specific route
+            if (fareSAR <= 0) {
+              return null; // Never show an unavailable vehicle as a zero-priced booking
             }
 
             const isStaria = vehicle.id === 'staria';
@@ -1566,7 +1566,7 @@ export function RouteBasedPricingExperience({
             return (
               <div
                 key={vehicle.id}
-                className={`rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all bg-surface border ${
+                className={`group rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 bg-surface border ${
                   isStaria
                     ? 'border-gold ring-2 ring-[#C5A15D]/25 shadow-md'
                     : 'border-border shadow-xs hover:border-gold/60 hover:shadow-sm'
@@ -1595,7 +1595,7 @@ export function RouteBasedPricingExperience({
                       src={vehicle.image}
                       alt={vehicle.name[locale] || vehicle.name.en}
                       fill
-                      className="object-contain p-2 hover:scale-105 transition-transform duration-500"
+                      className="object-contain p-3 transition-transform duration-700 group-hover:scale-[1.06]"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   </div>
