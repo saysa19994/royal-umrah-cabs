@@ -105,3 +105,27 @@ test('Checkout never uses a pretend verification token or hides the security wid
   assert.doesNotMatch(widget, /pointer-events-none fixed -top-\[9999px\]/);
   assert.match(widget, /role="alert"/);
 });
+
+
+test('Preview URLs cannot compete with the official website in search', () => {
+  const middleware = read('src/middleware.ts');
+  assert.match(middleware, /VERCEL_ENV === 'preview'/);
+  assert.match(middleware, /X-Robots-Tag', 'noindex, nofollow'/);
+});
+
+test('Turnstile survives input changes without remounting or hidden challenges', () => {
+  const widget = read('src/components/common/TurnstileWidget.tsx');
+  assert.match(widget, /callbacksRef\.current = \{ onSuccess, onVerify, onExpire, onError \}/);
+  assert.match(widget, /\[siteKey, locale, theme\]/);
+  assert.match(widget, /turnstile-container flex w-full/);
+  assert.match(widget, /Turnstile script timeout/);
+});
+
+test('Booking recovery always explains failed draft restoration in all supported languages', () => {
+  const page = read('src/app/[locale]/booking/page.tsx');
+  assert.match(page, /draftRestoreFailed/);
+  assert.match(page, /role="status"/);
+  for (const lang of ['ar','en','ms','id','ur','fr','es','de','tr','hi']) {
+    assert.match(page, new RegExp('\\b' + lang + ': '));
+  }
+});
