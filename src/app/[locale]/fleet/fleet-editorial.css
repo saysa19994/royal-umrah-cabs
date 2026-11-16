@@ -195,3 +195,48 @@ html[data-theme="dark"] .duyuf-editorial-fleet .concierge-band{background:#1d343
  .duyuf-editorial-fleet .vehicle-card-image img,
  .duyuf-editorial-fleet .duyuf-fleet-spotlight-image img{transition:none!important;transform:none!important}
 }
+
+
+/* Reference 06 + 15 adapted: manual panorama and vehicle focus, no auto-rotating 3D. */
+.duyuf-editorial-fleet .duyuf-fleet-spotlight-stage{min-height:565px;position:relative;background:#e8ebea;overflow:hidden}
+.duyuf-editorial-fleet .duyuf-fleet-spotlight-stage .duyuf-fleet-spotlight-image{height:100%;min-height:565px;display:block;position:relative}
+.duyuf-editorial-fleet .duyuf-fleet-spotlight-stage .duyuf-fleet-gallery-exterior{object-fit:contain;padding:clamp(22px,4vw,55px)}
+.duyuf-editorial-fleet .duyuf-fleet-spotlight-stage .duyuf-fleet-gallery-interior{object-fit:cover;padding:0}
+.duyuf-editorial-fleet .duyuf-fleet-gallery-controls{
+ position:absolute;z-index:4;bottom:25px;inset-inline-start:24px;display:flex;gap:7px;
+ padding:5px;border:1px solid rgba(255,255,255,.5);background:rgba(255,254,250,.86);backdrop-filter:blur(12px);border-radius:4px;
+}
+.duyuf-editorial-fleet .duyuf-fleet-gallery-controls button{
+ border:1px solid transparent;border-radius:3px;background:transparent;color:#24434a;min-height:40px;
+ padding:8px 13px;cursor:pointer;font-size:11px;font-weight:800;transition:background .2s
+}
+.duyuf-editorial-fleet .duyuf-fleet-gallery-controls button[aria-pressed=true]{background:#173f46;color:#fff}
+.duyuf-editorial-fleet .duyuf-fleet-gallery-controls button:hover{border-color:#9f8a6c}
+.duyuf-editorial-fleet .duyuf-fleet-spotlight-vehicle-picker{display:flex;flex-wrap:wrap;gap:7px;margin:15px 0 20px}
+.duyuf-editorial-fleet .duyuf-fleet-spotlight-vehicle-picker button{
+ border:1px solid var(--fleet-line);padding:9px 11px;min-height:48px;background:var(--fleet-paper);
+ color:var(--fleet-ink);font-size:10px;font-weight:700;line-height:1.6;text-align:start;cursor:pointer;
+ display:flex;align-items:center;gap:9px;border-radius:3px
+}
+.duyuf-editorial-fleet .duyuf-fleet-spotlight-vehicle-picker button span{font-size:10px;color:var(--fleet-bronze)}
+.duyuf-editorial-fleet .duyuf-fleet-spotlight-vehicle-picker button[aria-pressed=true]{
+ background:#24474b;color:#fff;border-color:#24474b
+}
+.duyuf-editorial-fleet .duyuf-fleet-spotlight-vehicle-picker button:hover{border-color:#ab936f}
+.duyuf-editorial-fleet :is(.duyuf-fleet-gallery-controls button,.duyuf-fleet-spotlight-vehicle-picker button):focus-visible{
+ outline:3px solid #b9935a;outline-offset:3px;
+}
+@media(max-width:767px){
+ .duyuf-editorial-fleet .duyuf-fleet-spotlight-stage,
+ .duyuf-editorial-fleet .duyuf-fleet-spotlight-stage .duyuf-fleet-spotlight-image{min-height:340px;height:340px}
+ .duyuf-editorial-fleet .duyuf-fleet-gallery-controls{inset-inline-start:12px;bottom:12px}
+ .duyuf-editorial-fleet .duyuf-fleet-gallery-controls button{font-size:10px;min-height:42px;padding:7px 10px}
+ .duyuf-editorial-fleet .duyuf-fleet-spotlight-vehicle-picker{
+  overflow-x:auto;flex-wrap:nowrap;scroll-snap-type:x mandatory;padding-bottom:8px;
+ }
+ .duyuf-editorial-fleet .duyuf-fleet-spotlight-vehicle-picker button{flex:0 0 auto;scroll-snap-align:start}
+}
+@media(prefers-reduced-motion:reduce){
+ .duyuf-editorial-fleet .duyuf-fleet-gallery-controls button,
+ .duyuf-editorial-fleet .duyuf-fleet-spotlight-vehicle-picker button{transition:none!important}
+}

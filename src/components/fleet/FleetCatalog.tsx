@@ -26,6 +26,19 @@ interface FleetCatalogProps {
 
 type FilterCategory = 'all' | 'sedan' | 'family' | 'group';
 
+const PHOTO_UI: Record<Locale,{label:string;exterior:string;interior:string}> = {
+ ar:{label:'صور المركبة',exterior:'الشكل الخارجي',interior:'داخل المقصورة'},
+ en:{label:'Vehicle photos',exterior:'Exterior',interior:'Interior'},
+ ms:{label:'Foto kenderaan',exterior:'Luaran',interior:'Dalaman'},
+ id:{label:'Foto kendaraan',exterior:'Eksterior',interior:'Interior'},
+ ur:{label:'گاڑی کی تصاویر',exterior:'بیرونی حصہ',interior:'اندرونی حصہ'},
+ fr:{label:'Photos du véhicule',exterior:'Extérieur',interior:'Intérieur'},
+ es:{label:'Fotos del vehículo',exterior:'Exterior',interior:'Interior'},
+ de:{label:'Fahrzeugfotos',exterior:'Außenansicht',interior:'Innenraum'},
+ tr:{label:'Araç fotoğrafları',exterior:'Dış görünüm',interior:'İç mekan'},
+ hi:{label:'वाहन की तस्वीरें',exterior:'बाहरी दृश्य',interior:'आंतरिक दृश्य'},
+};
+
 const FLEET_I18N: Record<string, Record<Locale, string>> = {
   breadcrumbHome: {
     en: 'Home',
@@ -689,7 +702,11 @@ const APPROVED_BLUEPRINT_FLEET: StandardVehicleSpec[] = [
 export function FleetCatalog({ locale }: FleetCatalogProps) {
   const { formatPrice } = useCurrency();
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
+  // Reference adaptation: one focused vehicle, with a deliberate exterior/interior switch.
+  const [spotlightVehicleId, setSpotlightVehicleId] = useState('yukon');
+  const [spotlightPhotoMode, setSpotlightPhotoMode] = useState<'exterior' | 'interior'>('exterior');
   const isAr = locale === 'ar';
+  const photoText = PHOTO_UI[locale];
   const isRtl = isAr || locale === 'ur';
 
   const t = (key: string): string => {
@@ -701,7 +718,8 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
     return APPROVED_BLUEPRINT_FLEET.filter((v) => v.category === activeFilter);
   }, [activeFilter]);
 
-  const spotlightVehicle = APPROVED_BLUEPRINT_FLEET.find((vehicle) => vehicle.id === 'yukon');
+  const spotlightVehicle = APPROVED_BLUEPRINT_FLEET.find((vehicle) => vehicle.id === spotlightVehicleId);
+  const spotlightMedia = APPROVED_5_FLEET.find((vehicle) => vehicle.slug === spotlightVehicle?.slug);
   const spotlightFare = spotlightVehicle ? (AUTHORITATIVE_TRANSFER_RATES['jeddah-airport-to-makkah']?.[spotlightVehicle.bookingVehicleId] ?? null) : null;
   const directoryVehicles = activeFilter === 'all' ? filteredVehicles.filter((vehicle) => vehicle.id !== spotlightVehicle?.id) : filteredVehicles;
 
@@ -788,10 +806,22 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
           {/* Selected vehicle spotlight — a deliberately different composition from the catalog. */}
           {activeFilter === 'all' && spotlightVehicle && (
             <article className="duyuf-fleet-spotlight">
-              <Link href={`/${locale}/fleet/${spotlightVehicle.slug}`} className="duyuf-fleet-spotlight-image" aria-label={spotlightVehicle.name[locale] || spotlightVehicle.name.en}>
-                <Image src={spotlightVehicle.image} alt={spotlightVehicle.name[locale] || spotlightVehicle.name.en} fill sizes="(max-width: 767px) 100vw, 60vw" className="object-contain" />
-                <span className="duyuf-fleet-spotlight-number">{spotlightVehicle.indexStr}</span>
-              </Link>
+              <div className="duyuf-fleet-spotlight-stage">
+                <Link href={`/${locale}/fleet/${spotlightVehicle.slug}`} className="duyuf-fleet-spotlight-image" aria-label={spotlightVehicle.name[locale] || spotlightVehicle.name.en}>
+                  <Image
+                    key={spotlightVehicle.slug + spotlightPhotoMode}
+                    src={spotlightPhotoMode === 'interior' ? spotlightMedia?.interiorImage || spotlightVehicle.image : spotlightMedia?.exteriorImage || spotlightVehicle.image}
+                    alt={`${spotlightVehicle.name[locale] || spotlightVehicle.name.en} — ${spotlightPhotoMode === 'interior' ? photoText.interior : photoText.exterior}`}
+                    fill sizes="(max-width: 767px) 100vw, 60vw"
+                    className={spotlightPhotoMode === 'interior' ? 'duyuf-fleet-gallery-interior' : 'duyuf-fleet-gallery-exterior'}
+                  />
+                  <span className="duyuf-fleet-spotlight-number">{spotlightVehicle.indexStr}</span>
+                </Link>
+                <div className="duyuf-fleet-gallery-controls" role="group" aria-label={photoText.label}>
+                  <button type="button" aria-pressed={spotlightPhotoMode === 'exterior'} onClick={() => setSpotlightPhotoMode('exterior')}>{photoText.exterior}</button>
+                  <button type="button" aria-pressed={spotlightPhotoMode === 'interior'} onClick={() => setSpotlightPhotoMode('interior')}>{photoText.interior}</button>
+                </div>
+              </div>
               <div className="duyuf-fleet-spotlight-content">
                 <span className="duyuf-fleet-spotlight-kicker">{spotlightVehicle.kicker[locale] || spotlightVehicle.kicker.en}</span>
                 <h2>{spotlightVehicle.name[locale] || spotlightVehicle.name.en}</h2>
@@ -807,6 +837,19 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
                     <small>({spotlightFare} SAR)</small>
                   </div>
                 )}
+                <div className="duyuf-fleet-spotlight-vehicle-picker" role="group" aria-label={t('filterLabel')}>
+                  {APPROVED_BLUEPRINT_FLEET.map((vehicle) => (
+                    <button
+                      type="button"
+                      key={vehicle.id}
+                      aria-pressed={spotlightVehicleId === vehicle.id}
+                      onClick={() => { setSpotlightVehicleId(vehicle.id); setSpotlightPhotoMode('exterior'); }}
+                    >
+                      <span>{vehicle.indexStr.split(' / ')[0]}</span>
+                      {vehicle.name[locale] || vehicle.name.en}
+                    </button>
+                  ))}
+                </div>
                 <div className="duyuf-fleet-spotlight-actions">
                   <Link href={`/${locale}/booking?vehicle=${spotlightVehicle.bookingVehicleId}`} className="duyuf-fleet-spotlight-book">{t('bookVehicle')}</Link>
                   <Link href={`/${locale}/fleet/${spotlightVehicle.slug}`} className="duyuf-fleet-spotlight-details">{t('fullDetails')} <span aria-hidden="true">{isRtl ? '←' : '→'}</span></Link>

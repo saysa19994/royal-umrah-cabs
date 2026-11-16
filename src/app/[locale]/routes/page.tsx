@@ -6,6 +6,7 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { Compass, ShieldCheck, Banknote, Car, Plane, ChevronRight, Sparkles, MessageCircle } from 'lucide-react';
 import { ExecutiveRouteCard } from '@/components/routes/ExecutiveRouteCard';
 import { PricingTable } from '@/components/pricing/PricingTable';
+import { RouteSpotlightExplorer } from '@/components/routes/RouteSpotlightExplorer';
 import { Spotlight } from '@/components/ui/luxury/Spotlight';
 import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
 import { getDbPricesCached } from '@/lib/pricing-db';
@@ -203,6 +204,9 @@ export default async function RoutesPage(props: RoutesPageProps) {
           </div>
         </div>
       </section>
+
+      {/* Adapted from the cinematic destination-slider reference: routes own the experience, not the homepage. */}
+      <RouteSpotlightExplorer locale={locale} />
 
       {/* 2. EXECUTIVE ROUTE CARDS LIST */}
       <section className="py-10 sm:py-14 md:py-18">

@@ -1,4 +1,5 @@
 import React from 'react';
+import './contact-editorial.css';
 import type { Metadata } from 'next';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
@@ -36,7 +37,7 @@ export default async function ContactPage(props: ContactPageProps) {
   const phoneCall = settings.phone || '+966505316971';
 
   return (
-    <div className="py-16 md:py-24 bg-bg min-h-screen">
+    <div className="duyuf-contact-editorial py-16 md:py-24 bg-bg min-h-screen">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -52,9 +53,9 @@ export default async function ContactPage(props: ContactPageProps) {
         </div>
 
         {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+        <div className="duyuf-contact-layout grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           {/* Contact Direct Cards */}
-          <div className="space-y-4 text-start">
+          <div className="duyuf-contact-channels space-y-4 text-start">
             {/* Primary WhatsApp Direct */}
             <a
               href={`https://wa.me/${mainWa}`}
@@ -170,7 +171,7 @@ export default async function ContactPage(props: ContactPageProps) {
           </div>
 
           {/* Form Side */}
-          <div className="bg-surface rounded-3xl p-8 md:p-10 border border-border shadow-sm text-start">
+          <div className="duyuf-contact-form-panel bg-surface rounded-3xl p-8 md:p-10 border border-border shadow-sm text-start">
             <h2 className="font-display font-semibold text-2xl text-ink mb-2">
               {dict.page_contact.formTitle}
             </h2>
