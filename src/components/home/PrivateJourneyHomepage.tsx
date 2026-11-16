@@ -344,7 +344,7 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
           <div className={styles.guideGrid}>
             {[
               {href:'jeddah-airport-arrival-guide', image:'/assets/images/jeddah-airport-pickup-umrah.webp', title:dict.guides_section.guide2Title, desc:dict.guides_section.guide2Desc},
-              {href:'makkah-to-madinah-transport-comparison', image:'/assets/homepage-v2/route-makkah-madinah.jpg', title:dict.guides_section.guide3Title, desc:dict.guides_section.guide3Desc},
+              {href:'makkah-to-madinah-transport-comparison', image:'/assets/homepage-v2/service-intercity.jpg', title:dict.guides_section.guide3Title, desc:dict.guides_section.guide3Desc},
               {href:'malaysia-umrah-transport',image:'/assets/homepage-v2/ziyarat-haram.jpg',title:dict.guides_section.guide1Title,desc:dict.guides_section.guide1Desc}
             ].map((article,i)=><Link key={article.href} className={styles.guideCard} href={`/${locale}/guides/${article.href}`}>
               <div className={styles.guidePhoto}><img src={article.image} alt="" loading="lazy" /></div><div className={styles.guideBody}><span>{dict.nav.guides} / 0{i+1}</span><h3>{article.title}</h3><p>{article.desc}</p><span className={styles.guideRead}>{dict.guides_section.readGuide} <ArrowUpRight size={18}/></span></div>
