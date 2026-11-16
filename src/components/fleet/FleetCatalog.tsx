@@ -406,6 +406,7 @@ interface StandardVehicleSpec {
   bookingVehicleId: string;
 }
 
+// The visible seat and luggage counts match the five approved booking vehicles.
 const APPROVED_BLUEPRINT_FLEET: StandardVehicleSpec[] = [
   {
     id: 'camry',
@@ -449,7 +450,7 @@ const APPROVED_BLUEPRINT_FLEET: StandardVehicleSpec[] = [
       hi: 'दंपतियों और छोटे परिवारों के लिए सुरुचिपूर्ण सेडान, जिसमें शांत यात्रा और वातानुकूलित केबिन है।',
       tr: 'Çiftler ve küçük aileler için zarif özel sedan; sessiz sürüş ve ferah klima konforu.',
     },
-    passengers: 4,
+    passengers: 3,
     luggage: 3,
     acType: {
       en: 'Dual-Zone Digital AC',
@@ -507,7 +508,7 @@ const APPROVED_BLUEPRINT_FLEET: StandardVehicleSpec[] = [
       hi: 'स्वतंत्र कैप्टन सीटों, बुजुर्गों के लिए आसान प्रवेश और विशाल ट्रंक के साथ भविष्य का लक्जरी केबिन।',
       tr: 'Bağımsız kaptan koltuklu, yaşlı dostu alçak tabanlı ve geniş bagajlı fütüristik lüks kabin.',
     },
-    passengers: 7,
+    passengers: 5,
     luggage: 6, // AUTHORITATIVE LOCK: STRICTLY 6 BAGS
     acType: {
       en: 'Tri-Zone Digital Roof Diffusers',
@@ -682,7 +683,7 @@ const APPROVED_BLUEPRINT_FLEET: StandardVehicleSpec[] = [
       tr: 'Geniş kafileler için tasarlanmış, arkada devasa bagaj alanına sahip 21 kişilik lüks otobüs.',
     },
     passengers: 21,
-    luggage: 20,
+    luggage: 21,
     acType: {
       en: 'High-Capacity Industrial Central Climate System',
       ar: 'نظام تكييف مركزي عالي القدرة لجميع الركاب',
