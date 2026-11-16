@@ -98,3 +98,25 @@ test('homepage FAQ structured data matches the four real accordion questions',()
   assert.match(component,/hidden=\{activeFaq!==i\}/);
   assert.doesNotMatch(component,/10,000\+|5[,.]0?\/5/);
 });
+
+
+test('public fleet slugs are mapped to authoritative short rate keys, never displayed as unavailable fares',()=>{
+  for(const pair of [
+    "'toyota-camry':'camry'",
+    "'hyundai-staria':'staria'",
+    "'gmc-yukon-xl':'yukon'",
+    "'toyota-hiace':'hiace'",
+    "'toyota-coaster':'coaster'",
+  ])assert.ok(component.includes(pair),'Missing price normalization for '+pair);
+  assert.ok(component.includes('AUTHORITATIVE_TRANSFER_RATES[item.slug]?.[FARE_VEHICLE_KEYS[car.bookingParam]]'));
+  assert.match(component,/POPULAR_ROUTES\.map/);
+  assert.match(component,/ROUTES\.slice\(0,4\)/);
+  const publishedRoutes=[
+    'jeddah-airport-to-makkah','makkah-to-madinah','madinah-airport-to-hotel',
+    'jeddah-airport-to-madinah','makkah-to-taif','jeddah-to-taif',
+    'riyadh-to-makkah','riyadh-to-madinah','makkah-ziyarat','madinah-ziyarat'
+  ];
+  for(const slug of publishedRoutes){
+    assert.ok(component.includes("slug:'"+slug+"'"),'Route missing from homepage booking: '+slug);
+  }
+});
