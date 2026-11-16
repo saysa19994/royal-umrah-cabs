@@ -84,12 +84,12 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Jeddah Terminal 1 features a long walking concourse; inform your chauffeur via WhatsApp as soon as your flight touches down.',
-      'Indonesian pilgrims settle fares directly upon arrival at their hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and cash (SAR or USD)s are not accepted.',
+      'Indonesian pilgrims settle fares directly upon arrival at their hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards, online payments, and bank transfers are not accepted.',
       'Our dispatch team includes coordinators fluent in Bahasa Indonesia for smooth communication.',
     ],
     localTravelTipsNative: [
       'Terminal 1 Bandara Jeddah memiliki koridor yang panjang; hubungi supir Anda melalui WhatsApp segera setelah pesawat mendarat.',
-      'Jamaah Indonesia membayar ongkos langsung saat tiba di hotel secara tunai dalam Saudi Riyal (SAR) atau Dolar AS (USD). Kartu dan cash (SAR or USD) tidak diterima.',
+      'Jamaah Indonesia membayar ongkos langsung saat tiba di hotel secara tunai dalam Saudi Riyal (SAR) atau Dolar AS (USD). Kartu, pembayaran online, dan transfer bank tidak diterima.',
       'Tim koordinasi kami siap melayani komunikasi dalam Bahasa Indonesia untuk kemudahan Anda.',
     ],
     paymentAndCurrencyEn: 'Fixed fares displayed in Saudi Riyals (SAR). Zero advance deposit. Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD).',
@@ -159,7 +159,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     localTravelTipsEn: [
       'Flight Tracking: We monitor Malaysia Airlines MH156/MH160 and Saudia SV831/SV841 arrivals in real time so your chauffeur is ready even if flights land early.',
       'Miqat Stops: For transfers from Madinah to Makkah, our drivers include a dedicated 45-minute stop at Masjid Dhu al-Hulayfah (Bir Ali) for Ihram and Niyyah.',
-      'Payment: Cash paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). Cards and cash (SAR or USD)s are not accepted.',
+      'Payment: Cash paid directly to your chauffeur upon arrival in Saudi Riyals (SAR) or US Dollars (USD). Cards, online payments, and bank transfers are not accepted.',
     ],
     localTravelTipsNative: [
       'Penjejakan Penerbangan: Kami memantau waktu ketibaan penerbangan seperti MH156/MH160 dan SV831/SV841 secara langsung.',
@@ -307,7 +307,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     localTravelTipsEn: [
       'Our team tracks flight schedules across Indian departures: your driver will be waiting at arrivals even if your flight is rescheduled.',
       'Assistance available in Hindi, Urdu, and English through our 24/7 WhatsApp dispatch team.',
-      'Transparent payment: settle directly in cash (SAR or USD) upon arriving at your hotel. Cards and cash (SAR or USD)s are not accepted.',
+      'Transparent payment: settle directly in cash (SAR or USD) upon arriving at your hotel. Cards, online payments, and bank transfers are not accepted.',
     ],
     localTravelTipsNative: [
       'हमारी टीम आपकी फ्लाइट पर लाइव नजर रखती है; फ्लाइट लेट होने पर भी ड्राइवर आपका इंतजार करेगा बिना किसी अतिरिक्त चार्ज के।',
@@ -397,7 +397,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
       },
       {
         q: 'What payment methods are accepted after the journey is completed?',
-        a: 'We accept cash payments only. Cash paid to the driver after the journey is completed and the customer reaches the requested destination in Saudi Riyals (SAR) or US Dollars (USD). We do not accept debit cards, cash (SAR or USD)s, cash (SAR or USD), online payments, or cash (SAR or USD)s.',
+        a: 'We accept cash payments only. Cash paid to the driver after the journey is completed and the customer reaches the requested destination in Saudi Riyals (SAR) or US Dollars (USD). We do not accept payment cards, online payments, or bank transfers.',
       },
     ],
     faqsNative: [
@@ -407,7 +407,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
       },
       {
         q: 'What payment methods are accepted after the journey is completed?',
-        a: 'We accept cash payments only. Cash paid to the driver after the journey is completed and the customer reaches the requested destination in Saudi Riyals (SAR) or US Dollars (USD). We do not accept debit cards, cash (SAR or USD)s, cash (SAR or USD), online payments, or cash (SAR or USD)s.',
+        a: 'We accept cash payments only. Cash paid to the driver after the journey is completed and the customer reaches the requested destination in Saudi Riyals (SAR) or US Dollars (USD). We do not accept payment cards, online payments, or bank transfers.',
       },
     ],
     status: 'draft, needs human review',
@@ -445,12 +445,12 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Direct Saudia flights land at Terminal 1; common 1-stop flights via Turkish, Qatar, or Emirates also land at Terminal 1.',
-      'Pay on arrival in cash directly to your driver (USD or SAR). cash (SAR or USD)s, cash (SAR or USD), and online payments are not accepted.',
+      'Pay on arrival in cash directly to your driver (USD or SAR). Payment cards, online payments, and bank transfers are not accepted.',
       'Chilled bottled water and climate-controlled cabins ensure immediate recovery after long trans-Atlantic flights.',
     ],
     localTravelTipsNative: [
       'Direct Saudia flights land at Terminal 1; common 1-stop flights via Turkish, Qatar, or Emirates also land at Terminal 1.',
-      'Pay on arrival in cash directly to your driver (USD or SAR). cash (SAR or USD)s, cash (SAR or USD), and online payments are not accepted.',
+      'Pay on arrival in cash directly to your driver (USD or SAR). Payment cards, online payments, and bank transfers are not accepted.',
       'Chilled bottled water and climate-controlled cabins ensure immediate recovery after long trans-Atlantic flights.',
     ],
     paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR) and US Dollars (USD). Zero advance deposit. Cash only to driver on arrival.',
@@ -458,7 +458,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     faqsEn: [
       {
         q: 'Can we pay in US Dollars after reaching the destination?',
-        a: 'Yes! Cash paid to the driver after the journey is completed and the customer reaches the requested destination in US Dollars (USD) or Saudi Riyals (SAR). Cards, cash (SAR or USD), and electronic payments are not accepted.',
+        a: 'Yes! Cash paid to the driver after the journey is completed and the customer reaches the requested destination in US Dollars (USD) or Saudi Riyals (SAR). Cards, online payments, and bank transfers are not accepted.',
       },
       {
         q: 'What happens if our connecting flight in Doha, Istanbul, or Dubai is delayed?',
@@ -468,7 +468,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     faqsNative: [
       {
         q: 'Can we pay in US Dollars after reaching the destination?',
-        a: 'Yes! Cash paid to the driver after the journey is completed and the customer reaches the requested destination in US Dollars (USD) or Saudi Riyals (SAR). Cards, cash (SAR or USD), and electronic payments are not accepted.',
+        a: 'Yes! Cash paid to the driver after the journey is completed and the customer reaches the requested destination in US Dollars (USD) or Saudi Riyals (SAR). Cards, online payments, and bank transfers are not accepted.',
       },
       {
         q: 'What happens if our connecting flight in Doha, Istanbul, or Dubai is delayed?',
@@ -510,12 +510,12 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Flight connections through European or Middle Eastern hubs are monitored in real time.',
-      'Settle your fare directly at your hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and cash (SAR or USD)s are not accepted.',
+      'Settle your fare directly at your hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards, online payments, and bank transfers are not accepted.',
       'High-speed highway travel with courteous, professional chauffeurs.',
     ],
     localTravelTipsNative: [
       'Flight connections through European or Middle Eastern hubs are monitored in real time.',
-      'Settle your fare directly at your hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards and cash (SAR or USD)s are not accepted.',
+      'Settle your fare directly at your hotel in cash (Saudi Riyals - SAR or US Dollars - USD). Cards, online payments, and bank transfers are not accepted.',
       'High-speed highway travel with courteous, professional chauffeurs.',
     ],
     paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD).',
@@ -623,7 +623,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Meet & Greet: Your chauffeur awaits you just outside the international arrival terminal with a clear nameboard.',
-      'Payment: Cash paid to the driver after the journey is completed and destination reached (SAR or USD). Cards and cash (SAR or USD)s are not accepted.',
+      'Payment: Cash paid to the driver after the journey is completed and destination reached (SAR or USD). Cards, online payments, and bank transfers are not accepted.',
     ],
     localTravelTipsNative: [
       'Accueil aéroport : Votre chauffeur vous attend directement à la sortie du terminal avec une pancarte à votre nom.',
@@ -678,7 +678,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Fixed prices guaranteed with zero hidden extras.',
-      'Pay on arrival at your hotel in EUR or SAR.',
+      'Pay on arrival at your hotel in SAR or USD.',
     ],
     localTravelTipsNative: [
       'Precios fijos garantizados sin suplementos sorpresa.',
@@ -733,11 +733,11 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Transfers available 24/7 matching flight arrivals into Jeddah Terminal 1.',
-      'Settle in EUR or SAR directly with your chauffeur at your hotel.',
+      'Settle in SAR or USD directly with your chauffeur at your hotel.',
     ],
     localTravelTipsNative: [
       'Transfers available 24/7 matching flight arrivals into Jeddah Terminal 1.',
-      'Settle in EUR or SAR directly with your chauffeur at your hotel.',
+      'Settle in SAR or USD directly with your chauffeur at your hotel.',
     ],
     paymentAndCurrencyEn: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD).',
     paymentAndCurrencyNative: 'Fixed fares in Saudi Riyals (SAR). Zero advance deposit. Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD).',
@@ -930,7 +930,7 @@ export const PILGRIM_COUNTRIES: Record<string, PilgrimCountryData> = {
     ],
     localTravelTipsEn: [
       'Frequent shuttle and direct flights from DXB and AUH arrive at Terminal 1.',
-      'Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD). Cards, cash (SAR or USD), and online payments are not accepted.',
+      'Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR or USD). Cards, online payments, and bank transfers are not accepted.',
       'Bottled cold water and phone charging available in all vehicles.',
     ],
     localTravelTipsNative: [
