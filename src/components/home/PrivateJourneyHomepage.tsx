@@ -328,6 +328,17 @@ export function PrivateJourneyHomepage({locale,dict}:Props) {
           <div className={styles.faqMore}><Link href={`/${locale}/faq`}>{dict.faq.heading} {arrow}</Link><Link href={`/${locale}/guides`}>{E.guideHeading} {arrow}</Link></div>
         </div>
       </section>
+
+      <section className={styles.finalBand} aria-label={L.planJourney}>
+        <div className={`${styles.wrap} ${styles.finalInside}`}>
+          <div>
+            <p className={styles.finalOverline}>{L.feature}</p>
+            <h2>{L.privateLabel}</h2>
+            <p>{L.payment}</p>
+          </div>
+          <Link className={styles.finalLink} href={`/${locale}/booking`}>{L.planJourney} {arrow}</Link>
+        </div>
+      </section>
     </div>
   );
 }
