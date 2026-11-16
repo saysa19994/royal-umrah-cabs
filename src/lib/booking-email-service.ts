@@ -496,6 +496,7 @@ export async function dispatchBookingEmails(data: BookingEmailData): Promise<{ c
       const { subject, html } = buildCustomerEmailHtml(data);
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
+        signal: AbortSignal.timeout(8000),
         headers: {
           Authorization: `Bearer ${resendApiKey}`,
           'Content-Type': 'application/json',
@@ -522,6 +523,7 @@ export async function dispatchBookingEmails(data: BookingEmailData): Promise<{ c
       const { subject, html } = buildCompanyNotificationHtml(data);
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
+        signal: AbortSignal.timeout(8000),
         headers: {
           Authorization: `Bearer ${resendApiKey}`,
           'Content-Type': 'application/json',
