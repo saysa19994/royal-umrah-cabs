@@ -84,7 +84,9 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
 
   // Dynamic Country Landing Pages (strictly exclude noindex pages like greece, and draft/unverified markets)
   const pilgrimCountryPaths = Object.values(PILGRIM_COUNTRIES)
-    .filter((c) => !c.noindex)
+    // All draft countries must be reviewed before they become indexable.
+    // English is the common base; each country has one native-language version.
+    .filter((c) => c.status === 'published' && !c.noindex && (locale === 'en' || locale === c.primaryLanguage))
     .map((c) => `/pilgrims/${c.slug}`);
 
   const allPaths = [
@@ -122,6 +124,19 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
       alternateLanguages = {
         ar: `${baseUrl}/ar${path}`,
         en: `${baseUrl}/en${path}`,
+        'x-default': `${baseUrl}/en${path}`,
+      };
+    }
+
+    // Only link country pages that are actually published in each language.
+    const countrySlug = path.startsWith('/pilgrims/') ? path.slice('/pilgrims/'.length) : null;
+    const country = countrySlug ? PILGRIM_COUNTRIES[countrySlug] : null;
+    if (country) {
+      alternateLanguages = {
+        en: `${baseUrl}/en${path}`,
+        ...(country.primaryLanguage !== 'en'
+          ? { [country.primaryLanguage]: `${baseUrl}/${country.primaryLanguage}${path}` }
+          : {}),
         'x-default': `${baseUrl}/en${path}`,
       };
     }
