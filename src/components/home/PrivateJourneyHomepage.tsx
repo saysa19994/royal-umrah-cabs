@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, Check,
-  ChevronLeft, ChevronRight, Clock3, Luggage,
+  Clock3, Luggage,
   MapPin, Plane, ShieldCheck, Users, Wallet,
   Navigation, Compass,
 } from 'lucide-react';
@@ -24,6 +24,7 @@ import { APPROVED_5_FLEET } from '@/data/approved-fleet-homepage';
 import { AUTHORITATIVE_TRANSFER_RATES, LOCALIZED_ROUTE_NAMES } from '@/lib/pricing-constants';
 import styles from './PrivateJourneyHomepage.module.css';
 import { DuyufSignature } from '@/components/brand/DuyufSignature';
+import { DUYUF_HOME_LAYOUT } from '@/data/duyuf-homepage-layout-copy';
 
 interface Props {
   locale: Locale;
@@ -73,6 +74,7 @@ function safeLocalDate() {
 export function PrivateJourneyHomepage({ locale, dict }: Props) {
   const isRtl = locale === 'ar' || locale === 'ur';
   const L = COPY[locale];
+  const E = DUYUF_HOME_LAYOUT[locale];
   const router = useRouter();
   const { formatPrice } = useCurrency();
   const heroVideoRef = useRef<HTMLVideoElement>(null);
@@ -100,15 +102,12 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
   const [travelers, setTravelers] = useState('2');
   const [luggage, setLuggage] = useState('2');
   const [validation, setValidation] = useState(false);
-  const [activeRoute, setActiveRoute] = useState(0);
   const [activeVehicle, setActiveVehicle] = useState(1);
-  const [interior, setInterior] = useState(false);
+  const [interior, setInterior] = useState(true);
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
   const arrow = isRtl ? <ArrowLeft size={18} aria-hidden /> : <ArrowRight size={18} aria-hidden />;
   const minDate = useMemo(safeLocalDate, []);
-  const selectedRoute = FEATURED_ROUTES[activeRoute];
   const selectedFleetVehicle = APPROVED_5_FLEET[activeVehicle];
-  const selectedRoutePrice = AUTHORITATIVE_TRANSFER_RATES[selectedRoute.slug]?.camry;
   const selectedFleetPrice = AUTHORITATIVE_TRANSFER_RATES['jeddah-airport-to-makkah']?.[selectedFleetVehicle.bookingParam];
   const faqItems = [
     { question: dict.faq.q2, answer: dict.faq.a2 },
@@ -213,175 +212,199 @@ export function PrivateJourneyHomepage({ locale, dict }: Props) {
         </div>
       </section>
 
+
       <section className={styles.assurance} aria-label={L.servicePromise}>
         <div className={`${styles.wrap} ${styles.assuranceGrid}`}>
-          <div><Wallet size={24} aria-hidden /><span>{L.payment}</span></div>
-          <div><Plane size={24} aria-hidden /><span>{L.flight}</span></div>
-          <div><Clock3 size={24} aria-hidden /><span>{L.cancellation}</span></div>
-          <div><ShieldCheck size={24} aria-hidden /><span>{L.allIncluded}</span></div>
+          <div><Wallet size={19} aria-hidden="true" /><span>{L.payment}</span></div>
+          <div><Plane size={19} aria-hidden="true" /><span>{L.flight}</span></div>
+          <div><Clock3 size={19} aria-hidden="true" /><span>{L.cancellation}</span></div>
+          <div><ShieldCheck size={19} aria-hidden="true" /><span>{L.allIncluded}</span></div>
         </div>
       </section>
 
-
-      {/* One hospitality story; no duplicated destination gallery or extra route cards. */}
-      <section className={styles.experienceSection} id="services" aria-labelledby="pj-experience">
-        <div className={`${styles.wrap} ${styles.experienceLayout}`}>
-          <div className={styles.experienceVisual}>
-            <img
-              src="/assets/homepage-v2/chauffeur-welcome.jpg"
-              alt={dict.services.airportTitle}
-              className={styles.experiencePrimaryPhoto}
-              loading="lazy"
-            />
-            <div className={styles.experienceInset}>
-              <img src="/assets/homepage-v2/vehicle-interior-cta.jpg" alt={dict.fleet.subtitle} loading="lazy" />
-            </div>
-            <span className={styles.experiencePhotoMark} aria-hidden="true">
-              <DuyufSignature className={styles.experienceSignature} />
-            </span>
-          </div>
-          <div className={styles.experienceCopy}>
-            <p className={styles.overline}><span className={styles.overlineRule} />{L.servicesKicker}</p>
-            <h2 id="pj-experience">{L.servicePromise}</h2>
-            <p>{dict.services.subtitle}</p>
-            <div className={styles.experienceRule} aria-hidden="true" />
-            <div className={styles.experienceFoot}>
-              <span>{L.privateLabel}</span>
-              <Link href={`/${locale}/services`} className={styles.inlineLink}>
-                {dict.nav.services} {arrow}
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.routesSection} id="routes" aria-labelledby="pj-routes">
+      {/* 3-step request flow — never promise instant confirmation. */}
+      <section className={styles.stepsSection} aria-labelledby="pj-steps">
         <div className={styles.wrap}>
-          <div className={styles.sectionHeading}>
-            <div><p className={styles.overline}>{dict.popular_routes.sectionPill}</p><h2 id="pj-routes">{dict.popular_routes.heading} <em>{dict.popular_routes.headingHighlight}</em></h2></div>
-            <Link className={styles.inlineLink} href={`/${locale}/routes`}>{L.exploreRoutes} {arrow}</Link>
+          <div className={styles.centerHeading}>
+            <p className={styles.overline}>{L.howLabel}</p>
+            <h2 id="pj-steps">{E.stepsTitle}</h2>
           </div>
-          <div className={styles.routeExplorer} tabIndex={0} onKeyDown={(e)=>{
-            if (e.target !== e.currentTarget) return;
-            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-              e.preventDefault();
-              const delta = (e.key === 'ArrowRight') !== isRtl ? 1 : -1;
-              setActiveRoute(i => (i + delta + FEATURED_ROUTES.length) % FEATURED_ROUTES.length);
-            }
-          }} aria-label={dict.popular_routes.heading}>
-            <div className={styles.routeText}>
-              <span className={styles.routeCount}>0{activeRoute+1} <span>/ 0{FEATURED_ROUTES.length}</span></span>
-              <h3>{LOCALIZED_ROUTE_NAMES[selectedRoute.slug]?.[locale]}</h3>
-              <p>{selectedRoute.category === 'airport' ? dict.services.airportDesc : dict.services.intercityDesc}</p>
-              <div className={styles.routeFare}>
-                {typeof selectedRoutePrice === 'number' && <><span>{dict.popular_routes.fromPrice}</span><strong>{formatPrice(selectedRoutePrice)}</strong></>}
-              </div>
-              <div className={styles.routeFoot}>
-                <Link className={styles.buttonPrimary} href={`/${locale}/booking?route=${selectedRoute.slug}`}>{dict.hero.ctaBook} {arrow}</Link>
-                <div className={styles.carouselControls}>
-                  <button type="button" aria-label={L.previous} onClick={()=>setActiveRoute(i=>(i+FEATURED_ROUTES.length-1)%FEATURED_ROUTES.length)}><ChevronLeft size={20}/></button>
-                  <button type="button" aria-label={L.next} onClick={()=>setActiveRoute(i=>(i+1)%FEATURED_ROUTES.length)}><ChevronRight size={20}/></button>
-                </div>
-              </div>
-            </div>
-            <div className={styles.routeImage}>
-              <img src={selectedRoute.image} alt={LOCALIZED_ROUTE_NAMES[selectedRoute.slug]?.[locale]} loading="lazy" />
-              <div className={styles.routeImageMarker}><Compass size={19}/><span>{LOCALIZED_ROUTE_NAMES[selectedRoute.slug]?.[locale]}</span></div>
-            </div>
-          </div>
-          {/* The whole route list is visible; visitors never have to guess what four decorative dots mean. */}
-          <div className={styles.routeRail} role="group" aria-label={dict.popular_routes.heading}>
-            {FEATURED_ROUTES.map((item,i) => (
-              <button
-                key={item.slug}
-                type="button"
-                aria-pressed={i === activeRoute}
-                onClick={() => setActiveRoute(i)}
-                className={`${styles.routeRailItem} ${i === activeRoute ? styles.routeRailActive : ''}`}
-              >
-                <span className={styles.routeRailIndex}>{String(i+1).padStart(2,'0')}</span>
-                <strong>{LOCALIZED_ROUTE_NAMES[item.slug]?.[locale] || item.slug}</strong>
-                <ArrowUpRight size={17} aria-hidden="true" />
-              </button>
+          <ol className={styles.stepsGrid}>
+            {[
+              { title: dict.steps.step1Title, description: dict.steps.step1Desc },
+              { title: L.stepChoose, description: dict.steps.step2Desc },
+              { title: L.stepReview, description: L.faqNote },
+            ].map((step, index) => (
+              <li className={styles.stepItem} key={index}>
+                <span className={styles.stepNumber}>{String(index + 1).padStart(2, '0')}</span>
+                <div><h3>{step.title}</h3><p>{step.description}</p></div>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
+      {/* Cabin experience follows the journey steps; photograph stays contained. */}
       <section className={styles.fleetSection} id="fleet" aria-labelledby="pj-fleet">
         <div className={styles.wrap}>
           <div className={styles.sectionHeading}>
-            <div><p className={styles.overline}>{dict.cinematic_fleet.eyebrow}</p><h2 id="pj-fleet">{L.carGallery}</h2></div>
+            <div>
+              <p className={styles.overline}>{E.interiorEyebrow}</p>
+              <h2 id="pj-fleet">{E.interiorTitle}</h2>
+              <p className={styles.headingDescription}>{E.interiorSubtitle}</p>
+            </div>
             <Link className={styles.inlineLink} href={`/${locale}/fleet`}>{dict.hero.ctaFleet} {arrow}</Link>
           </div>
           <div className={styles.fleetSelector} role="group" aria-label={dict.cinematic_fleet.title}>
             {APPROVED_5_FLEET.map((car,i)=>(
               <button key={car.id} type="button" className={i===activeVehicle?styles.carSelected:''} aria-pressed={i===activeVehicle}
-                onClick={()=>{setActiveVehicle(i);setInterior(false);}}>{car.name[locale]}</button>
+                onClick={()=>{setActiveVehicle(i);setInterior(true);}}>{car.name[locale]}</button>
             ))}
           </div>
           <div className={styles.fleetStage}>
             <div className={styles.fleetImage}>
-              <img key={selectedFleetVehicle.id + (interior?'in':'out')} src={interior?selectedFleetVehicle.interiorImage:selectedFleetVehicle.exteriorImage} alt={selectedFleetVehicle.name[locale]} loading="lazy" />
-              <div className={styles.fleetSignature} aria-hidden="true">
-                <DuyufSignature className={styles.fleetSignatureGlyph} />
-              </div>
-              <div className={styles.imageToggle} role="group" aria-label={dict.fleet.viewExterior}>
-                <button type="button" aria-pressed={!interior} className={!interior?styles.photoActive:''} onClick={()=>setInterior(false)}>{dict.fleet.viewExterior}</button>
+              <img key={selectedFleetVehicle.id + (interior?'in':'out')}
+                src={interior?selectedFleetVehicle.interiorImage:selectedFleetVehicle.exteriorImage}
+                alt={selectedFleetVehicle.name[locale]} loading="lazy" />
+              <div className={styles.imageToggle} role="group" aria-label={dict.fleet.viewInterior}>
                 <button type="button" aria-pressed={interior} className={interior?styles.photoActive:''} onClick={()=>setInterior(true)}>{dict.fleet.viewInterior}</button>
+                <button type="button" aria-pressed={!interior} className={!interior?styles.photoActive:''} onClick={()=>setInterior(false)}>{dict.fleet.viewExterior}</button>
               </div>
             </div>
             <div className={styles.fleetInfo}>
-              <p className={styles.overline}>{selectedFleetVehicle.categoryBadge[locale]}</p>
+              <span className={styles.overline}>{selectedFleetVehicle.categoryBadge[locale]}</span>
               <h3>{selectedFleetVehicle.name[locale]}</h3>
-              <p>{(selectedFleetVehicle.summary[locale] || L.servicePromise)}</p>
+              <p>{selectedFleetVehicle.summary[locale] || selectedFleetVehicle.summary.en}</p>
               <div className={styles.fleetSpecs}>
-                <div><Users size={19}/><span><strong>{selectedFleetVehicle.passengers}</strong> {dict.cinematic_fleet.passengers}</span></div>
-                <div><Luggage size={19}/><span><strong>{selectedFleetVehicle.luggage}</strong> {dict.cinematic_fleet.luggage}</span></div>
+                <div><Users size={17} aria-hidden="true" /><strong>{selectedFleetVehicle.passengers}</strong> {dict.cinematic_fleet.passengers}</div>
+                <div><Luggage size={17} aria-hidden="true" /><strong>{selectedFleetVehicle.luggage}</strong> {dict.cinematic_fleet.luggage}</div>
               </div>
-              <ul className={styles.featureList}>{(selectedFleetVehicle.features[locale] ?? [L.servicePromise]).slice(0,3).map(f=><li key={f}><Check size={16}/>{f}</li>)}</ul>
-              {typeof selectedFleetPrice==='number' && <p className={styles.fleetPrice}>{dict.cinematic_fleet.startingFrom} <strong>{formatPrice(selectedFleetPrice)}</strong><small>{LOCALIZED_ROUTE_NAMES['jeddah-airport-to-makkah'][locale]}</small></p>}
+              {typeof selectedFleetPrice==='number' && selectedFleetPrice>0 && (
+                <p className={styles.fleetPrice}>
+                  {dict.cinematic_fleet.startingFrom} <strong>{formatPrice(selectedFleetPrice)}</strong>
+                  <small>{LOCALIZED_ROUTE_NAMES['jeddah-airport-to-makkah'][locale]}</small>
+                </p>
+              )}
               <div className={styles.fleetActions}>
                 <Link href={`/${locale}/fleet/${selectedFleetVehicle.slug}`} className={styles.buttonPrimary}>{L.openGallery} {arrow}</Link>
-                <Link href={`/${locale}/booking?vehicle=${selectedFleetVehicle.bookingParam}`} className={styles.buttonText}>{dict.fleet.bookNowButton}<ArrowUpRight size={18}/></Link>
+                <Link href={`/${locale}/booking?vehicle=${selectedFleetVehicle.bookingParam}`} className={styles.buttonText}>{dict.fleet.bookNowButton} <ArrowUpRight size={17} aria-hidden="true" /></Link>
               </div>
             </div>
           </div>
-          <p className={styles.fleetFootnote}>{dict.fleet.subtitle}</p>
         </div>
       </section>
 
-      <section className={styles.guidesSection} id="guides">
+      {/* Three service cards, not a huge second photo carousel. */}
+      <section className={styles.servicesSection} id="services" aria-labelledby="pj-services">
         <div className={styles.wrap}>
-          <div className={styles.sectionHeading}><div><p className={styles.overline}>{dict.guides_section.sectionPill}</p><h2>{dict.guides_section.heading} <em>{dict.guides_section.headingHighlight}</em></h2></div><Link className={styles.inlineLink} href={`/${locale}/guides`}>{dict.nav.guides} {arrow}</Link></div>
-          <div className={styles.guideGrid}>
+          <div className={styles.sectionHeading}>
+            <div><p className={styles.overline}>{L.servicesKicker}</p><h2 id="pj-services">{E.servicesTitle}</h2></div>
+            <Link className={styles.inlineLink} href={`/${locale}/services`}>{dict.nav.services} {arrow}</Link>
+          </div>
+          <div className={styles.serviceGrid}>
             {[
-              {href:'jeddah-airport-arrival-guide', image:'/assets/images/jeddah-airport-pickup-umrah.webp', title:dict.guides_section.guide2Title, desc:dict.guides_section.guide2Desc},
-              {href:'makkah-to-madinah-transport-comparison', image:'/assets/homepage-v2/service-intercity.jpg', title:dict.guides_section.guide3Title, desc:dict.guides_section.guide3Desc},
-              {href:'malaysia-umrah-transport',image:'/assets/homepage-v2/ziyarat-haram.jpg',title:dict.guides_section.guide1Title,desc:dict.guides_section.guide1Desc}
-            ].map((article,i)=><Link key={article.href} className={styles.guideCard} href={`/${locale}/guides/${article.href}`}>
-              <div className={styles.guidePhoto}><img src={article.image} alt="" loading="lazy" /></div><div className={styles.guideBody}><span>{dict.nav.guides} / 0{i+1}</span><h3>{article.title}</h3><p>{article.desc}</p><span className={styles.guideRead}>{dict.guides_section.readGuide} <ArrowUpRight size={18}/></span></div>
-            </Link>)}
+              { href:`/${locale}/booking?route=jeddah-airport-to-makkah`, src:'/assets/homepage-v2/route-jeddah-makkah.jpg', title:dict.services.airportTitle, description:dict.services.airportDesc },
+              { href:`/${locale}/routes`, src:'/assets/homepage-v2/service-intercity.jpg', title:dict.services.intercityTitle, description:dict.services.intercityDesc },
+              { href:`/${locale}/ziyarat`, src:'/assets/homepage-v2/ziyarat-haram.jpg', title:dict.services.ziyaratTitle, description:dict.services.ziyaratDesc },
+            ].map((service,index)=>(
+              <Link key={service.href} href={service.href} className={styles.serviceCard}>
+                <div className={styles.serviceImage}><img src={service.src} alt="" loading="lazy" /></div>
+                <div className={styles.serviceContent}>
+                  <span className={styles.serviceIndex}>{String(index+1).padStart(2,'0')} / {dict.nav.services}</span>
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
+                  <span className={styles.serviceArrow}>{L.exploreRoutes} {arrow}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className={styles.routesCompact} id="routes">
+            <div className={styles.routesCompactHead}>
+              <h3>{dict.popular_routes.heading}</h3>
+              <Link href={`/${locale}/routes`} className={styles.inlineLink}>{L.exploreRoutes} {arrow}</Link>
+            </div>
+            <div className={styles.routeLinks}>
+              {FEATURED_ROUTES.map((item)=> {
+                const fare = AUTHORITATIVE_TRANSFER_RATES[item.slug]?.camry;
+                return (
+                  <Link href={`/${locale}/booking?route=${item.slug}`} key={item.slug} className={styles.routeLink}>
+                    <span>{LOCALIZED_ROUTE_NAMES[item.slug]?.[locale] || item.slug}</span>
+                    <span className={styles.routeLinkFare}>{typeof fare==='number' && fare>0 ? formatPrice(fare) : ''} {arrow}</span>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className={styles.faqSection} id="faq">
+      {/* Meaningful differences: facts not repeated in the top guarantee strip. */}
+      <section className={styles.whySection} aria-labelledby="pj-why">
+        <div className={styles.wrap}>
+          <div className={styles.centerHeading}>
+            <p className={styles.overline}>{E.whyEyebrow}</p>
+            <h2 id="pj-why">{E.whyTitle}</h2>
+          </div>
+          <div className={styles.whyGrid}>
+            {[
+              { icon:<Plane size={24} aria-hidden="true" />, title:E.arrivalTitle, desc:E.arrivalDesc },
+              { icon:<Compass size={24} aria-hidden="true" />, title:E.miqatTitle, desc:E.miqatDesc },
+              { icon:<Users size={24} aria-hidden="true" />, title:E.familyTitle, desc:E.familyDesc },
+            ].map(item => (
+              <article key={item.title} className={styles.whyItem}>
+                <span className={styles.whyIcon}>{item.icon}</span>
+                <h3>{item.title}</h3><p>{item.desc}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Link to actual published reviews; never invent review counts. */}
+      <section className={styles.reviewsSection} aria-label={E.reviewTitle}>
+        <div className={`${styles.wrap} ${styles.reviewPanel}`}>
+          <div><p className={styles.overline}>{L.reviewRequest}</p><h2>{E.reviewTitle}</h2><p>{E.reviewSubtitle}</p></div>
+          <Link href={`/${locale}/reviews`} className={styles.buttonPrimary}>{L.reviewRequest} {arrow}</Link>
+        </div>
+      </section>
+
+      <section className={styles.faqSection} id="faq" aria-labelledby="pj-faq">
         <div className={styles.wrap}>
           <div className={styles.faqGrid}>
             <div className={styles.faqIntro}>
-              <p className={styles.overline}>{dict.faq.sectionPill}</p><h2>{dict.faq.heading}</h2><p>{L.faqNote}</p>
-              <Link href={`/${locale}/reviews`} className={styles.inlineLink}><ShieldCheck size={17}/>{L.reviewRequest} {arrow}</Link>
-              <div className={styles.faqImage}><img src="/assets/homepage-v2/service-madinah.jpg" alt={dict.services.ziyaratTitle} loading="lazy" /></div>
+              <p className={styles.overline}>{dict.faq.sectionPill}</p>
+              <h2 id="pj-faq">{dict.faq.heading}</h2>
+              <p>{L.faqNote}</p>
+              <div className={styles.faqLinks}>
+                <Link href={`/${locale}/faq`} className={styles.inlineLink}>{dict.faq.heading} {arrow}</Link>
+                <Link href={`/${locale}/guides`} className={styles.inlineLink}>{E.guideHeading} {arrow}</Link>
+              </div>
             </div>
             <div className={styles.faqItems}>
-              {faqItems.map((item,i)=><div key={item.question} className={styles.faqItem}>
-                <button aria-expanded={activeFaq===i} aria-controls={`pj-faq-${i}`} type="button" onClick={()=>setActiveFaq(activeFaq===i?null:i)}><span>{item.question}</span><span className={styles.faqSymbol}>{activeFaq===i?'−':'+'}</span></button>
-                {activeFaq===i && <p id={`pj-faq-${i}`}>{item.answer}</p>}
-              </div>)}
-              <Link className={styles.buttonText} href={`/${locale}/faq`}>{dict.faq.heading} {arrow}</Link>
+              {faqItems.map((item,i)=>(
+                <div key={item.question} className={styles.faqItem}>
+                  <h3>
+                    <button aria-expanded={activeFaq===i} aria-controls={`pj-faq-${i}`} type="button"
+                      onClick={()=>setActiveFaq(activeFaq===i?null:i)}>
+                      <span>{item.question}</span><span className={styles.faqSymbol} aria-hidden="true">{activeFaq===i?'−':'+'}</span>
+                    </button>
+                  </h3>
+                  {activeFaq===i && <p id={`pj-faq-${i}`}>{item.answer}</p>}
+                </div>
+              ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className={styles.finalSection} aria-labelledby="pj-final">
+        <div className={`${styles.wrap} ${styles.finalLayout}`}>
+          <div>
+            <p className={styles.overline}>{L.feature}</p>
+            <h2 id="pj-final">{E.finalTitle}</h2>
+            <p>{E.finalSubtitle}</p>
+          </div>
+          <Link href={`/${locale}/booking`} className={styles.finalButton}>{L.planJourney} {arrow}</Link>
         </div>
       </section>
     </div>
