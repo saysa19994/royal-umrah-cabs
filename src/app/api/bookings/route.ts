@@ -60,7 +60,7 @@ export async function POST(request: Request) {
     if (isNaN(pickupTimestamp)) {
       return NextResponse.json(
         { success: false, error: 'Invalid pickup date and time format' },
-        { status: turnstileCheck.status ?? 400 }
+        { status: 400 }
       );
     }
 
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
           success: false,
           error: 'Pickup time must be scheduled at least 1 hour in advance (Asia/Riyadh time). Past dates are strictly not allowed.',
         },
-        { status: turnstileCheck.status ?? 400 }
+        { status: 400 }
       );
     }
 
@@ -93,7 +93,7 @@ export async function POST(request: Request) {
       console.error('Database pricing computation error:', calcErr);
       return NextResponse.json(
         { success: false, error: calcErr.message || 'Unable to calculate price for the requested itinerary. Please contact dispatch via WhatsApp.' },
-        { status: turnstileCheck.status ?? 400 }
+        { status: 400 }
       );
     }
 
@@ -263,7 +263,7 @@ export async function POST(request: Request) {
           success: false,
           error: error.errors?.[0]?.message || 'Invalid booking submission data',
         },
-        { status: turnstileCheck.status ?? 400 }
+        { status: 400 }
       );
     }
     return NextResponse.json(
