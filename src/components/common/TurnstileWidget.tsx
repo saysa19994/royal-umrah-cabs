@@ -74,11 +74,23 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
     const widgetIdRef = useRef<string | null>(null);
     const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
-    const siteKey =
-      process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY &&
-      !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY.includes('placeholder')
-        ? process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
-        : DEV_TEST_SITE_KEY;
+    const configuredSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() || '';
+    const isDeployed = process.env.NODE_ENV === 'production';
+    const knownTestKeys = [
+      DEV_TEST_SITE_KEY,
+      '2x00000000000000000000AB',
+      '1x00000000000000000000BB',
+      '2x00000000000000000000BB',
+      '3x00000000000000000000FF',
+    ];
+    const configuredKeyIsValid =
+      configuredSiteKey.length > 0 &&
+      !configuredSiteKey.includes('placeholder') &&
+      (!isDeployed || !knownTestKeys.includes(configuredSiteKey));
+    // Dev-only fallback: deployed preview and production must use real keys.
+    const siteKey = configuredKeyIsValid
+      ? configuredSiteKey
+      : isDeployed ? '' : DEV_TEST_SITE_KEY;
 
     const resetWidget = () => {
       if (widgetIdRef.current && window.turnstile) {
@@ -133,6 +145,8 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
           widgetIdRef.current = id;
         } catch (renderError) {
           console.warn('Turnstile render warning:', renderError);
+          setStatusMessage(ERROR_MESSAGES[locale as Locale] || ERROR_MESSAGES.en);
+          onError?.(renderError);
         }
       };
 
@@ -148,6 +162,11 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
           script.defer = true;
           script.onload = () => {
             initTurnstile();
+          };
+          script.onerror = () => {
+            if (!isMounted) return;
+            setStatusMessage(ERROR_MESSAGES[locale as Locale] || ERROR_MESSAGES.en);
+            onError?.(new Error('Turnstile script unavailable'));
           };
           document.head.appendChild(script);
         } else {
@@ -175,12 +194,21 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
     }, [siteKey, locale, theme, onSuccess, onExpire, onError]);
 
     return (
-      <div
-        className={`turnstile-container pointer-events-none fixed -top-[9999px] -left-[9999px] w-0 h-0 opacity-0 overflow-hidden ${className}`}
-        aria-hidden="true"
-        tabIndex={-1}
-      >
-        <div ref={containerRef} />
+      <div className={`turnstile-container flex w-full min-h-[64px] flex-col items-center justify-center gap-2 ${className}`}>
+        {siteKey ? (
+          <div ref={containerRef} />
+        ) : (
+          <p role="alert" className="max-w-md text-center text-sm text-rose-700">
+            {locale === 'ar'
+              ? 'خدمة التحقق الأمني غير متاحة حاليًا. يرجى التواصل مع فريق الحجوزات عبر واتساب.'
+              : 'Security verification is temporarily unavailable. Please contact our reservations team on WhatsApp.'}
+          </p>
+        )}
+        {statusMessage && (
+          <p role="alert" aria-live="polite" className="max-w-md text-center text-xs text-rose-700">
+            {statusMessage}
+          </p>
+        )}
       </div>
     );
   }
