@@ -17,6 +17,7 @@ import { FleetShowcaseVehicle } from '@/data/fleet-showcase-data';
 import { useCurrency } from '@/context/CurrencyContext';
 import { APPROVED_5_FLEET } from '@/data/approved-fleet-homepage';
 import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
+import { DuyufSignature } from '@/components/brand/DuyufSignature';
 
 interface FleetCatalogProps {
   vehicles: FleetShowcaseVehicle[];
@@ -700,6 +701,10 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
     return APPROVED_BLUEPRINT_FLEET.filter((v) => v.category === activeFilter);
   }, [activeFilter]);
 
+  const spotlightVehicle = APPROVED_BLUEPRINT_FLEET.find((vehicle) => vehicle.id === 'yukon');
+  const spotlightFare = spotlightVehicle ? (AUTHORITATIVE_TRANSFER_RATES['jeddah-airport-to-makkah']?.[spotlightVehicle.bookingVehicleId] ?? null) : null;
+  const directoryVehicles = activeFilter === 'all' ? filteredVehicles.filter((vehicle) => vehicle.id !== spotlightVehicle?.id) : filteredVehicles;
+
   const whatsappMessage = encodeURIComponent(
     isAr
       ? 'السلام عليكم، أرغب في الاستفسار عن حجز كونسيرج خاص (مرسيدس مايباخ / هيونداي H1).'
@@ -708,10 +713,11 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
   const whatsappUrl = `https://wa.me/966567588261?text=${whatsappMessage}`;
 
   return (
-    <div className="ref-fleet-page">
+    <div className="ref-fleet-page duyuf-editorial-fleet">
       {/* 1. BLUEPRINT PAGE HERO */}
-      <section className="page-hero page-hero-light">
-        <div className="wrap">
+      <section className="page-hero page-hero-light duyuf-fleet-hero">
+        <div className="wrap duyuf-fleet-hero-inner">
+          <div className="duyuf-fleet-hero-copy">
           <div className="breadcrumbs">
             <Link href={`/${locale}`}>{t('breadcrumbHome')}</Link>
             <span>/</span>
@@ -724,13 +730,28 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
             <em>{t('heroTitleEm')}</em>
           </h1>
           <p>{t('heroSubtitle')}</p>
+          <Link href={`/${locale}/booking`} className="duyuf-fleet-hero-cta">
+            {t('bookVehicle')} <ArrowRight size={18} aria-hidden="true" className={isRtl ? 'rotate-180' : ''} />
+          </Link>
+          </div>
+          <div className="duyuf-fleet-hero-media">
+            <Image
+              src="/assets/homepage-v2/fleet-private.jpg"
+              alt={t('heroSubtitle')}
+              fill
+              priority
+              sizes="(max-width: 767px) 100vw, 50vw"
+              className="duyuf-fleet-hero-photograph"
+            />
+            <div className="duyuf-fleet-brandmark" aria-hidden="true"><DuyufSignature /></div>
+          </div>
         </div>
       </section>
 
       {/* 2. FLEET DIRECTORY SECTION */}
       <section className="section fleet-directory">
         <div className="wrap">
-          <div className="filter-row">
+          <div className="filter-row duyuf-fleet-filter-row">
             <span>{t('filterLabel')}</span>
             <div className="filter-pills" role="tablist">
               <button
@@ -764,9 +785,38 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
             </div>
           </div>
 
-          {/* LARGE EDITORIAL VEHICLE CARDS — STRICTLY MAX 3 PER ROW ON DESKTOP, 2 ON TABLET, 1 ON MOBILE */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
-            {filteredVehicles.map((vehicle) => {
+          {/* Selected vehicle spotlight — a deliberately different composition from the catalog. */}
+          {activeFilter === 'all' && spotlightVehicle && (
+            <article className="duyuf-fleet-spotlight">
+              <Link href={`/${locale}/fleet/${spotlightVehicle.slug}`} className="duyuf-fleet-spotlight-image" aria-label={spotlightVehicle.name[locale] || spotlightVehicle.name.en}>
+                <Image src={spotlightVehicle.image} alt={spotlightVehicle.name[locale] || spotlightVehicle.name.en} fill sizes="(max-width: 767px) 100vw, 60vw" className="object-contain" />
+                <span className="duyuf-fleet-spotlight-number">{spotlightVehicle.indexStr}</span>
+              </Link>
+              <div className="duyuf-fleet-spotlight-content">
+                <span className="duyuf-fleet-spotlight-kicker">{spotlightVehicle.kicker[locale] || spotlightVehicle.kicker.en}</span>
+                <h2>{spotlightVehicle.name[locale] || spotlightVehicle.name.en}</h2>
+                <p>{spotlightVehicle.desc[locale] || spotlightVehicle.desc.en}</p>
+                <div className="duyuf-fleet-spotlight-specs">
+                  <span><Users size={19} aria-hidden="true" /> <strong>{spotlightVehicle.passengers}</strong> {t('passengers')}</span>
+                  <span><Briefcase size={19} aria-hidden="true" /> <strong>{spotlightVehicle.luggage}</strong> {t('luggage')}</span>
+                </div>
+                {spotlightFare !== null && (
+                  <div className="duyuf-fleet-spotlight-fare">
+                    <span>{t('startingFrom')}</span>
+                    <strong>{formatPrice(spotlightFare)}</strong>
+                    <small>({spotlightFare} SAR)</small>
+                  </div>
+                )}
+                <div className="duyuf-fleet-spotlight-actions">
+                  <Link href={`/${locale}/booking?vehicle=${spotlightVehicle.bookingVehicleId}`} className="duyuf-fleet-spotlight-book">{t('bookVehicle')}</Link>
+                  <Link href={`/${locale}/fleet/${spotlightVehicle.slug}`} className="duyuf-fleet-spotlight-details">{t('fullDetails')} <span aria-hidden="true">{isRtl ? '←' : '→'}</span></Link>
+                </div>
+              </div>
+            </article>
+          )}
+
+          <div className="duyuf-fleet-card-grid">
+            {directoryVehicles.map((vehicle) => {
               const vKicker = vehicle.kicker[locale] || vehicle.kicker.en;
               const vName = vehicle.name[locale] || vehicle.name.en;
               const vDesc = vehicle.desc[locale] || vehicle.desc.en;
