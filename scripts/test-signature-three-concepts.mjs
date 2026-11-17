@@ -9,7 +9,7 @@ const middleware=read('src/middleware.ts');
 test('three unique real Next.js concepts are preview only and noindex',()=>{
  for(const id of ['desert','editorial','cinematic']){
   assert.ok(page.includes("'"+id+"'"),id);
-  assert.ok(studio.includes("concept==='"+id+"'"),id);
+  assert.ok(id==='cinematic'?studio.includes('<Cinematic s={s}/>'):studio.includes("concept==='"+id+"'"),id);
   assert.ok(css.includes('[data-concept="'+id+'"]'),id);
  }
  assert.match(page,/robots:\{index:false,follow:false/);
