@@ -190,3 +190,46 @@
  .conciergeIntro h2{font-size:34px}
 }
 @media(prefers-reduced-motion:reduce){.exteriorPhoto,.cabinPhoto{animation:none!important}.luxuryImage{transition:none!important}.conciergeGallery a:hover .luxuryImage{transform:none!important}}
+
+
+/* Signature Fusion acceptance preview: unify the fleet's museum with ivory/navy,
+   but preserve all five original fleet selections, fare data and existing behaviors. */
+.page{--ink:#1c363b;--navy:#203d43;--paper:#f7f5ef;--line:#d9ded4;font-family:var(--font-tajawal,Arial),Arial,sans-serif}
+.page[dir=ltr]{font-family:var(--font-manrope,Arial),Arial,sans-serif}
+.hero{min-height:450px;max-height:570px;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+.heroPoster{min-height:455px}
+.heroText{background:#f1efe8;padding-block:55px}
+.heroText h1{font-size:clamp(40px,4.65vw,70px);color:#203d43}
+.heroText>p:not(.kicker){max-width:580px;font-size:13px;color:#667773}
+.heroLink,.book{background:#1d3d44}
+.atelier{padding-top:80px;padding-bottom:85px;background:#eeefe9}
+.collection{background:#e9ece6}
+.selector{background:#203f45}
+.pick[aria-pressed=true]{background:#416363}
+.photoStudio{background:radial-gradient(circle at 50% 45%,#fdfcf7,#e0e5dc 74%,#d1dcd4)}
+.specSheet{background:#fcfaf5}
+.specSheet h3{color:#203d43}
+.indexSection{background:#fffefa;padding-block:85px}
+.fare strong,.collectionCount{color:#9e7a52}
+@media(max-width:800px){
+ .hero{max-height:none;min-height:0;grid-template-columns:1fr 1fr}
+ .heroPoster{min-height:330px}
+ .heroText{padding:35px 25px}
+ .heroText h1{font-size:clamp(32px,4.5vw,52px)}
+ .atelier{padding-top:54px;padding-bottom:60px}
+}
+@media(max-width:600px){
+ .hero{display:flex;flex-direction:column-reverse;max-height:none}
+ .heroPoster{height:54vw;min-height:218px;max-height:320px}
+ .heroText{padding:37px 19px 27px}
+ .heroText h1{font-size:clamp(33px,8.5vw,46px)}
+ .heroText>p:not(.kicker){font-size:12px;margin-top:14px}
+ .atelier{padding:45px 12px 55px}
+ .collection{min-height:0}
+ .photoStudio{min-height:0}
+ .primaryPhoto{min-height:240px;height:64vw}
+ .indexSection{padding:55px 14px}
+}
+@media(prefers-reduced-motion:reduce){
+ .exteriorPhoto,.cabinPhoto{animation:none!important}
+}

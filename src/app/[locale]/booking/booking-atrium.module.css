@@ -65,3 +65,35 @@
 @media(prefers-reduced-motion:reduce){
  .page *{scroll-behavior:auto!important;transition:none!important}
 }
+
+
+/* Signature Fusion: booking is a real 4-step verified wizard. Only the surrounding
+   atmosphere changes; the BookingWizard, BookingEngine and server writes remain intact. */
+.page{background:#f9f7f1;color:#1d3b3e;font-family:var(--font-tajawal,Arial),Arial,sans-serif}
+.page[dir=ltr]{font-family:var(--font-manrope,Arial),Arial,sans-serif}
+.intro{grid-template-columns:minmax(0,1fr) minmax(0,.72fr);min-height:390px;background:#1d3b42}
+.introCopy{padding:55px clamp(30px,6vw,100px)}
+.introCopy h1{font-size:clamp(38px,4.55vw,67px);line-height:1.22}
+.introCopy>p{color:#d3ded8;max-width:580px;line-height:1.85}
+.introMedia{min-height:390px}
+.serial{color:#ddc196}
+.operationalLine{background:#f1f0e9;border-color:#d6ddd5}
+.operationalLine>div{min-height:71px}
+.operationalLine span{color:#395750}
+.reservationDesk{background:#f9f7f1;padding-top:36px}
+.deskIntro{color:#35534f}
+.reservationDesk :global(.duyuf-booking-wizard){background:transparent}
+.reservationDesk :global(.duyuf-booking-progress-desktop){box-shadow:none}
+@media(max-width:767px){
+ .intro{display:flex;flex-direction:column;min-height:0}
+ .introCopy{padding:60px 18px 21px}
+ .introCopy h1{font-size:clamp(31px,7.9vw,43px)}
+ .introCopy>p{font-size:11px}
+ .introMedia{height:170px;min-height:170px}
+ .operationalLine>div{min-height:34px}
+ .reservationDesk{padding-top:22px}
+}
+@media(max-width:390px){
+ .introCopy{padding:54px 14px 17px}
+ .introMedia{min-height:150px;height:150px}
+}

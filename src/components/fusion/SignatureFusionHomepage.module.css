@@ -1,0 +1,272 @@
+/* SIGNATURE FUSION / preview-only art direction.
+   A: architectural ivory & olive, B: editorial staggered storytelling,
+   C: original cinematic arrival film. No global selectors or production writes. */
+.page{--ink:#182f35;--olive:#314b44;--sand:#f7f4ed;--white:#fffdfa;--muted:#677775;--line:#d9ded6;--accent:#ad855c;background:var(--white);color:var(--ink);font-family:var(--font-tajawal,Arial),Arial,sans-serif;overflow-x:clip;color-scheme:light}
+.page[dir=ltr]{font-family:var(--font-manrope,Arial),Arial,sans-serif}
+.page *{box-sizing:border-box}
+.page :is(h1,h2,h3,p){margin:0}
+.page a{text-decoration:none;color:inherit}
+.page button{cursor:pointer;font:inherit}
+.page button:disabled{cursor:not-allowed;opacity:.45}
+.page :is(button,a,input,select):focus-visible{outline:3px solid #bf8a58;outline-offset:4px}
+.page h1,.page h2,.page h3{text-wrap:balance}
+.page h2{font-size:clamp(34px,4vw,61px);line-height:1.3;font-weight:800;letter-spacing:0}
+.page[dir=ltr] h2{letter-spacing:-.045em;line-height:1.17}
+.page :is(img,video){display:block}
+.serial{display:block;color:#9f7750;font-family:var(--font-manrope,Arial),Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:.14em;margin-bottom:17px}
+.eyebrow{display:block;color:#a07c59;font-size:11px;font-weight:800;letter-spacing:.02em}
+.primary{display:inline-flex;align-items:center;justify-content:center;gap:22px;background:#1c3c43;color:#fff!important;padding:17px 25px;min-height:56px;font-size:14px;font-weight:800;transition:background .2s}
+.primary:hover{background:#335c5b}
+.previewBar{height:auto;min-height:43px;background:#1a3139;color:#eff0e9;padding:10px clamp(18px,5vw,85px);display:flex;align-items:center;justify-content:space-between;gap:18px;font-size:10px;letter-spacing:.03em}
+.previewBar>span:nth-child(2){color:#e0d9c7}
+.previewBar a{font-weight:800;border:1px solid #73817c;padding:5px 10px;flex:none}
+.hero{min-height:650px;display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);background:#f6f3eb;border-bottom:1px solid var(--line)}
+.heroCopy{min-width:0;position:relative;padding:90px clamp(24px,6vw,108px) 40px;display:flex;flex-direction:column;justify-content:center;align-items:start}
+.heroCopy:before{content:"";position:absolute;top:39px;inset-inline-start:clamp(24px,6vw,108px);height:1px;width:70px;background:#b29874}
+.heroTag{display:flex;align-items:center;gap:11px;color:#8a7559;font-size:11px;font-weight:800;letter-spacing:.08em;margin-bottom:31px}
+.heroDot{width:8px;height:8px;background:#aa8b60;display:inline-block;border-radius:50%;flex:none}
+.heroCopy h1{font-size:clamp(47px,5.5vw,90px);font-weight:800;line-height:1.2;max-width:790px;letter-spacing:-.035em}
+.page[dir=rtl] .heroCopy h1{letter-spacing:0}
+.heroCopy h1 em{display:block;font-style:normal;color:#9d774d}
+.heroCopy>p{font-size:15px;color:#63716f;line-height:2;max-width:530px;margin-top:25px}
+.heroButtons{display:flex;flex-wrap:wrap;align-items:center;gap:24px;margin-top:32px}
+.underLink{display:inline-flex;align-items:center;gap:10px;border-bottom:1px solid #a8b0aa;padding-bottom:9px;font-size:12px;font-weight:850;color:#34534d!important}
+.heroFoot{display:flex;justify-content:space-between;gap:20px;width:100%;border-top:1px solid #dcd9ce;margin-top:auto;padding-top:23px;font-size:10px;font-weight:800;letter-spacing:.12em;color:#9f957f}
+.heroVideo{position:relative;min-height:620px;overflow:hidden;background:#263e3f}
+.heroVideo video{position:absolute;inset:0;height:100%;width:100%;object-fit:cover;object-position:center}
+.heroVideo:after{content:"";position:absolute;inset:50% 0 0;background:linear-gradient(transparent,rgba(9,30,36,.72));pointer-events:none}
+.videoTag{position:absolute;z-index:1;bottom:31px;inset-inline:32px;display:flex;gap:16px;align-items:center;justify-content:space-between;color:#f4ede1;font-size:11px;letter-spacing:.12em;font-weight:800}
+.bookingArea{padding:65px max(4vw,18px) 35px;background:var(--white);scroll-margin-top:110px}
+.bookingHead{max-width:1390px;margin:0 auto 24px;display:flex;justify-content:space-between;align-items:end;gap:22px}
+.bookingHead h2{font-size:clamp(31px,3.25vw,46px)}
+.bookingHead>p{display:flex;gap:10px;align-items:center;font-size:12px;color:#526f68;line-height:1.6;max-width:335px}
+.bookingHead>p svg{flex:none;color:#a8885d}
+.bookingDesk{max-width:1390px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr .75fr;background:#fbfaf6;border:1px solid #ccd4cc}
+.bookingDesk label{display:flex;flex-direction:column;justify-content:center;min-width:0;min-height:96px;padding:16px 21px;gap:9px;border-inline-end:1px solid #dce1d8}
+.bookingDesk label:last-child{border-inline-end:0}
+.bookingDesk label>span{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:800;color:#7b8a81}
+.bookingDesk label>span svg{color:#b18d66}
+.bookingDesk :is(input,select){display:block;width:100%;height:30px;border:0;background:transparent;color:#213b3b;font-size:13px;font-weight:750;min-width:0;border-radius:0}
+.bookingLower{max-width:1390px;display:flex;align-items:center;gap:20px;justify-content:space-between;margin:0 auto;padding:20px 0 10px;border-bottom:1px solid #dce0d8}
+.bookCarList{display:flex;align-items:center;gap:9px;flex-wrap:wrap;flex:1}
+.bookCarList button{padding:11px 12px;min-height:42px;font-size:11px;font-weight:760;background:transparent;color:#445951;border:1px solid #d4ddd2;line-height:1.4}
+.bookCarList button[aria-pressed=true]{background:#2d4b44;color:#fff;border-color:#2d4b44}
+.bookingTotal{display:flex;align-items:center;gap:20px}
+.bookingTotal>div{display:flex;flex-direction:column;gap:4px;min-width:130px}
+.bookingTotal>div small{color:#71827a;font-size:10px}
+.bookingTotal strong{font-size:30px;color:#9c7450;white-space:nowrap;line-height:1}
+.bookingTotal strong span{font-size:11px;color:#7a8076}
+.bookingTotal button{display:flex;align-items:center;gap:11px;justify-content:center;border:0;background:#193c41;color:white;min-height:52px;padding:12px 21px;font-size:13px;font-weight:850}
+.bookingTotal .warn{color:#ac483e;font-weight:750}
+.bookFine{display:flex;align-items:center;gap:10px;margin:14px auto 0!important;max-width:1390px;color:#78877b;font-size:11px;line-height:1.5}
+.bookFine svg{color:#b29268;flex:none}
+.trustLine{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #e1e1d9;border-bottom:1px solid #e1e1d9;background:#f5f3ed;margin-top:32px;min-height:80px;padding:0 max(4vw,18px)}
+.trustLine div{display:flex;align-items:center;gap:12px;padding:18px 20px;border-inline-end:1px solid #dcded5;color:#38534b;font-size:12px;font-weight:750}
+.trustLine div:last-child{border:0}
+.trustLine svg{color:#aa865c;flex:none}
+.story{display:grid;grid-template-columns:minmax(0,.67fr) minmax(0,1fr) minmax(0,.53fr);padding:105px max(5vw,25px);gap:28px;align-items:stretch;background:#fffdfa}
+.storyIntro{padding:25px 12px 20px 0;display:flex;flex-direction:column;align-items:start;justify-content:center}
+.storyIntro>p{max-width:370px;color:#65736e;line-height:2;font-size:14px;margin-top:24px}
+.storyImage{position:relative;min-height:460px;overflow:hidden;background:#e1e3dc}
+.cover{object-fit:cover}
+.storyImage>span{position:absolute;bottom:20px;inset-inline-start:20px;background:#f6f4ed;color:#233d42;padding:8px 11px;font-size:11px;font-weight:900}
+.storyRail{display:flex;flex-direction:column;align-self:center}
+.storyRail button{text-align:start;display:grid;grid-template-columns:25px minmax(0,1fr) 20px;gap:13px;align-items:center;padding:19px 0;background:transparent;border:0;border-bottom:1px solid #dae0d7;color:#1a3b3f}
+.storyRail button>small{color:#ac865c;font-size:11px}
+.storyRail button>strong{font-size:17px}
+.storyRail button svg{color:#a98a66;transition:transform .2s}
+.storyRail button[aria-pressed=true] svg{transform:rotate(180deg)}
+.storyRail button p{grid-column:2/4;font-size:12px;color:#687b75;line-height:1.9}
+.showroom{background:#e9eae4;padding:105px max(4vw,20px) 88px;scroll-margin-top:90px}
+.showroomHeading{max-width:1380px;margin:0 auto 36px;display:grid;grid-template-columns:1fr 1fr;column-gap:40px;align-items:end}
+.showroomHeading .serial{grid-column:1/-1}
+.showroomHeading>p{max-width:420px;align-self:end;font-size:13px;line-height:1.95;color:#657470}
+.showroomLayout{max-width:1380px;margin:auto;display:grid;grid-template-columns:minmax(178px,.31fr) minmax(0,1fr) minmax(260px,.48fr);min-height:540px;background:#faf9f4}
+.carRail{display:flex;flex-direction:column;background:#203e42}
+.carRail button{flex:1;display:grid;grid-template-columns:27px 1fr;gap:10px;align-items:center;border:0;border-bottom:1px solid #486265;background:transparent;color:#c5d2c9;padding:15px 15px;text-align:start;min-height:90px}
+.carRail button span{color:#d4b18b;font-size:11px}
+.carRail button strong{font-size:13px;line-height:1.5}
+.carRail button[aria-pressed=true]{background:#406363;color:#fff}
+.carPhoto{position:relative;background:radial-gradient(circle at center,#fffefa,#d7ddd5);min-width:0;min-height:540px;overflow:hidden}
+.carExterior{object-fit:contain;padding:18px}
+.carInterior{object-fit:cover}
+.photoSerial{position:absolute;top:26px;inset-inline-start:24px;background:#fffdf5b8;padding:5px 9px;color:#3d635b;letter-spacing:.15em;font-size:11px;font-weight:900}
+.photoToggle{display:flex;position:absolute;bottom:25px;inset-inline:15px;justify-content:center;gap:9px}
+.photoToggle button{min-height:39px;padding:9px 16px;background:#fffdf3e8;border:1px solid #bec9c0;color:#385e56;font-weight:800;font-size:11px}
+.photoToggle button[aria-pressed=true]{background:#294f4b;color:#fff;border-color:#294f4b}
+.carDetail{padding:32px 27px;display:flex;flex-direction:column;justify-content:center;align-items:start;min-width:0;border-inline-start:1px solid #dde0d6}
+.carDetail h3{font-size:clamp(28px,2.4vw,41px);line-height:1.35;margin:16px 0!important}
+.carDetail>p{font-size:12px;line-height:1.9;color:#708079;margin-bottom:20px;max-width:320px}
+.statLine{display:flex;align-items:center;gap:15px;padding:18px 0;border-block:1px solid #e2e4dc;width:100%;flex-wrap:wrap}
+.statLine span{display:flex;align-items:center;gap:7px;color:#3f6156;font-size:12px;font-weight:760}
+.statLine svg{color:#af8555}
+.carFare{display:flex;flex-direction:column;align-items:start;gap:7px;margin-top:20px}
+.carFare small{font-size:10px;color:#718279;line-height:1.4}
+.carFare strong{font-size:32px;color:#9c754e}
+.carFare strong span{font-size:12px;color:#65756f}
+.carChoose{display:flex;align-items:center;justify-content:center;gap:10px;background:#23494a;color:#fff;border:0;padding:12px 16px;min-height:48px;margin-top:20px;font-size:12px;font-weight:800}
+.detailLink{display:inline-flex;align-items:center;gap:7px;margin-top:17px;color:#2d6261!important;font-weight:800;font-size:11px}
+.sectionFoot{max-width:1380px;margin:26px auto 0;display:flex;justify-content:flex-end}
+.sectionFoot a{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:830;color:#315751!important;border-bottom:1px solid #a6bcb1;padding-bottom:8px}
+.routeAtlas{background:#fffdfa;padding:105px max(5vw,25px) 85px;scroll-margin-top:80px}
+.routesHead{max-width:1380px;margin:0 auto 33px;display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:end}
+.routesHead>p{font-size:13px;line-height:2;color:#657770}
+.routesDisplay{display:grid;grid-template-columns:1.15fr .85fr;max-width:1380px;margin:auto;min-height:560px}
+.routePhoto{position:relative;min-height:540px;overflow:hidden;background:#1d4347}
+.routePhoto>span{position:absolute;bottom:28px;inset-inline-start:30px;color:#fff;font-size:12px;font-weight:850;letter-spacing:.16em;background:#1c373b9c;padding:9px 14px}
+.routePanel{background:#f2f1eb;padding:34px 32px;display:flex;flex-direction:column}
+.routeList{display:flex;flex-direction:column;margin-top:13px;border-top:1px solid #d8dbd2}
+.routeList button{display:grid;grid-template-columns:24px 1fr 17px;gap:16px;min-height:62px;align-items:center;text-align:start;padding:12px 0;border:0;border-bottom:1px solid #d8dbd2;background:transparent;color:#254a48}
+.routeList button[aria-pressed=true]{color:#805c35;font-weight:900}
+.routeList span{font-size:10px;color:#b28f62}
+.routeList strong{font-size:13px;line-height:1.6}
+.routePrice{margin-top:auto;display:flex;flex-direction:column;gap:8px;padding-top:28px}
+.routePrice>small{font-size:11px;color:#78877c}
+.routePrice strong{font-size:36px;color:#966f4b;line-height:1}
+.routePrice strong span{font-size:12px;color:#75837b}
+.routePrice p{font-size:11px;line-height:1.7;color:#67827a}
+.routeAction{display:inline-flex;align-items:center;justify-content:center;gap:14px;padding:14px 18px;min-height:48px;margin-top:20px;background:#244a4b;color:#fff;border:0;font-size:12px;font-weight:850}
+.promises{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:50px;padding:105px max(6vw,25px);background:#f4f2ec}
+.promiseHead{max-width:350px}
+.promiseList{border-top:1px solid #cdd8cc}
+.promiseList>div{display:grid;grid-template-columns:45px 1fr 20px;gap:10px;align-items:center;padding:16px 0;border-bottom:1px solid #d3dcd0;min-height:66px}
+.promiseList span{color:#ae8963;font-size:12px}
+.promiseList p{font-size:14px;color:#2c4e49;font-weight:750;line-height:1.75}
+.promiseList svg{color:#a5825f}
+.finish{padding:103px 26px;text-align:center;background:#203d43;color:#f7f3eb;display:flex;align-items:center;flex-direction:column}
+.finish>span{font-size:11px;color:#d2b98f;letter-spacing:.15em;font-weight:850}
+.finish h2{max-width:850px;font-size:clamp(38px,5.1vw,73px);margin:19px 0 25px!important}
+.finish a{display:flex;align-items:center;gap:15px;justify-content:center;color:#203a3c;background:#f7f0e5;padding:15px 25px;min-height:53px;font-size:13px;font-weight:850}
+.finish p{margin-top:23px;font-size:11px;display:flex;gap:10px;align-items:center;line-height:1.9;color:#d5ded6}
+.last{display:flex;justify-content:space-between;gap:15px;align-items:center;background:#142f36;color:#a9c3bd;padding:24px max(5vw,20px);font-size:10px}
+.last>div{display:flex;gap:18px}
+@media(max-width:1200px){
+ .heroCopy{padding-inline:clamp(23px,4vw,65px)}
+ .heroCopy h1{font-size:clamp(42px,5.2vw,70px)}
+ .showroomLayout{grid-template-columns:minmax(145px,.27fr) minmax(0,1fr) minmax(220px,.42fr)}
+ .carDetail{padding:26px 20px}
+ .story{grid-template-columns:.7fr 1fr .65fr;gap:18px}
+ .bookingLower{flex-direction:column;align-items:stretch}
+ .bookingTotal{justify-content:space-between}
+}
+@media(max-width:900px){
+ .hero{min-height:0;grid-template-columns:1fr 1fr}
+ .heroCopy{padding-block:70px 27px}
+ .heroCopy h1{font-size:clamp(37px,5.5vw,55px)}
+ .heroVideo{min-height:500px}
+ .heroFoot{margin-top:35px}
+ .bookingDesk{grid-template-columns:1.5fr 1fr}
+ .bookingDesk label:nth-child(2){border-inline-end:0}
+ .bookingDesk label:nth-child(-n+2){border-bottom:1px solid #dce1d8}
+ .story{grid-template-columns:1fr 1.2fr;padding-block:70px}
+ .storyIntro{padding:0;grid-column:1/-1;max-width:680px}
+ .storyImage{min-height:370px}
+ .showroom{padding-block:75px}
+ .showroomLayout{grid-template-columns:minmax(155px,.3fr) minmax(0,1fr)}
+ .carDetail{grid-column:1/-1;border-inline-start:0;border-top:1px solid #dde0d6;display:grid;grid-template-columns:1fr 1fr;gap:8px 30px;align-items:start}
+ .carDetail .eyebrow,.carDetail h3,.carDetail>p{grid-column:1}
+ .carDetail .statLine,.carDetail .carFare,.carDetail .carChoose,.carDetail .detailLink{grid-column:2}
+ .carDetail .statLine{grid-row:1/3}
+ .carDetail .carFare{grid-row:3}
+ .carDetail .carChoose{grid-row:4}
+ .carDetail .detailLink{grid-row:5}
+ .routesDisplay{min-height:0}
+ .routePhoto{min-height:500px}
+}
+@media(max-width:640px){
+ .previewBar{min-height:38px;font-size:9px;padding:7px 12px;gap:8px}
+ .previewBar>span:first-child{display:none}
+ .hero{display:flex;flex-direction:column;min-height:0}
+ .heroCopy{padding:54px 20px 28px}
+ .heroCopy:before{top:23px;inset-inline-start:20px}
+ .heroTag{font-size:10px;margin-bottom:20px}
+ .heroCopy h1{font-size:clamp(36px,10.2vw,51px);line-height:1.24}
+ .heroCopy>p{font-size:12px;line-height:1.85;margin-top:14px}
+ .heroButtons{gap:17px;margin-top:22px}
+ .primary{min-height:49px;font-size:12px;padding:12px 15px;gap:10px}
+ .underLink{font-size:11px}
+ .heroFoot{margin-top:28px;padding-top:15px}
+ .heroVideo{min-height:290px;height:56vw;max-height:400px}
+ .videoTag{bottom:12px;inset-inline:13px;font-size:9px}
+ .bookingArea{padding:39px 14px 18px;scroll-margin-top:60px}
+ .bookingHead{display:block}
+ .bookingHead h2{font-size:30px}
+ .bookingHead>p{margin-top:10px;font-size:10px}
+ .bookingDesk{grid-template-columns:1fr 1fr}
+ .bookingDesk label{min-height:80px;padding:10px 12px}
+ .bookingDesk label>span{font-size:10px}
+ .bookingDesk :is(input,select){font-size:11px}
+ .bookingDesk label:first-child{grid-column:1/-1;border-inline-end:0;min-height:75px}
+ .bookingDesk label:nth-child(2){grid-column:1;border-inline-end:1px solid #dce1d8}
+ .bookingDesk label:nth-child(3){grid-column:2;border-inline-end:0}
+ .bookingDesk label:nth-child(4){grid-column:1/-1;border-top:1px solid #dce1d8}
+ .bookingLower{padding-top:12px;gap:17px}
+ .bookCarList{display:flex;flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}
+ .bookCarList button{flex:0 0 auto;white-space:nowrap;scroll-snap-align:center}
+ .bookingTotal{gap:12px}
+ .bookingTotal strong{font-size:26px}
+ .bookingTotal button{padding:12px;font-size:11px;min-height:49px}
+ .trustLine{grid-template-columns:1fr;gap:0;padding:7px 17px}
+ .trustLine div{min-height:40px;padding:5px 0;border:0;border-bottom:1px solid #dddcd2;font-size:11px}
+ .trustLine div:last-child{border:0}
+ .trustLine svg{height:15px;width:15px}
+ .story{grid-template-columns:1fr;padding:65px 18px;gap:0}
+ .storyIntro{grid-column:1;max-width:100%;padding-bottom:25px}
+ .storyIntro h2{font-size:35px}
+ .storyIntro>p{margin-top:12px;font-size:12px}
+ .storyImage{min-height:285px;height:68vw}
+ .storyRail{padding-top:18px}
+ .storyRail button{padding:15px 0}
+ .storyRail button>strong{font-size:15px}
+ .showroom{padding:65px 14px}
+ .showroomHeading{display:block;margin-bottom:25px}
+ .showroomHeading h2{font-size:33px}
+ .showroomHeading>p{font-size:12px;margin-top:12px}
+ .showroomLayout{display:flex;flex-direction:column}
+ .carRail{overflow-x:auto;display:flex;flex-direction:row;scroll-snap-type:x mandatory}
+ .carRail button{min-width:135px;min-height:70px;flex:0 0 135px;padding:10px;scroll-snap-align:start;border-inline-end:1px solid #486265;border-bottom:0}
+ .carRail button span{font-size:10px}
+ .carRail button strong{font-size:11px}
+ .carPhoto{min-height:260px;height:74vw;max-height:400px}
+ .carDetail{display:flex;flex-direction:column;gap:0;padding:24px 18px}
+ .carDetail .eyebrow,.carDetail h3,.carDetail>p,.carDetail .statLine,.carDetail .carFare,.carDetail .carChoose,.carDetail .detailLink{grid-column:auto;grid-row:auto}
+ .carDetail h3{font-size:30px;margin:10px 0!important}
+ .carDetail>p{font-size:11px;margin-bottom:14px}
+ .carDetail .statLine{padding:13px 0}
+ .carDetail .carFare{margin-top:14px}
+ .carDetail .carChoose{width:100%}
+ .routeAtlas{padding:68px 16px}
+ .routesHead{display:block}
+ .routesHead h2{font-size:34px}
+ .routesHead p{font-size:12px;margin-top:12px}
+ .routesDisplay{display:flex;flex-direction:column}
+ .routePhoto{height:64vw;min-height:240px;max-height:390px}
+ .routePanel{padding:25px 20px}
+ .routeList button{min-height:55px}
+ .routePrice{padding-top:18px}
+ .promises{display:block;padding:68px 18px}
+ .promiseHead{margin-bottom:26px}
+ .promiseHead h2{font-size:36px}
+ .promiseList>div{grid-template-columns:35px 1fr 17px}
+ .promiseList p{font-size:12px}
+ .finish{padding:74px 20px}
+ .finish h2{font-size:37px}
+ .finish p{font-size:10px;align-items:flex-start}
+ .last{display:block;padding:19px 16px}
+ .last>div{margin-top:12px}
+}
+@media(max-width:390px){
+ .heroCopy{padding-inline:15px}
+ .heroCopy:before{inset-inline-start:15px}
+ .heroCopy h1{font-size:36px}
+ .heroVideo{height:64vw;min-height:240px}
+ .bookingArea{padding-inline:12px}
+ .bookingDesk label{padding-inline:10px}
+ .bookingTotal{align-items:stretch}
+ .bookingTotal button{flex:0 0 48%;gap:6px}
+ .bookCarList button{font-size:10px}
+ .story{padding-inline:14px}
+ .carRail button{min-width:120px;flex-basis:120px}
+ .routePanel{padding:20px 15px}
+}
+@media(prefers-reduced-motion:reduce){.page *{animation-duration:.01ms!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
