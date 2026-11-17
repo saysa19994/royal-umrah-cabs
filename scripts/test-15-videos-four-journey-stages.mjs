@@ -8,6 +8,8 @@ const css=read('src/components/home/SignatureJourneyHomepage.module.css');
 test('video 01+05 owner journey story really has four phases with actual destination',()=>{
  assert.match(home,/const next=Math.min\(3,Math.floor\(progress\*4\)\)/);
  assert.match(home,/E\.destinationTitle/);
+ assert.match(home,/activeChapterIndex\+1\)\.padStart\(2,'0'\)\} \/ 04/);
+ assert.doesNotMatch(home,/E\.miqatTitle,desc:E\.miqatDesc,image:'\/assets\/homepage-v2\/fleet-private\.jpg'/);
  assert.match(home,/E\.destinationDesc/);
  assert.match(home,/\/assets\/homepage-v2\/route-madinah-hotel\.jpg/);
  assert.match(home,/ref=\{storyRef\}/);

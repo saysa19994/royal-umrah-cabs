@@ -145,7 +145,7 @@ export function SignatureJourneyHomepage({ locale, dict }:Props) {
   const chapters=[
     {title:E.arrivalTitle,desc:E.arrivalDesc,image:'/assets/homepage-v2/route-jeddah-makkah.jpg'},
     {title:E.familyTitle,desc:E.familyDesc,image:'/assets/homepage-v2/service-group-interior.jpg'},
-    {title:E.miqatTitle,desc:E.miqatDesc,image:'/assets/homepage-v2/fleet-private.jpg'},
+    {title:E.miqatTitle,desc:E.miqatDesc,image:'/assets/homepage-v2/route-makkah-madinah.jpg'},
     {title:E.destinationTitle,desc:E.destinationDesc,image:'/assets/homepage-v2/route-madinah-hotel.jpg'},
   ];
   const faqItems=[
@@ -253,8 +253,8 @@ export function SignatureJourneyHomepage({ locale, dict }:Props) {
           </div>
           <div className={styles.experienceLayout}>
             <div className={styles.experienceMedia}>
-              <img src={chapters[activeChapterIndex].image} alt={chapters[activeChapterIndex].title} loading="lazy"/>
-              <span>{String(activeChapterIndex+1).padStart(2,'0')} / 03</span>
+              <img src={chapters[activeChapterIndex].image} alt="" loading="lazy"/>
+              <span>{String(activeChapterIndex+1).padStart(2,'0')} / 04</span>
             </div>
             <div className={styles.chapterList} role="group" aria-label={T.experience}>
                <div className={styles.experienceProgress} aria-hidden="true">{chapters.map((_,i)=><span key={i} className={activeChapterIndex===i?styles.experienceProgressActive:''}/>)}</div>
