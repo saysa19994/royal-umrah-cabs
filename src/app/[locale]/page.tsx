@@ -15,7 +15,7 @@ export default async function HomePage({params}:HomePageProps){
  // Production must not receive this change until owner acceptance.
  if(locale==='ar'||locale==='en'){
    const rates=await getDbPricesCached();
-   return <SignatureFusionHomepage locale={locale} rates={rates}/>;
+   return <><HomepageFaqJsonLd dict={dict}/><SignatureFusionHomepage locale={locale} rates={rates}/></>;
  }
  return <>
    <HomepageFaqJsonLd dict={dict}/>
