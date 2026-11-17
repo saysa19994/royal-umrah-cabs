@@ -1,9 +1,8 @@
 import React from 'react';
-import './fleet-editorial.css';
 import type { Metadata } from 'next';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
-import { FleetCatalog } from '@/components/fleet/FleetCatalog';
+import { FleetAtelier } from '@/components/fleet/FleetAtelier';
 import { getDbVehiclesCached } from '@/lib/fleet-db';
 
 interface FleetPageProps {
@@ -93,7 +92,7 @@ export default async function FleetPage(props: FleetPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema).replace(/</g, '\\u003c') }}
       />
-      <FleetCatalog vehicles={vehicles} locale={locale} />
+      <FleetAtelier vehicles={vehicles} locale={locale} />
     </main>
   );
 }

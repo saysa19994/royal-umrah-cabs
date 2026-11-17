@@ -22,16 +22,22 @@ test('Vercel deployment includes PNG brand icons and fleet photography',()=>{
 });
 
 
-test('fleet is a distinctive editorial collection, not the old three-column template',()=>{
-  const fleet=read('src/components/fleet/FleetCatalog.tsx');
-  const styles=read('src/app/[locale]/fleet/fleet-editorial.css');
-  assert.match(fleet,/duyuf-fleet-hero-inner/);
-  assert.match(fleet,/duyuf-fleet-spotlight/);
-  assert.match(fleet,/duyuf-fleet-card-grid/);
+test('fleet atelier replaces repeat-card catalog while retaining authoritative data and genuine vehicle images',()=>{
+  const fleet=read('src/components/fleet/FleetAtelier.tsx');
+  const styles=read('src/components/fleet/FleetAtelier.module.css');
+  const page=read('src/app/[locale]/fleet/page.tsx');
+  assert.match(page,/<FleetAtelier vehicles=\{vehicles\} locale=\{locale\}/);
+  assert.match(page,/getDbVehiclesCached/);
+  assert.match(page,/getLocalizedAlternates/);
+  assert.match(page,/JSON\.stringify\(itemListSchema\)/);
+  assert.doesNotMatch(page,/<FleetCatalog/);
+  assert.match(fleet,/APPROVED_5_FLEET/);
   assert.match(fleet,/AUTHORITATIVE_TRANSFER_RATES/);
-  assert.doesNotMatch(fleet,/lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl/);
-  assert.match(styles,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
-  assert.match(styles,/@media\(max-width:767px\)/);
+  assert.match(fleet,/vehicles\.find/);
+  assert.match(fleet,/galleryPosition/);
+  assert.match(fleet,/styles\.concierge/);
+  assert.match(styles,/@media\(max-width:680px\)/);
+  assert.match(styles,/grid-template-columns:minmax\(175px/);
 });
 
 test('services replace six repetitive cards with one real interactive chapter and a distinctive header',()=>{
@@ -76,7 +82,7 @@ test('editorial artwork exists locally and preview styles cannot alter live cont
   for(const asset of ['public/assets/homepage-v2/fleet-private.jpg','public/assets/homepage-v2/service-group-interior.jpg','public/assets/homepage-v2/route-jeddah-makkah.jpg','public/assets/homepage-v2/vehicle-interior-cta.jpg']){
     assert.ok(existsSync(new URL('../'+asset,import.meta.url)),asset+' not found');
   }
-  assert.match(read('src/app/[locale]/fleet/page.tsx'),/fleet-editorial\.css/);
+  assert.match(read('src/app/[locale]/fleet/page.tsx'),/FleetAtelier/);
   assert.match(read('src/app/[locale]/services/page.tsx'),/services-editorial\.css/);
   assert.match(read('src/app/[locale]/pricing/page.tsx'),/pricing-editorial\.css/);
 });

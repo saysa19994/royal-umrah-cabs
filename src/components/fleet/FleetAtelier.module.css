@@ -1,0 +1,192 @@
+/* DUYUF / Fleet Atelier. A vehicle museum, not the shared homepage template.
+   New isolated module: existing fleet CSS and FleetCatalog remain untouched for rollback. */
+.page{--ink:#15383c;--navy:#101c29;--paper:#f5f5ef;--line:#d6dcd4;color:var(--ink);background:var(--paper);overflow-x:clip}
+.page *{box-sizing:border-box}
+.page :is(a,button):focus-visible{outline:3px solid #c09c65;outline-offset:3px}
+.page a{text-decoration:none}
+.page button{cursor:pointer}
+.srOnly{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+/* FLEET INTRO: Split-frame campaign composition, unlike routes/map and homepage */
+.hero{display:grid;grid-template-columns:1.06fr .94fr;min-height:580px;max-height:790px;border-bottom:1px solid #d3d9d2}
+.heroPoster{position:relative;min-height:590px;overflow:hidden;background:#1a3435}
+.heroImage{object-fit:cover;object-position:center}
+.heroPoster:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,30,34,.10) 15%,rgba(10,30,34,.40))}
+.imageIndex{position:absolute;top:40px;inset-inline-start:40px;color:#fff;font-size:11px;letter-spacing:.14em;font-weight:820;z-index:1}
+.heroText{background:#e6e9e3;padding:clamp(45px,7vw,110px) clamp(29px,6vw,115px);display:flex;flex-direction:column;align-items:start;justify-content:center}
+.kicker{color:#9c805c;font-size:11px;font-weight:900;letter-spacing:.1em;margin:0 0 25px}
+.page[dir=rtl] .kicker{letter-spacing:0}
+.heroText h1{color:var(--ink);font-size:clamp(42px,5.05vw,81px);font-weight:780;line-height:1.17;letter-spacing:-.04em;max-width:730px;margin:0!important;text-wrap:balance}
+.page[dir=rtl] .heroText h1{letter-spacing:0;line-height:1.35}
+.heroText>p:not(.kicker){color:#647c76;font-size:14px;line-height:1.9;max-width:490px;margin:25px 0 28px}
+.heroLink{display:inline-flex;align-items:center;justify-content:center;gap:14px;background:#214c51;color:#fff!important;min-height:49px;padding:12px 18px;font-size:12px;font-weight:830}
+/* FOCUS COLLECTION: Vertical index / full photographic stage / independent technical sheet */
+.atelier{padding:105px max(3vw,18px) 105px;background:#f6f6f0;scroll-margin-top:95px}
+.atelierHead{max-width:1460px;margin:0 auto 32px;display:flex;gap:30px;align-items:end;justify-content:space-between}
+.atelierHead>div>span{display:block;color:#a0855a;font-size:10px;letter-spacing:.15em;font-weight:850;margin-bottom:12px}
+.atelierHead h2{font-size:clamp(36px,4vw,61px);font-weight:780;letter-spacing:-.03em;line-height:1.15;margin:0!important;text-wrap:balance}
+.page[dir=rtl] .atelierHead h2{letter-spacing:0}
+.collectionCount{font-size:70px;font-family:Georgia,serif;color:#a9865b;line-height:1}
+.collectionCount small{font-family:inherit;font-size:13px;color:#657c73}
+.collection{max-width:1460px;margin:auto;display:grid;grid-template-columns:minmax(175px,.32fr) minmax(0,1.15fr) minmax(255px,.49fr);min-height:620px;background:#e4eae4;overflow:hidden}
+.selector{min-width:0;background:#173e44;color:#edf2ed;display:flex;flex-direction:column;padding:25px 0 0}
+.railEyebrow{padding:0 19px 23px;color:#e7c58f;font-size:10px;letter-spacing:.12em;font-weight:780}
+.pick{display:grid;grid-template-columns:24px minmax(0,1fr) 8px;gap:11px;align-items:center;border:0;border-top:1px solid rgba(235,240,236,.19);padding:17px 16px;width:100%;min-height:97px;color:#ccdbd6;background:transparent;text-align:start}
+.pick:last-child{border-bottom:1px solid rgba(235,240,236,.19)}
+.pick:hover{background:#214e53}
+.pick[aria-pressed=true]{background:#286068;color:#fff}
+.pick>span:first-child{color:#dab480;font-size:10px}
+.pick strong{font-size:12px;line-height:1.6;font-weight:760}
+.pickDot{width:7px;height:7px;border-radius:50%;border:1px solid #b6bbb0}
+.pick[aria-pressed=true] .pickDot{background:#e3bc7d;border-color:#e3bc7d}
+.photoStudio{position:relative;display:flex;flex-direction:column;min-width:0;background:radial-gradient(circle at 48% 53%,#f8fbf7,#d6e0d8 68%,#bfcec5);padding:0 13px 19px}
+.primaryPhoto{position:relative;width:100%;height:500px;flex:1;min-height:450px;overflow:hidden}
+.exteriorPhoto{object-fit:contain;animation:photoRise .35s both}
+.cabinPhoto{object-fit:cover;animation:photoRise .35s both}
+@keyframes photoRise{from{opacity:.35;transform:scale(1.025)}to{opacity:1;transform:scale(1)}}
+.photoEdition{position:absolute;top:24px;inset-inline-start:18px;font-size:11px;letter-spacing:.12em;font-weight:850;color:#5f8175}
+.photoName{position:absolute;bottom:23px;inset-inline-start:18px;font-size:10px;letter-spacing:.06em;font-weight:850;color:#35575a;background:rgba(255,255,255,.83);padding:9px 12px}
+.photoControls{display:flex;gap:8px;justify-content:center;align-items:center;min-height:46px}
+.photoControls button{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:820;min-height:44px;padding:10px 15px;background:rgba(255,255,255,.85);color:#35565a;border:1px solid #bfcac0}
+.photoControls button[aria-pressed=true]{background:#173e44;color:#fff;border-color:#173e44}
+.filmstrip{display:flex;justify-content:center;gap:8px;margin-top:8px;max-width:100%;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
+.filmstrip button{position:relative;flex:0 0 75px;height:48px;scroll-snap-align:start;border:1px solid #9dac9e;background:#dce6e0}
+.filmstrip button img{object-fit:cover}
+.specSheet{padding:28px 24px 23px;background:#fbfaf6;min-width:0;border-inline-start:1px solid #d7dfd5;display:flex;flex-direction:column}
+.specTop{display:flex;justify-content:space-between;align-items:center;color:#aa865d;font-size:10px;letter-spacing:.12em;font-weight:830;gap:15px}
+.category{font-size:11px;color:#a1845e;line-height:1.75;margin-top:37px;font-weight:760}
+.specSheet h3{font-size:clamp(26px,2.65vw,40px);line-height:1.33;font-weight:820;color:#173c40;margin:9px 0 15px!important}
+.specSheet>p:not(.payment){font-size:12px;line-height:1.95;color:#627870;margin:0 0 22px;max-width:440px}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:0 0 20px;padding:16px 0;border-top:1px solid #dce1dc;border-bottom:1px solid #dce1dc}
+.metrics>div{display:flex;flex-direction:column;gap:7px}
+.metrics dt{font-size:10px;font-weight:750;color:#71857c;display:flex;align-items:center;gap:5px}
+.metrics dd{font-size:25px;font-weight:800;color:#1c4247;margin:0}
+.fare{display:flex;flex-direction:column;gap:8px;margin-top:auto}
+.fare small{font-size:10px;color:#7b8b83;line-height:1.8}
+.fare strong{font-size:34px;line-height:1;color:#a78156}
+.fare strong span{font-size:12px;color:#5a7771}
+.book{display:inline-flex;justify-content:center;align-items:center;gap:12px;background:#173c44;color:#fff!important;min-height:49px;padding:11px 15px;text-align:center;font-size:12px;font-weight:850;margin-top:22px}
+.book:hover,.heroLink:hover{background:#2e6065}
+.readMore{display:inline-flex;align-items:center;gap:8px;color:#1e5c60;font-size:11px;font-weight:840;margin-top:15px}
+.payment{font-size:10px;color:#73857b;line-height:1.75;border-top:1px solid #dce1dc;padding-top:12px;display:flex;gap:7px;align-items:flex-start;margin:17px 0 0}
+.payment svg{flex:none;color:#b08c60}
+/* Technical sheet: horizontal editorial ledger, not five mobile comparison cards */
+.indexSection{background:#fffdfa;padding:110px max(5vw,24px)}
+.indexHead{max-width:1350px;margin:0 auto 40px;display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:28px;align-items:end}
+.indexHead>span{font-size:11px;font-weight:850;letter-spacing:.11em;color:#ae916b}
+.indexHead h2{font-size:clamp(36px,4vw,61px);font-weight:770;line-height:1.25;margin:0!important}
+.indexHead p{color:#73857e;font-size:12px;line-height:1.85;margin:0}
+.tableScroll{max-width:1350px;margin:auto;overflow-x:auto}
+.table{width:100%;border-collapse:collapse;text-align:start;min-width:540px}
+.table thead th{padding:17px 14px;border-top:2px solid #1f4b4e;border-bottom:1px solid #cdd8ce;font-size:11px;font-weight:900;text-align:start;color:#a08660}
+.table td,.table tbody th{padding:22px 14px;text-align:start;border-bottom:1px solid #d8dfd7;font-size:13px;font-weight:700;color:#27484b}
+.table tbody th{font-weight:840}
+.table td:last-child a{display:inline-flex;color:#215b5c}
+.table tr:hover td,.table tr:hover th{background:#f3f6f0}
+/* Concierge is a distinct dark invitation, not two book-now cards */
+.concierge{display:grid;grid-template-columns:.82fr 1.18fr;min-height:470px;background:#101e2b;color:#edf1ec}
+.conciergeIntro{padding:75px clamp(28px,6vw,90px);display:flex;flex-direction:column;align-items:start;justify-content:center}
+.conciergeIntro>span{font-size:11px;letter-spacing:.13em;font-weight:850;color:#e3bc83}
+.conciergeIntro h2{font-size:clamp(37px,4vw,67px);color:#fff;font-weight:780;line-height:1.18;margin:17px 0!important}
+.conciergeIntro>p{font-size:13px;line-height:1.95;color:#c1d0ce;max-width:500px;margin:0 0 22px}
+.conciergeIntro>a{min-height:49px;background:#e8cba0;color:#1c3940!important;display:inline-flex;align-items:center;justify-content:center;gap:14px;padding:11px 16px;font-size:12px;font-weight:840}
+.conciergeGallery{display:grid;grid-template-columns:1fr 1fr;gap:1px;min-width:0}
+.conciergeGallery a{position:relative;min-width:0;min-height:450px;background:#d6e0dd;overflow:hidden}
+.luxuryImage{object-fit:contain;transition:transform .3s ease}
+.conciergeGallery a:hover .luxuryImage{transform:scale(1.04)}
+.conciergeGallery a>span{position:absolute;bottom:25px;inset-inline:16px;background:#173940;color:#fff;padding:13px;text-align:center;font-size:12px;font-weight:820}
+@media(max-width:1240px){
+ .collection{grid-template-columns:minmax(140px,.28fr) minmax(0,1fr) minmax(220px,.44fr)}
+ .selector .pick{padding:14px 10px;gap:7px;min-height:89px}
+ .pick strong{font-size:11px}
+ .photoStudio{padding-inline:6px}
+ .primaryPhoto{min-height:400px}
+ .specSheet{padding:22px 16px}
+ .hero{min-height:510px}
+ .heroPoster{min-height:510px}
+ .indexHead{grid-template-columns:.65fr 1fr .8fr}
+}
+@media(max-width:940px){
+ .hero{min-height:0;max-height:none;grid-template-columns:1fr 1fr}
+ .heroPoster{min-height:480px}
+ .heroText{padding:50px 30px}
+ .heroText h1{font-size:clamp(40px,5.4vw,56px)}
+ .atelier{padding:76px 18px}
+ .collection{grid-template-areas:"selector photo" "sheet sheet";grid-template-columns:minmax(185px,.34fr) minmax(0,.66fr)}
+ .selector{grid-area:selector}
+ .photoStudio{grid-area:photo;min-height:460px}
+ .specSheet{grid-area:sheet;display:grid;grid-template-columns:1fr 1fr;gap:11px 25px}
+ .specTop,.category,.specSheet h3,.specSheet>p:not(.payment),.metrics,.fare,.book,.readMore,.payment{grid-column:auto}
+ .category{margin-top:0}
+ .specSheet h3{grid-column:1/-1}
+ .specSheet>p:not(.payment){grid-column:1}
+ .metrics{grid-column:2;grid-row:3}
+ .fare{grid-column:1;grid-row:4}
+ .book{grid-column:2;grid-row:4;margin-top:0}
+ .readMore,.payment{grid-column:1/-1}
+ .indexHead{display:block}
+ .indexHead h2{margin:12px 0!important}
+ .indexHead p{max-width:530px}
+ .conciergeIntro{padding:55px 25px}
+}
+@media(max-width:680px){
+ .hero{display:flex;flex-direction:column-reverse}
+ .heroPoster{min-height:0;height:247px}
+ .heroText{padding:77px 20px 30px}
+ .kicker{font-size:10px;margin-bottom:14px}
+ .heroText h1{font-size:clamp(32px,8.6vw,49px);line-height:1.26}
+ .heroText>p:not(.kicker){font-size:11px;line-height:1.85;margin:15px 0 18px}
+ .heroLink{min-height:45px;font-size:11px}
+ .imageIndex{top:16px;inset-inline-start:15px;font-size:10px}
+ .atelier{padding:51px 0 55px}
+ .atelierHead{padding:0 17px;margin-bottom:18px}
+ .atelierHead h2{font-size:clamp(29px,7.6vw,37px)}
+ .collectionCount{font-size:43px}
+ .collection{display:flex;flex-direction:column}
+ .selector{background:#173e44;display:flex;flex-direction:row;gap:7px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;overscroll-behavior-inline:contain;padding:9px 10px;min-height:72px}
+ .railEyebrow{display:none}
+ .pick{flex:0 0 min(65%,230px);border:1px solid rgba(255,255,255,.25);min-height:58px!important;scroll-snap-align:start;grid-template-columns:20px minmax(0,1fr);gap:8px!important;padding:9px 12px!important}
+ .pickDot{display:none}
+ .pick strong{font-size:11px}
+ .photoStudio{min-height:0;padding:0 10px 13px}
+ .primaryPhoto{min-height:0;height:300px;flex:none}
+ .photoEdition{top:12px;inset-inline-start:10px;font-size:9px}
+ .photoName{bottom:12px;inset-inline-start:9px;padding:6px;font-size:9px}
+ .photoControls{min-height:41px}
+ .photoControls button{min-height:39px;padding:8px 11px;font-size:10px}
+ .filmstrip{margin-top:5px}
+ .filmstrip button{flex-basis:64px;height:42px}
+ .specSheet{display:flex;flex-direction:column;padding:23px 20px}
+ .specTop{gap:10px}
+ .category{margin-top:18px}
+ .specSheet h3{font-size:30px;line-height:1.3;margin:8px 0 9px!important}
+ .specSheet>p:not(.payment){font-size:11px;line-height:1.85;margin-bottom:16px}
+ .metrics{padding:12px 0;margin-bottom:14px}
+ .fare strong{font-size:30px}
+ .book{margin-top:17px}
+ .readMore{margin-top:12px}
+ .indexSection{padding:63px 16px 57px}
+ .indexHead{margin-bottom:18px}
+ .indexHead h2{font-size:31px}
+ .indexHead p{font-size:11px}
+ .table{min-width:495px}
+ .table td,.table tbody th{padding:16px 9px;font-size:11px}
+ .table thead th{font-size:10px;padding:12px 9px}
+ .concierge{display:flex;flex-direction:column}
+ .conciergeIntro{padding:54px 19px 31px}
+ .conciergeIntro h2{font-size:37px;margin:12px 0!important}
+ .conciergeIntro>p{font-size:11px}
+ .conciergeGallery{height:220px}
+ .conciergeGallery a{min-height:220px}
+ .conciergeGallery a>span{bottom:8px;inset-inline:8px;padding:7px 5px;font-size:10px}
+}
+@media(max-width:390px){
+ .heroPoster{height:215px}
+ .heroText h1{font-size:32px}
+ .primaryPhoto{height:252px}
+ .pick{flex-basis:72%}
+ .specSheet{padding-inline:15px}
+ .atelierHead h2{font-size:29px}
+ .indexHead h2{font-size:29px}
+ .conciergeIntro h2{font-size:34px}
+}
+@media(prefers-reduced-motion:reduce){.exteriorPhoto,.cabinPhoto{animation:none!important}.luxuryImage{transition:none!important}.conciergeGallery a:hover .luxuryImage{transform:none!important}}
