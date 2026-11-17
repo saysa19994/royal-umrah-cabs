@@ -80,6 +80,7 @@ export function ServiceChapterExplorer({locale,services}:{locale:Locale;services
      <Image key={service.image} src={service.image} alt={t.names[active]}
       fill sizes="(max-width:800px) 100vw, (max-width:1150px) 55vw, 710px" className={styles.photo}/>
      <span className={styles.photoNum}>{String(active+1).padStart(2,'0')} / 06</span>
+     <span className={styles.availability}>24/7</span>
      <span className={styles.photoCaption}><Icon size={16} aria-hidden="true"/>{t.names[active]}</span>
     </div>
     <div className={styles.body}>

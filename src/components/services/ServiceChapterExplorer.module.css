@@ -21,6 +21,7 @@
 @keyframes service-picture-enter{from{opacity:.4;transform:scale(1.05)}to{opacity:1;transform:scale(1)}}
 .media:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(12,35,40,.72));pointer-events:none}
 .photoNum{position:absolute;z-index:1;inset-inline-start:22px;top:22px;background:rgba(255,255,255,.9);color:#24474b;padding:7px 12px;font-size:10px;letter-spacing:.08em;font-weight:800}
+.availability{position:absolute;z-index:1;inset-inline-end:20px;top:22px;background:#143e44;color:#fff;font-size:10px;letter-spacing:.1em;padding:8px 12px;font-weight:850;border-radius:2px}
 .photoCaption{position:absolute;inset-inline-start:27px;bottom:24px;z-index:1;display:flex;align-items:center;gap:11px;color:#fff;font-size:clamp(18px,2vw,28px);font-weight:800;line-height:1.4}
 .body{padding:29px clamp(22px,3vw,46px);min-width:0;display:flex;flex-direction:column;gap:0}
 .small{font-size:10px;font-weight:800;color:#a48c68;letter-spacing:.07em}
