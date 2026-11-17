@@ -37,7 +37,7 @@ export default async function AboutPage({params}:AboutPageProps){
   hi:{story:'हमारी कहानी',what:'हर यात्रा के हमारे मूल्य',promise:'हर विवरण का ध्यान',direction:'आगमन से गंतव्य तक',route:'पवित्र शहरों और सऊदी अरब में',journey:'एक खास निजी यात्रा',book:'निजी यात्रा अनुरोध करें'},
  };
  const t=labels[locale];
- const metrics:Record<Locale,{wait:string;every:string;stop:string}>={
+ const metrics=({
   ar:{wait:'دقيقة انتظار بالمطار',every:'خدمة ومتابعة',stop:'دقيقة توقف ميقات مؤهل'},
   en:{wait:'airport waiting minutes',every:'service & assistance',stop:'eligible Miqat stop, minutes'},
   ms:{wait:'minit menunggu di lapangan terbang',every:'khidmat & bantuan',stop:'minit di Miqat yang layak'},
@@ -48,7 +48,7 @@ export default async function AboutPage({params}:AboutPageProps){
   de:{wait:'Minuten Wartezeit am Flughafen',every:'Service und Betreuung',stop:'Minuten Miqat-Halt (falls zutreffend)'},
   tr:{wait:'dakika havalimanı bekleme',every:'hizmet ve destek',stop:'dakika uygun Miqat molası'},
   hi:{wait:'मिनट एयरपोर्ट प्रतीक्षा',every:'सेवा और सहायता',stop:'मिनट योग्य मीक़ात ठहराव'},
- }[locale];
+ } as Record<Locale,{wait:string;every:string;stop:string}>)[locale];
 
  return (
  <main className={styles.page} dir={rtl?'rtl':'ltr'}>
