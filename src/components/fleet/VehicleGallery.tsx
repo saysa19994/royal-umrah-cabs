@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Camera, Maximize2, X, Eye } from 'lucide-react';
 import { Locale } from '@/i18n/config';
+import './vehicle-gallery-cinematic.css';
 
 export interface GalleryPhoto {
   src: string;
@@ -300,7 +301,7 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
 
       {/* MAIN FEATURED IMAGE VIEWPORT */}
       <div
-        className="relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/9] bg-[#101827] border border-white/10 shadow-md group cursor-pointer select-none"
+        className="duyuf-vehicle-mainstage relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/9] bg-[#101827] border border-white/10 shadow-md group cursor-pointer select-none"
         onClick={() => setIsLightboxOpen(true)}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -372,9 +373,26 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
         )}
       </div>
 
+      {/* Reference 15: genuine licensed photos in two depth layers, never a CSS 3D car. */}
+      {total > 2 && (
+        <div className="duyuf-vehicle-depth-rail" aria-label={t('showcase')}>
+          {filteredImages.map((img,index)=>({img,index}))
+            .filter(item=>item.index!==safeIndex).slice(0,2).map(({img,index},peek)=>(
+              <button key={img.src+'-'+index} type="button"
+                className={'duyuf-vehicle-depth-peek duyuf-vehicle-depth-peek-'+peek}
+                aria-label={getTitle(img)}
+                onClick={()=>setCurrentIndex(index)}>
+                <Image src={img.src} alt="" fill
+                  sizes="(max-width: 900px) 1px, 195px" className="object-cover"/>
+                <span>{getTitle(img)}</span>
+              </button>
+            ))}
+        </div>
+      )}
+
       {/* THUMBNAIL SELECTOR STRIP */}
       {total > 1 && (
-        <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-2 sm:gap-3 mt-3 sm:mt-4">
+        <div className="duyuf-vehicle-filmstrip flex overflow-x-auto gap-2 sm:gap-3 mt-3 sm:mt-4">
           {filteredImages.map((img, idx) => {
             const isSelected = idx === safeIndex;
             return (
@@ -382,7 +400,7 @@ export function VehicleGallery({ images, vehicleName, locale }: VehicleGalleryPr
                 key={idx}
                 type="button"
                 onClick={() => setCurrentIndex(idx)}
-                className={`relative rounded-xl overflow-hidden aspect-[16/10] bg-[#101827] border-2 transition-all cursor-pointer ${
+                className={`duyuf-vehicle-filmstrip-item relative rounded-xl overflow-hidden aspect-[16/10] bg-[#101827] border-2 transition-all cursor-pointer ${
                   isSelected
                     ? 'border-[#D6A13A] ring-2 ring-[#D6A13A]/40 scale-[1.02] shadow-sm'
                     : 'border-transparent opacity-65 hover:opacity-100'

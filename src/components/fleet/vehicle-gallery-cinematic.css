@@ -1,0 +1,21 @@
+/* Videos 06 + 15 — panoramic vehicle rail and two photographic depth peeks.
+   All frames use actual approved gallery photos; no simulated 360-degree rotation. */
+.duyuf-vehicle-mainstage{position:relative;isolation:isolate}
+.duyuf-vehicle-depth-rail{display:flex;align-items:end;justify-content:flex-end;gap:14px;min-height:0;margin:-67px 27px 0;position:relative;z-index:6;pointer-events:none}
+.duyuf-vehicle-depth-peek{position:relative;display:block;width:min(22%,190px);height:128px;border:4px solid var(--bg-surface,#fff);background:#203d42;border-radius:12px;overflow:hidden;box-shadow:0 20px 40px rgba(13,32,39,.2);pointer-events:auto;cursor:pointer;transition:transform .26s ease,box-shadow .26s ease}
+.duyuf-vehicle-depth-peek-0{transform:rotate(-5deg) translateY(-8px)}
+.duyuf-vehicle-depth-peek-1{transform:rotate(6deg)}
+.duyuf-vehicle-depth-peek:hover,.duyuf-vehicle-depth-peek:focus-visible{transform:rotate(0) translateY(-8px);box-shadow:0 26px 48px rgba(13,32,39,.27)}
+.duyuf-vehicle-depth-peek:after{content:"";position:absolute;inset:38% 0 0;background:linear-gradient(transparent,rgba(6,21,28,.79))}
+.duyuf-vehicle-depth-peek span{position:absolute;z-index:2;bottom:8px;inset-inline:10px;color:white;text-shadow:0 1px 5px #0a2630;font-weight:750;font-size:10px;line-height:1.5;text-align:start}
+.duyuf-vehicle-filmstrip{scrollbar-width:thin;scroll-snap-type:x mandatory;overscroll-behavior-inline:contain;padding:6px 4px 13px;scroll-padding-inline:4px}
+.duyuf-vehicle-filmstrip-item{flex:0 0 clamp(116px,16vw,180px);min-width:0;scroll-snap-align:start}
+.duyuf-vehicle-filmstrip :is(button):focus-visible,.duyuf-vehicle-depth-peek:focus-visible{outline:3px solid #c5a16d;outline-offset:3px}
+@media(max-width:900px){.duyuf-vehicle-depth-peek{height:104px;width:154px}.duyuf-vehicle-depth-rail{margin:-50px 16px 0;gap:10px}}
+@media(max-width:640px){
+ .duyuf-vehicle-depth-rail{display:none}
+ .duyuf-vehicle-filmstrip{gap:9px;margin-top:10px}
+ .duyuf-vehicle-filmstrip-item{flex-basis:34%;max-width:150px;aspect-ratio:4/3}
+ .duyuf-vehicle-mainstage{border-radius:9px}
+}
+@media(prefers-reduced-motion:reduce){.duyuf-vehicle-depth-peek{transition:none!important}.duyuf-vehicle-depth-peek:hover{transform:none}}
