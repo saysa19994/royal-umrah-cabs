@@ -34,15 +34,19 @@ test('fleet is a distinctive editorial collection, not the old three-column temp
   assert.match(styles,/@media\(max-width:767px\)/);
 });
 
-test('service layout uses a genuine asymmetric composition and localized page header',()=>{
+test('services replace six repetitive cards with one real interactive chapter and a distinctive header',()=>{
   const service=read('src/app/[locale]/services/page.tsx');
   const styles=read('src/app/[locale]/services/services-editorial.css');
+  const chapter=read('src/components/services/ServiceChapterExplorer.tsx');
+  const chapterStyles=read('src/components/services/ServiceChapterExplorer.module.css');
   assert.match(service,/duyuf-services-intro-visual/);
-  assert.match(service,/duyuf-services-grid/);
-  assert.match(service,/duyuf-service-card-content/);
+  assert.match(service,/<ServiceChapterExplorer/);
+  assert.match(service,/servicesList\.map\(\(\{icon,\.\.\.data\}\)=>data\)/);
   assert.match(service,/\{dict\.page_services\.title\}/);
-  assert.match(styles,/duyuf-service-card:first-child/);
-  assert.match(styles,/grid-column:span 7/);
+  assert.doesNotMatch(service,/duyuf-service-card-content/);
+  assert.match(chapter,/role="tablist"/);
+  assert.match(chapter,/role="tabpanel"/);
+  assert.match(chapterStyles,/@media\(max-width:760px\)/);
   assert.match(styles,/@media\(max-width:767px\)/);
 });
 

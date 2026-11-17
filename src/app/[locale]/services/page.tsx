@@ -13,7 +13,6 @@ import {
   Building2,
   Users,
   Headphones,
-  CheckCircle2,
   ArrowRight,
   ArrowLeft,
   Sparkles,
@@ -45,12 +44,6 @@ export default async function ServicesPage(props: ServicesPageProps) {
   const isRtl = isAr || locale === 'ur';
 
   const ArrowIcon = isRtl ? ArrowLeft : ArrowRight;
-
-  const labels = {
-    locationsLabel: isAr ? 'المواقع المشمولة:' : 'Covered Locations:',
-    availabilityLabel: isAr ? 'جاهزية 24/7' : '24/7 Availability',
-    relatedRoutesLabel: isAr ? 'المسارات المقترحة:' : 'Related Routes:',
-  };
 
   const servicesList = [
     {
@@ -86,7 +79,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
       highlights: [
         isAr ? 'مزارات مكة: غار حراء، غار ثور، منى، مزدلفة، عرفات' : 'Makkah: Ghar Hira, Jabal Thawr, Mina, Muzdalifah, Arafat',
         isAr ? 'مزارات المدينة: مسجد قباء، جبل أحد، مسجد القبلتين' : 'Madinah: Masjid Quba, Mount Uhud, Masjid al-Qiblatayn',
-        isAr ? 'سائقون محليون على دراية كاملة بتاريخ وتفاصيل المواقع' : 'Knowledgeable local chauffeurs with deep site history',
+        isAr ? 'سائقون على دراية بنقاط الوصول والانتظار في المزارات' : 'Chauffeurs familiar with site pickup and waiting points',
         isAr ? 'جولات خاصة مرنة تناسب راحة عائلتك' : 'Flexible private tours at your family’s pace',
       ],
     },
@@ -105,7 +98,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
       highlights: [
         isAr ? 'مكة ⇄ المدينة المنورة عبر طريق الهجرة السريع' : 'Makkah ⇄ Madinah via Hijrah Expressway',
         isAr ? 'جدة ⇄ مكة المكرمة وجدة ⇄ المدينة المنورة' : 'Jeddah ⇄ Makkah & Jeddah ⇄ Madinah',
-        isAr ? 'توقف مخصص عند الميقات (ذي الحليفة / يلملم) للإحرام' : 'Dedicated stop at Miqat (Bir Ali) for Ihram',
+        isAr ? 'توقف مجاني عند الميقات على المسارات المؤهلة وفق ترتيبات الرحلة' : 'Complimentary Miqat stop on applicable routes when arranged',
         isAr ? 'محطات استراحة مريحة للصلاة وتناول القهوة' : 'Comfortable prayer & rest stops included',
       ],
     },
@@ -159,9 +152,9 @@ export default async function ServicesPage(props: ServicesPageProps) {
       ],
       highlights: [
         isAr ? 'خط ساخن ومباشر عبر الواتساب على مدار 24 ساعة' : 'Dedicated 24/7 instant WhatsApp and phone hotline',
-        isAr ? 'متابعة حية لموقع السيارة وتوقيت الوصول' : 'Live trip tracking and driver dispatch monitoring',
+        isAr ? 'متابعة مواعيد الرحلات الجوية والتنسيق مع السائق' : 'Flight-time monitoring and chauffeur coordination',
         isAr ? 'مرونة كاملة في تعديل المواعيد وتحديث الرحلات' : 'Full flexibility for schedule adjustments and updates',
-        isAr ? 'استجابة فورية بمتوسط أقل من دقيقتين' : 'Instant response time under 2 minutes average',
+        isAr ? 'دعم لمتابعة تفاصيل طلب الحجز والرحلة على مدار الساعة' : 'Round-the-clock support for booking and journey arrangements',
       ],
     },
   ];
