@@ -64,7 +64,9 @@ export function JourneyArchitectHomepage({locale,dict}:Props){
   {title:c.destinationTitle,desc:c.destinationDesc,image:'/assets/homepage-v2/route-madinah-hotel.jpg'},
  ];
  const minDate=useMemo(()=>{
-  const d=new Date();return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Riyadh',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
+  const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Riyadh',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  const part=(type:string)=>parts.find(x=>x.type===type)?.value||'';
+  return [part('year'),part('month'),part('day')].join('-');
  },[]);
  useEffect(()=>{
   const v=video.current;if(!v)return;

@@ -6,9 +6,10 @@ const page=read('src/app/[locale]/page.tsx');
 const source=read('src/components/home/SignatureJourneyHomepage.tsx');
 const styles=read('src/components/home/SignatureJourneyHomepage.module.css');
 
-test('new signature homepage is the actual mounted page; former homepage remains only as rollback reference',()=>{
-  assert.match(page,/import \{ SignatureJourneyHomepage \}/);
-  assert.match(page,/<SignatureJourneyHomepage locale=\{locale\} dict=\{dict\} \/>/);
+test('the new independent architect homepage is mounted; Signature Journey V4 remains a rollback reference',()=>{
+  assert.match(page,/import \{JourneyArchitectHomepage\}/);
+  assert.match(page,/<JourneyArchitectHomepage locale=\{locale\} dict=\{dict\}\/>/);
+  assert.doesNotMatch(page,/<SignatureJourneyHomepage/);
   assert.doesNotMatch(page,/<PrivateJourneyHomepage/);
 });
 test('ten independently translated signature headings and action labels',()=>{

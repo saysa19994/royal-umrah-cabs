@@ -131,11 +131,18 @@ test('Booking recovery always explains failed draft restoration in all supported
 });
 
 
-test('Live homepage uses the original cinematic video, real booking engine, and V4 visual architecture', () => {
+test('Preview homepage uses a new architecture, original video and real pricing; V4 remains available for rollback', () => {
   const css=read('src/components/home/SignatureJourneyHomepage.module.css');
   const home=read('src/components/home/SignatureJourneyHomepage.tsx');
   const page=read('src/app/[locale]/page.tsx');
-  assert.match(page,/<SignatureJourneyHomepage/);
+  const next=read('src/components/home/JourneyArchitectHomepage.tsx');
+  const newCss=read('src/components/home/JourneyArchitectHomepage.module.css');
+  assert.match(page,/<JourneyArchitectHomepage/);
+  assert.match(next,/AUTHORITATIVE_TRANSFER_RATES/);
+  assert.match(next,/APPROVED_5_FLEET/);
+  assert.match(next,/hero-mobile\.webm/);
+  assert.match(newCss,/\.routeAtlas\{/);
+  assert.match(newCss,/\.fleetMuseum\{/);
   assert.match(css,/\.heroVideo\{position:absolute;inset:0/);
   assert.match(css,/\.routeExplorer\{display:grid/);
   assert.match(css,/\.fleetShowroom\{display:grid/);
