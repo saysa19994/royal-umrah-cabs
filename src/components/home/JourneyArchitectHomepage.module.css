@@ -1,0 +1,353 @@
+/*
+ DUYUF — JOURNEY ARCHITECT v1
+ New homepage architecture, intentionally NOT inherited from SignatureJourneyHomepage.
+ Each visual chapter has a distinct composition. No cards, tailwind hero template,
+ repetitive centered section headings or overriding legacy CSS.
+*/
+.site{--ink:#102f34;--inkSoft:#385657;--sand:#f4f3ed;--cream:#faf9f5;--line:#d2dbd3;--bronze:#b69769;--navy:#0b1a25;--teal:#194a4c;background:#faf9f5;color:var(--ink);overflow-x:clip;font-family:inherit}
+.site *{box-sizing:border-box}
+.site :is(a,button,input,select):focus-visible{outline:3px solid #c5a26a;outline-offset:3px}
+.site a{text-decoration:none}
+.site button{cursor:pointer}
+.site button:disabled{cursor:not-allowed}
+.overline{display:block;font-size:11px;letter-spacing:.15em;font-weight:800;color:#b08d5b;line-height:1.65}
+.site[dir=rtl] .overline{letter-spacing:0}
+/* 01 — filmed arrival, eye-level headline and a restrained cinematic edge label */
+.cinema{min-height:min(820px,100svh);height:min(820px,100svh);position:relative;overflow:hidden;background:#0b1a25;color:#fff;display:flex;flex-direction:column;justify-content:space-between;isolation:isolate}
+.cinemaFilm{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-3}
+.cinemaShade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,14,20,.78),rgba(4,14,20,.19) 72%),linear-gradient(0deg,rgba(3,13,19,.72),transparent 38%,rgba(3,13,19,.18));z-index:-2;pointer-events:none}
+.site[dir=rtl] .cinemaShade{background:linear-gradient(270deg,rgba(4,14,20,.78),rgba(4,14,20,.19) 72%),linear-gradient(0deg,rgba(3,13,19,.72),transparent 38%,rgba(3,13,19,.18))}
+.cinemaTop{display:flex;justify-content:space-between;align-items:center;gap:30px;padding:36px max(6.5vw,32px) 0;font-size:10px;font-weight:780;color:#e9e5d9;letter-spacing:.14em}
+.cinemaBody{width:min(1220px,calc(100% - 12vw));margin:0 auto;padding:60px 0 100px}
+.cinemaLine{display:flex;align-items:center;gap:28px;margin-bottom:35px}
+.cinemaIndex{color:#e2c28b;font-size:11px;font-weight:900;letter-spacing:.12em}
+.cinemaRule{display:block;background:rgba(255,255,255,.35);width:135px;height:1px}
+.cinemaKicker{font-size:12px;color:#f0e7d3;font-weight:800;margin:0 0 17px}
+.cinemaBody h1{font-size:clamp(60px,7.2vw,113px);line-height:1.03;max-width:1120px;font-weight:760;letter-spacing:-.052em;margin:0!important;color:#fff;text-wrap:balance}
+.site[dir=rtl] .cinemaBody h1{font-size:clamp(53px,6.7vw,102px);letter-spacing:0;line-height:1.19}
+.cinemaBody h1 em{display:block;color:#eac99b;font-style:normal}
+.cinemaIntro{max-width:510px;color:#d5dedb;line-height:1.9;font-size:14px;margin:29px 0 25px}
+.cinemaLinks{display:flex;gap:15px;align-items:center;flex-wrap:wrap}
+.lightCta,.ghostCta{min-height:52px;display:inline-flex;gap:14px;align-items:center;justify-content:center;font-size:12px;font-weight:850;padding:11px 19px}
+.lightCta{background:#f4e9d4;color:#1c363a!important}
+.lightCta:hover{background:#fff1d7}
+.ghostCta{border-bottom:1px solid rgba(255,255,255,.6);color:#fff!important}
+.cinemaBottom{display:flex;gap:24px;align-items:center;justify-content:space-between;padding:24px max(6.5vw,32px) 38px;border-top:1px solid rgba(255,255,255,.18);position:relative;font-size:11px;color:#d5dfdc;font-weight:720}
+.cinemaBottom span{display:inline-flex;align-items:center;gap:7px}
+.cinemaBottom svg{color:#eac99b}
+.cinemaScroll{letter-spacing:.15em;color:#e7c28c}
+/* 02 — boarding-pass booking desk, not a floating card */
+.ticketZone{max-width:1380px;width:calc(100% - 80px);margin:-61px auto 0;z-index:3;position:relative;scroll-margin-top:95px}
+.ticketMeta{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 15px 10px;color:#f4f1e7;font-size:10px;font-weight:750;line-height:1.6}
+.ticketMeta span:last-child{color:#31484a;margin-inline-start:auto;max-width:330px;text-align:end}
+.ticket{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,2fr) minmax(0,1fr) minmax(0,.7fr) minmax(0,1.3fr);align-items:stretch;min-height:128px;background:#fffdfa;border:1px solid #cbd4cd;box-shadow:0 16px 53px rgba(14,37,37,.12)}
+.ticketIdentity{background:#183d42;color:#fff;padding:22px 24px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.ticketStamp{display:inline-flex;align-items:center;gap:9px;font-size:10px;font-weight:800;letter-spacing:.08em;color:#f0d7ae}
+.ticketIdentity strong{font-size:18px;line-height:1.35}
+.ticketIdentity small{color:#c0d0cc;line-height:1.55;font-size:10px}
+.ticketField{display:flex;flex-direction:column;justify-content:center;gap:10px;padding:16px 18px;border-inline-end:1px dashed #c4cfc6;min-width:0}
+.ticketField>span{display:flex;gap:8px;align-items:center;color:#75827c;font-size:11px;font-weight:700}
+.ticketField>span svg{color:#9c815f}
+.ticketField select,.ticketField input{border:0;background:transparent;appearance:none;width:100%;min-width:0;color:#183b40;font-size:12px;font-weight:800;padding:7px 0;line-height:1.45;outline-offset:5px;font-family:inherit}
+.ticketField:has(select){position:relative}
+.ticketGo{background:#ad895a;color:#fff;border:0;display:flex;align-items:center;justify-content:center;gap:16px;padding:20px 17px;font-size:12px;line-height:1.55;font-weight:850;text-align:center}
+.ticketGo:hover{background:#846741}
+.ticketGo svg{flex:none}
+.ticketZone:after{content:"";position:absolute;bottom:0;inset-inline:0;height:1px;background:transparent;pointer-events:none}
+/* 03 — atlas: photo and book-like ledger, no repeated route cards */
+.routeAtlas{padding:130px max(6vw,28px) 125px;background:var(--cream)}
+.atlasHeading{max-width:1380px;margin:0 auto 34px;display:flex;justify-content:space-between;align-items:end;gap:35px}
+.atlasHeading h2{font-size:clamp(40px,4.5vw,71px);line-height:1.24;font-weight:760;max-width:780px;margin:13px 0 0!important;text-wrap:balance;letter-spacing:-.025em}
+.site[dir=rtl] .atlasHeading h2{letter-spacing:0}
+.textLink{display:inline-flex;gap:10px;align-items:center;color:#1c5658;font-size:12px;font-weight:850;min-height:43px}
+.textLink:hover{color:#b08d5b}
+.atlasStage{max-width:1380px;min-height:605px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.38fr) minmax(370px,.62fr);background:#e5eae4;overflow:hidden}
+.atlasImage{position:relative;min-height:590px;overflow:hidden;background:#536a68}
+.atlasPhoto{object-fit:cover;animation:photoStep .35s ease both}
+@keyframes photoStep{from{opacity:.55;transform:scale(1.025)}to{opacity:1;transform:scale(1)}}
+.atlasImage:after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(7,25,29,.79));pointer-events:none}
+.photoSerial{position:absolute;top:27px;inset-inline-start:29px;z-index:1;color:#f7f2e7;letter-spacing:.16em;font-size:11px;font-weight:850}
+.atlasCaption{position:absolute;bottom:40px;inset-inline:37px;z-index:1;color:#fff;display:flex;flex-direction:column;gap:9px}
+.atlasCaption span{color:#f1cf97;font-size:12px;letter-spacing:.16em;font-weight:800}
+.atlasCaption strong{font-size:clamp(24px,2.8vw,42px);max-width:620px;line-height:1.5;text-wrap:balance}
+.atlasLedger{display:flex;flex-direction:column;min-width:0;padding:32px 29px;background:#fffefa}
+.atlasLedgerTop{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#9c8260;font-size:11px;font-weight:850;margin-bottom:25px}
+.routeOptions{border-top:1px solid #d5dcd5;flex:1}
+.routeOptions button{width:100%;display:grid;grid-template-columns:25px minmax(0,1fr) 18px;gap:10px;align-items:center;padding:23px 0;text-align:start;min-height:85px;border:0;border-bottom:1px solid #d5dcd5;background:transparent;color:#365659}
+.routeOptions button:hover{color:#15565b}
+.routeOptions button[aria-pressed=true]{color:#153c41;font-weight:800}
+.routeOptions button span{color:#aa8d67;font-size:11px}
+.routeOptions button strong{font-size:13px;line-height:1.7;font-weight:760}
+.routeOptions button[aria-pressed=true] strong{font-size:15px}
+.routeOptions button svg{color:#a89475}
+.atlasFare{border-top:2px solid #254f52;padding:19px 0 0;display:flex;align-items:center;justify-content:space-between;gap:17px}
+.atlasFare>div{display:flex;flex-direction:column;gap:6px}
+.atlasFare>div>span{font-size:10px;color:#7b8b82}
+.atlasFare strong{font-size:26px;font-weight:830;color:#9d764c;line-height:1}
+.atlasFare strong small{font-size:11px;color:#647671}
+.atlasFare>a{background:#183d42;color:#fff!important;display:inline-flex;gap:9px;align-items:center;justify-content:center;padding:13px;font-size:11px;font-weight:820;min-height:44px;text-align:center}
+.atlasFare>a:hover{background:#356368}
+/* 04 — true auto showroom: stage not a pair of cards; automotive index is distinct */
+.fleetMuseum{padding:118px max(5vw,25px) 110px;background:#e4e9e4}
+.museumHead{max-width:1380px;margin:0 auto 37px;display:grid;grid-template-columns:minmax(0,.6fr) minmax(0,1.2fr) minmax(0,.55fr);align-items:end;gap:30px}
+.museumHead h2{font-size:clamp(34px,4.25vw,67px);font-weight:770;line-height:1.2;letter-spacing:-.035em;margin:0!important}
+.site[dir=rtl] .museumHead h2{letter-spacing:0}
+.museumHead>p{font-size:12px;color:#6c7f76;line-height:1.85}
+.museum{max-width:1380px;margin:0 auto;display:grid;grid-template-areas:"names car info";grid-template-columns:minmax(190px,.3fr) minmax(0,.98fr) minmax(240px,.45fr);min-height:665px;background:#f7f9f5;overflow:hidden}
+.museumIndex{grid-area:names;min-width:0;background:#163b42;color:#fff;padding:34px 19px 25px;display:flex;flex-direction:column}
+.museumCounter{font-family:Georgia,serif;font-size:60px;line-height:1;color:#eee9de;font-weight:650}
+.museumCounter i{font-family:inherit;font-size:13px;font-style:normal;color:#a0b6b4;letter-spacing:.1em}
+.museumCarNames{display:flex;flex-direction:column;margin-top:auto}
+.museumCarNames button{min-height:76px;border:0;border-top:1px solid rgba(255,255,255,.22);color:#c4d2d0;display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:center;background:transparent;text-align:start;padding:15px 5px}
+.museumCarNames button:hover{color:#fff}
+.museumCarNames button[aria-pressed=true]{color:#edc693}
+.museumCarNames button span{font-size:10px;color:#d0ae83}
+.museumCarNames button strong{font-size:12px;line-height:1.65;font-weight:800}
+.museumDisplay{grid-area:car;position:relative;overflow:hidden;background:radial-gradient(circle at 53% 48%,#f8fbf7,#d5ded8 68%,#c7d4cd 100%);min-height:620px}
+.museumImage{position:absolute;inset:7% 2% 14%;overflow:hidden}
+.museumExterior{object-fit:contain;animation:carReveal .4s ease both}
+.museumInterior{object-fit:cover;animation:carReveal .4s ease both}
+@keyframes carReveal{from{opacity:.2;transform:translateY(9px) scale(1.02)}to{opacity:1;transform:translateY(0) scale(1)}}
+.museumSwitch{position:absolute;bottom:29px;inset-inline:25px;display:flex;align-items:center;justify-content:center;gap:7px}
+.museumSwitch button{background:rgba(255,255,255,.84);border:1px solid #bfc9c0;color:#345254;font-size:11px;font-weight:800;min-height:42px;padding:9px 13px;backdrop-filter:blur(10px)}
+.museumSwitch button[aria-pressed=true]{background:#173e43;color:#fff;border-color:#173e43}
+.museumInfo{grid-area:info;background:#faf9f5;border-inline-start:1px solid #d5ddd7;padding:36px 25px 28px;min-width:0;display:flex;flex-direction:column}
+.museumClass{font-size:10px;line-height:1.7;color:#9b8060;font-weight:800}
+.museumInfo h3{font-size:clamp(24px,2.2vw,36px);line-height:1.33;margin:13px 0 14px!important;font-weight:800}
+.museumStats{display:flex;align-items:center;gap:15px;padding:17px 0;border-top:1px solid #d9dfda;border-bottom:1px solid #d9dfda}
+.museumStats span{display:inline-flex;gap:8px;align-items:center;color:#48605c;font-weight:850;font-size:13px}
+.museumStats svg{color:#aa8c63}
+.museumInfo>p{color:#657a73;line-height:1.95;font-size:12px;margin:21px 0 auto}
+.museumCost{display:flex;flex-direction:column;gap:9px;border-top:1px solid #d9dfda;padding-top:19px;margin-top:22px}
+.museumCost>span{font-size:10px;color:#7c8a84;line-height:1.7}
+.museumCost strong{font-size:31px;color:#a78257;line-height:1;font-weight:800}
+.museumCost strong small{font-size:12px;color:#516a63}
+.museumActions{display:flex;flex-direction:column;align-items:start;gap:9px;margin-top:23px}
+.darkCta{background:#183c42;color:#fff!important;display:flex;align-items:center;justify-content:center;gap:11px;font-size:12px;font-weight:850;min-height:48px;padding:12px 15px;width:100%;text-align:center}
+.museumActions .textLink{font-size:11px}
+.fleetEnd{display:flex;align-items:center;justify-content:center;gap:9px;color:#275c5c;font-size:12px;font-weight:850;min-height:45px;margin:20px auto 0}
+/* 05 — actual image-and-notes travel essay; no generic card deck */
+.travelEssay{padding:105px max(5.5vw,28px) 116px;background:#0b1a25;color:#f1f4ef}
+.essayCaption{max-width:1380px;margin:0 auto 43px;display:grid;grid-template-columns:.5fr 1.2fr .7fr;gap:30px;align-items:end}
+.essayCaption h2{font-size:clamp(41px,4.9vw,75px);font-weight:750;line-height:1.12;color:#f1f4ef;margin:0!important;letter-spacing:-.03em}
+.site[dir=rtl] .essayCaption h2{letter-spacing:0}
+.essayCaption>p{color:#c0d0cc;font-size:12px;line-height:1.95}
+.essayBody{max-width:1380px;margin:auto;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);min-height:620px}
+.essayImage{position:relative;min-height:590px;overflow:hidden;background:#213941}
+.essayPhoto{object-fit:cover;animation:photoStep .4s ease both}
+.essayImage:after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,rgba(3,12,22,.6))}
+.essayImage>span{position:absolute;z-index:2;bottom:24px;inset-inline-start:27px;color:#fff;font-weight:850;letter-spacing:.1em;font-size:13px}
+.essayAside{background:#122a33;display:grid;grid-template-rows:auto 1fr;padding:28px 32px 36px}
+.essayChapters{border-top:1px solid rgba(255,255,255,.22)}
+.essayChapters button{display:grid;grid-template-columns:32px minmax(0,1fr) 19px;gap:14px;align-items:center;min-height:70px;padding:16px 0;text-align:start;width:100%;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.19);color:#adbcb9}
+.essayChapters button[aria-pressed=true]{color:#efc78d}
+.essayChapters button>span{font-size:11px;color:#c8a674}
+.essayChapters button strong{font-size:14px;line-height:1.65}
+.essayChapters button svg{color:#baa786}
+.essayNarrative{align-self:end;padding-top:29px}
+.essayNarrative>span{font-size:11px;color:#d9b27f;letter-spacing:.11em}
+.essayNarrative h3{font-size:clamp(26px,2.85vw,46px);color:#f3f4ed;font-weight:790;margin:10px 0!important;line-height:1.25}
+.essayNarrative p{max-width:500px;color:#bfd0ca;line-height:1.95;font-size:13px}
+.essayNarrative>a{display:inline-flex;align-items:center;gap:9px;margin-top:20px;color:#f0c990;font-size:12px;font-weight:800}
+/* 06 — typographic facts as ink on ivory, no boxed "trust cards" */
+.truthStrip{background:#fffdfa;padding:104px max(5.5vw,28px) 96px;color:#183c40}
+.truthHead{max-width:1380px;margin:auto;display:grid;grid-template-columns:.55fr 1fr;gap:20px;align-items:end;border-bottom:1px solid #cdd6ce;padding-bottom:33px}
+.truthHead>span{font-size:11px;letter-spacing:.15em;color:#a2855e;font-weight:850}
+.truthHead h2{font-size:clamp(35px,3.8vw,60px);line-height:1.2;font-weight:780;margin:0!important}
+.truthCells{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:35px;max-width:1380px;margin:auto}
+.truthCells>div{border-inline-end:1px solid #cdd6ce;padding:35px 26px 25px 0;min-width:0}
+.site[dir=rtl] .truthCells>div{padding:35px 0 25px 26px}
+.truthCells>div:last-child{border-inline-end:0}
+.truthNumber{font-size:clamp(55px,6vw,100px);font-weight:680;line-height:1;color:#a98558;letter-spacing:-.055em}
+.truthNumber span{font-size:12px;color:#668178;letter-spacing:.04em;margin-inline-start:8px}
+.truthCells p{font-size:13px;color:#4f6a61;line-height:1.9;max-width:310px;margin:15px 0 0}
+.truthNote{max-width:1380px;margin:22px auto 0;padding:15px 0;display:flex;gap:11px;align-items:center;font-size:12px;font-weight:750;color:#2a5656;border-top:1px solid #d6ded7}
+.truthNote svg{color:#af8d5f}
+/* 07 — small independent reading room for real, localized frequently asked Q&A */
+.questionRoom{max-width:1380px;width:calc(100% - 10vw);margin:auto;padding:106px 0 118px;display:grid;grid-template-columns:minmax(0,.55fr) minmax(0,1fr);gap:clamp(35px,8vw,120px);align-items:start}
+.questionIntro h2{font-size:clamp(38px,4vw,65px);line-height:1.2;font-weight:760;margin:17px 0!important}
+.questionIntro>p{font-size:13px;line-height:1.9;color:#617a72;max-width:380px;margin-bottom:27px}
+.questionPhoto{display:block;width:100%;height:270px;object-fit:cover}
+.questions{border-top:1px solid #c8d5cb}
+.question{border-bottom:1px solid #c8d5cb}
+.question button{width:100%;min-height:88px;padding:19px 4px;display:grid;grid-template-columns:28px minmax(0,1fr) 20px;gap:14px;align-items:start;text-align:start;border:0;background:transparent;color:#234247}
+.question button span{color:#a4895f;font-size:12px;font-weight:850;margin-top:4px}
+.question button strong{font-size:clamp(15px,1.45vw,21px);font-weight:760;line-height:1.65}
+.question button svg{color:#9f8c6d;transition:transform .2s;margin-top:4px}
+.question button[aria-expanded=true] svg{transform:rotate(180deg)}
+.question p{font-size:13px;line-height:1.95;color:#677c72;margin:0 34px 25px 42px}
+.questions>.textLink{margin-top:19px}
+.endNote{background:#193d42;color:#fff;padding:40px max(5.5vw,28px);display:flex;gap:25px;align-items:center;justify-content:space-between}
+.endNote>span{color:#e4e7df;font-weight:700;font-size:13px}
+.endNote>a{display:inline-flex;gap:13px;align-items:center;justify-content:center;background:#ead0a1;color:#19383b!important;min-height:50px;padding:11px 19px;font-size:12px;font-weight:800}
+@media(max-width:1190px){
+ .ticketZone{width:calc(100% - 48px)}
+ .ticket{grid-template-columns:minmax(0,.85fr) minmax(0,2fr) minmax(0,1fr) minmax(0,.67fr)}
+ .ticketGo{grid-column:1/-1;min-height:57px}
+ .atlasStage{grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr)}
+ .museum{grid-template-columns:minmax(140px,.25fr) minmax(0,.98fr) minmax(210px,.44fr)}
+ .museumIndex{padding:23px 12px}
+ .museumInfo{padding:25px 17px}
+ .museumCarNames button{min-height:78px;padding:10px 2px}
+ .museumCarNames button strong{font-size:11px}
+ .museumHead{grid-template-columns:1fr 1.5fr;gap:18px}
+ .museumHead>p{grid-column:2}
+ .essayCaption{grid-template-columns:.45fr 1fr}
+ .essayCaption>p{grid-column:2}
+}
+@media(max-width:850px){
+ .cinema{height:730px;min-height:730px}
+ .cinemaTop{padding:30px 29px 0}
+ .cinemaBody{width:calc(100% - 58px);padding:40px 0}
+ .cinemaBody h1{font-size:clamp(55px,8.2vw,76px)}
+ .site[dir=rtl] .cinemaBody h1{font-size:clamp(52px,7.8vw,72px)}
+ .cinemaBottom{padding:20px 29px 30px}
+ .ticketZone{width:calc(100% - 38px);margin-top:-34px}
+ .ticketMeta{display:none}
+ .ticket{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .ticketIdentity{grid-column:1/-1;padding:18px}
+ .ticketGo{grid-column:1/-1}
+ .routeAtlas{padding:92px 24px}
+ .atlasStage{grid-template-columns:minmax(0,1.1fr) minmax(285px,.9fr)}
+ .atlasLedger{padding:21px 17px}
+ .atlasImage{min-height:525px}
+ .atlasCaption{inset-inline:19px;bottom:28px}
+ .routeOptions button{padding:16px 0;min-height:79px}
+ .routeOptions button strong{font-size:11px}
+ .atlasFare{flex-wrap:wrap;gap:12px}
+ .fleetMuseum{padding:80px 20px}
+ .museumHead{display:block}
+ .museumHead h2{margin:15px 0!important}
+ .museum{grid-template-areas:"names car" "info info";grid-template-columns:210px minmax(0,1fr)}
+ .museumIndex,.museumDisplay{min-height:485px}
+ .museumInfo{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px}
+ .museumInfo>p{margin:10px 0}
+ .museumCost{margin:0}
+ .museumActions{margin-top:10px}
+ .travelEssay{padding:75px 22px}
+ .essayCaption{display:block}
+ .essayCaption h2{margin:13px 0!important}
+ .essayBody{grid-template-columns:1fr .9fr}
+ .essayImage{min-height:525px}
+ .essayAside{padding:19px}
+ .questionRoom{width:calc(100% - 50px);gap:30px;padding-block:74px}
+ .questionPhoto{height:235px}
+}
+@media(max-width:700px){
+ .cinema{height:660px;min-height:660px}
+ .cinemaFilm{object-position:52% center}
+ .cinemaTop{padding:25px 18px 0;font-size:9px;gap:10px}
+ .cinemaTop span:last-child{display:none}
+ .cinemaBody{width:calc(100% - 36px);padding:20px 0 30px;margin:auto}
+ .cinemaLine{gap:15px;margin-bottom:16px}
+ .cinemaRule{width:65px}
+ .cinemaKicker{font-size:10px;margin-bottom:14px}
+ .cinemaBody h1,.site[dir=rtl] .cinemaBody h1{font-size:clamp(38px,10.7vw,64px);line-height:1.19;letter-spacing:0}
+ .cinemaIntro{font-size:11px;line-height:1.86;margin:18px 0 20px;max-width:360px}
+ .cinemaLinks{gap:6px}
+ .lightCta,.ghostCta{min-height:46px;padding:10px 12px;font-size:11px}
+ .cinemaBottom{padding:13px 18px 21px;gap:9px}
+ .cinemaBottom span{font-size:9px;line-height:1.6}
+ .cinemaBottom span:nth-child(2),.cinemaScroll{display:none}
+ .ticketZone{width:calc(100% - 24px);margin-top:-13px;scroll-margin-top:74px}
+ .ticket{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .ticketIdentity{grid-column:1/-1;padding:17px 15px}
+ .ticketIdentity strong{font-size:16px}
+ .ticketIdentity small{font-size:10px}
+ .ticketField{padding:13px 14px;min-height:82px;border-bottom:1px dashed #c4cfc6;gap:7px}
+ .ticketField:nth-of-type(1){grid-column:1/-1}
+ .ticketField:nth-of-type(2){grid-column:1;grid-row:auto}
+ .ticketField:nth-of-type(3){grid-column:2;grid-row:auto}
+ .ticketField select,.ticketField input{font-size:11px}
+ .ticketField>span{font-size:10px}
+ .ticketGo{min-height:51px;font-size:11px}
+ .routeAtlas{padding:71px 12px 66px}
+ .atlasHeading{display:block;margin:0 9px 23px}
+ .atlasHeading h2{font-size:clamp(34px,8.1vw,49px)}
+ .atlasHeading .textLink{margin-top:12px}
+ .atlasStage{display:flex;flex-direction:column}
+ .atlasImage{min-height:305px;height:305px}
+ .atlasCaption{bottom:24px;inset-inline:19px}
+ .atlasCaption strong{font-size:22px}
+ .atlasLedger{padding:18px 15px}
+ .atlasLedgerTop{margin-bottom:10px}
+ .routeOptions{display:flex;overflow-x:auto;gap:8px;scroll-snap-type:x mandatory;scrollbar-width:thin;border:0;padding-bottom:12px}
+ .routeOptions button{flex:0 0 79%;min-height:73px;scroll-snap-align:start;border:1px solid #d7dcd6;padding:10px;background:#f7f7f1;gap:7px}
+ .routeOptions button[aria-pressed=true]{background:#e6ede7;border-color:#8eaca3}
+ .routeOptions button strong{font-size:11px!important}
+ .atlasFare{flex-direction:row;align-items:center;gap:7px;padding-top:13px}
+ .atlasFare strong{font-size:24px}
+ .atlasFare>a{font-size:10px}
+ .fleetMuseum{padding:59px 12px 65px}
+ .museumHead{margin-bottom:22px}
+ .museumHead h2{font-size:clamp(34px,8vw,46px)}
+ .museumHead>p{font-size:11px;max-width:490px;line-height:1.9}
+ .museum{grid-template-areas:"car" "names" "info";display:grid;grid-template-columns:1fr}
+ .museumDisplay{min-height:0;height:300px}
+ .museumImage{inset:2% 1% 11%}
+ .museumSwitch{bottom:10px;inset-inline:10px}
+ .museumSwitch button{min-height:38px;font-size:10px;padding:7px 11px}
+ .museumIndex{min-height:0;padding:10px 11px;flex-direction:row;align-items:center;gap:9px;overflow:hidden}
+ .museumCounter{font-size:29px;white-space:nowrap}
+ .museumCounter i{font-size:9px}
+ .museumCarNames{flex-direction:row;gap:6px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;margin:0;min-width:0;flex:1;padding-bottom:3px}
+ .museumCarNames button{flex:0 0 65%;min-height:54px;padding:8px;scroll-snap-align:start;grid-template-columns:15px 1fr;border:1px solid rgba(255,255,255,.23);gap:5px}
+ .museumCarNames button strong{font-size:10px}
+ .museumInfo{display:block;padding:21px 16px}
+ .museumInfo h3{font-size:28px;margin:10px 0!important}
+ .museumInfo>p{font-size:11px;margin:15px 0}
+ .museumStats{padding:12px 0}
+ .museumCost{margin-top:14px;padding-top:13px}
+ .museumCost strong{font-size:27px}
+ .museumActions{gap:9px;margin-top:15px}
+ .darkCta{min-height:46px}
+ .fleetEnd{margin-top:14px}
+ .travelEssay{padding:62px 12px}
+ .essayCaption{margin-bottom:25px}
+ .essayCaption h2{font-size:clamp(36px,8vw,50px)}
+ .essayCaption>p{font-size:11px}
+ .essayBody{display:block}
+ .essayImage{min-height:0;height:290px}
+ .essayAside{display:flex;flex-direction:column;padding:20px 16px}
+ .essayChapters{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:7px;border:0;scrollbar-width:thin;padding-bottom:10px}
+ .essayChapters button{flex:0 0 72%;min-height:67px;scroll-snap-align:start;border:1px solid rgba(255,255,255,.22);padding:12px 10px;gap:7px}
+ .essayChapters button strong{font-size:11px}
+ .essayNarrative{padding-top:11px}
+ .essayNarrative h3{font-size:25px}
+ .essayNarrative p{font-size:11px}
+ .truthStrip{padding:59px 19px}
+ .truthHead{display:block;padding-bottom:18px}
+ .truthHead h2{font-size:34px;margin-top:12px!important}
+ .truthCells{display:grid;grid-template-columns:1fr;gap:0}
+ .truthCells>div,.site[dir=rtl] .truthCells>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:20px;align-items:center;padding:20px 0;border-inline-end:0;border-bottom:1px solid #d5ddd5}
+ .truthNumber{font-size:clamp(42px,11vw,64px)}
+ .truthNumber span{font-size:10px}
+ .truthCells p{font-size:11px;margin:0}
+ .truthNote{font-size:11px;margin-top:10px}
+ .questionRoom{width:calc(100% - 40px);display:block;padding:58px 0 66px}
+ .questionIntro h2{font-size:39px;margin:12px 0!important}
+ .questionIntro>p{font-size:11px;margin-bottom:16px}
+ .questionPhoto{height:170px;margin-bottom:24px}
+ .question button{min-height:68px;padding:16px 1px;gap:10px}
+ .question button strong{font-size:13px}
+ .question p{font-size:11px;margin:0 14px 17px 31px}
+ .endNote{padding:27px 18px;display:block}
+ .endNote>span{display:block;font-size:11px;line-height:1.8;margin-bottom:15px}
+ .endNote>a{min-height:47px}
+}
+@media(max-width:390px){
+ .cinema{height:620px;min-height:620px}
+ .cinemaBody h1,.site[dir=rtl] .cinemaBody h1{font-size:38px}
+ .cinemaIntro{font-size:10px}
+ .atlasImage{height:265px;min-height:265px}
+ .routeOptions button{flex-basis:84%}
+ .museumDisplay{height:265px}
+ .museumCarNames button{flex-basis:72%}
+ .essayImage{height:250px}
+ .truthNumber{font-size:43px}
+}
+@media(prefers-reduced-motion:reduce){
+ .site *{scroll-behavior:auto!important}
+ .atlasPhoto,.museumExterior,.museumInterior,.essayPhoto{animation:none!important}
+ .museumSwitch button,.question button svg{transition:none!important}
+}
