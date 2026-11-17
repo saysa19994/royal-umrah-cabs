@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { ArrowUpRight, ArrowLeft, ArrowRight, MapPin, Compass, ShieldCheck, Car, Clock3 } from 'lucide-react';
-import { RouteSpotlightExplorer } from '@/components/routes/RouteSpotlightExplorer';
+import { RouteNetworkDesk } from '@/components/routes/RouteNetworkDesk';
 import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
 import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
 import styles from './routes-overhaul.module.css';
@@ -184,7 +184,7 @@ export default async function RoutesPage(props: RoutesPageProps) {
           </div>
         </div>
       </section>
-      <div id="journey-explorer" className={styles.explorer}><RouteSpotlightExplorer locale={locale} /></div>
+      <div id="journey-explorer" className={styles.explorer}><RouteNetworkDesk locale={locale} /></div>
       <section className={styles.directory} aria-labelledby="routes-all-heading">
         <div className={styles.container}>
           <div className={styles.directoryHeader}>
