@@ -1,0 +1,24 @@
+/* Video 10 — a photographic editorial FAQ, not twelve cloned card islands.
+   The questions and JSONLD still use the existing localized source. */
+.duyuf-faq-editorial-layout{display:grid;grid-template-columns:minmax(0,.76fr) minmax(0,1.24fr);gap:clamp(22px,4vw,58px);align-items:start}
+.duyuf-faq-editorial-photo{position:sticky;top:97px;min-height:570px;height:min(76vh,720px);overflow:hidden;background:#263e42}
+.duyuf-faq-editorial-photo img{object-fit:cover}
+.duyuf-faq-editorial-photo:after{content:"";position:absolute;inset:38% 0 0;background:linear-gradient(transparent,rgba(11,29,35,.7))}
+.duyuf-faq-editorial-photo span{position:absolute;z-index:1;bottom:23px;inset-inline-start:21px;color:#fff;font-size:11px;font-weight:800;letter-spacing:.09em}
+.duyuf-faq-editorial-questions{min-width:0}
+.duyuf-faq-editorial-questions>.duyuf-faq-editorial-item{
+ background:transparent;border:0;border-bottom:1px solid var(--border-stone,#d9ded7);
+ border-radius:0;box-shadow:none;ring:0;transition:background .2s
+}
+.duyuf-faq-editorial-questions>.duyuf-faq-editorial-item:hover{background:rgba(218,226,220,.25)}
+.duyuf-faq-editorial-questions>.duyuf-faq-editorial-item button{padding:18px 4px;border-radius:0}
+.duyuf-faq-editorial-questions>.duyuf-faq-editorial-item button>div:first-child{gap:10px}
+.duyuf-faq-editorial-questions>.duyuf-faq-editorial-item button span.font-display{font-size:clamp(14px,1.3vw,18px)}
+.duyuf-faq-editorial-questions>.duyuf-faq-editorial-item button:focus-visible{outline:3px solid #ba9a63;outline-offset:2px}
+@media(max-width:780px){
+ .duyuf-faq-editorial-layout{grid-template-columns:1fr;gap:16px}
+ .duyuf-faq-editorial-photo{position:relative;top:auto;min-height:0;height:220px}
+ .duyuf-faq-editorial-questions>.duyuf-faq-editorial-item button{min-height:56px;padding:15px 2px}
+}
+@media(max-width:420px){.duyuf-faq-editorial-photo{height:175px}.duyuf-faq-editorial-photo span{font-size:9px}.duyuf-faq-editorial-questions{gap:0}}
+@media(prefers-reduced-motion:reduce){.duyuf-faq-editorial-questions>.duyuf-faq-editorial-item{transition:none}}

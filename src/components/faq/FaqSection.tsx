@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import './FaqSection.editorial.css';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import type { SiteSettings } from '@/lib/settings';
@@ -179,8 +181,15 @@ export function FaqSection({
           </p>
         </div>
 
-        {/* Accordion Questions List */}
-        <div className="space-y-3.5 sm:space-y-4">
+        {/* Video 10: contextual visual guide at the side of the genuine FAQ list. */}
+        <div className="duyuf-faq-editorial-layout">
+          <aside className="duyuf-faq-editorial-photo" aria-hidden="true">
+            <Image src="/assets/homepage-v2/service-madinah.jpg" alt="" fill
+              sizes="(max-width: 780px) 100vw, 36vw" className="object-cover"/>
+            <span>DUYUF AL RAHMAN VIP · SERVICE</span>
+          </aside>
+          {/* Accordion Questions List */}
+          <div className="duyuf-faq-editorial-questions space-y-3.5 sm:space-y-4">
           {faqItems.map((item, index) => {
             const isOpen = openIndex === index;
             const itemNumber = (index + 1).toString().padStart(2, '0');
@@ -188,7 +197,7 @@ export function FaqSection({
             return (
               <div
                 key={index}
-                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                className={`duyuf-faq-editorial-item rounded-2xl border transition-all duration-200 overflow-hidden ${
                   isOpen
                     ? 'border-gold/50 bg-surface shadow-sm ring-1 ring-gold/20'
                     : 'border-border bg-surface hover:border-gold/30 hover:bg-gold/[0.01]'
@@ -251,6 +260,7 @@ export function FaqSection({
               </div>
             );
           })}
+          </div>
         </div>
 
         {/* Trust Badges Bar */}
