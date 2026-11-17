@@ -1,4 +1,6 @@
 import React from 'react';
+import Image from 'next/image';
+import styles from './booking-atrium.module.css';
 import './booking-editorial.css';
 import type { Metadata } from 'next';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
@@ -204,28 +206,32 @@ export default async function BookingPage(props: BookingPageProps) {
     }
   }
 
+  // Reframe the journey entrance; booking validation and persistence stay in BookingWizard.
   return (
-    <div className="duyuf-booking-page duyuf-booking-editorial relative min-h-screen overflow-hidden">
-      <div className="container mx-auto px-4 max-w-7xl relative z-10">
-        {/* Booking, not checkout: clear request flow and one trustworthy payment promise */}
-        <header className="duyuf-booking-intro" aria-labelledby="duyuf-booking-heading">
-          <div className="duyuf-booking-intro-main">
-            <p className="duyuf-booking-eyebrow">{pageText.badge}</p>
-            <h1 id="duyuf-booking-heading" className="duyuf-booking-heading">{pageText.title}</h1>
-            <p className="duyuf-booking-subtitle">{pageText.subtitle}</p>
+    <main className={styles.page} dir={locale==='ar'||locale==='ur'?'rtl':'ltr'}>
+      <header className={styles.intro} aria-labelledby="duyuf-booking-heading">
+        <div className={styles.introCopy}>
+          <div className={styles.serial}><span>01 / BOOKING ATRIUM</span><span>{pageText.badge}</span></div>
+          <h1 id="duyuf-booking-heading">{pageText.title}</h1>
+          <p>{pageText.subtitle}</p>
+        </div>
+        <div className={styles.introMedia}>
+          <Image src="/assets/homepage-v2/route-jeddah-makkah.jpg" fill
+            priority sizes="(max-width:767px) 100vw, 46vw"
+            alt={dict.services.airportTitle}/>
+          <div className={styles.photoLabel}><span>DUYUF AL RAHMAN VIP</span><span>{dict.nav.bookNow}</span></div>
+        </div>
+      </header>
+      <div className={styles.operationalLine} aria-label={pageText.trust1}>
+        <div><Banknote size={20} aria-hidden="true"/><span>{pageText.trust1}</span></div>
+        <div><Plane size={20} aria-hidden="true"/><span>{pageText.trust2}</span></div>
+        <div><ShieldCheck size={20} aria-hidden="true"/><span>{pageText.trust3}</span></div>
+      </div>
+      <section className={'duyuf-booking-page duyuf-booking-editorial '+styles.reservationDesk} aria-label={dict.nav.bookNow}>
+        <div className="container mx-auto px-4 max-w-7xl relative z-10">
+          <div className={styles.deskIntro}>
+            <span>02 / JOURNEY REQUEST · 01—04</span><p>{dict.booking_card.noPrepayNotice}</p>
           </div>
-          <aside className="duyuf-booking-promise" aria-label={pageText.trust1}>
-            <div className="duyuf-booking-promise-mark" aria-hidden="true">
-              <ShieldCheck size={27} strokeWidth={1.45} />
-            </div>
-            <div className="duyuf-booking-promise-items">
-              <p><Banknote size={20} aria-hidden="true" /> <span>{pageText.trust1}</span></p>
-              <p><Plane size={20} aria-hidden="true" /> <span>{pageText.trust2}</span></p>
-              <p><ShieldCheck size={20} aria-hidden="true" /> <span>{pageText.trust3}</span></p>
-            </div>
-          </aside>
-        </header>
-
         {draftRestoreFailed && (
           <div role="status" className="mx-auto mb-6 max-w-3xl rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-center text-sm font-medium text-amber-900">
             {({
@@ -262,7 +268,8 @@ export default async function BookingPage(props: BookingPageProps) {
           initialRates={await getDbPricesCached()}
         />
         </div>
-      </div>
-    </div>
+        </div>
+      </section>
+    </main>
   );
 }
