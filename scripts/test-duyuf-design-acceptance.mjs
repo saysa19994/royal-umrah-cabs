@@ -12,7 +12,7 @@ test('booking is localized in all ten languages, no forced Arabic trust copy',()
   assert.doesNotMatch(booking,/<span>0% دفعة مقدمة/);
 });
 test('pricing and fleet details share complete theme-aware mobile surfaces',()=>{
-  assert.match(pricing,/duyuf-pricing-page/);assert.match(pricing,/\{content\.heroTitle\}/);
+  assert.match(pricing,/duyuf-pricing-page/);assert.match(pricing,/\{content\.heroTitle\}/);assert.match(pricing,/PricingFareLedger\.module\.css/);
   assert.match(vehicle,/duyuf-vehicle-page/);assert.match(css,/prefers-reduced-motion/);
 });
 

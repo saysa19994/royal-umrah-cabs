@@ -41,6 +41,9 @@ test('pricing keeps live comparison and one factual reassurance story instead of
  assert.match(pricing,/<RouteBasedPricingExperience/);
  assert.match(pricing,/initialRates=\{initialRates\}/);
  assert.match(pricing,/duyuf-pricing-principles/);
+ assert.match(pricing,/styles\.workspace/);
+ assert.match(pricing,/styles\.signoff/);
+ assert.doesNotMatch(pricing,/fixed bottom-0 inset-x-0 z-50/);
  assert.match(pricing,/dict\.booking_card\.noPrepayNotice/);
  assert.doesNotMatch(pricing,/topOverviewRoutes\.map/);
  assert.doesNotMatch(pricing,/whyChooseBadges\.map/);
