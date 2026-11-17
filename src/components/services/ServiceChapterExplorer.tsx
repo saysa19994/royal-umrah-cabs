@@ -60,6 +60,35 @@ export function ServiceChapterExplorer({locale,services}:{locale:Locale;services
    <div><span className={styles.eyebrow}>{t.kicker} / 06</span><h2 id="services-chapter-heading">{t.heading}</h2></div>
    <p>{t.subtitle}</p>
   </header>
+  {/* Mobile video-03 adaptation: six genuine photographic scenes in one snap rail,
+      not six vertically repeated cards or a screenshot of a desktop layout. */}
+  <div className={styles.mobileJournal} role="region" aria-label={t.heading} tabIndex={0}>
+    {services.map((item,index)=>{
+      const Arrow=rtl?ArrowLeft:ArrowRight;
+      const SceneIcon=ICONS[index]||Plane;
+      return <article className={styles.mobileScene} key={item.id} aria-label={t.names[index]}>
+        <Image src={item.image} fill sizes="(max-width:760px) 90vw, 1px"
+          alt="" className={styles.mobileScenePhoto}/>
+        <div className={styles.mobileSceneTint} aria-hidden="true"/>
+        <div className={styles.mobileSceneTop}>
+          <span>{String(index+1).padStart(2,'0')} / 06</span>
+          <span><SceneIcon size={16} aria-hidden="true"/> {t.kicker}</span>
+        </div>
+        <div className={styles.mobileSceneContent}>
+          <h3>{t.names[index]}</h3>
+          <p>{t.descs[index]}</p>
+          <Link href={'/'+locale+'/'+BOOKING[item.id]} className={styles.mobileSceneCta}>
+            {t.request}<Arrow size={17} aria-hidden="true"/>
+          </Link>
+          {item.relatedRoutes[0]&&
+            <Link className={styles.mobileSceneRelated} href={item.relatedRoutes[0].href}>
+              {relatedName(item.relatedRoutes[0].href,item.relatedRoutes[0].title,locale)}
+              <ArrowUpRight size={14} aria-hidden="true"/>
+            </Link>}
+        </div>
+      </article>;
+    })}
+  </div>
   <div className={styles.shell}>
    <div className={styles.tabs} role="tablist" aria-label={t.heading}>
     {services.map((s,i)=>{
