@@ -57,7 +57,7 @@ test('ziyarat header now includes a real photo-led composition and non-card fiel
  assert.match(ziyarat,/<ZiyaratPilgrimJournal locale=\{locale\}/);
  assert.doesNotMatch(ziyarat,/duyuf-ziyarat-steps grid/);
  assert.match(ziyarat,/<SacredZiyaratExperience locale=\{locale\}/);
- assert.match(ziyarat,/getLocalizedAlternates\(locale, '\/ziyarat'\)/);
+ assert.match(ziyarat,/getLocalizedAlternates\(locale,\s*'\/ziyarat'\)/);
  assert.match(read('src/app/[locale]/ziyarat/ziyarat-narrative.css'),/@media\(max-width:767px\)/);
 });
 test('do not alter the cash-only booking engine or relabel booking as checkout',()=>{

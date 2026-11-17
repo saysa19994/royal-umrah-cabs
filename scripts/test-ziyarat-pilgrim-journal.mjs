@@ -30,5 +30,5 @@ test('tour handoff, accurate Makkah duration and approved price',()=>{
 test('ten locale journal accurately discloses long guides only in Arabic English',()=>{
  for(const loc of ['ar','en','ms','id','ur','fr','es','de','tr','hi'])assert.ok(journal.includes(' '+loc+':{journal:'),loc);
  assert.match(journal,/Kandungan terperinci panduan/);
- assert.match(page,/getLocalizedAlternates\(locale, '\/ziyarat'\)/);
+ assert.match(page,/getLocalizedAlternates\(locale,\s*'\/ziyarat'\)/);
 });
