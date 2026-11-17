@@ -31,6 +31,9 @@ test('arc supports 10 locales, accessible controls, swipe and reduced motion',()
  assert.match(arc,/onTouchEnd=\{onTouchEnd\}/);
  assert.match(arc,/aria-pressed=\{i===active\}/);
  assert.match(arc,/aria-live="polite"/);
+ assert.match(arc,/prefers-reduced-motion: reduce/);
+ assert.match(arc,/onMouseEnter=\{\(\)=>setPaused\(true\)\}/);
+ assert.match(zcss,/left:50%;width/);
  assert.match(zcss,/prefers-reduced-motion:reduce/);
 });
 test('owner prototype one booking sidebar uses real booking engine, not HTML mock checkout',()=>{

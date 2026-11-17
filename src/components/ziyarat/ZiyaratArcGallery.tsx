@@ -1,6 +1,6 @@
 'use client';
 
-import {useState, useRef, type CSSProperties, type TouchEvent} from 'react';
+import {useEffect, useState, useRef, type CSSProperties, type TouchEvent} from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {ArrowLeft, ArrowRight, ArrowUpRight, MapPin} from 'lucide-react';
@@ -38,10 +38,23 @@ function relativeSlot(index:number,active:number): -2|-1|0|1|2{
 }
 export function ZiyaratArcGallery({locale}:{locale:Locale}){
   const [active,setActive]=useState(0);
+  const [paused,setPaused]=useState(false);
+  const [interacted,setInteracted]=useState(false);
   const touchStart=useRef<number|null>(null);
   const labels=T[locale];const rtl=locale==='ar'||locale==='ur';
   const current=PHOTOS[active];
-  const step=(delta:number)=>setActive(x=>(x+delta+PHOTOS.length)%PHOTOS.length);
+  const step=(delta:number)=>{setInteracted(true);setActive(x=>(x+delta+PHOTOS.length)%PHOTOS.length);};
+  // Gentle motion as in the supplied film. It stops on focus, hover, touch,
+  // manual selection, and for visitors who prefer reduced motion.
+  useEffect(()=>{
+    if(paused||interacted)return;
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+    if(reduced.matches)return;
+    const timer=window.setInterval(()=>{
+      if(!document.hidden)setActive(i=>(i+1)%PHOTOS.length);
+    },6800);
+    return ()=>window.clearInterval(timer);
+  },[paused,interacted]);
   const onTouchEnd=(event:TouchEvent<HTMLDivElement>)=>{
     if(touchStart.current===null)return;
     const delta=event.changedTouches[0]?.clientX-touchStart.current;
@@ -55,13 +68,15 @@ export function ZiyaratArcGallery({locale}:{locale:Locale}){
       <p className={styles.description}>{labels.description}</p>
     </div>
     <div className={styles.stage} role="group" aria-label={labels.title}
+      onMouseEnter={()=>setPaused(true)} onMouseLeave={()=>setPaused(false)}
+      onFocusCapture={()=>setPaused(true)} onBlurCapture={e=>{if(!e.currentTarget.contains(e.relatedTarget as Node|null))setPaused(false)}}
       onTouchStart={e=>{touchStart.current=e.touches[0]?.clientX??null;}}
       onTouchEnd={onTouchEnd}>
       {PHOTOS.map((photo,i)=>{
         const slot=relativeSlot(i,active);
         return <button key={photo.id} type="button" className={styles.card}
           data-slot={slot} aria-pressed={i===active}
-          onClick={()=>setActive(i)} aria-label={labels.cards[i]}
+          onClick={()=>{setInteracted(true);setActive(i);}} aria-label={labels.cards[i]}
           style={{'--card-order':i} as CSSProperties}>
           <Image src={photo.src} fill sizes="(max-width:700px) 62vw, 240px"
             alt="" className={styles.photo} loading="lazy"/>
