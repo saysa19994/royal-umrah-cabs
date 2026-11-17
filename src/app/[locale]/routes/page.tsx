@@ -192,7 +192,7 @@ export default async function RoutesPage(props: RoutesPageProps) {
             <Link className={styles.allPrices} href={'/'+locale+'/pricing'}>{ui.prices}<ArrowUpRight size={17} aria-hidden="true"/></Link>
           </div>
           <ol className={styles.list}>
-            {EXECUTIVE_ROUTES_DATA.map((route,i)=>{
+            {EXECUTIVE_ROUTES_DATA.filter(route=>route.slug!=='riyadh-airport-transfer').map((route,i)=>{
               const price=AUTHORITATIVE_TRANSFER_RATES[route.slug]?.camry;
               const formatted=typeof price==='number'&&Number.isFinite(price)&&price>0
                 ? new Intl.NumberFormat(locale==='ar'?'ar-SA':'en-US').format(price)+' SAR' : null;
