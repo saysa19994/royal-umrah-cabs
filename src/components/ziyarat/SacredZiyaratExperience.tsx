@@ -1024,7 +1024,7 @@ export default function SacredZiyaratExperience({
             <p className="text-sm text-ink-muted">{t.sitesSubheading}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="duyuf-ziyarat-sites-rail grid grid-cols-1 md:grid-cols-2 gap-6" role="region" aria-label={t.sitesHeading} tabIndex={0}>
             {citySites.map((site) => (
               <div
                 key={site.id}
@@ -1238,7 +1238,7 @@ export default function SacredZiyaratExperience({
             <p className="text-sm text-ink-muted">{t.etiquetteSubheading}</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="duyuf-ziyarat-pillars-rail grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" role="region" aria-label={t.etiquetteHeading} tabIndex={0}>
             {t.pillars.map((pillar, i) => (
               <div
                 key={i}

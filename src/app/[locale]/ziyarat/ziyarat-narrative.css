@@ -71,3 +71,34 @@
 @media(max-width:767px){
  .duyuf-ziyarat-narrative .duyuf-ziyarat-hero-arc{min-height:410px;height:auto;margin-bottom:18px}
 }
+
+
+/* The user's mobile screenshot shows long walls of site/promise cards.
+   Adapt videos 06 / 15: horizontal, swipeable reading rails rather than repeating
+   the same vertical stack; retain ALL textual facts and keyboard scrollability. */
+@media(max-width:767px){
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-body{padding-top:27px;padding-bottom:30px}
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-sites-rail,
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-pillars-rail{
+  display:flex!important;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-inline:contain;
+  scroll-snap-type:x mandatory;gap:11px!important;
+  padding:0 7px 13px;scrollbar-width:thin;scroll-padding-inline:4px;
+ }
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-sites-rail>div,
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-pillars-rail>div{
+  flex:0 0 min(81vw,330px);max-width:330px;scroll-snap-align:center;min-width:0;
+  padding:18px!important;border-radius:7px!important;
+ }
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-sites-rail>div{min-height:295px}
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-pillars-rail>div{min-height:170px}
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-sites-rail :is(h4,p,span),
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-pillars-rail :is(h4,p,span){overflow-wrap:anywhere}
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-sites-rail:focus-visible,
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-pillars-rail:focus-visible{outline:3px solid #b29368;outline-offset:2px}
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-hero-arc{min-height:0;margin-block:0 12px}
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-hero-grid{gap:5px}
+}
+@media(max-width:390px){
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-sites-rail>div{flex-basis:83vw}
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-pillars-rail>div{flex-basis:77vw}
+}

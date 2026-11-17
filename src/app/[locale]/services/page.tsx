@@ -1,5 +1,6 @@
 import React from 'react';
 import './services-editorial.css';
+import {ServiceChapterExplorer} from '@/components/services/ServiceChapterExplorer';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -198,101 +199,12 @@ export default async function ServicesPage(props: ServicesPageProps) {
           </div>
         </div>
 
-        {/* Mixed-feature service editorial: one full narrative feature + five image-led chapters. */}
-        <div className="duyuf-services-grid">
-          {servicesList.map((service, index) => {
-            const Icon = service.icon;
-            return (
-              <div
-                key={service.id}
-                className="duyuf-service-card bg-surface rounded-2xl p-6 sm:p-7 border border-border shadow-xs hover:border-gold/60 hover:shadow-md transition-all duration-300 flex flex-col justify-between group overflow-hidden"
-              >
-                <div className="duyuf-service-card-content">
-                  {/* Service Photo */}
-                  <div className="duyuf-service-photo relative w-full h-44 rounded-xl overflow-hidden mb-5 border border-border bg-bg-alt">
-                    <Image
-                      src={service.image}
-                      alt={service.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 360px"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-3 end-3">
-                      <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-surface/90 text-gold-dark border border-gold-line backdrop-blur-md shadow-xs">
-                        {service.badge}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="duyuf-service-details">
-                  <span className="duyuf-service-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-xl bg-gold-soft border border-gold-line flex items-center justify-center text-gold-dark shrink-0">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h2 className="font-display text-lg font-bold text-ink">
-                        {service.title}
-                      </h2>
-                      <span className="text-[11px] font-medium text-emerald-600 block">
-                        {labels.availabilityLabel}
-                      </span>
-                    </div>
-                  </div>
-
-                  <p className="text-ink-muted text-xs leading-relaxed mb-4 font-light">
-                    {service.desc}
-                  </p>
-
-                  {/* Locations Covered */}
-                  <div className="mb-4 p-2.5 rounded-lg bg-bg-alt border border-border text-[11px]">
-                    <span className="font-bold text-ink block mb-0.5">{labels.locationsLabel}</span>
-                    <span className="text-ink-muted leading-tight">{service.locations}</span>
-                  </div>
-
-                  {/* Highlights */}
-                  <div className="space-y-1.5 pt-3 border-t border-border">
-                    {service.highlights.map((hl, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-xs text-ink-light">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                        <span>{hl}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Related Routes */}
-                  {service.relatedRoutes && service.relatedRoutes.length > 0 && (
-                    <div className="pt-3 mt-3 border-t border-border text-xs">
-                      <span className="text-[11px] font-bold text-ink-muted block mb-1.5">{labels.relatedRoutesLabel}</span>
-                      <div className="flex flex-wrap gap-2">
-                        {service.relatedRoutes.map((route, rIdx) => (
-                          <Link
-                            key={rIdx}
-                            href={route.href}
-                            className="text-[11px] text-gold-dark hover:underline font-semibold"
-                          >
-                            {route.title}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  </div>
-                </div>
-
-                <div className="duyuf-service-card-footer pt-5 mt-5 border-t border-border">
-                  <Link
-                    href={`/${locale}/booking?service=${service.id}`}
-                    className="duyuf-service-link inline-flex items-center gap-2 text-xs font-bold text-gold-dark hover:text-ink transition-colors"
-                  >
-                    <span>{isAr ? 'حجز هذه الخدمة' : 'Book This Service'}</span>
-                    <ArrowIcon className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        {/* Video reference 03, adapted: six services share one interactive chapter,
+            so mobile visitors never have to scroll six giant repeated cards. */}
+        <ServiceChapterExplorer
+          locale={locale}
+          services={servicesList.map(({icon,...data})=>data)}
+        />
 
         {/* Master CTA Banner */}
         <div className="text-center py-8">

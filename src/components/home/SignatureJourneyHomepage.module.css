@@ -378,3 +378,40 @@
 @media(prefers-reduced-motion:reduce){
  .page *,.page *::before,.page *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+
+/* Actual 375–430px screenshot corrections: tighter vertical rhythm, prevent
+   boxed chapters from turning into tiny unreadable long pages. */
+@media(max-width:560px){
+ .bookingArea{padding:39px 0 44px}
+ .bookingIntroduction h2{font-size:clamp(28px,7.6vw,35px)!important}
+ .bookingPanel{padding:14px 12px}
+ .bookingField{min-width:0}
+ .bookingField input,.bookingField select{min-width:0;max-width:100%}
+ .experienceSection{padding:38px 0 44px}
+ .experienceMedia{height:235px;margin-bottom:14px}
+ .chapterList>button{padding:14px 0;min-height:0}
+ .chapterContent strong{font-size:17px}
+ .routesSection{padding:42px 0}
+ .routePhoto{height:185px}
+ .routeRail button{flex-basis:78%;max-width:300px}
+ .fleetSection{padding:40px 0 42px}
+ .fleetHeroVisual{height:250px}
+ .fleetExterior{height:223px}
+ .fleetInterior{height:72px}
+ .fleetInfo{padding:19px 16px}
+ .trustSection,.faqSection{padding:41px 0 46px}
+ .trustFact{padding:18px 10px}
+ .faqItem button{min-height:52px}
+}
+@media(max-width:390px){
+ .bookingPanel{padding:12px 10px}
+ .bookingGrid{grid-template-columns:1fr;gap:7px}
+ .bookingField:first-child{grid-column:auto}
+ .hero,.heroContent{min-height:580px}
+ .heroContent{padding-top:90px;padding-bottom:24px}
+ .heroTypography h1,.page[dir="rtl"] .heroTypography h1{font-size:clamp(34px,9vw,39px)}
+ .experienceMedia{height:210px}
+ .routePhoto{height:172px}
+ .fleetHeroVisual{height:235px}
+}
