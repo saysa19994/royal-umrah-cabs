@@ -16,6 +16,7 @@ import {
   Headphones,
   Car,
   HandCoins,
+  ChevronDown,
 } from 'lucide-react';
 
 const LOCALIZED_PAY_TITLE: Record<string, string> = {
@@ -342,6 +343,7 @@ interface FooterProps {
 }
 
 export function Footer({ locale, dict, settings }: FooterProps) {
+  const [expandedFooterGroup,setExpandedFooterGroup] = React.useState<number|null>(null);
   const mainWa = settings.whatsapp_number || '966567588261';
   const secondWa = settings.whatsapp_number_secondary || '966505316971';
   const waUrl = `https://wa.me/${mainWa}`;
@@ -358,9 +360,9 @@ export function Footer({ locale, dict, settings }: FooterProps) {
 
       {/* 5-COLUMN MAIN GRID */}
       <div className="container mx-auto px-4 max-w-7xl pt-14 pb-10 md:pt-16 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10 text-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 md:gap-8 lg:gap-10 text-start">
           {/* COL 1: WORDMARK, SHORT TAGLINE, WHATSAPP & CALL BUTTONS */}
-          <div className="space-y-4 sm:col-span-2 lg:col-span-1">
+          <div className="space-y-4 sm:col-span-2 lg:col-span-1 pb-5 md:pb-0">
             <Link href={locale === 'en' ? '/' : `/${locale}`} className="inline-flex items-center">
               <span className="flex items-center gap-3">
                 <DuyufSignature className="h-12 w-12 shrink-0 text-[var(--footer-text)]" />
@@ -419,11 +421,18 @@ export function Footer({ locale, dict, settings }: FooterProps) {
           </div>
 
           {/* COL 2: POPULAR ROUTES */}
-          <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--footer-heading)] mb-3.5 font-serif text-sm border-b border-[var(--footer-border)] pb-1.5">
+          <div className="duyuf-footer-menu border-b border-[var(--footer-border)] md:border-0 py-1 md:py-0">
+            <button type="button" className="md:hidden flex min-h-[49px] w-full items-center justify-between gap-3 py-3 text-start text-[var(--footer-heading)] font-semibold text-sm"
+              aria-controls="duyuf-footer-group-0" aria-expanded={expandedFooterGroup===0}
+              onClick={()=>setExpandedFooterGroup(prev=>prev===0?null:0)}>
+              <span>{dict.footer.popularRoutes}</span>
+              <ChevronDown size={17} aria-hidden="true" className={expandedFooterGroup===0?'rotate-180 transition-transform':'transition-transform'}/>
+            </button>
+            <h4 className="hidden md:block font-bold text-xs uppercase tracking-wider text-[var(--footer-heading)] mb-3.5 font-serif text-sm border-b border-[var(--footer-border)] pb-1.5">
               {dict.footer.popularRoutes}
             </h4>
-            <ul className="space-y-2 text-xs text-[var(--footer-text)]">
+            <ul id="duyuf-footer-group-0"
+              className={`space-y-1 md:space-y-2 text-xs text-[var(--footer-text)] pb-3 md:pb-0 ${expandedFooterGroup===0?'block':'hidden'} md:block`}>
               <li>
                 <Link href={`/${locale}/routes/jeddah-airport-to-makkah`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {LOCALIZED_ROUTE_NAMES['jeddah-airport-to-makkah']?.[locale] || 'Jeddah Airport to Makkah'}
@@ -458,11 +467,18 @@ export function Footer({ locale, dict, settings }: FooterProps) {
           </div>
 
           {/* COL 3: SERVICES & FLEET */}
-          <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--footer-heading)] mb-3.5 font-serif text-sm border-b border-[var(--footer-border)] pb-1.5">
+          <div className="duyuf-footer-menu border-b border-[var(--footer-border)] md:border-0 py-1 md:py-0">
+            <button type="button" className="md:hidden flex min-h-[49px] w-full items-center justify-between gap-3 py-3 text-start text-[var(--footer-heading)] font-semibold text-sm"
+              aria-controls="duyuf-footer-group-1" aria-expanded={expandedFooterGroup===1}
+              onClick={()=>setExpandedFooterGroup(prev=>prev===1?null:1)}>
+              <span>{dict.footer.servicesFleet}</span>
+              <ChevronDown size={17} aria-hidden="true" className={expandedFooterGroup===1?'rotate-180 transition-transform':'transition-transform'}/>
+            </button>
+            <h4 className="hidden md:block font-bold text-xs uppercase tracking-wider text-[var(--footer-heading)] mb-3.5 font-serif text-sm border-b border-[var(--footer-border)] pb-1.5">
               {dict.footer.servicesFleet}
             </h4>
-            <ul className="space-y-2 text-xs text-[var(--footer-text)]">
+            <ul id="duyuf-footer-group-1"
+              className={`space-y-1 md:space-y-2 text-xs text-[var(--footer-text)] pb-3 md:pb-0 ${expandedFooterGroup===1?'block':'hidden'} md:block`}>
               <li>
                 <Link href={`/${locale}/fleet/gmc-yukon-xl`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   GMC Yukon XL VIP (7 Seats)
@@ -502,11 +518,18 @@ export function Footer({ locale, dict, settings }: FooterProps) {
           </div>
 
           {/* COL 4: PILGRIM GUIDES & TOOLS */}
-          <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--footer-heading)] mb-3.5 font-serif text-sm border-b border-[var(--footer-border)] pb-1.5">
+          <div className="duyuf-footer-menu border-b border-[var(--footer-border)] md:border-0 py-1 md:py-0">
+            <button type="button" className="md:hidden flex min-h-[49px] w-full items-center justify-between gap-3 py-3 text-start text-[var(--footer-heading)] font-semibold text-sm"
+              aria-controls="duyuf-footer-group-2" aria-expanded={expandedFooterGroup===2}
+              onClick={()=>setExpandedFooterGroup(prev=>prev===2?null:2)}>
+              <span>{t.guidesHeader}</span>
+              <ChevronDown size={17} aria-hidden="true" className={expandedFooterGroup===2?'rotate-180 transition-transform':'transition-transform'}/>
+            </button>
+            <h4 className="hidden md:block font-bold text-xs uppercase tracking-wider text-[var(--footer-heading)] mb-3.5 font-serif text-sm border-b border-[var(--footer-border)] pb-1.5">
               {t.guidesHeader}
             </h4>
-            <ul className="space-y-2 text-xs text-[var(--footer-text)]">
+            <ul id="duyuf-footer-group-2"
+              className={`space-y-1 md:space-y-2 text-xs text-[var(--footer-text)] pb-3 md:pb-0 ${expandedFooterGroup===2?'block':'hidden'} md:block`}>
               <li>
                 <Link href={`/${locale}/blog`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1 text-[var(--accent-primary)] font-bold">
                   {t.vipBlog}
@@ -551,11 +574,18 @@ export function Footer({ locale, dict, settings }: FooterProps) {
           </div>
 
           {/* COL 5: LEGAL & TRUST */}
-          <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--footer-heading)] mb-3.5 font-serif text-sm border-b border-[var(--footer-border)] pb-1.5">
+          <div className="duyuf-footer-menu border-b border-[var(--footer-border)] md:border-0 py-1 md:py-0">
+            <button type="button" className="md:hidden flex min-h-[49px] w-full items-center justify-between gap-3 py-3 text-start text-[var(--footer-heading)] font-semibold text-sm"
+              aria-controls="duyuf-footer-group-3" aria-expanded={expandedFooterGroup===3}
+              onClick={()=>setExpandedFooterGroup(prev=>prev===3?null:3)}>
+              <span>{t.legalHeader}</span>
+              <ChevronDown size={17} aria-hidden="true" className={expandedFooterGroup===3?'rotate-180 transition-transform':'transition-transform'}/>
+            </button>
+            <h4 className="hidden md:block font-bold text-xs uppercase tracking-wider text-[var(--footer-heading)] mb-3.5 font-serif text-sm border-b border-[var(--footer-border)] pb-1.5">
               {t.legalHeader}
             </h4>
-            <ul className="space-y-2 text-xs text-[var(--footer-text)]">
+            <ul id="duyuf-footer-group-3"
+              className={`space-y-1 md:space-y-2 text-xs text-[var(--footer-text)] pb-3 md:pb-0 ${expandedFooterGroup===3?'block':'hidden'} md:block`}>
               <li>
                 <Link href={`/${locale}/cancellation`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {dict.footer.refunds || 'Cancellation & Refunds'}
@@ -649,7 +679,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
         </p>
 
         {/* Footer Language Selector */}
-        <nav aria-label="Footer Language Selector" className="flex flex-wrap items-center justify-center gap-1.5">
+        <nav aria-label="Footer Language Selector" className="flex max-w-full flex-nowrap overflow-x-auto md:flex-wrap items-center justify-start md:justify-center gap-1.5 scroll-px-3">
           {LOCALES.map((loc) => (
             <Link
               key={loc}
