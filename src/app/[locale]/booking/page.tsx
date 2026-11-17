@@ -216,7 +216,7 @@ export default async function BookingPage(props: BookingPageProps) {
           <p>{pageText.subtitle}</p>
         </div>
         <div className={styles.introMedia}>
-          <Image src="/assets/homepage-v2/route-jeddah-makkah.jpg" fill
+          <Image src="/assets/homepage-v2/chauffeur-welcome.jpg" fill
             priority sizes="(max-width:767px) 100vw, 46vw"
             alt={dict.services.airportTitle}/>
           <div className={styles.photoLabel}><span>DUYUF AL RAHMAN VIP</span><span>{dict.nav.bookNow}</span></div>

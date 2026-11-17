@@ -48,7 +48,7 @@ export function CinematicFooterCta({
 
   // Exclude CTA on all internal subpages to keep them focused, clean and editorial
   const isSubpage = pathname
-    ? /(booking|manage-booking|track-booking|about|contact|services|fleet|blog|ziyarat|privacy|terms|cancellation)/.test(pathname)
+    ? /(booking|manage-booking|track-booking|about|contact|services|fleet|blog|ziyarat|pricing|routes|guides|privacy|terms|cancellation)/.test(pathname)
     : false;
 
   // The homepage now owns its own compact conversion ending.
@@ -60,33 +60,6 @@ export function CinematicFooterCta({
   const cleanWa = (settings?.whatsapp_number || '966567588261').replace(/\D/g, '') || '966567588261';
   const waPrefill = WHATSAPP_PREFILL[locale] || WHATSAPP_PREFILL.en;
   const waUrl = `https://wa.me/${cleanWa}?text=${encodeURIComponent(waPrefill)}`;
-
-  const stripPhotos = [
-    {
-      src: '/assets/images/routes/jeddah-airport-to-makkah.jpg',
-      alt: dict.services.airportTitle,
-    },
-    {
-      src: '/assets/images/routes/makkah-to-madinah.jpg',
-      alt: dict.services.intercityTitle,
-    },
-    {
-      src: '/assets/images/routes/madinah-airport.jpg',
-      alt: dict.miqat_ziyarat.ziyaratMadinahTitle,
-    },
-    {
-      src: '/assets/images/routes/makkah-ziyarat.jpg',
-      alt: dict.miqat_ziyarat.ziyaratMakkahTitle,
-    },
-    {
-      src: '/assets/images/vip-umrah-transport-jeddah-to-makkah.jpg',
-      alt: dict.services_list.airportTitle,
-    },
-    {
-      src: '/assets/images/routes/makkah-to-taif.jpg',
-      alt: `${dict.popular_routes.heading} ${dict.popular_routes.headingHighlight}`,
-    },
-  ];
 
   return (
     <section
@@ -170,31 +143,7 @@ export function CinematicFooterCta({
           </div>
         </div>
 
-        {/* The homepage already features the routes; suppress this repeated image strip there. */}
-        {!isHomePage && (
-        <div
-          className="relative overflow-hidden rounded-xl border border-[var(--border-stone)] bg-[var(--bg-surface)] py-2.5 shadow-xs transition-colors duration-200"
-          role="region"
-          aria-label={dict.popular_routes.sectionPill}
-        >
-          <div className="flex items-center gap-3 sm:gap-4 overflow-x-auto px-3 scrollbar-none">
-            {stripPhotos.map((photo, idx) => (
-              <div
-                key={`strip-${idx}`}
-                className="relative w-32 sm:w-40 md:w-44 aspect-[16/9] shrink-0 rounded-lg overflow-hidden border border-[var(--border-stone)] bg-[var(--bg-elevated)]"
-              >
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  fill
-                  sizes="(max-width: 640px) 128px, 176px"
-                  className="object-cover object-center"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-        )}
+
       </div>
     </section>
   );

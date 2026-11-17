@@ -59,7 +59,7 @@ export function JourneyArchitectHomepage({locale,dict}:Props){
  const faq=[{q:dict.faq.q2,a:dict.faq.a2},{q:dict.faq.q3,a:dict.faq.a3},{q:dict.faq.q5,a:dict.faq.a5},{q:dict.faq.q9,a:dict.faq.a9}];
  const scenes=[
   {title:c.arrivalTitle,desc:c.arrivalDesc,image:'/assets/homepage-v2/route-jeddah-makkah.jpg'},
-  {title:c.familyTitle,desc:c.familyDesc,image:'/assets/homepage-v2/service-group-interior.jpg'},
+  {title:c.familyTitle,desc:c.familyDesc,image:'/assets/homepage-v2/vehicle-interior-cta.jpg'},
   {title:c.miqatTitle,desc:c.miqatDesc,image:'/assets/homepage-v2/route-makkah-madinah.jpg'},
   {title:c.destinationTitle,desc:c.destinationDesc,image:'/assets/homepage-v2/route-madinah-hotel.jpg'},
  ];
@@ -249,7 +249,7 @@ export function JourneyArchitectHomepage({locale,dict}:Props){
    <section className={styles.questionRoom} aria-labelledby="questions-heading">
       <div className={styles.questionIntro}><span className={styles.overline}>07 / PREPARE YOUR JOURNEY</span><h2 id="questions-heading">{n.faq}</h2>
        <p>{dict.faq.subtitle}</p>
-       <Image src="/assets/homepage-v2/service-madinah.jpg" alt="" width={530} height={430} className={styles.questionPhoto}/>
+       <Image src="/assets/homepage-v2/ziyarat-haram.jpg" alt="" width={530} height={430} className={styles.questionPhoto}/>
       </div>
       <div className={styles.questions}>
        {faq.map((item,i)=><div key={i} className={styles.question}>

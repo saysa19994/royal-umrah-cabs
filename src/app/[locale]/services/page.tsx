@@ -182,7 +182,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
           </div>
           <div className="duyuf-services-intro-visual">
             <Image
-              src="/assets/homepage-v2/service-group-interior.jpg"
+              src="/assets/homepage-v2/fleet-family.jpg"
               alt={dict.page_services.title}
               fill
               priority
@@ -199,16 +199,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
           services={servicesList.map(({icon,...data})=>data)}
         />
 
-        {/* Master CTA Banner */}
-        <div className="text-center py-8">
-          <Link
-            href={`/${locale}/booking`}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gold-dark hover:bg-gold-hover text-surface font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300"
-          >
-            <span>{isAr ? 'احجز رحلتك الآن' : 'Book Your Journey Today'}</span>
-            <ArrowIcon className="w-4 h-4" />
-          </Link>
-        </div>
+
       </div>
     </div>
   );
