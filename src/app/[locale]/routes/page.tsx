@@ -3,14 +3,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
-import { Compass, ShieldCheck, Banknote, Car, Plane, ChevronRight, Sparkles, MessageCircle } from 'lucide-react';
-import { ExecutiveRouteCard } from '@/components/routes/ExecutiveRouteCard';
-import { PricingTable } from '@/components/pricing/PricingTable';
+import { ArrowUpRight, ArrowLeft, ArrowRight, MapPin, Compass, ShieldCheck, Car, Clock3 } from 'lucide-react';
 import { RouteSpotlightExplorer } from '@/components/routes/RouteSpotlightExplorer';
-import { Spotlight } from '@/components/ui/luxury/Spotlight';
 import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
-import { getDbPricesCached } from '@/lib/pricing-db';
-import { getMergedSiteSettings } from '@/lib/dynamic-settings-store';
+import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
+import styles from './routes-overhaul.module.css';
 
 interface RoutesPageProps {
   params: Promise<{
@@ -145,108 +142,78 @@ export async function generateMetadata(props: RoutesPageProps): Promise<Metadata
 }
 
 export default async function RoutesPage(props: RoutesPageProps) {
-  const params = await props.params;
-  const { locale } = params;
+  const { locale } = await props.params;
   const dict = getDictionary(locale);
-  const isAr = locale === 'ar';
-  const isRtl = isAr || locale === 'ur';
+  const rtl = locale === 'ar' || locale === 'ur';
   const header = ROUTES_LOCALIZED_HEADER[locale] || ROUTES_LOCALIZED_HEADER.en;
-  const initialRates = await getDbPricesCached();
-  const settings = getMergedSiteSettings();
-
+  const Arrow = rtl ? ArrowLeft : ArrowRight;
+  const ui = {
+    ar: { index:'دليل جميع المسارات', explore:'استكشف مساراتنا المعتمدة', full:'تفاصيل الرحلة', prices:'جدول الأسعار الكامل', book:'ابدأ طلب الحجز', fare:'سعر كامري لهذا المسار', cash:'الدفع نقدًا للسائق بعد الوصول', desk:'وجهات نخدمها', overline:'THE JOURNEY DIRECTORY' },
+    en: { index:'All Routes', explore:'Explore our approved routes', full:'Route details', prices:'Complete fare list', book:'Request a private ride', fare:'Camry fare on this route', cash:'Pay the driver in cash after the journey', desk:'Destinations we serve', overline:'THE JOURNEY DIRECTORY' },
+    ms: { index:'Semua Laluan', explore:'Terokai laluan kami', full:'Butiran perjalanan', prices:'Senarai tambang penuh', book:'Mohon perjalanan peribadi', fare:'Tambang Camry untuk laluan ini', cash:'Bayar tunai selepas perjalanan', desk:'Destinasi kami', overline:'DIREKTORI PERJALANAN' },
+    id: { index:'Semua Rute', explore:'Jelajahi rute kami', full:'Detail rute', prices:'Daftar tarif lengkap', book:'Pesan perjalanan privat', fare:'Tarif Camry pada rute ini', cash:'Bayar tunai setelah perjalanan', desk:'Destinasi kami', overline:'DIREKTORI PERJALANAN' },
+    ur: { index:'تمام راستے', explore:'ہمارے راستے دریافت کریں', full:'سفر کی تفصیل', prices:'مکمل کرایے', book:'نجی سفر کی درخواست', fare:'اس راستے پر کیمری کا کرایہ', cash:'سفر کے بعد نقد ادائیگی', desk:'ہماری منزلیں', overline:'راستوں کی فہرست' },
+    fr: { index:'Tous les itinéraires', explore:'Découvrez nos itinéraires', full:'Détails du trajet', prices:'Tarifs complets', book:'Demander un transfert privé', fare:'Tarif Camry sur ce trajet', cash:'Paiement en espèces après le trajet', desk:'Nos destinations', overline:'RÉPERTOIRE DES TRAJETS' },
+    es: { index:'Todas las rutas', explore:'Explora nuestras rutas', full:'Detalles del trayecto', prices:'Tarifas completas', book:'Solicitar traslado privado', fare:'Precio Camry en esta ruta', cash:'Paga en efectivo al terminar', desk:'Nuestros destinos', overline:'DIRECTORIO DE RUTAS' },
+    de: { index:'Alle Routen', explore:'Entdecken Sie unsere Routen', full:'Routendetails', prices:'Vollständige Preise', book:'Privatfahrt anfragen', fare:'Camry-Preis für diese Route', cash:'Barzahlung nach der Fahrt', desk:'Unsere Reiseziele', overline:'ROUTENVERZEICHNIS' },
+    tr: { index:'Tüm Rotalar', explore:'Rotalarımızı keşfedin', full:'Rota detayları', prices:'Tüm fiyatlar', book:'Özel transfer isteyin', fare:'Bu rota için Camry ücreti', cash:'Yolculuk sonrası nakit ödeme', desk:'Hizmet verdiğimiz yerler', overline:'GÜZERGAH REHBERİ' },
+    hi: { index:'सभी मार्ग', explore:'हमारे मार्ग देखें', full:'यात्रा विवरण', prices:'पूरी किराया सूची', book:'निजी यात्रा बुक करें', fare:'इस मार्ग पर कैमरी किराया', cash:'यात्रा के बाद नकद भुगतान', desk:'हमारे गंतव्य', overline:'यात्रा मार्ग सूची' },
+  }[locale];
   return (
-    <div className="bg-[#090D15] min-h-screen text-start text-[#F6F3ED]" dir={isRtl ? 'rtl' : 'ltr'}>
-      {/* 1. ROYAL LUXURY HERO SECTION */}
-      <section className="relative pt-10 sm:pt-14 md:pt-18 pb-8 md:pb-12 border-b border-white/10 bg-gradient-to-b from-[#101725] to-[#090D15] overflow-hidden">
-        {/* Luxury Golden Ambient Illumination */}
-        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#D6A13A" />
-
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl relative z-10">
-          {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-xs text-[#AEB7C4] mb-6">
-            <Link href={`/${locale}`} className="hover:text-[#D6A13A] transition-colors">
-              {dict.nav.home}
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180 text-[#D6A13A]" />
-            <span className="text-[#D6A13A] font-semibold">{dict.nav.routes}</span>
+    <main className={styles.page} dir={rtl ? 'rtl' : 'ltr'}>
+      <section className={styles.hero} aria-labelledby="routes-overhaul-heading">
+        <div className={styles.container}>
+          <nav className={styles.breadcrumb} aria-label={dict.nav.routes}>
+            <Link href={'/'+locale}>{dict.nav.home}</Link><span aria-hidden="true">/</span><span>{dict.nav.routes}</span>
           </nav>
-
-          {/* Hero Header */}
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#141D2C] border border-[#D6A13A]/40 text-xs font-bold text-[#D6A13A] uppercase tracking-wider mb-4 shadow-2xs">
-              <Compass className="w-3.5 h-3.5 text-[#D6A13A]" />
-              <span>{header.badge}</span>
+          <div className={styles.heroGrid}>
+            <div className={styles.heroText}>
+              <span className={styles.eyebrow}>DUYUF AL RAHMAN / 02</span>
+              <h1 id="routes-overhaul-heading">{header.title}</h1>
+              <p>{header.subtitle}</p>
+              <div className={styles.heroActions}>
+                <a href="#journey-explorer" className={styles.inkButton}>{ui.explore}<Arrow size={17} aria-hidden="true"/></a>
+                <Link href={'/'+locale+'/booking'} className={styles.lineButton}>{ui.book}<ArrowUpRight size={17} aria-hidden="true"/></Link>
+              </div>
             </div>
-
-            <h1 className="font-playfair font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[46px] text-[#F6F3ED] font-bold tracking-tight leading-[1.2] mb-4">
-              {header.title}
-            </h1>
-
-            <p className="text-sm sm:text-base md:text-lg text-[#AEB7C4] font-light leading-relaxed mb-6">
-              {header.subtitle}
-            </p>
-
-            {/* Quick Trust Pills */}
-            <div className="flex flex-wrap items-center gap-2.5 text-xs text-[#F6F3ED] font-semibold">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#101725] border border-white/10 shadow-2xs">
-                <Banknote className="w-3.5 h-3.5 text-[#188567]" />
-                <span>{header.trustCash}</span>
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#101725] border border-white/10 shadow-2xs">
-                <Car className="w-3.5 h-3.5 text-[#D6A13A]" />
-                <span>{header.trustFixed}</span>
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#101725] border border-white/10 shadow-2xs">
-                <Plane className="w-3.5 h-3.5 text-[#D6A13A]" />
-                <span>{header.trustFlight}</span>
-              </span>
+            <div className={styles.heroAside}>
+              <span>{ui.desk}</span>
+              <div className={styles.destinationLine}>JEDDAH <span>·</span> MAKKAH <span>·</span> MADINAH <span>·</span> TAIF <span>·</span> RIYADH</div>
+              <p><ShieldCheck size={16} aria-hidden="true"/>{ui.cash}</p>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Adapted from the cinematic destination-slider reference: routes own the experience, not the homepage. */}
-      <RouteSpotlightExplorer locale={locale} />
-
-      {/* 2. EXECUTIVE ROUTE CARDS LIST */}
-      <section className="py-10 sm:py-14 md:py-18">
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="flex items-center justify-between gap-4 mb-8">
-            <div>
-              <h2 className="font-playfair font-serif text-2xl sm:text-3xl text-[#F6F3ED] font-bold">
-                {header.allRoutesCount}
-              </h2>
-              <span className="text-xs text-[#AEB7C4]">
-                {EXECUTIVE_ROUTES_DATA.length} {isAr ? 'مساراً معتمداً بخدمة خاصة وسائق' : 'Official Private Routes'}
-              </span>
-            </div>
-            <Link
-              href={`/${locale}/pricing`}
-              className="text-xs font-bold text-[#D6A13A] hover:underline flex items-center gap-1"
-            >
-              <span>{dict.nav.pricing}</span>
-              <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180" />
-            </Link>
+      <div id="journey-explorer" className={styles.explorer}><RouteSpotlightExplorer locale={locale}/></div>
+      <section className={styles.directory} aria-labelledby="routes-all-heading">
+        <div className={styles.container}>
+          <div className={styles.directoryHeader}>
+            <div><span className={styles.eyebrow}>{ui.overline}</span><h2 id="routes-all-heading">{ui.index}</h2></div>
+            <Link className={styles.allPrices} href={'/'+locale+'/pricing'}>{ui.prices}<ArrowUpRight size={17} aria-hidden="true"/></Link>
           </div>
-
-          <div className="flex flex-col gap-6 sm:gap-8 mb-16">
-            {EXECUTIVE_ROUTES_DATA.map((route) => (
-              <ExecutiveRouteCard key={route.slug} route={route} locale={locale} />
-            ))}
-          </div>
-
-          {/* 3. MASTER PRICING MATRIX EMBED */}
-          <div className="mt-12">
-            <PricingTable
-              locale={locale}
-              dict={dict}
-              initialRates={initialRates}
-              taifEnabled={settings.taif_enabled !== false}
-              riyadhEnabled={settings.riyadh_enabled !== false}
-            />
-          </div>
+          <ol className={styles.list}>
+            {EXECUTIVE_ROUTES_DATA.map((route,i)=>{
+              const price=AUTHORITATIVE_TRANSFER_RATES[route.slug]?.camry;
+              const formatted=typeof price==='number'&&Number.isFinite(price)&&price>0
+                ? new Intl.NumberFormat(locale==='ar'?'ar-SA':'en-US').format(price)+' SAR' : null;
+              return (
+                <li key={route.slug} className={styles.item}>
+                  <Link href={'/'+locale+'/routes/'+route.slug} aria-label={(route.titles?.[locale] || route.titleEn)+' — '+ui.full}>
+                    <span className={styles.index}>{String(i+1).padStart(2,'0')}</span>
+                    <span className={styles.name}>
+                      <strong>{route.titles?.[locale] || route.titleEn}</strong>
+                      <small><Clock3 size={13} aria-hidden="true"/>{route.times?.[locale] || route.timeEn}<span aria-hidden="true">·</span><MapPin size={13} aria-hidden="true"/>{route.distances?.[locale] || route.distanceEn}</small>
+                    </span>
+                    <span className={styles.fare}>{formatted && <><small>{ui.fare}</small><strong>{formatted}</strong></>}</span>
+                    <span className={styles.open}><Arrow size={19} aria-hidden="true"/></span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ol>
+          <div className={styles.directoryFooter}><p>{ui.cash}</p><Link href={'/'+locale+'/pricing'}>{ui.prices}<ArrowUpRight size={17} aria-hidden="true"/></Link></div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }

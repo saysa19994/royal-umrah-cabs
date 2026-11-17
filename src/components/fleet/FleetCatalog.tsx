@@ -722,7 +722,7 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
   const spotlightVehicle = APPROVED_BLUEPRINT_FLEET.find((vehicle) => vehicle.id === spotlightVehicleId);
   const spotlightMedia = APPROVED_5_FLEET.find((vehicle) => vehicle.slug === spotlightVehicle?.slug);
   const spotlightFare = spotlightVehicle ? (AUTHORITATIVE_TRANSFER_RATES['jeddah-airport-to-makkah']?.[spotlightVehicle.bookingVehicleId] ?? null) : null;
-  const directoryVehicles = activeFilter === 'all' ? filteredVehicles.filter((vehicle) => vehicle.id !== spotlightVehicle?.id) : filteredVehicles;
+  const directoryVehicles = activeFilter === 'all' ? [] : filteredVehicles; // All vehicles are selected through the single showroom; don't repeat five cards.
 
   const whatsappMessage = encodeURIComponent(
     isAr
@@ -804,6 +804,25 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
             </div>
           </div>
 
+          {activeFilter === 'all' && (
+            <div className="duyuf-fleet-showroom-toolbar">
+              <span className="duyuf-fleet-showroom-label">{t('filterLabel')}</span>
+                <div className="duyuf-fleet-spotlight-vehicle-picker" role="group" aria-label={t('filterLabel')}>
+                  {APPROVED_BLUEPRINT_FLEET.map((vehicle) => (
+                    <button
+                      type="button"
+                      key={vehicle.id}
+                      aria-pressed={spotlightVehicleId === vehicle.id}
+                      onClick={() => { setSpotlightVehicleId(vehicle.id); setSpotlightPhotoMode('exterior'); }}
+                    >
+                      <span>{vehicle.indexStr.split(' / ')[0]}</span>
+                      {vehicle.name[locale] || vehicle.name.en}
+                    </button>
+                  ))}
+                </div>
+            </div>
+          )}
+
           {/* Selected vehicle spotlight — a deliberately different composition from the catalog. */}
           {activeFilter === 'all' && spotlightVehicle && (
             <article className="duyuf-fleet-spotlight">
@@ -838,19 +857,6 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
                     <small>({spotlightFare} SAR)</small>
                   </div>
                 )}
-                <div className="duyuf-fleet-spotlight-vehicle-picker" role="group" aria-label={t('filterLabel')}>
-                  {APPROVED_BLUEPRINT_FLEET.map((vehicle) => (
-                    <button
-                      type="button"
-                      key={vehicle.id}
-                      aria-pressed={spotlightVehicleId === vehicle.id}
-                      onClick={() => { setSpotlightVehicleId(vehicle.id); setSpotlightPhotoMode('exterior'); }}
-                    >
-                      <span>{vehicle.indexStr.split(' / ')[0]}</span>
-                      {vehicle.name[locale] || vehicle.name.en}
-                    </button>
-                  ))}
-                </div>
                 <div className="duyuf-fleet-spotlight-actions">
                   <Link href={`/${locale}/booking?vehicle=${spotlightVehicle.bookingVehicleId}`} className="duyuf-fleet-spotlight-book">{t('bookVehicle')}</Link>
                   <Link href={`/${locale}/fleet/${spotlightVehicle.slug}`} className="duyuf-fleet-spotlight-details">{t('fullDetails')} <span aria-hidden="true">{isRtl ? '←' : '→'}</span></Link>
@@ -859,7 +865,7 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
             </article>
           )}
 
-          <div className="duyuf-fleet-card-grid">
+          {directoryVehicles.length > 0 && <div className="duyuf-fleet-card-grid">
             {directoryVehicles.map((vehicle) => {
               const vKicker = vehicle.kicker[locale] || vehicle.kicker.en;
               const vName = vehicle.name[locale] || vehicle.name.en;
@@ -949,7 +955,7 @@ export function FleetCatalog({ locale }: FleetCatalogProps) {
                 </article>
               );
             })}
-          </div>
+          </div>}
         </div>
       </section>
 

@@ -1,0 +1,55 @@
+/* About: editorial story and actual service photography, never generic icon cards. */
+.page{background:#faf9f5;color:#17343a;overflow-x:clip}
+.container{width:min(1190px,calc(100% - 66px));margin:auto}
+.micro{font-size:11px;letter-spacing:.15em;color:#b29868;font-weight:790;text-transform:uppercase}
+.page[dir=rtl] .micro{letter-spacing:0}
+.hero{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-height:620px;background:#eaece6}
+.heroImage{position:relative;min-height:620px;overflow:hidden;background:#bec6c1}
+.heroImage>img{object-fit:cover;object-position:center}
+.heroImage:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(7,23,28,.6),transparent 45%)}
+.heroImageCaption{position:absolute;z-index:1;bottom:28px;inset-inline-start:40px;display:flex;align-items:center;gap:9px;color:#fff;font-size:12px}
+.heroCopy{position:relative;padding:clamp(70px,8vw,140px) clamp(38px,5.5vw,96px) 50px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.crumb{display:flex;gap:13px;align-items:center;color:#71807b;font-size:11px;margin-bottom:48px}
+.crumb a{color:#566c6a}
+.heroCopy h1{font-size:clamp(51px,5.1vw,84px);line-height:1.17;font-weight:800;max-width:600px;margin:20px 0 22px!important;letter-spacing:-.04em}
+.page[dir=rtl] .heroCopy h1{letter-spacing:0;line-height:1.27}
+.heroCopy>p{color:#687973;font-size:15px;line-height:1.95;max-width:500px;margin:0 0 28px}
+.heroCta,.primary{min-height:52px;display:inline-flex;align-items:center;justify-content:center;gap:17px;background:#173b42;color:#fff!important;font-size:13px;font-weight:790;padding:12px 24px;text-decoration:none;border-radius:2px}
+.heroCta:hover,.primary:hover{background:#2a5e62}
+.cornerMark{position:absolute;bottom:27px;inset-inline-end:35px;color:#8f9994;font-size:11px;letter-spacing:.12em}
+.story{background:#fffefa;padding:112px 0 118px}
+.storyGrid{display:grid;grid-template-columns:.34fr .66fr;gap:clamp(50px,8vw,130px)}
+.storyAside{display:flex;flex-direction:column;gap:27px;align-items:flex-start}
+.storyRule{display:block;width:1px;height:90px;background:#c9b99c}
+.storyContent{max-width:750px}
+.storyContent h2{font-size:clamp(31px,3.8vw,60px);font-weight:790;line-height:1.32;letter-spacing:-.03em;margin:0 0 28px!important}
+.page[dir=rtl] .storyContent h2{letter-spacing:0}
+.storyContent p{font-size:15px;line-height:2.1;color:#61746f;max-width:700px;margin:20px 0 0}
+.storyContent p.lead{font-size:clamp(17px,1.6vw,23px);line-height:1.9;color:#28494c}
+.values{background:#162f35;color:#fff;padding:100px 0 108px}
+.valuesHeader{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:36px}
+.valuesHeader h2{font-size:clamp(31px,3.7vw,55px);line-height:1.3;font-weight:790;max-width:590px;margin:0!important}
+.valueLayout{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(32px,5vw,80px)}
+.valueImage{position:relative;min-height:530px;overflow:hidden;background:#4b6564}
+.valueImage>img{object-fit:cover}
+.valueImage:after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.55))}
+.imageLabel{position:absolute;bottom:22px;inset-inline-start:24px;color:#fff;z-index:1;font-size:12px;font-weight:750}
+.valueList{display:flex;flex-direction:column;justify-content:center}
+.valueRow{border-top:1px solid rgba(255,255,255,.25);display:grid;grid-template-columns:44px minmax(0,1fr) 25px;gap:20px;align-items:start;padding:36px 0}
+.valueRow:last-child{border-bottom:1px solid rgba(255,255,255,.25)}
+.valueRow>svg{color:#d1b98b}
+.valueNumber{color:#cbb085;font-size:13px;font-weight:850;margin-top:7px}
+.valueRow h3{font-size:clamp(21px,2vw,29px);font-weight:800;margin:0 0 13px!important;line-height:1.5}
+.valueRow p{color:#c6d1cf;font-size:13px;line-height:1.9;max-width:420px}
+.final{background:#e8ebe4;padding:70px 0 88px}
+.finalRule{border-bottom:1px solid #bac6be;padding-bottom:25px;display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:12px;color:#56706d}
+.finalRule span:first-child{letter-spacing:.12em;color:#9a805c}
+.finalGrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.5fr);gap:50px;align-items:center;padding-top:40px}
+.finalGrid h2{font-size:clamp(33px,4.1vw,61px);max-width:660px;font-weight:800;line-height:1.3;margin:0 0 18px!important}
+.finalGrid p{color:#607872;line-height:1.8;font-size:13px}
+.finalActions{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+.secondary{display:inline-flex;gap:9px;align-items:center;justify-content:center;min-height:48px;color:#244d51;text-decoration:none;border:1px solid #a7b8ac;font-weight:750;font-size:13px}
+.page :is(a,button):focus-visible{outline:3px solid #b49765;outline-offset:4px}
+@media(max-width:880px){.hero{min-height:0}.heroImage{min-height:500px}.heroCopy{padding:110px 30px 50px}.heroCopy h1{font-size:48px}.container{width:calc(100% - 42px)}.story{padding:73px 0}.storyGrid{grid-template-columns:1fr;gap:30px}.storyRule{width:75px;height:1px}.valueLayout{gap:25px}.valueImage{min-height:440px}}
+@media(max-width:680px){.hero{display:flex;flex-direction:column-reverse}.heroImage{min-height:290px;height:290px}.heroCopy{padding:90px 20px 48px}.crumb{margin-bottom:27px}.heroCopy h1{font-size:clamp(37px,10vw,50px);margin:13px 0 16px!important}.heroCopy>p{font-size:12px}.heroImageCaption{inset-inline-start:17px;bottom:18px}.cornerMark{bottom:19px;inset-inline-end:20px}.story{padding:55px 0}.storyContent h2{font-size:33px}.storyContent p{font-size:13px}.storyContent p.lead{font-size:18px}.values{padding:55px 0}.valuesHeader{display:block}.valuesHeader h2{font-size:33px;margin-top:12px!important}.valueLayout{display:block}.valueImage{min-height:260px;height:290px;margin-bottom:23px}.valueRow{padding:24px 0;grid-template-columns:25px 1fr 22px;gap:10px}.valueRow h3{font-size:21px}.valueRow p{font-size:12px}.final{padding:53px 0}.finalRule{font-size:10px}.finalGrid{display:block}.finalGrid h2{font-size:34px}.finalActions{margin-top:28px}}
+@media(prefers-reduced-motion:reduce){.page *{scroll-behavior:auto!important}}

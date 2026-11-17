@@ -1,4 +1,5 @@
 import React from 'react';
+import './ziyarat-narrative.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -71,10 +72,11 @@ export default async function ZiyaratHubPage(props: ZiyaratHubPageProps) {
   const whatsappUrl = `https://wa.me/966567588261?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
-    <div className="bg-bg min-h-screen text-start text-ink overflow-x-hidden transition-colors duration-200" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="duyuf-ziyarat-narrative bg-bg min-h-screen text-start text-ink overflow-x-hidden transition-colors duration-200" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* 1. EDITORIAL SACRED PROPHETIC HERO */}
-      <section className="relative w-full pt-16 pb-14 md:pt-24 md:pb-20 overflow-hidden border-b border-border bg-bg transition-colors duration-200">
-        <div className="container mx-auto px-4 max-w-6xl relative z-10 text-center">
+      <section className="duyuf-ziyarat-hero relative w-full pt-16 pb-14 md:pt-24 md:pb-20 overflow-hidden border-b border-border bg-bg transition-colors duration-200">
+        <div className="duyuf-ziyarat-hero-grid container mx-auto px-4 max-w-6xl relative z-10">
+          <div className="duyuf-ziyarat-hero-copy">
           {/* Breadcrumb Navigation */}
           <nav
             aria-label="Breadcrumbs"
@@ -133,15 +135,20 @@ export default async function ZiyaratHubPage(props: ZiyaratHubPageProps) {
               <span>{isAr ? 'استفسار عبر واتساب' : 'Inquire via WhatsApp'}</span>
             </a>
           </div>
+          </div>
+          <div className="duyuf-ziyarat-hero-image">
+            <Image src="/assets/images/routes/makkah-ziyarat.jpg" alt={isAr ? 'مواقع الزيارة في مكة المكرمة' : 'Sacred historic destinations around Makkah'} fill priority sizes="(max-width: 767px) 100vw, 47vw" className="object-cover" />
+            <span className="duyuf-ziyarat-hero-image-caption">{isAr ? 'مكة المكرمة • المدينة المنورة' : 'MAKKAH • MADINAH'}</span>
+          </div>
         </div>
       </section>
 
       {/* 2. SACRED ZIYARAT LUXURY EXPERIENCE COMPONENT */}
-      <div className="container mx-auto px-4 max-w-6xl py-12 md:py-16">
+      <div className="duyuf-ziyarat-body container mx-auto px-4 max-w-6xl py-12 md:py-16">
         <SacredZiyaratExperience locale={locale} initialCity="makkah" />
 
         {/* 3. PRACTICAL GUIDES */}
-        <section className="bg-surface rounded-3xl p-6 sm:p-10 border border-border shadow-xs mb-12">
+        <section className="duyuf-ziyarat-guides bg-surface rounded-3xl p-6 sm:p-10 border border-border shadow-xs mb-12">
           <div className="text-center max-w-2xl mx-auto mb-8">
             <span className="text-[11px] font-bold text-gold-dark uppercase tracking-widest block mb-1">
               Pilgrim Knowledge Base
@@ -151,7 +158,7 @@ export default async function ZiyaratHubPage(props: ZiyaratHubPageProps) {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="duyuf-ziyarat-guides-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {guidesList.map((g) => (
               <Link
                 key={g.slug}
@@ -173,7 +180,7 @@ export default async function ZiyaratHubPage(props: ZiyaratHubPageProps) {
         </section>
 
         {/* 4. HOW IT WORKS (3 SIMPLE STEPS) */}
-        <section className="bg-surface rounded-3xl p-6 sm:p-10 border border-border shadow-xs mb-12">
+        <section className="duyuf-ziyarat-process bg-surface rounded-3xl p-6 sm:p-10 border border-border shadow-xs mb-12">
           <div className="text-center mb-10">
             <span className="text-[11px] font-bold text-gold-dark uppercase tracking-widest block mb-1">
               Seamless Process
@@ -183,7 +190,7 @@ export default async function ZiyaratHubPage(props: ZiyaratHubPageProps) {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="duyuf-ziyarat-steps grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-6 rounded-2xl bg-bg-alt/50 border border-border text-center">
               <div className="w-12 h-12 rounded-2xl bg-gold-dark text-white font-bold font-display text-xl flex items-center justify-center mx-auto mb-4 shadow-xs">
                 1
@@ -229,7 +236,7 @@ export default async function ZiyaratHubPage(props: ZiyaratHubPageProps) {
         </section>
 
         {/* 5. FAQS */}
-        <section className="bg-surface rounded-3xl p-6 sm:p-10 border border-border shadow-xs mb-12">
+        <section className="duyuf-ziyarat-faq bg-surface rounded-3xl p-6 sm:p-10 border border-border shadow-xs mb-12">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-9 h-9 rounded-xl bg-gold-soft border border-gold-line text-gold-dark flex items-center justify-center">
               <HelpCircle className="w-5 h-5" />
@@ -242,7 +249,7 @@ export default async function ZiyaratHubPage(props: ZiyaratHubPageProps) {
             {isAr ? 'إجابات واضحة وموثوقة لكافة استفسارات المعتمرين حول جولات المعالم الإسلامية' : 'Clear and verified answers to common questions about sacred historical tours'}
           </p>
 
-          <div className="space-y-4">
+          <div className="duyuf-ziyarat-answers space-y-4">
             <div className="p-5 sm:p-6 rounded-2xl bg-bg-alt/50 border border-border space-y-2">
               <h3 className="font-bold text-sm sm:text-base text-ink leading-snug flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-gold-dark shrink-0" />

@@ -60,65 +60,6 @@ export default async function PricingPage(props: PricingPageProps) {
 
   const ArrowIcon = isRtl ? ArrowLeft : ArrowRight;
 
-  const getDynamicPrice = (routeId: string, vehicleId: string): number => {
-    return initialRates?.[routeId]?.[vehicleId] ?? AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId] ?? 0;
-  };
-
-  const topOverviewRoutes = [
-    {
-      id: 'jeddah-airport-to-makkah',
-      title: LOCALIZED_ROUTE_NAMES['jeddah-airport-to-makkah']?.[locale] || (isAr ? 'مطار جدة ➔ مكة المكرمة' : 'Jeddah Airport ➔ Makkah'),
-      distance: '95 km',
-      time: isAr ? '75 دقيقة' : '75 mins',
-    },
-    {
-      id: 'makkah-to-madinah',
-      title: LOCALIZED_ROUTE_NAMES['makkah-to-madinah']?.[locale] || (isAr ? 'مكة المكرمة ➔ المدينة المنورة' : 'Makkah ➔ Madinah'),
-      distance: '450 km',
-      time: isAr ? '4.5 ساعات' : '4.5 hours',
-    },
-    {
-      id: 'madinah-airport-to-hotel',
-      title: LOCALIZED_ROUTE_NAMES['madinah-airport-to-hotel']?.[locale] || (isAr ? 'مطار المدينة ➔ فنادق الحرم' : 'Madinah Airport ➔ Hotel'),
-      distance: '25 km',
-      time: isAr ? '30 دقيقة' : '30 mins',
-    },
-    {
-      id: 'jeddah-to-madinah',
-      title: LOCALIZED_ROUTE_NAMES['jeddah-to-madinah']?.[locale] || (isAr ? 'جدة ➔ المدينة المنورة' : 'Jeddah ➔ Madinah'),
-      distance: '410 km',
-      time: isAr ? '4 ساعات' : '4 hours',
-    },
-  ];
-
-  const whyChooseBadges = [
-    {
-      icon: <Plane className="w-5 h-5 text-gold-dark" />,
-      title: isAr ? 'دقة بالمواعيد' : 'On-Time Service',
-      desc: isAr ? 'تتبع راداري للرحلات ومواعيد منضبطة' : 'Flight tracking & punctual arrival',
-    },
-    {
-      icon: <Shield className="w-5 h-5 text-gold-dark" />,
-      title: isAr ? 'نقل آمن وموثوق' : 'Safe & Reliable',
-      desc: isAr ? 'خدمة نقل خاصة مع اهتمام بالراحة والسلامة' : 'Private transport with a focus on comfort and safety',
-    },
-    {
-      icon: <Car className="w-5 h-5 text-gold-dark" />,
-      title: isAr ? 'أسطول فاخر حديث' : 'Premium VIP Fleet',
-      desc: isAr ? 'مركبات مريحة وخيارات مناسبة للعائلات والمجموعات' : 'Comfortable vehicles for families and groups',
-    },
-    {
-      icon: <Headphones className="w-5 h-5 text-gold-dark" />,
-      title: isAr ? 'دعم عملاء 24/7' : '24/7 Support',
-      desc: isAr ? 'متابعة مباشرة عبر الواتساب لحظة بلحظة' : 'Direct WhatsApp & phone assistance',
-    },
-    {
-      icon: <Banknote className="w-5 h-5 text-gold-dark" />,
-      title: isAr ? 'أسعار تنافسية وثابتة' : 'Fixed Rates',
-      desc: isAr ? 'دفع نقدي للسائق عند الوصول دون عربون' : '100% Cash on arrival, zero deposit',
-    },
-  ];
-
   return (
     <div className="duyuf-pricing-page min-h-screen text-start w-full max-w-full overflow-x-clip" dir={isRtl ? 'rtl' : 'ltr'}>
       {/* ─────────────────────────────────────────────────────────────
@@ -216,83 +157,26 @@ export default async function PricingPage(props: PricingPageProps) {
         </div>
       </section>
 
-      {/* 3. Editorial popular route fare cards — consistent with the interactive explorer */}
-      <section className="py-12 sm:py-16 border-y border-border bg-bg-alt">
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          <div className="mb-8 max-w-2xl">
-            <span className="text-xs font-bold uppercase tracking-widest text-gold-dark">
-              {({ ar: 'الرحلات الأكثر طلبًا', en: 'POPULAR JOURNEYS', ms: 'PERJALANAN POPULAR', id: 'RUTE POPULER', ur: 'مقبول سفر', fr: 'TRAJETS POPULAIRES', es: 'RUTAS POPULARES', de: 'BELIEBTE ROUTEN', tr: 'POPÜLER ROTALAR', hi: 'लोकप्रिय यात्राएँ' } as Record<Locale, string>)[locale]}
-            </span>
-            <h2 className="mt-2 text-2xl sm:text-4xl font-display font-semibold text-ink">{content.heroTitle}</h2>
-            <p className="mt-3 text-sm leading-relaxed text-ink-muted">{content.heroSubtitle}</p>
+      {/* Focused price assurance, not a second set of duplicate vehicle / route cards. */}
+      <section className="duyuf-pricing-principles" aria-labelledby="pricing-principles-title">
+        <div className="container mx-auto px-4 sm:px-6 max-w-7xl duyuf-pricing-principles-inner">
+          <div className="duyuf-pricing-principles-intro">
+            <span className="duyuf-pricing-principles-micro">DUYUF FARE PRINCIPLES / 04</span>
+            <h2 id="pricing-principles-title">{content.whatsIncludedTitle || content.heroTitle}</h2>
+            <p>{dict.booking_card.noPrepayNotice}</p>
+            <Link href={'/'+locale+'/routes'}>{dict.nav.routes}<ArrowIcon size={17} aria-hidden="true"/></Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            {topOverviewRoutes.map((rt) => (
-              <article key={rt.id} className="rounded-3xl border border-border bg-surface p-5 sm:p-7 shadow-sm transition-[box-shadow,transform] hover:-translate-y-0.5 hover:shadow-lg">
-                <div className="mb-5 flex items-start gap-3">
-                  <div className="rounded-xl bg-bg-alt p-3 text-gold-dark"><MapPin className="h-5 w-5" /></div>
-                  <div className="min-w-0">
-                    <h3 className="text-lg sm:text-xl font-semibold leading-snug text-ink">{rt.title}</h3>
-                    <p className="mt-1 text-xs text-ink-muted">{rt.distance} • {rt.time}</p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {([
-                    ['camry', 'Toyota Camry'],
-                    ['staria', 'Hyundai Staria'],
-                    ['yukon', 'GMC Yukon XL'],
-                    ['hiace', 'Toyota Hiace'],
-                    ['coaster', 'Toyota Coaster'],
-                  ] as const).map(([vehicleId, vehicleName]) => {
-                    const fare = getDynamicPrice(rt.id, vehicleId);
-                    if (fare <= 0) return null;
-                    return (
-                      <Link
-                        key={vehicleId}
-                        href={`/${locale}/booking?route=${encodeURIComponent(rt.id)}&vehicle=${vehicleId}`}
-                        className="group flex min-h-16 items-center justify-between gap-3 rounded-xl border border-border bg-bg-alt/50 px-4 py-3 transition-colors hover:border-gold/60 hover:bg-bg-alt focus-visible:outline-offset-2"
-                      >
-                        <span className="text-sm font-medium text-ink">{vehicleName}</span>
-                        <span className="shrink-0 text-end font-bold tabular-nums text-gold-dark" dir="ltr">{fare} SAR</span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─────────────────────────────────────────────────────────────
-          4. SECTION: WHY CHOOSE DUYUF AL RAHMAN VIP? (5 BADGES)
-      ────────────────────────────────────────────────────────────── */}
-      <section className="py-14 sm:py-16">
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          <div className="text-center max-w-xl mx-auto mb-10">
-            <div className="flex items-center justify-center gap-4 mb-2">
-              <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#D6A13A]" />
-              <h2 className="font-playfair font-serif text-2xl sm:text-3xl font-bold text-ink">
-                {isAr ? 'لماذا تختار ضيوف الرحمن VIP؟' : 'Why Choose Duyuf Al Rahman VIP?'}
-              </h2>
-              <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#D6A13A]" />
-            </div>
-            <p className="text-xs sm:text-sm text-ink-muted">
-              {isAr ? 'معايير ملكية تضمن لك ولعائلتك أرقى مستويات الراحة والطمأنينة' : 'Royal standards ensuring supreme comfort and peace of mind'}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {whyChooseBadges.map((badge, idx) => (
-              <div
-                key={idx}
-                className="p-5 rounded-2xl bg-surface border border-border hover:border-gold/50 transition-all flex flex-col items-center text-center group"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-bg-alt border border-gold/40 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                  {badge.icon}
-                </div>
-                <h3 className="font-bold text-sm text-ink mb-1">{badge.title}</h3>
-                <p className="text-xs text-ink-muted leading-relaxed">{badge.desc}</p>
+          <div className="duyuf-pricing-principles-rows">
+            {([
+              content.features.cashOnArrival,
+              content.features.fixedPerVehicle,
+              content.features.flightTracking,
+              content.features.vipAmenities,
+            ] as const).map((item,i)=>(
+              <div className="duyuf-pricing-principle" key={item.title}>
+                <span>0{i+1}</span>
+                <div><h3>{item.title}</h3><p>{item.description}</p></div>
+                <Shield size={19} aria-hidden="true"/>
               </div>
             ))}
           </div>
@@ -313,8 +197,8 @@ export default async function PricingPage(props: PricingPageProps) {
           </h2>
           <p className="text-sm text-ink-muted mb-8 max-w-xl mx-auto leading-relaxed">
             {isAr
-              ? 'احجز سيارتك الفاخرة خلال دقائق معدودة. تأكيد فوري، بدون أي عربون، والدفع نقداً للسائق عند الوصول بأمان.'
-              : 'Book your luxury vehicle in just a few minutes. Instant confirmation, 0 advance deposit, and cash payment on safe arrival.'}
+              ? 'احجز سيارتك الفاخرة خلال دقائق معدودة. طلب حجز واضح بدون أي عربون، والدفع نقداً للسائق بعد إتمام الرحلة والوصول.'
+              : 'Book your luxury vehicle in just a few minutes. A clear booking request, zero advance deposit, and cash payment to the driver after the completed journey.'}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

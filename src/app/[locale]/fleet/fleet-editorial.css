@@ -240,3 +240,24 @@ html[data-theme="dark"] .duyuf-editorial-fleet .concierge-band{background:#1d343
  .duyuf-editorial-fleet .duyuf-fleet-gallery-controls button,
  .duyuf-editorial-fleet .duyuf-fleet-spotlight-vehicle-picker button{transition:none!important}
 }
+
+/* Fleet screenshot audit — the visual showroom becomes the single catalog above the fold. */
+.duyuf-editorial-fleet .duyuf-fleet-hero{min-height:0;padding:94px 0 38px}
+.duyuf-editorial-fleet .duyuf-fleet-hero-inner{min-height:370px;gap:clamp(25px,4vw,60px)}
+.duyuf-editorial-fleet .duyuf-fleet-hero h1{font-size:clamp(43px,4.4vw,63px);line-height:1.1}
+html[dir=rtl] .duyuf-editorial-fleet .duyuf-fleet-hero h1{font-size:clamp(39px,4.2vw,62px)}
+.duyuf-editorial-fleet .duyuf-fleet-hero-media{height:clamp(360px,32vw,450px);border-radius:2px 26px 2px 2px}
+.duyuf-editorial-fleet .duyuf-fleet-hero .breadcrumbs{margin-bottom:23px}
+.duyuf-editorial-fleet .fleet-directory{padding:50px 0 73px}
+.duyuf-editorial-fleet .duyuf-fleet-spotlight{min-height:0;border-radius:5px;margin-bottom:18px}
+.duyuf-editorial-fleet .duyuf-fleet-spotlight-stage{min-height:445px}
+.duyuf-editorial-fleet .duyuf-fleet-spotlight-stage .duyuf-fleet-spotlight-image{min-height:445px}
+.duyuf-editorial-fleet .duyuf-fleet-spotlight-content{padding:clamp(25px,3vw,42px)}
+.duyuf-editorial-fleet .duyuf-fleet-spotlight-content h2{font-size:clamp(33px,3.3vw,51px)}
+.duyuf-editorial-fleet .duyuf-fleet-showroom-toolbar{background:#fffdfa;border:1px solid #d9dfda;padding:18px 21px;display:flex;align-items:center;gap:22px;margin:0 0 14px}
+.duyuf-editorial-fleet .duyuf-fleet-showroom-label{font-size:11px;min-width:120px;font-weight:770;color:#617771}
+.duyuf-editorial-fleet .duyuf-fleet-showroom-toolbar .duyuf-fleet-spotlight-vehicle-picker{margin:0;display:flex;gap:6px;flex:1;flex-wrap:nowrap}
+.duyuf-editorial-fleet .duyuf-fleet-showroom-toolbar .duyuf-fleet-spotlight-vehicle-picker button{flex:1;min-width:0;font-size:11px;justify-content:center;min-height:46px;white-space:normal}
+.duyuf-editorial-fleet .duyuf-fleet-card-grid:empty{display:none}
+@media(max-width:960px){.duyuf-editorial-fleet .duyuf-fleet-showroom-toolbar{display:block}.duyuf-editorial-fleet .duyuf-fleet-showroom-label{display:block;margin-bottom:12px}.duyuf-editorial-fleet .duyuf-fleet-showroom-toolbar .duyuf-fleet-spotlight-vehicle-picker{overflow-x:auto;scroll-snap-type:x mandatory}.duyuf-editorial-fleet .duyuf-fleet-showroom-toolbar .duyuf-fleet-spotlight-vehicle-picker button{flex:0 0 150px;scroll-snap-align:start}}
+@media(max-width:767px){.duyuf-editorial-fleet .duyuf-fleet-hero{padding:64px 0 23px}.duyuf-editorial-fleet .duyuf-fleet-hero h1,html[dir=rtl] .duyuf-editorial-fleet .duyuf-fleet-hero h1{font-size:clamp(36px,9vw,48px)}.duyuf-editorial-fleet .duyuf-fleet-hero-inner{min-height:0}.duyuf-editorial-fleet .duyuf-fleet-hero-media{height:300px}.duyuf-editorial-fleet .fleet-directory{padding:34px 0 51px}.duyuf-editorial-fleet .duyuf-fleet-showroom-toolbar{padding:12px 13px}.duyuf-editorial-fleet .duyuf-fleet-spotlight-stage,.duyuf-editorial-fleet .duyuf-fleet-spotlight-stage .duyuf-fleet-spotlight-image{min-height:325px;height:325px}.duyuf-editorial-fleet .duyuf-fleet-spotlight-content{padding:25px 21px}.duyuf-editorial-fleet .duyuf-fleet-spotlight-content h2{font-size:35px}}
