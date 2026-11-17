@@ -398,10 +398,14 @@ export function BookingWizard({
         className="sr-only"
       />
 
-      {/* =====================================================================
+      {/* Adapted from the owner's vip_vip.html booking desk: real four-step controller on a navy side rail. */}
+      <div className="duyuf-prototype-booking-desk">
+            {/* =====================================================================
           UNIFIED HORIZONTAL LUXURY STEPPER (Desktop & Tablet)
       ===================================================================== */}
       <div className="duyuf-booking-progress-desktop hidden md:block mb-8">
+        <div className="duyuf-prototype-booking-kicker">DUYUF AL RAHMAN VIP <span> / 01—04</span></div>
+        <h2 className="duyuf-prototype-booking-label">{ui.progressLabel}</h2>
         <div className="duyuf-booking-stepper bg-surface rounded-2xl border border-border p-4 sm:p-5 shadow-xs">
           <div className="grid grid-cols-4 gap-3 sm:gap-4" role="navigation" aria-label={ui.progressLabel}>
             {STEPS.map((step) => {
@@ -536,7 +540,8 @@ export function BookingWizard({
         />
       </div>
 
-      {/* =====================================================================
+      </div>
+            {/* =====================================================================
           VIP CONCIERGE BANNER (Discreet footer strip)
       ===================================================================== */}
       <div className="mt-8 p-4 sm:p-5 rounded-2xl border border-gold-line bg-gold-soft/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-start">

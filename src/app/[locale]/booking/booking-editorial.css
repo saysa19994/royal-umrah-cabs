@@ -366,3 +366,69 @@ html[dir="rtl"] .duyuf-booking-editorial .duyuf-booking-summary :is(h2,h3) {
   margin:-22px -19px 21px;width:calc(100% + 38px);height:150px
  }
 }
+
+
+/* Owner's real HTML source /vip_vip.html: the four-step workflow lives inside a
+   dark editorial booking desk. Existing BookingEngine controls validation, quotes,
+   booking request submission, flights and payment statement as before. */
+.duyuf-booking-editorial .duyuf-prototype-booking-desk{
+ display:grid;grid-template-columns:minmax(206px,.24fr) minmax(0,.76fr);gap:0;
+ background:#fffefa;border:1px solid #d6ddd7;border-radius:5px;overflow:hidden;
+ box-shadow:0 28px 65px rgba(18,47,50,.09);
+}
+.duyuf-booking-editorial .duyuf-prototype-booking-desk>.duyuf-booking-progress-desktop{
+ background:#101e2c;color:#fff;display:block;min-width:0;margin:0!important;padding:38px 22px;
+ position:relative;
+}
+.duyuf-booking-editorial .duyuf-prototype-booking-kicker{font-size:10px;letter-spacing:.12em;color:#d7b982;font-weight:800;line-height:1.5}
+.duyuf-booking-editorial .duyuf-prototype-booking-kicker span{color:#a6b1b3}
+.duyuf-booking-editorial .duyuf-prototype-booking-label{
+ color:#fff;font-weight:800;font-size:clamp(20px,2vw,27px);line-height:1.45;
+ margin:11px 0 24px!important;letter-spacing:0
+}
+.duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-stepper{
+ background:transparent;border:0;box-shadow:none;padding:0
+}
+.duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-stepper [role=navigation]{
+ display:flex;flex-direction:column;align-items:stretch;gap:10px
+}
+.duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-step{
+ min-height:78px;border:1px solid rgba(255,255,255,.16)!important;
+ border-radius:5px;padding:12px 11px;background:rgba(255,255,255,.055)!important;
+ box-shadow:none!important;gap:10px;opacity:1;cursor:default
+}
+.duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-step[data-step-state=active]{
+ background:rgba(193,156,98,.18)!important;border-color:#d4b583!important;box-shadow:inset 3px 0 0 #d4b583!important;
+}
+html[dir=rtl] .duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-step[data-step-state=active]{box-shadow:inset -3px 0 0 #d4b583!important}
+.duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-step[data-step-state=completed]{border-color:rgba(138,194,171,.43)!important}
+.duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-step-index{width:35px;height:35px;background:rgba(255,255,255,.15)!important;border:1px solid rgba(255,255,255,.25);color:#fff!important;flex:none}
+.duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-step[data-step-state=active] .duyuf-booking-step-index{background:#d5b582!important;color:#152b32!important}
+.duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-step p:first-child{color:#f6f4ef!important;white-space:normal}
+.duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-step p:last-child{color:#b5c2c0!important;white-space:normal}
+.duyuf-booking-editorial .duyuf-prototype-booking-desk>.duyuf-booking-progress-mobile{display:none}
+.duyuf-booking-editorial .duyuf-prototype-booking-desk>div:has(> .duyuf-booking-engine){
+ min-width:0;padding:clamp(18px,2.5vw,36px);background:#fffefa;
+}
+/* The nested live booking engine still has the original 65/35 form+summary layout.
+   Do not compress the customer form to fit a third visual column on tablets. */
+@media(max-width:1240px){
+ .duyuf-booking-editorial .duyuf-prototype-booking-desk{display:block}
+ .duyuf-booking-editorial .duyuf-prototype-booking-desk>.duyuf-booking-progress-desktop{
+  padding:22px 20px;margin:0!important
+ }
+ .duyuf-booking-editorial .duyuf-prototype-booking-label{font-size:19px;margin:6px 0 14px!important}
+ .duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-stepper [role=navigation]{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px
+ }
+ .duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-step{min-height:67px;padding:9px}
+}
+@media(max-width:767px){
+ .duyuf-booking-editorial .duyuf-prototype-booking-desk{border:0;box-shadow:none;background:transparent}
+ .duyuf-booking-editorial .duyuf-prototype-booking-desk>.duyuf-booking-progress-desktop{display:none!important}
+ .duyuf-booking-editorial .duyuf-prototype-booking-desk>.duyuf-booking-progress-mobile{display:block;margin:0 0 18px}
+ .duyuf-booking-editorial .duyuf-prototype-booking-desk>div:has(> .duyuf-booking-engine){padding:0;background:transparent}
+}
+@media(prefers-reduced-motion:reduce){
+ .duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-step{transition:none!important}
+}

@@ -60,3 +60,14 @@
 @media(max-width:880px){.duyuf-ziyarat-narrative .duyuf-ziyarat-hero-grid{gap:25px;min-height:420px}.duyuf-ziyarat-narrative .duyuf-ziyarat-hero-image{min-height:400px}.duyuf-ziyarat-narrative .duyuf-ziyarat-hero-copy h1{font-size:36px}}
 @media(max-width:767px){.duyuf-ziyarat-narrative .duyuf-ziyarat-hero{padding:74px 0 0}.duyuf-ziyarat-narrative .duyuf-ziyarat-hero-grid{display:flex;flex-direction:column;align-items:stretch;gap:30px}.duyuf-ziyarat-narrative .duyuf-ziyarat-hero-copy h1{font-size:clamp(34px,9.5vw,44px)}.duyuf-ziyarat-narrative .duyuf-ziyarat-hero-image{height:290px;min-height:290px}.duyuf-ziyarat-narrative .duyuf-ziyarat-guides-grid{grid-template-columns:1fr}.duyuf-ziyarat-narrative .duyuf-ziyarat-guides-grid>a:first-child{grid-column:1}.duyuf-ziyarat-narrative .duyuf-ziyarat-steps{grid-template-columns:1fr}.duyuf-ziyarat-narrative .duyuf-ziyarat-steps>div{border-inline-end:0;border-bottom:1px solid #cfd8d0;padding:21px 5px!important}.duyuf-ziyarat-narrative .duyuf-ziyarat-guides,.duyuf-ziyarat-narrative .duyuf-ziyarat-process,.duyuf-ziyarat-narrative .duyuf-ziyarat-faq{padding:32px 0 21px}}
 @media(prefers-reduced-motion:reduce){.duyuf-ziyarat-narrative *{scroll-behavior:auto!important;transition:none!important}}
+
+/* Reference-prototype arc replaces the static ziyarat hero photo; it is not a new
+   duplicate section above the existing tour selector. */
+.duyuf-ziyarat-narrative .duyuf-ziyarat-hero-arc{
+ display:flex;flex-direction:column;justify-content:center;overflow:visible;
+ min-height:510px;height:auto;background:transparent;
+}
+.duyuf-ziyarat-narrative .duyuf-ziyarat-hero-arc::after{display:none}
+@media(max-width:767px){
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-hero-arc{min-height:410px;height:auto;margin-bottom:18px}
+}

@@ -2,11 +2,11 @@ import React from 'react';
 import './ziyarat-narrative.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { ZIYARAT_SITES, ZIYARAT_TOURS, ZIYARAT_GUIDES } from '@/data/ziyarat';
 import SacredZiyaratExperience from '@/components/ziyarat/SacredZiyaratExperience';
+import {ZiyaratArcGallery} from '@/components/ziyarat/ZiyaratArcGallery';
 import { Spotlight } from '@/components/ui/luxury/Spotlight';
 import {
   MapPin,
@@ -136,9 +136,8 @@ export default async function ZiyaratHubPage(props: ZiyaratHubPageProps) {
             </a>
           </div>
           </div>
-          <div className="duyuf-ziyarat-hero-image">
-            <Image src="/assets/images/routes/makkah-ziyarat.jpg" alt={isAr ? 'مواقع الزيارة في مكة المكرمة' : 'Sacred historic destinations around Makkah'} fill priority sizes="(max-width: 767px) 100vw, 47vw" className="object-cover" />
-            <span className="duyuf-ziyarat-hero-image-caption">{isAr ? 'مكة المكرمة • المدينة المنورة' : 'MAKKAH • MADINAH'}</span>
+          <div className="duyuf-ziyarat-hero-image duyuf-ziyarat-hero-arc">
+            <ZiyaratArcGallery locale={locale} />
           </div>
         </div>
       </section>
