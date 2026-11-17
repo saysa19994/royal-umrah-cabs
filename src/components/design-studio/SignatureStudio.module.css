@@ -1,0 +1,462 @@
+/* SIGNATURE STUDIO / Three truly distinct DOM compositions, not recolors.
+ * Design exploration only. Does NOT share legacy website header/footer or booking engine.
+ * No generated fleet photos and no invented payment flow.
+ */
+.desert,.royal,.cinematic{min-height:100vh;overflow-x:clip}
+.desert *, .royal *, .cinematic *{box-sizing:border-box}
+.desert :is(button,input,select),.royal :is(button,input,select),.cinematic :is(button,input,select){font:inherit}
+.desert :is(button,a,input,select):focus-visible,.royal :is(button,a,input,select):focus-visible,.cinematic :is(button,a,input,select):focus-visible{outline:3px solid #c59560;outline-offset:3px}
+.desert button,.royal button,.cinematic button{cursor:pointer}
+.desert button:disabled,.royal button:disabled,.cinematic button:disabled{cursor:not-allowed;opacity:.5}
+.desert a,.royal a,.cinematic a{text-decoration:none;color:inherit}
+.desert h1,.desert h2,.desert h3,.royal h1,.royal h2,.royal h3,.cinematic h1,.cinematic h2,.cinematic h3{font-family:inherit;line-height:1.23;letter-spacing:0}
+.desert p,.royal p,.cinematic p{line-height:1.9}
+.demoBadge{display:inline-flex;align-items:center;gap:8px;font-weight:740;font-size:11px;line-height:1.5}
+.demoBadge>span{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.7}
+.designSwitch{display:flex;align-items:center;gap:6px;direction:ltr;flex-wrap:wrap}
+.designSwitch>a{display:flex;align-items:center;justify-content:center;min-width:35px;height:35px;padding:5px 9px;font-size:12px;line-height:1.2;font-weight:850;border:1px solid currentColor;opacity:.75}
+.designSwitch>a.switchActive{opacity:1;background:currentColor;color:inherit}
+.designSwitch>a.switchActive{background:rgba(155,123,79,.23)}
+.designSwitch>a.switchAll{direction:rtl;border:0;font-size:11px;min-width:auto;padding:5px 10px}
+.wordmark{display:inline-flex;align-items:center;gap:10px;white-space:nowrap;min-width:0}
+.wordmark svg{flex:none}
+.wordmark>span:last-child{display:flex;flex-direction:column;gap:1px}
+.wordmark strong{display:block;font-size:clamp(15px,1.5vw,21px);line-height:1.35;letter-spacing:-.02em;font-weight:840}
+.wordmark strong b{font-size:.66em;vertical-align:top}
+.wordmark small{display:block;letter-spacing:.16em;font-size:8px;line-height:1.4;font-weight:800}
+.monogramB{font-family:Georgia,serif;font-size:43px;line-height:1;font-weight:700;border:2px solid currentColor;border-radius:50%;width:52px;height:52px;display:grid;place-items:center}
+.monogramC{font-family:Georgia,serif;font-weight:900;font-size:37px;line-height:1}
+.monogramC span{color:#d69365}
+.eyebrow{display:block;font-size:10px;letter-spacing:.16em;line-height:1.8;font-weight:800}
+.field{min-width:0;display:flex;flex-direction:column;gap:8px;align-items:stretch}
+.field>span{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:770;line-height:1.5}
+.field>span svg{width:15px;height:15px;flex:none}
+.field select,.field input{width:100%;max-width:100%;min-width:0;min-height:44px;padding:10px 12px;background:transparent;color:inherit;border:1px solid currentColor;border-radius:0;cursor:pointer;font-size:12px}
+.field input{direction:ltr;text-align:right;color:inherit}
+.field select option{color:#1f342d;background:#fffdf9}
+.fareDisplay{display:flex;flex-direction:column;gap:4px}
+.fareDisplay>span{font-size:11px;line-height:1.7;font-weight:660;opacity:.8}
+.fareDisplay strong{font-weight:850;font-size:clamp(26px,3vw,46px);line-height:1.14;white-space:nowrap}
+.fareDisplay strong small{font-size:14px;letter-spacing:.07em}
+.errorText{color:#b65d36!important;font-size:11px;line-height:1.6;white-space:normal}
+.previewSummary{display:flex;gap:12px;align-items:flex-start;padding:13px 15px;font-size:11px;line-height:1.8;margin-top:10px;border:1px solid currentColor;border-radius:3px}
+.previewSummary svg{flex:none;margin-top:4px}
+.previewSummary span{display:block}
+.previewSummary span strong{display:block}
+.safetyNotice{display:flex;align-items:flex-start;gap:9px;margin:16px 0 0;font-size:11px;font-weight:620}
+.safetyNotice svg{flex:none;margin-top:3px;width:16px;height:16px}
+.vehiclePhoto{position:relative;overflow:hidden;min-height:320px;background:transparent}
+.vehiclePhoto img{transition:opacity .2s ease,transform .25s ease}
+.vehiclePhoto img.photoOutside{object-fit:contain}
+.vehiclePhoto img.photoInside{object-fit:cover}
+.photoToggle{position:absolute;bottom:14px;right:14px;left:14px;display:flex;gap:7px;justify-content:flex-start;z-index:2}
+.photoToggle button{border:1px solid rgba(45,57,48,.25);padding:8px 11px;min-height:38px;background:rgba(253,251,246,.88);color:#233d31;font-size:11px;font-weight:770;backdrop-filter:blur(8px)}
+.photoToggle button[aria-pressed=true]{background:#33483b;color:#fff;border-color:#33483b}
+.fleetPills,.editionPicker,.cinemaPicker{display:flex;flex-wrap:wrap;gap:7px}
+.fleetPills button,.editionPicker button,.cinemaPicker button{border:1px solid currentColor;background:transparent;color:inherit;text-align:center;line-height:1.55;font-size:11px;font-weight:780}
+.fleetPills button[aria-pressed=true],.editionPicker button[aria-pressed=true],.cinemaPicker button[aria-pressed=true]{background:currentColor}
+.fleetPills button[aria-pressed=true] span,.editionPicker button[aria-pressed=true] span,.cinemaPicker button[aria-pressed=true] span,.cinemaPicker button[aria-pressed=true] strong{color:#fff}
+.fleetPills button{min-height:42px;padding:9px 12px}
+
+/* A · DESERT MODERNISM — sunlit architectural sequence and olive booking ribbon */
+.desert{--d-ivory:#F3EFE5;--d-olive:#34483B;--d-copper:#B77C4D;--d-ink:#292821;--d-sand:#DCCDB6;--d-cream:#FBF9F4;background:var(--d-cream);color:var(--d-ink);font-family:'IBM Plex Sans Arabic','Tajawal',Tahoma,Arial,sans-serif}
+.desertTop{background:var(--d-olive);color:#f3eee2;padding:9px max(3vw,20px);min-height:54px;display:flex;justify-content:space-between;gap:15px;align-items:center}
+.desertHeader{max-width:1740px;margin:auto;min-height:91px;padding:19px clamp(22px,5vw,90px);display:flex;align-items:center;justify-content:space-between;gap:28px;background:var(--d-cream);position:relative;z-index:2}
+.desertHeader .wordmark{color:var(--d-olive)}
+.desertHeader nav{display:flex;align-items:center;gap:25px;font-size:12px;font-weight:770}
+.desertHeader nav a:hover{color:var(--d-copper)}
+.desertHeaderCta,.desertMainCta,.desertBookButton,.desertAction{display:inline-flex;justify-content:center;align-items:center;gap:13px;min-height:49px;padding:12px 20px;background:var(--d-olive);color:#fff!important;border:0;font-weight:810;font-size:12px}
+.desertHeaderCta{min-height:41px;padding:9px 15px}
+.desertHero{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);min-height:690px;background:var(--d-ivory);overflow:hidden}
+.desertHeroCopy{padding:clamp(65px,8vw,135px) clamp(26px,6vw,100px) 52px;position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.desertHeroCopy .eyebrow{color:#8d7257;margin-bottom:23px}
+.desertHeroCopy h1{color:var(--d-olive);font-size:clamp(50px,5.7vw,91px);font-weight:850;line-height:1.26;margin:0!important;text-wrap:balance;max-width:790px}
+.desertHeroCopy h1 em{color:var(--d-copper);font-style:normal}
+.desertHeroCopy>p{font-size:14px;line-height:2.05;max-width:460px;color:#57645a;margin:27px 0}
+.desertMainCta{min-width:182px}
+.desertVerticalNote{margin-top:auto;padding-top:42px;display:flex;align-items:center;gap:18px;color:#8d846e;font-size:11px;font-weight:850}
+.desertVerticalNote span:first-child{color:var(--d-copper)}
+.desertHeroArt{position:relative;overflow:hidden;min-height:690px;background:#8b8a7b}
+.coverPhoto{object-fit:cover;object-position:center}
+.desertHeroArt:after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,rgba(20,31,21,.37));pointer-events:none}
+.desertImageCaption{position:absolute;bottom:34px;inset-inline:36px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:10px;letter-spacing:.13em;color:#fff;font-weight:780;z-index:1}
+.desertBooking{max-width:1480px;margin:-38px auto 0;position:relative;z-index:2;display:grid;grid-template-columns:minmax(145px,.65fr) minmax(0,2.2fr) minmax(155px,.75fr);background:#fdfbf6;border:1px solid #c1cabb;box-shadow:0 22px 46px rgba(47,56,39,.12);min-height:128px}
+.deskNumber{display:flex;flex-direction:column;justify-content:center;align-items:center;background:var(--d-olive);color:#f8f0e2;padding:17px}
+.deskNumber>span{font-family:Georgia,serif;font-size:46px;line-height:1.1}
+.deskNumber small{font-size:9px;letter-spacing:.08em;font-weight:850}
+.desertBookingFields{display:grid;grid-template-columns:1.6fr 1fr .65fr;align-items:center}
+.desertBooking .field{padding:15px 18px;border-inline-end:1px solid #d5dacc}
+.desertBooking .field span{color:#597063}
+.desertBooking .field :is(input,select){border:0;border-bottom:1px solid #c6cec4;font-size:11px;padding:7px 0;min-height:35px}
+.desertBookButton{align-self:stretch;min-height:110px;background:var(--d-copper);text-align:center}
+.desertBookButton:hover,.desertAction:hover{filter:brightness(1.08)}
+.desertTrust{max-width:1480px;margin:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-bottom:1px solid #d5dacd;padding:24px 0 25px}
+.desertTrust span{text-align:center;color:#596b5e;font-size:12px;font-weight:750;padding:12px;border-inline-end:1px solid #d8dfd3}
+.desertTrust span:last-child{border:0}
+.desertFleet{padding:120px max(5vw,20px);display:grid;grid-template-columns:minmax(310px,.45fr) minmax(0,.85fr);gap:clamp(35px,7vw,128px);align-items:center}
+.desertFleetIntro .eyebrow{color:var(--d-copper)}
+.desertFleetIntro h2{font-size:clamp(38px,4vw,64px);line-height:1.3;color:var(--d-olive);margin:18px 0!important;font-weight:840;max-width:590px}
+.desertFleetIntro>p{font-size:13px;line-height:2;color:#728175;max-width:420px;margin-bottom:24px}
+.desert .fleetPills button{color:#34483b;border-color:#c0ccbd}
+.desert .fleetPills button[aria-pressed=true]{background:#34483b}
+.desertAutoStage{background:#e4e8df;min-width:0}
+.desertCarPhoto{min-height:480px;background:radial-gradient(circle at center,#f7faf4,#d6ded4 70%)}
+.desertVehicleText{display:flex;flex-direction:column;gap:9px;padding:20px 35px 28px;background:#e4e8df;border-top:1px solid #d0d7ce}
+.desertVehicleText>span{font-size:10px;font-weight:770;letter-spacing:.12em;color:#a17c5a}
+.desertVehicleText h3{font-size:32px;margin:0!important;color:#274b3b}
+.desertVehicleText>div{display:flex;gap:20px;font-size:12px;font-weight:770;color:#637b6b}
+.desertVehicleText>div span{display:flex;align-items:center;gap:7px}
+.desertJourney{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);min-height:640px;background:#e8ddca}
+.desertJourneyPhoto{position:relative;min-height:640px;overflow:hidden;background:#bdac8e}
+.desertJourneyText{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:65px clamp(25px,6vw,90px);min-width:0}
+.desertJourneyText .eyebrow{color:#986b49}
+.desertJourneyText h2{font-size:clamp(38px,4.5vw,68px);margin:14px 0!important;color:#2c483b;font-weight:840}
+.desertJourneyText>p{max-width:470px;color:#63665a;font-size:12px;margin:10px 0 27px}
+.desertRouteLine{display:flex;align-items:center;gap:13px;border-top:1px solid #a9b09e;border-bottom:1px solid #a9b09e;padding:14px 0;margin-bottom:27px;font-size:12px;flex-wrap:wrap;color:#34483b}
+.desertRouteLine span{font-size:10px;color:#b77c4d;letter-spacing:.16em}
+.desertAction{margin-top:15px}
+.desertJourneyText .previewSummary{background:rgba(255,255,255,.45)}
+.desertFooter{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;background:#34483b;color:#fbf8ee;padding:38px max(5vw,20px)}
+.desertFooter>span,.desertFooter>a{font-size:11px;font-weight:750}
+.desertFooter>a{text-decoration:underline}
+
+/* B · ROYAL EDITORIAL — burgundy folio, exquisite negative space, typesetting */
+.royal{--r-ivory:#F8F4EC;--r-burgundy:#542E32;--r-bronze:#B38B62;--r-espresso:#302825;--r-champ:#E8DDCF;background:var(--r-ivory);color:var(--r-espresso);font-family:'Amiri','IBM Plex Sans Arabic',Georgia,Tahoma,serif}
+.royalTop{padding:12px max(4vw,20px);display:flex;align-items:center;justify-content:space-between;gap:15px;color:#5f3e42;border-bottom:1px solid #ddcfc4;background:#f6eee4}
+.royalTop>span:first-child{font-size:10px;letter-spacing:.16em;font-weight:800}
+.royalHeader{min-height:116px;padding:25px clamp(25px,5vw,90px);display:flex;justify-content:space-between;align-items:center;gap:25px;border-bottom:1px solid #d3bfb8}
+.royalHeader .wordmark{color:var(--r-burgundy)}
+.royalHeader .wordmark strong{font-size:23px}
+.royalHeader>span{color:#967d70;font-size:11px;font-style:italic}
+.royalHeader nav{display:flex;gap:30px;font-size:12px;font-weight:800}
+.royalHeader nav a:hover{color:#a86c66}
+.royalOpening{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.1fr) 65px;min-height:715px;overflow:hidden;border-bottom:1px solid #ddc9bf}
+.royalOpeningText{padding:90px clamp(30px,6vw,95px) 72px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0}
+.royalFolio{font-size:10px;letter-spacing:.14em;color:#a77d69;font-weight:800}
+.royalOpeningText h1{font-size:clamp(76px,10vw,160px);line-height:1.04;font-weight:700;color:var(--r-burgundy);margin:29px 0 25px!important}
+.royalOpeningText h1 em{font-style:normal;color:#aa7b64}
+.royalLead{color:#54383b;font-weight:800;font-size:24px!important;margin:0!important}
+.royalOpeningText>p:not(.royalLead){font-size:14px;line-height:2.1;max-width:480px;color:#79645e;margin:17px 0 25px}
+.royalTextCta{display:inline-flex;align-items:center;gap:12px;font-size:13px;font-weight:800;min-height:45px;border-bottom:1px solid #b58a76;color:#542e32!important}
+.royalPortrait{position:relative;min-height:715px;overflow:hidden;background:#a79385}
+.royalPortrait:after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,rgba(45,26,31,.46));pointer-events:none}
+.royalPhotoLegend{position:absolute;bottom:30px;right:30px;color:#fff;font-weight:800;font-size:10px;letter-spacing:.14em;z-index:1}
+.royalSideCaption{display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:mixed;letter-spacing:.15em;font-size:11px;color:#d6b0a2;background:#542e32;font-weight:800}
+.royalFleet{padding:130px max(5vw,25px) 135px}
+.royalSectionHeadline{display:flex;align-items:start;justify-content:space-between;gap:30px;margin-bottom:44px}
+.royalSectionHeadline>span{font-size:11px;letter-spacing:.13em;color:#ac7f6a;font-weight:810;flex:none}
+.royalSectionHeadline h2{font-size:clamp(42px,5vw,82px);font-weight:760;color:#542e32;margin:0!important;line-height:1.25;max-width:1000px}
+.royalSectionHeadline h2 i{font-weight:400;color:#b3856b}
+.royalMagazine{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(330px,.85fr);min-height:610px;background:#e7dbcf}
+.royalCarImage{position:relative;min-width:0;background:linear-gradient(140deg,#f5f0e7,#c9bcb0)}
+.royalVehiclePhoto{min-height:610px}
+.royalStamp{position:absolute;top:23px;right:25px;padding:15px 20px;border:1px solid #794e50;border-radius:50%;color:#794e50;font-family:Georgia,serif;font-weight:800;font-size:10px;text-align:center;line-height:1.5;letter-spacing:.07em;transform:rotate(11deg)}
+.royalCarCopy{padding:48px clamp(29px,4.5vw,75px);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:17px;border-inline-start:1px solid #bba69b;background:#f5eee5}
+.royalCarCopy>span{font-size:10px;letter-spacing:.14em;color:#ab8469;font-weight:760}
+.royalCarCopy h3{font-size:clamp(35px,4vw,62px);color:#542e32;line-height:1.28;margin:0!important}
+.royalCarCopy>p{font-size:14px;color:#7d6962;max-width:480px;margin:0}
+.royalFacts{display:flex;gap:40px;border-top:1px solid #d8c5ba;border-bottom:1px solid #d8c5ba;padding:16px 0;width:100%}
+.royalFacts>span{font-family:Georgia,serif;font-size:32px;color:#542e32;font-weight:800;display:flex;align-items:baseline;gap:10px}
+.royalFacts small{font-family:Tahoma,sans-serif;font-size:11px;color:#977e75}
+.editionPicker{margin:5px 0}
+.editionPicker button{padding:9px 13px;min-height:42px;color:#542e32;border-color:#bba9a4}
+.editionPicker button[aria-pressed=true]{background:#542e32}
+.royalFolioSection{padding:125px max(6vw,28px);display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1fr);gap:clamp(50px,8vw,140px);background:#542e32;color:#fff8ef}
+.royalFolioTitle{padding-top:34px}
+.royalFolioTitle>span{font-size:10px;letter-spacing:.14em;color:#e8c7a9}
+.royalFolioTitle h2{font-size:clamp(50px,5.5vw,90px);line-height:1.15;font-weight:680;margin:23px 0!important}
+.royalFolioTitle>p{font-size:13px;line-height:2;color:#dfc9c0;max-width:450px}
+.royalBookingPaper{background:#fcf7ef;color:#542e32;padding:clamp(24px,4.4vw,65px);box-shadow:16px 18px 0 rgba(45,29,31,.33);min-width:0}
+.royalPaperTop{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #dac6ba;padding-bottom:16px;letter-spacing:.1em;color:#a17e6b;font-size:10px;font-weight:750}
+.royalBookingPaper h3{font-size:clamp(28px,3vw,44px);margin:26px 0!important;font-weight:730}
+.royalPaperGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.royalPaperGrid .field:first-child{grid-column:1/-1}
+.royalPaperGrid .field>span{color:#86685d}
+.royalPaperGrid .field :is(select,input){border-color:#cab2aa;color:#542e32;background:#fffaf3}
+.royalPaperVehicle{display:flex;align-items:center;gap:16px;border-top:1px solid #ddcac1;border-bottom:1px solid #ddcac1;margin:25px 0;padding:20px 0}
+.royalPaperVehicle img{object-fit:contain;flex:none;max-width:40%}
+.royalPaperVehicle>div{display:flex;flex-direction:column;gap:6px}
+.royalPaperVehicle small{color:#977e75;font-size:11px}
+.royalPaperVehicle strong{font-size:17px;line-height:1.5}
+.royalPaperVehicle span{color:#846b63;font-size:11px}
+.royalPaperBottom{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.royalPaperBottom .fareDisplay strong{color:#a56d50;font-family:Georgia,serif}
+.royalSubmit{display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:12px 19px;border:0;background:#542e32;color:#fff;font-weight:800;font-size:12px}
+.royalPricing{padding:115px max(6vw,28px) 135px;background:#f4eee6}
+.royalPricing>span{display:block;color:#a17a69;font-size:11px;letter-spacing:.12em;font-weight:800}
+.royalPricing h2{font-size:clamp(46px,5.5vw,88px);line-height:1.16;color:#542e32;font-weight:740;margin:21px 0!important}
+.royalPricing>p{max-width:690px;font-size:13px;color:#826e66;margin:0 0 34px}
+.royalPriceRows{max-width:1400px;border-top:2px solid #542e32}
+.royalPriceRows button{display:grid;grid-template-columns:38px minmax(0,1.6fr) minmax(75px,.45fr) minmax(130px,.5fr) 24px;align-items:center;gap:15px;min-height:87px;width:100%;text-align:start;border:0;border-bottom:1px solid #d9c4bc;background:transparent;color:#643d41;padding:15px 16px}
+.royalPriceRows button:hover,.royalPriceRows button.royalRowActive{background:#e9d9cc}
+.royalPriceRows button>span:first-child{color:#a47a65;font-size:11px}
+.royalPriceRows button strong{font-size:18px;font-weight:820;line-height:1.6}
+.royalPriceRows button>span:nth-child(3){font-size:12px;color:#876f64}
+.royalPriceRows button>b{font-family:Georgia,serif;font-size:17px;color:#a16e50;white-space:nowrap}
+.royalPriceRows button svg{color:#9c7d73}
+.royalPricing .safetyNotice{color:#6d5553;margin-top:24px}
+.royalFooter{background:#301f22;color:#eedbd0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;padding:44px max(5vw,25px)}
+.royalFooter span,.royalFooter>a{font-size:12px}
+.royalFooter>a{text-decoration:underline}
+
+/* C · CINEMATIC SANDSTONE — full-screen film, landscape sequence, car theater, dark cockpit */
+.cinematic{--c-espresso:#29251F;--c-terracotta:#B96746;--c-sand:#E8DCC9;--c-olive:#78806A;--c-white:#F8F5EF;background:var(--c-espresso);color:var(--c-white);font-family:'IBM Plex Sans Arabic','Tajawal',Tahoma,Arial,sans-serif}
+.cinemaTopBar{height:52px;display:flex;justify-content:space-between;align-items:center;gap:15px;padding:6px max(3.2vw,17px);background:#29251F;color:#f2e1ca}
+.cinemaHero{min-height:820px;height:90svh;max-height:1020px;position:relative;background:#1e221e;isolation:isolate;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.cinemaVideo,.cinemaVeil{position:absolute;inset:0;width:100%;height:100%}
+.cinemaVideo{object-fit:cover;z-index:-3}
+.cinemaVeil{z-index:-2;background:linear-gradient(270deg,rgba(18,18,16,.85),rgba(22,21,17,.08) 75%),linear-gradient(0deg,rgba(15,17,15,.86),transparent 40%,rgba(15,17,15,.25))}
+.cinemaHeader{padding:23px max(5vw,21px);display:flex;align-items:center;justify-content:space-between;gap:25px;position:relative;border-bottom:1px solid rgba(255,255,255,.2)}
+.cinemaHeader .wordmark{color:#fff2d8}
+.cinemaHeader nav{display:flex;gap:30px;font-size:12px;font-weight:780}
+.cinemaHeaderBook{display:flex;align-items:center;gap:9px;background:rgba(252,243,229,.92);color:#29251f!important;min-height:42px;padding:9px 15px;font-size:11px;font-weight:820}
+.cinemaHeroType{max-width:1350px;width:calc(100% - 12vw);margin:auto;padding:60px 0 50px}
+.cinemaHeroType>span{font-size:11px;color:#e1b98c;letter-spacing:.17em;font-weight:850}
+.cinemaHeroType h1{font-size:clamp(75px,9.1vw,152px);line-height:1.12;font-weight:770;color:#f8f5ef;margin:22px 0!important;text-wrap:balance}
+.cinemaHeroType h1 em{font-style:normal;color:#dca276}
+.cinemaHeroType p{max-width:570px;font-size:15px;line-height:2;color:#e5ddd0;margin:24px 0}
+.cinemaHeroCta{display:inline-flex;align-items:center;justify-content:center;gap:16px;min-height:54px;background:#c5825a;color:#241d1a!important;font-size:13px;font-weight:800;padding:13px 20px}
+.cinemaHeroFoot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px max(5vw,21px) 31px;border-top:1px solid rgba(255,255,255,.18);font-size:10px;font-weight:780;color:#e4cbb2;letter-spacing:.08em}
+.cinemaHeroFoot a{text-decoration:underline}
+.cinemaStory{padding:125px 0 115px;background:#29251F}
+.cinemaStoryHeading{padding:0 max(5vw,22px);max-width:1600px;margin:0 auto 40px}
+.cinemaStoryHeading>span{font-size:11px;letter-spacing:.12em;color:#d18f68;font-weight:800}
+.cinemaStoryHeading h2{font-size:clamp(41px,5.3vw,86px);line-height:1.26;margin:19px 0!important;color:#eee4d5;font-weight:780}
+.cinemaStoryVisual{height:min(57vw,760px);min-height:490px;max-width:1600px;margin:auto;position:relative;overflow:hidden;background:#333a30}
+.cinemaStoryVisual:after{content:"";position:absolute;inset:47% 0 0;background:linear-gradient(transparent,rgba(20,15,15,.75));pointer-events:none}
+.cinemaSceneTitle{position:absolute;bottom:50px;inset-inline:50px;z-index:2}
+.cinemaSceneTitle>span{font-size:12px;letter-spacing:.11em;color:#e5b685}
+.cinemaSceneTitle h3{font-size:clamp(45px,5vw,87px);color:#f7efe2;margin:10px 0!important}
+.cinemaSceneControl{max-width:1600px;margin:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid rgba(255,255,255,.2)}
+.cinemaSceneControl button{min-height:86px;text-align:start;background:#2f2b25;color:#c8b9a8;padding:20px 28px;display:flex;align-items:center;gap:14px;border:0;border-inline-end:1px solid rgba(255,255,255,.13);font-size:13px;font-weight:730}
+.cinemaSceneControl button[aria-pressed=true]{background:#554038;color:#fff2e6}
+.cinemaSceneControl button span{color:#d89366;font-size:11px}
+.cinemaFleet{padding:118px max(4vw,20px);background:#e8dcc9;color:#322a25}
+.cinemaFleetHeading{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.47fr);gap:50px;align-items:end;max-width:1510px;margin:0 auto 45px}
+.cinemaFleetHeading>div>span{color:#a96146;font-size:11px;letter-spacing:.12em;font-weight:850}
+.cinemaFleetHeading h2{font-size:clamp(42px,5.7vw,91px);line-height:1.17;color:#29251f;margin:14px 0!important;font-weight:840}
+.cinemaFleetHeading h2 em{font-style:normal;color:#b96746}
+.cinemaFleetHeading p{font-size:13px;line-height:1.9;color:#746e61;max-width:390px}
+.cinemaVehicleTheater{max-width:1510px;min-height:590px;display:grid;grid-template-areas:"words photo" "tabs tabs";grid-template-columns:minmax(0,.55fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;margin:auto;background:#25241f;color:#fff1dc}
+.cinemaVehicleName{grid-area:words;align-self:center;padding:35px clamp(24px,4vw,64px)}
+.cinemaVehicleName>span{color:#d29a72;font-size:11px;letter-spacing:.13em}
+.cinemaVehicleName h3{font-size:clamp(37px,4.3vw,70px);line-height:1.29;margin:16px 0!important;color:#fff2e5}
+.cinemaVehicleName>p{color:#ccbeb0;font-size:13px;line-height:2;margin-bottom:18px}
+.cinemaVehicleName>div{display:flex;gap:25px;align-items:center}
+.cinemaVehicleName>div b{display:inline-flex;align-items:center;gap:8px;font-size:11px}
+.cinemaCarPhoto{grid-area:photo;min-height:560px;background:radial-gradient(circle at center,#61645a,#31352e 70%)}
+.cinemaCarPhoto .photoOutside{filter:drop-shadow(0 25px 25px rgba(0,0,0,.22))}
+.cinemaPicker{grid-area:tabs;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;background:#1b1d1b}
+.cinemaPicker button{display:flex;flex-direction:column;gap:8px;align-items:start;justify-content:center;min-height:82px;padding:15px;border:0;border-inline-end:1px solid rgba(255,255,255,.11);color:#c9baaa;text-align:start}
+.cinemaPicker button[aria-pressed=true]{background:#965638;color:#fff}
+.cinemaPicker button>span{font-size:10px;color:#dc986e}
+.cinemaPicker button strong{font-size:12px;line-height:1.6}
+.cinemaBook{padding:130px max(5vw,24px);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,.9fr);gap:clamp(45px,9vw,155px);background:linear-gradient(130deg,#342c26,#1b1e1c);align-items:start}
+.cinemaBookHeadline>span{color:#d69365;font-size:11px;letter-spacing:.12em;font-weight:800}
+.cinemaBookHeadline h2{font-size:clamp(50px,6vw,98px);line-height:1.2;color:#f7eadb;margin:25px 0!important;font-weight:790}
+.cinemaBookHeadline>p{max-width:490px;color:#c1b2a4;font-size:13px}
+.cinemaControlDesk{background:#3c3630;padding:clamp(24px,4vw,55px);border:1px solid #69584a;display:flex;flex-direction:column;gap:18px}
+.cinemaControlTitle{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-bottom:19px;border-bottom:1px solid #716457}
+.cinemaControlTitle svg{color:#d9966a}
+.cinemaControlTitle>span{font-size:11px;color:#ddac83;letter-spacing:.1em}
+.cinemaControlTitle strong{font-size:12px;color:#eee0cf}
+.cinemaControlDesk .field span{color:#e4c8ad}
+.cinemaControlDesk .field :is(input,select){background:#2b2c28;border-color:#807061;color:#fff5e8}
+.cinemaControlDesk .field select option{background:#f9f6f1;color:#2b2b27}
+.cinemaPriceLine{padding-top:17px;border-top:1px solid #726458}
+.cinemaPriceLine .fareDisplay strong{color:#f0b287}
+.cinemaAction{min-height:51px;display:flex;align-items:center;justify-content:center;gap:12px;border:0;color:#29251f;background:#dda276;font-size:13px;font-weight:860;padding:13px 18px}
+.cinemaControlDesk .safetyNotice{color:#d1bbab}
+.cinemaFooter{background:#1b1c19;padding:43px max(5vw,24px);display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap}
+.cinemaFooter>span,.cinemaFooter>a{font-size:11px;color:#d7b89e;font-weight:750}
+.cinemaFooter>a{display:flex;align-items:center;gap:8px;text-decoration:underline}
+
+/* Desktop, mobile and keyboard: separately composed chapter flow for each concept */
+@media(max-width:1120px){
+ .desertBooking{margin-inline:18px;grid-template-columns:130px minmax(0,1fr)}
+ .desertBookingFields{grid-template-columns:1.5fr .9fr .65fr}
+ .desertBookButton{grid-column:1/-1;min-height:56px}
+ .desertHeroCopy h1{font-size:58px}
+ .desertFleet{gap:32px}
+ .royalOpening{grid-template-columns:minmax(0,.8fr) minmax(0,1fr) 35px}
+ .royalOpeningText{padding:65px 40px}
+ .royalOpeningText h1{font-size:83px}
+ .royalMagazine{grid-template-columns:1.05fr 1fr}
+ .royalCarCopy{padding:30px}
+ .cinemaVehicleTheater{grid-template-columns:minmax(0,.6fr) minmax(0,1fr)}
+ .cinemaCarPhoto{min-height:480px}
+}
+@media(max-width:800px){
+ .desertTop,.royalTop,.cinemaTopBar{padding-inline:16px}
+ .desertHeader nav,.royalHeader nav,.cinemaHeader nav{gap:12px}
+ .desertHero{grid-template-columns:1fr 1fr;min-height:570px}
+ .desertHeroArt{min-height:570px}
+ .desertHeroCopy{padding:40px 24px}
+ .desertHeroCopy h1{font-size:47px}
+ .desertHeroCopy>p{font-size:12px}
+ .desertFleet{grid-template-columns:1fr;padding-block:80px;gap:32px}
+ .desertFleetIntro{max-width:690px}
+ .desertJourney{grid-template-columns:1fr 1fr}
+ .desertJourneyPhoto{min-height:560px}
+ .desertJourneyText{padding:32px 25px}
+ .desertJourneyText h2{font-size:41px}
+ .royalHeader>span{display:none}
+ .royalOpening{grid-template-columns:1fr 1.05fr}
+ .royalSideCaption{display:none}
+ .royalOpeningText h1{font-size:74px}
+ .royalMagazine{display:block}
+ .royalCarImage .vehiclePhoto{min-height:440px}
+ .royalVehiclePhoto{min-height:440px}
+ .royalFolioSection{grid-template-columns:1fr 1.1fr;gap:30px}
+ .royalFolioTitle h2{font-size:51px}
+ .cinemaHeroType{width:calc(100% - 60px)}
+ .cinemaHeroType h1{font-size:73px}
+ .cinemaFleetHeading h2{font-size:51px}
+ .cinemaVehicleTheater{display:block}
+ .cinemaVehicleName{padding:30px}
+ .cinemaCarPhoto{min-height:420px}
+ .cinemaBook{grid-template-columns:1fr 1.1fr;gap:30px}
+ .cinemaBookHeadline h2{font-size:53px}
+}
+@media(max-width:600px){
+ .demoBadge{font-size:9px}
+ .designSwitch>a{min-width:29px;height:30px;padding:4px 7px;font-size:10px}
+ .designSwitch>a.switchAll{font-size:9px}
+ .wordmark strong{font-size:16px}
+ .wordmark svg{width:33px;height:33px}
+ .monogramB{width:38px;height:38px;font-size:30px}
+ .monogramC{font-size:29px}
+ .wordmark small{font-size:7px}
+ .desertHeader{min-height:74px;padding:14px 16px}
+ .desertHeader nav{display:none}
+ .desertHeaderCta{font-size:10px;padding:8px 10px;min-height:39px}
+ .desertHero{display:flex;flex-direction:column;min-height:0}
+ .desertHeroCopy{padding:63px 20px 33px;min-height:460px}
+ .desertHeroCopy h1{font-size:clamp(39px,10vw,57px);line-height:1.33}
+ .desertHeroCopy .eyebrow{font-size:9px;margin-bottom:14px}
+ .desertHeroCopy>p{margin:17px 0;font-size:11px;line-height:1.95;max-width:340px}
+ .desertVerticalNote{padding-top:17px;margin-top:22px}
+ .desertHeroArt{min-height:310px;height:310px}
+ .desertImageCaption{inset-inline:14px;bottom:14px;font-size:9px}
+ .desertBooking{margin:0;grid-template-columns:1fr;min-height:0;border-inline:0}
+ .deskNumber{display:flex;flex-direction:row;justify-content:space-between;padding:12px 16px}
+ .deskNumber>span{font-size:23px}
+ .deskNumber small{font-size:9px}
+ .desertBookingFields{grid-template-columns:1fr 1fr}
+ .desertBooking .field{padding:12px 14px;border-bottom:1px solid #d7ddd1;min-height:76px}
+ .desertBooking .field:first-child{grid-column:1/-1}
+ .desertBooking .field:nth-child(3){border:0}
+ .desertBookButton{min-height:53px;font-size:12px}
+ .desertTrust{display:flex;overflow-x:auto;padding:0;border:0}
+ .desertTrust span{flex:0 0 60%;min-height:70px;padding:20px 12px;font-size:10px;border-bottom:1px solid #d5dacd}
+ .desertFleet{padding:67px 15px}
+ .desertFleetIntro h2{font-size:37px}
+ .desertFleetIntro>p{font-size:11px}
+ .desert .fleetPills{display:flex;flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:7px}
+ .desert .fleetPills button{flex:0 0 auto;scroll-snap-align:start;font-size:10px;min-height:40px}
+ .desertCarPhoto{min-height:290px}
+ .desertVehicleText{padding:19px}
+ .desertVehicleText h3{font-size:24px}
+ .desertJourney{display:flex;flex-direction:column}
+ .desertJourneyPhoto{min-height:290px;height:290px}
+ .desertJourneyText{padding:43px 20px}
+ .desertJourneyText h2{font-size:39px}
+ .desertRouteLine{font-size:10px}
+ .desertFooter{padding:28px 17px}
+ .desertFooter>span{font-size:10px}
+ .royalTop{padding:10px 13px}
+ .royalTop>span:first-child{display:none}
+ .royalHeader{min-height:75px;padding:14px 17px}
+ .royalHeader nav{gap:14px}
+ .royalHeader nav a{font-size:10px}
+ .royalOpening{display:flex;flex-direction:column;min-height:0}
+ .royalOpeningText{padding:62px 23px 37px}
+ .royalFolio{font-size:9px}
+ .royalOpeningText h1{font-size:clamp(76px,19vw,111px);margin:18px 0!important}
+ .royalLead{font-size:20px!important}
+ .royalOpeningText>p:not(.royalLead){font-size:11px;margin:13px 0}
+ .royalPortrait{min-height:370px;height:370px}
+ .royalPhotoLegend{bottom:16px;right:15px;font-size:9px}
+ .royalFleet{padding:65px 14px 73px}
+ .royalSectionHeadline{display:block;margin-bottom:24px}
+ .royalSectionHeadline>span{font-size:9px}
+ .royalSectionHeadline h2{font-size:clamp(37px,9vw,56px);margin-top:12px!important}
+ .royalVehiclePhoto{min-height:340px}
+ .royalCarCopy{padding:30px 20px}
+ .royalCarCopy h3{font-size:36px}
+ .royalCarCopy>p{font-size:11px}
+ .royalFacts>span{font-size:26px}
+ .royalFolioSection{display:block;padding:70px 17px 78px}
+ .royalFolioTitle{padding:0 0 30px}
+ .royalFolioTitle h2{font-size:47px}
+ .royalFolioTitle>p{font-size:11px}
+ .royalBookingPaper{padding:23px 17px;box-shadow:7px 8px 0 rgba(45,29,31,.3)}
+ .royalBookingPaper h3{font-size:30px}
+ .royalPaperVehicle img{max-width:35%;height:auto}
+ .royalPaperVehicle strong{font-size:13px}
+ .royalPaperVehicle span{font-size:10px}
+ .royalPaperBottom{display:block}
+ .royalSubmit{width:100%;margin-top:16px}
+ .royalPricing{padding:70px 15px}
+ .royalPricing h2{font-size:44px}
+ .royalPricing>p{font-size:11px}
+ .royalPriceRows button{grid-template-columns:24px minmax(0,1fr) 82px 15px;gap:8px;padding:12px 4px;min-height:72px}
+ .royalPriceRows button strong{font-size:12px}
+ .royalPriceRows button>span:nth-child(3){display:none}
+ .royalPriceRows button>b{font-size:11px}
+ .royalFooter{padding:30px 16px}
+ .cinemaTopBar{height:46px}
+ .cinemaHero{min-height:675px;height:88svh;max-height:800px}
+ .cinemaVideo{object-position:center}
+ .cinemaHeader{padding:15px 17px}
+ .cinemaHeader nav{display:none}
+ .cinemaHeaderBook{font-size:10px;min-height:36px;padding:8px 11px}
+ .cinemaHeroType{width:calc(100% - 42px);padding:50px 0}
+ .cinemaHeroType>span{font-size:9px;letter-spacing:.09em}
+ .cinemaHeroType h1{font-size:clamp(51px,13vw,83px);margin:18px 0!important;line-height:1.19}
+ .cinemaHeroType p{font-size:12px;margin:18px 0;max-width:360px}
+ .cinemaHeroCta{min-height:48px;font-size:11px;padding:10px 14px}
+ .cinemaHeroFoot{padding:17px;gap:12px;font-size:9px}
+ .cinemaHeroFoot>span:nth-child(2){display:none}
+ .cinemaStory{padding:68px 0}
+ .cinemaStoryHeading{padding-inline:17px}
+ .cinemaStoryHeading h2{font-size:38px}
+ .cinemaStoryVisual{min-height:0;height:325px}
+ .cinemaSceneTitle{bottom:22px;inset-inline:19px}
+ .cinemaSceneTitle h3{font-size:35px}
+ .cinemaSceneControl{display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory}
+ .cinemaSceneControl button{flex:0 0 62%;min-height:65px;font-size:11px;scroll-snap-align:start;padding:11px 13px}
+ .cinemaFleet{padding:68px 13px}
+ .cinemaFleetHeading{display:block;margin-bottom:25px}
+ .cinemaFleetHeading h2{font-size:39px}
+ .cinemaFleetHeading p{font-size:11px}
+ .cinemaVehicleName{padding:22px}
+ .cinemaVehicleName h3{font-size:32px}
+ .cinemaVehicleName>p{font-size:11px}
+ .cinemaCarPhoto{min-height:315px}
+ .cinemaPicker{display:flex;flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x mandatory}
+ .cinemaPicker button{flex:0 0 68%;min-height:68px;scroll-snap-align:start;padding:10px 13px}
+ .cinemaPicker button strong{font-size:11px}
+ .cinemaBook{display:block;padding:75px 15px}
+ .cinemaBookHeadline h2{font-size:46px}
+ .cinemaBookHeadline p{font-size:11px;max-width:400px}
+ .cinemaControlDesk{margin-top:26px;padding:23px 18px;gap:14px}
+ .cinemaFooter{padding:30px 17px}
+}
+@media(max-width:390px){
+ .desertTop,.royalTop,.cinemaTopBar{gap:4px;padding-inline:7px}
+ .demoBadge{font-size:8px}
+ .designSwitch{gap:3px}
+ .designSwitch>a.switchAll{font-size:8px;padding-inline:6px}
+ .desertHeroCopy h1{font-size:37px}
+ .royalOpeningText h1{font-size:71px}
+ .royalPaperTop{font-size:9px}
+ .cinemaHeroType h1{font-size:49px}
+ .cinemaStoryHeading h2{font-size:34px}
+ .cinemaVehicleName h3{font-size:29px}
+}
+@media(prefers-reduced-motion:reduce){
+ .desert *,.royal *,.cinematic *{scroll-behavior:auto!important}
+ .vehiclePhoto img{transition:none!important}
+ .cinemaVideo{display:none}
+}

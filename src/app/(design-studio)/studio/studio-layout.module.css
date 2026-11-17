@@ -1,0 +1,6 @@
+.studioBody{margin:0!important;padding:0!important;background:#f3eee6;color:#292821;min-height:100vh;font-family:'IBM Plex Sans Arabic','Tajawal',Tahoma,Arial,sans-serif;overflow-x:clip}
+.studioBody *{box-sizing:border-box}
+.studioBody img{max-width:100%}
+.studioBody a{text-decoration:none}
+.studioBody button{touch-action:manipulation}
+.studioBody :is(button,a,input,select):focus-visible{outline:3px solid #bc845b;outline-offset:3px}

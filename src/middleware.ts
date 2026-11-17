@@ -39,6 +39,14 @@ export function getPreferredLocale(request: NextRequest): Locale {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Unpublished concept exploration is intentionally outside localized site routing.
+  // Never redirect it to /ar/studio and never let it appear in search results.
+  if (pathname === '/studio' || pathname.startsWith('/studio/')) {
+    const response = NextResponse.next();
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+    return response;
+  }
+
   // 0. Canonical domain redirect: disabled by default until custom domain DNS is fully activated
   const host = request.headers.get('host') || '';
   if (process.env.ENFORCE_CANONICAL_REDIRECT === 'true' && host.includes('.vercel.app')) {
