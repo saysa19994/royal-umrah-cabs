@@ -17,7 +17,7 @@ Source: owner-supplied fifteen recordings inside \`12.11.2026_03.30.31_REC.zip\`
 | 10 | Image alongside FAQ | /faq & home | Photo-led \`FaqSection\` using existing actual questions/answers; home FAQ photo |
 | 11 | Quote / contact form | /booking, /contact | Real 4-step \`BookingWizard\` and \`BookingEngine\`, compact expandable mobile summary; original contact form |
 | 12 | Editorial magazine | /guides + /blog | Existing asymmetric \`guides-editorial.css\`, genuine guide links, metadata preserved |
-| 13 | Full footer + moving photo filmstrip | Global footer | Real links in four mobile disclosure groups and visible SAR/USD cash policy; redundant moving stock-photo filmstrip excluded |
+| 13 | Full footer + moving photo filmstrip | Global footer | Real links in four mobile disclosure groups, verified SAR/USD cash policy, and four real, clickable journey images in a desktop-only ribbon; uncontrolled stock-photo animation excluded |
 | 14 | Hover and glass/glow CTA | Relevant service/booking actions | \`duyuf-video-micro-motion.css\`: 180/260ms, focus-visible, reduced-motion, no fake heavy glass UI |
 | 15 | Overlapping vehicle photos | /fleet/[slug] | \`VehicleGallery\` next two real photo peeks on desktop, swipeable strip on mobile; no fake vehicle rotation |
 

@@ -2,6 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import './Footer.destination-reel.css';
 import { DuyufSignature } from '@/components/brand/DuyufSignature';
 import { Locale, LOCALES } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
@@ -357,6 +359,25 @@ export function Footer({ locale, dict, settings }: FooterProps) {
       {/* LUXURY AMBIENT BACKGROUND GLOW */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--accent-primary)]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[var(--accent-primary)]/5 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Video 13 adapted: real destinations with actionable route links.
+          No battery-heavy automatic marquee; omit entirely from small screens. */}
+      <nav className="duyuf-footer-destination-reel" aria-label={dict.footer.popularRoutes}>
+        {([
+          {slug:'jeddah-airport-to-makkah',src:'/assets/homepage-v2/route-jeddah-makkah.jpg'},
+          {slug:'makkah-to-madinah',src:'/assets/homepage-v2/route-makkah-madinah.jpg'},
+          {slug:'madinah-airport-to-hotel',src:'/assets/homepage-v2/route-madinah-hotel.jpg'},
+          {slug:'makkah-to-taif',src:'/assets/images/routes/makkah-to-taif.jpg'}
+        ] as const).map((trip,index)=>(
+          <Link className="duyuf-footer-destination" key={trip.slug}
+            href={'/'+locale+'/routes/'+trip.slug}
+            aria-label={LOCALIZED_ROUTE_NAMES[trip.slug]?.[locale]||trip.slug}>
+            <Image src={trip.src} fill alt="" sizes="(min-width: 1024px) 25vw, 1px" loading="lazy"/>
+            <span className="duyuf-footer-destination-number">0{index+1}</span>
+            <span className="duyuf-footer-destination-name">{LOCALIZED_ROUTE_NAMES[trip.slug]?.[locale]||trip.slug}</span>
+          </Link>
+        ))}
+      </nav>
 
       {/* 5-COLUMN MAIN GRID */}
       <div className="container mx-auto px-4 max-w-7xl pt-14 pb-10 md:pt-16 relative z-10">

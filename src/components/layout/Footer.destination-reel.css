@@ -1,0 +1,36 @@
+/* Video 13: the owner's destination photo-marquee idea adapted to a meaningful
+   navigation ribbon: real, linkable journeys. Desktop only; no extra mobile height.
+   Images are lazily loaded. No uncontrolled autoplay or motion saturation. */
+.duyuf-footer-destination-reel{display:none}
+@media(min-width:1024px){
+ .duyuf-footer-destination-reel{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;
+  max-width:1210px;margin:0 auto;padding:37px 17px 0;
+  position:relative;z-index:1
+ }
+ .duyuf-footer-destination{
+  position:relative;min-width:0;height:clamp(125px,13vw,170px);
+  overflow:hidden;display:block;background:#193c42;
+  border:1px solid var(--footer-border,#3b4a4b);
+  outline-offset:4px
+ }
+ .duyuf-footer-destination img{object-fit:cover;filter:saturate(.83);transition:transform .4s cubic-bezier(.2,.7,.2,1),filter .35s}
+ .duyuf-footer-destination::after{
+  content:"";position:absolute;inset:25% 0 0;
+  background:linear-gradient(transparent,rgba(3,17,22,.85));pointer-events:none
+ }
+ .duyuf-footer-destination-number{
+  position:absolute;top:13px;inset-inline-start:15px;z-index:2;
+  color:#f2ddbf;font-size:11px;font-weight:800;letter-spacing:.08em
+ }
+ .duyuf-footer-destination-name{
+  position:absolute;bottom:16px;inset-inline:15px;z-index:2;
+  color:#fff;font-size:clamp(11px,1vw,14px);font-weight:800;
+  text-align:start;line-height:1.6
+ }
+ .duyuf-footer-destination:hover img{transform:scale(1.06);filter:saturate(1)}
+ .duyuf-footer-destination:focus-visible{outline:3px solid #cfaa72}
+}
+@media(prefers-reduced-motion:reduce){
+ .duyuf-footer-destination img{transition:none!important;transform:none!important}
+}
