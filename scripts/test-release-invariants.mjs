@@ -160,7 +160,10 @@ test('Editorial booking styling is responsive and keeps the actual booking engin
   const engine = read('src/components/booking/BookingEngine.tsx');
   assert.match(page, /import '\.\/booking-editorial\.css'/);
   assert.match(page, /<BookingWizard/);
-  assert.match(page, /duyuf-booking-intro/);
+  assert.match(page, /styles\.introMedia/);
+  assert.match(page, /styles\.operationalLine/);
+  assert.match(page, /duyuf-booking-page duyuf-booking-editorial/);
+  assert.match(read('src/app/[locale]/booking/booking-atrium.module.css'), /@media\(max-width:767px\)/);
   assert.match(wizard, /duyuf-booking-stepper/);
   assert.match(engine, /duyuf-booking-summary/);
   assert.match(engine, /data-selected=\{isSelected/);
