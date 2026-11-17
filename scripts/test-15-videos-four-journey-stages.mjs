@@ -13,7 +13,7 @@ test('video 01+05 owner journey story really has four phases with actual destina
  assert.match(home,/ref=\{storyRef\}/);
  assert.match(css,/\.experienceSection\{background:#101827;color:#f5f5ef;min-height:280vh/);
  for(const lang of ['ar','en','ms','id','ur','fr','es','de','tr','hi'])
- assert.ok(copy.includes('  '+lang+': {\\n    destinationTitle:'),lang);
+ assert.ok(copy.includes('  '+lang+': {\n    destinationTitle:'),lang);
 });
 test('video 10 contextual photographic FAQ still shows real localized JSONLD-compatible questions',()=>{
  assert.match(home,/faqEditorialPhoto/);
