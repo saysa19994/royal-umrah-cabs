@@ -83,7 +83,7 @@ test('homepage has precisely one custom final CTA and suppresses the generic pho
   assert.match(component,/className=\{styles\.finalLink\}/);
   assert.match(layout,/<CinematicFooterCta/);
   assert.match(footer,/isSubpage \|\| isHomePage/);
-  assert.match(footer,/stripPhotos\.map/);
+  assert.doesNotMatch(footer,/stripPhotos\.map/);
   assert.doesNotMatch(component,/cinematic-footer-cta-heading|footerStrip/);
 });
 

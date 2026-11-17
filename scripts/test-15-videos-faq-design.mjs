@@ -5,7 +5,7 @@ test('video 10 adds a photographic FAQ beside the existing real accordion',()=>{
  assert.match(faq,/duyuf-faq-editorial-layout/);
  assert.match(faq,/duyuf-faq-editorial-photo/);
  assert.match(faq,/faqItems\.map/);
- assert.match(faq,/\/assets\/homepage-v2\/service-madinah\.jpg/);
+ assert.match(faq,/\/assets\/homepage-v2\/ziyarat-haram\.jpg/);
  assert.match(faq,/aria-expanded=\{isOpen\}/);
  assert.match(css,/@media\(max-width:420px\)/);
  assert.match(css,/prefers-reduced-motion:reduce/);
