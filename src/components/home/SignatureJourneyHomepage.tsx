@@ -50,6 +50,12 @@ const ROUTES = [
   { slug:'madinah-ziyarat', type:'ziyarat' },
 ] as const;
 const FEATURED_ROUTES = ROUTES.slice(0,4);
+const FEATURED_ROUTE_IMAGES:Record<string,string>={
+  'jeddah-airport-to-makkah':'/assets/images/routes/jeddah-airport-to-makkah.jpg',
+  'makkah-to-madinah':'/assets/images/routes/makkah-to-madinah.jpg',
+  'madinah-airport-to-hotel':'/assets/images/routes/madinah-airport.jpg',
+  'makkah-to-taif':'/assets/images/routes/makkah-to-taif.jpg',
+};
 const FARE_KEYS: Record<string, string> = {
   'toyota-camry':'camry',
   'hyundai-staria':'staria',
@@ -69,6 +75,7 @@ export function SignatureJourneyHomepage({ locale, dict }:Props) {
   const arrow = rtl ? <ArrowLeft size={18} aria-hidden="true"/> : <ArrowRight size={18} aria-hidden="true"/>;
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const storyRef = useRef<HTMLElement>(null);
   const [route, setRoute] = useState('');
   const [date, setDate] = useState('');
   const [travelers, setTravelers] = useState('2');
@@ -93,6 +100,39 @@ export function SignatureJourneyHomepage({ locale, dict }:Props) {
     sync(); motion.addEventListener('change',sync);
     return ()=>motion.removeEventListener('change',sync);
   }, []);
+
+  // Scroll-driven storytelling from the owner's Arabic index (3).html reference.
+  // Manual controls remain on mobile and for reduced-motion preferences.
+  useEffect(()=>{
+    const section=storyRef.current;
+    if(!section)return;
+    const desktop=window.matchMedia('(min-width: 981px)');
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+    let frame=0;
+    const update=()=>{
+      frame=0;
+      if(!desktop.matches||reduced.matches)return;
+      const rect=section.getBoundingClientRect();
+      if(rect.bottom<0||rect.top>window.innerHeight)return;
+      const range=Math.max(1,section.offsetHeight-window.innerHeight);
+      const progress=Math.min(.999,Math.max(0,-rect.top/range));
+      const next=Math.min(2,Math.floor(progress*3));
+      setActiveChapterIndex(current=>current===next?current:next);
+    };
+    const schedule=()=>{if(frame===0)frame=window.requestAnimationFrame(update);};
+    window.addEventListener('scroll',schedule,{passive:true});
+    window.addEventListener('resize',schedule);
+    desktop.addEventListener('change',schedule);
+    reduced.addEventListener('change',schedule);
+    schedule();
+    return ()=>{
+      if(frame!==0)window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll',schedule);
+      window.removeEventListener('resize',schedule);
+      desktop.removeEventListener('change',schedule);
+      reduced.removeEventListener('change',schedule);
+    };
+  },[]);
 
   function submitBooking(event:FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -204,6 +244,34 @@ export function SignatureJourneyHomepage({ locale, dict }:Props) {
         </div>
       </section>
 
+      <section className={styles.experienceSection} ref={storyRef} id="experience" aria-labelledby="signature-experience-title">
+        <div className={styles.container}>
+          <div className={styles.sectionIntro}>
+            <div><span className={styles.micro}>05 / THE EXPERIENCE</span><h2 id="signature-experience-title">{T.experience}</h2></div>
+            <p>{T.experienceIntro}</p>
+          </div>
+          <div className={styles.experienceLayout}>
+            <div className={styles.experienceMedia}>
+              <img src={chapters[activeChapterIndex].image} alt={chapters[activeChapterIndex].title} loading="lazy"/>
+              <span>{String(activeChapterIndex+1).padStart(2,'0')} / 03</span>
+            </div>
+            <div className={styles.chapterList} role="group" aria-label={T.experience}>
+               <div className={styles.experienceProgress} aria-hidden="true">{chapters.map((_,i)=><span key={i} className={activeChapterIndex===i?styles.experienceProgressActive:''}/>)}</div>
+              {chapters.map((chapter,index)=>(
+                <button type="button" key={chapter.title} aria-pressed={activeChapterIndex===index}
+                  className={activeChapterIndex===index?styles.chapterActive:''}
+                  onClick={()=>setActiveChapterIndex(index)}>
+                  <span className={styles.chapterNum}>{String(index+1).padStart(2,'0')}</span>
+                  <span className={styles.chapterContent}><strong>{chapter.title}</strong><span>{chapter.desc}</span></span>
+                  <ArrowUpRight size={18} aria-hidden="true"/>
+                </button>
+              ))}
+              <Link href={'/'+locale+'/services'} className={styles.chapterLink}>{dict.nav.services}{arrow}</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.routesSection} id="routes" aria-labelledby="signature-route-title">
         <div className={styles.container}>
           <div className={styles.sectionIntro}>
@@ -225,10 +293,9 @@ export function SignatureJourneyHomepage({ locale, dict }:Props) {
               <Link href={'/'+locale+'/routes'} className={styles.routeAll}>{T.explore}<ArrowUpRight size={17} aria-hidden="true"/></Link>
             </div>
             <div className={styles.routeDisplay} id="signature-route-panel" role="tabpanel" aria-labelledby={'route-tab-'+activeRouteIndex} tabIndex={0}>
-              <div className={styles.routeDrawing} aria-hidden="true">
-                <div className={styles.routeOrb}><Plane size={18}/></div>
-                <span className={styles.routeLine}/>
-                <div className={styles.routeOrb}><MapPin size={18}/></div>
+              <div className={styles.routePhoto}>
+                <img key={activeRoute.slug} src={FEATURED_ROUTE_IMAGES[activeRoute.slug]} alt={activeRouteLabel} loading="lazy"/>
+                <div className={styles.routePhotoOverlay}><span>0{activeRouteIndex+1} / 04</span><strong>{activeRouteLabel}</strong></div>
               </div>
               <span className={styles.routeDisplayLabel}>{T.fareEyebrow}</span>
               <h3>{activeRouteLabel}</h3>
@@ -295,33 +362,6 @@ export function SignatureJourneyHomepage({ locale, dict }:Props) {
                 <ChevronDown size={15} aria-hidden="true"/>
               </button>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.experienceSection} id="experience" aria-labelledby="signature-experience-title">
-        <div className={styles.container}>
-          <div className={styles.sectionIntro}>
-            <div><span className={styles.micro}>05 / THE EXPERIENCE</span><h2 id="signature-experience-title">{T.experience}</h2></div>
-            <p>{T.experienceIntro}</p>
-          </div>
-          <div className={styles.experienceLayout}>
-            <div className={styles.experienceMedia}>
-              <img src={chapters[activeChapterIndex].image} alt={chapters[activeChapterIndex].title} loading="lazy"/>
-              <span>{String(activeChapterIndex+1).padStart(2,'0')} / 03</span>
-            </div>
-            <div className={styles.chapterList} role="group" aria-label={T.experience}>
-              {chapters.map((chapter,index)=>(
-                <button type="button" key={chapter.title} aria-pressed={activeChapterIndex===index}
-                  className={activeChapterIndex===index?styles.chapterActive:''}
-                  onClick={()=>setActiveChapterIndex(index)}>
-                  <span className={styles.chapterNum}>{String(index+1).padStart(2,'0')}</span>
-                  <span className={styles.chapterContent}><strong>{chapter.title}</strong><span>{chapter.desc}</span></span>
-                  <ArrowUpRight size={18} aria-hidden="true"/>
-                </button>
-              ))}
-              <Link href={'/'+locale+'/services'} className={styles.chapterLink}>{dict.nav.services}{arrow}</Link>
-            </div>
           </div>
         </div>
       </section>
