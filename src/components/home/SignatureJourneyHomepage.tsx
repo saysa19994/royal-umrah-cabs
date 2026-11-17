@@ -116,7 +116,7 @@ export function SignatureJourneyHomepage({ locale, dict }:Props) {
       if(rect.bottom<0||rect.top>window.innerHeight)return;
       const range=Math.max(1,section.offsetHeight-window.innerHeight);
       const progress=Math.min(.999,Math.max(0,-rect.top/range));
-      const next=Math.min(2,Math.floor(progress*3));
+      const next=Math.min(3,Math.floor(progress*4));
       setActiveChapterIndex(current=>current===next?current:next);
     };
     const schedule=()=>{if(frame===0)frame=window.requestAnimationFrame(update);};
@@ -146,6 +146,7 @@ export function SignatureJourneyHomepage({ locale, dict }:Props) {
     {title:E.arrivalTitle,desc:E.arrivalDesc,image:'/assets/homepage-v2/route-jeddah-makkah.jpg'},
     {title:E.familyTitle,desc:E.familyDesc,image:'/assets/homepage-v2/service-group-interior.jpg'},
     {title:E.miqatTitle,desc:E.miqatDesc,image:'/assets/homepage-v2/fleet-private.jpg'},
+    {title:E.destinationTitle,desc:E.destinationDesc,image:'/assets/homepage-v2/route-madinah-hotel.jpg'},
   ];
   const faqItems=[
     {question:dict.faq.q2,answer:dict.faq.a2},
@@ -266,6 +267,7 @@ export function SignatureJourneyHomepage({ locale, dict }:Props) {
                   <ArrowUpRight size={18} aria-hidden="true"/>
                 </button>
               ))}
+              <p className={styles.chapterFollowup}>{T.payment}</p>
               <Link href={'/'+locale+'/services'} className={styles.chapterLink}>{dict.nav.services}{arrow}</Link>
             </div>
           </div>
@@ -389,7 +391,7 @@ export function SignatureJourneyHomepage({ locale, dict }:Props) {
       <section className={styles.faqSection} id="faq" aria-labelledby="signature-faq-title">
         <div className={styles.container}>
           <div className={styles.faqLayout}>
-            <div className={styles.faqTitle}><span className={styles.micro}>BEFORE YOU TRAVEL</span><h2 id="signature-faq-title">{dict.faq.heading}</h2><p>{T.faqIntro}</p><Link href={'/'+locale+'/faq'}>{dict.faq.heading}{arrow}</Link></div>
+            <div className={styles.faqTitle}><span className={styles.micro}>BEFORE YOU TRAVEL</span><h2 id="signature-faq-title">{dict.faq.heading}</h2><p>{T.faqIntro}</p><Link href={'/'+locale+'/faq'}>{dict.faq.heading}{arrow}</Link><div className={styles.faqEditorialPhoto}><img src="/assets/homepage-v2/vehicle-interior-cta.jpg" alt="" loading="lazy"/><span>DUYUF AL RAHMAN / CARE</span></div></div>
             <div className={styles.faqList}>
               {faqItems.map((item,i)=>(
                 <div key={item.question} className={styles.faqItem}>
