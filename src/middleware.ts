@@ -46,6 +46,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(canonicalUrl, { status: 301 });
   }
 
+  // Phase-one signature previews, strictly nonindex and outside the public locale resolver.
+  if (pathname.startsWith('/signature-lab/')) {
+    const response = NextResponse.next();
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+    return response;
+  }
+
   // 1. Explicit legacy redirects to eliminate old cached HTML files
   if (pathname === '/admin.html') {
     const url = request.nextUrl.clone();
