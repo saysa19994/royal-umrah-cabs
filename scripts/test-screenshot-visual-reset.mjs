@@ -51,8 +51,8 @@ test('ziyarat header now includes a real photo-led composition and non-card fiel
  assert.match(ziyarat,/duyuf-ziyarat-hero-grid/);
  assert.match(ziyarat,/duyuf-ziyarat-hero-copy/);
  assert.match(ziyarat,/duyuf-ziyarat-hero-image/);
- assert.match(ziyarat,/duyuf-ziyarat-guides-grid/);
- assert.match(ziyarat,/duyuf-ziyarat-steps/);
+ assert.match(ziyarat,/<ZiyaratPilgrimJournal locale=\{locale\}/);
+ assert.doesNotMatch(ziyarat,/duyuf-ziyarat-steps grid/);
  assert.match(ziyarat,/<SacredZiyaratExperience locale=\{locale\}/);
  assert.match(ziyarat,/getLocalizedAlternates\(locale, '\/ziyarat'\)/);
  assert.match(read('src/app/[locale]/ziyarat/ziyarat-narrative.css'),/@media\(max-width:767px\)/);
