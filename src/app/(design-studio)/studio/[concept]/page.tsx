@@ -1,6 +1,7 @@
 import {notFound} from 'next/navigation';
 import type {Metadata} from 'next';
-import {CONCEPTS,SignatureStudioConcept,type ConceptKey} from '@/components/design-studio/SignatureStudioConcepts';
+import {SignatureStudioConcept} from '@/components/design-studio/SignatureStudioConcepts';
+import {CONCEPTS,type ConceptKey} from '@/data/design-studio-concepts';
 
 type Props={params:Promise<{concept:string}>};
 export const dynamicParams=false;

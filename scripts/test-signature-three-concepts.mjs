@@ -7,6 +7,7 @@ const css=read('src/components/design-studio/SignatureStudio.module.css');
 const index=read('src/components/design-studio/StudioIndex.tsx');
 const routes=read('src/app/(design-studio)/studio/[concept]/page.tsx');
 const layout=read('src/app/(design-studio)/studio/layout.tsx');
+const options=read('src/data/design-studio-concepts.ts');
 const middleware=read('src/middleware.ts');
 test('three genuinely distinct and public-preview-only site compositions',()=>{
  for(const variant of ['DesertModernism','RoyalEditorial','CinematicSandstone'])
@@ -15,7 +16,9 @@ test('three genuinely distinct and public-preview-only site compositions',()=>{
   assert.ok(concepts.includes('styles.'+section),'missing independently composed section '+section);
  for(const key of ['desert-modernism','royal-editorial','cinematic-sandstone'])
   assert.ok(index.includes(key),'missing selection '+key);
+ assert.ok(options.includes(key),'missing static server-safe concept '+key);
  assert.match(routes,/generateStaticParams/);
+ assert.match(routes,/from '@\/data\/design-studio-concepts'/);
  assert.match(layout,/robots:\{index:false,follow:false/);
  assert.match(middleware,/pathname === '\/studio' \|\| pathname\.startsWith\('\/studio\/'\)/);
  assert.match(middleware,/noindex, nofollow, noarchive/);

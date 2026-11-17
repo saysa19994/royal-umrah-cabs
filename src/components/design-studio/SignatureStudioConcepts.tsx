@@ -8,12 +8,7 @@ import {APPROVED_5_FLEET} from '@/data/approved-fleet-homepage';
 import {AUTHORITATIVE_TRANSFER_RATES} from '@/lib/pricing-constants';
 import styles from './SignatureStudio.module.css';
 
-export type ConceptKey='desert-modernism'|'royal-editorial'|'cinematic-sandstone';
-export const CONCEPTS=[
- {slug:'desert-modernism',short:'A',title:'Desert Modernism',arabic:'حداثة الصحراء',description:'هوية سعودية معمارية هادئة، بلون الحجر والزيتون والنحاس.',hex:'#34483B'},
- {slug:'royal-editorial',short:'B',title:'Royal Editorial',arabic:'التحرير الملكي',description:'تكوينات مجلة ضيافة رفيعة؛ العناوين والصور تتبادل بطولة المشهد.',hex:'#542E32'},
- {slug:'cinematic-sandstone',short:'C',title:'Cinematic Sandstone',arabic:'الحجر الرملي السينمائي',description:'مشاهد طريق ووصول غنية بالضوء، وتجربة عرض سيارات كاملة.',hex:'#B96746'},
-] as const;
+import {CONCEPTS,type ConceptKey} from '@/data/design-studio-concepts';
 const JOURNEYS=[
  {slug:'jeddah-airport-to-makkah',label:'مطار جدة — فنادق مكة',from:'مطار الملك عبدالعزيز',to:'مكة المكرمة',abbr:'JED  /  MKK'},
  {slug:'madinah-airport-to-hotel',label:'مطار المدينة — الفندق',from:'مطار الأمير محمد بن عبدالعزيز',to:'المدينة المنورة',abbr:'MED  /  HOTEL'},
