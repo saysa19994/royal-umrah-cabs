@@ -184,7 +184,7 @@ export default async function RoutesPage(props: RoutesPageProps) {
           </div>
         </div>
       </section>
-      <div id="journey-explorer" className={styles.explorer}><RouteSpotlightExplorer locale={locale}/></div>
+      <div id="journey-explorer" className={styles.explorer}><RouteSpotlightExplorer locale={locale} /></div>
       <section className={styles.directory} aria-labelledby="routes-all-heading">
         <div className={styles.container}>
           <div className={styles.directoryHeader}>
