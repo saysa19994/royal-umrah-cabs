@@ -37,6 +37,19 @@ export default async function AboutPage({params}:AboutPageProps){
   hi:{story:'हमारी कहानी',what:'हर यात्रा के हमारे मूल्य',promise:'हर विवरण का ध्यान',direction:'आगमन से गंतव्य तक',route:'पवित्र शहरों और सऊदी अरब में',journey:'एक खास निजी यात्रा',book:'निजी यात्रा अनुरोध करें'},
  };
  const t=labels[locale];
+ const metrics:Record<Locale,{wait:string;every:string;stop:string}>={
+  ar:{wait:'دقيقة انتظار بالمطار',every:'خدمة ومتابعة',stop:'دقيقة توقف ميقات مؤهل'},
+  en:{wait:'airport waiting minutes',every:'service & assistance',stop:'eligible Miqat stop, minutes'},
+  ms:{wait:'minit menunggu di lapangan terbang',every:'khidmat & bantuan',stop:'minit di Miqat yang layak'},
+  id:{wait:'menit menunggu di bandara',every:'layanan & bantuan',stop:'menit di Miqat yang memenuhi syarat'},
+  ur:{wait:'ایئرپورٹ پر انتظار کے منٹ',every:'سروس اور مدد',stop:'اہل میقات قیام کے منٹ'},
+  fr:{wait:'minutes d’attente à l’aéroport',every:'service et assistance',stop:'minutes au Miqat éligible'},
+  es:{wait:'minutos de espera en aeropuerto',every:'servicio y asistencia',stop:'minutos en Miqat elegible'},
+  de:{wait:'Minuten Wartezeit am Flughafen',every:'Service und Betreuung',stop:'Minuten Miqat-Halt (falls zutreffend)'},
+  tr:{wait:'dakika havalimanı bekleme',every:'hizmet ve destek',stop:'dakika uygun Miqat molası'},
+  hi:{wait:'मिनट एयरपोर्ट प्रतीक्षा',every:'सेवा और सहायता',stop:'मिनट योग्य मीक़ात ठहराव'},
+ }[locale];
+
  return (
  <main className={styles.page} dir={rtl?'rtl':'ltr'}>
    <section className={styles.hero}>
@@ -60,6 +73,13 @@ export default async function AboutPage({params}:AboutPageProps){
          <div className={styles.storyAside}>
            <span className={styles.micro}>02 / {t.story}</span>
            <span className={styles.storyRule} aria-hidden="true"/>
+           {/* Video 07's restrained service orbit + Video 08's VERIFIED facts;
+               do not replace with fake satisfaction/customer numbers. */}
+           <dl className={styles.serviceOrbit} aria-label={t.promise}>
+             <div className={styles.orbitWait}><dt>60</dt><dd>{metrics.wait}</dd></div>
+             <div className={styles.orbitSupport}><dt>24/7</dt><dd>{metrics.every}</dd></div>
+             <div className={styles.orbitMiqat}><dt>30–45</dt><dd>{metrics.stop}</dd></div>
+           </dl>
          </div>
          <div className={styles.storyContent}>
            <h2 id="about-story-title">{dict.page_about.storyTitle}</h2>

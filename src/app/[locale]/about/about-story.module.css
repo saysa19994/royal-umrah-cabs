@@ -53,3 +53,32 @@
 @media(max-width:880px){.hero{min-height:0}.heroImage{min-height:500px}.heroCopy{padding:110px 30px 50px}.heroCopy h1{font-size:48px}.container{width:calc(100% - 42px)}.story{padding:73px 0}.storyGrid{grid-template-columns:1fr;gap:30px}.storyRule{width:75px;height:1px}.valueLayout{gap:25px}.valueImage{min-height:440px}}
 @media(max-width:680px){.hero{display:flex;flex-direction:column-reverse}.heroImage{min-height:290px;height:290px}.heroCopy{padding:90px 20px 48px}.crumb{margin-bottom:27px}.heroCopy h1{font-size:clamp(37px,10vw,50px);margin:13px 0 16px!important}.heroCopy>p{font-size:12px}.heroImageCaption{inset-inline-start:17px;bottom:18px}.cornerMark{bottom:19px;inset-inline-end:20px}.story{padding:55px 0}.storyContent h2{font-size:33px}.storyContent p{font-size:13px}.storyContent p.lead{font-size:18px}.values{padding:55px 0}.valuesHeader{display:block}.valuesHeader h2{font-size:33px;margin-top:12px!important}.valueLayout{display:block}.valueImage{min-height:260px;height:290px;margin-bottom:23px}.valueRow{padding:24px 0;grid-template-columns:25px 1fr 22px;gap:10px}.valueRow h3{font-size:21px}.valueRow p{font-size:12px}.final{padding:53px 0}.finalRule{font-size:10px}.finalGrid{display:block}.finalGrid h2{font-size:34px}.finalActions{margin-top:28px}}
 @media(prefers-reduced-motion:reduce){.page *{scroll-behavior:auto!important}}
+
+
+/* Video 07 + 08 adapted to real operator facts, not fake social proof.
+   Desktop: concentric editorial orbital labels. Mobile: flat concise facts. */
+.serviceOrbit{position:relative;width:min(100%,265px);height:285px;margin:14px 0 0;display:block;color:#2b5053}
+.serviceOrbit:before,.serviceOrbit:after{content:"";position:absolute;pointer-events:none;border:1px solid #e0ded1;border-radius:50%;inset:28px 17px 28px 17px}
+.serviceOrbit:after{inset:62px 47px 62px 47px;border-color:#c5c7ba;border-style:dashed}
+.serviceOrbit>div{position:absolute;z-index:1;display:flex;align-items:center;flex-direction:column;text-align:center;justify-content:center;padding:8px 5px;background:#fffefa;border:1px solid #deddd3;border-radius:50%;box-shadow:0 6px 22px rgba(23,54,55,.045)}
+.serviceOrbit dt{font-family:Georgia,serif;color:#25494b;font-size:26px;line-height:1;font-weight:800}
+.serviceOrbit dd{font-size:9px;line-height:1.45;color:#60736d;max-width:108px;margin-top:6px}
+.orbitWait{inset-inline-start:0;top:20px;width:116px;height:116px}
+.orbitSupport{inset-inline-end:6px;top:89px;width:126px;height:126px}
+.orbitMiqat{inset-inline-start:14px;bottom:10px;width:110px;height:110px}
+.serviceOrbit .orbitSupport dt{font-size:25px}
+.serviceOrbit .orbitMiqat dt{font-size:19px}
+@media(max-width:880px){
+ .serviceOrbit{width:100%;height:auto;max-width:100%;margin:5px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ .serviceOrbit:before,.serviceOrbit:after{display:none}
+ .serviceOrbit>div{position:static;min-width:0;width:auto;height:auto;min-height:115px;border-radius:4px;padding:15px 7px}
+ .serviceOrbit dd{font-size:9px;margin-top:5px}
+ .serviceOrbit dt{font-size:23px}
+}
+@media(max-width:430px){
+ .serviceOrbit{gap:6px}
+ .serviceOrbit>div{min-height:112px;padding:13px 5px}
+ .serviceOrbit dt,.serviceOrbit .orbitSupport dt{font-size:19px}
+ .serviceOrbit .orbitMiqat dt{font-size:17px}
+ .serviceOrbit dd{font-size:8px;line-height:1.45}
+}
