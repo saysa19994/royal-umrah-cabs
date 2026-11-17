@@ -934,6 +934,19 @@ const LOCALIZED_UI: Record<Locale, BookingEngineTranslations> = {
   },
 };
 
+const SUMMARY_EXPAND_LABELS: Record<Locale,{more:string;less:string}>={
+  ar:{more:'عرض تفاصيل الرحلة كاملة',less:'إخفاء التفاصيل الإضافية'},
+  en:{more:'Show full journey details',less:'Hide extra details'},
+  ms:{more:'Lihat butiran penuh perjalanan',less:'Sembunyikan butiran tambahan'},
+  id:{more:'Lihat rincian perjalanan lengkap',less:'Sembunyikan rincian tambahan'},
+  ur:{more:'سفر کی مکمل تفصیلات دیکھیں',less:'اضافی تفصیلات چھپائیں'},
+  fr:{more:'Voir tous les détails du trajet',less:'Masquer les détails supplémentaires'},
+  es:{more:'Ver todos los detalles del viaje',less:'Ocultar detalles adicionales'},
+  de:{more:'Alle Reisedetails anzeigen',less:'Weitere Details ausblenden'},
+  tr:{more:'Tüm yolculuk ayrıntılarını göster',less:'Ek ayrıntıları gizle'},
+  hi:{more:'यात्रा की पूरी जानकारी देखें',less:'अतिरिक्त विवरण छिपाएँ'},
+};
+
 export function BookingEngine({
   locale,
   dict,
@@ -952,6 +965,7 @@ export function BookingEngine({
   hideInternalStepper = false, onStepChange, stepOverride }: BookingEngineProps) {
   const { currency, formatPrice } = useCurrency();
   const t = LOCALIZED_UI[locale] || LOCALIZED_UI.en;
+  const [summaryExpanded,setSummaryExpanded]=useState(false);
 
   // 4-Step Booking Wizard: 1 = Route, 2 = Vehicle, 3 = Trip Details, 4 = Passenger & Confirmation
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(() => {
@@ -2382,7 +2396,7 @@ export function BookingEngine({
 {/* RIGHT COLUMN: STICKY BOOKING SUMMARY CARD (lg:col-span-4)       */}
       {/* ============================================================== */}
       <div className="duyuf-booking-aside lg:col-span-4 lg:sticky lg:top-24 space-y-4">
-        <div className="duyuf-booking-summary bg-surface rounded-2xl border border-border p-5 sm:p-6 shadow-sm text-start space-y-4 relative overflow-hidden">
+        <div data-summary-expanded={summaryExpanded} className="duyuf-booking-summary bg-surface rounded-2xl border border-border p-5 sm:p-6 shadow-sm text-start space-y-4 relative overflow-hidden">
           <div className="duyuf-booking-summary-visual" aria-hidden="true">
             <Image src="/assets/homepage-v2/vehicle-interior-cta.jpg" alt="" fill sizes="(max-width: 1023px) 100vw, 35vw" className="object-cover" />
             <span className="duyuf-booking-summary-visual-caption">DUYUF ALRAHMAN VIP</span>
@@ -2398,6 +2412,11 @@ export function BookingEngine({
             </div>
             <ShieldCheck className="w-6 h-6 text-gold-dark" />
           </div>
+          <button type="button" className="duyuf-booking-summary-toggle md:hidden"
+            aria-expanded={summaryExpanded} onClick={()=>setSummaryExpanded(open=>!open)}>
+            <span>{summaryExpanded?SUMMARY_EXPAND_LABELS[locale].less:SUMMARY_EXPAND_LABELS[locale].more}</span>
+            <ChevronRight size={16} aria-hidden="true" className={summaryExpanded?'rotate-90':''}/>
+          </button>
 
           {/* ITINERARY */}
           <div className="space-y-1 text-xs">
@@ -2411,7 +2430,7 @@ export function BookingEngine({
           </div>
 
           {/* SCHEDULE */}
-          <div className="space-y-1 text-xs">
+          <div className="duyuf-booking-summary-extra space-y-1 text-xs">
             <span className="text-[10px] font-bold text-ink-muted uppercase block">
               {t.summarySchedule}
             </span>
@@ -2422,7 +2441,7 @@ export function BookingEngine({
           </div>
 
           {/* SELECTED VEHICLE */}
-          <div className="space-y-2 text-xs pt-1 border-t border-border/60">
+          <div className="duyuf-booking-summary-extra space-y-2 text-xs pt-1 border-t border-border/60">
             <span className="text-[10px] font-bold text-ink-muted uppercase block">
               {t.summaryVehicle}
             </span>
@@ -2466,7 +2485,7 @@ export function BookingEngine({
           </div>
 
           {/* PARTY SIZE */}
-          <div className="flex items-center justify-between text-xs text-ink-muted pt-1">
+          <div className="duyuf-booking-summary-extra duyuf-booking-party flex items-center justify-between text-xs text-ink-muted pt-1">
             <span className="flex items-center gap-1.5">
               <Users className="w-3.5 h-3.5 text-gold-dark" />
               <span>{passengers} {t.passengersLabel}</span>
@@ -2523,7 +2542,7 @@ export function BookingEngine({
           </div>
 
           {/* TRUST BADGES LIST */}
-          <div className="pt-3 border-t border-border/70 space-y-2 text-[11px] text-ink-muted">
+          <div className="duyuf-booking-summary-extra pt-3 border-t border-border/70 space-y-2 text-[11px] text-ink-muted">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
               <span>{t.summaryTrust1}</span>

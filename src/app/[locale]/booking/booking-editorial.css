@@ -432,3 +432,56 @@ html[dir=rtl] .duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-book
 @media(prefers-reduced-motion:reduce){
  .duyuf-booking-editorial .duyuf-prototype-booking-desk .duyuf-booking-step{transition:none!important}
 }
+
+
+/* Video 11 — mobile-first genuine booking desk. Summary is concise by default
+   but expands on request; fare, itinerary and cash-payment policy always visible. */
+.duyuf-booking-editorial .duyuf-booking-summary-toggle{display:none}
+@media(max-width:767px){
+ .duyuf-booking-editorial{padding:17px 0 42px}
+ .duyuf-booking-editorial .duyuf-booking-intro{
+  margin-bottom:16px;padding:17px 0 19px;gap:13px
+ }
+ .duyuf-booking-editorial .duyuf-booking-heading,
+ html[dir=rtl] .duyuf-booking-editorial .duyuf-booking-heading{
+  font-size:clamp(30px,8vw,39px);line-height:1.32;letter-spacing:0
+ }
+ .duyuf-booking-editorial .duyuf-booking-eyebrow{font-size:10px;margin-bottom:8px}
+ .duyuf-booking-editorial .duyuf-booking-subtitle{font-size:11px;line-height:1.75;margin-top:8px}
+ .duyuf-booking-editorial .duyuf-booking-promise{
+  border-radius:5px;padding:12px 14px;box-shadow:none
+ }
+ .duyuf-booking-editorial .duyuf-booking-promise-items{gap:6px}
+ .duyuf-booking-editorial .duyuf-booking-promise-items p{font-size:10px;line-height:1.65}
+ .duyuf-booking-editorial .duyuf-booking-progress-mobile .duyuf-booking-mobile-rail{border-radius:5px}
+ .duyuf-booking-editorial .duyuf-booking-service-tabs{
+  display:flex!important;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-inline:contain;
+  scroll-snap-type:x mandatory;padding:5px;gap:5px
+ }
+ .duyuf-booking-editorial .duyuf-booking-service-tabs>button{
+  flex:0 0 min(41%,185px);min-height:49px;scroll-snap-align:start;white-space:normal
+ }
+ .duyuf-booking-editorial .duyuf-booking-main> :not(.duyuf-booking-service-tabs){
+  padding:16px 13px;border-radius:7px;min-width:0
+ }
+ .duyuf-booking-editorial .duyuf-booking-summary{
+  border-top-width:2px;border-radius:7px;padding:16px!important;box-shadow:none;gap:10px
+ }
+ .duyuf-booking-editorial .duyuf-booking-summary-visual{display:none}
+ .duyuf-booking-editorial .duyuf-booking-summary :is(h2,h3),
+ html[dir=rtl] .duyuf-booking-editorial .duyuf-booking-summary :is(h2,h3){font-size:21px}
+ .duyuf-booking-editorial .duyuf-booking-summary-toggle{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  color:var(--booking-ink);width:100%;min-height:46px;
+  border-bottom:1px solid var(--booking-line);font-size:11px;font-weight:750;
+  padding:9px 2px;margin:0;background:transparent;text-align:start
+ }
+ .duyuf-booking-editorial .duyuf-booking-summary-extra{display:none!important}
+ .duyuf-booking-editorial .duyuf-booking-summary[data-summary-expanded=true] .duyuf-booking-summary-extra{display:block!important}
+ .duyuf-booking-editorial .duyuf-booking-summary[data-summary-expanded=true] .duyuf-booking-party{display:flex!important}
+ .duyuf-booking-editorial .duyuf-booking-vehicle-card{border-radius:7px}
+}
+@media(max-width:390px){
+ .duyuf-booking-editorial .duyuf-booking-service-tabs>button{flex-basis:49%;min-width:0}
+ .duyuf-booking-editorial .duyuf-booking-main> :not(.duyuf-booking-service-tabs){padding:14px 10px}
+}
