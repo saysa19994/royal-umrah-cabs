@@ -14,9 +14,10 @@ test('three genuinely distinct and public-preview-only site compositions',()=>{
   assert.match(concepts,new RegExp('function '+variant+'\\('));
  for(const section of ['desertHero','desertBooking','desertFleet','desertJourney','royalOpening','royalMagazine','royalBookingPaper','royalPriceRows','cinemaHero','cinemaStory','cinemaVehicleTheater','cinemaControlDesk'])
   assert.ok(concepts.includes('styles.'+section),'missing independently composed section '+section);
- for(const key of ['desert-modernism','royal-editorial','cinematic-sandstone'])
+ for(const key of ['desert-modernism','royal-editorial','cinematic-sandstone']) {
   assert.ok(index.includes(key),'missing selection '+key);
- assert.ok(options.includes(key),'missing static server-safe concept '+key);
+  assert.ok(options.includes(key),'missing static server-safe concept '+key);
+ }
  assert.match(routes,/generateStaticParams/);
  assert.match(routes,/from '@\/data\/design-studio-concepts'/);
  assert.match(layout,/robots:\{index:false,follow:false/);
