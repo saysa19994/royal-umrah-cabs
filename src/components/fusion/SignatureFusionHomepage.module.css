@@ -512,3 +512,158 @@
 @media (prefers-reduced-motion: reduce) {
   .storyRail button,.routeList button,.carRail button { transition: none; }
 }
+
+
+/* ==========================================================================
+   VISUAL QA CORRECTION — screenshot audit 19 Nov 2026
+   Regular mode: balanced Kiswah-like content rhythm, NEVER a copied layout.
+   Dark mode: fully legible semantic ink/paper surfaces rather than light-only.
+   ========================================================================== */
+.page {
+  --headline: clamp(2.1rem, 3.15vw, 3.55rem);
+  --chapter-space: clamp(54px, 5.3vw, 84px);
+  --muted: #485463;
+  --bronze-text: #795722;
+  --line: #dedbd4;
+}
+.page h2 { font-size: var(--headline); line-height: 1.19; letter-spacing: -.022em; }
+.page:lang(ar) h2,.page:lang(ur) h2 { line-height: 1.45; }
+.hero { min-height: clamp(540px, 69svh, 710px); }
+.heroCopy,.page[dir=rtl] .heroCopy {
+  width: min(57%, 760px);
+  padding-block: clamp(112px, 12vh, 152px) clamp(83px, 10vh, 125px);
+}
+.heroCopy h1 { font-size: clamp(3rem, 5.15vw, 5.5rem); line-height: 1.045; }
+.page[dir=rtl] .heroCopy h1 { font-size: clamp(2.6rem, 4.25vw, 4.55rem); line-height: 1.32; }
+.heroCopy>p { font-size: clamp(.98rem, 1.1vw, 1.1rem); line-height: 1.75; }
+.bookingArea { margin-top:-35px; padding:clamp(20px,2.4vw,32px); }
+.bookingHead { margin-bottom:17px; }
+.bookingHead h2 { font-size:clamp(1.7rem,2.45vw,2.7rem); }
+.bookingDesk label { padding:11px 13px; }
+.bookingDesk :is(input,select) { min-height:46px; }
+.trustLine li { min-height:68px; }
+.story { gap:20px clamp(24px,3.7vw,55px); padding-block:clamp(59px,5.4vw,87px); }
+.storyIntro { padding-bottom:3px; }
+.storyImage { aspect-ratio: 16/10; min-height:0; box-shadow:12px 12px 0 #f2f0ea; }
+.page[dir=rtl] .storyImage { box-shadow:-12px 12px 0 #f2f0ea; }
+.storyRail button { padding:17px 13px; }
+.storyRail button[aria-pressed=true] { padding-inline:17px; }
+.storyRail button strong { font-size:clamp(1rem,1.3vw,1.18rem); }
+.storyRail .sceneDetail { font-size:.87rem; line-height:1.65; }
+.showroom { padding-block:clamp(62px,5.7vw,91px); }
+.showroomHeading { margin-bottom:20px; }
+.showroomLayout { grid-template-columns:minmax(0,1.63fr) minmax(295px,1fr); }
+.carRail button { min-height:93px; padding:7px; }
+.fleetThumb { height:43px; }
+.fleetThumb img { height:100%; object-fit:contain; }
+.carPhoto { min-height:0; aspect-ratio: 16/9.8; }
+.carDetail { padding:clamp(21px,2.6vw,36px); gap:11px; }
+.carDetail h3 { font-size:clamp(1.7rem,2.4vw,2.65rem); line-height:1.18; }
+.carDetail>p { font-size:.86rem; }
+.routeAtlas { padding-block:clamp(61px,5.5vw,86px); }
+.routesDisplay { grid-template-columns:minmax(0,1.12fr) minmax(0,1fr); }
+.routePhoto { min-height:0; height: min(38vw,430px); }
+.routePanel { padding:clamp(20px,2.4vw,34px); }
+.routeList button { min-height:52px; padding:10px 13px; }
+.routeList button[aria-pressed=true] { padding-block:14px; }
+.promises { padding-block:clamp(55px,5.6vw,84px); }
+.promiseList li { min-height:52px; font-size:.93rem; }
+.finish { min-height:0; }
+.finishImage { min-height:0; height:min(35vw,420px); }
+.finishCopy { padding:clamp(26px,4vw,56px); gap:17px; }
+.finishCopy h2 { font-size:clamp(2.2rem,3.45vw,3.7rem); }
+.filmstrip { display:none; } /* repeated thumbnails read as unrelated small pictures */
+
+/* Day/night design tokens for the real homepage, including image companions. */
+:global(html[data-theme="dark"]) .page {
+  --ink:#edf1f5;
+  --ivory:#0e1825;
+  --white:#152130;
+  --bronze:#e1be85;
+  --bronze-text:#e6c28b;
+  --muted:#bdc8d4;
+  --line:#354455;
+  --editorial-ink:#f0f4f6;
+  --editorial-paper:#101b29;
+  --editorial-stroke:#354455;
+  background:#0e1825;
+  color:#edf1f5;
+  color-scheme:dark;
+}
+:global(html[data-theme="dark"]) .page :is(h1,h2,h3) { color:#f1f3f6; }
+:global(html[data-theme="dark"]) .page :is(p,small) { color:#cad2dc; }
+:global(html[data-theme="dark"]) .hero { background:#0b1522; }
+:global(html[data-theme="dark"]) .heroCopy :is(h1,p),:global(html[data-theme="dark"]) .heroTag { color:#fff; }
+:global(html[data-theme="dark"]) .primary { color:#101827; background:#f4f0e8; }
+:global(html[data-theme="dark"]) .underLink { color:#fff; }
+:global(html[data-theme="dark"]) .bookingArea { background:#152130; border-color:#344255; box-shadow:0 18px 52px #03091255; }
+:global(html[data-theme="dark"]) .bookingDesk { background:#1b2a3b; border-color:#405065; }
+:global(html[data-theme="dark"]) .bookingDesk label { border-color:#405065; }
+:global(html[data-theme="dark"]) .bookingDesk :is(input,select) { color:#f5f7f9; color-scheme:dark; }
+:global(html[data-theme="dark"]) .bookingDesk label>span { color:#c6d0dc; }
+:global(html[data-theme="dark"]) .bookingHead>p,:global(html[data-theme="dark"]) .bookFine { color:#c6cfdb; }
+:global(html[data-theme="dark"]) .bookCarList button,
+:global(html[data-theme="dark"]) .photoToggle button { background:#1d2d40; color:#f3f5f7; border-color:#4b5a6d; }
+:global(html[data-theme="dark"]) .bookCarList button[aria-pressed=true],
+:global(html[data-theme="dark"]) .photoToggle button[aria-pressed=true] { background:#dfc28f; color:#132033; border-color:#dfc28f; }
+:global(html[data-theme="dark"]) .bookingTotal button,
+:global(html[data-theme="dark"]) .routeAction,
+:global(html[data-theme="dark"]) .carChoose { background:#e5c893; color:#101827; }
+:global(html[data-theme="dark"]) .trustLine { background:#131f2f; border-color:#354455; }
+:global(html[data-theme="dark"]) .trustLine li { color:#e7ecf2; border-color:#354455; }
+:global(html[data-theme="dark"]) .story { background:#0e1825; }
+:global(html[data-theme="dark"]) .storyImage { box-shadow:12px 12px 0 #1d2a39; }
+:global(html[data-theme="dark"]) .page[dir=rtl] .storyImage { box-shadow:-12px 12px 0 #1d2a39; }
+:global(html[data-theme="dark"]) .storyRail button { color:#ecf0f4; border-color:#344456; }
+:global(html[data-theme="dark"]) .storyRail button:hover { background:#19283a; }
+:global(html[data-theme="dark"]) .storyRail button[aria-pressed=true] { background:#243348; }
+:global(html[data-theme="dark"]) .showroom { background:#101b28; }
+:global(html[data-theme="dark"]) .showroomLayout { background:#172333; border-color:#334356; }
+:global(html[data-theme="dark"]) .carRail { background:#39475b; }
+:global(html[data-theme="dark"]) .carRail button { background:#202f41; color:#e7edf2; }
+:global(html[data-theme="dark"]) .carRail button[aria-pressed=true] { background:#e3c38a; color:#122033; border-color:#e3c38a; }
+:global(html[data-theme="dark"]) .carPhoto { background:radial-gradient(ellipse at 50% 90%,#384356,#152131 69%); }
+:global(html[data-theme="dark"]) .carDetail { background:#172333; }
+:global(html[data-theme="dark"]) .statLine { border-color:#354455; }
+:global(html[data-theme="dark"]) .statLine span { color:#edf1f5; }
+:global(html[data-theme="dark"]) .routeAtlas { background:#0e1825; }
+:global(html[data-theme="dark"]) .routesDisplay { background:#172334; border-color:#334356; }
+:global(html[data-theme="dark"]) .routePanel { background:#182535; }
+:global(html[data-theme="dark"]) .routeList button { background:#182535; color:#f0f3f7; border-color:#334457; }
+:global(html[data-theme="dark"]) .routeList button:hover { background:#27384c; }
+:global(html[data-theme="dark"]) .routeList button[aria-pressed=true] { background:#304154; color:#fff; border-color:#77818d; border-inline-start-color:#e6c28b; }
+:global(html[data-theme="dark"]) .routePrice { border-color:#415164; }
+:global(html[data-theme="dark"]) .promises { background:#111e2c; }
+:global(html[data-theme="dark"]) .promiseList,:global(html[data-theme="dark"]) .promiseList li { border-color:#354455; }
+:global(html[data-theme="dark"]) .finish { background:#101827; }
+:global(html[data-theme="dark"]) .finishCopy :is(h2,p) { color:#f1f4f6; }
+:global(html[data-theme="dark"]) .finishCopy a { background:#f4f0e8; color:#101827; }
+
+/* Reflow without uneven image heights or horizontally overflowing route labels. */
+@media(max-width:760px) {
+ .page { --headline:clamp(1.9rem,6.6vw,2.55rem); --chapter-space:52px; }
+ .heroCopy,.page[dir=rtl] .heroCopy { width:100%; padding:17px 19px 65px; }
+ .heroCopy h1,.page[dir=rtl] .heroCopy h1 { font-size:clamp(2.3rem,7.2vw,3.3rem); }
+ .heroVideo { aspect-ratio:16/10; }
+ .bookingArea { margin-top:-29px; padding:17px; }
+ .bookingDesk label { padding:10px 13px; }
+ .story { padding-block:53px; gap:17px; }
+ .storyImage { aspect-ratio:16/10; }
+ .storyRail button { padding:14px 9px; }
+ .showroom { padding-block:53px; }
+ .showroomLayout { grid-template-columns:1fr; }
+ .carRail button { min-height:90px; }
+ .fleetThumb { height:40px; }
+ .carPhoto { aspect-ratio:16/10; }
+ .carDetail { padding:22px; }
+ .routeAtlas { padding-block:53px; }
+ .routesDisplay { grid-template-columns:1fr; }
+ .routePhoto { height:auto; min-height:0; aspect-ratio:16/10; }
+ .promises { padding-block:53px; }
+ .finishImage { height:auto; aspect-ratio:16/10; }
+}
+@media(max-width:430px) {
+ .heroCopy,.page[dir=rtl] .heroCopy { padding-inline:17px; }
+ .bookingDesk { grid-template-columns:1fr; }
+ .storyImage,.routePhoto,.carPhoto,.finishImage { aspect-ratio:16/10; }
+}
