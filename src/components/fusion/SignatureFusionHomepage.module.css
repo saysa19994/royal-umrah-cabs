@@ -318,3 +318,197 @@
 @media (prefers-reduced-motion:reduce) {
  .routeCurtainPanel,.routeCurtainPanel img { transition:none!important; transform:none!important; }
 }
+
+
+/* ==========================================================================
+   DUYUF — OWNER-LED EDITORIAL REFINEMENT, 18 NOV 2026
+   Reference: Kiswah's generous 1272px reading width, not its visual design.
+   Film stays the licensed/current hero. Booking pricing/route logic untouched.
+   ========================================================================== */
+.page {
+  --editorial-width: 1272px;
+  --editorial-rail: max(22px, calc((100% - var(--editorial-width)) / 2));
+  --editorial-stroke: #dedbd3;
+  --editorial-paper: #f7f5f0;
+  --editorial-ink: #101827;
+  --editorial-accent: #967041;
+}
+.page :is(.story, .showroom, .routeAtlas, .promises) { scroll-margin-top: 100px; }
+.page :is(.hero, .showroom, .story, .routeAtlas, .promises, .finish) { min-width: 0; }
+.hero {
+  background: #101827;
+  min-height: clamp(650px, 81svh, 820px);
+}
+.heroVideo::after {
+  background:
+    linear-gradient(90deg,rgba(10,18,31,.96) 0%,rgba(10,18,31,.82) 23%,rgba(10,18,31,.25) 68%,transparent 100%),
+    linear-gradient(180deg,rgba(9,17,29,.65),transparent 22%,transparent 70%,rgba(9,17,29,.25));
+}
+.page[dir=rtl] .heroVideo::after {
+  background:
+    linear-gradient(270deg,rgba(10,18,31,.94) 0%,rgba(10,18,31,.79) 24%,rgba(10,18,31,.25) 69%,transparent 100%),
+    linear-gradient(180deg,rgba(9,17,29,.65),transparent 22%,transparent 70%,rgba(9,17,29,.25));
+}
+.heroCopy {
+  width: min(57%, 820px);
+  padding-block: clamp(148px, 15vh, 195px) clamp(116px, 13vh, 165px);
+}
+.page[dir=rtl] .heroCopy { width: min(57%, 850px); }
+.heroTag { letter-spacing: .09em; text-transform: uppercase; }
+.heroCopy h1 { font-size: clamp(3.5rem, 6.4vw, 7rem); }
+.heroCopy > p { font-size: clamp(1rem, 1.34vw, 1.18rem); line-height: 1.77; }
+.heroButtons { margin-top: 37px; }
+.primary { min-height: 55px; padding-inline: 27px; font-weight: 750; }
+.bookingArea {
+  margin-top: -52px;
+  border-radius: 6px;
+  border-color: #e1ded6;
+  padding: clamp(25px, 3vw, 39px);
+  box-shadow: 0 19px 50px rgba(17,25,38,.09);
+}
+.bookingHead h2 { font-size: clamp(2rem, 3.2vw, 3.6rem); }
+.bookingHead > p { max-width: 42ch; font-size: .9rem; }
+.bookingDesk { border: 1px solid #dcd9d1; background: #fcfbf9; }
+.bookingDesk label { padding: 14px 18px; }
+.bookingDesk :is(input,select) { min-height: 50px; font-size: .95rem; }
+.bookingTotal strong { font-size: clamp(1.45rem, 2.15vw, 2.2rem); }
+.bookingTotal button { min-height: 56px; padding-inline: 24px; }
+.bookCarList button { min-height: 52px; padding-inline: 17px; }
+.trustLine { background: #f4f2ed; }
+.trustLine li { min-height: 86px; font-size: clamp(.81rem, 1vw, .95rem); }
+.trustLine svg { width: 21px; height: 21px; }
+.story {
+  position: relative;
+  grid-template-columns: minmax(0, 1.33fr) minmax(0, .8fr);
+  gap: 26px clamp(32px, 5.3vw, 90px);
+  padding-block: clamp(75px, 8.5vw, 132px);
+  background: #fff;
+}
+.storyIntro { padding: 0 0 22px; max-width: 880px; }
+.storyIntro h2 { max-width: 850px; }
+.storyImage { min-height: clamp(370px, 37vw, 545px); border-radius: 3px; box-shadow: 21px 21px 0 #f1eee7; }
+.page[dir=rtl] .storyImage { box-shadow: -21px 21px 0 #f1eee7; }
+.storyRail { align-self: center; }
+.storyRail button {
+  grid-template-columns: 36px minmax(0,1fr) 20px;
+  align-items: center;
+  padding: 23px 18px;
+  border: 0;
+  border-block-end: 1px solid #dedbd3;
+  transition: background .25s, padding .25s;
+}
+.storyRail button:first-child { border-block-start: 1px solid #dedbd3; }
+.storyRail button:hover { background: #f9f7f3; }
+.storyRail button[aria-pressed=true] {
+  background: #f6f3eb;
+  box-shadow: inset 3px 0 0 #9e773f;
+  padding-inline: 23px;
+}
+.page[dir=rtl] .storyRail button[aria-pressed=true] { box-shadow: inset -3px 0 0 #9e773f; }
+.storyRail button small { font-size: 1rem; font-family: Georgia, serif; }
+.storyRail button strong { font-size: clamp(1.08rem, 1.55vw, 1.45rem); }
+.storyRail .sceneDetail { grid-column: 2 / 4; padding-block: 6px 8px; max-width: 48ch; font-size: .96rem; line-height: 1.8; }
+.showroom { padding-block: clamp(78px, 8.2vw, 125px); background: #f7f5f0; }
+.showroomHeading { align-items: end; margin-bottom: 34px; }
+.showroomLayout {
+  border: 1px solid #d8d6cf;
+  border-radius: 4px;
+  grid-template-columns: minmax(0, 1.85fr) minmax(275px, .86fr);
+  box-shadow: 0 18px 58px rgba(16,24,39,.045);
+}
+.carRail { gap: 1px; background: #dcdad3; }
+.carRail button { min-height: 136px; border-radius: 0; }
+.carRail button[aria-pressed=true] { background: #19283b; }
+.carPhoto { min-height: clamp(380px, 36vw, 530px); background: radial-gradient(ellipse at 50% 95%,#d9d6ce 0%,#f6f3ec 53%,#fff 100%); }
+.carDetail { background: #fff; padding: clamp(32px,3.5vw,57px); }
+.carDetail h3 { font-size: clamp(2rem,3vw,3.7rem); }
+.statLine { gap: 18px; padding-block: 19px; }
+.carChoose { min-height: 55px; padding-inline: 27px; }
+.routeAtlas { padding-block: clamp(75px,8vw,124px); background: #fff; }
+.routesDisplay { grid-template-columns: minmax(0, 1.21fr) minmax(0, .95fr); border: 1px solid #e1ded6; }
+.routePhoto { min-height: 480px; background: #182535; }
+.routePanel { padding: clamp(26px, 3.2vw, 48px); background: #f8f6f0; }
+.routeList { display: grid; gap: 4px; }
+.routeList button {
+  min-height: 61px;
+  grid-template-columns: minmax(0, 1fr) 20px;
+  padding: 13px 18px;
+  border: 1px solid transparent;
+  border-block-end-color: #ddd9cf;
+  background: #f8f6f0;
+  transition: background .22s ease, border-color .22s ease, padding .22s ease;
+}
+.routeList button strong { font-size: clamp(.92rem,1.13vw,1.06rem); line-height: 1.6; }
+.routeList button:hover { background: #f0ece3; }
+.routeList button[aria-pressed=true] {
+  background: #fff;
+  color: #101827;
+  border: 1px solid #d6cebF;
+  border-inline-start: 4px solid #9a7442;
+  padding-block: 19px;
+  box-shadow: 0 6px 22px rgba(16,24,39,.05);
+}
+.routePrice { border-block-start: 1px solid #dcd8ce; padding-top: 20px; }
+.routeAction { min-height: 54px; padding-inline: 25px; }
+.promises { padding-block: clamp(76px,8.5vw,124px); }
+.promiseList li { min-height: 64px; font-size: clamp(.93rem,1.2vw,1.08rem); }
+.finish { min-height: 480px; }
+.finishCopy { gap: 24px; }
+.finishCopy h2 { font-size: clamp(2.5rem,4.4vw,4.7rem); }
+.finishCopy a { min-height: 56px; padding-inline: 26px; }
+@media (max-width: 1024px) {
+  .heroCopy,.page[dir=rtl] .heroCopy { width: min(70%, 720px); }
+  .story { gap: 25px 35px; }
+  .showroomLayout { grid-template-columns: minmax(0,1.5fr) minmax(260px,1fr); }
+}
+@media (max-width: 760px) {
+  .page { --gutter: 20px; --chapter-space: 66px; }
+  .hero { display:block; min-height: 0; }
+  .heroVideo { position: relative; aspect-ratio: 16/10; }
+  .heroVideo::after,.page[dir=rtl] .heroVideo::after {
+    background: linear-gradient(180deg,rgba(10,18,31,.28),transparent 23%,transparent 70%,rgba(10,18,31,.4));
+  }
+  .heroCopy,.page[dir=rtl] .heroCopy { width: 100%; padding: 16px 20px 81px; }
+  .heroCopy h1,.page[dir=rtl] .heroCopy h1 { font-size: clamp(2.55rem,9vw,4rem); }
+  .heroCopy > p { font-size: 1rem; }
+  .bookingArea { width: calc(100% - 24px); padding: 22px 18px; margin-top: -38px; }
+  .bookingDesk { grid-template-columns: 1fr 1fr; }
+  .bookingDesk label { padding: 13px; }
+  .bookingLower { gap: 21px; }
+  .bookingTotal { width:100%; gap: 12px; }
+  .bookCarList button { min-height: 49px; }
+  .trustLine { padding-inline: 10px; }
+  .trustLine li { min-height: 72px; font-size: .78rem; }
+  .story { display: grid; grid-template-columns: 1fr; gap: 24px; padding-block: 68px; }
+  .storyIntro { padding-bottom: 5px; }
+  .storyImage { min-height: 0; aspect-ratio: 4/3; box-shadow: 9px 10px 0 #f1eee7; }
+  .page[dir=rtl] .storyImage { box-shadow: -9px 10px 0 #f1eee7; }
+  .storyRail button { padding: 16px 10px; }
+  .storyRail button[aria-pressed=true] { padding-inline: 16px; }
+  .showroom { padding-block: 72px; }
+  .showroomLayout { grid-template-columns:1fr; }
+  .carRail { grid-template-columns: none; grid-auto-flow:column; grid-auto-columns:minmax(130px,1fr); }
+  .carRail button { min-height: 116px; }
+  .carPhoto { min-height: 0; aspect-ratio: 4/3; }
+  .carDetail { padding: 27px 22px; }
+  .routesDisplay { grid-template-columns: 1fr; }
+  .routePhoto { min-height: 0; aspect-ratio: 4/3; }
+  .routePanel { padding: 23px 18px; }
+  .routeList button { min-height: 58px; }
+  .finish { grid-template-columns:1fr; }
+}
+@media (max-width: 430px) {
+  .page { --gutter: 17px; }
+  .heroCopy { padding-inline:17px; }
+  .bookingArea { width:calc(100% - 20px); padding:20px 15px; }
+  .bookingDesk { grid-template-columns:1fr; }
+  .bookingDesk label { grid-column: 1/-1; border-inline-end:0; border-block-end:1px solid #dedbd3; }
+  .bookingDesk label:last-child { border-block-end:0; }
+  .bookingTotal { flex-wrap: wrap; }
+  .bookingTotal button { width:100%; max-width:none; }
+  .routeList button { padding-inline: 11px; }
+  .storyRail button { grid-template-columns: 30px minmax(0,1fr) 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .storyRail button,.routeList button,.carRail button { transition: none; }
+}
