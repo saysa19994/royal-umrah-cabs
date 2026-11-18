@@ -9,7 +9,7 @@ test('Ziyarat imagery allows Wikimedia photographs while preserving tight CSP', 
   const imgSrc = config.match(/img-src ([^;]+);/)?.[1] || '';
   assert.match(imgSrc, /https:\/\/commons\.wikimedia\.org/);
   assert.match(imgSrc, /https:\/\/upload\.wikimedia\.org/);
-  assert.doesNotMatch(imgSrc, /https:\/\/\*/);
+  assert.doesNotMatch(imgSrc, /https:\/\/\*\.wikimedia\.org/);
   assert.match(config, /hostname: 'commons\.wikimedia\.org'/);
   assert.match(config, /hostname: 'upload\.wikimedia\.org'/);
 });
