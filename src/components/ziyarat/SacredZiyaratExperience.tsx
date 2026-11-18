@@ -941,7 +941,7 @@ function ZiyaratSitePhoto({ site, locale }: { site: SiteItem; locale: Locale }) 
   return (
     <figure className="space-y-2">
       <Link
-        href={`/${locale}/ziyarat/${site.city}/${key}`}
+        href={key === 'salman-garden' ? `/${locale}/ziyarat/madinah` : `/${locale}/ziyarat/${site.city}/${key}`}
         aria-label={site.name}
         className="block relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-bg-alt focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-dark group"
       >
