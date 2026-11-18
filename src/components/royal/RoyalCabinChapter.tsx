@@ -13,7 +13,7 @@ export function RoyalCabinChapter({ locale }: { locale: Locale }) {
   const Arrow = LOCALE_CONFIG[locale].dir === 'rtl' ? ArrowLeft : ArrowRight;
 
   return (
-    <section className={styles.chapter} aria-labelledby="royal-cabin-title">
+    <section className={styles.chapter} data-home-section="cabin" aria-labelledby="royal-cabin-title">
       <div className={styles.copy}>
         <h2 id="royal-cabin-title">{copy.title}</h2>
         <p>{copy.lead}</p>
