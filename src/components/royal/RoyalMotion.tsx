@@ -15,13 +15,13 @@ export function RoyalMotion() {
     async function activate() {
       cleanup?.();
       cleanup = undefined;
-      if (disposed || preference.matches) return;
+      if (disposed || preference.matches || document.documentElement.dataset.comfortMode === 'on') return;
 
       const [{ gsap }, { ScrollTrigger }] = await Promise.all([
         import('gsap'),
         import('gsap/ScrollTrigger'),
       ]);
-      if (disposed || preference.matches) return;
+      if (disposed || preference.matches || document.documentElement.dataset.comfortMode === 'on') return;
 
       gsap.registerPlugin(ScrollTrigger);
       const media = gsap.matchMedia(root);
@@ -57,11 +57,7 @@ export function RoyalMotion() {
             ease: 'none',
             scrollTrigger: { trigger: '#fusion-top', start: 'top top', end: 'bottom top', scrub: .55 },
           });
-          const story = root.querySelector<HTMLElement>('[data-royal-story]');
-          const frame = story?.querySelector<HTMLElement>('[data-royal-story-frame]');
-          if (story && frame) {
-            ScrollTrigger.create({ trigger: frame, start: 'top 23%', end: '+=96', pin: true, pinSpacing: false });
-          }
+          // Do not pin image panels: pinned frames caused uneven full-page captures and scroll jumps.
         });
       }, root);
       cleanup = () => {
@@ -73,9 +69,12 @@ export function RoyalMotion() {
     const refresh = () => { void activate().catch(() => undefined); };
     refresh();
     preference.addEventListener('change', refresh);
+    const comfortObserver = new MutationObserver(refresh);
+    comfortObserver.observe(document.documentElement, { attributes:true, attributeFilter:['data-comfort-mode'] });
     return () => {
       disposed = true;
       preference.removeEventListener('change', refresh);
+      comfortObserver.disconnect();
       cleanup?.();
     };
   }, []);
