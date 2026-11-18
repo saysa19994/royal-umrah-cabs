@@ -82,19 +82,35 @@ export function RoyalServiceChapters({ locale, dict }: LocalizedProps) {
     },
   ] as const;
   const Arrow = LOCALE_CONFIG[locale].dir === 'rtl' ? ArrowLeft : ArrowRight;
+  const [activeService, setActiveService] = useState(0);
+  const serviceImages = [
+    '/assets/homepage-v2/chauffeur-welcome.jpg',
+    '/assets/blueprint/routes/makkah-madinah.webp',
+    '/assets/blueprint/routes/madinah-ziyarat.webp',
+    '/assets/homepage-v2/ziyarat-haram.jpg',
+    '/assets/blueprint/routes/madinah-ziyarat.webp',
+    APPROVED_5_FLEET.find(vehicle => vehicle.id === 'hyundai-staria')?.interiorImage || '/assets/homepage-v2/chauffeur-welcome.jpg',
+    APPROVED_5_FLEET.find(vehicle => vehicle.id === 'toyota-hiace')?.exteriorImage || '/assets/blueprint/routes/makkah-madinah.webp',
+  ];
 
   return (
     <>
       <section className={styles.services} id="royal-services" aria-labelledby="royal-services-title">
         <div className={styles.servicesPhoto} data-royal-image>
-          <Image src="/assets/blueprint/routes/makkah-madinah.webp" fill sizes="(max-width:760px) 100vw, 48vw" alt="" />
+          <Image key={serviceImages[activeService]} src={serviceImages[activeService]} fill sizes="(max-width:760px) 100vw, 48vw" alt="" />
         </div>
         <div className={styles.servicesBody}>
           <h2 id="royal-services-title">{services.title}</h2>
           <ul className={styles.serviceRows} role="list">
-            {serviceRows.map(([title, text, path]) => (
+            {serviceRows.map(([title, text, path], index) => (
               <li key={title}>
-                <Link className={styles.serviceRow} href={`/${locale}/${path}`}>
+                <Link
+                  className={styles.serviceRow}
+                  href={`/${locale}/${path}`}
+                  data-active={index === activeService}
+                  onMouseEnter={() => setActiveService(index)}
+                  onFocus={() => setActiveService(index)}
+                >
                   <div><h3>{title}</h3><p>{text}</p></div>
                   <Arrow className={styles.serviceArrow} size={19} aria-hidden="true" />
                 </Link>
