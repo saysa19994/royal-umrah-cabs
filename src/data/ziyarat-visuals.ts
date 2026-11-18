@@ -57,7 +57,7 @@ export const ZIYARAT_VISUALS: Record<string, ZiyaratVisual> = {
   'seven-mosques': {
     src: commons("Sab'u Masajid.jpg"),
     source: credit("Sab'u Masajid.jpg"),
-    author: 'Imam Khairul Annas', license: 'Creative Commons — verify file page',
+    author: 'Imam Khairul Annas', license: 'CC BY-SA 3.0',
   },
   'salman-garden': {
     src: commons('Date palm with fruits.jpg'),
