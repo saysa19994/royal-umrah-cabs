@@ -195,6 +195,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
 
   const isRoyalHome = isHomePage;
   const isTransparent = isHomePage && !isScrolled;
+  const overHero = isRoyalHome && !isScrolled;
 
   const headerBgClass = isRoyalHome && !isScrolled
     ? 'bg-[#101827]/10 border-b border-white/15'
@@ -225,9 +226,9 @@ export function Header({ locale, dict, settings }: HeaderProps) {
           className="flex items-center gap-2.5 group shrink-0 min-w-0 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-primary)]"
           aria-label="Duyuf Alrahman VIP — ضيوف الرحمن VIP"
         >
-          <DuyufSignature className="h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 shrink-0 text-[var(--text-primary)]" />
+          <DuyufSignature className={`h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 shrink-0 ${overHero ? 'text-white' : 'text-[var(--text-primary)]'}`} />
           <span className="flex min-w-0 flex-col text-start leading-tight">
-            <strong className="text-[12px] sm:text-sm md:text-[15px] tracking-[0.025em] font-extrabold text-[var(--text-primary)] whitespace-nowrap">
+            <strong className={`text-[12px] sm:text-sm md:text-[15px] tracking-[0.025em] font-extrabold whitespace-nowrap ${overHero ? 'text-white' : 'text-[var(--text-primary)]'}`}>
               {locale === 'ar' || locale === 'ur' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
             </strong>
             <span className="mt-0.5 text-[9px] sm:text-[10px] font-semibold text-[var(--accent-primary)] whitespace-nowrap tracking-[0.025em]">
@@ -245,11 +246,11 @@ export function Header({ locale, dict, settings }: HeaderProps) {
                 key={link.href}
                 href={link.href}
                 className={`transition-colors py-1 relative tracking-wide font-sans ${
-                  isDark
-                    ? (isActive ? 'text-[#B88B4E] font-semibold' : 'text-[#F7F5F0]/85 hover:text-[#B88B4E]')
+                  (isDark || overHero)
+                    ? (isActive ? 'text-[#E6BE7C] font-semibold' : 'text-[#F7F5F0]/85 hover:text-[#B88B4E]')
                     : (isActive ? 'text-[#A0783E] font-semibold' : 'text-[#111824]/85 hover:text-[#A0783E]')
                 } after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 ${
-                  isDark ? 'after:bg-[#B88B4E]' : 'after:bg-[#A0783E]'
+                  (isDark || overHero) ? 'after:bg-[#B88B4E]' : 'after:bg-[#A0783E]'
                 } ${
                   isActive ? 'after:scale-x-100' : 'after:scale-x-0 hover:after:scale-x-100'
                 } after:transition-transform after:duration-300`}
