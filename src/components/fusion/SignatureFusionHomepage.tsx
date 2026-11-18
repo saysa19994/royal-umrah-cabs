@@ -186,7 +186,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
   }
 
   const scenes = [
-    { title: copy.arrival, description: copy.arrivalDetail, image: '/assets/homepage-v2/chauffeur-welcome.jpg' },
+    { title: copy.arrival, description: copy.arrivalDetail, image: '/assets/homepage-v2/hero-poster.jpg' },
     { title: copy.cabin, description: copy.cabinDetail, image: '/assets/images/vehicles/hyundai-staria/interior.webp' },
     { title: copy.destination, description: copy.destinationDetail, image: '/assets/images/routes/makkah-to-madinah.jpg' },
   ];
@@ -394,7 +394,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
           <a href="#fusion-book">{copy.heroBook}<DirectionArrow size={19} aria-hidden /></a>
         </div>
       </section>
-      <div className={styles.filmstrip} aria-hidden="true">
+      <div className={styles.filmstrip} aria-hidden="true" hidden>
         <div className={styles.filmstripTrack}>
           {[
             '/assets/homepage-v2/chauffeur-welcome.jpg',
