@@ -279,3 +279,42 @@
  .bookingTotal button { width:100%; max-width:none; }
 }
 @media (prefers-reduced-motion:reduce) { .filmstripTrack { animation:none!important; } }
+
+/* Routes as cinematic expanding curtains — no duplicate route cards or fake fares. */
+.routeCurtain { display:flex; gap:9px; height:clamp(355px,35vw,475px); width:100%; overflow:hidden; }
+.routeCurtainPanel { position:relative; isolation:isolate; min-width:0; flex:1 1 0; overflow:hidden; padding:0; border:0; background:#101827; color:#fff; text-align:start; cursor:pointer; transition:flex-grow .52s cubic-bezier(.18,.8,.24,1); }
+.routeCurtainPanel[aria-pressed=true] { flex-grow:3.1; }
+.routeCurtainPanel img { object-fit:cover; transition:transform .65s ease,filter .35s ease; filter:saturate(.82); }
+.routeCurtainPanel:hover img, .routeCurtainPanel[aria-pressed=true] img { transform:scale(1.035); filter:saturate(1); }
+.curtainShade { position:absolute; inset:0; background:linear-gradient(180deg,rgba(8,18,31,.30),rgba(8,18,31,.22) 35%,rgba(8,18,31,.94)); }
+.curtainWords { position:absolute; inset-inline:clamp(12px,2.1vw,34px); bottom:clamp(17px,2.6vw,38px); z-index:1; display:grid; gap:10px; }
+.curtainWords small { font-size:.74rem; font-weight:750; letter-spacing:.15em; color:#e1c392; }
+.curtainWords strong { color:#fff; font-size:clamp(1rem,1.55vw,1.5rem); font-weight:680; line-height:1.4; overflow-wrap:anywhere; }
+.curtainActive { font-size:.89rem; line-height:1.55; color:#e6e8e9; max-width:30ch; }
+.routeCurtainPanel:not([aria-pressed=true]) .curtainWords strong { font-size:clamp(.76rem,1vw,1.02rem); }
+.curtainArrow { position:absolute; z-index:1; top:16px; inset-inline-end:16px; color:#f9efdd; }
+.curtainSummary { display:grid; grid-template-columns:minmax(0,1.4fr) auto auto; align-items:center; gap:20px 40px; padding:26px clamp(18px,3vw,42px); background:#f7f5f0; border:1px solid #e8e6e0; border-top:0; }
+.curtainSummary h3 { font-size:clamp(1.15rem,1.6vw,1.7rem); font-weight:680; margin:7px 0 4px; }
+.curtainSummary p { font-size:.87rem; line-height:1.6; color:#59626b; }
+.curtainFare strong { color:#815f29; font-size:clamp(1.5rem,2.4vw,2.5rem); white-space:nowrap; }
+.curtainFare small { display:block; color:#853e30; font-size:.82rem; max-width:25ch; }
+.curtainSummary .routeAction { margin:0; min-height:52px; }
+@media (max-width:900px) {
+ .routeCurtainPanel[aria-pressed=true] { flex-grow:2.5; }
+ .curtainSummary { grid-template-columns:1fr auto; }
+ .curtainSummary .routeAction { grid-column:1/-1; justify-self:stretch; }
+}
+@media (max-width:760px) {
+ .routeCurtain { display:flex; flex-direction:column; height:auto; gap:7px; }
+ .routeCurtainPanel,.routeCurtainPanel[aria-pressed=true] { flex:none; width:100%; height:88px; transition:height .33s ease; }
+ .routeCurtainPanel[aria-pressed=true] { height:238px; }
+ .curtainWords { inset-inline:20px; bottom:15px; gap:4px; }
+ .curtainWords strong,.routeCurtainPanel:not([aria-pressed=true]) .curtainWords strong { font-size:1rem; }
+ .routeCurtainPanel[aria-pressed=true] .curtainWords strong { font-size:1.38rem; }
+ .curtainActive { font-size:.8rem; }
+ .curtainSummary { padding:19px; grid-template-columns:1fr auto; gap:15px; }
+ .curtainSummary .routeAction { width:100%; }
+}
+@media (prefers-reduced-motion:reduce) {
+ .routeCurtainPanel,.routeCurtainPanel img { transition:none!important; transform:none!important; }
+}
