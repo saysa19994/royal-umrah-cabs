@@ -221,7 +221,6 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
       <section className={styles.bookingArea} id="fusion-book" data-booking-form="true" aria-labelledby="fusion-book-title">
         <div className={styles.bookingHead}>
           <h2 id="fusion-book-title">{copy.bookingTitle}</h2>
-          <p><ShieldCheck size={17} aria-hidden />{dict.booking_card.payOnArrivalNotice}</p>
         </div>
         <div className={styles.bookingDesk}>
           <label className={styles.routeField}>
@@ -276,7 +275,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
       <ul className={styles.trustLine} aria-label={copy.promiseTitle}>
         {benefits.map(({ Icon, text }) => <li key={text}><Icon size={18} aria-hidden />{text}</li>)}
       </ul>
-      <RoyalBookingSteps locale={locale} dict={dict} />
+      <RoyalBookingSteps locale={locale} />
 
       <section id="fusion-story" className={styles.story} aria-labelledby="fusion-story-title" data-royal-story>
         <div className={styles.storyIntro}><h2 id="fusion-story-title">{copy.journeyTitle}</h2></div>
