@@ -209,3 +209,73 @@
 @media (prefers-reduced-motion: reduce) {
   .page *, .page *::before, .page *::after { animation-duration: .01ms !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+
+/* Avant-garde editorial reframe | consistent reference-derived content width */
+.page { --gutter:max(22px,calc((100vw - 1272px)/2)); --chapter-space:clamp(68px,6.5vw,102px); --headline:clamp(2.25rem,4.35vw,4.75rem); }
+.page:lang(ar),.page:lang(ur) { --headline:clamp(2.25rem,4.15vw,4.5rem); }
+.hero { min-height:clamp(610px,78svh,780px); }
+.heroCopy { width:min(63%,940px); padding-block:112px 100px; }
+.page[dir=rtl] .heroCopy { width:min(61%,920px); padding-inline-start:var(--gutter); }
+.heroCopy h1 { font-size:clamp(3.35rem,6.5vw,7.15rem); }
+.page[dir=rtl] .heroCopy h1 { font-size:clamp(3rem,5.25vw,5.5rem); }
+.bookingArea { width:calc(100% - var(--gutter)*2); max-width:1272px; border-radius:4px; box-shadow:0 24px 70px rgba(16,24,39,.09); }
+.bookingDesk { background:#f7f6f2; }
+.bookingDesk :is(input,select) { min-height:49px; font-size:.94rem; }
+.bookingDesk label>span { font-size:.8rem; }
+.bookCarList button { min-height:45px; padding-inline:13px; }
+.bookingTotal button { min-height:52px; }
+.trustLine { padding-inline:var(--gutter); }
+.story { gap:24px clamp(26px,4vw,62px); }
+.storyImage { min-height:clamp(255px,29vw,430px); }
+.showroom { background:#f7f5f0; }
+.showroomLayout { grid-template-columns:minmax(0,1.95fr) minmax(268px,.9fr); border:1px solid #dcdedb; }
+.carRail { background:#e2e4e1; gap:1px; }
+.carRail button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; min-height:125px; background:#faf9f6; color:#101827; padding:12px 8px; border:0; border-block-end:3px solid transparent; transition:background .25s ease,box-shadow .25s ease,color .25s ease; }
+.carRail button strong { font-size:clamp(.73rem,.85vw,.93rem); font-weight:700; line-height:1.35; }
+.carRail button[aria-pressed=true] { background:#101827; border-block-end-color:#b58f52; color:white; }
+.carRail button:hover:not([aria-pressed=true]) { background:#f0eae1; }
+.fleetThumb { display:block; width:min(100%,140px); height:65px; }
+.fleetThumb img { object-fit:contain; width:100%; height:100%; }
+.carPhoto { min-height:clamp(320px,32vw,455px); }
+.carDetail { padding:clamp(22px,3vw,42px); }
+.carDetail h3 { font-size:clamp(1.8rem,2.8vw,3.1rem); }
+.routePhoto { min-height:clamp(325px,31vw,435px); }
+.routeList button { padding-block:14px; }
+.routeList button[aria-pressed=true] { padding-inline:14px; background:#e8e4da; border-inline-start:3px solid #a97b27; color:#101827; }
+.routePanel { background:#f7f5f0; }
+.finish { grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); }
+.finishImage { min-height:clamp(350px,31vw,500px); }
+.filmstrip { height:92px; overflow:hidden; padding-block:12px; background:#101827; border-top:1px solid #ffffff29; }
+.filmstripTrack { display:flex; gap:12px; justify-content:center; width:max-content; min-width:100%; animation:royalFilmstrip 24s ease-in-out infinite alternate; }
+.filmstripTrack img { width:185px; height:68px; object-fit:cover; filter:saturate(.78); }
+@keyframes royalFilmstrip { from { transform:translateX(0); } to { transform:translateX(-7%); } }
+.filmstrip:hover .filmstripTrack { animation-play-state:paused; }
+@media (max-width:900px) {
+ .page { --gutter:clamp(20px,3.5vw,32px); }
+ .showroomLayout { grid-template-columns:minmax(0,1.6fr) minmax(230px,1fr); }
+}
+@media (max-width:760px) {
+ .page { --gutter:20px; --chapter-space:65px; }
+ .hero { min-height:0; }
+ .heroCopy,.page[dir=rtl] .heroCopy { width:100%; padding:14px var(--gutter) 70px; }
+ .heroCopy h1,.page[dir=rtl] .heroCopy h1 { font-size:clamp(2.6rem,8.2vw,4rem); }
+ .bookingArea { width:calc(100% - 28px); max-width:none; margin-top:-32px; padding:20px 16px; }
+ .showroomLayout { grid-template-columns:1fr; }
+ .carRail { grid-template-columns:none; grid-auto-flow:column; grid-auto-columns:minmax(125px,1fr); overflow-x:auto; scroll-snap-type:x proximity; }
+ .carRail button { scroll-snap-align:center; min-height:109px; }
+ .fleetThumb { height:54px; }
+ .carPhoto { min-height:0; aspect-ratio:4/3; }
+ .routePhoto { min-height:0; aspect-ratio:4/3; }
+ .finishImage { min-height:0; aspect-ratio:4/3; }
+ .filmstrip { height:74px; }
+ .filmstripTrack img { width:140px; height:50px; }
+}
+@media (max-width:390px) {
+ .page { --gutter:17px; }
+ .bookingDesk { grid-template-columns:1fr; }
+ .bookingDesk label { grid-column:1/-1!important; border-inline-end:0; border-block-end:1px solid #e8e6e0; }
+ .bookingDesk label:last-child { border-block-end:0; }
+ .bookingTotal { flex-wrap:wrap; }
+ .bookingTotal button { width:100%; max-width:none; }
+}
+@media (prefers-reduced-motion:reduce) { .filmstripTrack { animation:none!important; } }
