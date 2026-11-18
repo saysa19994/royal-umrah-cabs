@@ -233,3 +233,54 @@
 @media(prefers-reduced-motion:reduce){
  .exteriorPhoto,.cabinPhoto{animation:none!important}
 }
+
+/* Cohesive original 1272px editorial canvas. Fleet remains its own composition. */
+.page { --ink:#101827; --navy:#101827; --paper:#f7f5f0; --line:#e5e1d9; background:var(--paper); }
+.hero { width:min(calc(100% - 44px),1272px); min-height:500px; max-height:565px; margin:100px auto 0; grid-template-columns:1.05fr .95fr; border:1px solid var(--line); }
+.heroPoster { min-height:500px; background:#101827; }
+.heroText { background:#eeece6; padding:clamp(30px,4.25vw,75px); }
+.heroText h1 { color:#101827; font-size:clamp(2.4rem,4.4vw,4.7rem); font-weight:650; line-height:1.2; }
+.heroText>p:not(.kicker) { color:#4c5864; font-size:clamp(.9rem,1.15vw,1.03rem); }
+.heroLink { background:#101827; min-height:50px; }
+.atelier { padding:clamp(78px,7.5vw,115px) max(22px,calc((100vw - 1272px)/2)); background:#f7f5f0; }
+.atelierHead,.collection { max-width:1272px; }
+.atelierHead h2 { color:#101827; font-weight:640; }
+.collection { grid-template-columns:minmax(164px,.3fr) minmax(0,1.16fr) minmax(254px,.52fr); min-height:0; background:#f1f0ec; border:1px solid var(--line); }
+.selector { background:#101827; }
+.pick { min-height:88px; }
+.pick:hover { background:#26364c; }
+.pick[aria-pressed=true] { background:#30445f; color:#fff; }
+.photoStudio { background:radial-gradient(circle at 51% 45%,#fff,#eeece7 70%,#d6d5cf); }
+.primaryPhoto { height:420px; min-height:395px; }
+.specSheet { background:#fff; border-inline-start:1px solid #e3e0d8; }
+.specSheet h3 { color:#101827; font-weight:690; }
+.specSheet>p:not(.payment) { color:#4f5b64; }
+.metrics dd,.metrics dt { color:#101827; }
+.book { background:#101827; }
+.book:hover,.heroLink:hover { background:#30445f; }
+.indexSection { padding:clamp(76px,7vw,108px) max(22px,calc((100vw - 1272px)/2)); background:#fff; }
+.indexHead,.tableScroll { max-width:1272px; }
+.indexHead h2 { color:#101827; }
+.concierge { width:min(calc(100% - 44px),1272px); margin:0 auto 110px; min-height:440px; background:#101827; }
+.conciergeGallery a { min-height:440px; }
+@media(max-width:940px) {
+ .hero { grid-template-columns:1fr 1fr; min-height:0; }
+ .heroPoster { min-height:450px; }
+ .collection { grid-template-areas:'selector photo' 'sheet sheet'; grid-template-columns:minmax(165px,.34fr) minmax(0,.66fr); }
+ .photoStudio { min-height:430px; }
+ .primaryPhoto { min-height:390px; }
+}
+@media(max-width:680px) {
+ .hero { width:100%; margin-top:0; max-height:none; border:0; display:flex; flex-direction:column-reverse; }
+ .heroPoster { min-height:0; height:245px; }
+ .heroText { padding:83px 20px 30px; }
+ .heroText h1 { font-size:clamp(2rem,8.4vw,3.1rem); }
+ .atelier { padding:62px 0; }
+ .collection { display:flex; flex-direction:column; border:0; }
+ .photoStudio { min-height:0; }
+ .primaryPhoto { height:300px; min-height:0; }
+ .indexSection { padding:66px 17px; }
+ .concierge { width:100%; margin:0 auto 62px; }
+ .conciergeGallery a { min-height:210px; }
+}
+@media(prefers-reduced-motion:reduce) { .exteriorPhoto,.cabinPhoto { animation:none!important; } }
