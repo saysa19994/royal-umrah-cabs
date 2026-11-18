@@ -26,7 +26,7 @@ test('upper arc uses nine actual mapped sacred-site photographs, not generic cha
 
 test('each landmark uses a distinct filename and no repeated Kaaba/Madinah fallback', () => {
   const registry = read('src/data/ziyarat-visuals.ts');
-  const media = [...registry.matchAll(/src: commons\('([^']+)'\)/g)].map(m => m[1]);
+  const media = [...registry.matchAll(/src: commons\((?:'([^']+)'|"([^"]+)")\)/g)].map(m => m[1] || m[2]);
   assert.equal(new Set(media).size, media.length);
   assert.ok(media.length >= 10);
   const cards = read('src/components/ziyarat/SacredZiyaratExperience.tsx');
