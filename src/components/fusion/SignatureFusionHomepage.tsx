@@ -10,6 +10,7 @@ import type {TransferRatesMap} from '@/lib/pricing-db';
 import type {Dictionary} from '@/i18n/get-dictionary';
 import {RoyalBookingSteps,RoyalServiceChapters,RoyalGuestConfidence} from './RoyalImmersionEditorial';
 import styles from './SignatureFusionHomepage.module.css';
+import {RoyalCabinChapter} from '@/components/royal/RoyalCabinChapter';
 
 type Lang='ar'|'en';
 type Props={locale:Lang;rates:TransferRatesMap;dict:Dictionary};
@@ -132,6 +133,7 @@ export default function SignatureFusionHomepage({locale,rates,dict}:Props){
     </div>
     <div className={styles.sectionFoot}><Link href={'/'+locale+'/fleet'}>{c.allFleet}{FULL_ARROW}</Link></div>
   </section>
+  <RoyalCabinChapter locale={locale}/>
   <section className={styles.routeAtlas} id="fusion-routes" aria-labelledby="fusion-routes-title">
    <div className={styles.routesHead}><div><span className={styles.serial}>{c.routesEye}</span><h2 id="fusion-routes-title">{c.routesTitle}</h2></div><p>{c.routesDesc}</p></div>
    <div className={styles.routesDisplay}><div className={styles.routePhoto}><Image src={journey.image} alt={journey[locale]} fill sizes="(max-width:820px) 100vw, 55vw" className={styles.cover}/><span>{journey.code}</span></div><div className={styles.routePanel}><span className={styles.eyebrow}>{c.chooseRoute}</span><div className={styles.routeList}>{ROUTES.slice(0,5).map((r,i)=><button type="button" key={r.id} aria-pressed={route===r.id} onClick={()=>changeRoute(r.id)}><span>0{i+1}</span><strong>{r[locale]}</strong><ArrowUpRight size={17}/></button>)}</div><div className={styles.routePrice}><small>{c.fare} / {car.name[locale]||car.name.en}</small><strong>{eligible?fm(fare as number):'—'} <span>SAR</span></strong><p>{c.included}</p></div><button type="button" disabled={!href} onClick={book} className={styles.routeAction}>{c.routeBook}<ArrowLeft size={18}/></button></div></div>

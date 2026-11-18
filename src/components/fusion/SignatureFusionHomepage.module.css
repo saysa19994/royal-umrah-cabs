@@ -377,3 +377,24 @@
  .heroVideo video{display:none}
  .heroVideo{background:#101827 url('/assets/homepage-v2/hero-poster.jpg') center/cover no-repeat}
 }
+
+
+/* Royal booking entry: explicit real pickup and destination selectors, never
+   the cramped four-field one-line control. All city pairs are approved routes. */
+.bookingDesk{grid-template-columns:minmax(0,1.45fr) minmax(0,1.65fr) minmax(0,.9fr) minmax(0,.9fr) minmax(0,.65fr)}
+.bookingDesk .destinationField{border-inline-end:1px solid #dce1d8}
+@media(max-width:900px){
+ .bookingDesk{grid-template-columns:1fr 1fr}
+ .bookingDesk label:nth-child(n){grid-column:auto;border-bottom:1px solid #dce1d8;border-inline-end:1px solid #dce1d8}
+ .bookingDesk label:nth-child(2),.bookingDesk label:nth-child(4){border-inline-end:0}
+ .bookingDesk label:nth-child(5){grid-column:1/-1;border-inline-end:0;border-bottom:0}
+}
+@media(max-width:640px){
+ .bookingDesk{grid-template-columns:1fr 1fr}
+ .bookingDesk label:nth-child(n){grid-column:auto;min-height:83px;border-bottom:1px solid #dce1d8;border-inline-end:1px solid #dce1d8}
+ .bookingDesk label:nth-child(1),.bookingDesk label:nth-child(2){grid-column:1/-1;min-height:77px;border-inline-end:0}
+ .bookingDesk label:nth-child(3){grid-column:1}
+ .bookingDesk label:nth-child(4){grid-column:2;border-inline-end:0}
+ .bookingDesk label:nth-child(5){grid-column:1/-1;border-bottom:0;border-inline-end:0}
+ .bookingDesk :is(select,input){min-height:33px;font-size:12px}
+}

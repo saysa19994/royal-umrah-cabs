@@ -193,9 +193,12 @@ export function Header({ locale, dict, settings }: HeaderProps) {
     { href: `/${locale}/contact`, label: dict.nav.contact },
   ];
 
+  const isRoyalHome = isHomePage && (locale==='ar'||locale==='en');
   const isTransparent = isHomePage && !isScrolled;
 
-  const headerBgClass = isTransparent
+  const headerBgClass = isRoyalHome && !isScrolled
+    ? 'bg-[#101827]/10 border-b border-white/15'
+    : isTransparent
     ? (isDark ? 'bg-[#0B111A]/40 backdrop-blur-md border-b border-white/10' : 'bg-[#FBF9F5]/70 backdrop-blur-md border-b border-black/5')
     : (isDark
         ? 'bg-[#0B111A]/95 backdrop-blur-lg border-b border-[#222E40] shadow-[0_4px_25px_rgba(0,0,0,0.4)]'
@@ -204,6 +207,8 @@ export function Header({ locale, dict, settings }: HeaderProps) {
   return (
     <header
       role="banner"
+      data-royal-home={isRoyalHome ? 'true':'false'}
+      data-royal-scrolled={isScrolled ? 'true':'false'}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isTransparent ? 'py-3.5 sm:py-4' : 'py-2.5 sm:py-3'
       } ${headerBgClass}`}

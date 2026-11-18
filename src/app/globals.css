@@ -610,3 +610,27 @@
   border-color: #D6A13A;
   box-shadow: 0 0 0 2px rgba(214, 161, 58, 0.25);
 }
+
+
+/* ROYAL IMMERSION / only Arabic & English preview home, not global subpages.
+   Fixed header stays legible on the cinematic original hero film, then transitions
+   back to its existing light navigation on scroll. */
+header[role="banner"][data-royal-home="true"][data-royal-scrolled="false"]{
+  background:linear-gradient(180deg,rgba(7,17,32,.68),rgba(7,17,32,.07))!important;
+  border-color:rgba(255,255,255,.15)!important;
+  box-shadow:none!important;
+}
+header[role="banner"][data-royal-home="true"][data-royal-scrolled="false"] nav a{
+  color:#F7F5F0!important;
+}
+header[role="banner"][data-royal-home="true"][data-royal-scrolled="false"] a[aria-label^="Duyuf"] :is(strong,span,svg){
+  color:#fff!important;
+}
+header[role="banner"][data-royal-home="true"][data-royal-scrolled="false"] a[aria-label^="Duyuf"] span span{
+  color:#e3bb83!important;
+}
+@media(max-width:640px){
+  header[role="banner"][data-royal-home="true"][data-royal-scrolled="false"]{
+    background:linear-gradient(180deg,rgba(7,17,32,.87),rgba(7,17,32,.10))!important
+  }
+}
