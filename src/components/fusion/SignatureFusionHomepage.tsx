@@ -53,7 +53,7 @@ function ArrivalFilm({ playLabel, pauseLabel }: { playLabel: string; pauseLabel:
     const small = window.matchMedia('(max-width: 700px)');
     let inView = true;
     const sync = () => {
-      const enabled = requestedMotion.current ?? !reduced.matches;
+      const enabled = document.documentElement.dataset.comfortMode !== 'on' && (requestedMotion.current ?? !reduced.matches);
       if (!enabled || !inView || document.hidden) {
         element.pause();
         if (!enabled && reduced.matches) setSource('');
@@ -75,12 +75,15 @@ function ArrivalFilm({ playLabel, pauseLabel }: { playLabel: string; pauseLabel:
     reduced.addEventListener('change', onPreferenceChange);
     small.addEventListener('change', sync);
     document.addEventListener('visibilitychange', sync);
+    const comfortObserver = new MutationObserver(sync);
+    comfortObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-comfort-mode'] });
     sync();
     return () => {
       observer.disconnect();
       reduced.removeEventListener('change', onPreferenceChange);
       small.removeEventListener('change', sync);
       document.removeEventListener('visibilitychange', sync);
+      comfortObserver.disconnect();
       element.pause();
     };
   }, []);
@@ -183,7 +186,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
   }
 
   const scenes = [
-    { title: copy.arrival, description: copy.arrivalDetail, image: '/assets/homepage-v2/chauffeur-welcome.jpg' },
+    { title: copy.arrival, description: copy.arrivalDetail, image: '/assets/homepage-v2/hero-poster.jpg' },
     { title: copy.cabin, description: copy.cabinDetail, image: '/assets/images/vehicles/hyundai-staria/interior.webp' },
     { title: copy.destination, description: copy.destinationDetail, image: '/assets/images/routes/makkah-to-madinah.jpg' },
   ];
@@ -218,7 +221,6 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
       <section className={styles.bookingArea} id="fusion-book" data-booking-form="true" aria-labelledby="fusion-book-title">
         <div className={styles.bookingHead}>
           <h2 id="fusion-book-title">{copy.bookingTitle}</h2>
-          <p><ShieldCheck size={17} aria-hidden />{dict.booking_card.payOnArrivalNotice}</p>
         </div>
         <div className={styles.bookingDesk}>
           <label className={styles.routeField}>
@@ -273,7 +275,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
       <ul className={styles.trustLine} aria-label={copy.promiseTitle}>
         {benefits.map(({ Icon, text }) => <li key={text}><Icon size={18} aria-hidden />{text}</li>)}
       </ul>
-      <RoyalBookingSteps locale={locale} dict={dict} />
+      <RoyalBookingSteps locale={locale} />
 
       <section id="fusion-story" className={styles.story} aria-labelledby="fusion-story-title" data-royal-story>
         <div className={styles.storyIntro}><h2 id="fusion-story-title">{copy.journeyTitle}</h2></div>
@@ -391,7 +393,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
           <a href="#fusion-book">{copy.heroBook}<DirectionArrow size={19} aria-hidden /></a>
         </div>
       </section>
-      <div className={styles.filmstrip} aria-hidden="true">
+      <div className={styles.filmstrip} aria-hidden="true" hidden>
         <div className={styles.filmstripTrack}>
           {[
             '/assets/homepage-v2/chauffeur-welcome.jpg',

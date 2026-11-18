@@ -1,6 +1,8 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
+import { ZIYARAT_VISUALS, getZiyaratLicenseUrl } from '@/data/ziyarat-visuals';
 import { notFound } from 'next/navigation';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
@@ -190,6 +192,32 @@ export default async function CityHubPage(props: CityHubPageProps) {
                 className="bg-surface rounded-2xl border border-border p-6 hover:border-gold-line transition-all shadow-xs flex flex-col justify-between"
               >
                 <div>
+                  <figure className="mb-5">
+                    <Link
+                      href={`/${locale}/ziyarat/${site.city}/${site.slug}`}
+                      className="relative block aspect-[16/9] w-full overflow-hidden rounded-xl bg-bg-alt group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-dark"
+                    >
+                      <Image
+                        src={site.image}
+                        alt={isAr ? site.titleAr : site.titleEn}
+                        fill
+                        unoptimized
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, 560px"
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.035]"
+                      />
+                    </Link>
+                    {ZIYARAT_VISUALS[site.slug] && (
+                      <figcaption className="text-[10px] text-ink-muted mt-2 leading-5">
+                        {isAr ? 'الصورة: ' : 'Photo: '}
+                        <a className="underline" href={ZIYARAT_VISUALS[site.slug].source} target="_blank" rel="noopener noreferrer">{ZIYARAT_VISUALS[site.slug].author}</a>
+                        {' · '}
+                        <a className="underline" href={getZiyaratLicenseUrl(ZIYARAT_VISUALS[site.slug].license)} target="_blank" rel="noopener noreferrer">{ZIYARAT_VISUALS[site.slug].license}</a>
+                        {' · '}
+                        {isAr ? 'مقتصة للعرض' : 'cropped for display'}
+                      </figcaption>
+                    )}
+                  </figure>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-bold text-gold-dark">
                       {isAr ? site.distanceFromHaramAr : site.distanceFromHaramEn}

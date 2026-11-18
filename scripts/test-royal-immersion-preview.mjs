@@ -174,7 +174,8 @@ test('ScrollTrigger choreography respects reduced motion and cleans up its activ
   assert.match(motion, /clipPath/);
   assert.match(motion, /strokeDashoffset/);
   assert.match(motion, /scrub:/);
-  assert.match(motion, /pin: true/);
+  // Unpinned photographs avoid scrolling jumps and irregular full-page image sizes.
+  assert.doesNotMatch(motion, /pin:\s*true/);
   assert.match(motion, /media\.revert\(\)/);
   assert.match(motion, /context\.revert\(\)/);
   assert.match(homepage, /<RoyalMotion\s*\/>/);

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronDown, CarFront, CalendarCheck2, Handshake, Wallet } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronDown, CarFront, CalendarCheck2, Handshake } from 'lucide-react';
 import { APPROVED_5_FLEET } from '@/data/approved-fleet-homepage';
 import { LOCALE_CONFIG, type Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
@@ -14,9 +14,8 @@ import styles from './RoyalImmersionEditorial.module.css';
 type Props = { locale: Locale };
 type LocalizedProps = Props & { dict: Dictionary };
 const FAQ_QUESTIONS = [1, 4, 5, 6, 3, 2, 9, 10, 7] as const;
-const faqCabin = APPROVED_5_FLEET.find(vehicle => vehicle.id === 'hyundai-staria')?.interiorImage;
 
-export function RoyalBookingSteps({ locale, dict }: Props & { dict?: Dictionary }) {
+export function RoyalBookingSteps({ locale }: Props) {
   const copy = royalEditorial[locale].process;
   const number = new Intl.NumberFormat(locale, { minimumIntegerDigits: 2 });
   const StepIcons = [CarFront, CalendarCheck2, Handshake];
@@ -47,12 +46,6 @@ export function RoyalBookingSteps({ locale, dict }: Props & { dict?: Dictionary 
           );
         })}
       </ol>
-      {dict && (
-        <div className={styles.processPolicy} role="note">
-          <Wallet size={23} strokeWidth={1.5} aria-hidden="true" />
-          <span>{dict.booking_card.payOnArrivalNotice}</span>
-        </div>
-      )}
     </section>
   );
 }
@@ -87,19 +80,35 @@ export function RoyalServiceChapters({ locale, dict }: LocalizedProps) {
     },
   ] as const;
   const Arrow = LOCALE_CONFIG[locale].dir === 'rtl' ? ArrowLeft : ArrowRight;
+  const [activeService, setActiveService] = useState(0);
+  const serviceImages = [
+    '/assets/homepage-v2/chauffeur-welcome.jpg',
+    '/assets/blueprint/routes/makkah-madinah.webp',
+    '/assets/homepage-v2/hero-poster.jpg',
+    '/assets/homepage-v2/ziyarat-haram.jpg',
+    '/assets/blueprint/routes/madinah-ziyarat.webp',
+    APPROVED_5_FLEET.find(vehicle => vehicle.id === 'hyundai-staria')?.interiorImage || '/assets/homepage-v2/chauffeur-welcome.jpg',
+    APPROVED_5_FLEET.find(vehicle => vehicle.id === 'toyota-hiace')?.exteriorImage || '/assets/blueprint/routes/makkah-madinah.webp',
+  ];
 
   return (
     <>
       <section className={styles.services} id="royal-services" aria-labelledby="royal-services-title">
         <div className={styles.servicesPhoto} data-royal-image>
-          <Image src="/assets/blueprint/routes/makkah-madinah.webp" fill sizes="(max-width:760px) 100vw, 48vw" alt="" />
+          <Image key={serviceImages[activeService]} src={serviceImages[activeService]} fill sizes="(max-width:760px) 100vw, 48vw" alt="" />
         </div>
         <div className={styles.servicesBody}>
           <h2 id="royal-services-title">{services.title}</h2>
           <ul className={styles.serviceRows} role="list">
-            {serviceRows.map(([title, text, path]) => (
+            {serviceRows.map(([title, text, path], index) => (
               <li key={title}>
-                <Link className={styles.serviceRow} href={`/${locale}/${path}`}>
+                <Link
+                  className={styles.serviceRow}
+                  href={`/${locale}/${path}`}
+                  data-active={index === activeService}
+                  onMouseEnter={() => setActiveService(index)}
+                  onFocus={() => setActiveService(index)}
+                >
                   <div><h3>{title}</h3><p>{text}</p></div>
                   <Arrow className={styles.serviceArrow} size={19} aria-hidden="true" />
                 </Link>
@@ -231,11 +240,7 @@ export function RoyalGuestConfidence({ locale, dict }: LocalizedProps) {
         <div className={styles.faqIntro}>
           <h2 id="royal-faq-title">{dict.faq.heading}</h2>
           <p>{dict.faq.subtitle}</p>
-          {faqCabin && (
-            <div className={styles.faqPhoto}>
-              <Image src={faqCabin} fill alt="" sizes="(max-width:760px) 100vw, 33vw" />
-            </div>
-          )}
+
         </div>
         <div className={styles.faqList}>
           {FAQ_QUESTIONS.map((question) => {

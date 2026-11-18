@@ -15,15 +15,18 @@ test('owner prototype second HTML arc now replaces old static ziyarat photo',()=
  assert.match(zcss,/\.card\[data-slot="0"\]/);
  assert.match(zcss,/@media\(max-width:520px\)/);
 });
-test('arc has five existing image assets and valid tour links, no fake price or guides',()=>{
- for(const path of [
-  'public/assets/homepage-v2/ziyarat-haram.jpg','public/assets/homepage-v2/ziyarat-masjid-aisha.jpg',
-  'public/assets/homepage-v2/ziyarat-thawr.jpg','public/assets/homepage-v2/service-madinah.jpg',
-  'public/assets/homepage-v2/route-madinah-hotel.jpg'
- ])assert.ok(existsSync(new URL('../'+path,import.meta.url)),path);
+test('arc renders nine distinct landmark images and links to real details or booking tours',()=>{
+ const visuals=read('src/data/ziyarat-visuals.ts');
+ for(const key of ['cave-hira','jabal-thawr','mina','arafat','masjid-aisha',
+   'masjid-quba','mount-uhud','masjid-qiblatayn','seven-mosques']) {
+   assert.ok(arc.includes("key:'"+key+"'"),key);
+   assert.ok(visuals.includes("'"+key+"':"),key);
+ }
+ assert.match(arc,/currentHref/);
+ assert.match(arc,/ZIYARAT_VISUALS\[photo\.key\]\.src/);
  assert.match(arc,/makkah-half-day/);
  assert.match(arc,/madinah-half-day/);
- assert.match(arc,/\/ziyarat\/tours\/'\+current\.tour/);
+ assert.doesNotMatch(arc,/src:'\/assets\/homepage-v2\//);
  assert.doesNotMatch(arc,/SAR \d+|fakeFare|tourGuideFee/);
 });
 test('arc supports 10 locales, accessible controls, swipe and reduced motion',()=>{
