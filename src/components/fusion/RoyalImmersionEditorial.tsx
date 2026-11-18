@@ -20,6 +20,11 @@ export function RoyalBookingSteps({ locale, dict }: Props & { dict?: Dictionary 
   const copy = royalEditorial[locale].process;
   const number = new Intl.NumberFormat(locale, { minimumIntegerDigits: 2 });
   const StepIcons = [CarFront, CalendarCheck2, Handshake];
+  const stepWord: Record<Locale, string> = {
+    ar: 'الخطوة', en: 'STEP', ms: 'LANGKAH', id: 'LANGKAH',
+    ur: 'مرحلہ', fr: 'ÉTAPE', es: 'PASO', de: 'SCHRITT',
+    tr: 'ADIM', hi: 'चरण',
+  };
 
   return (
     <section className={styles.process} aria-labelledby="royal-process-title">
@@ -35,7 +40,7 @@ export function RoyalBookingSteps({ locale, dict }: Props & { dict?: Dictionary 
               <span className={styles.processNumber} aria-hidden="true">
                 <b>{number.format(index + 1)}</b><StepIcon size={36} strokeWidth={1.35} />
               </span>
-              <small className={styles.processStepLabel}>{'STEP ' + number.format(index + 1)}</small>
+              <small className={styles.processStepLabel}>{stepWord[locale] + ' ' + number.format(index + 1)}</small>
               <h3>{title}</h3>
               <p>{detail}</p>
             </li>
