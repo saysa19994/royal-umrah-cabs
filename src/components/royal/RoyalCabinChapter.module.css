@@ -25,3 +25,20 @@
 }
 @media(max-width:390px){.photo{height:66vw;min-height:210px}.copy{padding:46px 16px 56px}.copy h2{font-size:36px}.specs span{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.chapter *{transition:none!important}}
+
+
+/* 19 Nov visual QA: the cinematic interior should not dwarf adjacent chapters. */
+.chapter { min-height:0; grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr); }
+.copy { padding:clamp(36px,5vw,74px) clamp(24px,5.8vw,84px); }
+.copy h2 { font-size:clamp(2.15rem,3.35vw,3.55rem); line-height:1.19; }
+.copy p { margin-top:17px; font-size:.94rem; line-height:1.76; }
+.specs { margin-top:18px; padding:15px 0; }
+.photo { min-height:0; height:clamp(335px,32vw,450px); }
+.photo>span { font-size:.82rem; }
+@media(max-width:800px) {
+ .chapter { display:flex; flex-direction:column-reverse; }
+ .photo { min-height:0; height:auto; aspect-ratio:16/10; max-height:none; }
+ .copy { padding:32px 22px 45px; }
+ .copy h2 { font-size:clamp(1.95rem,6.5vw,2.65rem); }
+ .copy p { font-size:.93rem; }
+}
