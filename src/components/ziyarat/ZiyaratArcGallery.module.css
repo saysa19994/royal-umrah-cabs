@@ -62,3 +62,23 @@
  .round{width:36px;height:36px}
 }
 @media(prefers-reduced-motion:reduce){.card,.photo{transition:none!important}}
+
+
+/* Nine verified places; only the active destination and two neighbours each side
+   occupy the 3D arc. Hidden slides remain keyboard reachable through controls. */
+.card[data-slot="hidden"]{
+  opacity:0;visibility:hidden;pointer-events:none;
+  transform:translateX(-50%) translateY(36px) scale(.62);z-index:0
+}
+.credit{
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  min-height:22px;flex-wrap:wrap;margin-top:8px;font-size:10px;
+  color:#51645f;line-height:1.6;text-align:center
+}
+.credit a{color:#21454a;text-decoration:underline;text-underline-offset:2px}
+.unavailable{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  padding:15px;background:linear-gradient(140deg,#244b4d,#61706b 48%,#b39768);
+  color:white;font-size:13px;font-weight:700;line-height:1.8;text-align:center
+}
+@media(max-width:520px){.credit{font-size:9px;padding-inline:12px}}
