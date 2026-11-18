@@ -388,3 +388,14 @@
 @media (prefers-reduced-motion:reduce) {
   .serviceRow,.ziGrid img,.faqAnswer,.faqItem button>svg { transition:none!important; }
 }
+
+
+/* Video-reference adaptation: editorial hover/focus photograph, never a fake link. */
+.servicesPhoto img { animation: duyufServiceReveal .42s ease-out both; }
+@keyframes duyufServiceReveal {
+  from { opacity: .62; transform: scale(1.035); }
+  to { opacity: 1; transform: scale(1); }
+}
+.serviceRow[data-active="true"] { background: #fffdf9; padding-inline: 14px; border-inline-start: 3px solid #957040; }
+.serviceRow[data-active="true"] .serviceArrow { color: #967041; }
+@media (prefers-reduced-motion: reduce) { .servicesPhoto img { animation: none; } }
