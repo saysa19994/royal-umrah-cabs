@@ -53,7 +53,7 @@ function ArrivalFilm({ playLabel, pauseLabel }: { playLabel: string; pauseLabel:
     const small = window.matchMedia('(max-width: 700px)');
     let inView = true;
     const sync = () => {
-      const enabled = requestedMotion.current ?? !reduced.matches;
+      const enabled = document.documentElement.dataset.comfortMode !== 'on' && (requestedMotion.current ?? !reduced.matches);
       if (!enabled || !inView || document.hidden) {
         element.pause();
         if (!enabled && reduced.matches) setSource('');
@@ -75,12 +75,15 @@ function ArrivalFilm({ playLabel, pauseLabel }: { playLabel: string; pauseLabel:
     reduced.addEventListener('change', onPreferenceChange);
     small.addEventListener('change', sync);
     document.addEventListener('visibilitychange', sync);
+    const comfortObserver = new MutationObserver(sync);
+    comfortObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-comfort-mode'] });
     sync();
     return () => {
       observer.disconnect();
       reduced.removeEventListener('change', onPreferenceChange);
       small.removeEventListener('change', sync);
       document.removeEventListener('visibilitychange', sync);
+      comfortObserver.disconnect();
       element.pause();
     };
   }, []);
