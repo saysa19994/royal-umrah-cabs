@@ -180,3 +180,52 @@
  .faqItem button>strong{font-size:14px}
 }
 @media(prefers-reduced-motion:reduce){.ziGrid img,.servicesPhoto img,.chauffeurPhoto img,.faqPhoto img,.faqAnswer,.faqItem button>svg,.serviceArrow{transition:none!important}}
+
+/* Editorial booking chapter v3 — reference-inspired proportions, original branding */
+.process { background:#f8f7f3; padding:clamp(68px,8vw,116px) max(22px,calc((100vw - 1272px)/2)) clamp(70px,7.5vw,104px); }
+.processHead { display:block; text-align:center; max-width:1000px; margin:0 auto clamp(58px,6vw,86px); }
+.processHead h2 { max-width:none; font-family:var(--font-manrope),sans-serif; font-size:clamp(2.35rem,4.25vw,4.4rem); letter-spacing:-.045em; font-weight:500; line-height:1.16; }
+.processHead>p { max-width:620px; margin:20px auto 0!important; font-size:clamp(.92rem,1.1vw,1.03rem); color:#526070; line-height:1.75; }
+.processSteps { max-width:1272px; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(32px,4.2vw,82px); border:0; }
+.processSteps li { padding:0; border:0; min-width:0; }
+.processSteps li::before { display:none; }
+.processNumber { display:flex!important; align-items:center; gap:11px; min-height:85px; color:#a47c3c; }
+.processNumber b { font-family:Georgia,serif; font-size:clamp(3.25rem,5vw,5.4rem); font-weight:400; letter-spacing:-.07em; }
+.processNumber svg { color:#101827; width:34px; height:34px; }
+.processStepLabel { display:block; margin:21px 0 3px; font-size:.94rem; font-weight:700; letter-spacing:.045em; color:#a47c3c; }
+.processSteps h3 { font-size:clamp(1.32rem,2vw,2.05rem); font-weight:570; line-height:1.35; letter-spacing:-.015em; margin:0 0 14px!important; }
+.processSteps p { max-width:360px; font-size:clamp(.94rem,1.14vw,1.04rem); line-height:1.75; color:#3f4d5d; }
+.processPolicy { display:flex; justify-content:center; align-items:center; text-align:center; gap:13px; max-width:1272px; min-height:116px; padding:26px clamp(18px,3vw,50px); margin:clamp(54px,7vw,100px) auto 0; background:#fff; box-shadow:0 14px 45px rgba(16,24,39,.035); color:#101827; font-size:clamp(1.05rem,1.7vw,1.55rem); line-height:1.6; font-weight:550; }
+.processPolicy svg { color:#9b733b; flex:none; }
+.services { width:min(calc(100% - 44px),1272px); min-height:490px; margin:0 auto clamp(72px,8vw,122px); grid-template-columns:.98fr 1.02fr; }
+.servicesPhoto { min-height:490px; }
+.servicesBody { padding:clamp(30px,4vw,60px); }
+.serviceRow { min-height:58px; padding-block:10px; }
+.ziyarat { padding-inline:max(22px,calc((100vw - 1272px)/2)); }
+.ziHead,.ziGrid { max-width:1272px; }
+.ziGrid>a { min-height:430px; }
+.ziGrid>a:nth-child(2) { min-height:365px; margin-top:65px; }
+.chauffeur { width:min(calc(100% - 44px),1272px); margin:0 auto clamp(70px,8vw,110px); min-height:470px; }
+.chauffeurPhoto { min-height:470px; }
+.chauffeurWords { padding:clamp(32px,4vw,60px); }
+.reviews { padding-inline:max(22px,calc((100vw - 1272px)/2)); }
+.faq { padding-inline:max(22px,calc((100vw - 1272px)/2)); gap:clamp(35px,5vw,80px); }
+@media (max-width:760px) {
+ .process { padding:70px 20px 72px; }
+ .processHead { text-align:start; margin-bottom:36px; }
+ .processHead h2 { font-size:clamp(2.15rem,8.5vw,3rem); }
+ .processHead>p { margin:14px 0 0!important; }
+ .processSteps { display:grid; grid-template-columns:1fr; gap:0; }
+ .processSteps li { display:grid; grid-template-columns:79px minmax(0,1fr); column-gap:17px; padding:24px 0; border-top:1px solid #d5d3cc; }
+ .processNumber { display:flex!important; flex-direction:column; align-items:flex-start; justify-content:center; gap:1px; grid-row:1/4; min-height:0; }
+ .processNumber b { font-size:3.3rem; }
+ .processNumber svg { width:26px; height:26px; }
+ .processStepLabel { margin:2px 0 5px; font-size:.78rem; }
+ .processSteps h3 { margin:0 0 7px!important; font-size:1.33rem; }
+ .processSteps p { font-size:.92rem; }
+ .processPolicy { margin-top:24px; min-height:0; padding:22px; font-size:1rem; }
+ .services,.chauffeur { width:100%; margin-bottom:68px; }
+ .servicesPhoto { min-height:0; }
+ .ziGrid>a,.ziGrid>a:nth-child(2) { min-height:0; margin-top:0; }
+}
+@media (prefers-reduced-motion:reduce) { .process *, .process *::before { animation:none!important; transition:none!important; } }
