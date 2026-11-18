@@ -10,6 +10,7 @@ import type { SiteSettings } from '@/lib/settings';
 import { useCurrency } from '@/context/CurrencyContext';
 import { useTheme } from '@/context/ThemeContext';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
+import { ComfortModeToggle } from '@/components/common/ComfortModeToggle';
 import { Globe, Menu, X, ArrowUpRight, CalendarDays, ChevronDown } from 'lucide-react';
 
 interface HeaderProps {
@@ -261,6 +262,10 @@ export function Header({ locale, dict, settings }: HeaderProps) {
 
         {/* RIGHT CONTROLS: THEME SWITCHER, LANGUAGE, CURRENCY, BOOK ONLINE CTA, MOBILE TOGGLE */}
         <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="hidden lg:flex items-center">
+            <ComfortModeToggle locale={locale} />
+          </div>
+
           {/* THEME SWITCHER (ALWAYS VISIBLE — MOBILE & DESKTOP) */}
           <div className="hidden items-center sm:flex">
             <ThemeToggle locale={locale} />
@@ -415,6 +420,11 @@ export function Header({ locale, dict, settings }: HeaderProps) {
               </Link>
             ))}
           </nav>
+
+          {/* DISCOVERABLE COMFORT VIEW — BESIDE LANGUAGE AND CURRENCY */}
+          <div className="pt-4">
+            <ComfortModeToggle locale={locale} fullWidth />
+          </div>
 
           {/* DRAWER CONTROLS: THEME SWITCHER + LANGUAGE & CURRENCY */}
           <div className={`py-4 border-t space-y-3 ${isDark ? 'border-white/10' : 'border-[#E8E2D6]'}`}>
