@@ -40,7 +40,7 @@ export async function generateMetadata(
     authors: [{ name: 'Duyuf Alrahman VIP Chauffeur Team' }],
     creator: 'Duyuf Alrahman VIP',
     publisher: 'Duyuf Alrahman VIP',
-    robots: {
+    robots: process.env.VERCEL_ENV === 'preview' ? {index: false, follow: false, noarchive: true} : {
       index: true,
       follow: true,
       googleBot: {

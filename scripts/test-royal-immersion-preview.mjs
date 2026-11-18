@@ -64,3 +64,19 @@ test('Review API must not claim success after database insertion failure',()=>{
  assert.match(reviews,/The review could not be saved/);
  assert.match(reviews,/Could not verify that the review was saved/);
 });
+
+
+test('Preview never requests indexing; production keeps its original SEO rules',()=>{
+ const localeLayout=read('src/app/[locale]/layout.tsx');
+ assert.match(localeLayout,/VERCEL_ENV === 'preview'/);
+ assert.match(localeLayout,/index: false, follow: false/);
+ assert.match(localeLayout,/index: true/);
+});
+test('Subtle ScrollTrigger animation exists with reduced-motion opt out and cleanup',()=>{
+ const motion=read('src/components/royal/RoyalMotion.tsx');
+ assert.match(motion,/import\('gsap'\)/);
+ assert.match(motion,/import\('gsap\/ScrollTrigger'\)/);
+ assert.match(motion,/prefers-reduced-motion: reduce/);
+ assert.match(motion,/context\.revert\(\)/);
+ assert.match(homepage,/<RoyalMotion\/>/);
+});

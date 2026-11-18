@@ -11,6 +11,7 @@ import type {Dictionary} from '@/i18n/get-dictionary';
 import {RoyalBookingSteps,RoyalServiceChapters,RoyalGuestConfidence} from './RoyalImmersionEditorial';
 import styles from './SignatureFusionHomepage.module.css';
 import {RoyalCabinChapter} from '@/components/royal/RoyalCabinChapter';
+import {RoyalMotion} from '@/components/royal/RoyalMotion';
 
 type Lang='ar'|'en';
 type Props={locale:Lang;rates:TransferRatesMap;dict:Dictionary};
@@ -105,6 +106,7 @@ export default function SignatureFusionHomepage({locale,rates,dict}:Props){
  ];
  const facts=[c.airportWait,c.miqat,c.cancel,c.children,c.concierge];
  return <div className={styles.page} dir={rtl?'rtl':'ltr'} data-signature-fusion="true">
+  <RoyalMotion/>
   <div className={styles.hero} id="fusion-top">
    <div className={styles.heroCopy}>
     <div className={styles.heroTag}><span className={styles.heroDot}/> {c.label}</div>

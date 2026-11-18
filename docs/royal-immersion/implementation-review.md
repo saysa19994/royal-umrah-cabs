@@ -21,7 +21,7 @@ Production policy: **NO production deployment, migration, database write or publ
 
 ## Important design and technical risks
 - The original three inspirational videos and the full-height screenshot are **not directly retrievable from this turn**. Their timestamps, frame-by-frame motion and exact video crop cannot honestly be claimed as validated. The authentic project video files are present in the repository, but frame-by-frame visual inspection remains pending.
-- GSAP/ScrollTrigger has **not yet been added**; the code currently uses short CSS transitions and the project's existing interactions. Do not claim a completed GSAP motion system.
+- GSAP 3.15.1 / ScrollTrigger was added to the review-only homepage for restrained heading reveals, respecting reduced-motion and proper teardown. The original reference video choreography is still unverified and no pin/scrub sequences are claimed.
 - The full site-wide reskin and all ten-language rewrite have not been completed. Existing eight non-Arabic/English homepages retain original localized content to avoid a partial English-language rollout.
 - Verify that opening the page on an actual 375px browser does not truncate the hero's CTA, header controls or pickup/destination form. Also verify reduced-motion and dark/light headers.
 - Review POST must return a non-2xx error if Supabase fails rather than a fabricated success (security/UX change isolated on this preview).
