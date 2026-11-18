@@ -50,6 +50,9 @@ export function ZiyaratArcGallery({locale}:{locale:Locale}){
   const touchStart=useRef<number|null>(null);
   const labels=T[locale];const rtl=locale==='ar'||locale==='ur';
   const current=PHOTOS[active];
+  const currentHref=current.key==='masjid-aisha'
+    ? `/${locale}/ziyarat/tours/${current.tour}`
+    : `/${locale}/ziyarat/${current.city}/${current.key}`;
   const step=(delta:number)=>{setInteracted(true);setActive(x=>(x+delta+PHOTOS.length)%PHOTOS.length);};
   // Gentle motion as in the supplied film. It stops on focus, hover, touch,
   // manual selection, and for visitors who prefer reduced motion.
@@ -107,7 +110,7 @@ export function ZiyaratArcGallery({locale}:{locale:Locale}){
       <button type="button" className={styles.round} onClick={()=>step(1)} aria-label={labels.next}>
         {rtl?<ArrowLeft size={18}/>:<ArrowRight size={18}/>}
       </button>
-      <Link className={styles.details} href={'/'+locale+'/ziyarat/tours/'+current.tour}>
+      <Link className={styles.details} href={currentHref}>
         <MapPin size={15} aria-hidden="true"/>{labels.explore}<ArrowUpRight size={16} aria-hidden="true"/>
       </Link>
     </div>
