@@ -67,6 +67,15 @@ export const ZIYARAT_VISUALS: Record<string, ZiyaratVisual> = {
   },
 };
 
+export function getZiyaratLicenseUrl(license: string) {
+  if (license === 'CC0 1.0') return 'https://creativecommons.org/publicdomain/zero/1.0/';
+  if (license === 'CC BY-SA 2.5') return 'https://creativecommons.org/licenses/by-sa/2.5/';
+  if (license === 'CC BY-SA 3.0') return 'https://creativecommons.org/licenses/by-sa/3.0/';
+  if (license === 'CC BY 3.0') return 'https://creativecommons.org/licenses/by/3.0/';
+  if (license === 'CC BY 4.0') return 'https://creativecommons.org/licenses/by/4.0/';
+  return 'https://creativecommons.org/licenses/by-sa/4.0/';
+}
+
 export const ZIYARAT_CARD_TO_SITE: Record<string, string> = {
   'cave-hira': 'cave-hira',
   'cave-thawr': 'jabal-thawr',
