@@ -145,6 +145,7 @@ export default async function LocaleLayout(props: LocaleLayoutProps) {
               (function() {
                 try {
                   var saved = localStorage.getItem('duyuf_theme_preference');
+                  document.documentElement.dataset.comfortMode = localStorage.getItem('duyuf_comfort_mode') === 'on' ? 'on' : 'off';
                   var theme = (saved === 'dark' || saved === 'light') ? saved : 'light';
                   document.documentElement.setAttribute('data-theme', theme);
                   if (theme === 'dark') {
