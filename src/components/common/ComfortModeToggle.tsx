@@ -55,11 +55,11 @@ export function ComfortModeToggle({
       aria-pressed={enabled}
       aria-label={label}
       title={label}
-      className={\`duyuf-comfort-toggle inline-flex items-center gap-2 min-h-[44px] rounded-full border border-[#c8c2b6] bg-[#fffdf8] px-3 py-2 text-[12px] font-bold text-[#111824] shadow-sm transition-colors hover:bg-[#ece8df] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#967041] \${fullWidth ? 'w-full justify-between' : ''}\`}
+      className={`duyuf-comfort-toggle inline-flex items-center gap-2 min-h-[44px] rounded-full border border-[#c8c2b6] bg-[#fffdf8] px-3 py-2 text-[12px] font-bold text-[#111824] shadow-sm transition-colors hover:bg-[#ece8df] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[#967041] ${fullWidth ? 'w-full justify-between' : ''}`}
     >
       <Accessibility size={19} aria-hidden="true" />
       <span>{label}</span>
-      <span aria-hidden="true" className={\`grid size-5 place-items-center rounded-full border \${enabled ? 'border-[#142a3d] bg-[#142a3d] text-white' : 'border-[#b8b2a7]'}\`}>
+      <span aria-hidden="true" className={`grid size-5 place-items-center rounded-full border ${enabled ? 'border-[#142a3d] bg-[#142a3d] text-white' : 'border-[#b8b2a7]'}`}>
         {enabled && <Check size={12} strokeWidth={2.5} />}
       </span>
     </button>
