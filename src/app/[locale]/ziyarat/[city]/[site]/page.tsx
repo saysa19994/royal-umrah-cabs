@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ZIYARAT_VISUALS, getZiyaratLicenseUrl } from '@/data/ziyarat-visuals';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { notFound } from 'next/navigation';
 import { Locale } from '@/i18n/config';
@@ -110,10 +111,31 @@ export default async function SiteDetailPage(props: SiteDetailPageProps) {
               src={s.image}
               alt={isAr ? s.titleAr : s.titleEn}
               fill
+              unoptimized
               sizes="(max-width: 1024px) 100vw, 896px"
               className="object-cover"
             />
           </div>
+          {ZIYARAT_VISUALS[s.slug] && (
+            <p className="mt-2 text-[11px] text-ink-muted">
+              {isAr ? 'تصوير: ' : 'Photo by '}
+              <a
+                href={ZIYARAT_VISUALS[s.slug].source}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2"
+              >{ZIYARAT_VISUALS[s.slug].author}</a>
+              {' · '}
+              <a
+                href={getZiyaratLicenseUrl(ZIYARAT_VISUALS[s.slug].license)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2"
+              >{ZIYARAT_VISUALS[s.slug].license}</a>
+              {' · '}
+              {isAr ? 'اقتصاص لملاءمة العرض' : 'cropped to fit'}
+            </p>
+          )}
         </div>
 
         {/* 1. ANSWER-FIRST QUICK OVERVIEW */}
