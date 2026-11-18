@@ -7,10 +7,12 @@ import {useRouter} from 'next/navigation';
 import {ArrowLeft,ArrowRight,ArrowUpRight,CalendarDays,CarFront,Check,ChevronDown,Clock3,Compass,Luggage,MapPin,Plane,ShieldCheck,Users,Wallet} from 'lucide-react';
 import {APPROVED_5_FLEET} from '@/data/approved-fleet-homepage';
 import type {TransferRatesMap} from '@/lib/pricing-db';
+import type {Dictionary} from '@/i18n/get-dictionary';
+import {RoyalBookingSteps,RoyalServiceChapters,RoyalGuestConfidence} from './RoyalImmersionEditorial';
 import styles from './SignatureFusionHomepage.module.css';
 
 type Lang='ar'|'en';
-type Props={locale:Lang;rates:TransferRatesMap};
+type Props={locale:Lang;rates:TransferRatesMap;dict:Dictionary};
 const FARE_KEY:Record<string,string>={
  'toyota-camry':'camry','hyundai-staria':'staria','gmc-yukon-xl':'yukon','toyota-hiace':'hiace','toyota-coaster':'coaster'
 };
@@ -35,7 +37,7 @@ const COPY={
  }
 } as const;
 const FULL_ARROW=<ArrowUpRight size={17} aria-hidden="true"/>;
-export default function SignatureFusionHomepage({locale,rates}:Props){
+export default function SignatureFusionHomepage({locale,rates,dict}:Props){
  const c=COPY[locale],rtl=locale==='ar',router=useRouter();
  const [route,setRoute]=useState<string>(ROUTES[0].id);
  const [carIndex,setCarIndex]=useState(1);
@@ -83,8 +85,7 @@ export default function SignatureFusionHomepage({locale,rates}:Props){
   {title:c.destination,desc:c.destinationDesc,img:'/assets/homepage-v2/route-madinah-hotel.jpg'}
  ];
  const facts=[c.airportWait,c.miqat,c.cancel,c.children,c.concierge];
- return <main className={styles.page} dir={rtl?'rtl':'ltr'} data-signature-fusion="true">
-  <div className={styles.previewBar}><span>DUYUF / SIGNATURE FUSION 01</span><span>{c.top}</span><Link href={'/'+(rtl?'en':'ar')}>{c.viewEn}</Link></div>
+ return <div className={styles.page} dir={rtl?'rtl':'ltr'} data-signature-fusion="true">
   <div className={styles.hero} id="fusion-top">
    <div className={styles.heroCopy}>
     <div className={styles.heroTag}><span className={styles.heroDot}/> {c.label}</div>
@@ -116,6 +117,7 @@ export default function SignatureFusionHomepage({locale,rates}:Props){
    <p className={styles.bookFine}><Check size={15}/>{c.included}</p>
   </section>
   <section className={styles.trustLine} aria-label={c.promiseTitle}><div><ShieldCheck size={17}/>{c.trust1}</div><div><Plane size={17}/>{c.trust2}</div><div><Clock3 size={17}/>{c.trust3}</div></section>
+  <RoyalBookingSteps locale={locale}/>
   <section id="fusion-story" className={styles.story} aria-labelledby="fusion-story-title">
     <div className={styles.storyIntro}><span className={styles.serial}>{c.chapter}</span><h2 id="fusion-story-title">{c.chapterTitle}</h2><p>{c.chapterIntro}</p></div>
     <div className={styles.storyImage}><Image src={scenes[chapter].img} alt={scenes[chapter].title} fill sizes="(max-width:760px) 100vw, 53vw" className={styles.cover}/><span>0{chapter+1} / 03</span></div>
@@ -135,8 +137,9 @@ export default function SignatureFusionHomepage({locale,rates}:Props){
    <div className={styles.routesDisplay}><div className={styles.routePhoto}><Image src={journey.image} alt={journey[locale]} fill sizes="(max-width:820px) 100vw, 55vw" className={styles.cover}/><span>{journey.code}</span></div><div className={styles.routePanel}><span className={styles.eyebrow}>{c.chooseRoute}</span><div className={styles.routeList}>{ROUTES.slice(0,5).map((r,i)=><button type="button" key={r.id} aria-pressed={route===r.id} onClick={()=>changeRoute(r.id)}><span>0{i+1}</span><strong>{r[locale]}</strong><ArrowUpRight size={17}/></button>)}</div><div className={styles.routePrice}><small>{c.fare} / {car.name[locale]||car.name.en}</small><strong>{eligible?fm(fare as number):'—'} <span>SAR</span></strong><p>{c.included}</p></div><button type="button" disabled={!href} onClick={book} className={styles.routeAction}>{c.routeBook}<ArrowLeft size={18}/></button></div></div>
    <div className={styles.sectionFoot}><Link href={'/'+locale+'/routes'}>{c.allRoutes}{FULL_ARROW}</Link></div>
   </section>
+  <RoyalServiceChapters locale={locale}/>
   <section className={styles.promises}><div className={styles.promiseHead}><span className={styles.serial}>{c.promiseEye}</span><h2>{c.promiseTitle}</h2></div><div className={styles.promiseList}>{facts.map((f,i)=><div key={f}><span>0{i+1}</span><p>{f}</p><Check size={17}/></div>)}</div></section>
+  <RoyalGuestConfidence locale={locale} dict={dict}/>
   <section className={styles.finish}><span>{c.endEye}</span><h2>{c.endTitle}</h2><a href="#fusion-book">{c.endCta}<ArrowLeft size={19}/></a><p><Wallet size={16}/>{c.payNotice}</p></section>
-  <footer className={styles.last}><span>© DUYUF ALRAHMAN VIP · SIGNATURE FUSION PREVIEW</span><div><a href="#fusion-top">↑ TOP</a><Link href={'/'+locale+'/contact'}>{rtl?'تواصل معنا':'Contact us'}</Link></div></footer>
- </main>;
+ </div>;
 }
