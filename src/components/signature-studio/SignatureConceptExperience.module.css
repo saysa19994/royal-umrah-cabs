@@ -1,0 +1,436 @@
+/*
+ * THE SIGNATURE EXPERIENCE — Phase 1 design laboratory.
+ * Intentional three-way divergent layout system:
+ * A = limestone architecture / non-overlay split video
+ * B = magazine cover / asymmetric type / burgundy editorial folio
+ * C = cinema frame / espresso immersion / grounded trip command console
+ * This module is isolated to new nonindex preview routes. No global design tokens changed.
+ */
+.studio{--paper:#fbf9f4;--surface:#f3efe5;--ink:#292821;--brand:#34483b;--accent:#b77c4d;--line:#d7cbb8;--sub:#706d64;min-height:100vh;width:100%;background:var(--paper);color:var(--ink);font-family:"Segoe UI",Tahoma,Arial,sans-serif;overflow-x:clip;font-size:14px;line-height:1.6;isolation:isolate}
+.studio *{box-sizing:border-box}
+.studio h1,.studio h2,.studio h3,.studio h4,.studio p{margin:0}
+.studio h1,.studio h2,.studio h3{font-weight:780}
+.studio a{color:inherit;text-decoration:none}
+.studio button{font:inherit;cursor:pointer}
+.studio button:disabled{cursor:not-allowed;opacity:.45}
+.studio :is(button,a,select,input):focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.studio svg{flex:none}
+.studio[data-concept="editorial"]{--paper:#f8f4ec;--surface:#ece0d4;--ink:#302825;--brand:#542e32;--accent:#b38b62;--line:#d3c5ba;--sub:#786966;font-family:"Georgia","Segoe UI",Tahoma,serif}
+.studio[data-concept="cinematic"]{--paper:#29251f;--surface:#342d27;--ink:#f8f5ef;--brand:#b96746;--accent:#dfac7b;--line:#605347;--sub:#c3b6a3;font-family:"Segoe UI",Tahoma,Arial,sans-serif}
+.studioTopbar{display:flex;justify-content:space-between;align-items:center;gap:20px;min-height:47px;padding:8px clamp(14px,4vw,64px);color:#e8e4dc;background:#222421;font-size:10px;letter-spacing:.025em;font-family:"Segoe UI",Arial,sans-serif;position:relative;z-index:10}
+.studioTopbar>span{color:#c5c1b5;white-space:nowrap}
+.studioTopbar nav{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.studioTopbar nav a{padding:6px 11px;border:1px solid #55534c;color:#c9c7bd;font-weight:800;font-size:10px;line-height:1.5}
+.studioTopbar nav a span{font-weight:550;margin-inline-start:6px}
+.studioTopbar nav a[aria-current=page]{background:#eee8dc;color:#222421;border-color:#eee8dc}
+.backSite{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.siteNav{height:92px;display:flex;justify-content:space-between;align-items:center;gap:30px;padding:0 clamp(24px,5.5vw,95px);background:var(--paper);border-bottom:1px solid var(--line);position:relative;z-index:2}
+.logo{display:inline-flex;align-items:center;gap:12px;line-height:1.1;color:var(--brand);white-space:nowrap}
+.logoMark{display:block;width:43px;height:47px;color:var(--brand)}
+.logoMark svg{display:block;width:100%;height:100%}
+.wordmark{display:flex;flex-direction:column;gap:4px}
+.wordmark strong{font-size:19px;font-weight:850;line-height:1.2;letter-spacing:0}
+.wordmark em{font-size:10px;font-style:normal}
+.wordmark small{font-size:9px;letter-spacing:.105em;line-height:1.4;font-family:"Segoe UI",Arial,sans-serif}
+.navLinks{display:flex;align-items:center;gap:32px;font-size:12px;font-weight:760}
+.navLinks a:hover{color:var(--accent)}
+.langToggle{font-size:11px;min-width:55px;padding:9px 13px;border:1px solid var(--line);text-align:center;font-weight:850}
+.kicker{display:block;letter-spacing:.15em;font-size:11px;font-weight:860;color:var(--accent);font-family:"Segoe UI",Arial,sans-serif}
+.primaryAction{min-height:53px;display:inline-flex;align-items:center;justify-content:center;gap:16px;padding:13px 22px;background:var(--brand);color:#fff!important;font-weight:830;font-size:12px;width:max-content}
+.primaryAction:hover{filter:brightness(1.15)}
+.film{width:100%;height:100%;object-fit:cover;display:block}
+.facts{display:flex;justify-content:space-around;gap:15px;align-items:center;border-block:1px solid var(--line);background:var(--paper);min-height:94px;padding:18px 30px}
+.facts span{font-size:12px;display:flex;align-items:center;gap:12px;color:var(--ink);font-weight:760}
+.facts svg{color:var(--accent)}
+.policy{display:flex;align-items:start;gap:9px;color:var(--sub);font-size:11px;line-height:1.75;margin:0}
+.policy svg{color:var(--accent)}
+/* Shared functional price, fleet, step and booking atoms; each concept composes them differently */
+.bookingControls{display:grid;grid-template-columns:1.6fr 1fr .65fr 1.4fr 1.1fr;gap:0;background:#fffefa;border:1px solid var(--line);color:#292821;min-height:101px;box-shadow:0 18px 38px rgba(41,38,28,.07)}
+.bookingControls>label{display:flex;justify-content:center;flex-direction:column;min-width:0;padding:16px 17px;border-inline-end:1px solid #ded8cc;gap:8px}
+.bookingControls>label>span{font-size:10px;font-weight:760;display:flex;gap:7px;align-items:center;color:#8b806d}
+.bookingControls>label>span svg{color:var(--accent)}
+.bookingControls select,.bookingControls input{width:100%;min-width:0;background:transparent;color:#292821;font-size:12px;font-weight:750;border:0;border-radius:0;padding:5px 0;max-width:100%;font-family:inherit}
+.bookingControls>button{border:0;border-radius:0;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;gap:9px;padding:14px;font-size:12px;font-weight:800;min-height:62px;text-align:center}
+.bookingControls>button:not(:disabled):hover{filter:brightness(1.16)}
+.fleetSection{padding:105px clamp(20px,6vw,94px) 110px;background:var(--surface);color:var(--ink)}
+.fleetHeading{display:grid;grid-template-columns:.37fr 1fr;gap:30px;align-items:end;margin-bottom:45px}
+.fleetHeading>span{font-size:11px;letter-spacing:.12em;font-weight:860;color:var(--accent)}
+.fleetHeading h2{font-size:clamp(37px,4.4vw,67px);line-height:1.21;font-weight:780;text-wrap:balance}
+.fleetComposition{min-height:560px;background:var(--paper);border:1px solid var(--line)}
+.vehicleSelector{min-width:0}
+.vehicleSelector button{border:0;min-width:0;text-align:start;background:transparent;color:var(--ink);font-size:12px;font-weight:750}
+.vehicleSelector button>span{font-size:10px;color:var(--accent);margin-inline-end:9px}
+.vehicleSelector button[aria-pressed=true]{color:var(--brand);font-weight:900}
+.showcasePhoto{position:relative;min-height:530px;overflow:hidden;background:radial-gradient(circle at 50% 52%,#fcfcfa,#d7dcd4)}
+.carImage{object-fit:contain;width:100%;height:100%}
+.interiorImage{object-fit:cover;width:100%;height:100%}
+.photoLabel{position:absolute;top:22px;inset-inline-start:22px;color:#557166;font-size:11px;font-weight:850;letter-spacing:.12em}
+.photoToggle{position:absolute;bottom:20px;inset-inline:20px;display:flex;justify-content:center;gap:6px}
+.photoToggle button{font-size:11px;font-weight:750;min-height:40px;padding:9px 14px;border:1px solid #b5bfba;background:rgba(255,255,255,.88);color:#34483b}
+.photoToggle button[aria-pressed=true]{background:#34483b;color:#fff}
+.vehicleDetails{padding:36px 28px;display:flex;flex-direction:column;justify-content:center;align-items:start}
+.vehicleDetails>span{font-size:10px;letter-spacing:.08em;color:var(--accent);font-weight:850}
+.vehicleDetails h3{font-size:clamp(27px,2.7vw,40px);line-height:1.32;margin-top:16px;margin-bottom:18px}
+.vehicleDetails>p{font-size:12px;color:var(--sub);line-height:1.85}
+.vehicleDetails dl{width:100%;margin:24px 0 20px;display:flex;gap:24px;padding-block:18px;border-block:1px solid var(--line)}
+.vehicleDetails dl>div{display:flex;flex-direction:column;gap:8px}
+.vehicleDetails dt{display:flex;align-items:center;gap:6px;color:var(--sub);font-size:11px}
+.vehicleDetails dt svg{color:var(--accent)}
+.vehicleDetails dd{font-size:24px;font-weight:850;margin:0}
+.fareValue{display:inline-block;color:var(--accent);font-size:32px;line-height:1.2}
+.fareValue small{font-size:11px;color:var(--sub);margin-inline-start:4px}
+.vehicleActions{width:100%;display:flex;gap:15px;align-items:center;flex-wrap:wrap;margin-top:22px}
+.vehicleActions button{min-height:44px;padding:10px 18px;border:0;background:var(--brand);color:#fff;font-size:11px;font-weight:820}
+.vehicleActions a{display:inline-flex;align-items:center;gap:6px;color:var(--brand);font-size:11px;font-weight:820}
+.insideFeature{display:grid;grid-template-columns:1fr 1fr;min-height:330px;max-width:1280px;margin:42px auto 0;overflow:hidden}
+.insidePhoto{position:relative;min-height:330px;background:#ccc6b8}
+.insidePhoto img{object-fit:cover}
+.insideFeature>div:last-child{display:flex;flex-direction:column;align-items:start;justify-content:center;padding:34px clamp(20px,4vw,68px);background:var(--paper)}
+.insideFeature>div:last-child>span{color:var(--accent);font-size:10px;letter-spacing:.12em;font-weight:860}
+.insideFeature h3{font-size:clamp(26px,3vw,42px);line-height:1.3;margin:14px 0}
+.insideFeature p{font-size:12px;line-height:1.8;color:var(--sub)}
+.insideFeature a{display:inline-flex;align-items:center;gap:7px;margin-top:22px;color:var(--brand);font-weight:830;font-size:11px}
+.pricingSection{padding:100px clamp(20px,6vw,94px) 107px;color:var(--ink);background:var(--paper)}
+.pricingHeadline{display:grid;grid-template-columns:.3fr .85fr .65fr;gap:30px;align-items:end;margin-bottom:29px}
+.pricingHeadline>span,.edPriceTitle>span,.cinemaPriceTitle>span{font-size:11px;font-weight:850;letter-spacing:.12em;color:var(--accent)}
+.pricingHeadline h2,.edPriceTitle h2,.cinemaPriceTitle h2{font-size:clamp(37px,4.5vw,70px);line-height:1.19;letter-spacing:-.02em}
+.pricingHeadline>p,.edPriceTitle>p,.cinemaPriceTitle>p{font-size:12px;line-height:1.85;color:var(--sub)}
+.priceRows{max-width:1380px;margin:0 auto;display:flex;flex-direction:column;gap:0;border-top:2px solid var(--brand)}
+.priceRow{width:100%;display:grid;grid-template-columns:145px minmax(0,1fr) 110px 130px;align-items:center;gap:22px;min-height:121px;padding:13px 21px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:start}
+.priceRow:hover:not(:disabled){background:rgba(166,127,78,.08)}
+.priceRow[aria-pressed=true]{background:rgba(177,128,74,.12)}
+.priceImg{display:block;position:relative;width:145px;height:88px;background:linear-gradient(110deg,#e4e7df,#fbfaf6)}
+.priceImg img{object-fit:contain}
+.priceName{display:flex;flex-direction:column;gap:6px}
+.priceName strong{font-size:19px;line-height:1.4}
+.priceName small{font-size:11px;color:var(--sub)}
+.priceAmt{display:flex;flex-direction:column;gap:2px}
+.priceAmt>b{font-size:27px;color:var(--accent)}
+.priceAmt small{font-size:10px;color:var(--sub)}
+.priceChoose{font-size:11px;font-weight:850;color:var(--brand);text-align:center;border:1px solid var(--line);padding:11px 7px}
+.steps{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:11px;color:var(--sub);font-weight:800}
+.closing{display:grid;grid-template-columns:1.3fr 1fr .7fr;gap:60px;padding:67px clamp(24px,6vw,95px);background:var(--brand);color:#f8f5eb}
+.closing .logo,.closing .logoMark{color:#fbf5e7}
+.closing>div{display:flex;flex-direction:column;gap:10px;align-items:start}
+.closing>div>p{font-size:13px;font-weight:800;line-height:1.7}
+.closing>div>span,.closing>div>small{font-size:11px;line-height:1.9;color:#d9d5c5}
+.closing a:not(.logo){font-size:11px;display:inline-flex;align-items:center;gap:8px;min-height:27px}
+.closing a:hover{text-decoration:underline}
+.closing a[aria-current=page]{color:#eac795}
+/* A: Desert Modernism. Architectural composition, non-overlay typography. */
+.studio[data-concept="desert"] .desertHero{min-height:670px;display:grid;grid-template-columns:minmax(0,.89fr) minmax(0,1.11fr);gap:0;overflow:hidden;position:relative;background:#f3efe5}
+.desertLead{padding:clamp(55px,7.5vw,115px) clamp(24px,6vw,98px);display:flex;flex-direction:column;justify-content:center;align-items:start;position:relative;z-index:1}
+.desertLead h1{font-size:clamp(58px,6.3vw,104px);line-height:1.16;letter-spacing:-.035em;margin:17px 0 22px;color:#34483b;text-wrap:balance}
+.studio[dir=rtl] .desertLead h1{letter-spacing:0}
+.desertLead h1 em{display:block;font-style:normal;color:#ad7650}
+.desertLead>p{font-size:14px;line-height:1.95;color:#6d6c62;max-width:510px;margin-bottom:25px}
+.heroIndex{font-size:10px;color:#9c805b;letter-spacing:.12em;margin-top:70px}
+.desertFilm{position:relative;min-height:660px;overflow:hidden;border-radius:46% 0 0 0;background:#9d9b87}
+.studio[dir=rtl] .desertFilm{border-radius:0 46% 0 0}
+.desertFilm:after{content:"";position:absolute;inset:60% 0 0;background:linear-gradient(transparent,rgba(34,38,28,.6))}
+.frameLabel{position:absolute;bottom:36px;inset-inline:37px;z-index:1;display:block;font-size:13px;font-weight:800;color:#fff;text-align:start}
+.desertBooking{position:relative;z-index:2;max-width:1470px;margin:-55px auto 0;padding:0 18px 35px}
+.bookingHeading{display:flex;justify-content:space-between;align-items:end;gap:16px;padding:16px 17px 15px;background:#f8f4ec}
+.bookingHeading>span{font-size:10px;color:#af8254;font-weight:870}
+.bookingHeading h2{font-size:25px;line-height:1.2;color:#34483b}
+.bookingHeading p{font-size:10px;color:#706f64;max-width:340px}
+.desertBooking>.policy{padding:13px 5px;max-width:760px}
+/* A fleet: auto studio with index on the left and details on the right. */
+.studio[data-concept="desert"] .fleetComposition{display:grid;grid-template-columns:minmax(150px,.32fr) minmax(0,1fr) minmax(240px,.47fr)}
+.studio[data-concept="desert"] .vehicleSelector{background:#34483b;color:#fff;display:flex;flex-direction:column;justify-content:end}
+.studio[data-concept="desert"] .vehicleSelector button{padding:21px 16px;min-height:85px;border-bottom:1px solid #596a5e;color:#e8ebe5}
+.studio[data-concept="desert"] .vehicleSelector button[aria-pressed=true]{color:#f1d2a7;background:#465e4a}
+.studio[data-concept="desert"] .vehicleDetails{background:#fbf9f4}
+.studio[data-concept="desert"] .pricingBottom{display:flex;justify-content:space-between;gap:32px;margin-top:31px;align-items:center}
+.studio[data-concept="desert"] .pricingBottom a{background:#34483b;color:#fff;padding:14px 20px;display:flex;gap:10px;align-items:center;font-size:12px;font-weight:850}
+/* B: Royal Editorial. Masthead, chapter layout, an offset illustrated print folio. */
+.studio[data-concept="editorial"] .siteNav{height:107px;border-bottom:3px double #b38b62}
+.studio[data-concept="editorial"] .wordmark strong{font-size:21px}
+.studio[data-concept="editorial"] .editorialHero{background:#f8f4ec;display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.02fr) minmax(0,.36fr);grid-template-rows:auto minmax(570px,auto);gap:0;border-bottom:1px solid #d1bfae}
+.editionLabel{grid-column:1/-1;padding:13px clamp(24px,5vw,85px);display:flex;justify-content:space-between;font-family:"Georgia",serif;font-size:11px;letter-spacing:.12em;border-bottom:1px solid #d6c9bb;color:#542e32}
+.editorialMast{padding:80px clamp(25px,5vw,86px) 62px;display:flex;flex-direction:column;align-items:start;justify-content:center;position:relative}
+.editorialMast>span{font:750 11px/1.5 "Segoe UI",Arial,sans-serif;letter-spacing:.17em;color:#9f7754}
+.editorialMast h1{font-family:"Georgia","Times New Roman",serif;font-size:clamp(61px,6.1vw,106px);line-height:1.13;letter-spacing:-.03em;margin:26px 0 33px;color:#542e32;text-wrap:balance}
+.studio[dir=rtl] .editorialMast h1{letter-spacing:0}
+.editorialMast>p{font-size:21px;color:#a47759;line-height:1.6}
+.editorialFilm{position:relative;min-height:570px;background:#342b25}
+.editorialFilm:after{content:"";position:absolute;inset:50% 0 0;background:linear-gradient(transparent,rgba(44,24,26,.5))}
+.editorialFilm>span{position:absolute;bottom:31px;inset-inline-start:28px;z-index:1;color:#fff;font:750 11px "Segoe UI",Arial,sans-serif;letter-spacing:.16em}
+.editorialSide{background:#542e32;color:#f4e6d8;padding:42px 19px;display:flex;flex-direction:column;justify-content:end;align-items:start;gap:25px}
+.editorialSide>p{font-size:14px;line-height:2}
+.editorialSide>a{display:flex;align-items:center;gap:8px;border-block:1px solid #ba9b94;padding:19px 0;font-size:12px;font-weight:800}
+.editorialSide>span{font-size:10px;letter-spacing:.15em;color:#d4b5a3;font-family:"Segoe UI",Arial,sans-serif}
+.edBooking{padding:111px clamp(20px,6vw,105px);background:#ede2d6}
+.edFolioHead{display:grid;grid-template-columns:.35fr 1fr .7fr;gap:30px;align-items:end;margin-bottom:40px}
+.edFolioHead>span{color:#997252;font-size:11px;letter-spacing:.11em;font-weight:870}
+.edFolioHead h2{font-size:clamp(40px,5vw,78px);line-height:1.12;color:#542e32;font-weight:770}
+.edFolioHead>p{font-size:12px;line-height:1.8;color:#716460}
+.edFolio{display:grid;grid-template-columns:minmax(255px,.36fr) minmax(0,1fr);background:#f9f6f0;border:1px solid #ceb9a8;box-shadow:16px 17px 0 rgba(84,46,50,.11);min-height:360px}
+.edFolio>aside{padding:40px 28px;background:#542e32;color:#fff;display:flex;flex-direction:column;gap:18px}
+.edFolio>aside>span{font:850 11px "Segoe UI",Arial,sans-serif;color:#cfae93}
+.edFolio>aside h3{font-size:31px;line-height:1.3}
+.edFolio>aside .steps{display:flex;flex-direction:column;align-items:start;gap:15px;font-size:11px;color:#ead2c2}
+.edFolio>aside .policy{color:#edcbbc;margin-top:auto}
+.studio[data-concept="editorial"] .bookingControls{grid-template-columns:1fr 1fr;min-height:auto;border:0;box-shadow:none;padding:40px;gap:12px;background:#f9f6f0}
+.studio[data-concept="editorial"] .bookingControls label{border:1px solid #d7c8ba;padding:13px 17px;min-height:80px}
+.studio[data-concept="editorial"] .bookingControls button{grid-column:1/-1;min-height:56px;background:#542e32}
+.studio[data-concept="editorial"] .fleetSection{background:#f8f4ec;padding-block:110px}
+.studio[data-concept="editorial"] .fleetHeading{display:flex;flex-direction:column;align-items:start;gap:14px;border-top:2px solid #542e32;padding-top:22px}
+.studio[data-concept="editorial"] .fleetHeading h2{font-family:"Georgia",serif;font-size:clamp(48px,5.9vw,89px);max-width:840px}
+.studio[data-concept="editorial"] .fleetComposition{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.67fr);grid-template-areas:"selector selector" "photo detail";gap:0;border-color:#d7c6b4}
+.studio[data-concept="editorial"] .vehicleSelector{grid-area:selector;background:#f1e8dc;display:flex;flex-wrap:wrap;border-bottom:1px solid #d7c5b6}
+.studio[data-concept="editorial"] .vehicleSelector button{flex:1 0 17%;border-inline-end:1px solid #d7c5b6;min-height:77px;padding:13px}
+.studio[data-concept="editorial"] .vehicleSelector button[aria-pressed=true]{background:#542e32;color:#fff}
+.studio[data-concept="editorial"] .showcasePhoto{grid-area:photo;min-height:600px;background:radial-gradient(circle,#fffaf3,#dfd5ca)}
+.studio[data-concept="editorial"] .vehicleDetails{grid-area:detail;background:#eee2d6;border-inline-start:1px solid #d7c6b4;padding:55px clamp(23px,4vw,69px)}
+.studio[data-concept="editorial"] .vehicleDetails h3{font-size:clamp(40px,4vw,65px);font-family:"Georgia",serif}
+.studio[data-concept="editorial"] .insideFeature{display:grid;grid-template-columns:.7fr 1fr}
+.studio[data-concept="editorial"] .insideFeature>div:last-child{grid-row:1;grid-column:1;background:#542e32;color:#f7f0e8}
+.studio[data-concept="editorial"] .insideFeature>div:last-child p{color:#e1c8b9}
+.studio[data-concept="editorial"] .insideFeature>div:last-child a{color:#f4d2b2}
+.studio[data-concept="editorial"] .insidePhoto{grid-column:2;grid-row:1}
+.studio[data-concept="editorial"] .pricingSection{background:#eae0d5;padding:107px clamp(24px,8vw,126px)}
+.edPriceTitle{display:grid;grid-template-columns:.31fr 1fr .57fr;align-items:end;gap:25px;margin-bottom:40px}
+.edPriceTitle h2{font:750 clamp(42px,5.3vw,79px)/1.19 "Georgia",serif;color:#542e32}
+.studio[data-concept="editorial"] .priceRows{border-top:3px double #542e32;max-width:1330px}
+.studio[data-concept="editorial"] .priceRow{grid-template-columns:125px 1fr 120px 120px;background:#f8f4ec;margin-bottom:9px;border:1px solid #d3c3b5;min-height:118px}
+.studio[data-concept="editorial"] .priceRow[aria-pressed=true]{background:#e6d0bf}
+.studio[data-concept="editorial"] .priceChoose{color:#542e32}
+.studio[data-concept="editorial"] .closing{background:#542e32}
+/* C: Cinematic Sandstone. Espresso and terracotta, full-frame film,
+      high-contrast stage / dark functional console / scrolling vehicle selector. */
+.studio[data-concept="cinematic"] .siteNav{background:#29251f;color:#f4f0e8;border-color:#54493e}
+.studio[data-concept="cinematic"] .siteNav .logo,.studio[data-concept="cinematic"] .logoMark{color:#e7c8a7}
+.studio[data-concept="cinematic"] .siteNav .langToggle{border-color:#736250}
+.cinemaHero{height:clamp(650px,82vh,930px);position:relative;display:flex;flex-direction:column;justify-content:end;isolation:isolate;overflow:hidden;color:#fff;background:#29251f}
+.cinemaFilm{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-3}
+.cinemaShade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(22,17,15,.94),rgba(22,17,15,.25) 70%),linear-gradient(90deg,rgba(22,17,15,.5),transparent);z-index:-2}
+.cinemaMid{padding:80px clamp(25px,7vw,112px) 45px;width:min(1060px,100%);display:flex;flex-direction:column;align-items:start}
+.cinemaMid>span{font-size:11px;letter-spacing:.21em;color:#e2b68a;font-weight:860}
+.cinemaMid h1{font-size:clamp(74px,9vw,142px);line-height:1.05;letter-spacing:-.06em;font-weight:830;margin:28px 0 18px;text-wrap:balance}
+.studio[dir=rtl] .cinemaMid h1{letter-spacing:0;line-height:1.2}
+.cinemaMid>p{font-size:clamp(18px,2.25vw,32px);font-weight:640;line-height:1.5;color:#efcda9}
+.cinemaMid>a{display:inline-flex;gap:13px;align-items:center;background:#d4a576;color:#241e1a;padding:15px 25px;margin-top:27px;font-size:12px;font-weight:850}
+.cinemaLower{padding:23px clamp(25px,7vw,112px) 29px;border-top:1px solid rgba(255,255,255,.23);display:flex;justify-content:space-between;gap:30px;font-size:11px;color:#f0d1ae;letter-spacing:.1em}
+.cinemaBooking{background:#332c26;color:#fff;padding:82px clamp(20px,5vw,95px) 78px;border-bottom:1px solid #6d594c}
+.cinemaBookingIntro{display:grid;grid-template-columns:.4fr .8fr .7fr;align-items:end;gap:30px;margin-bottom:26px}
+.cinemaBookingIntro>span{font-size:11px;color:#d8a979;letter-spacing:.11em;font-weight:850}
+.cinemaBookingIntro h2{font-size:clamp(39px,4.6vw,75px);line-height:1.18;color:#f8f5ef}
+.cinemaBookingIntro p{color:#c9b8a9;font-size:12px;line-height:1.9}
+.studio[data-concept="cinematic"] .bookingControls{background:#f7f1e8;border:0;box-shadow:0 15px 0 rgba(220,165,107,.1);min-height:115px;grid-template-columns:1.45fr 1fr .7fr 1.3fr 1fr}
+.studio[data-concept="cinematic"] .bookingControls>button{background:#b96746;color:#fff;font-weight:850}
+.cinemaBooking>.policy{color:#d5bca7;margin-top:27px}
+.studio[data-concept="cinematic"] .fleetSection{background:#29251f;padding:109px clamp(18px,4vw,65px)}
+.studio[data-concept="cinematic"] .fleetHeading{display:flex;align-items:end;justify-content:space-between;gap:20px}
+.studio[data-concept="cinematic"] .fleetHeading h2{color:#fff;max-width:760px;font-size:clamp(49px,6vw,99px)}
+.studio[data-concept="cinematic"] .fleetComposition{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.46fr);grid-template-areas:"photo detail" "selector selector";background:#312e27;border:1px solid #675749}
+.studio[data-concept="cinematic"] .showcasePhoto{grid-area:photo;min-height:640px;background:radial-gradient(circle at 47% 56%,#6c655a,#332f29 73%)}
+.studio[data-concept="cinematic"] .showcasePhoto .photoLabel{color:#e7b789}
+.studio[data-concept="cinematic"] .vehicleDetails{grid-area:detail;padding:50px 30px;background:#302c27;color:#f2ece1;border-inline-start:1px solid #594d43}
+.studio[data-concept="cinematic"] .vehicleDetails h3{color:#f8f2e8;font-size:clamp(31px,3.3vw,57px)}
+.studio[data-concept="cinematic"] .vehicleDetails>p,.studio[data-concept="cinematic"] .vehicleDetails dt{color:#cdbfae}
+.studio[data-concept="cinematic"] .vehicleDetails dl{border-color:#65584d}
+.studio[data-concept="cinematic"] .vehicleDetails .fareValue{color:#e1b282}
+.studio[data-concept="cinematic"] .vehicleActions button{background:#b96746}
+.studio[data-concept="cinematic"] .vehicleActions a{color:#e8bd93}
+.studio[data-concept="cinematic"] .vehicleSelector{grid-area:selector;display:flex;overflow-x:auto;background:#3c342d;scroll-snap-type:x mandatory}
+.studio[data-concept="cinematic"] .vehicleSelector button{flex:1 0 16%;min-width:155px;min-height:77px;scroll-snap-align:start;color:#e5d6c3;border-inline-end:1px solid #695a4b;padding:14px;text-align:center}
+.studio[data-concept="cinematic"] .vehicleSelector button[aria-pressed=true]{background:#af6747;color:#fff}
+.studio[data-concept="cinematic"] .insideFeature{max-width:none;min-height:460px;grid-template-columns:1.1fr .6fr;margin-top:50px}
+.studio[data-concept="cinematic"] .insidePhoto{min-height:460px}
+.studio[data-concept="cinematic"] .insideFeature>div:last-child{background:#574235;color:#f7ede0}
+.studio[data-concept="cinematic"] .insideFeature>div:last-child p{color:#d8c4b1}
+.studio[data-concept="cinematic"] .insideFeature>div:last-child a{color:#efc098}
+.studio[data-concept="cinematic"] .pricingSection{background:#312b25;color:#fff}
+.cinemaPriceTitle{max-width:1330px;margin:auto auto 37px;display:grid;grid-template-columns:.35fr 1fr .75fr;gap:30px;align-items:end}
+.cinemaPriceTitle h2{color:#fff;font-size:clamp(49px,5.8vw,86px)}
+.studio[data-concept="cinematic"] .priceRows{border-top:2px solid #bd7650}
+.studio[data-concept="cinematic"] .priceRow{color:#f5eddf;border-color:#685647;min-height:133px;grid-template-columns:180px 1fr 130px 110px}
+.studio[data-concept="cinematic"] .priceImg{width:180px;height:106px;background:#777066}
+.studio[data-concept="cinematic"] .priceRow:hover:not(:disabled){background:#4d3f35}
+.studio[data-concept="cinematic"] .priceRow[aria-pressed=true]{background:#554137}
+.studio[data-concept="cinematic"] .priceAmt>b{color:#eab483}
+.studio[data-concept="cinematic"] .priceChoose{color:#eec398;border-color:#685647}
+.studio[data-concept="cinematic"] .pricingSection>.steps{max-width:1330px;margin:30px auto 0;color:#cdbba9}
+.studio[data-concept="cinematic"] .closing{background:#201d19;color:#f5eddf}
+/* Responsive: deliberately redesign composition on mobile, not scale desktop. */
+@media(max-width:1200px){
+ .studioTopbar{gap:10px}
+ .studioTopbar nav a span{display:none}
+ .siteNav{padding-inline:30px}
+ .fleetComposition{min-height:470px}
+ .studio[data-concept="desert"] .fleetComposition{grid-template-columns:155px minmax(0,1fr) 245px}
+ .studio[data-concept="desert"] .vehicleSelector button{padding:14px 9px;font-size:11px}
+ .vehicleDetails{padding:25px 18px}
+ .studio[data-concept="editorial"] .editorialHero{grid-template-columns:.9fr 1fr .37fr}
+ .editorialMast{padding:50px 26px}
+ .editorialMast h1{font-size:65px}
+ .studio[data-concept="cinematic"] .fleetComposition{grid-template-columns:1fr 290px}
+}
+@media(max-width:900px){
+ .studioTopbar>span,.backSite{display:none}
+ .studioTopbar{justify-content:center}
+ .siteNav{height:80px}
+ .navLinks{gap:16px;font-size:11px}
+ .desertLead{padding:50px 30px}
+ .desertLead h1{font-size:52px}
+ .desertFilm{min-height:530px}
+ .bookingControls{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .bookingControls>button{grid-column:1/-1}
+ .bookingControls>label{border-bottom:1px solid var(--line)}
+ .bookingHeading{display:block}
+ .bookingHeading h2{margin:5px 0}
+ .fleetHeading{display:block}
+ .fleetHeading h2{margin-top:11px}
+ .studio[data-concept="desert"] .fleetComposition{grid-template-columns:1fr 1fr;grid-template-areas:"selector selector" "photo detail"}
+ .studio[data-concept="desert"] .vehicleSelector{grid-area:selector;flex-direction:row;overflow-x:auto;justify-content:start;scroll-snap-type:x mandatory}
+ .studio[data-concept="desert"] .vehicleSelector button{flex:0 0 22%;min-width:145px;scroll-snap-align:start;min-height:68px;border-inline-end:1px solid #667768}
+ .studio[data-concept="desert"] .showcasePhoto{grid-area:photo;min-height:500px}
+ .studio[data-concept="desert"] .vehicleDetails{grid-area:detail}
+ .studio[data-concept="editorial"] .editorialHero{grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto}
+ .editionLabel{grid-column:1/-1}
+ .editorialMast{min-height:480px}
+ .editorialFilm{min-height:480px}
+ .editorialSide{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between;padding:20px 30px}
+ .editorialSide>p{max-width:420px}
+ .editorialSide>span{display:none}
+ .edFolio{grid-template-columns:1fr}
+ .edFolio>aside{padding:26px}
+ .edFolio>aside .steps{flex-direction:row;flex-wrap:wrap}
+ .studio[data-concept="editorial"] .bookingControls{grid-template-columns:1fr 1fr;padding:20px}
+ .studio[data-concept="cinematic"] .bookingControls{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .cinemaMid h1{font-size:79px}
+ .pricingHeadline,.edPriceTitle,.cinemaPriceTitle{grid-template-columns:1fr 1fr}
+ .pricingHeadline>span,.edPriceTitle>span,.cinemaPriceTitle>span{grid-column:1/-1}
+ .pricingHeadline>p,.edPriceTitle>p,.cinemaPriceTitle>p{grid-column:2}
+}
+@media(max-width:700px){
+ .studioTopbar{min-height:42px;padding:7px 6px}
+ .studioTopbar nav{width:100%;gap:4px;justify-content:space-evenly}
+ .studioTopbar nav a{min-width:31%;text-align:center;font-size:9px;padding:6px 5px}
+ .siteNav{height:70px;padding:0 14px}
+ .logo{gap:6px}
+ .logoMark{width:33px;height:36px}
+ .wordmark strong{font-size:14px}
+ .wordmark small{font-size:7px;letter-spacing:.06em}
+ .navLinks{display:none}
+ .langToggle{min-width:43px;padding:7px;font-size:10px}
+ .studio[data-concept="desert"] .desertHero{display:flex;flex-direction:column;min-height:0}
+ .desertLead{padding:45px 20px 22px}
+ .desertLead h1{font-size:clamp(42px,11vw,69px);margin:13px 0 12px;line-height:1.22}
+ .desertLead>p{font-size:11px;line-height:1.85;margin-bottom:17px}
+ .heroIndex{margin-top:19px;font-size:9px}
+ .primaryAction{min-height:45px;padding:11px 16px;font-size:11px}
+ .desertFilm,.studio[dir=rtl] .desertFilm{min-height:0;height:300px;border-radius:95px 0 0 0}
+ .studio[dir=rtl] .desertFilm{border-radius:0 95px 0 0}
+ .frameLabel{bottom:15px;inset-inline:17px;font-size:10px}
+ .desertBooking{margin:0 auto;padding:17px 12px 26px}
+ .bookingHeading{padding:13px 0 15px}
+ .bookingHeading h2{font-size:23px}
+ .bookingHeading p{font-size:10px}
+ .bookingControls{grid-template-columns:1fr 1fr;min-height:0}
+ .bookingControls>label{padding:12px 11px;min-height:76px}
+ .bookingControls>label:first-child{grid-column:1/-1}
+ .bookingControls>label:nth-of-type(4){grid-column:1/-1}
+ .bookingControls>label>span{font-size:9px}
+ .bookingControls select,.bookingControls input{font-size:11px}
+ .bookingControls>button{min-height:49px;font-size:11px}
+ .facts{flex-direction:column;align-items:start;padding:20px 21px;gap:13px;min-height:0}
+ .facts span{font-size:10px}
+ .fleetSection{padding:56px 12px 65px}
+ .fleetHeading{margin-bottom:22px}
+ .fleetHeading>span{font-size:9px}
+ .fleetHeading h2{font-size:clamp(32px,8vw,47px)}
+ .studio[data-concept="desert"] .fleetComposition,.studio[data-concept="editorial"] .fleetComposition,.studio[data-concept="cinematic"] .fleetComposition{display:flex;flex-direction:column;min-height:0}
+ .studio[data-concept="desert"] .vehicleSelector,.studio[data-concept="editorial"] .vehicleSelector,.studio[data-concept="cinematic"] .vehicleSelector{display:flex;flex-direction:row;flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;order:1}
+ .studio[data-concept="desert"] .vehicleSelector button,.studio[data-concept="editorial"] .vehicleSelector button,.studio[data-concept="cinematic"] .vehicleSelector button{flex:0 0 66%;min-width:0;min-height:59px;scroll-snap-align:start;padding:12px 10px;border:1px solid var(--line);font-size:11px}
+ .studio[data-concept="desert"] .showcasePhoto,.studio[data-concept="editorial"] .showcasePhoto,.studio[data-concept="cinematic"] .showcasePhoto{order:0;min-height:0;height:310px}
+ .vehicleDetails,.studio[data-concept="editorial"] .vehicleDetails,.studio[data-concept="cinematic"] .vehicleDetails{order:2;padding:23px 18px}
+ .vehicleDetails h3,.studio[data-concept="editorial"] .vehicleDetails h3,.studio[data-concept="cinematic"] .vehicleDetails h3{font-size:29px;margin-top:8px;margin-bottom:10px}
+ .vehicleDetails>p{font-size:11px}
+ .vehicleDetails dl{margin:16px 0 13px;padding-block:12px}
+ .fareValue{font-size:27px}
+ .vehicleActions{margin-top:14px}
+ .insideFeature,.studio[data-concept="editorial"] .insideFeature,.studio[data-concept="cinematic"] .insideFeature{display:flex;flex-direction:column;margin-top:17px;min-height:0}
+ .insidePhoto,.studio[data-concept="cinematic"] .insidePhoto{height:200px;min-height:200px}
+ .insideFeature>div:last-child{padding:23px 19px;min-height:220px}
+ .insideFeature h3{font-size:27px}
+ .pricingSection,.studio[data-concept="editorial"] .pricingSection,.studio[data-concept="cinematic"] .pricingSection{padding:55px 12px 64px}
+ .pricingHeadline,.edPriceTitle,.cinemaPriceTitle{display:block;margin-bottom:18px}
+ .pricingHeadline h2,.edPriceTitle h2,.cinemaPriceTitle h2{font-size:clamp(32px,8vw,45px);margin:10px 0}
+ .pricingHeadline>p,.edPriceTitle>p,.cinemaPriceTitle>p{font-size:10px}
+ .priceRow,.studio[data-concept="editorial"] .priceRow,.studio[data-concept="cinematic"] .priceRow{grid-template-columns:94px minmax(0,1fr) 65px;gap:9px;padding:11px 5px;min-height:100px;margin:0}
+ .priceImg,.studio[data-concept="cinematic"] .priceImg{width:94px;height:75px}
+ .priceName strong{font-size:12px}
+ .priceName small{font-size:9px;line-height:1.5}
+ .priceAmt b{font-size:18px}
+ .priceAmt small{font-size:9px}
+ .priceChoose{grid-column:2/-1;text-align:start;min-height:33px;padding:6px 10px;font-size:10px}
+ .pricingBottom{display:block!important}
+ .steps{flex-wrap:wrap;gap:13px;font-size:9px}
+ .pricingBottom a{margin-top:18px;width:max-content}
+ .closing{display:flex;flex-direction:column;padding:43px 19px;gap:28px}
+ .closing>div>p{font-size:12px}
+ /* Editorial on phones becomes a cinematic print cover, not shrunken desktop columns */
+ .studio[data-concept="editorial"] .siteNav{height:75px}
+ .studio[data-concept="editorial"] .editorialHero{display:flex;flex-direction:column}
+ .editionLabel{padding:12px 18px;font-size:9px;gap:10px}
+ .editionLabel span{display:none}
+ .editorialMast{min-height:0;padding:55px 22px 29px}
+ .editorialMast h1{font-size:clamp(50px,13vw,74px);margin:16px 0 15px;line-height:1.12}
+ .editorialMast>p{font-size:17px}
+ .editorialFilm{min-height:0;height:350px;margin:0 14px 14px}
+ .editorialSide{padding:22px 18px;display:flex;flex-direction:column;align-items:start;gap:9px}
+ .editorialSide>p{font-size:11px}
+ .editorialSide>a{font-size:11px;padding:12px 0}
+ .edBooking{padding:60px 13px}
+ .edFolioHead{display:block;margin-bottom:18px}
+ .edFolioHead h2{font-size:43px;margin:9px 0}
+ .edFolioHead>p{font-size:10px}
+ .edFolio{box-shadow:7px 9px 0 rgba(84,46,50,.1)}
+ .edFolio>aside{padding:22px 17px}
+ .edFolio>aside h3{font-size:27px}
+ .edFolio>aside .steps{font-size:10px;gap:12px}
+ .studio[data-concept="editorial"] .bookingControls{padding:15px;grid-template-columns:1fr}
+ .studio[data-concept="editorial"] .bookingControls label{min-height:72px;grid-column:1}
+ .studio[data-concept="editorial"] .bookingControls button{grid-column:1}
+ .studio[data-concept="editorial"] .fleetHeading h2{font-size:45px}
+ .studio[data-concept="editorial"] .insideFeature>div:last-child{order:1}
+ .studio[data-concept="editorial"] .insideFeature>.insidePhoto{order:0}
+ /* Cinematic keeps a true video cover on mobile; booking is the next scene */
+ .cinemaHero{height:clamp(590px,82svh,820px);min-height:590px}
+ .cinemaMid{padding:32px 20px 50px}
+ .cinemaMid>span{font-size:9px}
+ .cinemaMid h1{font-size:clamp(57px,14.5vw,83px);margin:17px 0 13px}
+ .cinemaMid>p{font-size:18px}
+ .cinemaMid>a{font-size:11px;margin-top:19px;padding:13px 19px}
+ .cinemaLower{padding:17px 20px 22px;font-size:9px}
+ .cinemaBooking{padding:55px 12px 62px}
+ .cinemaBookingIntro{display:block}
+ .cinemaBookingIntro h2{font-size:38px;margin:10px 0}
+ .cinemaBookingIntro p{font-size:10px;margin-bottom:20px}
+ .studio[data-concept="cinematic"] .bookingControls{grid-template-columns:1fr 1fr}
+ .studio[data-concept="cinematic"] .bookingControls>label:first-child,.studio[data-concept="cinematic"] .bookingControls>label:nth-of-type(4){grid-column:1/-1}
+ .studio[data-concept="cinematic"] .bookingControls>button{grid-column:1/-1}
+ .studio[data-concept="cinematic"] .fleetHeading h2{font-size:44px}
+ .studio[data-concept="cinematic"] .fleetComposition{border-color:#786454}
+ .studio[data-concept="cinematic"] .showcasePhoto{height:300px}
+ .studio[data-concept="cinematic"] .insideFeature{flex-direction:column}
+ .studio[data-concept="cinematic"] .priceRows{gap:7px;border:0}
+ .studio[data-concept="cinematic"] .priceRow{border:1px solid #625444}
+}
+@media(max-width:390px){
+ .wordmark strong{font-size:12px}
+ .wordmark small{font-size:6px}
+ .desertLead h1{font-size:43px}
+ .desertFilm{height:265px}
+ .editorialMast h1{font-size:48px}
+ .editorialFilm{height:310px}
+ .cinemaMid h1{font-size:54px}
+ .studio[data-concept="cinematic"] .fleetHeading h2{font-size:39px}
+ .studio[data-concept="editorial"] .vehicleSelector button,.studio[data-concept="cinematic"] .vehicleSelector button,.studio[data-concept="desert"] .vehicleSelector button{flex-basis:72%}
+}
+@media(prefers-reduced-motion:reduce){
+ .studio *,.studio *::before,.studio *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+ .film,.cinemaFilm{display:none}
+}

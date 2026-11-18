@@ -1,0 +1,260 @@
+{
+  "report": {
+    "royal-umrah-cabs": {
+      "total": 16,
+      "targets": {
+        "production": 10,
+        "preview": 6
+      },
+      "states": {
+        "READY": 14,
+        "ERROR": 2
+      },
+      "branches": {
+        "main": 6,
+        "feat/luxury-command-center-v2": 5,
+        "master": 4,
+        "feat/admin-db-wiring-and-10-languages": 1
+      },
+      "oldest": "2026-10-29T22:59:35.199Z",
+      "newest": "2026-10-30T17:00:15.987Z"
+    },
+    "alfursan-transport-admin": {
+      "total": 4,
+      "targets": {
+        "production": 4,
+        "preview": 0
+      },
+      "states": {
+        "READY": 4
+      },
+      "branches": {
+        "master": 4
+      },
+      "oldest": "2026-09-04T18:50:20.895Z",
+      "newest": "2026-10-15T01:16:19.702Z"
+    }
+  },
+  "allDeployments": [
+    {
+      "uid": "dpl_98mGY3gCvJUkUCdjkSDXzwG8KdD3",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-cimr78uic-sayed6.vercel.app",
+      "created": 1793379615987,
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "commit": "89b35dfdb971147d4ad1a8f8f26bc418d38a19db",
+      "commitMsg": "chore: add .vercelignore to prevent uploading local build artifacts"
+    },
+    {
+      "uid": "dpl_ARgNs62mbLqe78mprQHxyru8xUUo",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-e2kd7lzhg-sayed6.vercel.app",
+      "created": 1793379615987,
+      "target": null,
+      "state": "READY",
+      "branch": "feat/luxury-command-center-v2",
+      "commit": "89b35dfdb971147d4ad1a8f8f26bc418d38a19db",
+      "commitMsg": "chore: add .vercelignore to prevent uploading local build artifacts"
+    },
+    {
+      "uid": "dpl_GyNgb3dhiiMvLse8s3FbqZwaEAk9",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-jvl9x0kfo-sayed6.vercel.app",
+      "created": 1793371336901,
+      "target": "production",
+      "state": "READY",
+      "branch": "feat/luxury-command-center-v2",
+      "commit": "20aa7222dd558da9fb15c761de270076d3e8a2be",
+      "commitMsg": "feat(home): remove transfer rates table from homepage as requested"
+    },
+    {
+      "uid": "dpl_2rfGZuykSMxgqHiUUAWJQaKELFuW",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-6ymzng3dp-sayed6.vercel.app",
+      "created": 1793370595146,
+      "target": "production",
+      "state": "ERROR",
+      "branch": "feat/luxury-command-center-v2",
+      "commit": "20aa7222dd558da9fb15c761de270076d3e8a2be",
+      "commitMsg": "feat(home): remove transfer rates table from homepage as requested"
+    },
+    {
+      "uid": "dpl_T8mrg7v764ELye9haGCXsgGd98AC",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-3u6flknk9-sayed6.vercel.app",
+      "created": 1793328867177,
+      "target": "production",
+      "state": "READY",
+      "branch": "feat/luxury-command-center-v2",
+      "commit": "ac0404141600d23322e1146ce28e7fb7b5fad5d3",
+      "commitMsg": "feat(luxury-command-center): leads conversion modal, whatsapp templates, vetted chauffeur roster integration, and printable vip voucher"
+    },
+    {
+      "uid": "dpl_R2kwhKeeRCcqZQMLvKGsTgxQSo2K",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-m2cil7vt8-sayed6.vercel.app",
+      "created": 1793324478766,
+      "target": "production",
+      "state": "ERROR",
+      "branch": "feat/luxury-command-center-v2",
+      "commit": "ac0404141600d23322e1146ce28e7fb7b5fad5d3",
+      "commitMsg": "feat(luxury-command-center): leads conversion modal, whatsapp templates, vetted chauffeur roster integration, and printable vip voucher"
+    },
+    {
+      "uid": "dpl_Hp39sKwqHvv4jnZvuDnPx8vC3Raz",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-nk10p8vjj-sayed6.vercel.app",
+      "created": 1793324460415,
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "commit": "ac0404141600d23322e1146ce28e7fb7b5fad5d3",
+      "commitMsg": "feat(luxury-command-center): leads conversion modal, whatsapp templates, vetted chauffeur roster integration, and printable vip voucher"
+    },
+    {
+      "uid": "dpl_DjPFzk9sbtFGYjCNHfqtTG8znAgj",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-epbfpozgl-sayed6.vercel.app",
+      "created": 1793322954571,
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "commit": "3801060a221d7c6ad0a33d96e34079918d3eb6a4",
+      "commitMsg": "feat(fleet-routes-drivers): visual vehicle catalog with real capacities, routes corridors manager, drivers directory, and luxury command shell"
+    },
+    {
+      "uid": "dpl_E9jjADVan9gNEdt9kSfGKEEgjXCf",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-ovtegcxrk-sayed6.vercel.app",
+      "created": 1793322954230,
+      "target": null,
+      "state": "READY",
+      "branch": "master",
+      "commit": "3801060a221d7c6ad0a33d96e34079918d3eb6a4",
+      "commitMsg": "feat(fleet-routes-drivers): visual vehicle catalog with real capacities, routes corridors manager, drivers directory, and luxury command shell"
+    },
+    {
+      "uid": "dpl_B93ug4aYVu2jBZ6Bj4nnA7uxyN1N",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-5ce2j8l59-sayed6.vercel.app",
+      "created": 1793319289676,
+      "target": null,
+      "state": "READY",
+      "branch": "master",
+      "commit": "8d4dceb5cf11053dba398dae5a1afa5af9dbbd85",
+      "commitMsg": "feat(admin-saas-redesign): enterprise collapsible sidebar, compact topbar with makkah clock, ctrl+k command palette, native rtl/ltr toggle, and fixed reviews db moderation"
+    },
+    {
+      "uid": "dpl_BpPMhDRJddpSsx7WjMHLZnakRJWm",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-qgxgv25x4-sayed6.vercel.app",
+      "created": 1793319289561,
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "commit": "8d4dceb5cf11053dba398dae5a1afa5af9dbbd85",
+      "commitMsg": "feat(admin-saas-redesign): enterprise collapsible sidebar, compact topbar with makkah clock, ctrl+k command palette, native rtl/ltr toggle, and fixed reviews db moderation"
+    },
+    {
+      "uid": "dpl_6ncmQb1mzHrSvcxyBYTz57Q8nG5c",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-855g2cziw-sayed6.vercel.app",
+      "created": 1793315683781,
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "commit": "a41fa6315afedcea375d1a0310a06bdaff17021f",
+      "commitMsg": "feat(admin-dispatch): overhaul main admin dashboard with executive dispatch radar, regional corridors telemetry, and force-dynamic cache control"
+    },
+    {
+      "uid": "dpl_7hQGeivJSD7G1TDvrcEGmDhcxQiV",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-784um7f7y-sayed6.vercel.app",
+      "created": 1793315681406,
+      "target": null,
+      "state": "READY",
+      "branch": "master",
+      "commit": "a41fa6315afedcea375d1a0310a06bdaff17021f",
+      "commitMsg": "feat(admin-dispatch): overhaul main admin dashboard with executive dispatch radar, regional corridors telemetry, and force-dynamic cache control"
+    },
+    {
+      "uid": "dpl_EoKfCGg3Dv5eayw2PJ4kY2Dz9LWg",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-ljpz0laqr-sayed6.vercel.app",
+      "created": 1793315356792,
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "commit": "b97d520fc7114a5ca66dfd237dae9a371d9b9003",
+      "commitMsg": "feat(admin-luxury-cro): overhaul executive dashboard design, fix review moderation db fallback & cache tags, and complete 10-locale zero-leak rollout"
+    },
+    {
+      "uid": "dpl_DnaWWBZKwpHgLvxALYRdZiYPL6Qi",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-exq9n0ixf-sayed6.vercel.app",
+      "created": 1793314809118,
+      "target": null,
+      "state": "READY",
+      "branch": "master",
+      "commit": "b97d520fc7114a5ca66dfd237dae9a371d9b9003",
+      "commitMsg": "feat(admin-luxury-cro): overhaul executive dashboard design, fix review moderation db fallback & cache tags, and complete 10-locale zero-leak rollout"
+    },
+    {
+      "uid": "dpl_8mGyj2cdtzRb73WnRnAB6jgB29BH",
+      "name": "royal-umrah-cabs",
+      "url": "royal-umrah-cabs-32hl4cx0n-sayed6.vercel.app",
+      "created": 1793314775199,
+      "target": null,
+      "state": "READY",
+      "branch": "feat/admin-db-wiring-and-10-languages",
+      "commit": "b97d520fc7114a5ca66dfd237dae9a371d9b9003",
+      "commitMsg": "feat(admin-luxury-cro): overhaul executive dashboard design, fix review moderation db fallback & cache tags, and complete 10-locale zero-leak rollout"
+    },
+    {
+      "uid": "dpl_HZPCBJj3x8kCfgDH9jwCii8guHDC",
+      "name": "alfursan-transport-admin",
+      "url": "alfursan-transport-admin-np428yi6s-sayed6.vercel.app",
+      "created": 1792026979702,
+      "target": "production",
+      "state": "READY",
+      "branch": "master",
+      "commit": "752dbf48dd6a812181df0347c3bf2a708f2f82a1",
+      "commitMsg": "Enforce strict 3-page print without background leak and dynamic scanned data"
+    },
+    {
+      "uid": "dpl_KozTm3ECN86pMVm1ytHquKwkkUNe",
+      "name": "alfursan-transport-admin",
+      "url": "alfursan-transport-admin-dmbfj1nkx-sayed6.vercel.app",
+      "created": 1788564745781,
+      "target": "production",
+      "state": "READY",
+      "branch": "master",
+      "commit": "752dbf48dd6a812181df0347c3bf2a708f2f82a1",
+      "commitMsg": "Enforce strict 3-page print without background leak and dynamic scanned data"
+    },
+    {
+      "uid": "dpl_7hm3jHE99ZR9wtLMDEBUk6Juu3Cw",
+      "name": "alfursan-transport-admin",
+      "url": "alfursan-transport-admin-dhj34eirp-sayed6.vercel.app",
+      "created": 1788563434513,
+      "target": "production",
+      "state": "READY",
+      "branch": "master",
+      "commit": "752dbf48dd6a812181df0347c3bf2a708f2f82a1",
+      "commitMsg": "Enforce strict 3-page print without background leak and dynamic scanned data"
+    },
+    {
+      "uid": "dpl_ByYMBpN7sZniGBrQWyyy54BYDwGT",
+      "name": "alfursan-transport-admin",
+      "url": "alfursan-transport-admin-23sr6rwfd-sayed6.vercel.app",
+      "created": 1788547820895,
+      "target": "production",
+      "state": "READY",
+      "branch": "master",
+      "commit": "752dbf48dd6a812181df0347c3bf2a708f2f82a1",
+      "commitMsg": "Enforce strict 3-page print without background leak and dynamic scanned data"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+/* Accessibility-first comfort profile: presentation only, never pricing or forms logic. */
+html[data-comfort-mode="on"] { font-size: 125%; scroll-behavior: auto; }
+html[data-comfort-mode="on"] body { line-height: 1.65; }
+html[data-comfort-mode="on"] :is(button, input, select, textarea, [role="button"]) {
+  min-height: 56px;
+}
+html[data-comfort-mode="on"] :is(button, a, input, select, textarea, [role="button"]):focus-visible {
+  outline: 3px solid #a07637 !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 2px #fff !important;
+}
+html[data-comfort-mode="on"] :is(p, label, small, span, li) { text-wrap: pretty; }
+html[data-comfort-mode="on"] [data-signature-fusion] [class*="filmstrip"],
+html[data-comfort-mode="on"] [data-signature-fusion] [class*="filmstripTrack"] { display: none; }
+html[data-comfort-mode="on"] [data-signature-fusion] [class*="storyRail"] button,
+html[data-comfort-mode="on"] [data-signature-fusion] [class*="routeList"] button {
+  padding-block: 19px;
+}
+html[data-comfort-mode="on"] [data-signature-fusion] [class*="bookingDesk"] :is(select,input) {
+  min-height: 56px;
+}
+html[data-comfort-mode="on"] [data-signature-fusion] [class*="bookCarList"] button,
+html[data-comfort-mode="on"] [data-signature-fusion] [class*="carRail"] button {
+  min-height: 66px;
+}
+html[data-comfort-mode="on"] [data-royal-hero-film] video { visibility: hidden; }
+html[data-comfort-mode="on"] [data-signature-fusion] *,
+html[data-comfort-mode="on"] [data-signature-fusion] *::before,
+html[data-comfort-mode="on"] [data-signature-fusion] *::after {
+  scroll-behavior: auto !important;
+  animation-duration: .01ms !important;
+  transition-duration: .01ms !important;
+}
+@media (max-width: 760px) {
+  html[data-comfort-mode="on"] [data-signature-fusion] [class*="bookingDesk"] { grid-template-columns: 1fr !important; }
+  html[data-comfort-mode="on"] [data-signature-fusion] [class*="bookingDesk"] label {
+    grid-column: 1 / -1 !important;
+    border-inline-end: 0 !important;
+    border-block-end: 1px solid #dedbd3;
+  }
+  html[data-comfort-mode="on"] [data-signature-fusion] [class*="bookingLower"],
+  html[data-comfort-mode="on"] [data-signature-fusion] [class*="bookingTotal"] {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  html[data-comfort-mode="on"] [data-signature-fusion] [class*="bookingTotal"] button {
+    max-width: none !important;
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .duyuf-comfort-toggle { transition: none; }
+}

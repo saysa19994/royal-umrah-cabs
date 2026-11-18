@@ -1,0 +1,102 @@
+{
+  "aliasRouting": [
+    {
+      "alias": "royal-umrah-cabs-git-feat-luxury-command-center-v2-sayed6.vercel.app",
+      "deploymentId": "dpl_ARgNs62mbLqe78mprQHxyru8xUUo",
+      "createdAt": "2026-10-30T17:00:16.326Z"
+    },
+    {
+      "alias": "royal-umrah-cabs-git-feat-admin-db-wiring-and-10-0550b0-sayed6.vercel.app",
+      "deploymentId": "dpl_8mGyj2cdtzRb73WnRnAB6jgB29BH",
+      "createdAt": "2026-10-29T22:59:35.530Z"
+    },
+    {
+      "alias": "royal-umrah-cabs-git-feat-booking-page-pay-driver-0d10f3-sayed6.vercel.app",
+      "deploymentId": "dpl_UrxR4eDfJgzG36cYvYr9FweKRpHo",
+      "createdAt": "2026-10-24T17:14:33.199Z"
+    },
+    {
+      "alias": "royal-umrah-cabs-git-feat-homepage-cro-no-reviews-eef9aa-sayed6.vercel.app",
+      "deploymentId": "dpl_9koZBdmmUg5xiyDezMvrz5T7aeAb",
+      "createdAt": "2026-10-23T22:51:00.601Z"
+    },
+    {
+      "alias": "royal-umrah-cabs-git-feat-kiswah-inspired-booking-cro-sayed6.vercel.app",
+      "deploymentId": "dpl_EnQkcmbqMcUd2s73Dpn4qoUHJQvt",
+      "createdAt": "2026-10-23T21:02:53.971Z"
+    },
+    {
+      "alias": "royal-umrah-cabs-git-feature-competitive-redesign-master-sayed6.vercel.app",
+      "deploymentId": "dpl_EoJGUveBpx9tq6uVms3jY5XTmnm2",
+      "createdAt": "2026-10-23T21:02:51.722Z"
+    },
+    {
+      "alias": "royal-umrah-cabs-git-feat-competitive-redesign-en-449984-sayed6.vercel.app",
+      "deploymentId": "dpl_3BjW7KFo8eMZM4zwi9iu3cJZwner",
+      "createdAt": "2026-10-23T21:02:49.552Z"
+    },
+    {
+      "alias": "royal-umrah-cabs-git-main-sayed6.vercel.app",
+      "deploymentId": "dpl_98mGY3gCvJUkUCdjkSDXzwG8KdD3",
+      "createdAt": "2026-10-23T21:02:47.167Z"
+    },
+    {
+      "alias": "royal-umrah-cabs-git-master-sayed6.vercel.app",
+      "deploymentId": "dpl_E9jjADVan9gNEdt9kSfGKEEgjXCf",
+      "createdAt": "2026-10-23T21:02:44.782Z"
+    },
+    {
+      "alias": "www.duyufalrahmanvip.com",
+      "deploymentId": "dpl_98mGY3gCvJUkUCdjkSDXzwG8KdD3",
+      "createdAt": "2026-10-21T20:06:31.588Z"
+    }
+  ],
+  "domains": {
+    "domains": [
+      {
+        "name": "www.duyufalrahmanvip.com",
+        "apexName": "duyufalrahmanvip.com",
+        "projectId": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva",
+        "redirect": null,
+        "redirectStatusCode": null,
+        "gitBranch": null,
+        "customEnvironmentId": null,
+        "updatedAt": 1792613191431,
+        "createdAt": 1792613191431,
+        "verified": true
+      },
+      {
+        "name": "duyufalrahmanvip.com",
+        "apexName": "duyufalrahmanvip.com",
+        "projectId": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva",
+        "redirect": null,
+        "redirectStatusCode": null,
+        "gitBranch": null,
+        "customEnvironmentId": null,
+        "updatedAt": 1792657137854,
+        "createdAt": 1792613165706,
+        "verified": true
+      },
+      {
+        "name": "royal-umrah-cabs.vercel.app",
+        "apexName": "vercel.app",
+        "projectId": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva",
+        "redirect": null,
+        "gitBranch": null,
+        "customEnvironmentId": null,
+        "updatedAt": 1792086986731,
+        "createdAt": 1792086986731,
+        "verified": true
+      }
+    ],
+    "pagination": {
+      "count": 3,
+      "next": null,
+      "prev": 1792613191431
+    }
+  },
+  "usageDiscovery": {
+    "error": "Command failed: npx vercel api \"/v2/usage?type=invalid_type_test&teamId=team_4mpishXNVacXKUjGSmG6Hj6i\"\nError: Invalid request: `type` should be equal to one of the allowed values \"requests, monitoring, builds, edge, edge_group_by_project, artifacts, edge_config, log_drains, storage_postgres, storage_redis, storage_blob, cron_jobs, data_cache\". (400)\n"
+  },
+  "usageResults": {}
+}

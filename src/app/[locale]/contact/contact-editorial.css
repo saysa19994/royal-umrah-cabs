@@ -1,0 +1,41 @@
+/* Video 11 adapted to the real contact and booking-request page.
+   Editorial concierge contact desk: one clear form, actual channels, no fake messenger. */
+.duyuf-contact-editorial{background:#f8f7f2!important;color:#17353b!important}
+.duyuf-contact-editorial .duyuf-contact-layout{
+ display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:start;
+ gap:clamp(27px,6vw,92px);max-width:1170px;margin:auto;
+}
+.duyuf-contact-editorial .duyuf-contact-channels{display:flex;flex-direction:column;gap:0!important}
+.duyuf-contact-editorial .duyuf-contact-channels>a,
+.duyuf-contact-editorial .duyuf-contact-channels>div{
+ border:0;border-bottom:1px solid #d9e0da;border-radius:0;box-shadow:none;
+ background:transparent;padding:21px 5px;min-width:0;transition:background .2s;
+}
+.duyuf-contact-editorial .duyuf-contact-channels>a:first-child{border-top:1px solid #d9e0da}
+.duyuf-contact-editorial .duyuf-contact-channels>a:hover{background:#f0f2eb;border-color:#b8c8b9;transform:none}
+.duyuf-contact-editorial .duyuf-contact-channels :is(.w-12.h-12){
+ width:42px;height:42px;min-width:42px;border:1px solid #dbe2d9;border-radius:3px;
+ background:#e8eee6;color:#2c6459;
+}
+.duyuf-contact-editorial .duyuf-contact-channels h3{font-size:15px;line-height:1.7;color:#25454a}
+.duyuf-contact-editorial .duyuf-contact-form-panel{
+ position:sticky;top:100px;min-width:0;border-radius:5px;border:1px solid #dce1da;
+ box-shadow:0 18px 52px rgba(20,48,48,.07);background:#fffefa;padding:clamp(22px,3.3vw,45px);
+}
+.duyuf-contact-editorial .duyuf-contact-form-panel>h2{color:#153d43;font-weight:800;font-size:clamp(24px,2.4vw,33px)}
+.duyuf-contact-editorial .duyuf-contact-form-panel>p{color:#677a74;line-height:1.85}
+.duyuf-contact-editorial .duyuf-contact-form-panel :is(input,textarea,select):focus-visible{
+ outline:3px solid #b69b68;outline-offset:1px;
+}
+@media(max-width:900px){
+ .duyuf-contact-editorial .duyuf-contact-layout{grid-template-columns:1fr;gap:30px}
+ .duyuf-contact-editorial .duyuf-contact-form-panel{position:relative;top:auto}
+}
+@media(max-width:500px){
+ .duyuf-contact-editorial .duyuf-contact-channels>a,
+ .duyuf-contact-editorial .duyuf-contact-channels>div{padding:16px 2px}
+ .duyuf-contact-editorial .duyuf-contact-form-panel{padding:22px 17px}
+}
+@media(prefers-reduced-motion:reduce){
+ .duyuf-contact-editorial .duyuf-contact-channels>a{transition:none}
+}

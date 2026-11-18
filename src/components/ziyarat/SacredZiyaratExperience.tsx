@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { ZIYARAT_VISUALS, ZIYARAT_CARD_TO_SITE, getZiyaratLicenseUrl } from '@/data/ziyarat-visuals';
 import { Locale } from '@/i18n/config';
 import {
   MapPin,
@@ -22,6 +24,7 @@ import {
   Luggage,
 } from 'lucide-react';
 import { BorderBeam } from '@/components/ui/luxury/BorderBeam';
+import {AUTHORITATIVE_TRANSFER_RATES} from '@/lib/pricing-constants';
 import { Meteors } from '@/components/ui/luxury/Meteors';
 
 export interface SacredZiyaratExperienceProps {
@@ -111,7 +114,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
     durationLabel: 'مدة التوقف المقترحة:',
     standbyNote: 'السائق ينتظركم بمركبة مكيفة ومياه باردة طوال فترة الزيارة دون استعجال',
     packagesHeading: 'باقات الجولات الشاملة والأسعار الثابتة',
-    packagesSubheading: 'جولة نصف يوم تشمل الذهاب والانتظار والعودة لباب الفندق دون أي رسوم مخفية',
+    packagesSubheading: 'مدة الجولة تختلف حسب المدينة؛ تُنسّق المحطات وأوقات التوقف ضمن الوقت المحجوز.',
     tourDurationLabel: 'مدة الجولة الإجمالية:',
     includedStopsLabel: 'المحطات المشمولة في الجولة:',
     selectVehicle: 'اختر المركبة المناسبة لعدد أفراد عائلتك:',
@@ -260,7 +263,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
         city: 'makkah',
         title: 'جولة مزارات مكة المكرمة الكبرى',
         subtitle: 'تغطية شاملة لأهم معالم السيرة المكية والمشاعر المقدسة بسيارة خاصة وسائق أمين',
-        duration: '3.5 - 4 ساعات',
+        duration: '2.5 ساعة',
         itinerary: [
           'الانطلاق من بهو فندقكم بمكة المكرمة بسيارة مبردة',
           'زيارة ساحة جبل النور وحي حراء الثقافي',
@@ -315,7 +318,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
     durationLabel: 'Recommended Time at Site:',
     standbyNote: 'Your chauffeur remains on dedicated standby with continuous AC and chilled water throughout your visit',
     packagesHeading: 'Curated Tour Itineraries & Transparent Fares',
-    packagesSubheading: 'Comprehensive half-day private chauffeur tours including hotel pickup, site waiting, and return drop-off',
+    packagesSubheading: 'Tour times vary by city. Prioritize landmarks and arrange stops within the booked duration.',
     tourDurationLabel: 'Total Tour Duration:',
     includedStopsLabel: 'Curated Itinerary Stops:',
     selectVehicle: 'Select the optimal vehicle for your family size:',
@@ -464,7 +467,7 @@ const TRANSLATIONS: Record<Locale, TranslationData> = {
         city: 'makkah',
         title: 'Grand Makkah Holy Sanctuaries Tour',
         subtitle: 'Comprehensive half-day private chauffeur tour covering foundational Quranic milestones and Hajj grounds',
-        duration: '3.5 - 4 Hours',
+        duration: '2.5 hours',
         itinerary: [
           'Chauffeur pickup at your Makkah hotel lobby in pre-cooled executive car',
           'Jabal Al-Noor base viewing and Hira Cultural District exploration',
@@ -925,6 +928,52 @@ fallbackLocales.forEach((loc) => {
   }
 });
 
+function ZiyaratSitePhoto({ site, locale }: { site: SiteItem; locale: Locale }) {
+  const [failed, setFailed] = useState(false);
+  const key = ZIYARAT_CARD_TO_SITE[site.id];
+  const image = ZIYARAT_VISUALS[key];
+  // Never show the same unrelated image across all sites when a remote photo fails.
+  if (!image) return null;
+  const source = image.src;
+  const isArabic = locale === 'ar';
+  return (
+    <figure className="space-y-2">
+      <Link
+        href={key === 'salman-garden' ? `/${locale}/ziyarat/madinah` : `/${locale}/ziyarat/${site.city}/${key}`}
+        aria-label={site.name}
+        className="block relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-bg-alt focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-dark group"
+      >
+        {!failed ? <Image
+          src={source}
+          alt={site.name}
+          fill
+          unoptimized
+          loading="lazy"
+          sizes="(max-width: 768px) 80vw, (max-width: 1200px) 47vw, 520px"
+          className="object-cover transition-transform duration-500 group-hover:scale-[1.035]"
+          onError={() => setFailed(true)}
+        /> : <span className="absolute inset-0 flex items-center justify-center px-5 text-center text-white font-semibold text-base leading-relaxed bg-gradient-to-br from-[#23484d] via-[#496660] to-[#9d8258]">
+          {site.name}
+        </span>}
+        <span className="absolute inset-0 bg-gradient-to-t from-[#102b32]/40 via-transparent to-transparent pointer-events-none" />
+        {image.representative && <span className="absolute bottom-2 right-2 left-2 text-white text-[10px] font-semibold drop-shadow">
+          {isArabic ? 'صورة توضيحية لمزارع نخيل المدينة' : 'Representative Madinah date farm photo'}
+        </span>}
+      </Link>
+      {!failed && (
+        <figcaption className="text-[10px] leading-5 text-ink-muted">
+          {isArabic ? 'الصورة: ' : 'Photo: '}
+          <a href={image.source} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-ink">{image.author}</a>
+          {' · '}
+          <a href={getZiyaratLicenseUrl(image.license)} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-ink">{image.license}</a>
+          {' · '}
+          {isArabic ? 'مقتصة للعرض' : 'cropped for display'}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
 export default function SacredZiyaratExperience({
   locale,
   initialCity = 'makkah',
@@ -961,7 +1010,8 @@ export default function SacredZiyaratExperience({
     },
   };
 
-  const currentPrice = activeTour?.pricing[selectedVehicle] || 250;
+  const ziyaratRoute = activeCity === 'makkah' ? 'makkah-ziyarat' : 'madinah-ziyarat';
+  const currentPrice = AUTHORITATIVE_TRANSFER_RATES[ziyaratRoute]?.[selectedVehicle];
 
   return (
     <div
@@ -1024,13 +1074,14 @@ export default function SacredZiyaratExperience({
             <p className="text-sm text-ink-muted">{t.sitesSubheading}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="duyuf-ziyarat-sites-rail grid grid-cols-1 md:grid-cols-2 gap-6" role="region" aria-label={t.sitesHeading} tabIndex={0}>
             {citySites.map((site) => (
               <div
                 key={site.id}
                 className="bg-surface rounded-2xl p-6 border border-border hover:border-gold transition-all flex flex-col justify-between space-y-6 shadow-sm"
               >
                 <div className="space-y-4">
+                  <ZiyaratSitePhoto site={site} locale={locale} />
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <span className="text-[11px] font-bold tracking-wider text-gold-dark uppercase block mb-1">
@@ -1140,7 +1191,7 @@ export default function SacredZiyaratExperience({
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {(['camry', 'staria', 'yukon', 'hiace'] as const).map((vehKey) => {
                   const veh = vehicleDetails[vehKey];
-                  const price = activeTour.pricing[vehKey];
+                  const price = AUTHORITATIVE_TRANSFER_RATES[ziyaratRoute]?.[vehKey];
                   const isSelected = selectedVehicle === vehKey;
 
                   return (
@@ -1179,7 +1230,7 @@ export default function SacredZiyaratExperience({
                       <div className="pt-2 border-t border-border flex items-baseline justify-between">
                         <span className="text-[11px] text-ink-muted">{t.fixedFareLabel}</span>
                         <span className="text-lg font-black text-gold-dark">
-                          {price} {t.sarLabel}
+                          {typeof price === 'number' && price > 0 ? price : '—'} {t.sarLabel}
                         </span>
                       </div>
                     </button>
@@ -1193,7 +1244,7 @@ export default function SacredZiyaratExperience({
               <div>
                 <span className="text-xs text-ink-muted block">{t.fixedFareLabel}</span>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-black text-ink">{currentPrice}</span>
+                  <span className="text-3xl font-black text-ink">{typeof currentPrice === 'number' && currentPrice > 0 ? currentPrice : '—'}</span>
                   <span className="text-base font-bold text-gold-dark">{t.sarLabel}</span>
                   <span className="text-xs text-ink-muted">
                     ({vehicleDetails[selectedVehicle].name})
@@ -1203,7 +1254,7 @@ export default function SacredZiyaratExperience({
 
               <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
                 <Link
-                  href={`/${locale}/booking?service=ziyarat&city=${activeCity}&vehicle=${selectedVehicle}`}
+                  href={`/${locale}/booking?type=ziyarat&route=${ziyaratRoute}&vehicle=${selectedVehicle}`}
                   className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-sm text-white bg-gold-dark hover:bg-[#8E672F] shadow-md transition-all"
                 >
                   <span>{t.bookTourBtn}</span>
@@ -1238,7 +1289,7 @@ export default function SacredZiyaratExperience({
             <p className="text-sm text-ink-muted">{t.etiquetteSubheading}</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="duyuf-ziyarat-pillars-rail grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" role="region" aria-label={t.etiquetteHeading} tabIndex={0}>
             {t.pillars.map((pillar, i) => (
               <div
                 key={i}

@@ -1,0 +1,1908 @@
+{
+  "requests": {
+    "granularity": "day",
+    "lastUpdate": "2026-10-31T17:19:48.182Z",
+    "data": [
+      {
+        "date": "2026-10-15T00:00:00.000Z",
+        "first_event": "2026-10-15T17:00:00.000Z",
+        "last_event": "2026-10-15T21:00:00.000Z",
+        "request_hit_count": 21,
+        "request_miss_count": 31,
+        "monitoring_metric_count": 52,
+        "bandwidth_outgoing_bytes": 15642276,
+        "bandwidth_incoming_bytes": 69346,
+        "function_execution_successful_gb_hours": 0,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 0,
+        "function_invocation_error_count": 0,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 15,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "requests": [
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 152,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            },
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 152,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            },
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-16T00:00:00.000Z",
+        "first_event": "2026-10-16T17:00:00.000Z",
+        "last_event": "2026-10-16T23:00:00.000Z",
+        "request_hit_count": 204,
+        "request_miss_count": 193,
+        "monitoring_metric_count": 397,
+        "bandwidth_outgoing_bytes": 59050677,
+        "bandwidth_incoming_bytes": 604009,
+        "function_execution_successful_gb_hours": 0.07431964444444444,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 62,
+        "function_invocation_error_count": 0,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-17T00:00:00.000Z",
+        "first_event": "2026-10-17T00:00:00.000Z",
+        "last_event": "2026-10-17T23:00:00.000Z",
+        "request_hit_count": 641,
+        "request_miss_count": 2540,
+        "monitoring_metric_count": 2250,
+        "bandwidth_outgoing_bytes": 195854861,
+        "bandwidth_incoming_bytes": 3594049,
+        "function_execution_successful_gb_hours": 0.7420120177777777,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 1975,
+        "function_invocation_error_count": 6,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-18T00:00:00.000Z",
+        "first_event": "2026-10-18T00:00:00.000Z",
+        "last_event": "2026-10-18T22:00:00.000Z",
+        "request_hit_count": 232,
+        "request_miss_count": 1193,
+        "monitoring_metric_count": 912,
+        "bandwidth_outgoing_bytes": 78103383,
+        "bandwidth_incoming_bytes": 1449597,
+        "function_execution_successful_gb_hours": 0.20340280888888884,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 980,
+        "function_invocation_error_count": 0,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-19T00:00:00.000Z",
+        "first_event": "2026-10-19T02:00:00.000Z",
+        "last_event": "2026-10-19T23:00:00.000Z",
+        "request_hit_count": 473,
+        "request_miss_count": 700,
+        "monitoring_metric_count": 685,
+        "bandwidth_outgoing_bytes": 10116470,
+        "bandwidth_incoming_bytes": 1062700,
+        "function_execution_successful_gb_hours": 0.11625472,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 518,
+        "function_invocation_error_count": 5,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-20T00:00:00.000Z",
+        "first_event": "2026-10-20T00:00:00.000Z",
+        "last_event": "2026-10-20T23:00:00.000Z",
+        "request_hit_count": 790,
+        "request_miss_count": 1082,
+        "monitoring_metric_count": 1001,
+        "bandwidth_outgoing_bytes": 15831491,
+        "bandwidth_incoming_bytes": 1582164,
+        "function_execution_successful_gb_hours": 0.08572131555555555,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 904,
+        "function_invocation_error_count": 2,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-21T00:00:00.000Z",
+        "first_event": "2026-10-21T00:00:00.000Z",
+        "last_event": "2026-10-21T23:00:00.000Z",
+        "request_hit_count": 4413,
+        "request_miss_count": 8258,
+        "monitoring_metric_count": 6585,
+        "bandwidth_outgoing_bytes": 136312450,
+        "bandwidth_incoming_bytes": 8465973,
+        "function_execution_successful_gb_hours": 0.2597165511111112,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 6969,
+        "function_invocation_error_count": 4,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-22T00:00:00.000Z",
+        "first_event": "2026-10-22T00:00:00.000Z",
+        "last_event": "2026-10-22T23:00:00.000Z",
+        "request_hit_count": 5168,
+        "request_miss_count": 10204,
+        "monitoring_metric_count": 7899,
+        "bandwidth_outgoing_bytes": 156518692,
+        "bandwidth_incoming_bytes": 10897746,
+        "function_execution_successful_gb_hours": 0.7104830577777779,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 8343,
+        "function_invocation_error_count": 3,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-23T00:00:00.000Z",
+        "first_event": "2026-10-23T00:00:00.000Z",
+        "last_event": "2026-10-23T23:00:00.000Z",
+        "request_hit_count": 5987,
+        "request_miss_count": 9429,
+        "monitoring_metric_count": 8224,
+        "bandwidth_outgoing_bytes": 161290453,
+        "bandwidth_incoming_bytes": 11714163,
+        "function_execution_successful_gb_hours": 0.5983926044444448,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 7807,
+        "function_invocation_error_count": 0,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-24T00:00:00.000Z",
+        "first_event": "2026-10-24T00:00:00.000Z",
+        "last_event": "2026-10-24T23:00:00.000Z",
+        "request_hit_count": 3421,
+        "request_miss_count": 5568,
+        "monitoring_metric_count": 4811,
+        "bandwidth_outgoing_bytes": 195004830,
+        "bandwidth_incoming_bytes": 8138689,
+        "function_execution_successful_gb_hours": 0.6140637866666666,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 4369,
+        "function_invocation_error_count": 0,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-25T00:00:00.000Z",
+        "first_event": "2026-10-25T00:00:00.000Z",
+        "last_event": "2026-10-25T23:00:00.000Z",
+        "request_hit_count": 4466,
+        "request_miss_count": 6331,
+        "monitoring_metric_count": 5809,
+        "bandwidth_outgoing_bytes": 210670519,
+        "bandwidth_incoming_bytes": 8876720,
+        "function_execution_successful_gb_hours": 0.5691858488888888,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 5203,
+        "function_invocation_error_count": 0,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-26T00:00:00.000Z",
+        "first_event": "2026-10-26T00:00:00.000Z",
+        "last_event": "2026-10-26T23:00:00.000Z",
+        "request_hit_count": 3812,
+        "request_miss_count": 5973,
+        "monitoring_metric_count": 4939,
+        "bandwidth_outgoing_bytes": 144219524,
+        "bandwidth_incoming_bytes": 7482710,
+        "function_execution_successful_gb_hours": 0.5440967111111111,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 5037,
+        "function_invocation_error_count": 0,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-27T00:00:00.000Z",
+        "first_event": "2026-10-27T00:00:00.000Z",
+        "last_event": "2026-10-27T23:00:00.000Z",
+        "request_hit_count": 4886,
+        "request_miss_count": 7397,
+        "monitoring_metric_count": 6329,
+        "bandwidth_outgoing_bytes": 203112919,
+        "bandwidth_incoming_bytes": 9116714,
+        "function_execution_successful_gb_hours": 0.5083801599999999,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 6298,
+        "function_invocation_error_count": 0,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-28T00:00:00.000Z",
+        "first_event": "2026-10-28T00:00:00.000Z",
+        "last_event": "2026-10-28T23:00:00.000Z",
+        "request_hit_count": 4380,
+        "request_miss_count": 11772,
+        "monitoring_metric_count": 8150,
+        "bandwidth_outgoing_bytes": 299054234,
+        "bandwidth_incoming_bytes": 10657878,
+        "function_execution_successful_gb_hours": 0.5921103644444446,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 10303,
+        "function_invocation_error_count": 0,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-29T00:00:00.000Z",
+        "first_event": "2026-10-29T00:00:00.000Z",
+        "last_event": "2026-10-29T23:00:00.000Z",
+        "request_hit_count": 4788,
+        "request_miss_count": 8488,
+        "monitoring_metric_count": 7261,
+        "bandwidth_outgoing_bytes": 389038925,
+        "bandwidth_incoming_bytes": 9797645,
+        "function_execution_successful_gb_hours": 0.8339763199999999,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 7016,
+        "function_invocation_error_count": 4,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-30T00:00:00.000Z",
+        "first_event": "2026-10-30T00:00:00.000Z",
+        "last_event": "2026-10-30T23:00:00.000Z",
+        "request_hit_count": 5297,
+        "request_miss_count": 10187,
+        "monitoring_metric_count": 9129,
+        "bandwidth_outgoing_bytes": 367668278,
+        "bandwidth_incoming_bytes": 21235754,
+        "function_execution_successful_gb_hours": 0.9211448888888889,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 7933,
+        "function_invocation_error_count": 2,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-31T00:00:00.000Z",
+        "first_event": "2026-10-31T00:00:00.000Z",
+        "last_event": "2026-10-31T17:00:00.000Z",
+        "request_hit_count": 2085,
+        "request_miss_count": 6500,
+        "monitoring_metric_count": 4193,
+        "bandwidth_outgoing_bytes": 121375669,
+        "bandwidth_incoming_bytes": 9843672,
+        "function_execution_successful_gb_hours": 0.651510328888889,
+        "function_execution_error_gb_hours": 0,
+        "function_execution_timeout_gb_hours": 0,
+        "function_invocation_successful_count": 5295,
+        "function_invocation_error_count": 0,
+        "function_invocation_throttle_count": 0,
+        "function_invocation_timeout_count": 0,
+        "breakdown": {
+          "bandwidth": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "requests": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "monitoring": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_execution": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ],
+          "function_invocations": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            },
+            {
+              "name": "alfursan-transport-admin",
+              "percent": 0,
+              "title": "alfursan-transport-admin",
+              "id": "prj_uxylQGpSeDbWfS7uQnS7zJY6CRhl"
+            }
+          ]
+        },
+        "previous": null
+      }
+    ]
+  },
+  "builds": {
+    "granularity": "day",
+    "lastUpdate": "2026-10-31T17:04:51.966Z",
+    "data": [
+      {
+        "date": "2026-10-15T00:00:00.000Z",
+        "first_event": "2026-10-15T17:56:29.713Z",
+        "last_event": "2026-10-15T19:45:30.547Z",
+        "build_completed_count": 4,
+        "build_failed_count": 0,
+        "build_build_seconds": 6.923,
+        "build_queued_seconds": 4.239,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-16T00:00:00.000Z",
+        "first_event": "2026-10-16T21:04:38.744Z",
+        "last_event": "2026-10-16T23:54:58.318Z",
+        "build_completed_count": 10,
+        "build_failed_count": 0,
+        "build_build_seconds": 130.685,
+        "build_queued_seconds": 11.63,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-17T00:00:00.000Z",
+        "first_event": "2026-10-17T00:08:18.682Z",
+        "last_event": "2026-10-17T22:57:10.143Z",
+        "build_completed_count": 15,
+        "build_failed_count": 0,
+        "build_build_seconds": 606.262,
+        "build_queued_seconds": 15.969,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-18T00:00:00.000Z",
+        "first_event": "2026-10-18T01:22:35.481Z",
+        "last_event": "2026-10-18T22:03:38.710Z",
+        "build_completed_count": 5,
+        "build_failed_count": 0,
+        "build_build_seconds": 298.016,
+        "build_queued_seconds": 5.895,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-19T00:00:00.000Z",
+        "first_event": "2026-10-19T19:17:32.060Z",
+        "last_event": "2026-10-19T22:51:08.543Z",
+        "build_completed_count": 3,
+        "build_failed_count": 0,
+        "build_build_seconds": 194.6,
+        "build_queued_seconds": 4.471,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-20T00:00:00.000Z",
+        "first_event": "2026-10-20T17:47:12.298Z",
+        "last_event": "2026-10-20T20:35:35.139Z",
+        "build_completed_count": 4,
+        "build_failed_count": 0,
+        "build_build_seconds": 318.931,
+        "build_queued_seconds": 6.512,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-21T00:00:00.000Z",
+        "first_event": "2026-10-21T16:29:36.313Z",
+        "last_event": "2026-10-21T23:53:30.473Z",
+        "build_completed_count": 9,
+        "build_failed_count": 0,
+        "build_build_seconds": 525.395,
+        "build_queued_seconds": 12.072,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-22T00:00:00.000Z",
+        "first_event": "2026-10-22T00:37:02.659Z",
+        "last_event": "2026-10-22T22:50:07.236Z",
+        "build_completed_count": 12,
+        "build_failed_count": 1,
+        "build_build_seconds": 692.597,
+        "build_queued_seconds": 18.003,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-23T00:00:00.000Z",
+        "first_event": "2026-10-23T00:55:43.935Z",
+        "last_event": "2026-10-23T23:53:37.742Z",
+        "build_completed_count": 20,
+        "build_failed_count": 12,
+        "build_build_seconds": 1781.756,
+        "build_queued_seconds": 1934.052,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-24T00:00:00.000Z",
+        "first_event": "2026-10-24T01:02:29.525Z",
+        "last_event": "2026-10-24T23:42:00.377Z",
+        "build_completed_count": 47,
+        "build_failed_count": 1,
+        "build_build_seconds": 3219.168,
+        "build_queued_seconds": 1383.728,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-25T00:00:00.000Z",
+        "first_event": "2026-10-25T00:34:41.814Z",
+        "last_event": "2026-10-25T23:04:56.679Z",
+        "build_completed_count": 24,
+        "build_failed_count": 0,
+        "build_build_seconds": 1556.233,
+        "build_queued_seconds": 323.655,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-26T00:00:00.000Z",
+        "first_event": "2026-10-26T00:02:53.200Z",
+        "last_event": "2026-10-26T23:52:20.036Z",
+        "build_completed_count": 17,
+        "build_failed_count": 0,
+        "build_build_seconds": 1167.503,
+        "build_queued_seconds": 193.515,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-27T00:00:00.000Z",
+        "first_event": "2026-10-27T00:17:31.707Z",
+        "last_event": "2026-10-27T23:33:04.613Z",
+        "build_completed_count": 18,
+        "build_failed_count": 0,
+        "build_build_seconds": 1516.212,
+        "build_queued_seconds": 495.317,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-28T00:00:00.000Z",
+        "first_event": "2026-10-28T00:26:02.422Z",
+        "last_event": "2026-10-28T20:42:42.825Z",
+        "build_completed_count": 14,
+        "build_failed_count": 0,
+        "build_build_seconds": 1083.066,
+        "build_queued_seconds": 242.555,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-29T00:00:00.000Z",
+        "first_event": "2026-10-29T01:42:30.340Z",
+        "last_event": "2026-10-29T23:16:35.422Z",
+        "build_completed_count": 17,
+        "build_failed_count": 0,
+        "build_build_seconds": 1336.887,
+        "build_queued_seconds": 470.203,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-30T00:00:00.000Z",
+        "first_event": "2026-10-30T00:14:50.625Z",
+        "last_event": "2026-10-30T23:46:29.658Z",
+        "build_completed_count": 17,
+        "build_failed_count": 2,
+        "build_build_seconds": 1601.34,
+        "build_queued_seconds": 336.128,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      },
+      {
+        "date": "2026-10-31T00:00:00.000Z",
+        "first_event": "2026-10-31T00:16:12.609Z",
+        "last_event": "2026-10-31T01:01:14.647Z",
+        "build_completed_count": 3,
+        "build_failed_count": 0,
+        "build_build_seconds": 246.941,
+        "build_queued_seconds": 4.034,
+        "breakdown": {
+          "build_count": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ],
+          "build_time": [
+            {
+              "name": "royal-umrah-cabs",
+              "percent": 100,
+              "title": "royal-umrah-cabs",
+              "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva"
+            }
+          ]
+        },
+        "previous": null
+      }
+    ]
+  },
+  "edge": {
+    "granularity": "day",
+    "lastUpdate": "2026-10-31T17:19:55.371Z",
+    "data": []
+  },
+  "artifacts": {
+    "granularity": "day",
+    "lastUpdate": "2026-10-31T17:20:02.333Z",
+    "data": []
+  },
+  "edge_config": {
+    "granularity": "day",
+    "lastUpdate": "2026-10-31T17:20:06.158Z",
+    "data": []
+  },
+  "cron_jobs": {
+    "granularity": "day",
+    "lastUpdate": "2026-10-31T17:20:10.696Z",
+    "data": []
+  },
+  "data_cache": {
+    "granularity": "day",
+    "lastUpdate": "2026-10-31T17:20:21.764Z",
+    "data": [
+      {
+        "date": "2026-10-19T00:00:00.000Z",
+        "first_event": "2026-10-19T20:45:00.000Z",
+        "last_event": "2026-10-19T23:45:00.000Z",
+        "data_cache_total_sent_bytes": 84133,
+        "data_cache_total_received_bytes": 33229,
+        "data_cache_total_revalidates": 0,
+        "breakdown": {},
+        "previous": null
+      },
+      {
+        "date": "2026-10-20T00:00:00.000Z",
+        "first_event": "2026-10-20T00:00:00.000Z",
+        "last_event": "2026-10-20T23:45:00.000Z",
+        "data_cache_total_sent_bytes": 187355,
+        "data_cache_total_received_bytes": 38885,
+        "data_cache_total_revalidates": 0,
+        "breakdown": {},
+        "previous": null
+      },
+      {
+        "date": "2026-10-21T00:00:00.000Z",
+        "first_event": "2026-10-21T00:00:00.000Z",
+        "last_event": "2026-10-21T23:45:00.000Z",
+        "data_cache_total_sent_bytes": 1890579,
+        "data_cache_total_received_bytes": 82324,
+        "data_cache_total_revalidates": 0,
+        "breakdown": {},
+        "previous": null
+      },
+      {
+        "date": "2026-10-22T00:00:00.000Z",
+        "first_event": "2026-10-22T00:00:00.000Z",
+        "last_event": "2026-10-22T23:45:00.000Z",
+        "data_cache_total_sent_bytes": 3490210,
+        "data_cache_total_received_bytes": 415451,
+        "data_cache_total_revalidates": 0,
+        "breakdown": {},
+        "previous": null
+      },
+      {
+        "date": "2026-10-23T00:00:00.000Z",
+        "first_event": "2026-10-23T00:00:00.000Z",
+        "last_event": "2026-10-23T23:45:00.000Z",
+        "data_cache_total_sent_bytes": 3414450,
+        "data_cache_total_received_bytes": 409462,
+        "data_cache_total_revalidates": 0,
+        "breakdown": {},
+        "previous": null
+      },
+      {
+        "date": "2026-10-24T00:00:00.000Z",
+        "first_event": "2026-10-24T00:00:00.000Z",
+        "last_event": "2026-10-24T23:45:00.000Z",
+        "data_cache_total_sent_bytes": 1692656,
+        "data_cache_total_received_bytes": 417826,
+        "data_cache_total_revalidates": 0,
+        "breakdown": {},
+        "previous": null
+      },
+      {
+        "date": "2026-10-25T00:00:00.000Z",
+        "first_event": "2026-10-25T00:00:00.000Z",
+        "last_event": "2026-10-25T23:45:00.000Z",
+        "data_cache_total_sent_bytes": 2081412,
+        "data_cache_total_received_bytes": 400758,
+        "data_cache_total_revalidates": 0,
+        "breakdown": {},
+        "previous": null
+      },
+      {
+        "date": "2026-10-26T00:00:00.000Z",
+        "first_event": "2026-10-26T00:00:00.000Z",
+        "last_event": "2026-10-26T23:45:00.000Z",
+        "data_cache_total_sent_bytes": 2737053,
+        "data_cache_total_received_bytes": 486579,
+        "data_cache_total_revalidates": 0,
+        "breakdown": {},
+        "previous": null
+      },
+      {
+        "date": "2026-10-27T00:00:00.000Z",
+        "first_event": "2026-10-27T00:00:00.000Z",
+        "last_event": "2026-10-27T23:45:00.000Z",
+        "data_cache_total_sent_bytes": 3400280,
+        "data_cache_total_received_bytes": 358717,
+        "data_cache_total_revalidates": 0,
+        "breakdown": {},
+        "previous": null
+      },
+      {
+        "date": "2026-10-28T00:00:00.000Z",
+        "first_event": "2026-10-28T00:00:00.000Z",
+        "last_event": "2026-10-28T23:45:00.000Z",
+        "data_cache_total_sent_bytes": 8627657,
+        "data_cache_total_received_bytes": 469715,
+        "data_cache_total_revalidates": 0,
+        "breakdown": {},
+        "previous": null
+      },
+      {
+        "date": "2026-10-29T00:00:00.000Z",
+        "first_event": "2026-10-29T00:00:00.000Z",
+        "last_event": "2026-10-29T23:45:00.000Z",
+        "data_cache_total_sent_bytes": 3693914,
+        "data_cache_total_received_bytes": 538088,
+        "data_cache_total_revalidates": 0,
+        "breakdown": {},
+        "previous": null
+      },
+      {
+        "date": "2026-10-30T00:00:00.000Z",
+        "first_event": "2026-10-30T00:00:00.000Z",
+        "last_event": "2026-10-30T23:45:00.000Z",
+        "data_cache_total_sent_bytes": 6695631,
+        "data_cache_total_received_bytes": 2347376,
+        "data_cache_total_revalidates": 0,
+        "breakdown": {},
+        "previous": null
+      },
+      {
+        "date": "2026-10-31T00:00:00.000Z",
+        "first_event": "2026-10-31T00:00:00.000Z",
+        "last_event": "2026-10-31T17:15:00.000Z",
+        "data_cache_total_sent_bytes": 11115905,
+        "data_cache_total_received_bytes": 6798499,
+        "data_cache_total_revalidates": 0,
+        "breakdown": {},
+        "previous": null
+      }
+    ]
+  }
+}

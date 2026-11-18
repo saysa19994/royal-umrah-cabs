@@ -1,0 +1,234 @@
+{
+  "executionTimestamp": "2026-10-30T17:58:48.567Z",
+  "deletionResults": [
+    {
+      "id": "dpl_2rfGZuykSMxgqHiUUAWJQaKELFuW",
+      "timestamp": "2026-10-30T17:57:50.236Z",
+      "response": {
+        "error": "Command failed: npx vercel api -X DELETE \"/v13/deployments/dpl_2rfGZuykSMxgqHiUUAWJQaKELFuW?teamId=team_4mpishXNVacXKUjGSmG6Hj6i\"\nError: DELETE operations require confirmation. Use --dangerously-skip-permissions to skip confirmation in non-interactive mode.\n"
+      },
+      "success": false
+    },
+    {
+      "id": "dpl_R2kwhKeeRCcqZQMLvKGsTgxQSo2K",
+      "timestamp": "2026-10-30T17:57:54.076Z",
+      "response": {
+        "error": "Command failed: npx vercel api -X DELETE \"/v13/deployments/dpl_R2kwhKeeRCcqZQMLvKGsTgxQSo2K?teamId=team_4mpishXNVacXKUjGSmG6Hj6i\"\nError: DELETE operations require confirmation. Use --dangerously-skip-permissions to skip confirmation in non-interactive mode.\n"
+      },
+      "success": false
+    },
+    {
+      "id": "dpl_E9jjADVan9gNEdt9kSfGKEEgjXCf",
+      "timestamp": "2026-10-30T17:57:57.664Z",
+      "response": {
+        "error": "Command failed: npx vercel api -X DELETE \"/v13/deployments/dpl_E9jjADVan9gNEdt9kSfGKEEgjXCf?teamId=team_4mpishXNVacXKUjGSmG6Hj6i\"\nError: DELETE operations require confirmation. Use --dangerously-skip-permissions to skip confirmation in non-interactive mode.\n"
+      },
+      "success": false
+    },
+    {
+      "id": "dpl_B93ug4aYVu2jBZ6Bj4nnA7uxyN1N",
+      "timestamp": "2026-10-30T17:58:00.599Z",
+      "response": {
+        "error": "Command failed: npx vercel api -X DELETE \"/v13/deployments/dpl_B93ug4aYVu2jBZ6Bj4nnA7uxyN1N?teamId=team_4mpishXNVacXKUjGSmG6Hj6i\"\nError: DELETE operations require confirmation. Use --dangerously-skip-permissions to skip confirmation in non-interactive mode.\n"
+      },
+      "success": false
+    },
+    {
+      "id": "dpl_7hQGeivJSD7G1TDvrcEGmDhcxQiV",
+      "timestamp": "2026-10-30T17:58:03.829Z",
+      "response": {
+        "error": "Command failed: npx vercel api -X DELETE \"/v13/deployments/dpl_7hQGeivJSD7G1TDvrcEGmDhcxQiV?teamId=team_4mpishXNVacXKUjGSmG6Hj6i\"\nError: DELETE operations require confirmation. Use --dangerously-skip-permissions to skip confirmation in non-interactive mode.\n"
+      },
+      "success": false
+    },
+    {
+      "id": "dpl_DnaWWBZKwpHgLvxALYRdZiYPL6Qi",
+      "timestamp": "2026-10-30T17:58:06.467Z",
+      "response": {
+        "error": "Command failed: npx vercel api -X DELETE \"/v13/deployments/dpl_DnaWWBZKwpHgLvxALYRdZiYPL6Qi?teamId=team_4mpishXNVacXKUjGSmG6Hj6i\"\nError: DELETE operations require confirmation. Use --dangerously-skip-permissions to skip confirmation in non-interactive mode.\n"
+      },
+      "success": false
+    },
+    {
+      "id": "dpl_8mGyj2cdtzRb73WnRnAB6jgB29BH",
+      "timestamp": "2026-10-30T17:58:09.014Z",
+      "response": {
+        "error": "Command failed: npx vercel api -X DELETE \"/v13/deployments/dpl_8mGyj2cdtzRb73WnRnAB6jgB29BH?teamId=team_4mpishXNVacXKUjGSmG6Hj6i\"\nError: DELETE operations require confirmation. Use --dangerously-skip-permissions to skip confirmation in non-interactive mode.\n"
+      },
+      "success": false
+    }
+  ],
+  "postCheckResults": [
+    {
+      "id": "dpl_2rfGZuykSMxgqHiUUAWJQaKELFuW",
+      "isGone": false,
+      "status": "NOT_FOUND_OR_DELETED"
+    },
+    {
+      "id": "dpl_R2kwhKeeRCcqZQMLvKGsTgxQSo2K",
+      "isGone": false,
+      "status": "NOT_FOUND_OR_DELETED"
+    },
+    {
+      "id": "dpl_E9jjADVan9gNEdt9kSfGKEEgjXCf",
+      "isGone": false,
+      "status": "NOT_FOUND_OR_DELETED"
+    },
+    {
+      "id": "dpl_B93ug4aYVu2jBZ6Bj4nnA7uxyN1N",
+      "isGone": false,
+      "status": "NOT_FOUND_OR_DELETED"
+    },
+    {
+      "id": "dpl_7hQGeivJSD7G1TDvrcEGmDhcxQiV",
+      "isGone": false,
+      "status": "NOT_FOUND_OR_DELETED"
+    },
+    {
+      "id": "dpl_DnaWWBZKwpHgLvxALYRdZiYPL6Qi",
+      "isGone": false,
+      "status": "NOT_FOUND_OR_DELETED"
+    },
+    {
+      "id": "dpl_8mGyj2cdtzRb73WnRnAB6jgB29BH",
+      "isGone": false,
+      "status": "NOT_FOUND_OR_DELETED"
+    }
+  ],
+  "probes": {
+    "home": 200,
+    "booking": 200,
+    "www": 200
+  },
+  "remainingDeploymentsCount": 16,
+  "remainingDeployments": [
+    {
+      "uid": "dpl_98mGY3gCvJUkUCdjkSDXzwG8KdD3",
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "url": "royal-umrah-cabs-cimr78uic-sayed6.vercel.app",
+      "created": "2026-10-30T17:00:15.987Z"
+    },
+    {
+      "uid": "dpl_ARgNs62mbLqe78mprQHxyru8xUUo",
+      "target": null,
+      "state": "READY",
+      "branch": "feat/luxury-command-center-v2",
+      "url": "royal-umrah-cabs-e2kd7lzhg-sayed6.vercel.app",
+      "created": "2026-10-30T17:00:15.987Z"
+    },
+    {
+      "uid": "dpl_GyNgb3dhiiMvLse8s3FbqZwaEAk9",
+      "target": "production",
+      "state": "READY",
+      "branch": "feat/luxury-command-center-v2",
+      "url": "royal-umrah-cabs-jvl9x0kfo-sayed6.vercel.app",
+      "created": "2026-10-30T14:42:16.901Z"
+    },
+    {
+      "uid": "dpl_2rfGZuykSMxgqHiUUAWJQaKELFuW",
+      "target": "production",
+      "state": "ERROR",
+      "branch": "feat/luxury-command-center-v2",
+      "url": "royal-umrah-cabs-6ymzng3dp-sayed6.vercel.app",
+      "created": "2026-10-30T14:29:55.146Z"
+    },
+    {
+      "uid": "dpl_T8mrg7v764ELye9haGCXsgGd98AC",
+      "target": "production",
+      "state": "READY",
+      "branch": "feat/luxury-command-center-v2",
+      "url": "royal-umrah-cabs-3u6flknk9-sayed6.vercel.app",
+      "created": "2026-10-30T02:54:27.177Z"
+    },
+    {
+      "uid": "dpl_R2kwhKeeRCcqZQMLvKGsTgxQSo2K",
+      "target": "production",
+      "state": "ERROR",
+      "branch": "feat/luxury-command-center-v2",
+      "url": "royal-umrah-cabs-m2cil7vt8-sayed6.vercel.app",
+      "created": "2026-10-30T01:41:18.766Z"
+    },
+    {
+      "uid": "dpl_Hp39sKwqHvv4jnZvuDnPx8vC3Raz",
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "url": "royal-umrah-cabs-nk10p8vjj-sayed6.vercel.app",
+      "created": "2026-10-30T01:41:00.415Z"
+    },
+    {
+      "uid": "dpl_DjPFzk9sbtFGYjCNHfqtTG8znAgj",
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "url": "royal-umrah-cabs-epbfpozgl-sayed6.vercel.app",
+      "created": "2026-10-30T01:15:54.571Z"
+    },
+    {
+      "uid": "dpl_E9jjADVan9gNEdt9kSfGKEEgjXCf",
+      "target": null,
+      "state": "READY",
+      "branch": "master",
+      "url": "royal-umrah-cabs-ovtegcxrk-sayed6.vercel.app",
+      "created": "2026-10-30T01:15:54.230Z"
+    },
+    {
+      "uid": "dpl_B93ug4aYVu2jBZ6Bj4nnA7uxyN1N",
+      "target": null,
+      "state": "READY",
+      "branch": "master",
+      "url": "royal-umrah-cabs-5ce2j8l59-sayed6.vercel.app",
+      "created": "2026-10-30T00:14:49.676Z"
+    },
+    {
+      "uid": "dpl_BpPMhDRJddpSsx7WjMHLZnakRJWm",
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "url": "royal-umrah-cabs-qgxgv25x4-sayed6.vercel.app",
+      "created": "2026-10-30T00:14:49.561Z"
+    },
+    {
+      "uid": "dpl_6ncmQb1mzHrSvcxyBYTz57Q8nG5c",
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "url": "royal-umrah-cabs-855g2cziw-sayed6.vercel.app",
+      "created": "2026-10-29T23:14:43.781Z"
+    },
+    {
+      "uid": "dpl_7hQGeivJSD7G1TDvrcEGmDhcxQiV",
+      "target": null,
+      "state": "READY",
+      "branch": "master",
+      "url": "royal-umrah-cabs-784um7f7y-sayed6.vercel.app",
+      "created": "2026-10-29T23:14:41.406Z"
+    },
+    {
+      "uid": "dpl_EoKfCGg3Dv5eayw2PJ4kY2Dz9LWg",
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "url": "royal-umrah-cabs-ljpz0laqr-sayed6.vercel.app",
+      "created": "2026-10-29T23:09:16.792Z"
+    },
+    {
+      "uid": "dpl_DnaWWBZKwpHgLvxALYRdZiYPL6Qi",
+      "target": null,
+      "state": "READY",
+      "branch": "master",
+      "url": "royal-umrah-cabs-exq9n0ixf-sayed6.vercel.app",
+      "created": "2026-10-29T23:00:09.118Z"
+    },
+    {
+      "uid": "dpl_8mGyj2cdtzRb73WnRnAB6jgB29BH",
+      "target": null,
+      "state": "READY",
+      "branch": "feat/admin-db-wiring-and-10-languages",
+      "url": "royal-umrah-cabs-32hl4cx0n-sayed6.vercel.app",
+      "created": "2026-10-29T22:59:35.199Z"
+    }
+  ]
+}

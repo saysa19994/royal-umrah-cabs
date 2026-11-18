@@ -4,10 +4,39 @@
 
 @import "../styles/homepage-v3.css";
 @import "../styles/luxury-subpages.css";
+@import "../styles/duyuf-completion.css";
+@import "../styles/duyuf-video-micro-motion.css";
+@import "../styles/comfort-mode.css";
 
 /* ========================================================================== */
 /* DUYUF AL RAHMAN VIP — DUAL-THEME MASTER DESIGN TOKENS (STAGE 2)           */
 /* ========================================================================== */
+
+/* Locale-aware, network-independent typography. Font variables in fonts.ts are
+   placeholders, so supply real CSS family stacks for every supported script. */
+:root {
+  --font-playfair: Georgia, "Times New Roman", serif;
+  --font-cormorant: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-amiri: "Amiri", "Noto Naskh Arabic", "Traditional Arabic", serif;
+  --font-manrope: "Segoe UI", Arial, sans-serif;
+  --font-inter: "Segoe UI", Arial, sans-serif;
+  --font-ibm-plex-arabic: "Noto Sans Arabic", Tahoma, Arial, sans-serif;
+  --font-tajawal: "Noto Sans Arabic", Tahoma, Arial, sans-serif;
+  --font-cairo: "Noto Sans Arabic", Tahoma, Arial, sans-serif;
+  --font-urdu: "Noto Nastaliq Urdu", "Noto Naskh Arabic", Tahoma, serif;
+  --font-devanagari: "Noto Sans Devanagari", "Mangal", sans-serif;
+}
+
+[lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3,
+[lang="ur"] h1, [lang="ur"] h2, [lang="ur"] h3 {
+  font-family: var(--font-amiri);
+  line-height: 1.35;
+}
+
+[lang="hi"] h1, [lang="hi"] h2, [lang="hi"] h3 {
+  font-family: var(--font-devanagari);
+  line-height: 1.35;
+}
 
 :root,
 [data-theme="light"] {
@@ -581,4 +610,66 @@
   outline: none;
   border-color: #D6A13A;
   box-shadow: 0 0 0 2px rgba(214, 161, 58, 0.25);
+}
+
+
+/* Keep the fixed homepage header legible over the arrival film. */
+header[role="banner"][data-royal-home="true"][data-royal-scrolled="false"]{
+  background:linear-gradient(180deg,rgba(7,17,32,.68),rgba(7,17,32,.07))!important;
+  border-color:rgba(255,255,255,.15)!important;
+  box-shadow:none!important;
+}
+header[role="banner"][data-royal-home="true"][data-royal-scrolled="false"] nav a{
+  color:#F7F5F0!important;
+}
+header[role="banner"][data-royal-home="true"][data-royal-scrolled="false"] a[aria-label^="Duyuf"] :is(strong,span,svg){
+  color:#fff!important;
+}
+header[role="banner"][data-royal-home="true"][data-royal-scrolled="false"] a[aria-label^="Duyuf"] span span{
+  color:#e3bb83!important;
+}
+@media(max-width:640px){
+  header[role="banner"][data-royal-home="true"][data-royal-scrolled="false"]{
+    background:#101827f5!important
+  }
+}
+
+.royal-immersion-footer {
+  --footer-bg: #101827;
+  --footer-border: #ffffff24;
+  --footer-text: #d5dce5;
+  --footer-heading: #f7f5f0;
+  --footer-strip-bg: #162238;
+  --accent-primary: #d8b16e;
+  --accent-soft: #ffffff0c;
+  --bg-surface: #1c2a40;
+  --border-stone: #ffffff35;
+  --text-primary: #f7f5f0;
+}
+
+.royal-immersion-footer .duyuf-footer-menu :is(a, button) {
+  line-height: 1.55;
+}
+
+.royal-immersion-footer a:focus-visible {
+  outline: 2px solid #e1bb7b;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  header[role="banner"][data-royal-home="true"] {
+    transition-duration: .01ms;
+  }
+}
+
+@media (max-width: 760px) {
+  header[role="banner"][data-royal-home="true"] {
+    position: sticky;
+    flex-shrink: 0;
+    padding-block: 0;
+  }
+
+  header[role="banner"][data-royal-home="true"] > .container {
+    min-height: 62px;
+  }
 }

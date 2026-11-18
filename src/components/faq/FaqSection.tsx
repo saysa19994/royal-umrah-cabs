@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import './FaqSection.editorial.css';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import type { SiteSettings } from '@/lib/settings';
@@ -23,6 +25,7 @@ export interface FaqSectionProps {
   id?: string;
   className?: string;
   showCta?: boolean;
+  standalone?: boolean;
 }
 
 
@@ -124,8 +127,12 @@ export function FaqSection({
   id = 'faq',
   className = '',
   showCta = true,
+  standalone = false,
 }: FaqSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const Heading = standalone ? 'h1' : 'h2';
+  const QuestionHeading = standalone ? 'h2' : 'h3';
+  const CtaHeading = standalone ? 'h2' : 'h3';
 
   const toggleItem = (index: number) => {
     setOpenIndex((prev) => (prev === index ? null : index));
@@ -157,30 +164,37 @@ export function FaqSection({
     <section
       id={id}
       aria-labelledby={`${id}-heading`}
-      className={`py-16 md:py-24 bg-alabaster border-t border-border text-start ${className}`}
+      className={`py-16 md:py-24 bg-alabaster border-t border-border text-start ${standalone ? 'duyuf-faq-standalone' : ''} ${className}`}
     >
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+        <div className="duyuf-faq-editorial-heading text-center max-w-3xl mx-auto mb-12 md:mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-soft border border-gold-line text-xs font-bold text-gold-dark uppercase tracking-wider mb-4">
             <Sparkles className="w-3.5 h-3.5 text-gold-dark" />
             <span>{dict.faq.sectionPill}</span>
           </div>
 
-          <h2
+          <Heading
             id={`${id}-heading`}
             className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-ink tracking-tight"
           >
             {dict.faq.heading}
-          </h2>
+          </Heading>
 
           <p className="mt-4 text-sm sm:text-base md:text-lg text-ink-muted font-light leading-relaxed">
             {dict.faq.subtitle}
           </p>
         </div>
 
-        {/* Accordion Questions List */}
-        <div className="space-y-3.5 sm:space-y-4">
+        {/* Video 10: contextual visual guide at the side of the genuine FAQ list. */}
+        <div className="duyuf-faq-editorial-layout">
+          <aside className="duyuf-faq-editorial-photo" aria-hidden="true">
+            <Image src="/assets/homepage-v2/ziyarat-haram.jpg" alt="" fill
+              sizes="(max-width: 780px) 100vw, 36vw" className="object-cover"/>
+
+          </aside>
+          {/* Accordion Questions List */}
+          <div className="duyuf-faq-editorial-questions space-y-3.5 sm:space-y-4">
           {faqItems.map((item, index) => {
             const isOpen = openIndex === index;
             const itemNumber = (index + 1).toString().padStart(2, '0');
@@ -188,23 +202,25 @@ export function FaqSection({
             return (
               <div
                 key={index}
-                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                className={`duyuf-faq-editorial-item rounded-2xl border transition-all duration-200 overflow-hidden ${
                   isOpen
                     ? 'border-gold/50 bg-surface shadow-sm ring-1 ring-gold/20'
                     : 'border-border bg-surface hover:border-gold/30 hover:bg-gold/[0.01]'
                 }`}
               >
+                <QuestionHeading>
                 <button
                   type="button"
-                  id={`faq-btn-${index}`}
+                  id={`${id}-btn-${index}`}
                   aria-expanded={isOpen}
-                  aria-controls={`faq-panel-${index}`}
+                  aria-controls={`${id}-panel-${index}`}
                   onClick={() => toggleItem(index)}
                   className="w-full min-h-[64px] px-5 sm:px-7 py-4 sm:py-5 flex items-center justify-between gap-4 text-start group cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-2xl"
                 >
-                  <div className="flex items-start sm:items-center gap-3.5 sm:gap-4 flex-1">
+                  <span className="duyuf-faq-question-label flex items-start sm:items-center gap-3.5 sm:gap-4 flex-1">
                     <span
-                      className={`text-xs sm:text-sm font-mono font-semibold px-2 py-0.5 rounded-md transition-colors shrink-0 mt-0.5 sm:mt-0 ${
+                      aria-hidden="true"
+                      className={`duyuf-faq-question-number text-xs sm:text-sm font-mono font-semibold px-2 py-0.5 rounded-md transition-colors shrink-0 mt-0.5 sm:mt-0 ${
                         isOpen
                           ? 'bg-gold text-ink font-bold'
                           : 'bg-bg-alt text-ink-muted group-hover:text-gold-dark'
@@ -219,9 +235,9 @@ export function FaqSection({
                     >
                       {item.q}
                     </span>
-                  </div>
+                  </span>
 
-                  <div
+                  <span
                     className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 ${
                       isOpen
                         ? 'bg-gold/15 text-gold-dark rotate-180'
@@ -230,14 +246,16 @@ export function FaqSection({
                     aria-hidden="true"
                   >
                     <ChevronDown className="w-4 h-4" />
-                  </div>
+                  </span>
                 </button>
+                </QuestionHeading>
 
                 {/* Smooth Expandable Content via CSS Grid transition */}
                 <div
-                  id={`faq-panel-${index}`}
+                  id={`${id}-panel-${index}`}
                   role="region"
-                  aria-labelledby={`faq-btn-${index}`}
+                  aria-hidden={!isOpen}
+                  aria-labelledby={`${id}-btn-${index}`}
                   className={`grid transition-[grid-template-rows] duration-200 ease-out ${
                     isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
                   }`}
@@ -251,6 +269,7 @@ export function FaqSection({
               </div>
             );
           })}
+          </div>
         </div>
 
         {/* Trust Badges Bar */}
@@ -310,9 +329,9 @@ export function FaqSection({
                 <span>{dict.meta.brand}</span>
               </div>
 
-              <h3 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white tracking-tight mb-3">
+              <CtaHeading className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white tracking-tight mb-3">
                 {dict.faq.ctaTitle}
-              </h3>
+              </CtaHeading>
 
               <p className="text-sm sm:text-base text-white/80 font-light leading-relaxed mb-8">
                 {dict.faq.ctaSubtitle}

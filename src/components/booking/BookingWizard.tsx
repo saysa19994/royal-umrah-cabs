@@ -320,8 +320,6 @@ export function BookingWizard({
   const isRtl = LOCALE_CONFIG[locale]?.dir === 'rtl';
 
   const [currentStep, setCurrentStep] = useState<number>(initialStep);
-  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const liveRef = useRef<HTMLDivElement>(null);
 
@@ -353,40 +351,16 @@ export function BookingWizard({
 
   const goToStep = useCallback(
     (step: number) => {
-      if (step === currentStep) return;
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentStep(step);
-        setCompletedSteps((prev) => {
-          const next = new Set(prev);
-          for (let i = 1; i < step; i++) next.add(i);
-          return next;
-        });
-        setIsTransitioning(false);
-        announceStep(step);
-      }, 120);
+      setCurrentStep(step);
     },
-    [currentStep, announceStep]
+    []
   );
-
-  // Sync when BookingEngine internally emits step changes
-  useEffect(() => {
-    function handleStepChange(e: Event) {
-      const customEvent = e as CustomEvent<{ step: number }>;
-      const { step } = customEvent.detail;
-      if (step >= 1 && step <= 4) {
-        goToStep(step);
-      }
-    }
-    window.addEventListener('booking-wizard-step', handleStepChange);
-    return () => window.removeEventListener('booking-wizard-step', handleStepChange);
-  }, [goToStep]);
 
   const currentStepData = STEPS[currentStep - 1];
 
   return (
     <div
-      className={`w-full max-w-7xl mx-auto ${isRtl ? 'rtl' : 'ltr'}`}
+      className={`duyuf-booking-wizard-shell w-full max-w-7xl mx-auto ${isRtl ? 'rtl' : 'ltr'}`}
       dir={isRtl ? 'rtl' : 'ltr'}
     >
       {/* ARIA LIVE REGION */}
@@ -398,25 +372,28 @@ export function BookingWizard({
         className="sr-only"
       />
 
-      {/* =====================================================================
+      {/* Adapted from the owner's vip_vip.html booking desk: real four-step controller on a navy side rail. */}
+      <div className="duyuf-prototype-booking-desk">
+            {/* =====================================================================
           UNIFIED HORIZONTAL LUXURY STEPPER (Desktop & Tablet)
       ===================================================================== */}
-      <div className="hidden md:block mb-8">
-        <div className="bg-surface rounded-2xl border border-border p-4 sm:p-5 shadow-xs">
+      <div className="duyuf-booking-progress-desktop hidden md:block mb-8">
+        <div className="duyuf-prototype-booking-kicker">DUYUF AL RAHMAN VIP <span> / 01—04</span></div>
+        <h2 className="duyuf-prototype-booking-label">{ui.progressLabel}</h2>
+        <div className="duyuf-booking-stepper bg-surface rounded-2xl border border-border p-4 sm:p-5 shadow-xs">
           <div className="grid grid-cols-4 gap-3 sm:gap-4" role="navigation" aria-label={ui.progressLabel}>
             {STEPS.map((step) => {
               const isActive = step.number === currentStep;
-              const isDone = completedSteps.has(step.number);
-              const isClickable = isDone && Boolean(goToStep);
+              const isDone = step.number < currentStep;
 
               return (
                 <button
                   key={step.number}
                   type="button"
-                  disabled={!isClickable}
-                  onClick={() => isClickable && goToStep(step.number)}
+                  disabled={!isDone}
+                  onClick={() => goToStep(step.number)}
                   className={`
-                    flex items-center gap-3 p-3 rounded-xl border text-start transition-all duration-200
+                    duyuf-booking-step flex items-center gap-3 p-3 rounded-xl border text-start transition-all duration-200
                     ${
                       isActive
                         ? 'bg-gold-soft/50 border-gold shadow-xs'
@@ -426,10 +403,11 @@ export function BookingWizard({
                     }
                   `}
                   aria-current={isActive ? 'step' : undefined}
+                  data-step-state={isActive ? 'active' : isDone ? 'completed' : 'upcoming'}
                 >
                   <div
                     className={`
-                      w-9 h-9 rounded-lg flex items-center justify-center shrink-0 text-xs font-bold transition-all
+                      duyuf-booking-step-index w-9 h-9 rounded-lg flex items-center justify-center shrink-0 text-xs font-bold transition-all
                       ${
                         isActive
                           ? 'bg-gold-dark text-white shadow-xs'
@@ -459,8 +437,8 @@ export function BookingWizard({
       {/* =====================================================================
           MOBILE COMPACT HEADER (< md)
       ===================================================================== */}
-      <div className="md:hidden mb-6">
-        <div className="rounded-2xl border border-border bg-surface p-4 shadow-xs">
+      <div className="duyuf-booking-progress-mobile md:hidden mb-6">
+        <div className="duyuf-booking-mobile-rail rounded-2xl border border-border bg-surface p-4 shadow-xs">
           <div className="flex items-center justify-between gap-3 mb-3">
             <div>
               <p className="text-[10px] text-gold-dark uppercase tracking-wider font-bold">
@@ -494,7 +472,7 @@ export function BookingWizard({
           >
             {STEPS.map((step) => {
               const isActive = step.number === currentStep;
-              const isDone = completedSteps.has(step.number);
+              const isDone = step.number < currentStep;
               return (
                 <div
                   key={step.number}
@@ -513,7 +491,7 @@ export function BookingWizard({
       {/* =====================================================================
           MAIN BOOKING WORKSPACE (2-Column Desktop: 65% Form / 35% Summary)
       ===================================================================== */}
-      <div className={`w-full transition-opacity duration-150 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+      <div className="w-full">
         <BookingEngine
           locale={locale}
           dict={dict}
@@ -535,7 +513,8 @@ export function BookingWizard({
         />
       </div>
 
-      {/* =====================================================================
+      </div>
+            {/* =====================================================================
           VIP CONCIERGE BANNER (Discreet footer strip)
       ===================================================================== */}
       <div className="mt-8 p-4 sm:p-5 rounded-2xl border border-gold-line bg-gold-soft/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-start">

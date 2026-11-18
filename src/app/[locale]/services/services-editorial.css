@@ -1,0 +1,68 @@
+/* Services editorial: the original large repetitive card grid was replaced by
+   the video-reference interactive ServiceChapterExplorer.
+   This file now styles ONLY the page framing, to avoid dead CSS and collisions. */
+.duyuf-services-editorial{
+ --service-bg:#f7f6f1;--service-ink:#173a3e;--service-muted:#657875;
+ --service-paper:#fffefa;--service-line:#dadfd9;--service-bronze:#a7875f;
+ background:var(--service-bg);color:var(--service-ink);padding:0 0 60px;
+}
+html[data-theme=dark] .duyuf-services-editorial{
+ --service-bg:#13282d;--service-ink:#f4f2ec;--service-muted:#b6c4c4;
+ --service-paper:#1a3238;--service-line:#375158;--service-bronze:#e5c38b;
+}
+.duyuf-services-editorial .duyuf-services-intro{
+ display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.06fr);
+ align-items:center;gap:clamp(28px,5vw,75px);min-height:500px;margin:0 0 58px;
+}
+.duyuf-services-editorial .duyuf-services-intro-copy{padding:62px 0 40px}
+.duyuf-services-editorial .duyuf-services-intro-copy>div:first-child{
+ background:transparent;border:0;box-shadow:none;border-radius:0;padding:0;
+ display:flex;align-items:center;gap:8px;color:var(--service-bronze);letter-spacing:.11em;
+}
+.duyuf-services-editorial .duyuf-services-title{
+ font-size:clamp(46px,5vw,81px);font-weight:680;line-height:1.17;
+ letter-spacing:-.035em;text-wrap:balance;max-width:620px;
+ color:var(--service-ink);margin:19px 0!important
+}
+html[dir=rtl] .duyuf-services-editorial .duyuf-services-title{
+ font-family:var(--font-amiri,Georgia),Georgia,serif;letter-spacing:0;line-height:1.33;
+}
+.duyuf-services-editorial .duyuf-services-intro-copy>p{
+ color:var(--service-muted);max-width:530px;font-size:14px;line-height:1.9
+}
+.duyuf-services-editorial .duyuf-services-intro-cta{
+ display:inline-flex;align-items:center;gap:15px;justify-content:center;
+ margin-top:25px;min-height:50px;padding:12px 23px;
+ background:#1a4047;color:#fff!important;border-radius:3px;font-size:12px;font-weight:750;
+}
+.duyuf-services-editorial .duyuf-services-intro-cta:hover{background:#356168;color:#fff}
+.duyuf-services-editorial .duyuf-services-intro-visual{
+ position:relative;height:clamp(385px,36vw,530px);width:100%;
+ overflow:hidden;border-radius:0 30px 0 0;background:#283e40;
+ box-shadow:0 22px 58px rgba(14,40,45,.1)
+}
+.duyuf-services-editorial .duyuf-services-intro-visual img{object-fit:cover;object-position:center}
+.duyuf-services-editorial a:focus-visible{outline:3px solid #bf965b;outline-offset:4px}
+@media(max-width:980px){
+ .duyuf-services-editorial .duyuf-services-intro{min-height:0;gap:25px;margin-bottom:44px}
+ .duyuf-services-editorial .duyuf-services-title{font-size:clamp(39px,5vw,58px)}
+ .duyuf-services-editorial .duyuf-services-intro-visual{height:390px}
+}
+@media(max-width:767px){
+ .duyuf-services-editorial{padding-bottom:42px}
+ .duyuf-services-editorial .duyuf-services-intro{
+  grid-template-columns:1fr;gap:19px;margin-bottom:25px
+ }
+ .duyuf-services-editorial .duyuf-services-intro-copy{padding:72px 0 0}
+ .duyuf-services-editorial .duyuf-services-title{font-size:clamp(36px,9vw,48px);margin:12px 0!important}
+ .duyuf-services-editorial .duyuf-services-intro-copy>p{font-size:12px}
+ .duyuf-services-editorial .duyuf-services-intro-cta{min-height:46px;margin-top:19px}
+ .duyuf-services-editorial .duyuf-services-intro-visual{height:225px;border-radius:0 15px 0 0}
+}
+@media(max-width:390px){
+ .duyuf-services-editorial .duyuf-services-title{font-size:36px}
+ .duyuf-services-editorial .duyuf-services-intro-visual{height:205px}
+}
+@media(prefers-reduced-motion:reduce){
+ .duyuf-services-editorial *{scroll-behavior:auto!important;transition:none!important}
+}

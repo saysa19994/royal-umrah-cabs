@@ -2,7 +2,6 @@ import React from 'react';
 import { Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
 import type { SiteSettings } from '@/lib/settings';
-import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
 
 interface JsonLdProps {
   locale: Locale;
@@ -38,7 +37,6 @@ export function JsonLd({
     description: dict.meta.seoDescription,
     telephone: settings?.phone || '+966567588261',
     email: settings?.email || 'info@duyufalrahmanvip.com',
-    priceRange: '$',
     currenciesAccepted: 'SAR, USD',
     paymentAccepted:
       'Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR, USD)',
@@ -58,31 +56,12 @@ export function JsonLd({
         closes: '23:59',
       },
     ],
+    // Publishing ten localized pages does not imply phone support in ten spoken languages.
     contactPoint: [
       {
         '@type': 'ContactPoint',
-        telephone: '+966567588261',
+        telephone: settings?.phone || '+966567588261',
         contactType: 'customer service',
-        contactOption: 'WhatsApp',
-        availableLanguage: [
-          'Arabic',
-          'English',
-          'Malay',
-          'Indonesian',
-          'Urdu',
-          'French',
-          'Spanish',
-          'German',
-          'Turkish',
-          'Hindi',
-        ],
-      },
-      {
-        '@type': 'ContactPoint',
-        telephone: settings?.phone || '+966505316971',
-        contactType: 'reservations',
-        contactOption: 'WhatsApp',
-        availableLanguage: ['Arabic', 'English', 'Urdu'],
       },
     ],
     areaServed: [
@@ -199,9 +178,44 @@ export function JsonLd({
   );
 }
 
-export const HomepageFaqJsonLd = FaqJsonLd;
-export function FaqJsonLd({ dict }: { dict: Dictionary }) {
-  const faqList = [
+/**
+ * The homepage visibly renders exactly q2, q3, q5 and q9.
+ * Structured data must not include questions hidden on another page.
+ * The full FAQ page can continue using FaqJsonLd with all twelve.
+ */
+export function HomepageFaqJsonLd({ dict }: { dict: Dictionary }) {
+  const questions = [
+    { q: dict.faq.q2, a: dict.faq.a2 },
+    { q: dict.faq.q3, a: dict.faq.a3 },
+    { q: dict.faq.q5, a: dict.faq.a5 },
+    { q: dict.faq.q9, a: dict.faq.a9 },
+  ].filter(item => Boolean(item.q && item.a));
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: questions.map(item => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(schema).replace(/</g, '\\u003c'),
+      }}
+    />
+  );
+}
+export function FaqJsonLd({
+  dict,
+  items,
+}: {
+  dict: Dictionary;
+  items?: Array<{ q: string; a: string }>;
+}) {
+  const faqList = (items ?? [
     { q: dict.faq.q1, a: dict.faq.a1 },
     { q: dict.faq.q2, a: dict.faq.a2 },
     { q: dict.faq.q3, a: dict.faq.a3 },
@@ -214,7 +228,7 @@ export function FaqJsonLd({ dict }: { dict: Dictionary }) {
     { q: dict.faq.q10, a: dict.faq.a10 },
     { q: dict.faq.q11, a: dict.faq.a11 },
     { q: dict.faq.q12, a: dict.faq.a12 },
-  ].filter((item) => Boolean(item.q && item.a));
+  ]).filter((item) => Boolean(item.q && item.a));
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -323,7 +337,6 @@ export function RoutePageJsonLd({
       name: 'Duyuf Al Rahman VIP',
       url: baseUrl,
       telephone: '+966567588261',
-      priceRange: '$',
       image: `${baseUrl}/assets/images/og-image.jpg`,
     },
     areaServed: [
@@ -333,23 +346,9 @@ export function RoutePageJsonLd({
       ...(route.id?.includes('taif') ? [{ '@type': 'City', name: 'Taif' }] : []),
       ...(route.id?.includes('riyadh') ? [{ '@type': 'City', name: 'Riyadh' }] : []),
     ],
-    ...(Array.isArray(Object.values(AUTHORITATIVE_TRANSFER_RATES[route.id] || {})) &&
-    Object.values(AUTHORITATIVE_TRANSFER_RATES[route.id] || {}).some((v) => typeof v === 'number' && v > 0)
-      ? {
-          offers: (() => {
-            const valid = Object.values(AUTHORITATIVE_TRANSFER_RATES[route.id] || {})
-              .filter((v): v is number => typeof v === 'number' && Number.isFinite(v) && v > 0);
-            return {
-              '@type': 'AggregateOffer',
-              lowPrice: Math.min(...valid),
-              highPrice: Math.max(...valid),
-              offerCount: valid.length,
-              priceCurrency: 'SAR',
-              url: pageUrl,
-            };
-          })(),
-        }
-      : {}),
+    // Prices are managed by the booking/pricing engine and may be overridden
+    // in the database. Do not publish stale static AggregateOffer amounts.
+
   };
 
   function safeJsonLd(data: unknown): string {

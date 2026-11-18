@@ -70,18 +70,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required pricing fields' }, { status: 400 });
     }
 
-    const numericPrice = Number(price_sar);
-    if (isNaN(numericPrice) || numericPrice < 0) {
+    // Avoid silently converting blank strings, nulls, booleans or arrays to 0/1.
+    const priceIsNumericInput = typeof price_sar === 'number' ||
+      (typeof price_sar === 'string' && price_sar.trim().length > 0);
+    const numericPrice = priceIsNumericInput ? Number(price_sar) : NaN;
+    if (!Number.isFinite(numericPrice) || numericPrice < 0) {
       return NextResponse.json({ error: 'Invalid price value' }, { status: 400 });
     }
 
-    // Update in-memory fallback
-    setDynamicTransferRate(route_id, vehicle_id, numericPrice);
-
-    // Persist to Supabase
+    // Persist first: never report success when Supabase rejects the update.
+    let persistedPrice;
     try {
       const serviceClient = createServiceClient();
-      await serviceClient.from('prices').upsert(
+      const { data, error } = await serviceClient.from('prices').upsert(
         {
           route_id,
           vehicle_id,
@@ -89,10 +90,19 @@ export async function POST(request: NextRequest) {
           updated_at: new Date().toISOString(),
         },
         { onConflict: 'route_id,vehicle_id' }
-      );
+      ).select('route_id,vehicle_id,price_sar').single();
+      if (error || !data) {
+        console.error('Price persistence failed:', error);
+        return NextResponse.json({ error: 'Price was not saved. Please retry.' }, { status: 503 });
+      }
+      persistedPrice = data;
     } catch (dbErr) {
-      console.warn('Notice saving price to Supabase:', dbErr);
+      console.error('Price persistence unavailable:', dbErr);
+      return NextResponse.json({ error: 'Price was not saved. Please retry.' }, { status: 503 });
     }
+
+    // Update the local fallback only after the database confirms persistence.
+    setDynamicTransferRate(route_id, vehicle_id, persistedPrice.price_sar);
 
     await logAuditEvent({
       userEmail: currentUser.email,

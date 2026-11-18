@@ -1,0 +1,84 @@
+/* Owner reference: chauffeur prototype tilted gallery, re-authored for real site assets.
+   One accessible visual explorer rather than another stack of destination cards. */
+.wrap{width:100%;max-width:100%;min-width:0;overflow:hidden;isolation:isolate;padding:9px 0 2px;color:#163b3e}
+.header{text-align:center;padding-inline:12px}
+.eyebrow{color:#af8e5b;font-size:10px;letter-spacing:.15em;font-weight:800;margin:0 0 8px}
+.wrap[dir=rtl] .eyebrow{letter-spacing:0}
+.header h2{font-size:clamp(19px,2.4vw,32px);line-height:1.35;font-weight:800;letter-spacing:-.03em;margin:0!important;color:#17373b}
+.wrap[dir=rtl] .header h2{letter-spacing:0}
+.description{font-size:11px;line-height:1.8;color:#71817b;max-width:500px;margin:9px auto 0!important}
+.stage{position:relative;height:325px;width:100%;margin:5px 0 0;perspective:1150px;touch-action:pan-y}
+.card{position:absolute;top:38px;left:50%;width:clamp(135px,13.4vw,190px);height:246px;border:3px solid #f7f5ef;border-radius:15px;overflow:hidden;box-shadow:0 14px 29px rgba(18,48,50,.19);padding:0;background:#1c3b3d;cursor:pointer;transition:transform .42s cubic-bezier(.2,.7,.2,1),opacity .35s ease,filter .35s ease;isolation:isolate}
+.card[data-slot="0"]{z-index:5;transform:translateX(-50%) translateY(13px) rotate(0) scale(1.09);opacity:1;filter:none}
+.card[data-slot="-1"]{z-index:4;transform:translateX(calc(-50% - 124px)) translateY(1px) rotate(-10deg) scale(.93);opacity:.96;filter:saturate(.87)}
+.card[data-slot="1"]{z-index:4;transform:translateX(calc(-50% + 124px)) translateY(1px) rotate(10deg) scale(.93);opacity:.96;filter:saturate(.87)}
+.card[data-slot="-2"]{z-index:3;transform:translateX(calc(-50% - 240px)) translateY(32px) rotate(-18deg) scale(.78);opacity:.77;filter:saturate(.68)}
+.card[data-slot="2"]{z-index:3;transform:translateX(calc(-50% + 240px)) translateY(32px) rotate(18deg) scale(.78);opacity:.77;filter:saturate(.68)}
+.wrap[dir=rtl] .card[data-slot="-1"]{transform:translateX(calc(-50% + 124px)) translateY(1px) rotate(10deg) scale(.93)}
+.wrap[dir=rtl] .card[data-slot="1"]{transform:translateX(calc(-50% - 124px)) translateY(1px) rotate(-10deg) scale(.93)}
+.wrap[dir=rtl] .card[data-slot="-2"]{transform:translateX(calc(-50% + 240px)) translateY(32px) rotate(18deg) scale(.78)}
+.wrap[dir=rtl] .card[data-slot="2"]{transform:translateX(calc(-50% - 240px)) translateY(32px) rotate(-18deg) scale(.78)}
+.photo{object-fit:cover;transition:transform .4s ease}
+.card:hover .photo{transform:scale(1.045)}
+.card[aria-pressed=true]{border-color:#e1c8a1;box-shadow:0 20px 37px rgba(18,48,50,.25)}
+.cardShade{position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(7,28,31,.85));pointer-events:none}
+.cardTitle{position:absolute;inset-inline:13px;bottom:17px;color:#fff;font-size:clamp(10px,.95vw,13px);font-weight:800;line-height:1.6;text-align:start;z-index:1}
+.controls{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:3px 0 4px}
+.round{border-radius:50%;width:39px;height:39px;border:1px solid #b9c3b9;background:#fffdfa;color:#244f52;display:grid;place-items:center;cursor:pointer}
+.round:hover{background:#eef1ea}
+.counter{font-size:10px;color:#a4865d;letter-spacing:.08em;min-width:42px;text-align:center;font-weight:800}
+.details{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-inline-start:9px;font-size:11px;font-weight:800;background:#153d43;color:#fff!important;text-decoration:none;min-height:40px;padding:8px 12px;border-radius:3px}
+.details:hover{background:#2a595c;color:#fff}
+.wrap :is(a,button):focus-visible{outline:3px solid #c4a16a;outline-offset:4px}
+@media(max-width:850px){
+ .stage{height:290px}
+ .card{width:160px;height:213px;top:34px}
+ .card[data-slot="-1"]{transform:translateX(calc(-50% - 105px)) rotate(-10deg) scale(.91)}
+ .card[data-slot="1"]{transform:translateX(calc(-50% + 105px)) rotate(10deg) scale(.91)}
+ .card[data-slot="-2"]{transform:translateX(calc(-50% - 201px)) translateY(27px) rotate(-17deg) scale(.77)}
+ .card[data-slot="2"]{transform:translateX(calc(-50% + 201px)) translateY(27px) rotate(17deg) scale(.77)}
+ .wrap[dir=rtl] .card[data-slot="-1"]{transform:translateX(calc(-50% + 105px)) rotate(10deg) scale(.91)}
+ .wrap[dir=rtl] .card[data-slot="1"]{transform:translateX(calc(-50% - 105px)) rotate(-10deg) scale(.91)}
+ .wrap[dir=rtl] .card[data-slot="-2"]{transform:translateX(calc(-50% + 201px)) translateY(27px) rotate(17deg) scale(.77)}
+ .wrap[dir=rtl] .card[data-slot="2"]{transform:translateX(calc(-50% - 201px)) translateY(27px) rotate(-17deg) scale(.77)}
+}
+@media(max-width:520px){
+ .wrap{padding:0;max-width:100%}
+ .header h2{font-size:22px}
+ .description{font-size:10px;max-width:330px}
+ .stage{height:270px;margin:5px 0 0}
+ .card{width:145px;height:206px;top:26px;border-width:2px;border-radius:12px}
+ .card[data-slot="-1"]{transform:translateX(calc(-50% - 89px)) translateY(8px) rotate(-9deg) scale(.89)}
+ .card[data-slot="1"]{transform:translateX(calc(-50% + 89px)) translateY(8px) rotate(9deg) scale(.89)}
+ .card[data-slot="-2"]{transform:translateX(calc(-50% - 166px)) translateY(23px) rotate(-14deg) scale(.71);opacity:.68}
+ .card[data-slot="2"]{transform:translateX(calc(-50% + 166px)) translateY(23px) rotate(14deg) scale(.71);opacity:.68}
+ .wrap[dir=rtl] .card[data-slot="-1"]{transform:translateX(calc(-50% + 89px)) translateY(8px) rotate(9deg) scale(.89)}
+ .wrap[dir=rtl] .card[data-slot="1"]{transform:translateX(calc(-50% - 89px)) translateY(8px) rotate(-9deg) scale(.89)}
+ .wrap[dir=rtl] .card[data-slot="-2"]{transform:translateX(calc(-50% + 166px)) translateY(23px) rotate(14deg) scale(.71)}
+ .wrap[dir=rtl] .card[data-slot="2"]{transform:translateX(calc(-50% - 166px)) translateY(23px) rotate(-14deg) scale(.71)}
+ .cardTitle{inset-inline:10px;bottom:13px;font-size:10px}
+ .controls{gap:9px}
+ .details{margin-inline-start:0;font-size:10px;padding:8px}
+ .round{width:36px;height:36px}
+}
+@media(prefers-reduced-motion:reduce){.card,.photo{transition:none!important}}
+
+
+/* Nine verified places; only the active destination and two neighbours each side
+   occupy the 3D arc. Hidden slides remain keyboard reachable through controls. */
+.card[data-slot="hidden"]{
+  opacity:0;visibility:hidden;pointer-events:none;
+  transform:translateX(-50%) translateY(36px) scale(.62);z-index:0
+}
+.credit{
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  min-height:22px;flex-wrap:wrap;margin-top:8px;font-size:10px;
+  color:#51645f;line-height:1.6;text-align:center
+}
+.credit a{color:#21454a;text-decoration:underline;text-underline-offset:2px}
+.unavailable{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  padding:15px;background:linear-gradient(140deg,#244b4d,#61706b 48%,#b39768);
+  color:white;font-size:13px;font-weight:700;line-height:1.8;text-align:center
+}
+@media(max-width:520px){.credit{font-size:9px;padding-inline:12px}}

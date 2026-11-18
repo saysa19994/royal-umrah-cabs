@@ -1,0 +1,190 @@
+{
+  "executionTimestamp": "2026-10-30T18:00:34.288Z",
+  "deletionLog": [
+    {
+      "id": "dpl_2rfGZuykSMxgqHiUUAWJQaKELFuW",
+      "timestamp": "2026-10-30T17:59:35.754Z",
+      "result": {
+        "method": "api_dangerously_skip_permissions",
+        "output": {
+          "uid": "dpl_2rfGZuykSMxgqHiUUAWJQaKELFuW",
+          "state": "DELETED"
+        }
+      }
+    },
+    {
+      "id": "dpl_R2kwhKeeRCcqZQMLvKGsTgxQSo2K",
+      "timestamp": "2026-10-30T17:59:43.072Z",
+      "result": {
+        "method": "api_dangerously_skip_permissions",
+        "output": {
+          "uid": "dpl_R2kwhKeeRCcqZQMLvKGsTgxQSo2K",
+          "state": "DELETED"
+        }
+      }
+    },
+    {
+      "id": "dpl_E9jjADVan9gNEdt9kSfGKEEgjXCf",
+      "timestamp": "2026-10-30T17:59:46.468Z",
+      "result": {
+        "method": "api_dangerously_skip_permissions",
+        "output": {
+          "uid": "dpl_E9jjADVan9gNEdt9kSfGKEEgjXCf",
+          "state": "DELETED"
+        }
+      }
+    },
+    {
+      "id": "dpl_B93ug4aYVu2jBZ6Bj4nnA7uxyN1N",
+      "timestamp": "2026-10-30T17:59:49.999Z",
+      "result": {
+        "method": "api_dangerously_skip_permissions",
+        "output": {
+          "uid": "dpl_B93ug4aYVu2jBZ6Bj4nnA7uxyN1N",
+          "state": "DELETED"
+        }
+      }
+    },
+    {
+      "id": "dpl_7hQGeivJSD7G1TDvrcEGmDhcxQiV",
+      "timestamp": "2026-10-30T17:59:53.649Z",
+      "result": {
+        "method": "api_dangerously_skip_permissions",
+        "output": {
+          "uid": "dpl_7hQGeivJSD7G1TDvrcEGmDhcxQiV",
+          "state": "DELETED"
+        }
+      }
+    },
+    {
+      "id": "dpl_DnaWWBZKwpHgLvxALYRdZiYPL6Qi",
+      "timestamp": "2026-10-30T17:59:57.009Z",
+      "result": {
+        "method": "api_dangerously_skip_permissions",
+        "output": {
+          "uid": "dpl_DnaWWBZKwpHgLvxALYRdZiYPL6Qi",
+          "state": "DELETED"
+        }
+      }
+    },
+    {
+      "id": "dpl_8mGyj2cdtzRb73WnRnAB6jgB29BH",
+      "timestamp": "2026-10-30T18:00:00.645Z",
+      "result": {
+        "method": "api_dangerously_skip_permissions",
+        "output": {
+          "uid": "dpl_8mGyj2cdtzRb73WnRnAB6jgB29BH",
+          "state": "DELETED"
+        }
+      }
+    }
+  ],
+  "verificationLog": [
+    {
+      "id": "dpl_2rfGZuykSMxgqHiUUAWJQaKELFuW",
+      "isDeleted": true,
+      "state": "404"
+    },
+    {
+      "id": "dpl_R2kwhKeeRCcqZQMLvKGsTgxQSo2K",
+      "isDeleted": true,
+      "state": "404"
+    },
+    {
+      "id": "dpl_E9jjADVan9gNEdt9kSfGKEEgjXCf",
+      "isDeleted": true,
+      "state": "404"
+    },
+    {
+      "id": "dpl_B93ug4aYVu2jBZ6Bj4nnA7uxyN1N",
+      "isDeleted": true,
+      "state": "404"
+    },
+    {
+      "id": "dpl_7hQGeivJSD7G1TDvrcEGmDhcxQiV",
+      "isDeleted": true,
+      "state": "404"
+    },
+    {
+      "id": "dpl_DnaWWBZKwpHgLvxALYRdZiYPL6Qi",
+      "isDeleted": true,
+      "state": "404"
+    },
+    {
+      "id": "dpl_8mGyj2cdtzRb73WnRnAB6jgB29BH",
+      "isDeleted": true,
+      "state": "404"
+    }
+  ],
+  "probes": {
+    "home": 200,
+    "booking": 200,
+    "www": 200
+  },
+  "remainingCount": 9,
+  "remainingDeployments": [
+    {
+      "uid": "dpl_98mGY3gCvJUkUCdjkSDXzwG8KdD3",
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "url": "royal-umrah-cabs-cimr78uic-sayed6.vercel.app"
+    },
+    {
+      "uid": "dpl_ARgNs62mbLqe78mprQHxyru8xUUo",
+      "target": null,
+      "state": "READY",
+      "branch": "feat/luxury-command-center-v2",
+      "url": "royal-umrah-cabs-e2kd7lzhg-sayed6.vercel.app"
+    },
+    {
+      "uid": "dpl_GyNgb3dhiiMvLse8s3FbqZwaEAk9",
+      "target": "production",
+      "state": "READY",
+      "branch": "feat/luxury-command-center-v2",
+      "url": "royal-umrah-cabs-jvl9x0kfo-sayed6.vercel.app"
+    },
+    {
+      "uid": "dpl_T8mrg7v764ELye9haGCXsgGd98AC",
+      "target": "production",
+      "state": "READY",
+      "branch": "feat/luxury-command-center-v2",
+      "url": "royal-umrah-cabs-3u6flknk9-sayed6.vercel.app"
+    },
+    {
+      "uid": "dpl_Hp39sKwqHvv4jnZvuDnPx8vC3Raz",
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "url": "royal-umrah-cabs-nk10p8vjj-sayed6.vercel.app"
+    },
+    {
+      "uid": "dpl_DjPFzk9sbtFGYjCNHfqtTG8znAgj",
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "url": "royal-umrah-cabs-epbfpozgl-sayed6.vercel.app"
+    },
+    {
+      "uid": "dpl_BpPMhDRJddpSsx7WjMHLZnakRJWm",
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "url": "royal-umrah-cabs-qgxgv25x4-sayed6.vercel.app"
+    },
+    {
+      "uid": "dpl_6ncmQb1mzHrSvcxyBYTz57Q8nG5c",
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "url": "royal-umrah-cabs-855g2cziw-sayed6.vercel.app"
+    },
+    {
+      "uid": "dpl_EoKfCGg3Dv5eayw2PJ4kY2Dz9LWg",
+      "target": "production",
+      "state": "READY",
+      "branch": "main",
+      "url": "royal-umrah-cabs-ljpz0laqr-sayed6.vercel.app"
+    }
+  ]
+}

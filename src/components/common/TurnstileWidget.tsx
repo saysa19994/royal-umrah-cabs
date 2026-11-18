@@ -72,13 +72,29 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
   ({ onSuccess, onVerify, onExpire, onError, locale = 'en', theme = 'auto', className = '' }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const widgetIdRef = useRef<string | null>(null);
+    // Keep the newest callbacks without remounting the challenge on each
+    // parent form keystroke (BookingCard provides inline callbacks).
+    const callbacksRef = useRef({ onSuccess, onVerify, onExpire, onError });
+    callbacksRef.current = { onSuccess, onVerify, onExpire, onError };
     const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
-    const siteKey =
-      process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY &&
-      !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY.includes('placeholder')
-        ? process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
-        : DEV_TEST_SITE_KEY;
+    const configuredSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() || '';
+    const isDeployed = process.env.NODE_ENV === 'production';
+    const knownTestKeys = [
+      DEV_TEST_SITE_KEY,
+      '2x00000000000000000000AB',
+      '1x00000000000000000000BB',
+      '2x00000000000000000000BB',
+      '3x00000000000000000000FF',
+    ];
+    const configuredKeyIsValid =
+      configuredSiteKey.length > 0 &&
+      !configuredSiteKey.includes('placeholder') &&
+      (!isDeployed || !knownTestKeys.includes(configuredSiteKey));
+    // Dev-only fallback: deployed preview and production must use real keys.
+    const siteKey = configuredKeyIsValid
+      ? configuredSiteKey
+      : isDeployed ? '' : DEV_TEST_SITE_KEY;
 
     const resetWidget = () => {
       if (widgetIdRef.current && window.turnstile) {
@@ -91,6 +107,9 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
     }));
 
     useEffect(() => {
+      // Missing production configuration is explained inline. Avoid loading
+      // a challenge script that cannot validate any booking submissions.
+      if (!siteKey) return;
       let isMounted = true;
 
       const initTurnstile = () => {
@@ -114,25 +133,27 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
             callback: (token: string) => {
               if (!isMounted) return;
               setStatusMessage(null);
-              onSuccess?.(token);
-              onVerify?.(token);
+              callbacksRef.current.onSuccess?.(token);
+              callbacksRef.current.onVerify?.(token);
             },
             'expired-callback': () => {
               if (!isMounted) return;
               setStatusMessage(EXPIRED_MESSAGES[locale as Locale] || EXPIRED_MESSAGES.en);
-              onExpire?.();
+              callbacksRef.current.onExpire?.();
               resetWidget();
             },
             'error-callback': (err: any) => {
               if (!isMounted) return;
               setStatusMessage(ERROR_MESSAGES[locale as Locale] || ERROR_MESSAGES.en);
-              onError?.(err);
+              callbacksRef.current.onError?.(err);
               resetWidget();
             },
           });
           widgetIdRef.current = id;
         } catch (renderError) {
           console.warn('Turnstile render warning:', renderError);
+          setStatusMessage(ERROR_MESSAGES[locale as Locale] || ERROR_MESSAGES.en);
+          callbacksRef.current.onError?.(renderError);
         }
       };
 
@@ -149,16 +170,37 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
           script.onload = () => {
             initTurnstile();
           };
+          script.onerror = () => {
+            if (!isMounted) return;
+            setStatusMessage(ERROR_MESSAGES[locale as Locale] || ERROR_MESSAGES.en);
+            callbacksRef.current.onError?.(new Error('Turnstile script unavailable'));
+          };
           document.head.appendChild(script);
         } else {
-          // Poll until turnstile is available
+          // Another form may already be loading Cloudflare's script.
+          // Stop polling after 15s and give a useful error instead of
+          // spinning indefinitely on networks that block the script.
+          let attempts = 0;
           const interval = setInterval(() => {
+            if (!isMounted) return;
+            attempts++;
             if (window.turnstile) {
               clearInterval(interval);
               initTurnstile();
+            } else if (attempts >= 150) {
+              clearInterval(interval);
+              setStatusMessage(ERROR_MESSAGES[locale as Locale] || ERROR_MESSAGES.en);
+              callbacksRef.current.onError?.(new Error('Turnstile script timeout'));
             }
           }, 100);
-          return () => clearInterval(interval);
+          return () => {
+            isMounted = false;
+            clearInterval(interval);
+            if (widgetIdRef.current && window.turnstile) {
+              try { window.turnstile.remove(widgetIdRef.current); } catch {}
+              widgetIdRef.current = null;
+            }
+          };
         }
       }
 
@@ -172,15 +214,24 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
           }
         }
       };
-    }, [siteKey, locale, theme, onSuccess, onExpire, onError]);
+    }, [siteKey, locale, theme]);
 
     return (
-      <div
-        className={`turnstile-container pointer-events-none fixed -top-[9999px] -left-[9999px] w-0 h-0 opacity-0 overflow-hidden ${className}`}
-        aria-hidden="true"
-        tabIndex={-1}
-      >
-        <div ref={containerRef} />
+      <div className={`turnstile-container flex w-full min-h-[64px] flex-col items-center justify-center gap-2 ${className}`}>
+        {siteKey ? (
+          <div ref={containerRef} />
+        ) : (
+          <p role="alert" className="max-w-md text-center text-sm text-rose-700">
+            {locale === 'ar'
+              ? 'خدمة التحقق الأمني غير متاحة حاليًا. يرجى التواصل مع فريق الحجوزات عبر واتساب.'
+              : 'Security verification is temporarily unavailable. Please contact our reservations team on WhatsApp.'}
+          </p>
+        )}
+        {statusMessage && (
+          <p role="alert" aria-live="polite" className="max-w-md text-center text-xs text-rose-700">
+            {statusMessage}
+          </p>
+        )}
       </div>
     );
   }

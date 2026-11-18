@@ -1,0 +1,57 @@
+{
+  "totalSitemapUrls": 884,
+  "selfCanonicalUrls": 874,
+  "nonSelfCanonicalUrls": 10,
+  "perLocaleBreakdown": {
+    "ar": {
+      "total": 98,
+      "selfCanonical": 97,
+      "nonSelfCanonical": 1
+    },
+    "en": {
+      "total": 98,
+      "selfCanonical": 97,
+      "nonSelfCanonical": 1
+    },
+    "ms": {
+      "total": 86,
+      "selfCanonical": 85,
+      "nonSelfCanonical": 1
+    },
+    "fr": {
+      "total": 86,
+      "selfCanonical": 85,
+      "nonSelfCanonical": 1
+    },
+    "es": {
+      "total": 86,
+      "selfCanonical": 85,
+      "nonSelfCanonical": 1
+    },
+    "id": {
+      "total": 86,
+      "selfCanonical": 85,
+      "nonSelfCanonical": 1
+    },
+    "hi": {
+      "total": 86,
+      "selfCanonical": 85,
+      "nonSelfCanonical": 1
+    },
+    "de": {
+      "total": 86,
+      "selfCanonical": 85,
+      "nonSelfCanonical": 1
+    },
+    "ur": {
+      "total": 86,
+      "selfCanonical": 85,
+      "nonSelfCanonical": 1
+    },
+    "tr": {
+      "total": 86,
+      "selfCanonical": 85,
+      "nonSelfCanonical": 1
+    }
+  }
+}

@@ -1,0 +1,90 @@
+/* DUYUF / PRICE LEDGER. Independent typographic/transactional visual language.
+   Do not re-create the cinematic home, fleet studio, booking atrium or route schematic. */
+.page{--paper:#fbfaf5;--ink:#143940;--muted:#667e78;--line:#d4ddd5;--bronze:#ad8757;background:#f4f4ee;color:var(--ink);overflow-x:clip}
+.page *{box-sizing:border-box}
+.page :is(a,button,select,input):focus-visible{outline:3px solid #c49a61;outline-offset:3px}
+.header{background:#f0eee7;padding:64px max(5.6vw,24px) 85px;border-bottom:1px solid #d5ddd4}
+.headerTop{display:flex;justify-content:space-between;align-items:center;gap:18px;padding-bottom:27px;border-bottom:1px solid #c8d4cb}
+.headerTop span{display:inline-flex;gap:9px;align-items:center;color:#9e825d;font-size:10px;font-weight:850;letter-spacing:.09em}
+.headerTop span:last-child{color:#607a73}
+.headerBody{max-width:1370px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.13fr) minmax(310px,.5fr);gap:clamp(60px,9vw,165px);align-items:end;min-height:400px}
+.headerBody>div:first-child{padding-top:70px}
+.micro{display:block;color:#a2845b;font-size:11px;font-weight:850;letter-spacing:.11em;margin-bottom:15px}
+.headerBody h1{font-size:clamp(62px,7.1vw,115px);font-weight:790;line-height:1.12;letter-spacing:-.052em;color:#173b3e;margin:0 0 25px!important;text-wrap:balance}
+.page[dir=rtl] .headerBody h1{font-size:clamp(46px,6.4vw,92px);line-height:1.3;letter-spacing:0}
+.headerBody>div:first-child>p{font-size:14px;line-height:1.95;color:#60766f;max-width:770px;margin:0}
+.headerAside{min-height:265px;border-inline-start:1px solid #c8d4cc;padding:12px 0 5px 30px;display:flex;flex-direction:column;align-items:start}
+.page[dir=rtl] .headerAside{padding:12px 30px 5px 0}
+.headerAside>span{font-size:10px;font-weight:850;letter-spacing:.14em;color:#9c805b;margin-bottom:32px}
+.headerAside>strong{display:block;color:#21474a;font-size:clamp(27px,2.85vw,43px);font-weight:780;line-height:1.25}
+.headerAside strong em{display:block;font-style:normal;color:#a38157}
+.headerAside>p{font-size:11px;line-height:1.8;color:#5f7971;margin:24px 0 0;display:flex;gap:8px;align-items:flex-start}
+.headerAside svg{flex:none;color:#9c805b;margin-top:2px}
+.workspace{padding:86px max(5.4vw,19px) 96px!important;background:#fffdfa}
+.workspaceIntro{max-width:1320px;margin:0 auto 24px;display:flex;align-items:center;justify-content:space-between;gap:25px;padding-bottom:16px;border-bottom:1px solid #d2ddd3}
+.workspaceIntro>span{font-size:11px;color:#a08154;font-weight:850;letter-spacing:.1em}
+.workspaceIntro>p{font-size:11px;color:#698077;line-height:1.7}
+.workspaceInner{max-width:1320px;margin:0 auto}
+.policy{background:#173940!important;color:#fff!important;padding:85px max(5.4vw,19px)!important;display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,1fr);gap:clamp(38px,7vw,114px)}
+.policyHeader>span{color:#dabc8c;font-size:10px;font-weight:870;letter-spacing:.11em}
+.policyHeader h2{color:#fff!important;font-size:clamp(36px,4vw,63px);line-height:1.27;font-weight:770;margin:21px 0!important;max-width:570px}
+.policyHeader>p{color:#bbcfcb;font-size:12px;line-height:1.9;max-width:440px}
+.policyLines{padding:0;margin:0;border-top:1px solid rgba(240,244,235,.24);list-style:none}
+.policyLines li{padding:23px 0;display:grid;grid-template-columns:24px minmax(0,1fr) 20px;gap:18px;align-items:start;border-bottom:1px solid rgba(240,244,235,.24)}
+.policyLines li>span{font-size:11px;color:#dfbc89;font-weight:880;margin-top:5px}
+.policyLines h3{font-size:18px;font-weight:790;color:#fff;margin:0 0 7px!important;line-height:1.5}
+.policyLines p{font-size:12px;line-height:1.85;color:#bed2cc;margin:0}
+.policyLines svg{color:#d4b489;margin-top:4px}
+.signoff{display:flex;justify-content:space-between;align-items:center;gap:35px;padding:70px max(5.4vw,19px) 79px;background:#ecefe8}
+.signoff>div:first-child{max-width:710px}
+.signoff>div:first-child>span{font-size:11px;letter-spacing:.1em;font-weight:850;color:#a2835a}
+.signoff h2{font-size:clamp(37px,4vw,64px);line-height:1.23;font-weight:770;color:#194145;margin:13px 0 10px!important}
+.signoff p{font-size:12px;line-height:1.85;color:#6b837a}
+.signoffLinks{display:flex;flex-direction:column;align-items:stretch;gap:12px;min-width:250px}
+.signoffLinks a{min-height:50px;display:flex;justify-content:space-between;gap:15px;align-items:center;padding:12px 16px;font-weight:850;font-size:12px;text-decoration:none}
+.book{background:#19474c;color:#fff!important}
+.book:hover{background:#316169}
+.routes{color:#1d5658!important;border-bottom:1px solid #94afa3}
+@media(max-width:1020px){
+ .headerBody{gap:44px;grid-template-columns:1fr .5fr}
+ .headerBody h1{font-size:61px}
+ .policy{grid-template-columns:1fr 1fr;gap:30px}
+}
+@media(max-width:767px){
+ .header{padding:72px 18px 46px}
+ .headerTop{padding-bottom:13px}
+ .headerTop>span{font-size:9px;letter-spacing:0}
+ .headerTop>span:last-child{font-size:9px}
+ .headerBody{display:block;min-height:0}
+ .headerBody>div:first-child{padding-top:40px}
+ .headerBody h1,.page[dir=rtl] .headerBody h1{font-size:clamp(36px,9vw,52px);line-height:1.3;letter-spacing:0;margin-bottom:13px!important}
+ .headerBody>div:first-child>p{font-size:11px;line-height:1.88}
+ .headerAside{min-height:0;border-inline-start:0;border-top:1px solid #cad5cd;padding:17px 0 0!important;margin-top:24px}
+ .headerAside>span{font-size:9px;margin-bottom:10px}
+ .headerAside strong{font-size:21px}
+ .headerAside>p{font-size:10px;margin:12px 0 0}
+ .workspace{padding:46px 12px 58px!important}
+ .workspaceIntro{display:block;margin-bottom:17px}
+ .workspaceIntro>span{font-size:10px}
+ .workspaceIntro>p{font-size:10px;margin:8px 0 0}
+ .policy{display:block;padding:55px 18px!important}
+ .policyHeader h2{font-size:35px;margin:14px 0!important}
+ .policyHeader>p{font-size:11px;margin-bottom:23px}
+ .policyLines li{padding:19px 0;gap:10px}
+ .policyLines h3{font-size:16px}
+ .policyLines p{font-size:11px}
+ .signoff{padding:54px 18px 66px;display:block}
+ .signoff h2{font-size:35px}
+ .signoff>div:first-child>span{font-size:10px}
+ .signoff p{font-size:11px}
+ .signoffLinks{min-width:0;margin-top:19px}
+ .signoffLinks a{font-size:11px}
+}
+@media(max-width:390px){
+ .header{padding-inline:13px}
+ .headerBody h1,.page[dir=rtl] .headerBody h1{font-size:35px}
+ .workspace{padding-inline:9px!important}
+ .policy{padding-inline:14px!important}
+ .signoff{padding-inline:14px}
+}
+@media(prefers-reduced-motion:reduce){.page :is(a,button){transition:none!important}}

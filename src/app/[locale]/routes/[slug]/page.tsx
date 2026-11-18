@@ -3,7 +3,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Locale, getLocalizedAlternates } from '@/i18n/config';
+import { Locale, LOCALE_CONFIG } from '@/i18n/config';
+import { getDictionary } from '@/i18n/get-dictionary';
 import { editorialAlternates, editorialRobots } from '@/lib/seo/localization-indexing';
 import {
   MapPin,
@@ -27,6 +28,8 @@ import {
 } from 'lucide-react';
 import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
 import { ROUTES_COMPREHENSIVE_DATA, RouteData } from '@/data/routes-data';
+import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
+import { getSiteSettings } from '@/lib/settings';
 import {
   getLocalizedRouteContent,
   ROUTE_UI_LABELS,
@@ -36,6 +39,7 @@ import { RoutePageJsonLd } from '@/components/seo/JsonLd';
 import { RouteAnalyticsTracker } from '@/components/analytics/RouteAnalyticsTracker';
 import { AirportTransferExperience } from '@/components/routes/AirportTransferExperience';
 import { IntercityRouteExperience } from '@/components/routes/IntercityRouteExperience';
+import styles from './route-detail.module.css';
 
 interface RouteDetailPageProps {
   params: Promise<{
@@ -74,30 +78,11 @@ export async function generateMetadata(props: RouteDetailPageProps): Promise<Met
   };
 }
 
-function getHeroImageForSlug(slug: string): string {
-  if (
-    slug.includes('makkah-to-madinah') ||
-    slug.includes('madinah-to-makkah') ||
-    slug.includes('jeddah-to-madinah')
-  ) {
-    return '/assets/blueprint/routes/makkah-madinah.webp';
-  }
-  if (slug.includes('airport')) {
-    return '/assets/blueprint/routes/hero-arrival.webp';
-  }
-  if (slug.includes('makkah') || slug.includes('haram')) {
-    return '/assets/blueprint/routes/jeddah-makkah.webp';
-  }
-  if (slug.includes('taif')) {
-    return '/assets/blueprint/routes/makkah-taif.webp';
-  }
-  return '/assets/blueprint/routes/planning.webp';
-}
-
 export default async function RouteDetailPage(props: RouteDetailPageProps) {
   const { locale, slug } = await props.params;
   const isAr = locale === 'ar';
-  const isRtl = locale === 'ar' || locale === 'ur';
+  const localeConfig = LOCALE_CONFIG[locale];
+  const dict = getDictionary(locale);
   const route: RouteData | undefined = ROUTES_COMPREHENSIVE_DATA[slug];
 
   if (!route || slug === 'riyadh-airport-transfer') {
@@ -115,7 +100,19 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
   );
   const minPriceSAR = configuredFares.length > 0 ? Math.min(...configuredFares) : undefined;
 
-  const heroImage = getHeroImageForSlug(slug);
+  const heroImage = EXECUTIVE_ROUTES_DATA.find((entry) => entry.slug === slug)?.image
+    || '/assets/blueprint/routes/planning.webp';
+  const distance = new Intl.NumberFormat(localeConfig.dateFormat, { style: 'unit', unit: 'kilometer' });
+  const duration = new Intl.NumberFormat(localeConfig.dateFormat, { style: 'unit', unit: 'minute' });
+  const fares = new Intl.NumberFormat(localeConfig.dateFormat, {
+    style: 'currency', currency: 'SAR', maximumFractionDigits: 0,
+  });
+  const reviewedAt = new Date(route.lastUpdated + ' UTC');
+  const verifiedDate = Number.isNaN(reviewedAt.getTime())
+    ? route.lastUpdated
+    : new Intl.DateTimeFormat(localeConfig.dateFormat, {
+        year: 'numeric', month: 'long', calendar: 'gregory', timeZone: 'UTC',
+      }).format(reviewedAt);
   const isAirportRoute =
     slug.includes('airport') || (route.terminalNotes && route.terminalNotes.length > 0);
   const isIntercityRoute =
@@ -124,13 +121,12 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
     slug.includes('madinah-to-makkah') ||
     slug.includes('jeddah-to-madinah');
 
-  const whatsappMessage = isAr
-    ? `السلام عليكم، أود حجز رحلة VIP خاصة لمسار: ${route.titleAr}`
-    : `Hello, I would like to book a private VIP transfer for: ${route.titleEn}`;
-  const whatsappUrl = `https://wa.me/966567588261?text=${encodeURIComponent(whatsappMessage)}`;
+  const { whatsapp_number } = await getSiteSettings();
+  const whatsappMessage = `${localeConfig.whatsappGreeting} ${content.h1}`;
+  const whatsappUrl = `https://wa.me/${whatsapp_number.replace(/\D/g, '')}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
-    <div className="bg-bg min-h-screen text-start text-ink overflow-x-hidden" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="bg-bg min-h-screen text-start text-ink overflow-x-hidden" dir={localeConfig.dir}>
       <RouteAnalyticsTracker slug={slug} locale={locale} />
       <RoutePageJsonLd
         route={route}
@@ -139,116 +135,47 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
         localizedContent={content}
       />
 
-      {/* 1. CINEMATIC FULL-BLEED ROUTE HERO */}
-      <section className="relative w-full pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden border-b border-border">
-        {/* Background Image with Dark Gradient Vignette */}
-        <div className="absolute inset-0 pointer-events-none select-none z-0">
-          <Image
-            src={heroImage}
-            alt={content.h1}
-            fill
-            priority
-            className="object-cover object-center brightness-40 scale-105 transition-transform duration-1000"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#090D15] via-[#090D15]/85 to-[#090D15]/40" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#090D15]/95 via-transparent to-[#090D15]/95" />
-        </div>
-
-        {/* Ambient Gold Radial Glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#D4AF37]/10 rounded-full blur-[140px] pointer-events-none z-0" />
-
-        <div className="container mx-auto px-4 max-w-6xl relative z-10">
-          {/* Breadcrumb Navigation */}
-          <nav
-            aria-label="Breadcrumbs"
-            className="flex items-center gap-2 text-xs text-ink-muted mb-6 flex-wrap"
-          >
-            <Link
-              href={`/${locale}`}
-              className="hover:text-[#D4AF37] transition-colors flex items-center gap-1"
-            >
-              <span>{labels.breadcrumbHome}</span>
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-ink/30 rtl:rotate-180" />
-            <Link
-              href={`/${locale}/routes`}
-              className="hover:text-[#D4AF37] transition-colors"
-            >
-              {labels.breadcrumbRoutes}
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-ink/30 rtl:rotate-180" />
-            <span className="text-[#D4AF37] font-semibold truncate max-w-[280px] sm:max-w-none">
-              {content.h1}
-            </span>
+      <section className={styles.hero} aria-labelledby="route-title">
+        <Image src={heroImage} alt="" fill sizes="100vw" priority className={styles.heroImage} />
+        <div className={styles.heroInner}>
+          <nav aria-label={labels.breadcrumbRoutes} className={styles.breadcrumb}>
+            <Link href={`/${locale}`}>{labels.breadcrumbHome}</Link>
+            <ChevronRight size={14} className="rtl:rotate-180" aria-hidden="true" />
+            <Link href={`/${locale}/routes`}>{labels.breadcrumbRoutes}</Link>
           </nav>
-
-          {/* Badges Bar */}
-          <div className="flex flex-wrap items-center gap-2.5 mb-5">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-surface/90 border border-[#D4AF37]/40 text-xs font-bold text-[#D4AF37] uppercase tracking-wider backdrop-blur-md shadow-lg shadow-[#D4AF37]/5">
-              <Compass className="w-3.5 h-3.5" />
-              <span>{route.distanceKm} {isAr ? 'كم' : 'km'}</span>
-            </span>
-
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-surface/80 border border-border text-xs font-semibold text-ink backdrop-blur-md">
-              <Clock className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>
-                {isAr
-                  ? `${route.durationMinutesMin} - ${route.durationMinutesMax} دقيقة تقريباً`
-                  : `~${route.durationMinutesMin} - ${route.durationMinutesMax} mins`}
-              </span>
-            </span>
-
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold text-emerald-400 backdrop-blur-md">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>{labels.zeroDepositBadge}</span>
-            </span>
-
-            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-bg-alt border border-border text-[11px] text-ink-muted backdrop-blur-md">
-              <Calendar className="w-3 h-3 text-[#D4AF37]" />
-              <span>{labels.verifiedLabel} {route.lastUpdated}</span>
-            </span>
-          </div>
-
-          {/* Majestic Hero Headline */}
-          <h1 className="font-display font-black text-3xl sm:text-5xl md:text-6xl text-ink mb-4 tracking-tight leading-[1.15] max-w-4xl">
-            {content.h1}
-          </h1>
-
-          <p className="text-base sm:text-xl text-ink-muted font-light leading-relaxed max-w-3xl mb-8">
-            {content.subtitle}
-          </p>
-
-          {/* Action Dock / Hero CTAs */}
-          <div className="flex flex-wrap items-center gap-4">
-            <Link
-              href={`/${locale}/booking?route=${slug}`}
-              className="h-12 sm:h-14 px-8 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B38F2B] hover:from-[#E5C158] hover:to-[#C49E34] text-[#090D15] font-black text-xs sm:text-sm uppercase tracking-wider transition-all shadow-lg shadow-[#D4AF37]/25 flex items-center gap-2 active:scale-95"
-            >
-              <Car className="w-4 h-4" />
-              <span>{labels.bookButton}</span>
-              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-            </Link>
-
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="h-12 sm:h-14 px-7 rounded-xl bg-surface/90 hover:bg-bg-alt border border-border hover:border-[#D4AF37]/50 text-ink hover:text-[#D4AF37] font-extrabold text-xs sm:text-sm transition-all flex items-center gap-2.5 backdrop-blur-md shadow-md active:scale-95"
-            >
-              <MessageCircle className="w-4 h-4 text-emerald-400" />
-              <span>{isAr ? 'حجز فوري عبر واتساب' : 'VIP WhatsApp Concierge'}</span>
-            </a>
-
-            <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-surface/70 border border-border text-xs text-ink-muted backdrop-blur-md">
-              <ShieldCheck className="w-4 h-4 text-[#D4AF37] shrink-0" />
-              <span>{labels.expresswayLabel}: <strong className="text-ink font-semibold">{content.highwayNote}</strong></span>
+          <div className={styles.heroCopy}>
+            <h1 id="route-title">{content.h1}</h1>
+            <p>{content.subtitle}</p>
+            <div className={styles.actions}>
+              <Link href={`/${locale}/booking?route=${slug}`} className={styles.primary}>
+                {labels.bookButton} <ArrowRight size={18} className="rtl:rotate-180" aria-hidden="true" />
+              </Link>
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className={styles.secondary}>
+                <MessageCircle size={18} aria-hidden="true" /> {dict.footer.whatsappBtn}
+              </a>
             </div>
           </div>
         </div>
       </section>
 
+      <div className={styles.routeFacts}>
+        <div className={styles.factsInner}>
+          <span><Compass size={18} aria-hidden="true" /> {distance.format(route.distanceKm)}</span>
+          <span>
+            <Clock size={18} aria-hidden="true" />
+            {duration.formatRange(route.durationMinutesMin, route.durationMinutesMax)}
+          </span>
+          <span><ShieldCheck size={18} aria-hidden="true" /> {labels.zeroDepositBadge.replace(/^✓\s*/, '')}</span>
+          <span><Calendar size={18} aria-hidden="true" /> {labels.verifiedLabel} {verifiedDate}</span>
+        </div>
+      </div>
+
       {/* 2. MAIN EXPERIENCE CONTAINER */}
       <div className="container mx-auto px-4 max-w-6xl py-12 md:py-16">
+        <p className={styles.highway}>
+          <MapPin size={18} aria-hidden="true" />
+          <span><strong>{labels.expresswayLabel}</strong> {content.highwayNote}</span>
+        </p>
         {/* INTERACTIVE COMPONENT (AIRPORT OR INTERCITY) */}
         {minPriceSAR !== undefined && isAirportRoute ? (
           <AirportTransferExperience
@@ -270,9 +197,6 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
         <section className="bg-surface rounded-3xl p-6 sm:p-10 border border-border shadow-xl mb-12">
           <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
             <div>
-              <span className="text-[11px] font-bold text-[#D4AF37] uppercase tracking-widest block mb-1">
-                VIP Service Standards
-              </span>
               <h2 className="font-display font-black text-2xl sm:text-3xl text-ink">
                 {labels.inclusionsHeading}
               </h2>
@@ -382,6 +306,7 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
                 const relRoute = ROUTES_COMPREHENSIVE_DATA[relId];
                 if (!relRoute) return null;
                 if (relId === 'riyadh-airport-transfer') return null;
+                const related = getLocalizedRouteContent(relId, locale, relRoute);
                 const relRates = AUTHORITATIVE_TRANSFER_RATES[relId] || {};
                 const relAvailable = Object.values(relRates).filter(
                   (fare): fare is number => typeof fare === 'number' && Number.isFinite(fare) && fare > 0
@@ -396,19 +321,19 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
                   >
                     <div>
                       <span className="text-[11px] font-bold text-[#D4AF37] uppercase tracking-wider block mb-2">
-                        {relRoute.distanceKm} {isAr ? 'كم' : 'km'}
+                        {distance.format(relRoute.distanceKm)}
                       </span>
                       <h3 className="font-display font-extrabold text-base text-ink group-hover:text-[#D4AF37] transition-colors line-clamp-2 mb-2">
-                        {isAr ? relRoute.titleAr : relRoute.titleEn}
+                        {related.h1}
                       </h3>
                       <p className="text-xs text-ink-muted font-light line-clamp-2 mb-4">
-                        {isAr ? relRoute.subtitleAr : relRoute.subtitleEn}
+                        {related.subtitle}
                       </p>
                     </div>
 
                     <div className="pt-4 border-t border-border flex items-center justify-between text-xs">
                       <span className="font-black text-[#D4AF37] text-sm">
-                        {relMin !== null ? (isAr ? `من ${relMin} ر.س` : `From ${labels.currencySAR} ${relMin}`) : (isAr ? 'السعر عند الطلب' : 'Request a quote')}
+                        {relMin !== null ? fares.format(relMin) : null}
                       </span>
                       <span className="text-ink flex items-center gap-1 font-bold group-hover:text-[#D4AF37] transition-colors">
                         <span>{labels.viewButton}</span>
@@ -423,16 +348,16 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
         )}
 
         {/* 7. BOTTOM ROYAL CREST CTA BANNER */}
-        <div className="bg-gradient-to-br from-[#101725] via-[#141D2C] to-[#101725] rounded-3xl p-8 sm:p-12 md:p-14 border border-[#D4AF37]/30 text-ink text-center shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-br from-[#101725] via-[#141D2C] to-[#101725] rounded-3xl p-8 sm:p-12 md:p-14 border border-[#D4AF37]/30 text-white text-center shadow-2xl relative overflow-hidden">
           <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#D4AF37]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="max-w-2xl mx-auto space-y-5 relative z-10">
             <span className="inline-block px-4 py-1.5 rounded-full bg-[#D4AF37]/15 text-[#D4AF37] text-xs font-bold uppercase tracking-widest border border-[#D4AF37]/30">
               {labels.ctaBadge}
             </span>
-            <h2 className="font-display font-black text-2xl sm:text-4xl text-ink tracking-tight">
+            <h2 className="font-display font-black text-2xl sm:text-4xl text-white tracking-tight">
               {labels.ctaHeading}
             </h2>
-            <p className="text-xs sm:text-sm text-ink-muted font-light leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-200 leading-relaxed">
               {labels.ctaText}
             </p>
             <div className="pt-2 flex flex-wrap items-center justify-center gap-4">

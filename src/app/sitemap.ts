@@ -13,7 +13,8 @@ export async function generateSitemaps() {
 export default async function sitemap({ id }: { id: string }): Promise<MetadataRoute.Sitemap> {
   const locale = (id as Locale) || 'en';
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
-  const lastmod = new Date().toISOString().slice(0, 10);
+  // Do not invent a fresh modification date on every sitemap request.
+  // Add lastModified only when a real per-page publish/update timestamp is available.
 
   const staticPages = [
     '',
@@ -83,7 +84,9 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
 
   // Dynamic Country Landing Pages (strictly exclude noindex pages like greece, and draft/unverified markets)
   const pilgrimCountryPaths = Object.values(PILGRIM_COUNTRIES)
-    .filter((c) => !c.noindex)
+    // All draft countries must be reviewed before they become indexable.
+    // English is the common base; each country has one native-language version.
+    .filter((c) => c.status === 'published' && !c.noindex && (locale === 'en' || locale === c.primaryLanguage))
     .map((c) => `/pilgrims/${c.slug}`);
 
   const allPaths = [
@@ -125,9 +128,21 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
       };
     }
 
+    // Only link country pages that are actually published in each language.
+    const countrySlug = path.startsWith('/pilgrims/') ? path.slice('/pilgrims/'.length) : null;
+    const country = countrySlug ? PILGRIM_COUNTRIES[countrySlug] : null;
+    if (country) {
+      alternateLanguages = {
+        en: `${baseUrl}/en${path}`,
+        ...(country.primaryLanguage !== 'en'
+          ? { [country.primaryLanguage]: `${baseUrl}/${country.primaryLanguage}${path}` }
+          : {}),
+        'x-default': `${baseUrl}/en${path}`,
+      };
+    }
+
     return {
       url: alternates.canonical,
-      lastModified: lastmod,
       changeFrequency: changeFrequency as any,
       priority,
       alternates: {

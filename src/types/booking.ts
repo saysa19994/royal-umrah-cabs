@@ -1,7 +1,17 @@
 import { z } from 'zod';
 import { CURRENCIES, CurrencyCode, LOCALES, Locale } from '@/i18n/config';
+import { ARRIVAL_AIRPORTS, BOOKING_TIME_PATTERN, getArrivalAirport, isBookingDate } from '@/lib/booking-flight';
 
 export const SUPPORTED_CURRENCY_CODES = Object.keys(CURRENCIES) as [CurrencyCode, ...CurrencyCode[]];
+
+const FlightArrivalSchema = z.object({
+  airport: z.enum(ARRIVAL_AIRPORTS),
+  airline: z.string().trim().min(2).max(100),
+  arrival_date: z.string().refine(isBookingDate),
+  arrival_time: z.string().regex(BOOKING_TIME_PATTERN),
+});
+
+export type FlightArrival = z.infer<typeof FlightArrivalSchema>;
 
 export const BookingSchema = z.object({
   booking_type: z.enum(['transfer', 'hourly', 'ziyarat', 'group_bus']).default('transfer'),
@@ -15,7 +25,7 @@ export const BookingSchema = z.object({
     .refine((val) => val.replace(/\D/g, '').length >= 8, {
       message: 'Phone number must contain at least 8 digits after normalization',
     }),
-  customer_email: z.string().trim().email('Invalid email address').max(200, 'Email cannot exceed 200 characters').optional().or(z.literal('')),
+  customer_email: z.string().trim().min(1, 'Email is required to send booking details').email('Invalid email address').max(200, 'Email cannot exceed 200 characters'),
   pickup_datetime: z.string().min(1, 'Pickup date and time is required'),
   pickup_location: z.string().trim().min(2, 'Pickup location is required').max(200, 'Pickup location cannot exceed 200 characters'),
   dropoff_location: z.string().trim().min(2, 'Dropoff location is required').max(200, 'Dropoff location cannot exceed 200 characters'),
@@ -27,6 +37,7 @@ export const BookingSchema = z.object({
     .regex(/^[A-Za-z0-9\s]{0,20}$/, 'Flight number must be alphanumeric and max 20 characters')
     .optional()
     .nullable(),
+  flight_arrival: FlightArrivalSchema.optional(),
   duration_hours: z.number().int().min(2, 'Duration must be at least 2 hours').max(24, 'Duration cannot exceed 24 hours').optional().nullable(),
   add_ons: z.object({
     child_seat: z.boolean().default(false),
@@ -46,7 +57,16 @@ export const BookingSchema = z.object({
   currency: z.enum(SUPPORTED_CURRENCY_CODES, {
     errorMap: () => ({ message: `Invalid currency. Supported: ${SUPPORTED_CURRENCY_CODES.join(', ')}` }),
   }).default('SAR'),
+  quoted_price_sar: z.number().int().positive().optional(),
   language: z.enum(LOCALES).default('en'),
+}).superRefine((booking, context) => {
+  if (!booking.flight_arrival) return;
+  if (booking.booking_type !== 'transfer' || getArrivalAirport(booking.route_id) !== booking.flight_arrival.airport) {
+    context.addIssue({ code: 'custom', path: ['flight_arrival', 'airport'], message: 'The arrival airport must match the pickup route.' });
+  }
+  if (!booking.flight_number) {
+    context.addIssue({ code: 'custom', path: ['flight_number'], message: 'A flight number is required when adding arrival details.' });
+  }
 });
 
 export type BookingInput = z.infer<typeof BookingSchema>;

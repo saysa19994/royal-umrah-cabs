@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     if (!turnstileCheck.success) {
       return NextResponse.json(
         { error: turnstileCheck.error || 'Anti-bot verification failed.' },
-        { status: 400 }
+        { status: turnstileCheck.status ?? 400 }
       );
     }
 

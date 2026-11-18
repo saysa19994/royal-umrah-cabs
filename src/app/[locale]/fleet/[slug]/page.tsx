@@ -3,52 +3,34 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
-import { Locale, getLocalizedAlternates } from '@/i18n/config';
+import { Locale, LOCALE_CONFIG, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import {
   Users,
   Briefcase,
-  Car,
-  Snowflake,
   CheckCircle2,
   ArrowRight,
   MessageCircle,
   ShieldCheck,
   ChevronRight,
-  Sparkles,
   Luggage,
   Baby,
-  Clock,
-  HeartHandshake,
 } from 'lucide-react';
 import { VehicleGallery, GalleryPhoto } from '@/components/fleet/VehicleGallery';
 import AutomotiveShowroomExperience from '@/components/fleet/AutomotiveShowroomExperience';
-import { Spotlight } from '@/components/ui/luxury/Spotlight';
 import {
   AUTHORITATIVE_TRANSFER_RATES,
   LOCALIZED_ROUTE_NAMES,
 } from '@/lib/pricing-constants';
 import { FLEET_SHOWCASE_VEHICLES } from '@/data/fleet-showcase-data';
+import { getSiteSettings } from '@/lib/settings';
+import styles from './vehicle-detail.module.css';
 
 interface FleetDetailPageProps {
   params: Promise<{
     locale: Locale;
     slug: string;
   }>;
-}
-
-interface VehicleSpecification {
-  id: string;
-  slug: string;
-  bookingVehicleId: string;
-  seats: number;
-  bags: number;
-  acType: Record<Locale, string>;
-  names: Record<Locale, string>;
-  categories: Record<Locale, string>;
-  descriptions: Record<Locale, string>;
-  features: Record<Locale, string[]>;
-  gallery: GalleryPhoto[];
 }
 
 // ALIAS MAPPING: Supports both short ('camry', 'yukon') and long ('toyota-camry', 'gmc-yukon-xl') slugs
@@ -430,8 +412,8 @@ export async function generateMetadata(props: FleetDetailPageProps): Promise<Met
 export default async function FleetDetailPage(props: FleetDetailPageProps) {
   const params = await props.params;
   const { locale, slug } = params;
-  const isAr = locale === 'ar';
-  const isRtl = isAr || locale === 'ur';
+  const localeConfig = LOCALE_CONFIG[locale];
+  const dict = getDictionary(locale);
 
   const resolvedSlug = SLUG_ALIASES[slug];
   if (!resolvedSlug) {
@@ -492,7 +474,9 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
       type: 'exterior',
     },
     {
-      src: `/assets/images/vehicles/${resolvedSlug}/interior_seats.jpg`,
+      src: resolvedSlug === 'toyota-hiace'
+        ? '/assets/images/vehicles/toyota-hiace/seats.webp'
+        : `/assets/images/vehicles/${resolvedSlug}/interior_seats.jpg`,
       title: `${name} — ${gTag.seats}`,
       tag: gTag.seats,
       type: 'interior',
@@ -505,106 +489,14 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
     },
   ];
 
-  // Specific Air Conditioning description per vehicle
-  const acTypeMap: Record<string, Record<Locale, string>> = {
-    maybach: {
-      en: 'Quad-Zone Active Climate Control with Air Ionization & Fragrance',
-      ar: 'تكييف هوائي ملكي رباعي المناطق مع فلترة وتنقية الهواء',
-      ms: 'Kawalan Iklim 4-Zon dengan Penapisan Udara',
-      id: 'Pendingin Udara 4-Zona dengan Filtrasi Udara',
-      ur: 'چار زون شاہی ایئر کنڈیشننگ مع ایئر فلٹریشن',
-      fr: 'Climatisation Quadri-Zone avec Ionisation de l\'Air',
-      es: 'Climatización Cuatrizona con Ionización de Aire',
-      de: 'Vier-Zonen-Klimaautomatik mit Luftionisierung',
-      hi: 'वायु शोधन के साथ 4-ज़ोन वातानुकूलन',
-      tr: 'Hava İyonizasyonlu Dört Bölgeli Dijital Klima',
-    },
-    yukon: {
-      en: 'Tri-Zone Heavy-Duty Climate Control with Roof Diffusers',
-      ar: 'تكييف ثلاثي المناطق عالي التبريد مع فتحات سقفية لكل مقعد',
-      ms: 'Kawalan Iklim 3-Zon dengan Salur Siling',
-      id: 'Pendingin 3-Zona dengan Ventilasi Atap di Tiap Baris',
-      ur: 'تھری زون طاقتور ایئر کنڈیشننگ چھت کے وینٹس کے ساتھ',
-      fr: 'Climatisation Tri-Zone Haute Puissance avec Diffuseurs de Toit',
-      es: 'Climatización Trizona de Alto Rendimiento con Salidas de Techo',
-      de: 'Drei-Zonen-Klimaautomatik mit Dachlüftern',
-      hi: 'छत के वेंट के साथ 3-ज़ोन शक्तिशाली वातानुकूलन',
-      tr: 'Tavan Menfezli Üç Bölgeli Güçlü Klima Sistemi',
-    },
-    staria: {
-      en: 'Dual High-Output Climate Control with Independent Rear Dials',
-      ar: 'تكييف مزدوج فائق التبريد مع تحكم مستقل لركاب المقصورة',
-      ms: 'Penyaman Udara Dwi-Zon dengan Kawalan Belakang',
-      id: 'AC Ganda Super Dingin dengan Kontrol Mandiri Baris Belakang',
-      ur: 'ڈوئل ہائی آؤٹ پٹ اے سی پچھلے مسافروں کے لیے آزاد کنٹرول کے ساتھ',
-      fr: 'Double Climatisation Haute Puissance avec Commandes Arrière',
-      es: 'Doble Climatización con Controles Traseros Independientes',
-      de: 'Duale Hochleistungsklimaanlage mit separater Fondsteuerung',
-      hi: 'स्वतंत्र रियर नियंत्रण के साथ दोहरा शक्तिशाली वातानुकूलन',
-      tr: 'Arka Yolcu Bağımsız Kontrollü Çift Çıkışlı Klima',
-    },
-    camry: {
-      en: 'Dual-Zone Whisper-Quiet Automatic Climate Control',
-      ar: 'تكييف هادئ ثنائي المناطق مع فتحات تهوية للمقاعد الخلفية',
-      ms: 'Penyaman Udara Automatik Dwi-Zon Sangat Senyap',
-      id: 'AC Otomatis Senyap Dwi-Zona dengan Ventilasi Belakang',
-      ur: 'پرسکون ڈوئل زون آٹومیٹک ایئر کنڈیشننگ',
-      fr: 'Climatisation Automatique Silencieuse Bi-Zone',
-      es: 'Climatizador Automático Silencioso Bizona',
-      de: 'Flüsterleise Zwei-Zonen-Klimaautomatik',
-      hi: 'शांत दोहरी-क्षेत्र स्वचालित जलवायु नियंत्रण',
-      tr: 'Sessiz Çift Bölgeli Otomatik Klima',
-    },
-    h1: {
-      en: 'Heavy-Duty Twin-Evaporator Climate System for Desert Travel',
-      ar: 'نظام تكييف مزدوج قوي مصمم للأجواء الحارة وطريق الهجرة',
-      ms: 'Sistem Penyaman Udara Berganda untuk Iklim Panas',
-      id: 'AC Ganda Bertenaga Tinggi Khusus Cuaca Panas Gurun',
-      ur: 'شدید گرمی کے لیے تیار کردہ طاقتور ڈوئل ای سی',
-      fr: 'Système Double Évaporateur Haute Performance',
-      es: 'Sistema Doble de Climatización de Alta Potencia',
-      de: 'Leistungsstarkes Doppel-Klimasystem für Heißklima',
-      hi: 'गर्म मौसम के लिए भारी शुल्क दोहरा शीतलन प्रणाली',
-      tr: 'Çöl İklimine Uygun Çift Evaporatörlü Yüksek Güçlü Klima',
-    },
-    hiace: {
-      en: 'Roof-Mounted High-Volume Cooling with Louvers Across Every Row',
-      ar: 'تكييف مركزي سقف عالي التدفق مع موجهات هواء لكل راكب',
-      ms: 'Penyaman Udara Siling Berkuasa Tinggi di Setiap Baris',
-      id: 'Pendingin Kabin Atap Bertenaga dengan Kisi Udara Tiap Baris',
-      ur: 'چھت پر نصب طاقتور سینٹرل اے سی ہر قطار کے لیے',
-      fr: 'Climatisation Centrale de Toit avec Diffuseurs à Chaque Rangée',
-      es: 'Climatización Central de Techo con Salidas en Cada Fila',
-      de: 'Zentrale Dachklimaanlage mit Auslässen über jeder Sitzreihe',
-      hi: 'प्रत्येक पंक्ति में व्यक्तिगत वेंट के साथ छत पर लगा केंद्रीय एसी',
-      tr: 'Her Sıra İçin Bağımsız Menfezli Yüksek Kapasiteli Tavan Kliması',
-    },
-    coaster: {
-      en: 'Industrial Central Air Conditioning with Individual Air Nozzles',
-      ar: 'تكييف حافلات مركزي جبار مع فوهات هواء قابلة للتوجيه لكل مقعد',
-      ms: 'Penyaman Udara Bas Pusat Berkuasa Tinggi Setiap Tempat Duduk',
-      id: 'Sistem AC Sentral Bus Bertenaga dengan Nosel Udara Tiap Kursi',
-      ur: 'طاقتور مرکزی بس ایئر کنڈیشننگ سسٹم ہر نشست پر انفرادی نوزلز کے ساتھ',
-      fr: 'Climatisation Centrale d\'Autocar avec Buses Individuelles Réglables',
-      es: 'Climatización Central de Autocar con Boquillas Individuales',
-      de: 'Industrielle Bus-Klimaanlage mit individuellen Düsen an jedem Sitz',
-      hi: 'प्रत्येक सीट पर समायोज्य नोजल के साथ केंद्रीय बस एसी',
-      tr: 'Her Koltukta Ayarlanabilir Hava Menfezi Bulunan Merkezi Otobüs Kliması',
-    },
-  };
-
-  const acDescription =
-    acTypeMap[v.id]?.[locale] ||
-    acTypeMap[v.id]?.en ||
-    'Multi-Zone High-Performance Climate Control';
-
-  // Direct WhatsApp URL
-  const whatsappMessage = encodeURIComponent(
-    isAr
-      ? `السلام عليكم، أود حجز سيارة (${name}) لرحلة العمرة.`
-      : `Hello Duyuf Alrahman VIP, I would like to inquire about reserving the (${name}) for our Umrah transfer.`
-  );
-  const whatsappUrl = `https://wa.me/966567588261?text=${whatsappMessage}`;
+  const settings = await getSiteSettings();
+  const formatNumber = new Intl.NumberFormat(localeConfig.dateFormat);
+  const formatFare = new Intl.NumberFormat(localeConfig.dateFormat, {
+    style: 'currency', currency: 'SAR', maximumFractionDigits: 0,
+  });
+  const whatsappMessage = encodeURIComponent(`${localeConfig.whatsappGreeting} ${name}`);
+  const whatsappUrl = `https://wa.me/${settings.whatsapp_number.replace(/\D/g, '')}?text=${whatsappMessage}`;
+  const studioImage = `/assets/images/vehicles/${resolvedSlug}/exterior-studio.webp`;
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   const pageUrl = `${baseUrl}/${locale}/fleet/${slug}`;
@@ -642,15 +534,12 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
     name,
     category,
     description: desc,
-    image: `${baseUrl}/assets/images/vehicles/${resolvedSlug}/exterior-studio.webp`,
+    image: `${baseUrl}${studioImage}`,
     provider: { '@type': 'TravelAgency', name: 'Duyuf Al Rahman VIP', url: baseUrl },
   };
 
   return (
-    <div className="duyuf-vehicle-detail relative py-10 sm:py-16 md:py-20 bg-bg min-h-screen text-start text-ink overflow-hidden transition-colors duration-200" dir={isRtl ? 'rtl' : 'ltr'}>
-      {/* Luxury Golden Ambient Spotlight */}
-      <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#D6A13A" />
-
+    <div className="duyuf-vehicle-detail duyuf-vehicle-page relative py-10 sm:py-16 md:py-20 bg-bg min-h-screen text-start text-ink overflow-hidden transition-colors duration-200" dir={localeConfig.dir}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }}
@@ -660,174 +549,58 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(vehicleServiceSchema).replace(/</g, '\\u003c') }}
       />
 
-      <div className="container mx-auto px-4 max-w-5xl relative z-10">
-        {/* 1. BREADCRUMB NAVIGATION */}
-        <nav
-          aria-label="Breadcrumb"
-          className="flex items-center gap-2 text-xs text-ink-muted font-semibold mb-6 sm:mb-8"
-        >
-          <Link href={`/${locale}`} className="hover:text-[#C5A15D] transition-colors">
-            {t('home')}
-          </Link>
-          <ChevronRight className="w-3.5 h-3.5 text-slate-400 rtl:rotate-180" />
-          <Link href={`/${locale}/fleet`} className="hover:text-[#C5A15D] transition-colors">
-            {t('fleet')}
-          </Link>
-          <ChevronRight className="w-3.5 h-3.5 text-slate-400 rtl:rotate-180" />
-          <span className="text-[#D6A13A] font-bold truncate">{name}</span>
+      <header className={styles.studio}>
+        <nav aria-label={t('fleet')} className={styles.breadcrumb}>
+          <Link href={`/${locale}`}>{t('home')}</Link>
+          <ChevronRight size={14} className="rtl:rotate-180" aria-hidden="true" />
+          <Link href={`/${locale}/fleet`}>{t('fleet')}</Link>
         </nav>
+        <div className={styles.studioLayout}>
+          <div className={styles.intro}>
+            <span className={styles.category}>{category}</span>
+            <h1>{name}</h1>
+            <p>{desc}</p>
 
-        {/* 2. HERO VEHICLE TITLE & DUAL ACTION BUTTONS */}
-        <div className="duyuf-vehicle-intro mb-8 sm:mb-10">
-          <div className="duyuf-vehicle-copy">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-[#101827] text-[#C5A15D] border border-[#C5A15D]/30 mb-3 shadow-xs">
-            <Sparkles className="w-3 h-3" />
-            <span>{category}</span>
-          </div>
-
-          <h1 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-ink tracking-tight leading-tight mb-3">
-            {name}
-          </h1>
-
-          <p className="text-base sm:text-lg text-ink-muted leading-relaxed max-w-3xl font-normal mb-6">
-            {desc}
-          </p>
-
-          {/* DUAL ACTION BUTTONS */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-            {isBespoke ? (
+            <div className={styles.actions}>
+              {!isBespoke && (
+                <Link href={`/${locale}/booking?vehicle=${v.bookingVehicleId}`} className={styles.primary}>
+                  {t('bookNow')} <ArrowRight size={18} className="rtl:rotate-180" aria-hidden="true" />
+                </Link>
+              )}
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-12 px-7 rounded-xl bg-[#C5A15D] hover:bg-[#b5924f] text-[#101827] font-extrabold text-sm uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 active:scale-95"
+                className={isBespoke ? styles.primary : styles.secondary}
               >
-                <MessageCircle className="w-4 h-4" />
-                <span>{t('whatsappBooking')}</span>
+                <MessageCircle size={18} aria-hidden="true" /> {t('whatsappBooking')}
               </a>
-            ) : (
-              <Link
-                href={`/${locale}/booking?vehicle=${v.bookingVehicleId}`}
-                className="h-12 px-7 rounded-xl bg-[#D6A13A] hover:bg-[#E5B14B] text-[#090D15] font-extrabold text-sm uppercase tracking-wider transition-all shadow-[0_4px_20px_rgba(214,161,58,0.25)] flex items-center justify-center gap-2 active:scale-95"
-              >
-                <span>{t('bookNow')}</span>
-                <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-              </Link>
-            )}
-
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="h-12 px-6 rounded-xl bg-bg-alt border border-border hover:border-gold text-ink hover:text-gold font-extrabold text-sm transition-all flex items-center justify-center gap-2 shadow-2xs active:scale-95"
-            >
-              <MessageCircle className="w-4 h-4 text-emerald-600" />
-              <span>{t('whatsappBooking')}</span>
-            </a>
-          </div>
-
-          </div>
-          {/* Real vehicle photography. Preserve the actual fleet asset. */}
-          <div className="duyuf-vehicle-showcase">
-          <div className="relative mt-8 sm:mt-10 mb-4 w-full flex flex-col items-center justify-center">
-            {/* Ambient Studio Lighting Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] sm:w-[650px] h-[260px] bg-gradient-to-r from-[#D4AF37]/15 via-[#D4AF37]/30 to-[#D4AF37]/15 rounded-full blur-[110px] pointer-events-none" />
-
-            {/* Studio Platform Floor Radial Grid */}
-            <div className="relative w-full max-w-4xl h-64 sm:h-80 md:h-96 flex items-center justify-center">
-              <Image
-                src={
-                  v.bookingVehicleId === 'camry'
-                    ? '/assets/images/studio-2k/toyota-camry-studio-2k.webp'
-                    : v.bookingVehicleId === 'staria'
-                    ? '/assets/images/studio-2k/hyundai-staria-studio-2k.webp'
-                    : v.bookingVehicleId === 'yukon'
-                    ? '/assets/images/studio-2k/gmc-yukon-studio-2k.webp'
-                    : v.bookingVehicleId === 'hiace'
-                    ? '/assets/images/studio-2k/toyota-hiace-studio-2k.webp'
-                    : v.bookingVehicleId === 'coaster'
-                    ? '/assets/blueprint/vehicles/toyota-coaster.webp'
-                    : v.bookingVehicleId === 'maybach'
-                    ? '/assets/images/studio-2k/mercedes-s-class-studio-2k.webp'
-                    : `/assets/images/vehicles/${resolvedSlug}/exterior-studio.webp`
-                }
-                alt={name}
-                width={760}
-                height={440}
-                priority
-                className="object-contain max-h-60 sm:max-h-76 md:max-h-88 w-auto drop-shadow-[0_30px_50px_rgba(0,0,0,0.95)] hover:scale-[1.02] transition-transform duration-700 z-10"
-              />
             </div>
-
-            {/* Studio Pedestal Oval Base with Gold Rim */}
-            <div className="w-[85%] sm:w-[520px] md:w-[700px] h-4 sm:h-5 rounded-[100%] bg-gradient-to-r from-transparent via-[#D4AF37]/60 to-transparent blur-[2px] -mt-2 sm:-mt-3 shadow-[0_10px_35px_rgba(214,161,58,0.5)]" />
           </div>
+          <div className={styles.studioImage}>
+            <Image
+              src={studioImage}
+              alt={`${name} — ${gTag.front}`}
+              fill
+              priority
+              sizes="(max-width: 800px) 100vw, 61vw"
+            />
           </div>
         </div>
 
-        {/* 3. 4-ITEM EXECUTIVE SPECIFICATION GRID */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
-          {/* Item 1: Seats */}
-          <div className="bg-surface rounded-2xl p-4 sm:p-5 border border-border hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-bg-alt border border-border text-[#D6A13A] flex items-center justify-center mb-3">
-              <Users className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-muted block mb-0.5">
-                {t('seatsLabel')}
-              </span>
-              <p className="text-base sm:text-lg font-black text-ink tracking-tight">
-                {v.passengers} {t('seatsSuffix')}
-              </p>
-            </div>
+        <dl className={styles.specifications}>
+          <div>
+            <dt><Users size={18} aria-hidden="true" /> {t('seatsLabel')}</dt>
+            <dd>{formatNumber.format(v.passengers)} <span>{t('seatsSuffix')}</span></dd>
           </div>
-
-          {/* Item 2: Luggage */}
-          <div className="bg-surface rounded-2xl p-4 sm:p-5 border border-border hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-bg-alt border border-border text-[#D6A13A] flex items-center justify-center mb-3">
-              <Briefcase className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-muted block mb-0.5">
-                {t('luggageLabel')}
-              </span>
-              <p className="text-base sm:text-lg font-black text-ink tracking-tight">
-                {v.luggage} {t('luggageSuffix')}
-              </p>
-            </div>
+          <div>
+            <dt><Briefcase size={18} aria-hidden="true" /> {t('luggageLabel')}</dt>
+            <dd>{formatNumber.format(v.luggage)} <span>{t('luggageSuffix')}</span></dd>
           </div>
+        </dl>
+      </header>
 
-          {/* Item 3: Vehicle Class */}
-          <div className="bg-surface rounded-2xl p-4 sm:p-5 border border-border hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-bg-alt border border-border text-[#D6A13A] flex items-center justify-center mb-3">
-              <Car className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-muted block mb-0.5">
-                {t('classLabel')}
-              </span>
-              <p className="text-xs sm:text-sm font-extrabold text-ink tracking-tight truncate">
-                {category}
-              </p>
-            </div>
-          </div>
-
-          {/* Item 4: Air Conditioning */}
-          <div className="bg-surface rounded-2xl p-4 sm:p-5 border border-border hover:border-[#D6A13A]/40 transition-colors shadow-md flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-bg-alt border border-border text-[#D6A13A] flex items-center justify-center mb-3">
-              <Snowflake className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-muted block mb-0.5">
-                {t('acLabel')}
-              </span>
-              <p className="text-[11px] sm:text-xs font-bold text-ink leading-snug line-clamp-2">
-                {acDescription}
-              </p>
-            </div>
-          </div>
-        </div>
-
+      <div className="container mx-auto px-4 max-w-5xl relative z-10">
         {/* 4. UPGRADED 5-PHOTO INTERACTIVE GALLERY WITH LIGHTBOX & SWIPE */}
         <VehicleGallery
           images={galleryPhotos}
@@ -835,90 +608,44 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
           locale={locale}
         />
 
-        {/* 5. ROUTE-SPECIFIC PRICING TABLE */}
-        <div className="bg-surface rounded-3xl p-6 sm:p-8 md:p-10 border border-border shadow-lg mb-8">
-          <div className="mb-6">
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-bg-alt border border-border text-[#D6A13A] mb-2">
-              Transparent Fares
-            </span>
-            <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-ink tracking-tight mb-2">
-              {t('pricingTitle')}
-            </h2>
-            <p className="text-ink-muted text-xs sm:text-sm leading-relaxed font-normal">
-              {t('pricingSubtitle')}
-            </p>
+        <section className={styles.fareSection} aria-labelledby="vehicle-fare-heading">
+          <div className={styles.fareIntro}>
+            <h2 id="vehicle-fare-heading">{t('pricingTitle')}</h2>
+            <p>{t('pricingSubtitle')}</p>
           </div>
 
           {isBespoke ? (
-            /* Bespoke Concierge Callout for Maybach & H1 */
-            <div className="p-6 rounded-2xl bg-surface text-ink border border-gold/40 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
-              <div className="max-w-xl">
-                <h3 className="font-display font-bold text-lg sm:text-xl text-[#C5A15D] mb-2">
-                  {t('bespokeNoticeTitle')}
-                </h3>
-                <p className="text-ink-muted text-xs sm:text-sm leading-relaxed font-light">
-                  {t('bespokeNoticeDesc')}
-                </p>
+            <div className={styles.concierge}>
+              <div>
+                <h3>{t('bespokeNoticeTitle')}</h3>
+                <p>{t('bespokeNoticeDesc')}</p>
               </div>
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-12 px-7 rounded-xl bg-[#C5A15D] hover:bg-[#b5924f] text-[#101827] font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shrink-0 transition-all shadow-md active:scale-95"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>{t('whatsappBooking')}</span>
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className={styles.primary}>
+                <MessageCircle size={18} aria-hidden="true" /> {t('whatsappBooking')}
               </a>
             </div>
           ) : (
-            /* Authoritative Route Pricing Table */
-            <div className="overflow-x-auto rounded-2xl border border-border">
-              <table className="w-full text-start border-collapse">
-                <thead>
-                  <tr className="bg-bg-alt text-[#D6A13A] text-xs font-bold uppercase tracking-wider border-b border-border">
-                    <th className="py-3.5 px-4 sm:px-6">{t('routeCol')}</th>
-                    <th className="py-3.5 px-4 text-center">{t('fareCol')}</th>
-                    <th className="py-3.5 px-4 text-center">{t('actionCol')}</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border/40 text-xs sm:text-sm text-ink-muted">
-                  {KEY_CORRIDORS.map((routeKey, idx) => {
-                    const price = AUTHORITATIVE_TRANSFER_RATES[routeKey]?.[v.bookingVehicleId];
-                    if (!price) return null;
+            <ul className={styles.fareList}>
+              {KEY_CORRIDORS.map((routeKey) => {
+                const price = AUTHORITATIVE_TRANSFER_RATES[routeKey]?.[v.bookingVehicleId];
+                if (!price) return null;
+                const routeName = LOCALIZED_ROUTE_NAMES[routeKey]?.[locale]
+                  || LOCALIZED_ROUTE_NAMES[routeKey]?.en
+                  || routeKey;
 
-                    const routeName =
-                      LOCALIZED_ROUTE_NAMES[routeKey]?.[locale] ||
-                      LOCALIZED_ROUTE_NAMES[routeKey]?.en ||
-                      routeKey;
-
-                    return (
-                      <tr
-                        key={routeKey}
-                        className={idx % 2 === 0 ? 'bg-surface' : 'bg-bg-alt/40 hover:bg-bg-alt/70'}
-                      >
-                        <td className="py-3.5 px-4 sm:px-6 font-semibold text-ink">
-                          {routeName}
-                        </td>
-                        <td className="py-3.5 px-4 text-center font-display font-extrabold text-[#D6A13A] whitespace-nowrap">
-                          {price} SAR
-                        </td>
-                        <td className="py-3.5 px-4 text-center whitespace-nowrap">
-                          <Link
-                            href={`/${locale}/booking?vehicle=${v.bookingVehicleId}&route=${routeKey}`}
-                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-bg-alt hover:bg-[#D6A13A] text-[#D6A13A] hover:text-[#090D15] border border-border font-bold text-xs uppercase tracking-wider transition-colors shadow-2xs"
-                          >
-                            <span>{t('bookRouteBtn')}</span>
-                            <ArrowRight className="w-3 h-3 rtl:rotate-180" />
-                          </Link>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                return (
+                  <li key={routeKey}>
+                    <Link href={`/${locale}/booking?vehicle=${v.bookingVehicleId}&route=${routeKey}`}>
+                      <span>{routeName}</span>
+                      <strong><bdi>{formatFare.format(price)}</bdi></strong>
+                      <ArrowRight size={18} className="rtl:rotate-180" aria-hidden="true" />
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
           )}
-        </div>
+        </section>
 
         {/* 6. VERIFIED FEATURES & EXECUTIVE AMENITIES */}
         <div className="bg-surface rounded-3xl p-6 sm:p-8 md:p-10 border border-border shadow-lg mb-8">
@@ -950,27 +677,22 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
           </div>
 
           {/* Extra inclusions: Zamzam & Child Seat */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-6 border-t border-border">
-            <div className="p-4 rounded-2xl bg-bg-alt border border-border flex items-center gap-3">
-              <Luggage className="w-5 h-5 text-[#D6A13A] shrink-0" />
-              <div>
-                <strong className="block text-xs font-bold text-ink">
-                  {t('zamzamLabel')}
-                </strong>
-                <span className="text-[11px] text-ink-muted">{t('zamzamDesc')}</span>
-              </div>
+          {(settings.zamzam_water || settings.complimentary_child_seat) && (
+            <div className={styles.accessories}>
+              {settings.zamzam_water && (
+                <div>
+                  <Luggage size={20} aria-hidden="true" />
+                  <p><strong>{t('zamzamLabel')}</strong> {t('zamzamDesc')}</p>
+                </div>
+              )}
+              {settings.complimentary_child_seat && (
+                <div>
+                  <Baby size={20} aria-hidden="true" />
+                  <p><strong>{t('childSeatLabel')}</strong> {t('childSeatDesc')}</p>
+                </div>
+              )}
             </div>
-
-            <div className="p-4 rounded-2xl bg-bg-alt border border-border flex items-center gap-3">
-              <Baby className="w-5 h-5 text-[#D6A13A] shrink-0" />
-              <div>
-                <strong className="block text-xs font-bold text-ink">
-                  {t('childSeatLabel')}
-                </strong>
-                <span className="text-[11px] text-ink-muted">{t('childSeatDesc')}</span>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
 
                 {/* AUTOMOTIVE DIGITAL SHOWROOM EXPERIENCE */}
@@ -984,7 +706,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
         {/* 7. VEHICLE FAQS (LOCALIZED IN ALL 10 LANGUAGES) */}
         <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-md mb-10 space-y-5">
           <h2 className="font-display font-extrabold text-xl sm:text-2xl text-ink tracking-tight">
-            {name} — FAQ
+            {name} — {dict.faq.heading}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 rounded-2xl bg-bg-alt border border-border space-y-1.5">
@@ -992,7 +714,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
                 {t('seatsLabel')} &amp; {t('luggageLabel')}
               </h3>
               <p className="text-xs text-ink-muted leading-relaxed">
-                {name}: {v.passengers} {t('seatsSuffix')}, {v.luggage} {t('luggageSuffix')}.
+                {name}: {formatNumber.format(v.passengers)} {t('seatsSuffix')}, {formatNumber.format(v.luggage)} {t('luggageSuffix')}.
               </p>
             </div>
             <div className="p-4 rounded-2xl bg-bg-alt border border-border space-y-1.5">
@@ -1013,10 +735,10 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
           </div>
           <div className="flex-1 text-center md:text-start">
             <h3 className="font-display font-bold text-lg sm:text-xl text-[#C5A15D] mb-1.5">
-              {t('assuranceTitle')}
+              {dict.nav.pricing}
             </h3>
             <p className="text-ink-muted text-xs sm:text-sm leading-relaxed font-light">
-              {t('assuranceDesc')}
+              {dict.nav.payOnArrival}
             </p>
           </div>
         </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Locale, getLocalizedAlternates } from '@/i18n/config';
+import { Locale } from '@/i18n/config';
 import { PILGRIM_COUNTRIES } from '@/data/pilgrims';
 import { Plane, MapPin, Clock, ShieldCheck, Check, ArrowRight, Car, Users, Luggage, MessageCircle, CreditCard, HelpCircle } from 'lucide-react';
 
@@ -34,12 +34,27 @@ export async function generateMetadata(props: PilgrimCountryPageProps): Promise<
   }
   const isMatchLocale = locale === c.primaryLanguage;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
+  // Country pages currently have only English and primary-language copy.
+  // Never index a draft or an English fallback under a different locale.
+  const isPublished = c.status === 'published' && !c.noindex;
+  const canIndex = isPublished && (locale === 'en' || isMatchLocale);
+  const path = `/pilgrims/${country}`;
+  const languages: Record<string, string> = {
+    en: `${baseUrl}/en${path}`,
+    'x-default': `${baseUrl}/en${path}`,
+  };
+  if (c.primaryLanguage !== 'en') {
+    languages[c.primaryLanguage] = `${baseUrl}/${c.primaryLanguage}${path}`;
+  }
 
   return {
     title: isMatchLocale ? c.titleNative : c.titleEn,
     description: isMatchLocale ? c.metaDescNative : c.metaDescEn,
-    alternates: getLocalizedAlternates(locale, `/pilgrims/${country}`),
-    ...(c.noindex ? { robots: { index: false, follow: true } } : {}),
+    alternates: {
+      canonical: `${baseUrl}/${locale}${path}`,
+      ...(canIndex ? { languages } : {}),
+    },
+    robots: { index: canIndex, follow: true },
   };
 }
 

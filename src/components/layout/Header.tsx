@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { DuyufSignature } from '@/components/brand/DuyufSignature';
 import { usePathname, useRouter } from 'next/navigation';
 import { Locale, LOCALES, LOCALE_CONFIG, CURRENCIES, CurrencyCode } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
@@ -10,6 +10,7 @@ import type { SiteSettings } from '@/lib/settings';
 import { useCurrency } from '@/context/CurrencyContext';
 import { useTheme } from '@/context/ThemeContext';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
+import { ComfortModeToggle } from '@/components/common/ComfortModeToggle';
 import { Globe, Menu, X, ArrowUpRight, CalendarDays, ChevronDown } from 'lucide-react';
 
 interface HeaderProps {
@@ -174,10 +175,9 @@ export function Header({ locale, dict, settings }: HeaderProps) {
   const primaryNavLinks = [
     { href: locale === 'en' ? '/' : `/${locale}`, label: dict.nav.home },
     { href: `/${locale}/fleet`, label: dict.nav.fleet },
-    { href: `/${locale}/pricing`, label: dict.nav.pricing },
+    { href: `/${locale}/routes`, label: dict.nav.routes },
     { href: `/${locale}/ziyarat`, label: t.ziyarat },
     { href: `/${locale}/services`, label: dict.nav.services },
-    { href: '/' + locale + '/blog', label: t.blog },
     { href: `/${locale}/about`, label: dict.nav.about },
   ];
 
@@ -193,9 +193,13 @@ export function Header({ locale, dict, settings }: HeaderProps) {
     { href: `/${locale}/contact`, label: dict.nav.contact },
   ];
 
+  const isRoyalHome = isHomePage;
   const isTransparent = isHomePage && !isScrolled;
+  const overHero = isRoyalHome && !isScrolled;
 
-  const headerBgClass = isTransparent
+  const headerBgClass = isRoyalHome && !isScrolled
+    ? 'bg-[#101827]/10 border-b border-white/15'
+    : isTransparent
     ? (isDark ? 'bg-[#0B111A]/40 backdrop-blur-md border-b border-white/10' : 'bg-[#FBF9F5]/70 backdrop-blur-md border-b border-black/5')
     : (isDark
         ? 'bg-[#0B111A]/95 backdrop-blur-lg border-b border-[#222E40] shadow-[0_4px_25px_rgba(0,0,0,0.4)]'
@@ -204,30 +208,33 @@ export function Header({ locale, dict, settings }: HeaderProps) {
   return (
     <header
       role="banner"
+      data-royal-home={isRoyalHome ? 'true':'false'}
+      data-royal-scrolled={isScrolled ? 'true':'false'}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isTransparent ? 'py-3.5 sm:py-4' : 'py-2.5 sm:py-3'
       } ${headerBgClass}`}
     >
       {Boolean(settings?.promo_banner_enabled) && (
         <div className="bg-gradient-to-r from-[#A0783E] via-[#B88B4E] to-[#A0783E] text-white text-[11px] sm:text-xs font-bold py-1 px-3 text-center tracking-wide shadow-xs">
-          <span>{settings?.announcement_translations?.[locale] || settings?.promo_banner_text || ''}</span>
+          <span>{settings?.announcement_translations?.[locale] || (locale === 'en' ? settings?.promo_banner_text : dict.promo_bar.text) || dict.promo_bar.text}</span>
         </div>
       )}
       <div className="container mx-auto px-3 sm:px-4 max-w-7xl flex items-center justify-between">
-        {/* LOGO: NEW ROYAL CREST VECTOR EMBLEM & BRANDING */}
+        {/* DUYUF WORDMARK — legible in both color themes */}
         <Link
-          href={locale === 'en' ? '/' : `/${locale}`}
-          className="flex items-center group focus-visible:ring-2 focus-visible:ring-[#A0783E] rounded-lg p-1 -m-1 shrink-0 max-w-[140px] sm:max-w-none"
-          aria-label="Duyuf Alrahman VIP - ضيوف الرحمن VIP"
+          href={`/${locale}`}
+          className="flex items-center gap-2.5 group shrink-0 min-w-0 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-primary)]"
+          aria-label="Duyuf Alrahman VIP — ضيوف الرحمن VIP"
         >
-          <Image
-            src="/assets/brand/logo-royal-crest-gold.svg"
-            alt="Duyuf Alrahman VIP"
-            width={240}
-            height={52}
-            className="h-8 sm:h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
-            priority
-          />
+          <DuyufSignature className={`h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 shrink-0 ${overHero ? 'text-white' : 'text-[var(--text-primary)]'}`} />
+          <span className="flex min-w-0 flex-col text-start leading-tight">
+            <strong className={`text-[12px] sm:text-sm md:text-[15px] tracking-[0.025em] font-extrabold whitespace-nowrap ${overHero ? 'text-white' : 'text-[var(--text-primary)]'}`}>
+              {locale === 'ar' || locale === 'ur' ? 'ضيوف الرحمن VIP' : 'Duyuf Alrahman VIP'}
+            </strong>
+            <span className="mt-0.5 text-[9px] sm:text-[10px] font-semibold text-[var(--accent-primary)] whitespace-nowrap tracking-[0.025em]">
+              {locale === 'ar' || locale === 'ur' ? 'DUYUF AL RAHMAN' : 'ضيوف الرحمن · PRIVATE TRANSFERS'}
+            </span>
+          </span>
         </Link>
 
         {/* DESKTOP CENTER NAVIGATION LINKS */}
@@ -239,11 +246,11 @@ export function Header({ locale, dict, settings }: HeaderProps) {
                 key={link.href}
                 href={link.href}
                 className={`transition-colors py-1 relative tracking-wide font-sans ${
-                  isDark
-                    ? (isActive ? 'text-[#B88B4E] font-semibold' : 'text-[#F7F5F0]/85 hover:text-[#B88B4E]')
+                  (isDark || overHero)
+                    ? (isActive ? 'text-[#E6BE7C] font-semibold' : 'text-[#F7F5F0]/85 hover:text-[#B88B4E]')
                     : (isActive ? 'text-[#A0783E] font-semibold' : 'text-[#111824]/85 hover:text-[#A0783E]')
                 } after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 ${
-                  isDark ? 'after:bg-[#B88B4E]' : 'after:bg-[#A0783E]'
+                  (isDark || overHero) ? 'after:bg-[#B88B4E]' : 'after:bg-[#A0783E]'
                 } ${
                   isActive ? 'after:scale-x-100' : 'after:scale-x-0 hover:after:scale-x-100'
                 } after:transition-transform after:duration-300`}
@@ -256,8 +263,15 @@ export function Header({ locale, dict, settings }: HeaderProps) {
 
         {/* RIGHT CONTROLS: THEME SWITCHER, LANGUAGE, CURRENCY, BOOK ONLINE CTA, MOBILE TOGGLE */}
         <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="hidden lg:flex 2xl:hidden items-center">
+            <ComfortModeToggle locale={locale} compact />
+          </div>
+          <div className="hidden 2xl:flex items-center">
+            <ComfortModeToggle locale={locale} />
+          </div>
+
           {/* THEME SWITCHER (ALWAYS VISIBLE — MOBILE & DESKTOP) */}
-          <div className="flex items-center">
+          <div className="hidden items-center sm:flex">
             <ThemeToggle locale={locale} />
           </div>
 
@@ -314,24 +328,24 @@ export function Header({ locale, dict, settings }: HeaderProps) {
           {/* BRONZE BOOK ONLINE CTA (DESKTOP ONLY) */}
           <Link
             href={`/${locale}/booking`}
-            className={`hidden sm:inline-flex items-center gap-1.5 h-8 sm:h-9 px-4 sm:px-5 text-[11px] sm:text-xs font-semibold rounded-full active:scale-[0.98] transition-all shadow-xs focus-visible:ring-2 text-white ${
+            className={`inline-flex items-center gap-1.5 min-h-10 sm:h-9 px-2.5 sm:px-5 text-[11px] sm:text-xs font-semibold rounded-full active:scale-[0.98] transition-all shadow-xs focus-visible:ring-2 text-white ${
               isDark
                 ? 'bg-[#B88B4E] hover:bg-[#CDA062] focus-visible:ring-[#B88B4E]'
                 : 'bg-[#A0783E] hover:bg-[#8A6530] focus-visible:ring-[#A0783E]'
             }`}
           >
-            <span>{t.bookOnline}</span>
-            <ArrowUpRight className="w-3.5 h-3.5 rtl:rotate-[-90deg]" />
+            <span>{dict.nav.bookNow}</span>
+            <ArrowUpRight className="hidden w-3.5 h-3.5 rtl:rotate-[-90deg] sm:block" aria-hidden />
           </Link>
 
           {/* MOBILE HAMBURGER BUTTON (w-10 h-10 touch target compliant) */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            aria-label="Open Navigation Menu"
+            aria-label={t.navigation}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav-fullscreen"
-            className={`lg:hidden w-10 h-10 min-w-[40px] rounded-lg border transition-colors flex items-center justify-center focus-visible:ring-2 backdrop-blur-md ${
+            className={`lg:hidden w-11 h-11 min-w-[44px] rounded-lg border transition-colors flex items-center justify-center focus-visible:ring-2 backdrop-blur-md ${
               isDark
                 ? 'border-[#222E40] bg-[#131C28] text-white focus-visible:ring-[#B88B4E]'
                 : 'border-[#E8E2D6] bg-white text-[#111824] focus-visible:ring-[#A0783E]'
@@ -366,13 +380,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
               <div className={`w-10 h-10 rounded-lg overflow-hidden border flex items-center justify-center shadow-xs ${
                 isDark ? 'border-[#B88B4E]/60 bg-[#131C28]' : 'border-[#E8E2D6] bg-white'
               }`}>
-                <Image
-                  src="/icon-192.png"
-                  alt="Duyuf Alrahman VIP"
-                  width={40}
-                  height={40}
-                  className="w-full h-full object-cover"
-                />
+                <DuyufSignature className={`h-9 w-9 ${isDark ? 'text-[#F4EDE0]' : 'text-[#173B45]'}`} />
               </div>
               <div className="flex flex-col text-start">
                 <span className="font-serif font-bold text-lg uppercase leading-tight">
@@ -387,7 +395,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              aria-label="Close Navigation Menu"
+              aria-label={t.navigation}
               className={`w-10 h-10 rounded-lg border transition-colors flex items-center justify-center focus-visible:ring-2 ${
                 isDark
                   ? 'border-white/20 bg-white/10 text-white hover:text-[#B88B4E] focus-visible:ring-[#B88B4E]'
@@ -416,6 +424,11 @@ export function Header({ locale, dict, settings }: HeaderProps) {
               </Link>
             ))}
           </nav>
+
+          {/* DISCOVERABLE COMFORT VIEW — BESIDE LANGUAGE AND CURRENCY */}
+          <div className="pt-4">
+            <ComfortModeToggle locale={locale} fullWidth />
+          </div>
 
           {/* DRAWER CONTROLS: THEME SWITCHER + LANGUAGE & CURRENCY */}
           <div className={`py-4 border-t space-y-3 ${isDark ? 'border-white/10' : 'border-[#E8E2D6]'}`}>

@@ -1,0 +1,529 @@
+/* Royal Immersion: editorial chapters, self-contained, no global template overrides. */
+.process,.services,.ziyarat,.chauffeur,.reviews,.faq{--navy:#101827;--ivory:#f7f5f0;--bronze:#a97b27;--quiet:#646a72;color:var(--navy)}
+.process h2,.services h2,.ziyarat h2,.chauffeur h2,.reviews h2,.faq h2{font-family:var(--font-cormorant),serif;font-size:clamp(36px,4.45vw,68px);line-height:1.09;letter-spacing:-.025em;max-width:800px;font-weight:600;text-wrap:balance}
+.process h2:lang(ar),.services h2:lang(ar),.ziyarat h2:lang(ar),.chauffeur h2:lang(ar),.reviews h2:lang(ar),.faq h2:lang(ar){
+  font-family:var(--font-amiri),serif;
+  line-height:1.28;
+}
+.process h2:lang(ur),.services h2:lang(ur),.ziyarat h2:lang(ur),.chauffeur h2:lang(ur),.reviews h2:lang(ur),.faq h2:lang(ur){
+  font-family:var(--font-urdu),serif;
+  line-height:1.58;
+}
+.process h2:lang(hi),.services h2:lang(hi),.ziyarat h2:lang(hi),.chauffeur h2:lang(hi),.reviews h2:lang(hi),.faq h2:lang(hi){
+  font-family:var(--font-devanagari),sans-serif;
+  line-height:1.3;
+}
+.process :is(p,h2,h3),.services :is(p,h2,h3),.ziyarat :is(p,h2,h3),.chauffeur :is(p,h2,h3),.reviews :is(p,h2,h3),.faq :is(p,h2,h3){margin:0}
+.process a,.services a,.ziyarat a,.chauffeur a,.reviews a,.faq a{color:inherit;text-decoration:none}
+.process :is(button,a):focus-visible,.services a:focus-visible,.ziyarat a:focus-visible,.chauffeur a:focus-visible,.reviews :is(button,a):focus-visible,.faq :is(button,a):focus-visible{outline:3px solid #caa365;outline-offset:4px}
+.process{background:#fdfcf9;padding:105px clamp(20px,6vw,96px) 112px}
+.processHead{max-width:1400px;margin:0 auto 55px;display:grid;grid-template-columns:1.2fr .6fr;gap:60px;align-items:end}
+.processHead>p{font-size:15px;line-height:2;color:#606d75;max-width:440px}
+.processSteps{max-width:1400px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(22px,4vw,70px);margin:0 auto;padding:0;list-style:none;border-top:1px solid #cfd1cd}
+.processSteps li{padding-block-start:33px;padding-inline-end:10px;position:relative}
+.processSteps li:before{content:"";position:absolute;top:-3px;inset-inline-start:0;width:54px;height:4px;background:#a97b27}
+.processSteps li>span{display:block;font:500 clamp(48px,6vw,92px)/1 Georgia,serif;color:#8b6c3c;letter-spacing:-.06em}
+.processSteps h3{font-size:clamp(19px,1.6vw,25px);margin:24px 0 14px!important;font-weight:780}
+.processSteps p{max-width:350px;color:#667079;font-size:14px;line-height:1.95}
+.services{display:grid;grid-template-columns:1fr 1fr;min-height:690px;background:var(--ivory)}
+.servicesPhoto{min-height:690px;position:relative;overflow:hidden;background:#2d3541}
+.servicesPhoto img,.ziGrid img,.chauffeurPhoto img,.faqPhoto img{object-fit:cover;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.servicesBody{padding:75px clamp(25px,6vw,105px);align-self:center;max-width:790px}
+.servicesBody h2{max-width:650px}
+.serviceRows{border-top:1px solid #d3d4d0;margin:34px 0 0;padding:0;list-style:none}
+.serviceRow{display:grid;grid-template-columns:minmax(0,1fr) 40px;align-items:center;gap:16px;padding-block:15px;border-bottom:1px solid #d3d4d0;min-height:64px}
+.serviceRow h3{font-size:17px;font-weight:730;margin-bottom:4px}
+.serviceRow p{font-size:13px;line-height:1.55;color:#5e6871;max-width:420px}
+.serviceArrow{color:#765818;justify-self:center;transition:color .2s}
+.serviceRow:is(:hover,:focus-visible) .serviceArrow{color:var(--navy)}
+.ziyarat{padding:105px clamp(20px,6vw,100px) 120px;background:#fff}
+.ziHead{max-width:1400px;margin:0 auto 40px;display:grid;grid-template-columns:1fr 1fr;gap:30px 85px;align-items:end}
+.ziHead>p{font-size:14px;line-height:2;max-width:490px;color:#667079}
+.ziGrid{max-width:1400px;margin:auto;display:grid;grid-template-columns:1.08fr .92fr;gap:25px;align-items:start}
+.ziGrid>a{position:relative;display:block;overflow:hidden;background:#233344;color:white;min-height:550px;isolation:isolate}
+.ziGrid>a:nth-child(2){min-height:470px;margin-top:80px}
+.ziGrid>a:hover img{transform:scale(1.045)}
+.ziShade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 21%,rgba(6,16,25,.92) 100%)}
+.ziGrid>a>div{position:absolute;bottom:32px;inset-inline:36px;z-index:1}
+.ziGrid h3{font-size:clamp(29px,3vw,49px);margin:13px 0!important;color:#fff}
+.ziGrid p{color:#e7e7e4;font-size:13px;line-height:1.9;max-width:400px}
+.ziGrid strong{display:inline-flex;align-items:center;gap:9px;margin-top:21px;font-size:12px;border-bottom:1px solid #d8c8ae;padding-bottom:9px}
+.chauffeur{display:grid;grid-template-columns:1.05fr .95fr;background:var(--navy);color:white;min-height:610px}
+.chauffeurPhoto{position:relative;min-height:610px;overflow:hidden}
+.chauffeurWords{padding:90px clamp(25px,6vw,105px);align-self:center}
+.chauffeurWords h2{color:white}
+.chauffeurWords>p{font-size:15px;line-height:2.1;max-width:510px;color:#c6cbd1;margin:30px 0!important}
+.chauffeurWords ul{display:flex;flex-wrap:wrap;gap:12px 25px;list-style:none;margin:0 0 31px;padding:0}
+.chauffeurWords li{display:inline-flex;align-items:center;gap:9px;color:#e3e7e8;font-size:12px}
+.chauffeurWords li svg{color:#d2ac75}
+.chauffeurWords>a{display:inline-flex;gap:11px;align-items:center;min-height:52px;background:#f7f5f0;color:#101827;padding:13px 23px;font-weight:800;font-size:13px}
+.reviews{display:grid;grid-template-columns:.83fr 1.17fr;gap:55px;padding:105px clamp(20px,6vw,100px);background:#f0eee8;align-items:start}
+.reviewHead{max-width:500px}
+.reviewQuote{border-top:1px solid #bcbfb8;padding:40px 0 0}
+.reviewStars{color:#a97b27;display:block;letter-spacing:5px;font-size:18px;margin-bottom:21px}
+.reviewQuote blockquote{font:normal clamp(22px,2.55vw,38px)/1.6 Georgia,serif;margin:0 0 26px;color:#293642;max-width:730px;overflow-wrap:anywhere}
+.reviewSource{display:flex;flex-direction:column;gap:5px;color:#647078;font-size:12px}
+.reviewSource strong{color:#1b2b39;font-size:15px}
+.reviewEmpty{font-size:17px;line-height:2;color:#58646d;max-width:540px;margin:0!important}
+.reviewQuote blockquote:lang(ar){font-family:var(--font-amiri),serif}
+.reviewQuote blockquote:lang(ur){font-family:var(--font-urdu),serif;line-height:1.75}
+.reviewQuote blockquote:lang(hi){font-family:var(--font-devanagari),sans-serif}
+.reviewActions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:16px;
+  margin-top:28px;
+}
+.reviewActions>a{display:inline-flex;gap:10px;align-items:center;border-bottom:1px solid #a97b27;min-height:44px;font-size:13px;font-weight:750}
+.reviewControls{display:flex;gap:8px}
+.reviewControls button{
+  display:grid;
+  place-items:center;
+  width:44px;
+  height:44px;
+  color:var(--navy);
+  background:transparent;
+  border:1px solid #8b8171;
+  cursor:pointer;
+}
+.reviewControls button:hover{background:var(--navy);color:white}
+.srOnly{
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  clip-path:inset(50%);
+  white-space:nowrap;
+}
+.faq{padding:105px clamp(20px,6vw,100px);display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(45px,7vw,135px);background:#fff}
+.faqIntro{max-width:500px}
+.faqIntro>p{line-height:2;color:#647079;font-size:14px;margin:25px 0!important}
+.faqPhoto{position:relative;height:280px;overflow:hidden;margin-top:35px}
+.faqList{border-top:1px solid #d1d4d1}
+.faqItem{border-bottom:1px solid #d1d4d1}
+.faqItem h3{font-size:inherit}
+.faqItem button{width:100%;min-height:83px;display:grid;grid-template-columns:minmax(0,1fr) 24px;gap:16px;align-items:center;background:transparent;color:#152738;border:0;text-align:start;padding:14px 0;font:inherit;cursor:pointer}
+.faqItem button>strong{font-size:clamp(14px,1.3vw,18px);line-height:1.65;font-weight:760}
+.faqItem button>svg{transition:transform .22s}
+.faqItem button[aria-expanded=true]>svg{transform:rotate(180deg)}
+.faqAnswer{
+  display:grid;
+  grid-template-rows:0fr;
+  visibility:hidden;
+  transition:grid-template-rows .25s ease,visibility 0s .25s;
+}
+.faqAnswer[data-open=true]{
+  grid-template-rows:1fr;
+  visibility:visible;
+  transition-delay:0s;
+}
+.faqAnswer>div{overflow:hidden}
+.faqAnswer p{
+  padding-block-end:24px;
+  padding-inline:46px 40px;
+  font-size:14px;
+  color:#56646d;
+  line-height:1.75;
+}
+.faqAnswer p a{text-decoration:underline;text-underline-offset:3px;font-weight:700}
+.faqMore{display:inline-flex;align-items:center;gap:9px;padding:12px 0;border-bottom:1px solid #b78b4b;margin-top:20px;font-size:13px;font-weight:780}
+@media(max-width:1050px){
+ .servicesBody{padding:65px 37px}
+ .servicesPhoto{min-height:590px}
+ .services{min-height:590px}
+ .chauffeurWords{padding:60px 35px}
+ .process,.ziyarat,.reviews,.faq{padding-block:80px}
+ .faq{gap:50px}
+}
+@media(max-width:760px){
+ .processHead,.ziHead,.reviews,.faq{display:block}
+ .processHead{margin-bottom:35px}
+ .processHead>p{margin-top:18px;font-size:13px}
+ .processSteps{grid-template-columns:1fr;gap:0;border-top:0}
+ .processSteps li{display:grid;grid-template-columns:80px 1fr;gap:0 15px;border-top:1px solid #d2d2ce;padding:19px 0}
+ .processSteps li:before{top:-2px}
+ .processSteps li>span{font-size:56px;grid-row:1/3}
+ .processSteps h3{margin:6px 0 9px!important;font-size:20px}
+ .processSteps p{font-size:12px;max-width:100%}
+ .services{display:flex;flex-direction:column}
+ .servicesPhoto{min-height:0;height:65vw;max-height:400px;width:100%}
+ .servicesBody{padding:49px 22px 57px}
+ .ziHead>p{margin:17px 0 0;font-size:13px}
+ .ziGrid{grid-template-columns:1fr;gap:15px;margin-top:24px}
+ .ziGrid>a,.ziGrid>a:nth-child(2){min-height:0;height:89vw;max-height:470px;margin-top:0}
+ .ziGrid>a>div{inset-inline:22px;bottom:24px}
+ .ziGrid h3{font-size:33px}
+ .ziGrid p{font-size:12px}
+ .chauffeur{display:flex;flex-direction:column}
+ .chauffeurPhoto{height:73vw;max-height:450px;min-height:0}
+ .chauffeurWords{padding:52px 23px 61px}
+ .chauffeurWords>p{font-size:13px;margin:20px 0!important}
+ .reviews{padding:70px 20px}
+ .reviewQuote{margin-top:27px;padding-top:24px}
+ .reviewQuote blockquote{font-size:26px}
+ .faq{padding:70px 20px}
+ .faqIntro>p{margin:14px 0!important}
+ .faqPhoto{height:190px;margin-top:22px}
+ .faqList{margin-top:28px}
+ .faqItem button{min-height:70px}
+ .faqAnswer p{padding-inline:30px 22px}
+}
+@media(max-width:430px){
+ .process,.ziyarat{padding:65px 17px}
+ .process h2,.services h2,.ziyarat h2,.chauffeur h2,.reviews h2,.faq h2{font-size:34px;line-height:1.25}
+ .serviceRow{grid-template-columns:minmax(0,1fr) 32px;gap:10px}
+ .ziGrid>a,.ziGrid>a:nth-child(2){height:96vw}
+ .ziGrid h3{font-size:29px}
+ .faqItem button{grid-template-columns:minmax(0,1fr) 22px;gap:10px}
+ .faqItem button>strong{font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){.ziGrid img,.servicesPhoto img,.chauffeurPhoto img,.faqPhoto img,.faqAnswer,.faqItem button>svg,.serviceArrow{transition:none!important}}
+
+/* Editorial booking chapter v3 — reference-inspired proportions, original branding */
+.process { background:#f8f7f3; padding:clamp(68px,8vw,116px) max(22px,calc((100vw - 1272px)/2)) clamp(70px,7.5vw,104px); }
+.processHead { display:block; text-align:center; max-width:1000px; margin:0 auto clamp(58px,6vw,86px); }
+.processHead h2 { max-width:none; font-family:var(--font-manrope),sans-serif; font-size:clamp(2.35rem,4.25vw,4.4rem); letter-spacing:-.045em; font-weight:500; line-height:1.16; }
+.processHead>p { max-width:620px; margin:20px auto 0!important; font-size:clamp(.92rem,1.1vw,1.03rem); color:#526070; line-height:1.75; }
+.processSteps { max-width:1272px; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(32px,4.2vw,82px); border:0; }
+.processSteps li { padding:0; border:0; min-width:0; }
+.processSteps li::before { display:none; }
+.processNumber { display:flex!important; align-items:center; gap:11px; min-height:85px; color:#a47c3c; }
+.processNumber b { font-family:Georgia,serif; font-size:clamp(3.25rem,5vw,5.4rem); font-weight:400; letter-spacing:-.07em; }
+.processNumber svg { color:#101827; width:34px; height:34px; }
+.processStepLabel { display:block; margin:21px 0 3px; font-size:.94rem; font-weight:700; letter-spacing:.045em; color:#a47c3c; }
+.processSteps h3 { font-size:clamp(1.32rem,2vw,2.05rem); font-weight:570; line-height:1.35; letter-spacing:-.015em; margin:0 0 14px!important; }
+.processSteps p { max-width:360px; font-size:clamp(.94rem,1.14vw,1.04rem); line-height:1.75; color:#3f4d5d; }
+.processPolicy { display:flex; justify-content:center; align-items:center; text-align:center; gap:13px; max-width:1272px; min-height:116px; padding:26px clamp(18px,3vw,50px); margin:clamp(54px,7vw,100px) auto 0; background:#fff; box-shadow:0 14px 45px rgba(16,24,39,.035); color:#101827; font-size:clamp(1.05rem,1.7vw,1.55rem); line-height:1.6; font-weight:550; }
+.processPolicy svg { color:#9b733b; flex:none; }
+.services { width:min(calc(100% - 44px),1272px); min-height:490px; margin:0 auto clamp(72px,8vw,122px); grid-template-columns:.98fr 1.02fr; }
+.servicesPhoto { min-height:490px; }
+.servicesBody { padding:clamp(30px,4vw,60px); }
+.serviceRow { min-height:58px; padding-block:10px; }
+.ziyarat { padding-inline:max(22px,calc((100vw - 1272px)/2)); }
+.ziHead,.ziGrid { max-width:1272px; }
+.ziGrid>a { min-height:430px; }
+.ziGrid>a:nth-child(2) { min-height:365px; margin-top:65px; }
+.chauffeur { width:min(calc(100% - 44px),1272px); margin:0 auto clamp(70px,8vw,110px); min-height:470px; }
+.chauffeurPhoto { min-height:470px; }
+.chauffeurWords { padding:clamp(32px,4vw,60px); }
+.reviews { padding-inline:max(22px,calc((100vw - 1272px)/2)); }
+.faq { padding-inline:max(22px,calc((100vw - 1272px)/2)); gap:clamp(35px,5vw,80px); }
+@media (max-width:760px) {
+ .process { padding:70px 20px 72px; }
+ .processHead { text-align:start; margin-bottom:36px; }
+ .processHead h2 { font-size:clamp(2.15rem,8.5vw,3rem); }
+ .processHead>p { margin:14px 0 0!important; }
+ .processSteps { display:grid; grid-template-columns:1fr; gap:0; }
+ .processSteps li { display:grid; grid-template-columns:79px minmax(0,1fr); column-gap:17px; padding:24px 0; border-top:1px solid #d5d3cc; }
+ .processNumber { display:flex!important; flex-direction:column; align-items:flex-start; justify-content:center; gap:1px; grid-row:1/4; min-height:0; }
+ .processNumber b { font-size:3.3rem; }
+ .processNumber svg { width:26px; height:26px; }
+ .processStepLabel { margin:2px 0 5px; font-size:.78rem; }
+ .processSteps h3 { margin:0 0 7px!important; font-size:1.33rem; }
+ .processSteps p { font-size:.92rem; }
+ .processPolicy { margin-top:24px; min-height:0; padding:22px; font-size:1rem; }
+ .services,.chauffeur { width:100%; margin-bottom:68px; }
+ .servicesPhoto { min-height:0; }
+ .ziGrid>a,.ziGrid>a:nth-child(2) { min-height:0; margin-top:0; }
+}
+@media (prefers-reduced-motion:reduce) { .process *, .process *::before { animation:none!important; transition:none!important; } }
+
+
+/* ==========================================================================
+   DUYUF — REFERENCE-PROPORTION EDITORIAL CHAPTERS (ORIGINAL COMPOSITION)
+   1272px wide content; a quiet linked timeline instead of mini-step cards.
+   ========================================================================== */
+.process,.ziyarat,.reviews,.faq {
+  padding-inline: max(22px,calc((100% - 1272px)/2));
+}
+.process {
+  background: #f8f7f3;
+  padding-block: clamp(77px, 8vw, 123px) clamp(82px, 8.3vw, 132px);
+}
+.processHead { margin-bottom: clamp(54px, 5.7vw, 78px); max-width: 1080px; }
+.processHead h2 {
+  font-family: var(--font-manrope),var(--font-ibm-plex-arabic),sans-serif;
+  font-size: clamp(2.4rem, 4.45vw, 4.5rem);
+  font-weight: 500;
+  letter-spacing: -.043em;
+  line-height: 1.17;
+}
+.processHead h2:lang(ar),.processHead h2:lang(ur) {
+  font-family: var(--font-amiri),serif;
+  font-weight: 600;
+  line-height: 1.34;
+  letter-spacing: 0;
+}
+.processHead h2:lang(hi) {
+  font-family: var(--font-devanagari),sans-serif;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+.processHead>p { max-width: 690px; color: #4c5965; font-size: 1.04rem; }
+.processSteps { gap: clamp(34px, 4.2vw, 72px); align-items: start; }
+.processSteps li { min-width: 0; padding-block-start: 0; }
+.processNumber { position: relative; gap: 19px; min-height: 99px; width: 100%; }
+.processNumber b {
+  color: #a07a45;
+  font-family: Georgia,serif;
+  font-size: clamp(3.8rem, 5.7vw, 6.1rem);
+  font-weight: 400;
+}
+.processNumber svg { color: #101827; width: 40px; height: 40px; stroke-width: 1.25px; }
+.processSteps li:not(:last-child) .processNumber::after {
+  content:'';
+  position: absolute;
+  inset-inline-start: min(225px, 62%);
+  inset-inline-end: calc(-1 * clamp(31px, 4.2vw, 72px) - 1px);
+  top: 52%;
+  border-top: 1px solid #c1c5c5;
+  pointer-events: none;
+}
+.processStepLabel {
+  color: #94703e;
+  font-size: .86rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin: 17px 0 10px;
+}
+.processSteps h3 {
+  margin: 0 0 12px!important;
+  color: #101827;
+  font-size: clamp(1.48rem, 2.1vw, 2.18rem);
+  font-weight: 550;
+  letter-spacing: -.02em;
+}
+.processSteps p {
+  font-size: clamp(.98rem,1.1vw,1.06rem);
+  color: #3d4a59;
+  line-height: 1.82;
+  max-width: 400px;
+}
+.processPolicy {
+  max-width: 1272px;
+  margin-top: clamp(62px, 7.5vw, 106px);
+  min-height: 142px;
+  border: 1px solid #eeebe5;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 14px 45px rgba(16,24,39,.025);
+  font-size: clamp(1.25rem, 1.9vw, 1.75rem);
+  color: #101827;
+}
+.processPolicy svg { width:29px; height:29px; }
+.services {
+  grid-template-columns: minmax(0, .88fr) minmax(0,1.12fr);
+  border: 1px solid #e6e3db;
+  background: #f7f5f0;
+}
+.servicesPhoto { min-height: 530px; }
+.servicesBody { padding: clamp(29px,4.2vw,66px); }
+.serviceRows { margin-top: 29px; }
+.serviceRow { padding-block: 13px; min-height: 65px; }
+.serviceRow h3 { font-size: clamp(1.02rem,1.3vw,1.17rem); }
+.serviceRow p { color: #505c67; }
+.ziyarat { background: #fff; }
+.ziGrid { gap: 22px; grid-template-columns: 1.04fr .96fr; }
+.ziGrid>a { min-height: 460px; border-radius: 3px; }
+.ziGrid>a:nth-child(2) { min-height: 390px; margin-top: 60px; }
+.ziShade { background:linear-gradient(180deg,transparent 20%,rgba(8,20,30,.9) 100%); }
+.ziGrid>a>div { inset-inline: clamp(22px,3vw,44px); bottom: clamp(25px,3vw,46px); }
+.chauffeur { grid-template-columns: 1.05fr .95fr; border-radius: 3px; }
+.chauffeurPhoto { min-height: 510px; }
+.chauffeurWords { padding: clamp(37px,4.3vw,66px); }
+.chauffeurWords>a { min-height: 55px; padding-inline: 27px; }
+.reviews { grid-template-columns: minmax(0,.7fr) minmax(0,1.3fr); gap: clamp(50px,6vw,112px); }
+.reviewQuote { padding-top: 37px; }
+.reviewQuote blockquote { font-size: clamp(1.55rem,2.45vw,2.7rem); }
+.faq { grid-template-columns: minmax(0,.78fr) minmax(0,1.22fr); gap: clamp(40px,5vw,85px); }
+.faqPhoto { height: 300px; border-radius: 3px; }
+.faqItem button { min-height: 82px; }
+.faqItem button>strong { font-weight: 700; }
+@media (max-width: 900px) {
+  .processSteps li:not(:last-child) .processNumber::after { display:none; }
+  .services { grid-template-columns: .9fr 1.1fr; }
+  .servicesPhoto { min-height: 450px; }
+  .servicesBody { padding: 29px; }
+}
+@media (max-width: 760px) {
+  .process,.ziyarat,.reviews,.faq { padding-inline: 20px; }
+  .process { padding-block: 72px 79px; }
+  .processHead { margin-bottom: 30px; text-align:start; }
+  .processHead h2 { font-size: clamp(2.15rem,8.3vw,3.1rem); }
+  .processHead>p { font-size: .96rem; }
+  .processSteps { display: grid; grid-template-columns:1fr; gap: 0; }
+  .processSteps li { display:grid; grid-template-columns: 76px minmax(0,1fr); column-gap: 17px; padding: 25px 0; border-top:1px solid #d6d3cb; }
+  .processNumber { grid-row: 1/4; flex-direction: column; align-items:flex-start; justify-content:center; gap: 3px; min-height: 0; }
+  .processNumber b { font-size:3.5rem; }
+  .processNumber svg { width:28px; height:28px; }
+  .processStepLabel { margin: 2px 0 7px; font-size: .78rem; }
+  .processSteps h3 { font-size: 1.35rem; margin: 0 0 7px!important; }
+  .processSteps p { font-size: .93rem; line-height: 1.75; }
+  .processPolicy { min-height:0; margin-top:28px; padding: 25px 20px; align-items:flex-start; font-size: 1.08rem; line-height:1.7; }
+  .services { width: 100%; margin-bottom:69px; display:flex; flex-direction:column; border:0; }
+  .servicesPhoto { width:100%; height:70vw; max-height: 405px; min-height:0; }
+  .servicesBody { padding: 45px 21px 58px; }
+  .ziGrid { grid-template-columns:1fr; gap:17px; }
+  .ziGrid>a,.ziGrid>a:nth-child(2) { height:min(105vw,445px); min-height:0; margin-top:0; }
+  .chauffeur { width:100%; display:flex; flex-direction:column; }
+  .chauffeurPhoto { min-height:0; height:min(78vw,410px); }
+  .chauffeurWords { padding:48px 23px 62px; }
+  .reviews { display:block; padding-block:75px; }
+  .reviewQuote { padding-top:25px; }
+  .faq { display:block; padding-block:73px; }
+  .faqList { margin-top: 34px; }
+  .faqPhoto { height: 220px; }
+}
+@media (max-width: 430px) {
+  .process,.ziyarat,.reviews,.faq { padding-inline: 17px; }
+  .processSteps li { grid-template-columns:65px minmax(0,1fr); column-gap:13px; }
+  .processNumber b { font-size: 3.05rem; }
+  .processNumber svg { width: 26px; height: 26px; }
+  .processSteps h3 { font-size:1.23rem; }
+  .processPolicy { flex-direction:column; align-items:center; text-align:center; }
+  .ziGrid>a,.ziGrid>a:nth-child(2) { height:96vw; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .serviceRow,.ziGrid img,.faqAnswer,.faqItem button>svg { transition:none!important; }
+}
+
+
+/* Video-reference adaptation: editorial hover/focus photograph, never a fake link. */
+.servicesPhoto img { animation: duyufServiceReveal .42s ease-out both; }
+@keyframes duyufServiceReveal {
+  from { opacity: .62; transform: scale(1.035); }
+  to { opacity: 1; transform: scale(1); }
+}
+.serviceRow[data-active="true"] { background: #fffdf9; padding-inline: 14px; border-inline-start: 3px solid #957040; }
+.serviceRow[data-active="true"] .serviceArrow { color: #967041; }
+@media (prefers-reduced-motion: reduce) { .servicesPhoto img { animation: none; } }
+
+
+/* Visual QA 19 Nov — consistent sizes, correct light/dark contrast and 1272px rhythm. */
+.process,.ziyarat,.reviews,.faq { padding-inline:max(22px,calc((100% - 1272px)/2)); }
+.process { padding-block:clamp(56px,5.4vw,81px); }
+.processHead { margin-bottom:clamp(29px,3.5vw,52px); }
+.processHead h2 { font-size:clamp(2.05rem,3.2vw,3.6rem); line-height:1.2; }
+.processHead>p { font-size:.98rem; line-height:1.7; }
+.processSteps { gap:clamp(28px,3vw,46px); }
+.processNumber { min-height:73px; }
+.processNumber b { font-size:clamp(2.9rem,4vw,4.4rem); }
+.processNumber svg { width:32px; height:32px; }
+.processStepLabel { margin:11px 0 7px; font-size:.78rem; }
+.processSteps h3 { font-size:clamp(1.1rem,1.55vw,1.5rem); }
+.processSteps p { font-size:.91rem; line-height:1.75; }
+.processPolicy { margin-top:clamp(30px,4.5vw,62px); min-height:0; padding:23px 32px; font-size:clamp(1.03rem,1.45vw,1.3rem); }
+.services { width:min(calc(100% - 44px),1272px); min-height:0; margin-bottom:clamp(56px,5.4vw,83px); }
+.servicesPhoto { min-height:0; height:clamp(335px,30vw,460px); }
+.servicesBody { padding:clamp(24px,3vw,44px); }
+.services h2,.ziyarat h2,.chauffeur h2,.reviews h2,.faq h2 { font-size:clamp(2rem,3.05vw,3.55rem); line-height:1.21; }
+.serviceRow { min-height:56px; padding-block:9px; }
+.serviceRow h3 { font-size:.98rem; }
+.serviceRow p { font-size:.83rem; }
+.ziyarat { padding-block:clamp(54px,5.5vw,86px); }
+.ziHead { margin-bottom:26px; }
+.ziGrid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; align-items:stretch; }
+.ziGrid>a,.ziGrid>a:nth-child(2) { margin:0; min-height:0; height:clamp(285px,30vw,395px); }
+.ziGrid img { object-fit:cover; }
+.ziGrid h3 { font-size:clamp(1.65rem,2.45vw,2.6rem); }
+.chauffeur { min-height:0; margin-bottom:clamp(56px,5.4vw,84px); }
+.chauffeurPhoto { min-height:0; height:clamp(340px,32vw,450px); }
+.chauffeurWords { padding:clamp(28px,3.5vw,55px); }
+.chauffeurWords>p { margin:18px 0!important; font-size:.93rem; line-height:1.8; }
+.reviews { padding-block:clamp(58px,5.8vw,90px); }
+.reviewQuote blockquote { font-size:clamp(1.3rem,2.1vw,2.35rem); line-height:1.5; }
+.reviewEmpty { font-size:1rem; }
+.faq { padding-block:clamp(56px,5.7vw,85px); }
+.faqIntro { max-width:500px; }
+.faqItem button { min-height:66px; }
+.faqItem button>strong { font-size:clamp(.91rem,1.09vw,1.06rem); }
+.faqIntro>p { font-size:.94rem; line-height:1.75; }
+.faqPhoto { display:none; } /* redundant photo repeated elsewhere, questions should be easy to scan */
+
+/* Page-wide dark mode: the original module hard-coded light backgrounds/text. */
+:global(html[data-theme="dark"]) .process,
+:global(html[data-theme="dark"]) .services,
+:global(html[data-theme="dark"]) .ziyarat,
+:global(html[data-theme="dark"]) .chauffeur,
+:global(html[data-theme="dark"]) .reviews,
+:global(html[data-theme="dark"]) .faq {
+ --navy:#f0f3f6;
+ --ivory:#172334;
+ --bronze:#e5c28c;
+ --quiet:#bdc7d3;
+ color:#f0f3f6;
+}
+:global(html[data-theme="dark"]) .process { background:#121e2b; }
+:global(html[data-theme="dark"]) .processHead>p,
+:global(html[data-theme="dark"]) .processSteps p { color:#c9d3dc; }
+:global(html[data-theme="dark"]) .processSteps h3 { color:#f2f4f6; }
+:global(html[data-theme="dark"]) .processSteps li { border-color:#3e4b5c; }
+:global(html[data-theme="dark"]) .processNumber svg { color:#edf1f5; }
+:global(html[data-theme="dark"]) .processStepLabel,
+:global(html[data-theme="dark"]) .processNumber b { color:#dcb883; }
+:global(html[data-theme="dark"]) .processPolicy { background:#1d2c3e; color:#f0f3f6; border-color:#3b4c60; box-shadow:none; }
+:global(html[data-theme="dark"]) .services { background:#172435; border-color:#34475a; }
+:global(html[data-theme="dark"]) .serviceRows,
+:global(html[data-theme="dark"]) .serviceRow { border-color:#3b4c5e; }
+:global(html[data-theme="dark"]) .serviceRow h3 { color:#f2f5f7; }
+:global(html[data-theme="dark"]) .serviceRow p { color:#c8d2dd; }
+:global(html[data-theme="dark"]) .serviceArrow { color:#ddba86; }
+:global(html[data-theme="dark"]) .serviceRow:hover,
+:global(html[data-theme="dark"]) .serviceRow[data-active="true"] { background:#26384b; }
+:global(html[data-theme="dark"]) .ziyarat { background:#0e1825; }
+:global(html[data-theme="dark"]) .ziHead>p { color:#c4cfd9; }
+:global(html[data-theme="dark"]) .ziGrid h3,
+:global(html[data-theme="dark"]) .ziGrid p { color:#fff; }
+:global(html[data-theme="dark"]) .chauffeur { background:#0b1421; }
+:global(html[data-theme="dark"]) .reviews { background:#172435; }
+:global(html[data-theme="dark"]) .reviewQuote { border-color:#4b5a6c; }
+:global(html[data-theme="dark"]) .reviewQuote blockquote,
+:global(html[data-theme="dark"]) .reviewSource strong { color:#f1f4f7; }
+:global(html[data-theme="dark"]) .reviewSource,
+:global(html[data-theme="dark"]) .reviewEmpty { color:#c7d1db; }
+:global(html[data-theme="dark"]) .faq { background:#101b29; }
+:global(html[data-theme="dark"]) .faqIntro>p { color:#c6d0da; }
+:global(html[data-theme="dark"]) .faqList,
+:global(html[data-theme="dark"]) .faqItem { border-color:#405065; }
+:global(html[data-theme="dark"]) .faqItem button { color:#f2f4f7; }
+:global(html[data-theme="dark"]) .faqAnswer p { color:#c9d3dc; }
+:global(html[data-theme="dark"]) .faqMore { color:#f0f3f6; }
+
+/* Mobile is a deliberate single-column experience, not desktop shrunk down. */
+@media(max-width:760px) {
+ .process,.ziyarat,.reviews,.faq { padding-inline:20px; padding-block:54px; }
+ .processHead { margin-bottom:24px; text-align:start; }
+ .processHead h2 { font-size:clamp(1.8rem,6.7vw,2.55rem); }
+ .processSteps { grid-template-columns:1fr; gap:0; }
+ .processSteps li { grid-template-columns:66px minmax(0,1fr); gap:0 13px; padding:19px 0; }
+ .processNumber { min-height:0; grid-row:1/4; }
+ .processNumber b { font-size:2.8rem; }
+ .processNumber svg { width:25px; height:25px; }
+ .processSteps h3 { font-size:1.17rem; }
+ .processSteps p { font-size:.89rem; }
+ .processPolicy { padding:20px; margin-top:20px; font-size:.96rem; }
+ .services { width:100%; display:flex; flex-direction:column; margin-bottom:54px; }
+ .servicesPhoto { min-height:0; height:auto; aspect-ratio:16/10; }
+ .servicesBody { padding:28px 20px 39px; }
+ .ziGrid { grid-template-columns:1fr 1fr; gap:11px; }
+ .ziGrid>a,.ziGrid>a:nth-child(2) { height:auto; min-height:0; aspect-ratio:4/5; }
+ .ziGrid>a>div { inset-inline:14px; bottom:15px; }
+ .ziGrid h3 { font-size:clamp(1.18rem,3.7vw,1.55rem); line-height:1.25; }
+ .ziGrid p { display:none; }
+ .ziGrid strong { margin-top:10px; font-size:.7rem; }
+ .chauffeur { width:100%; display:flex; flex-direction:column; margin-bottom:54px; }
+ .chauffeurPhoto { height:auto; aspect-ratio:16/10; min-height:0; }
+ .chauffeurWords { padding:30px 22px 41px; }
+ .reviews { display:block; }
+ .faq { display:block; }
+ .faqList { margin-top:25px; }
+}
+@media(max-width:430px) {
+ .process,.ziyarat,.reviews,.faq { padding-inline:17px; }
+ .ziGrid { grid-template-columns:1fr 1fr; }
+ .ziGrid>a,.ziGrid>a:nth-child(2) { aspect-ratio:3/4; }
+ .processSteps li { grid-template-columns:58px minmax(0,1fr); }
+ .processNumber b { font-size:2.55rem; }
+}

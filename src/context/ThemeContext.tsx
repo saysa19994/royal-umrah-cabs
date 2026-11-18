@@ -46,15 +46,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const setTheme = useCallback((newTheme: Theme) => {
     setThemeState(newTheme);
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, newTheme);
-      document.documentElement.setAttribute('data-theme', newTheme);
-      if (newTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    } catch {}
+    // Update the visual theme even if localStorage is blocked (private browsing).
+    document.documentElement.setAttribute('data-theme', newTheme);
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+    try { localStorage.setItem(THEME_STORAGE_KEY, newTheme); } catch { /* choice works for this tab */ }
   }, []);
 
   const toggleTheme = useCallback(() => {

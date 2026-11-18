@@ -1,0 +1,104 @@
+/* DUYUF Pilgrim Journal: reading archive and itinerary, no third recycled card grid.
+   A distinct editorial grammar within the existing Ziyarat experience.
+   Access: native links/details, keyboard focus, actual text not image headings. */
+.root{--ink:#12373b;--wash:#f5f4ee;--navy:#0f2029;--sand:#ead8b8;--line:#d4ddd5;color:var(--ink)}
+.root *{box-sizing:border-box}
+.root :is(a,summary):focus-visible{outline:3px solid #a9875f;outline-offset:4px}
+.overline{font-size:11px;font-weight:860;letter-spacing:.11em;line-height:1.75;color:#a3805a}
+.root[dir=rtl] .overline{letter-spacing:0}
+.archive{padding:90px 0 100px;scroll-margin-top:90px}
+.archiveIntro{display:grid;grid-template-columns:minmax(0,.18fr) minmax(0,1fr) minmax(0,.48fr);gap:24px;align-items:end;margin-bottom:40px}
+.archiveIntro h2{margin:0!important;font-size:clamp(36px,4.3vw,62px);line-height:1.2;font-weight:800;text-wrap:balance;letter-spacing:-.025em}
+.root[dir=rtl] .archiveIntro h2{letter-spacing:0}
+.archiveIntro>p{font-size:12px;line-height:1.9;color:#657c76;margin:0}
+.archiveBody{display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1fr);background:#fffefa;border:1px solid #d3ddd4;min-height:555px}
+.featuredGuide{background:linear-gradient(145deg,#143941,#0f2836);color:#fff!important;padding:45px clamp(28px,4vw,55px);display:flex;flex-direction:column;justify-content:space-between;gap:30px;min-width:0}
+.featureNumber{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#e9c893;letter-spacing:.13em;font-size:11px;font-weight:850}
+.featureEyebrow{font-size:11px;color:#eacda0;font-weight:770;letter-spacing:.1em}
+.featuredGuide h3{font-size:clamp(29px,3.7vw,53px);line-height:1.22;font-weight:780;color:#fff;margin:15px 0!important;text-wrap:balance}
+.featuredGuide p{font-size:13px;line-height:1.95;color:#cedbd5;max-width:480px;margin:0}
+.featureCta{display:inline-flex;align-items:center;gap:13px;font-weight:830;font-size:12px;color:#f7e4c3}
+.indexGuides{display:flex;flex-direction:column;padding:30px 25px 24px;min-width:0;max-height:625px;overflow-y:auto;scrollbar-width:thin}
+.indexGuidesHeader{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:850;color:#a1845e;border-bottom:2px solid #31585a;padding-bottom:19px;gap:10px}
+.indexGuides>a{display:grid;grid-template-columns:27px minmax(0,1fr) 17px;gap:15px;align-items:center;min-height:82px;padding:15px 4px;border-bottom:1px solid #d9e1d8;color:#1b4445;text-decoration:none}
+.indexGuides>a:hover{background:#eff4ee}
+.indexGuides>a>span{font-size:11px;color:#a88b65;font-weight:780}
+.indexGuides>a>strong{font-size:14px;line-height:1.65;font-weight:770}
+.indexGuides svg{color:#ac906d}
+.translationNotice{font-size:11px;color:#768780;line-height:1.8;margin:13px 0 0}
+/* One connected typographic timeline — deliberately not 3 detached cards */
+.process{padding:85px 0 91px;border-top:1px solid #cbd5cc}
+.processIntro{display:grid;grid-template-columns:minmax(0,.25fr) minmax(0,1fr);align-items:end;gap:30px;margin-bottom:39px}
+.processIntro h2{font-size:clamp(35px,4vw,57px);font-weight:780;line-height:1.23;max-width:820px;margin:0!important}
+.timeline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;list-style:none;margin:0;padding:0;border-top:1px solid #c7d4ca;counter-reset:step}
+.timeline li{padding:30px 31px 0;border-inline-end:1px solid #c7d4ca;position:relative}
+.timeline li:first-child{padding-inline-start:0}
+.timeline li:last-child{padding-inline-end:0;border:0}
+.timeline li::before{content:"";width:10px;height:10px;border-radius:50%;background:#ad8d63;position:absolute;top:-5px;inset-inline-start:0}
+.stepNumber{color:#a3845a;font-size:22px;font-family:Georgia,serif;font-weight:800}
+.timeline h3{color:#1a4244;font-size:clamp(17px,1.8vw,26px);line-height:1.45;margin:12px 0!important;font-weight:760}
+.timeline p{font-size:12px;color:#647c73;line-height:1.95;max-width:325px;margin:0}
+/* Reading-room disclosures use native HTML details; no faux "accordion" state */
+.questions{display:grid;grid-template-columns:minmax(0,.6fr) minmax(0,1fr);gap:clamp(36px,7vw,110px);padding:92px 0 110px;border-top:1px solid #cbd5cc}
+.questionHeading h2{font-size:clamp(34px,4vw,61px);line-height:1.24;font-weight:780;margin:12px 0 20px!important}
+.questionHeading>p{display:flex;gap:11px;align-items:flex-start;font-size:13px;color:#56716a;line-height:1.9;max-width:390px}
+.questionHeading>p svg{flex:none;color:#b38e61;margin-top:5px}
+.disclosures{border-top:2px solid #285358}
+.disclosures details{border-bottom:1px solid #d0dcd2}
+.disclosures summary{cursor:pointer;list-style:none;min-height:92px;display:grid;grid-template-columns:27px minmax(0,1fr) 24px;gap:13px;padding:26px 2px;align-items:start;color:#23494b}
+.disclosures summary::-webkit-details-marker{display:none}
+.disclosures summary>span:first-child{font-size:11px;color:#ac8e66;font-weight:850;margin-top:4px}
+.disclosures summary strong{font-weight:760;line-height:1.6;font-size:clamp(14px,1.6vw,20px)}
+.plus{font-size:22px;font-weight:450;color:#9a805e;transition:transform .2s}
+.disclosures details[open] .plus{transform:rotate(45deg)}
+.disclosures details p{font-size:12px;line-height:1.95;color:#647b71;margin:0 27px 23px 40px}
+.lastLink{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:830;color:#1c595a!important;padding:22px 2px;min-height:45px}
+@media(max-width:900px){
+ .archiveIntro{grid-template-columns:1fr 1fr}
+ .archiveIntro>.overline{grid-column:1/-1}
+ .archiveBody{grid-template-columns:1fr 1fr}
+ .featuredGuide{padding:29px}
+ .featuredGuide h3{font-size:30px}
+ .indexGuides{padding:18px}
+ .indexGuides>a{min-height:70px}
+ .questions{grid-template-columns:1fr .98fr;gap:32px}
+}
+@media(max-width:767px){
+ .archive{padding:58px 0 67px}
+ .archiveIntro{display:block;margin-bottom:22px}
+ .archiveIntro h2{font-size:clamp(31px,8.5vw,41px);margin:10px 0!important}
+ .archiveIntro>p{font-size:11px}
+ .archiveBody{display:flex;flex-direction:column;min-height:0}
+ .featuredGuide{min-height:320px;padding:25px 21px}
+ .featuredGuide h3{font-size:30px}
+ .featuredGuide p{font-size:11px}
+ .indexGuides{max-height:385px;padding:16px 14px}
+ .indexGuides>a{min-height:64px;padding:11px 2px;gap:8px;grid-template-columns:21px minmax(0,1fr) 15px}
+ .indexGuides>a>strong{font-size:12px}
+ .translationNotice{font-size:10px}
+ .process{padding:54px 0 61px}
+ .processIntro{display:block;margin-bottom:27px}
+ .processIntro h2{font-size:clamp(31px,8vw,39px);margin:10px 0!important}
+ .timeline{display:flex;flex-direction:column;border-top:0;border-inline-start:1px solid #c7d4ca;margin-inline-start:6px}
+ .timeline li,.timeline li:first-child,.timeline li:last-child{padding:5px 0 27px 22px;border:0}
+ .root[dir=rtl] .timeline li,.root[dir=rtl] .timeline li:first-child,.root[dir=rtl] .timeline li:last-child{padding:5px 22px 27px 0}
+ .timeline li:before{top:14px;inset-inline-start:-5px}
+ .stepNumber{font-size:16px}
+ .timeline h3{font-size:18px;margin:5px 0!important}
+ .timeline p{font-size:11px}
+ .questions{display:block;padding:55px 0 69px}
+ .questionHeading h2{font-size:34px}
+ .questionHeading>p{font-size:11px;margin-bottom:20px}
+ .disclosures summary{min-height:71px;padding:19px 2px;grid-template-columns:23px minmax(0,1fr) 20px;gap:9px}
+ .disclosures summary strong{font-size:13px}
+ .disclosures details p{font-size:11px;margin:0 10px 18px 30px}
+ .root[dir=rtl] .disclosures details p{margin:0 30px 18px 10px}
+}
+@media(max-width:390px){
+ .archiveIntro h2{font-size:31px}
+ .featuredGuide h3{font-size:27px}
+ .featuredGuide{min-height:300px}
+ .indexGuides{max-height:350px}
+ .timeline h3{font-size:17px}
+}
+@media(prefers-reduced-motion:reduce){.plus{transition:none!important}}

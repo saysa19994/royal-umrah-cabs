@@ -1,4 +1,5 @@
 import React from 'react';
+import './guides-editorial.css';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -107,7 +108,7 @@ export default async function GuidesIndexPage(props: GuidesPageProps) {
   ];
 
   return (
-    <div className="py-16 md:py-24 bg-bg min-h-screen">
+    <div className="duyuf-guides-index py-16 md:py-24 bg-bg min-h-screen">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* BREADCRUMB */}
         <div className="flex items-center gap-2 text-xs text-ink-muted mb-8 text-start">
@@ -194,7 +195,7 @@ export default async function GuidesIndexPage(props: GuidesPageProps) {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="duyuf-guide-categories grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {GUIDE_CATEGORIES.map((cat) => {
               const IconComp = cat.icon;
               return (
@@ -254,11 +255,11 @@ export default async function GuidesIndexPage(props: GuidesPageProps) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="duyuf-guide-reading-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {COMPREHENSIVE_GUIDES.map((guide, idx) => (
               <div
                 key={guide.slug}
-                className="bg-surface rounded-2xl p-6 border border-border shadow-xs hover:shadow-md transition-all flex flex-col justify-between group"
+                className="duyuf-guide-reading-item bg-surface rounded-2xl p-6 border border-border shadow-xs hover:shadow-md transition-all flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
@@ -271,10 +272,10 @@ export default async function GuidesIndexPage(props: GuidesPageProps) {
                     </span>
                   </div>
 
-                  <h3 className="font-display font-bold text-base md:text-lg text-ink mb-2 leading-snug group-hover:text-gold-dark transition-colors">
+                  <h3 className="duyuf-guide-reading-title font-display font-bold text-base md:text-lg text-ink mb-2 leading-snug group-hover:text-gold-dark transition-colors">
                     {idx + 1}. {guide.title[locale] || guide.title.en}
                   </h3>
-                  <p className="text-xs text-ink-muted leading-relaxed font-light mb-4 line-clamp-3">
+                  <p className="duyuf-guide-reading-summary text-xs text-ink-muted leading-relaxed font-light mb-4 line-clamp-3">
                     {guide.subtitle[locale] || guide.subtitle.en}
                   </p>
                 </div>

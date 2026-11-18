@@ -1,0 +1,67 @@
+/* Video 12 / Editorial travel library — new hierarchy, existing 12 real localized guides. */
+.duyuf-guides-index .duyuf-guide-categories{
+ display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:15px;
+}
+.duyuf-guides-index .duyuf-guide-categories>div{
+ grid-column:span 7;border-radius:6px;border-color:#dce0d9;overflow:hidden;
+ box-shadow:none;display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);
+ min-height:208px;background:#fffefa;
+}
+.duyuf-guides-index .duyuf-guide-categories>div:nth-child(4n+1),
+.duyuf-guides-index .duyuf-guide-categories>div:nth-child(4n+4){grid-column:span 5;grid-template-columns:1fr}
+.duyuf-guides-index .duyuf-guide-categories>div:nth-child(4n+1) .relative,
+.duyuf-guides-index .duyuf-guide-categories>div:nth-child(4n+4) .relative{min-height:175px}
+.duyuf-guides-index .duyuf-guide-categories>div>.relative{min-height:100%;aspect-ratio:auto}
+.duyuf-guides-index .duyuf-guide-categories>div .p-5{padding:19px}
+.duyuf-guides-index .duyuf-guide-categories>div h3{color:#1c3a40}
+.duyuf-guides-index .duyuf-guide-categories>div a{
+ width:auto;background:transparent;border:0;border-top:1px solid #e2e5de;justify-content:space-between;
+ padding:10px 0;border-radius:0;color:#31565b;
+}
+.duyuf-guides-index .duyuf-guide-reading-list{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;align-items:stretch
+}
+.duyuf-guides-index .duyuf-guide-reading-item{
+ position:relative;border-radius:3px;background:#fffefa;padding:28px 27px;min-height:235px;
+ box-shadow:none;border:1px solid #dfe3dc;transition:border-color .2s,background .2s;
+}
+.duyuf-guides-index .duyuf-guide-reading-item:hover{background:#f6f8f4;border-color:#afbbae;box-shadow:none}
+.duyuf-guides-index .duyuf-guide-reading-title{font-size:19px;line-height:1.55;color:#19363b}
+.duyuf-guides-index .duyuf-guide-reading-summary{line-height:1.85;font-size:12px;color:#667873}
+.duyuf-guides-index .duyuf-guide-reading-item:first-child{
+ grid-column:span 2;min-height:340px;padding:38px 41px;
+ background:#15343b;border-color:#15343b;color:#eef2ec;
+}
+.duyuf-guides-index .duyuf-guide-reading-item:first-child .duyuf-guide-reading-title{
+ font-size:clamp(25px,2.7vw,36px);color:#f2f4ee;line-height:1.4;max-width:680px;
+}
+.duyuf-guides-index .duyuf-guide-reading-item:first-child .duyuf-guide-reading-summary{
+ font-size:14px;color:#d0dcd6;max-width:640px;line-height:1.85;
+}
+.duyuf-guides-index .duyuf-guide-reading-item:first-child .text-ink-muted{color:#d2d5d0}
+.duyuf-guides-index .duyuf-guide-reading-item:first-child a{color:#e8ca99}
+.duyuf-guides-index .duyuf-guide-reading-item:first-child a:last-child{color:#18363b;background:#ecebe4;border-color:#ecebe4}
+.duyuf-guides-index .duyuf-guide-reading-item:first-child .border-border{border-color:rgba(255,255,255,.23)}
+.duyuf-guides-index .duyuf-guide-reading-item:nth-child(3n+5){
+ background:#f0f0e9;
+}
+.duyuf-guides-index :is(.duyuf-guide-reading-item,.duyuf-guide-categories)>* :is(a,button):focus-visible{
+ outline:3px solid #b99861;outline-offset:3px;
+}
+@media(max-width:1023px){
+ .duyuf-guides-index .duyuf-guide-reading-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .duyuf-guides-index .duyuf-guide-reading-item:first-child{grid-column:span 2}
+ .duyuf-guides-index .duyuf-guide-categories>div{grid-column:span 6!important;grid-template-columns:1fr!important}
+ .duyuf-guides-index .duyuf-guide-categories>div>.relative{min-height:205px;aspect-ratio:16/10}
+}
+@media(max-width:639px){
+ .duyuf-guides-index .duyuf-guide-categories,.duyuf-guides-index .duyuf-guide-reading-list{grid-template-columns:1fr}
+ .duyuf-guides-index .duyuf-guide-categories>div{grid-column:span 1!important;min-height:0}
+ .duyuf-guides-index .duyuf-guide-categories>div>.relative{min-height:165px}
+ .duyuf-guides-index .duyuf-guide-reading-item:first-child{grid-column:span 1;min-height:0;padding:26px 23px}
+ .duyuf-guides-index .duyuf-guide-reading-item:first-child .duyuf-guide-reading-title{font-size:23px}
+ .duyuf-guides-index .duyuf-guide-reading-item{min-height:0;padding:23px}
+}
+@media(prefers-reduced-motion:reduce){
+ .duyuf-guides-index .duyuf-guide-reading-item{transition:none}
+}

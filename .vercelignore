@@ -7,6 +7,6 @@ blueprint-reference/
 design-concepts/
 homepage-design-reference/
 research/
-*.png
+# Public PNG icons and vehicle imagery must remain deployable.
 *.zip
 edge_screenshot.png

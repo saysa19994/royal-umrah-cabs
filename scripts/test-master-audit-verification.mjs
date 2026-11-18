@@ -5,7 +5,7 @@ import path from 'node:path';
 
 const ROOT = process.cwd();
 const LOCALES = ['ar', 'en', 'ms', 'id', 'ur', 'fr', 'es', 'de', 'tr', 'hi'];
-const readRepoFile = (relPath) => fs.readFileSync(path.join(ROOT, relPath), 'utf8');
+const readRepoFile = (relPath) => fs.readFileSync(path.join(ROOT, relPath), 'utf8').replace(/\r\n/g, '\n');
 
 test('1. Global Theme System: Light & Dark Mode tokens, no circular CSS variables, 10-locale ThemeToggle', () => {
   const globalsCss = readRepoFile('src/app/globals.css');
@@ -88,10 +88,11 @@ test('8. Global Footer & Services Page Redesign: 10-locale selector, real photog
   assert.ok(footer.includes('LOCALIZED_ROUTE_NAMES'), 'Footer must localize popular route links');
 
   const services = readRepoFile('src/app/[locale]/services/page.tsx');
-  assert.ok(services.includes('<Image'), 'Services page must display real photography for each service');
-  assert.ok(services.includes('locationsLabel'), 'Services page must display relevant locations for each service');
-  assert.ok(services.includes('availabilityLabel'), 'Services page must display 24/7 availability badge');
-  assert.ok(services.includes('relatedRoutesLabel'), 'Services page must display related route links');
+  const explorer = readRepoFile('src/components/services/ServiceChapterExplorer.tsx');
+  assert.ok(services.includes('<Image') && explorer.includes('src={service.image}'), 'Service page & selected chapter must display real photo assets');
+  assert.ok(services.includes('servicesList.map(({icon,...data})=>data)') && explorer.includes('service.locations'), 'Selected service must show its actual coverage from the source data');
+  assert.ok(explorer.includes('styles.availability') && explorer.includes('24/7'), 'Selected service must show the 24/7 availability badge');
+  assert.ok(explorer.includes('service.relatedRoutes.map'), 'Selected service must show real related-route links');
 });
 
 test('9. Ziyarat & Routes Integrity: Authoritative Ziyarat fares, verified capacities, zero bank transfer or complimentary Zamzam claims', () => {

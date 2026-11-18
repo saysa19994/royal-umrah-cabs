@@ -40,7 +40,7 @@ export async function generateMetadata(
     authors: [{ name: 'Duyuf Alrahman VIP Chauffeur Team' }],
     creator: 'Duyuf Alrahman VIP',
     publisher: 'Duyuf Alrahman VIP',
-    robots: {
+    robots: process.env.VERCEL_ENV === 'preview' ? {index: false, follow: false, noarchive: true} : {
       index: true,
       follow: true,
       googleBot: {
@@ -145,6 +145,7 @@ export default async function LocaleLayout(props: LocaleLayoutProps) {
               (function() {
                 try {
                   var saved = localStorage.getItem('duyuf_theme_preference');
+                  document.documentElement.dataset.comfortMode = localStorage.getItem('duyuf_comfort_mode') === 'on' ? 'on' : 'off';
                   var theme = (saved === 'dark' || saved === 'light') ? saved : 'light';
                   document.documentElement.setAttribute('data-theme', theme);
                   if (theme === 'dark') {

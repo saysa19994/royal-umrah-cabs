@@ -182,21 +182,24 @@ export async function POST(req: NextRequest) {
 
       if (fallbackError) {
         console.warn('Legacy review insert error (pending migration 004 execution in Supabase Dashboard):', fallbackError.message);
-        // Seamless fallback: Acknowledge submission to pilgrim with 201 so front-end UX never displays a jarring error.
-        // Once the owner applies migration 004 in Supabase SQL Editor, future inserts persist with full columns.
+        // Never claim success when Supabase did not persist the review.
+        // Clients can retry safely after the schema/service issue is resolved.
         return NextResponse.json(
           {
-            success: true,
-            message: 'Your review has been submitted successfully and will be published upon moderation.',
-            status: 'pending_moderation',
+            success: false,
+            error: 'The review could not be saved. Please try again later.',
           },
-          { status: 201 }
+          { status: 503 }
         );
       }
 
       insertedId = fallbackData?.id;
     } else {
       insertedId = insertedData?.id;
+    }
+
+    if (!insertedId) {
+      return NextResponse.json({ success: false, error: 'Could not verify that the review was saved.' }, { status: 503 });
     }
 
     return NextResponse.json(

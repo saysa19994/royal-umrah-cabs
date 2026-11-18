@@ -1,0 +1,132 @@
+{
+  "liveProductionId": "dpl_98mGY3gCvJUkUCdjkSDXzwG8KdD3",
+  "verifiedCandidates": [
+    {
+      "id": "dpl_2rfGZuykSMxgqHiUUAWJQaKELFuW",
+      "url": "royal-umrah-cabs-6ymzng3dp-sayed6.vercel.app",
+      "exists": true,
+      "belongsToProject": true,
+      "projectName": "royal-umrah-cabs",
+      "target": "production",
+      "state": "ERROR",
+      "branch": "feat/luxury-command-center-v2",
+      "commitSha": "20aa7222dd558da9fb15c761de270076d3e8a2be",
+      "isLiveProd": false,
+      "hasDomainAlias": false,
+      "aliases": [
+        "royal-umrah-cabs-sayed6.vercel.app"
+      ],
+      "cacheSizeBytes": 0,
+      "created": "2026-10-30T14:29:55.146Z"
+    },
+    {
+      "id": "dpl_R2kwhKeeRCcqZQMLvKGsTgxQSo2K",
+      "url": "royal-umrah-cabs-m2cil7vt8-sayed6.vercel.app",
+      "exists": true,
+      "belongsToProject": true,
+      "projectName": "royal-umrah-cabs",
+      "target": "production",
+      "state": "ERROR",
+      "branch": "feat/luxury-command-center-v2",
+      "commitSha": "ac0404141600d23322e1146ce28e7fb7b5fad5d3",
+      "isLiveProd": false,
+      "hasDomainAlias": false,
+      "aliases": [
+        "royal-umrah-cabs-sayed6.vercel.app"
+      ],
+      "cacheSizeBytes": 0,
+      "created": "2026-10-30T01:41:18.766Z"
+    },
+    {
+      "id": "dpl_E9jjADVan9gNEdt9kSfGKEEgjXCf",
+      "url": "royal-umrah-cabs-ovtegcxrk-sayed6.vercel.app",
+      "exists": true,
+      "belongsToProject": true,
+      "projectName": "royal-umrah-cabs",
+      "target": null,
+      "state": "READY",
+      "branch": "master",
+      "commitSha": "3801060a221d7c6ad0a33d96e34079918d3eb6a4",
+      "isLiveProd": false,
+      "hasDomainAlias": false,
+      "aliases": [
+        "royal-umrah-cabs-git-master-sayed6.vercel.app"
+      ],
+      "cacheSizeBytes": 209731584,
+      "created": "2026-10-30T01:15:54.230Z"
+    },
+    {
+      "id": "dpl_B93ug4aYVu2jBZ6Bj4nnA7uxyN1N",
+      "url": "royal-umrah-cabs-5ce2j8l59-sayed6.vercel.app",
+      "exists": true,
+      "belongsToProject": true,
+      "projectName": "royal-umrah-cabs",
+      "target": null,
+      "state": "READY",
+      "branch": "master",
+      "commitSha": "8d4dceb5cf11053dba398dae5a1afa5af9dbbd85",
+      "isLiveProd": false,
+      "hasDomainAlias": false,
+      "aliases": [
+        "royal-umrah-cabs-git-master-sayed6.vercel.app"
+      ],
+      "cacheSizeBytes": 205459456,
+      "created": "2026-10-30T00:14:49.676Z"
+    },
+    {
+      "id": "dpl_7hQGeivJSD7G1TDvrcEGmDhcxQiV",
+      "url": "royal-umrah-cabs-784um7f7y-sayed6.vercel.app",
+      "exists": true,
+      "belongsToProject": true,
+      "projectName": "royal-umrah-cabs",
+      "target": null,
+      "state": "READY",
+      "branch": "master",
+      "commitSha": "a41fa6315afedcea375d1a0310a06bdaff17021f",
+      "isLiveProd": false,
+      "hasDomainAlias": false,
+      "aliases": [
+        "royal-umrah-cabs-git-master-sayed6.vercel.app"
+      ],
+      "cacheSizeBytes": 200454144,
+      "created": "2026-10-29T23:14:41.406Z"
+    },
+    {
+      "id": "dpl_DnaWWBZKwpHgLvxALYRdZiYPL6Qi",
+      "url": "royal-umrah-cabs-exq9n0ixf-sayed6.vercel.app",
+      "exists": true,
+      "belongsToProject": true,
+      "projectName": "royal-umrah-cabs",
+      "target": null,
+      "state": "READY",
+      "branch": "master",
+      "commitSha": "b97d520fc7114a5ca66dfd237dae9a371d9b9003",
+      "isLiveProd": false,
+      "hasDomainAlias": false,
+      "aliases": [
+        "royal-umrah-cabs-git-master-sayed6.vercel.app"
+      ],
+      "cacheSizeBytes": 200716288,
+      "created": "2026-10-29T23:00:09.118Z"
+    },
+    {
+      "id": "dpl_8mGyj2cdtzRb73WnRnAB6jgB29BH",
+      "url": "royal-umrah-cabs-32hl4cx0n-sayed6.vercel.app",
+      "exists": true,
+      "belongsToProject": true,
+      "projectName": "royal-umrah-cabs",
+      "target": null,
+      "state": "READY",
+      "branch": "feat/admin-db-wiring-and-10-languages",
+      "commitSha": "b97d520fc7114a5ca66dfd237dae9a371d9b9003",
+      "isLiveProd": false,
+      "hasDomainAlias": false,
+      "aliases": [
+        "royal-umrah-cabs-git-feat-admin-db-wiring-and-10-0550b0-sayed6.vercel.app"
+      ],
+      "cacheSizeBytes": 199663616,
+      "created": "2026-10-29T22:59:35.199Z"
+    }
+  ],
+  "timestamp": "2026-10-30T17:54:47.774Z"
+}

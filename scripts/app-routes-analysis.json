@@ -1,0 +1,1586 @@
+[
+  {
+    "file": "admin\\account\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\audit-log\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\blog\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\bookings\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\chat\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "admin\\cms\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\drivers\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\faqs\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\fleet\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\layout.tsx",
+    "explicitRevalidate": "0",
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "admin\\leads\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\login\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\media\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\pricing\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\reviews\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\roles\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "admin\\routes\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\settings\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "admin\\users\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "admin\\whatsapp\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\account\\email\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\account\\password\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "api\\admin\\account\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\account\\sessions\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\audit-log\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\auth\\login\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\auth\\logout\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\auth\\setup-2fa\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\auth\\verify-2fa\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\blog\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\bookings\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\chat\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "api\\admin\\cms\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": true,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\drivers\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\email\\test\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "api\\admin\\faqs\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\fleet\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": true,
+    "hasRevalidateTag": true,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\leads\\convert\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\leads\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\media\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": true,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\media\\upload\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\ownership\\transfer\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\pricing\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": true,
+    "hasRevalidateTag": true,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "api\\admin\\pricing\\seasons\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\reviews\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": true,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "api\\admin\\roles\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\routes\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": true,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\settings\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": true,
+    "hasRevalidateTag": true,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "api\\admin\\sync\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": true,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "api\\admin\\users\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\admin\\whatsapp\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": true,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\bookings\\cancel\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "api\\bookings\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\bookings\\track\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\chat\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": true,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "api\\leads\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\reviews\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "api\\webhooks\\whatsapp\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "layout.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "sitemap.xml\\route.ts",
+    "explicitRevalidate": null,
+    "dynamic": "'force-dynamic'",
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\about\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\blog\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": true,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\blog\\[slug]\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": true,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": true,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\booking\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": true,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "[locale]\\cancellation\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\contact\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "[locale]\\cookies\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\faq\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": true,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "[locale]\\fleet\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": true,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\fleet\\[slug]\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": true,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\guides\\jeddah-airport-arrival-guide\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\guides\\makkah-to-madinah-transport-comparison\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\guides\\malaysia-umrah-transport\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\guides\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\guides\\[slug]\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": true,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": true,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\layout.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": true,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "[locale]\\manage-booking\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": true,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "[locale]\\partners\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "[locale]\\pilgrims\\[country]\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": true,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\pricing\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": true,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": true
+    }
+  },
+  {
+    "file": "[locale]\\privacy\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\reviews\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\routes\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\routes\\[slug]\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": true,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": true,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\safety\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\services\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\services\\riyadh\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": true,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\services\\taif\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": true,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\team\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\terms\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\track-booking\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\ziyarat\\guides\\[slug]\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": true,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\ziyarat\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": false,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\ziyarat\\tours\\[slug]\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": true,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\ziyarat\\[city]\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": true,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  },
+  {
+    "file": "[locale]\\ziyarat\\[city]\\[site]\\page.tsx",
+    "explicitRevalidate": null,
+    "dynamic": null,
+    "hasGSP": true,
+    "hasRevalidatePath": false,
+    "hasRevalidateTag": false,
+    "cacheDeps": {
+      "getDbVehiclesCached": false,
+      "getDbPricesCached": false,
+      "getPublicFaqsCached": false,
+      "getCmsPageCached": false,
+      "getFleetImagesCached": false,
+      "settings": false
+    }
+  }
+]

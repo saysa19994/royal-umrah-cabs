@@ -1,0 +1,35 @@
+/* Video 14: quiet functional micro-interactions; Video 09 intentionally uses
+   this small motion language instead of WebGL/3D battery-heavy decorative balls.
+   Transforms must not hide content or interfere with booking forms. */
+:root{--duyuf-motion-fast:180ms;--duyuf-motion-normal:260ms;--duyuf-motion-ease:cubic-bezier(.2,.7,.2,1)}
+.duyuf-services-editorial a[href*="/booking"],
+.duyuf-contact-editorial a[href*="/booking"],
+.duyuf-booking-editorial button[type=submit],
+.duyuf-pricing-page a[href*="/booking"],
+.duyuf-editorial-fleet a[href*="/booking"]{
+ transition:transform var(--duyuf-motion-fast) var(--duyuf-motion-ease),
+   box-shadow var(--duyuf-motion-normal) var(--duyuf-motion-ease),
+   background-color var(--duyuf-motion-fast) ease;
+}
+@media(hover:hover) and (pointer:fine){
+ .duyuf-services-editorial a[href*="/booking"]:hover,
+ .duyuf-contact-editorial a[href*="/booking"]:hover,
+ .duyuf-booking-editorial button[type=submit]:not(:disabled):hover,
+ .duyuf-pricing-page a[href*="/booking"]:hover,
+ .duyuf-editorial-fleet a[href*="/booking"]:hover{
+  transform:translateY(-2px);box-shadow:0 9px 22px rgba(12,45,48,.14)
+ }
+}
+:where(.duyuf-services-editorial,.duyuf-contact-editorial,.duyuf-booking-editorial,.duyuf-pricing-page,.duyuf-editorial-fleet,.duyuf-guides-index) :is(a,button,summary):focus-visible{
+ outline:3px solid var(--accent-primary,#b79461);outline-offset:3px
+}
+@media(prefers-reduced-motion:reduce){
+ :root{--duyuf-motion-fast:0ms;--duyuf-motion-normal:0ms}
+ .duyuf-services-editorial a[href*="/booking"],
+ .duyuf-contact-editorial a[href*="/booking"],
+ .duyuf-booking-editorial button[type=submit],
+ .duyuf-pricing-page a[href*="/booking"],
+ .duyuf-editorial-fleet a[href*="/booking"]{
+  transition:none!important;transform:none!important;animation:none!important
+ }
+}

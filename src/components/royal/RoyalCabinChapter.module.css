@@ -1,0 +1,44 @@
+/* The cab is deliberately a singular filmic image, not a product-card grid. */
+.chapter{display:grid;grid-template-columns:minmax(0,.83fr) minmax(0,1.17fr);min-height:550px;background:#101827;color:#F7F5F0;overflow:hidden}
+.chapter *{box-sizing:border-box}
+.copy{padding:clamp(65px,8vw,125px) clamp(24px,6vw,100px);display:flex;flex-direction:column;justify-content:center;align-items:start;min-width:0}
+.copy h2{font-family:var(--font-cormorant),serif;font-size:clamp(38px,4.5vw,73px);line-height:1.08;font-weight:600;letter-spacing:0;max-width:620px;margin:0}
+.copy h2:lang(ar){font-family:var(--font-amiri),serif;line-height:1.28}
+.copy h2:lang(ur){font-family:var(--font-urdu),serif;line-height:1.55}
+.copy h2:lang(hi){font-family:var(--font-devanagari),sans-serif;line-height:1.25}
+.copy p{margin-top:24px;font-size:14px;line-height:2;color:#cbd0d1;max-width:530px}
+.specs{margin-top:27px;display:flex;align-items:center;flex-wrap:wrap;gap:14px 24px;padding:20px 0;border-top:1px solid rgba(255,255,255,.18);border-bottom:1px solid rgba(255,255,255,.18)}
+.specs span{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:#dfddd7}
+.specs svg{color:#ddb787;flex:none}
+.copy>a{margin-top:30px;display:inline-flex;align-items:center;gap:12px;color:#f0d4a7;border-bottom:1px solid rgba(233,202,160,.7);padding-bottom:10px;font-size:13px;font-weight:820;text-decoration:none}
+.copy>a:focus-visible{outline:3px solid #d7ad73;outline-offset:4px}
+.photo{position:relative;min-height:550px;overflow:hidden;background:#243546}
+.photo img{object-fit:cover;object-position:center}
+.photo:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(10,24,39,.45))}
+.photo>span{position:absolute;bottom:27px;inset-inline-start:32px;z-index:1;color:#f8efe0;font-size:13px;font-weight:700}
+@media(max-width:800px){
+ .chapter{display:flex;flex-direction:column-reverse;min-height:0}
+ .photo{height:64vw;min-height:250px;max-height:420px}
+ .copy{padding:57px 24px 64px}
+ .copy h2{font-size:clamp(36px,7vw,54px)}
+ .copy p{font-size:12px;margin-top:16px}
+}
+@media(max-width:390px){.photo{height:66vw;min-height:210px}.copy{padding:46px 16px 56px}.copy h2{font-size:36px}.specs span{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.chapter *{transition:none!important}}
+
+
+/* 19 Nov visual QA: the cinematic interior should not dwarf adjacent chapters. */
+.chapter { min-height:0; grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr); }
+.copy { padding:clamp(36px,5vw,74px) clamp(24px,5.8vw,84px); }
+.copy h2 { font-size:clamp(2.15rem,3.35vw,3.55rem); line-height:1.19; }
+.copy p { margin-top:17px; font-size:.94rem; line-height:1.76; }
+.specs { margin-top:18px; padding:15px 0; }
+.photo { min-height:0; height:clamp(335px,32vw,450px); }
+.photo>span { font-size:.82rem; }
+@media(max-width:800px) {
+ .chapter { display:flex; flex-direction:column-reverse; }
+ .photo { min-height:0; height:auto; aspect-ratio:16/10; max-height:none; }
+ .copy { padding:32px 22px 45px; }
+ .copy h2 { font-size:clamp(1.95rem,6.5vw,2.65rem); }
+ .copy p { font-size:.93rem; }
+}

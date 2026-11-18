@@ -6,8 +6,8 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { getPublicFaqsCached } from '@/lib/faq-service';
 import { FaqSection } from '@/components/faq/FaqSection';
-import { HomepageFaqJsonLd } from '@/components/seo/JsonLd';
-import { ChevronRight, Home, HelpCircle } from 'lucide-react';
+import { FaqJsonLd } from '@/components/seo/JsonLd';
+import { ChevronRight, Home } from 'lucide-react';
 
 interface FaqPageProps {
   params: Promise<{
@@ -54,6 +54,7 @@ export default async function FaqPage(props: FaqPageProps) {
     getPublicFaqsCached(locale).catch(() => []),
   ]);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
+  const faqItems = dbFaqs.length > 0 ? dbFaqs : undefined;
 
   const breadcrumbsSchema = {
     '@context': 'https://schema.org',
@@ -62,7 +63,7 @@ export default async function FaqPage(props: FaqPageProps) {
       {
         '@type': 'ListItem',
         position: 1,
-        name: locale === 'ar' ? 'الرئيسية' : 'Home',
+        name: dict.nav.home,
         item: `${baseUrl}/${locale}`,
       },
       {
@@ -77,7 +78,7 @@ export default async function FaqPage(props: FaqPageProps) {
   return (
     <div className="min-h-screen bg-bg">
       {/* 1. FAQ Schema.org JSON-LD matching all 12 items */}
-      <HomepageFaqJsonLd dict={dict} />
+      <FaqJsonLd dict={dict} items={faqItems} />
 
       {/* 2. Breadcrumbs Schema.org JSON-LD */}
       <script
@@ -89,7 +90,7 @@ export default async function FaqPage(props: FaqPageProps) {
       <div className="bg-alabaster border-b border-border py-3">
         <div className="container mx-auto px-4 max-w-5xl">
           <nav
-            aria-label="Breadcrumb"
+            aria-label={dict.faq.heading}
             className="flex items-center gap-2 text-xs text-ink-muted"
           >
             <Link
@@ -97,7 +98,7 @@ export default async function FaqPage(props: FaqPageProps) {
               className="hover:text-gold-dark transition-colors inline-flex items-center gap-1.5"
             >
               <Home className="w-3.5 h-3.5" />
-              <span>{locale === 'ar' ? 'الرئيسية' : 'Home'}</span>
+              <span>{dict.nav.home}</span>
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-border-strong rtl:rotate-180" />
             <span className="text-ink font-medium" aria-current="page">
@@ -112,10 +113,11 @@ export default async function FaqPage(props: FaqPageProps) {
         locale={locale}
         dict={dict}
         settings={settings}
-        items={dbFaqs && dbFaqs.length > 0 ? dbFaqs : undefined}
+        items={faqItems}
         id="faq"
         className="!border-t-0"
-        showCta={true}
+        standalone
+        showCta
       />
     </div>
   );
