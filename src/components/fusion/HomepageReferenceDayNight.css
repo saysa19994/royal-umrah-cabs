@@ -1,0 +1,720 @@
+/*
+ * DUYUF AL RAHMAN VIP — The Journey / Dual-theme editorial homepage.
+ * User supplied design reference 19 Nov 2026. Pure layout & presentation.
+ * All prices, route lists, vehicle selection, form payloads and API stay live.
+ * Specific selectors intentionally outrank earlier legacy concept overrides.
+ */
+html[data-theme="light"] [data-home-design="reference-day-night"] {
+  --dj-bg:#f7f5f0;
+  --dj-panel:#ffffff;
+  --dj-card:#f1eee7;
+  --dj-field:#fcfaf6;
+  --dj-ink:#172a34;
+  --dj-muted:#4c5d65;
+  --dj-soft:#e7e1d6;
+  --dj-line:#d9d2c5;
+  --dj-gold:#9b702d;
+  --dj-gold-contrast:#fff;
+  --dj-welcome:#f0ebe3;
+  --dj-hero-shade:linear-gradient(90deg,rgba(10,22,35,.89) 0%,rgba(10,22,35,.65) 38%,rgba(10,22,35,.04) 74%);
+  --dj-shadow:0 16px 45px rgba(17,35,45,.07);
+  color-scheme:light;
+}
+html[data-theme="dark"] [data-home-design="reference-day-night"] {
+  --dj-bg:#0d1827;
+  --dj-panel:#152338;
+  --dj-card:#19293e;
+  --dj-field:#122138;
+  --dj-ink:#f6f4ed;
+  --dj-muted:#d0d8e0;
+  --dj-soft:#21334a;
+  --dj-line:#40506a;
+  --dj-gold:#e0b773;
+  --dj-gold-contrast:#122137;
+  --dj-welcome:#111b2b;
+  --dj-hero-shade:linear-gradient(90deg,rgba(7,16,29,.94) 0%,rgba(7,16,29,.7) 41%,rgba(7,16,29,.12) 80%);
+  --dj-shadow:0 17px 47px rgba(0,0,0,.16);
+  color-scheme:dark;
+}
+html[data-theme] [data-home-design="reference-day-night"] {
+  --ink:var(--dj-ink);
+  --white:var(--dj-panel);
+  --ivory:var(--dj-bg);
+  --muted:var(--dj-muted);
+  --line:var(--dj-line);
+  --bronze:var(--dj-gold);
+  --bronze-text:var(--dj-gold);
+  --gutter:max(22px,calc((100vw - 1272px)/2));
+  --headline:clamp(1.95rem,3vw,3.1rem);
+  --chapter-space:clamp(38px,5vw,72px);
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  width:100%;
+  max-width:100%;
+  overflow-x:clip;
+  background:var(--dj-bg);
+  color:var(--dj-ink);
+  font-family:var(--font-manrope),var(--font-ibm-plex-arabic),sans-serif;
+  font-size:1rem;
+}
+html[data-theme] [data-home-design] :is(h2,h3) {
+  font-family:var(--font-manrope),var(--font-ibm-plex-arabic),sans-serif!important;
+  font-size:inherit;
+  color:var(--dj-ink);
+  font-weight:750;
+  line-height:1.33;
+  letter-spacing:-.015em;
+}
+html[data-theme] [data-home-design] :is(h2) {
+  font-size:clamp(1.85rem,2.7vw,2.75rem);
+}
+html[data-theme] [data-home-design]:is([lang="ar"],[lang="ur"]) :is(h1,h2,h3) {
+  font-family:var(--font-ibm-plex-arabic),var(--font-tajawal),sans-serif!important;
+  line-height:1.43;
+  letter-spacing:0;
+}
+html[data-theme] [data-home-design] :is(p,small) {color:var(--dj-muted);line-height:1.7}
+html[data-theme] [data-home-design] :is(button,a):focus-visible {
+  outline:3px solid var(--dj-gold)!important;
+  outline-offset:4px!important;
+}
+html[data-theme] [data-home-design] :is([data-home-section]) {min-width:0;max-width:100%}
+html[data-theme] [data-home-design] [data-home-section="story"],
+html[data-theme] [data-home-design] [data-home-section="trust"],
+html[data-theme] [data-home-design] [data-home-section="services-index"],
+html[data-theme] [data-home-design] [data-home-section="ziyarat-preview"],
+html[data-theme] [data-home-design] [data-home-section="finish"],
+html[data-theme] [data-home-design] [class*="filmstrip"] {display:none!important}
+/* Semantic ordering: the same content order in both themes. */
+html[data-theme] [data-home-design] [data-home-section="hero"] {order:1}
+html[data-theme] [data-home-design] [data-home-section="booking"] {order:2}
+html[data-theme] [data-home-design] [data-home-section="steps"] {order:3}
+html[data-theme] [data-home-design] [data-home-section="fleet"] {order:4}
+html[data-theme] [data-home-design] [data-home-section="cabin"] {order:5}
+html[data-theme] [data-home-design] [data-home-section="routes"] {order:6}
+html[data-theme] [data-home-design] [data-home-section="welcome"] {order:7}
+html[data-theme] [data-home-design] [data-home-section="reviews"] {order:8}
+html[data-theme] [data-home-design] [data-home-section="faq"] {order:9}
+html[data-theme] [data-home-design] [data-home-section="promises"] {order:10}
+
+/* NAVBAR: readable in daylight and at night. Existing native toggle retained. */
+html[data-theme="dark"] header[data-royal-home="true"] {
+ background:#101b2dF7!important;
+ border-bottom:1px solid rgba(227,195,142,.25)!important;
+ color:#fff;
+}
+html[data-theme="light"] header[data-royal-home="true"] {
+ background:#f9f7f2F7!important;
+ border-bottom:1px solid #ded8cc!important;
+ color:#182a34;
+}
+html[data-theme] header[data-royal-home="true"] {backdrop-filter:blur(15px);}
+html[data-theme] header[data-royal-home="true"] nav a {font-weight:650}
+
+/* CINEMATIC ARRIVAL — hero remains the owner-approved video, never a stock replacement. */
+html[data-theme] [data-home-section="hero"] {
+ display:flex;
+ align-items:center;
+ min-height:clamp(445px,46vw,640px);
+ background:#0c1827;
+ color:#fff;
+ padding-top:66px;
+}
+html[data-theme] [data-home-section="hero"] [data-royal-hero-film] {
+ position:absolute;inset:0;
+ aspect-ratio:auto;
+ background-position:65% center;
+}
+html[data-theme] [data-home-section="hero"] [data-royal-hero-film] video {
+ object-fit:cover;object-position:65% center;
+}
+html[data-theme] [data-home-section="hero"] [data-royal-hero-film]::after {
+ background:var(--dj-hero-shade);
+}
+html[data-theme] [data-home-section="hero"] [data-home-part="hero-copy"] {
+ width:min(525px,44%);
+ max-width:none;
+ min-width:0;
+ z-index:2;
+ padding:65px 0 88px!important;
+ margin:0 auto 0 var(--gutter)!important;
+ direction:rtl;
+ text-align:start;
+}
+html[data-theme] [data-home-design][dir="ltr"] [data-home-section="hero"] [data-home-part="hero-copy"] {direction:ltr;}
+html[data-theme] [data-home-section="hero"] [data-home-part="hero-copy"] h1 {
+ color:#f7f5f0!important;
+ font-family:var(--font-manrope),var(--font-ibm-plex-arabic),sans-serif!important;
+ font-size:clamp(2.5rem,4.35vw,4.7rem)!important;
+ line-height:1.23!important;
+ font-weight:800!important;
+ max-width:12ch;
+ letter-spacing:0;
+ text-wrap:balance;
+ overflow-wrap:normal;
+ word-break:normal;
+ text-shadow:0 2px 18px rgba(0,0,0,.35);
+}
+html[data-theme] [data-home-design][dir="rtl"] [data-home-section="hero"] h1 {
+ font-size:clamp(2.35rem,3.75vw,4rem)!important;
+ line-height:1.31!important;
+}
+html[data-theme] [data-home-section="hero"] h1 em {display:block!important;color:#e9c588!important;}
+html[data-theme] [data-home-section="hero"] [data-home-part="hero-copy"]>p {
+ color:#f5f3ed!important;opacity:1;
+ max-width:43ch;
+ margin:18px 0 0!important;
+ font-size:clamp(.94rem,1.12vw,1.08rem);
+ line-height:1.8;
+}
+html[data-theme] [data-home-section="hero"] [data-home-part="hero-copy"]>span {
+ color:#e9c588!important;
+ margin-bottom:16px;
+ font-size:.73rem;
+}
+html[data-theme] [data-home-section="hero"] [class*="heroButtons"] {
+ margin-top:25px;
+ display:flex;align-items:center;gap:10px 16px;
+}
+html[data-theme] [data-home-section="hero"] [class*="primary"] {
+ background:#deb87b!important;color:#101b29!important;
+ padding:12px 22px;
+ min-height:50px;
+ border-radius:5px;
+ font-weight:800;
+}
+html[data-theme] [data-home-section="hero"] [class*="underLink"] {
+ color:#fff!important;border:1px solid #ffffff9e!important;
+ padding:9px 17px;
+ border-radius:5px;
+ min-height:50px;
+}
+html[data-theme] [data-home-section="hero"] [class*="filmControl"] {
+ inset-inline-end:var(--gutter);bottom:60px;
+}
+
+/* BOOKING: five native selections plus the existing real vehicles/price/checkout. */
+html[data-theme] [data-home-section="booking"] {
+ width:min(calc(100% - 44px),1272px);
+ max-width:1272px;
+ padding:19px 22px 16px!important;
+ margin:-35px auto 0!important;
+ border:1px solid var(--dj-line)!important;
+ border-radius:12px;
+ background:var(--dj-panel)!important;
+ color:var(--dj-ink);
+ box-shadow:var(--dj-shadow)!important;
+}
+html[data-theme] [data-home-section="booking"]>div:first-child {margin-bottom:14px;}
+html[data-theme] [data-home-section="booking"] h2 {
+ font-size:clamp(1.35rem,1.9vw,1.85rem)!important;
+ margin:0!important;
+}
+html[data-theme] [data-home-part="booking-fields"] {
+ display:grid!important;
+ grid-template-columns:1.32fr 1.35fr .82fr .74fr .76fr!important;
+ gap:9px;
+ background:transparent!important;
+ border:0!important;
+}
+html[data-theme] [data-home-part="booking-fields"] label {
+ background:var(--dj-field);
+ border:1px solid var(--dj-line)!important;
+ border-radius:7px;
+ padding:10px 12px!important;
+ gap:2px;
+ min-height:78px;
+ grid-column:auto;
+}
+html[data-theme] [data-home-part="booking-fields"] label>span {
+ color:var(--dj-muted)!important;
+ font-size:.76rem!important;
+ font-weight:750;
+}
+html[data-theme] [data-home-part="booking-fields"] label svg {color:var(--dj-gold)!important}
+html[data-theme] [data-home-part="booking-fields"] :is(input,select) {
+ color:var(--dj-ink)!important;
+ background:transparent!important;
+ font-size:.91rem!important;
+ font-weight:750;
+ min-height:32px!important;
+}
+html[data-theme] [data-home-part="booking-fields"] input[type=date],
+html[data-theme] [data-home-part="booking-fields"] input[type=time] {color-scheme:inherit}
+html[data-theme] [data-home-part="booking-lower"] {
+ border:0;
+ margin-top:10px;
+ padding:0!important;
+ gap:13px;
+}
+html[data-theme] [data-home-part="booking-cars"] {gap:6px}
+html[data-theme] [data-home-part="booking-cars"] button {
+ min-height:38px;
+ border-radius:5px;
+ border:1px solid var(--dj-line);
+ background:var(--dj-field);
+ color:var(--dj-ink);
+ padding:7px 10px;
+ font-size:.77rem;
+}
+html[data-theme] [data-home-part="booking-cars"] button[aria-pressed=true] {
+ background:var(--dj-gold);
+ color:var(--dj-gold-contrast);
+ border-color:var(--dj-gold);
+}
+html[data-theme] [data-home-part="booking-total"] {gap:13px}
+html[data-theme] [data-home-part="booking-total"] small {color:var(--dj-muted)!important}
+html[data-theme] [data-home-part="booking-total"] strong {color:var(--dj-gold)!important;font-size:1.25rem!important}
+html[data-theme] [data-home-part="booking-total"] button {
+ min-height:49px;
+ background:var(--dj-gold)!important;
+ color:var(--dj-gold-contrast)!important;
+ border-radius:5px;
+ font-size:.9rem;
+}
+html[data-theme] [data-home-section="booking"] [class*="bookFine"] {padding-top:8px;font-size:.74rem;color:var(--dj-muted)!important}
+html[data-theme] [data-home-section="booking"] [class*="bookFine"] svg {color:var(--dj-gold)}
+
+/* THREE STEPS — compact icons and thoughtful spacing. */
+html[data-theme] [data-home-section="steps"] {
+ padding:clamp(44px,4.7vw,66px) var(--gutter)!important;
+ background:var(--dj-bg)!important;
+ color:var(--dj-ink);
+}
+html[data-theme] [data-home-section="steps"]>div:first-child {
+ display:block!important;text-align:center;
+ max-width:1120px;margin:0 auto 20px!important;
+}
+html[data-theme] [data-home-section="steps"] h2 {
+ max-width:none;
+ color:var(--dj-ink)!important;
+ font-size:clamp(1.7rem,2.5vw,2.3rem)!important;
+}
+html[data-theme] [data-home-section="steps"]>div:first-child p {margin:7px auto 0!important;max-width:70ch;font-size:.92rem;}
+html[data-theme] [data-home-section="steps"] ol {
+ display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:24px!important;
+ margin:auto;
+ max-width:1200px;
+ border:none!important;
+}
+html[data-theme] [data-home-section="steps"] li {
+ min-width:0;padding:15px 20px 10px!important;
+ border:0!important;
+ text-align:center;
+ background:transparent!important;
+}
+html[data-theme] [data-home-section="steps"] li::before {display:none!important;}
+html[data-theme] [data-home-section="steps"] li>span {justify-content:center;display:flex;align-items:center;gap:8px;min-height:0!important}
+html[data-theme] [data-home-section="steps"] li>span b {
+ font-family:Georgia,serif;
+ font-size:clamp(2rem,3vw,3rem)!important;
+ color:var(--dj-gold)!important;
+}
+html[data-theme] [data-home-section="steps"] li>span svg {color:var(--dj-gold)!important;width:35px;height:35px;}
+html[data-theme] [data-home-section="steps"] li small {display:none}
+html[data-theme] [data-home-section="steps"] li h3 {font-size:clamp(1.02rem,1.4vw,1.25rem)!important;margin:9px 0!important;}
+html[data-theme] [data-home-section="steps"] li p {color:var(--dj-muted)!important;font-size:.84rem;max-width:33ch;margin-inline:auto!important}
+
+/* FLEET — one elegant selected car, copy beside it, compact selector underneath. */
+html[data-theme] [data-home-section="fleet"] {
+ padding:clamp(42px,4.5vw,68px) var(--gutter)!important;
+ background:var(--dj-bg)!important;
+}
+html[data-theme] [data-home-section="fleet"] [class*="showroomHeading"] {
+ margin-bottom:18px!important;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+html[data-theme] [data-home-section="fleet"] [class*="showroomHeading"] a {color:var(--dj-gold)!important;}
+html[data-theme] [data-home-part="fleet-layout"] {
+ display:grid!important;
+ grid-template-columns:minmax(0,.93fr) minmax(0,1.1fr)!important;
+ grid-template-rows:minmax(290px,auto) auto!important;
+ gap:12px;
+ padding:0;
+ border:0!important;
+ background:transparent!important;
+ box-shadow:none!important;
+}
+html[data-theme] [data-home-part="fleet-copy"] {
+ grid-column:1;grid-row:1;
+ display:flex;
+ justify-content:center;
+ align-items:flex-start;
+ background:var(--dj-card)!important;
+ color:var(--dj-ink)!important;
+ border:1px solid var(--dj-line);
+ border-radius:12px;
+ padding:clamp(22px,2.5vw,34px)!important;
+ gap:11px;
+}
+html[data-theme] [data-home-design][dir=rtl] [data-home-part="fleet-copy"] {grid-column:2}
+html[data-theme] [data-home-part="fleet-copy"] h3 {font-size:clamp(1.6rem,2vw,2rem)!important}
+html[data-theme] [data-home-part="fleet-copy"] p {color:var(--dj-muted)!important;line-height:1.75;}
+html[data-theme] [data-home-part="fleet-copy"] [class*="carFare"] strong {color:var(--dj-gold)!important;font-size:1.5rem;}
+html[data-theme] [data-home-part="fleet-copy"] :is([class*="carChoose"]) {
+ background:var(--dj-gold)!important;
+ color:var(--dj-gold-contrast)!important;
+ min-height:48px;
+ border-radius:5px;
+}
+html[data-theme] [data-home-part="fleet-copy"] :is([class*="detailLink"]) {color:var(--dj-muted)!important}
+html[data-theme] [data-home-part="fleet-copy"] [class*="statLine"] {border-color:var(--dj-line)!important}
+html[data-theme] [data-home-part="fleet-photo"] {
+ grid-column:2;grid-row:1;
+ width:100%;min-height:290px!important;max-height:420px;
+ aspect-ratio:auto!important;
+ border-radius:12px;
+ background:var(--dj-card)!important;
+ border:1px solid var(--dj-line);
+ overflow:hidden;
+}
+html[data-theme] [data-home-design][dir=rtl] [data-home-part="fleet-photo"] {grid-column:1}
+html[data-theme] [data-home-part="fleet-photo"] img {object-fit:contain!important;}
+html[data-theme] [data-home-part="fleet-selector"] {
+ grid-column:1/-1!important;grid-row:2!important;
+ display:grid!important;
+ grid-template-columns:repeat(5,minmax(0,1fr))!important;
+ grid-auto-flow:row!important;
+ gap:8px!important;
+ background:transparent!important;
+ border:0;
+ overflow-x:visible!important;
+}
+html[data-theme] [data-home-part="fleet-selector"] button {
+ min-height:68px!important;
+ border:1px solid var(--dj-line)!important;
+ border-radius:8px;
+ background:var(--dj-panel)!important;
+ color:var(--dj-ink)!important;
+ padding:7px!important;
+ gap:2px!important;
+}
+html[data-theme] [data-home-part="fleet-selector"] button[aria-pressed=true] {
+ border:2px solid var(--dj-gold)!important;
+ background:var(--dj-card)!important;
+ color:var(--dj-ink)!important;
+}
+html[data-theme] [data-home-part="fleet-selector"] [class*="fleetThumb"] {height:38px;width:100%;max-width:100px}
+html[data-theme] [data-home-part="fleet-selector"] strong {font-size:.73rem;}
+
+/* CABIN — side-by-side comfort chapter, measured photograph. */
+html[data-theme] [data-home-section="cabin"] {
+ min-height:0!important;
+ display:grid;
+ grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ background:var(--dj-panel)!important;
+ color:var(--dj-ink)!important;
+ border-block:1px solid var(--dj-line);
+}
+html[data-theme] [data-home-section="cabin"]>div:first-child {padding:clamp(28px,4vw,62px) clamp(24px,5vw,78px)!important}
+html[data-theme] [data-home-section="cabin"] h2 {
+ color:var(--dj-ink)!important;
+ font-size:clamp(1.8rem,2.7vw,2.8rem)!important;
+}
+html[data-theme] [data-home-section="cabin"] p {color:var(--dj-muted)!important}
+html[data-theme] [data-home-section="cabin"] [class*="specs"] {border-color:var(--dj-line)!important}
+html[data-theme] [data-home-section="cabin"] [class*="specs"] span {color:var(--dj-ink)!important}
+html[data-theme] [data-home-section="cabin"] a {color:var(--dj-gold)!important}
+html[data-theme] [data-home-section="cabin"] [data-royal-image] {
+ height:clamp(300px,32vw,420px)!important;
+ min-height:0!important;
+ max-height:420px;
+}
+html[data-theme] [data-home-section="cabin"] [data-royal-image] img {object-fit:cover}
+
+/* ROUTE ATLAS — equal-height 4 cards. Selecting one still changes the live price. */
+html[data-theme] [data-home-section="routes"] {
+ background:var(--dj-bg)!important;
+ color:var(--dj-ink)!important;
+ padding:clamp(45px,5vw,76px) var(--gutter)!important;
+}
+html[data-theme] [data-home-section="routes"] [class*="routesHead"] {
+ text-align:center;
+ display:block!important;
+ margin-bottom:28px!important;
+}
+html[data-theme] [data-home-section="routes"] [class*="routesHead"] p {
+ margin:8px auto 0!important;
+ max-width:70ch;
+}
+html[data-theme] [data-home-part="route-gallery"] {
+ display:grid!important;
+ grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ gap:14px!important;
+ width:100%;
+ height:auto!important;
+}
+html[data-theme] [data-home-part="route-tile"],
+html[data-theme] [data-home-part="route-tile"][aria-pressed=true] {
+ display:block!important;
+ flex:none!important;
+ min-width:0!important;
+ height:clamp(200px,23vw,285px)!important;
+ width:auto!important;
+ border:2px solid transparent!important;
+ border-radius:11px!important;
+ overflow:hidden;
+ color:white!important;
+ background:#172b3e;
+ transition:transform .2s ease,border .2s ease!important;
+}
+html[data-theme] [data-home-part="route-tile"][aria-pressed=true] {border-color:var(--dj-gold)!important}
+html[data-theme] [data-home-part="route-tile"] img {object-fit:cover!important;filter:saturate(.95);}
+html[data-theme] [data-home-part="route-tile"] [class*="curtainShade"] {
+ background:linear-gradient(180deg,rgba(10,19,29,.03) 22%,rgba(10,19,29,.88) 98%);
+}
+html[data-theme] [data-home-part="route-tile"] [class*="curtainWords"] {
+ inset-inline:15px;
+ bottom:18px;
+ display:flex;
+ gap:5px;
+}
+html[data-theme] [data-home-part="route-tile"] [class*="curtainWords"] strong {
+ font-size:clamp(1rem,1.4vw,1.2rem)!important;
+ color:#fff!important;
+ line-height:1.55;
+}
+html[data-theme] [data-home-part="route-tile"] [class*="curtainWords"] small,
+html[data-theme] [data-home-part="route-tile"] [class*="curtainActive"] {font-size:.7rem;color:#f7f0e2!important}
+html[data-theme] [data-home-part="route-summary"] {
+ border:1px solid var(--dj-line)!important;
+ border-radius:9px;
+ background:var(--dj-panel)!important;
+ margin-top:18px;
+ padding:17px 21px!important;
+ display:flex!important;
+ gap:16px;
+ justify-content:space-between;
+ align-items:center;
+}
+html[data-theme] [data-home-part="route-summary"] h3 {font-size:1.2rem!important}
+html[data-theme] [data-home-part="route-summary"] p {font-size:.78rem;}
+html[data-theme] [data-home-part="route-summary"] strong {color:var(--dj-gold)!important;font-size:1.4rem!important}
+html[data-theme] [data-home-part="route-summary"] button {
+ background:var(--dj-gold)!important;
+ color:var(--dj-gold-contrast)!important;
+ border-radius:5px;
+ min-height:49px;
+}
+html[data-theme] [data-home-section="routes"] [class*="sectionFoot"] {margin-top:10px}
+html[data-theme] [data-home-section="routes"] [class*="sectionFoot"] a {color:var(--dj-gold)!important}
+
+/* ARRIVAL SERVICE — family welcome and limousine hospitality, full-width split. */
+html[data-theme] [data-home-section="welcome"] {
+ background:var(--dj-welcome)!important;
+ color:var(--dj-ink)!important;
+ display:grid;
+ grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)!important;
+ min-height:0!important;
+ border-top:1px solid var(--dj-line);
+ border-bottom:1px solid var(--dj-line);
+}
+html[data-theme] [data-home-section="welcome"] [data-royal-image] {
+ min-height:0!important;
+ height:clamp(310px,34vw,470px)!important;
+}
+html[data-theme] [data-home-section="welcome"] [data-royal-image] img {object-fit:cover}
+html[data-theme] [data-home-section="welcome"]>div:last-child {
+ align-self:center;
+ padding:clamp(29px,4.5vw,62px)!important;
+}
+html[data-theme] [data-home-section="welcome"] h2 {
+ color:var(--dj-ink)!important;
+ font-size:clamp(2rem,3vw,3rem)!important;
+}
+html[data-theme] [data-home-section="welcome"] p,
+html[data-theme] [data-home-section="welcome"] li {color:var(--dj-muted)!important}
+html[data-theme] [data-home-section="welcome"] li svg {color:var(--dj-gold)!important}
+html[data-theme] [data-home-section="welcome"] a {
+ display:inline-flex;
+ background:var(--dj-gold)!important;
+ color:var(--dj-gold-contrast)!important;
+ border:0!important;
+ padding:12px 22px;
+ min-height:48px;
+ border-radius:5px;
+ font-size:.9rem;
+ font-weight:750;
+}
+
+/* FAQ & REAL REVIEWS — no fabricated stars/review cards. */
+html[data-theme] [data-home-section="reviews"],
+html[data-theme] [data-home-section="faq"] {
+ padding:clamp(40px,4.2vw,67px) var(--gutter)!important;
+ background:var(--dj-bg)!important;
+ color:var(--dj-ink)!important;
+ display:grid;
+ grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr)!important;
+ gap:clamp(20px,3vw,45px)!important;
+}
+html[data-theme] [data-home-section="reviews"] {border-top:1px solid var(--dj-line)}
+html[data-theme] [data-home-section="reviews"] h2,
+html[data-theme] [data-home-section="faq"] h2 {font-size:clamp(1.75rem,2.35vw,2.35rem)!important}
+html[data-theme] [data-home-section="reviews"] [class*="reviewQuote"] {
+ padding:24px;
+ border:1px solid var(--dj-line);
+ border-radius:9px;
+ background:var(--dj-card)!important;
+}
+html[data-theme] [data-home-section="reviews"] blockquote {color:var(--dj-ink)!important;font-size:clamp(1.15rem,1.6vw,1.6rem)!important}
+html[data-theme] [data-home-section="reviews"] [class*="reviewSource"] strong {color:var(--dj-ink)!important}
+html[data-theme] [data-home-section="reviews"] [class*="reviewEmpty"] {color:var(--dj-muted)!important}
+html[data-theme] [data-home-section="reviews"] a {color:var(--dj-gold)!important}
+html[data-theme] [data-home-section="faq"] {padding-top:20px!important}
+html[data-theme] [data-home-section="faq"] [class*="faqList"],
+html[data-theme] [data-home-section="faq"] [class*="faqItem"] {border-color:var(--dj-line)!important}
+html[data-theme] [data-home-section="faq"] button {color:var(--dj-ink)!important;min-height:60px;}
+html[data-theme] [data-home-section="faq"] [class*="faqAnswer"] p {color:var(--dj-muted)!important}
+html[data-theme] [data-home-section="faq"] a {color:var(--dj-gold)!important}
+
+/* LAST TRUST STRIP — compact and spacious. */
+html[data-theme] [data-home-section="promises"] {
+ background:var(--dj-panel)!important;
+ border-top:1px solid var(--dj-line);
+ border-bottom:1px solid var(--dj-line);
+ padding:21px var(--gutter)!important;
+ display:flex;
+ flex-wrap:wrap;
+ align-items:center;
+ justify-content:center;
+ gap:16px 35px;
+}
+html[data-theme] [data-home-section="promises"] [class*="promiseHead"] {display:none}
+html[data-theme] [data-home-section="promises"] [class*="promiseList"] {
+ display:flex!important;
+ flex-wrap:wrap;
+ justify-content:space-evenly;
+ gap:14px;
+ border:0;
+ width:100%;
+}
+html[data-theme] [data-home-section="promises"] [class*="promiseList"] li {
+ border:0;
+ min-height:40px;
+ padding:7px;
+ color:var(--dj-ink)!important;
+ font-size:.85rem;
+}
+html[data-theme] [data-home-section="promises"] svg {color:var(--dj-gold)!important}
+
+/* Tablet and mobile — independent proportions and no horizontal scrolling. */
+@media(max-width:1024px) {
+ html[data-theme] [data-home-design] {--gutter:clamp(20px,3vw,34px)}
+ html[data-theme] [data-home-part="booking-fields"] {grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ html[data-theme] [data-home-part="booking-fields"] label {min-width:0;grid-column:auto!important}
+ html[data-theme] [data-home-part="booking-lower"] {flex-wrap:wrap}
+ html[data-theme] [data-home-part="fleet-layout"] {grid-template-columns:1fr 1.04fr!important}
+ html[data-theme] [data-home-part="route-gallery"] {grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ html[data-theme] [data-home-part="route-tile"] {height:255px!important}
+}
+@media(max-width:760px) {
+ html[data-theme] [data-home-design] {--gutter:18px;--chapter-space:44px}
+ html[data-theme] [data-home-section="hero"] {
+  display:block;
+  min-height:0;
+  padding-top:65px;
+ }
+ html[data-theme] [data-home-section="hero"] [data-royal-hero-film] {
+  position:relative;
+  display:block;
+  width:100%;
+  aspect-ratio:16/10;
+  min-height:0;
+ }
+ html[data-theme] [data-home-section="hero"] [data-royal-hero-film] video {height:100%;}
+ html[data-theme] [data-home-section="hero"] [data-royal-hero-film]::after {
+  background:linear-gradient(180deg,rgba(11,22,36,.14),rgba(11,22,36,.4));
+ }
+ html[data-theme] [data-home-section="hero"] [data-home-part="hero-copy"] {
+  margin:0!important;
+  padding:22px 21px 73px!important;
+  width:100%;
+  max-width:100%;
+  background:#101b2d;
+ }
+ html[data-theme] [data-home-section="hero"] [data-home-part="hero-copy"] h1,
+ html[data-theme] [data-home-design][dir="rtl"] [data-home-section="hero"] h1 {
+  font-size:clamp(1.98rem,7.35vw,3rem)!important;
+  line-height:1.35!important;
+  max-width:20ch;
+ }
+ html[data-theme] [data-home-section="hero"] [data-home-part="hero-copy"] p {font-size:.94rem;}
+ html[data-theme] [data-home-section="hero"] [class*="heroButtons"] {flex-wrap:wrap}
+ html[data-theme] [data-home-section="booking"] {
+  width:calc(100% - 28px);
+  margin:-41px auto 0!important;
+  padding:17px 15px!important;
+ }
+ html[data-theme] [data-home-part="booking-fields"] {grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ html[data-theme] [data-home-part="booking-fields"] label {min-height:75px}
+ html[data-theme] [data-home-part="booking-fields"] label:nth-child(-n+2) {grid-column:1/-1!important}
+ html[data-theme] [data-home-part="booking-fields"] label:last-child {grid-column:1/-1!important}
+ html[data-theme] [data-home-part="booking-lower"],
+ html[data-theme] [data-home-part="booking-total"] {flex-direction:column;align-items:stretch;}
+ html[data-theme] [data-home-part="booking-total"] button {width:100%;max-width:none;}
+ html[data-theme] [data-home-section="steps"] {padding:40px 18px!important}
+ html[data-theme] [data-home-section="steps"] ol {grid-template-columns:1fr!important;gap:4px!important;}
+ html[data-theme] [data-home-section="steps"] li {
+  display:grid!important;
+  grid-template-columns:74px minmax(0,1fr);
+  align-items:center;text-align:start!important;
+  gap:2px 14px;
+  padding:15px 4px!important;
+  border-bottom:1px solid var(--dj-line)!important;
+ }
+ html[data-theme] [data-home-section="steps"] li>span {grid-row:1/3;align-items:center;gap:3px;}
+ html[data-theme] [data-home-section="steps"] li>span b {font-size:2rem!important}
+ html[data-theme] [data-home-section="steps"] li>span svg {width:24px;height:24px;}
+ html[data-theme] [data-home-section="steps"] li h3 {font-size:1.05rem!important;margin:0!important}
+ html[data-theme] [data-home-section="steps"] li p {margin:0!important;font-size:.86rem;}
+ html[data-theme] [data-home-section="fleet"] {padding:43px 18px!important}
+ html[data-theme] [data-home-part="fleet-layout"] {grid-template-columns:1fr!important;grid-template-rows:auto auto auto!important}
+ html[data-theme] [data-home-part="fleet-photo"],
+ html[data-theme] [data-home-design][dir="rtl"] [data-home-part="fleet-photo"] {
+  grid-column:1!important;grid-row:1!important;
+  height:auto;aspect-ratio:16/10!important;min-height:0!important
+ }
+ html[data-theme] [data-home-part="fleet-copy"],
+ html[data-theme] [data-home-design][dir="rtl"] [data-home-part="fleet-copy"] {
+  grid-column:1!important;grid-row:2!important;
+  min-height:0;
+ }
+ html[data-theme] [data-home-part="fleet-selector"] {grid-column:1!important;grid-row:3!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ html[data-theme] [data-home-section="cabin"] {display:flex!important;flex-direction:column-reverse;gap:0}
+ html[data-theme] [data-home-section="cabin"] [data-royal-image] {height:auto!important;aspect-ratio:16/10;max-height:none}
+ html[data-theme] [data-home-section="cabin"]>div:first-child {padding:30px 21px!important}
+ html[data-theme] [data-home-section="routes"] {padding:46px 18px!important}
+ html[data-theme] [data-home-part="route-gallery"] {grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+ html[data-theme] [data-home-part="route-tile"] {height:210px!important}
+ html[data-theme] [data-home-part="route-summary"] {flex-wrap:wrap}
+ html[data-theme] [data-home-section="welcome"] {display:flex!important;flex-direction:column;gap:0}
+ html[data-theme] [data-home-section="welcome"] [data-royal-image] {height:auto!important;aspect-ratio:16/10}
+ html[data-theme] [data-home-section="welcome"]>div:last-child {padding:30px 21px!important}
+ html[data-theme] [data-home-section="reviews"],
+ html[data-theme] [data-home-section="faq"] {display:block!important;padding:42px 18px!important}
+ html[data-theme] [data-home-section="reviews"] [class*="reviewQuote"] {margin-top:18px;}
+ html[data-theme] [data-home-section="faq"] [class*="faqList"] {margin-top:18px}
+}
+@media(max-width:430px) {
+ html[data-theme] [data-home-design] {--gutter:15px}
+ html[data-theme] [data-home-section="hero"] [data-home-part="hero-copy"] h1 {font-size:clamp(1.88rem,7.3vw,2.25rem)!important}
+ html[data-theme] [data-home-part="booking-fields"] {grid-template-columns:1fr!important}
+ html[data-theme] [data-home-part="booking-fields"] label {grid-column:1/-1!important}
+ html[data-theme] [data-home-part="fleet-selector"] {grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ html[data-theme] [data-home-part="route-tile"] {height:180px!important}
+ html[data-theme] [data-home-part="route-tile"] [class*="curtainWords"] strong {font-size:.95rem!important}
+}
+@media(prefers-reduced-motion:reduce) {
+ html[data-theme] [data-home-design] *,
+ html[data-theme] [data-home-design] *::before,
+ html[data-theme] [data-home-design] *::after {
+  transition-duration:.01ms!important;
+  animation-duration:.01ms!important;
+  scroll-behavior:auto!important;
+ }
+}
