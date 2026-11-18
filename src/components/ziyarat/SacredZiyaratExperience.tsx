@@ -932,11 +932,9 @@ function ZiyaratSitePhoto({ site, locale }: { site: SiteItem; locale: Locale }) 
   const [failed, setFailed] = useState(false);
   const key = ZIYARAT_CARD_TO_SITE[site.id];
   const image = ZIYARAT_VISUALS[key];
-  const fallback = site.city === 'makkah'
-    ? '/assets/homepage-v2/ziyarat-haram.jpg'
-    : '/assets/homepage-v2/service-madinah.jpg';
+  // Never show the same unrelated image across all sites when a remote photo fails.
   if (!image) return null;
-  const source = failed ? fallback : image.src;
+  const source = image.src;
   const isArabic = locale === 'ar';
   return (
     <figure className="space-y-2">
@@ -945,7 +943,7 @@ function ZiyaratSitePhoto({ site, locale }: { site: SiteItem; locale: Locale }) 
         aria-label={site.name}
         className="block relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-bg-alt focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-dark group"
       >
-        <Image
+        {!failed ? <Image
           src={source}
           alt={site.name}
           fill
@@ -954,7 +952,9 @@ function ZiyaratSitePhoto({ site, locale }: { site: SiteItem; locale: Locale }) 
           sizes="(max-width: 768px) 80vw, (max-width: 1200px) 47vw, 520px"
           className="object-cover transition-transform duration-500 group-hover:scale-[1.035]"
           onError={() => setFailed(true)}
-        />
+        /> : <span className="absolute inset-0 flex items-center justify-center px-5 text-center text-white font-semibold text-base leading-relaxed bg-gradient-to-br from-[#23484d] via-[#496660] to-[#9d8258]">
+          {site.name}
+        </span>}
         <span className="absolute inset-0 bg-gradient-to-t from-[#102b32]/40 via-transparent to-transparent pointer-events-none" />
         {image.representative && <span className="absolute bottom-2 right-2 left-2 text-white text-[10px] font-semibold drop-shadow">
           {isArabic ? 'صورة توضيحية لمزارع نخيل المدينة' : 'Representative Madinah date farm photo'}
