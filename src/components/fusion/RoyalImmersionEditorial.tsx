@@ -14,7 +14,6 @@ import styles from './RoyalImmersionEditorial.module.css';
 type Props = { locale: Locale };
 type LocalizedProps = Props & { dict: Dictionary };
 const FAQ_QUESTIONS = [1, 4, 5, 6, 3, 2, 9, 10, 7] as const;
-const faqCabin = APPROVED_5_FLEET.find(vehicle => vehicle.id === 'hyundai-staria')?.interiorImage;
 
 export function RoyalBookingSteps({ locale, dict }: Props & { dict?: Dictionary }) {
   const copy = royalEditorial[locale].process;
@@ -86,7 +85,7 @@ export function RoyalServiceChapters({ locale, dict }: LocalizedProps) {
   const serviceImages = [
     '/assets/homepage-v2/chauffeur-welcome.jpg',
     '/assets/blueprint/routes/makkah-madinah.webp',
-    '/assets/blueprint/routes/madinah-ziyarat.webp',
+    '/assets/homepage-v2/hero-poster.jpg',
     '/assets/homepage-v2/ziyarat-haram.jpg',
     '/assets/blueprint/routes/madinah-ziyarat.webp',
     APPROVED_5_FLEET.find(vehicle => vehicle.id === 'hyundai-staria')?.interiorImage || '/assets/homepage-v2/chauffeur-welcome.jpg',
@@ -242,11 +241,7 @@ export function RoyalGuestConfidence({ locale, dict }: LocalizedProps) {
         <div className={styles.faqIntro}>
           <h2 id="royal-faq-title">{dict.faq.heading}</h2>
           <p>{dict.faq.subtitle}</p>
-          {faqCabin && (
-            <div className={styles.faqPhoto}>
-              <Image src={faqCabin} fill alt="" sizes="(max-width:760px) 100vw, 33vw" />
-            </div>
-          )}
+
         </div>
         <div className={styles.faqList}>
           {FAQ_QUESTIONS.map((question) => {
