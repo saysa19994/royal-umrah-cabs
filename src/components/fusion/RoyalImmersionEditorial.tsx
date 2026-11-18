@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronDown } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronDown, CarFront, CalendarCheck2, Handshake, Wallet } from 'lucide-react';
 import { APPROVED_5_FLEET } from '@/data/approved-fleet-homepage';
 import { LOCALE_CONFIG, type Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
@@ -16,9 +16,10 @@ type LocalizedProps = Props & { dict: Dictionary };
 const FAQ_QUESTIONS = [1, 4, 5, 6, 3, 2, 9, 10, 7] as const;
 const faqCabin = APPROVED_5_FLEET.find(vehicle => vehicle.id === 'hyundai-staria')?.interiorImage;
 
-export function RoyalBookingSteps({ locale }: Props) {
+export function RoyalBookingSteps({ locale, dict }: Props & { dict?: Dictionary }) {
   const copy = royalEditorial[locale].process;
   const number = new Intl.NumberFormat(locale, { minimumIntegerDigits: 2 });
+  const StepIcons = [CarFront, CalendarCheck2, Handshake];
 
   return (
     <section className={styles.process} aria-labelledby="royal-process-title">
@@ -27,14 +28,26 @@ export function RoyalBookingSteps({ locale }: Props) {
         <p>{copy.lead}</p>
       </div>
       <ol className={styles.processSteps} role="list">
-        {copy.steps.map(([title, text], index) => (
-          <li key={title}>
-            <span aria-hidden="true">{number.format(index + 1)}</span>
-            <h3>{title}</h3>
-            <p>{text}</p>
-          </li>
-        ))}
+        {copy.steps.map(([title, detail], index) => {
+          const StepIcon = StepIcons[index] || CarFront;
+          return (
+            <li key={title}>
+              <span className={styles.processNumber} aria-hidden="true">
+                <b>{number.format(index + 1)}</b><StepIcon size={36} strokeWidth={1.35} />
+              </span>
+              <small className={styles.processStepLabel}>{'STEP ' + number.format(index + 1)}</small>
+              <h3>{title}</h3>
+              <p>{detail}</p>
+            </li>
+          );
+        })}
       </ol>
+      {dict && (
+        <div className={styles.processPolicy} role="note">
+          <Wallet size={23} strokeWidth={1.5} aria-hidden="true" />
+          <span>{dict.booking_card.payOnArrivalNotice}</span>
+        </div>
+      )}
     </section>
   );
 }
