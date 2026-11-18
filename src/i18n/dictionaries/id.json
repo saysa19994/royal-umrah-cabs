@@ -26,7 +26,7 @@
     "payOnArrival": "Bayar Tunai Saat Tiba (SAR / USD)",
     "support247": "Bantuan WhatsApp 24/7",
     "fixedPrices": "Tarif Tetap & Pasti",
-    "freeCancellation": "Pembatalan Percuma Sehingga 24 Jam",
+    "freeCancellation": "Pembatalan gratis hingga 24 jam sebelum penjemputan",
     "noHiddenFees": "Sifar Caj Tambahan"
   },
   "hero": {
@@ -80,8 +80,8 @@
     "sectionPill": "Armada Kami",
     "heading": "Armada VIP Makkah & Madinah",
     "subtitle": "Kendaraan bersih, dingin, dan luas untuk kenyamanan seluruh keluarga.",
-    "viewInterior": "Lihat Ruang Kabin Dalaman",
-    "viewExterior": "Lihat Bahagian Luar Kenderaan",
+    "viewInterior": "Lihat interior",
+    "viewExterior": "Lihat eksterior",
     "seatsLabel": "Kursi",
     "bagsLabel": "Koper Besar",
     "detailsButton": "Rincian",

@@ -320,8 +320,6 @@ export function BookingWizard({
   const isRtl = LOCALE_CONFIG[locale]?.dir === 'rtl';
 
   const [currentStep, setCurrentStep] = useState<number>(initialStep);
-  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const liveRef = useRef<HTMLDivElement>(null);
 
@@ -353,34 +351,10 @@ export function BookingWizard({
 
   const goToStep = useCallback(
     (step: number) => {
-      if (step === currentStep) return;
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentStep(step);
-        setCompletedSteps((prev) => {
-          const next = new Set(prev);
-          for (let i = 1; i < step; i++) next.add(i);
-          return next;
-        });
-        setIsTransitioning(false);
-        announceStep(step);
-      }, 120);
+      setCurrentStep(step);
     },
-    [currentStep, announceStep]
+    []
   );
-
-  // Sync when BookingEngine internally emits step changes
-  useEffect(() => {
-    function handleStepChange(e: Event) {
-      const customEvent = e as CustomEvent<{ step: number }>;
-      const { step } = customEvent.detail;
-      if (step >= 1 && step <= 4) {
-        goToStep(step);
-      }
-    }
-    window.addEventListener('booking-wizard-step', handleStepChange);
-    return () => window.removeEventListener('booking-wizard-step', handleStepChange);
-  }, [goToStep]);
 
   const currentStepData = STEPS[currentStep - 1];
 
@@ -410,15 +384,14 @@ export function BookingWizard({
           <div className="grid grid-cols-4 gap-3 sm:gap-4" role="navigation" aria-label={ui.progressLabel}>
             {STEPS.map((step) => {
               const isActive = step.number === currentStep;
-              const isDone = completedSteps.has(step.number);
-              const isClickable = isDone && Boolean(goToStep);
+              const isDone = step.number < currentStep;
 
               return (
                 <button
                   key={step.number}
                   type="button"
-                  disabled={!isClickable}
-                  onClick={() => isClickable && goToStep(step.number)}
+                  disabled={!isDone}
+                  onClick={() => goToStep(step.number)}
                   className={`
                     duyuf-booking-step flex items-center gap-3 p-3 rounded-xl border text-start transition-all duration-200
                     ${
@@ -499,7 +472,7 @@ export function BookingWizard({
           >
             {STEPS.map((step) => {
               const isActive = step.number === currentStep;
-              const isDone = completedSteps.has(step.number);
+              const isDone = step.number < currentStep;
               return (
                 <div
                   key={step.number}
@@ -518,7 +491,7 @@ export function BookingWizard({
       {/* =====================================================================
           MAIN BOOKING WORKSPACE (2-Column Desktop: 65% Form / 35% Summary)
       ===================================================================== */}
-      <div className={`w-full transition-opacity duration-150 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+      <div className="w-full">
         <BookingEngine
           locale={locale}
           dict={dict}

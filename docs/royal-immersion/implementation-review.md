@@ -1,38 +1,38 @@
-# DUYUF AL RAHMAN VIP — Royal Immersion audit and preview implementation
+# Royal Immersion implementation
 
-Date: 2026-11-18
-Target: \`feature/royal-immersion-qa-preview-20261118\`
-Production policy: **NO production deployment, migration, database write or public URL promotion.**
+The redesign is implemented in the existing Next.js App Router project for Arabic, English, Malay, Indonesian, Urdu, French, Spanish, German, Turkish, and Hindi. Arabic and Urdu use right-to-left direction. Existing locale paths, pricing rules, Supabase, operations interfaces, and customer booking endpoints are retained.
 
-## Verified architecture
-- Next.js 15.5.28 App Router, React 18, TypeScript, Tailwind; existing Supabase-backed data services.
-- \`src/app/[locale]/page.tsx\` preserves the original eight other-language homepage routes. The Arabic and English Royal Immersion experience is a review-only design, not a completed ten-locale rollout.
-- \`src/lib/pricing-db.ts\` loads the approved pricing matrix and enforces authoritative fares; direct-booking vehicles derive from \`APPROVED_5_FLEET\`.
-- \`BookingWizard\` and \`BookingEngine\` remain the source of booking validation and persistence. The homepage forwards selected route, vehicle, date/time and passengers via the existing \`/[locale]/booking\` URL.
-- Five primary fleet models are unchanged. Concierge-only Maybach/H1 are not in the direct-booking selector.
-- The existing locale layout owns canonical/hreflang, global Header, Footer, CurrencyProvider, structured data and WhatsApp utilities.
+## Experience
 
-## Design changes under review
-1. Film-backed full-bleed hero uses \`/assets/homepage-v2/hero.mp4\` and \`hero-mobile.mp4\` with their approved poster; no generated stock assets.
-2. Ivory (#F7F5F0), white (#FFF), navy (#101827), bronze (#A97B27), and gray (#E8E6E0). Distinct alternating chapters, not one uniform dark/gold layout.
-3. Original cinematic opening, route-specific pricing entry, three-step explanation, interactive story, five-vehicle photographic showroom, interior/cabin chapter, editorial route atlas, service/ziyarat/chauffeur chapters, real published-review view, localized FAQ and closing CTA.
-4. Pickup and destination selectors resolve to a **limited set of approved route IDs** and never generate unpriced arbitrary route combinations. The existing booking flow remains authoritative.
-5. Responsive design focuses on 375/390/430, 768, 1024, 1440px. Touch-friendly controls, reduced-motion poster fallback, semantic heading hierarchy and accessible buttons are included as code targets. Real device/browser screenshots remain a separate acceptance gate.
+- The opening uses the project's owner-approved arrival film and its existing mobile encode. The mobile stage uses a wide crop to show the car and chauffeur. A visible play/pause control, viewport pausing, and reduced-motion poster support let the visitor control playback.
+- The booking entry groups canonical pickup and destination pairs and displays route and vehicle fares from the existing pricing service. The chosen vehicle, group size, and optional date and time carry through to the booking wizard. The selected display currency does not change the SAR calculation.
+- The journey, fleet, routes, cabin, services, Ziyarat, chauffeur, reviews, FAQ, and closing chapters have distinct layouts. The fleet uses the existing approved model imagery, with the HiAce cabin corrected to the matching seat photograph. Listed capacities follow the owner fleet manifest and the operative booking catalogue. The route and passenger filters respect existing regional settings and vehicle compatibility.
+- There is a short desktop story pin, a scrubbed film transition and route-line animation, and scene image reveals. Reduced-motion visitors receive full content without scroll animation. Vehicle interiors and exteriors are represented as photographs.
+- The shared header exposes routes, language and currency. It transitions with scroll and exposes booking at mobile sizes. The shared footer retains its existing policy, contact, route, fleet and support links.
+- Booking uses the existing confirmation and operations dispatch. Airport arrival fields include airport, airline, flight number, arrival date, and time where relevant. The server uses the existing flight-number column and booking JSON for the additional arrival details. The server verifies the reviewed fare before insertion, with cash to the driver after the journey.
+- Route and fleet detail templates use dedicated itinerary and vehicle layouts. Reviews use published and approved Supabase records. FAQ structured data follows the visible published questions. Services, pricing, Ziyarat, guides, about, contact and policy routes retain their existing individual templates and use the updated global shell.
 
-## Important design and technical risks
-- The original three inspirational videos and the full-height screenshot are **not directly retrievable from this turn**. Their timestamps, frame-by-frame motion and exact video crop cannot honestly be claimed as validated. The authentic project video files are present in the repository, but frame-by-frame visual inspection remains pending.
-- GSAP 3.15.1 / ScrollTrigger was added to the review-only homepage for restrained heading reveals, respecting reduced-motion and proper teardown. The original reference video choreography is still unverified and no pin/scrub sequences are claimed.
-- The full site-wide reskin and all ten-language rewrite have not been completed. Existing eight non-Arabic/English homepages retain original localized content to avoid a partial English-language rollout.
-- Verify that opening the page on an actual 375px browser does not truncate the hero's CTA, header controls or pickup/destination form. Also verify reduced-motion and dark/light headers.
-- Review POST must return a non-2xx error if Supabase fails rather than a fabricated success (security/UX change isolated on this preview).
-- No real booking or real review submission should be sent during QA; use read-only endpoint checks and form-navigation tests only.
+## Source and media
 
-## Release gates
-- Run \`npm run build\` (executes tests, translation checks, TypeScript/Next build).
-- Fetch previews \`/ar\`, \`/en\`, \`/ar/fleet\`, \`/ar/booking\`, \`/ms\` and confirm 200 status.
-- Inspect \`x-robots-tag\` and locale canonicals/hreflang via browser; do not change production SEO metadata.
-- Perform actual browser screenshots and interaction testing before promotion; any deployment status alone is not visual QA.
-- Check that the current production deployment and branch \`main\` remain unmodified.
+- [Creative direction](./design-concept.md)
+- [Existing site and technical audit](./existing-site-audit.md)
+- [Reference deconstruction and available keyframes](./reference-deconstruction.md)
+- [Owner fleet reference manifest](../fleet/vehicle-reference-manifest.csv)
+- [Browser evidence and engineering checks](./browser-qa.md)
 
-## Approval
-Preview only. Do not merge or promote without explicit owner approval after visual review.
+The owner's three original inspiration recordings and original full-page screenshot were unavailable. The reference document identifies the substitute evidence precisely. The existing film files were inspected and reused. Some existing project imagery is approved creative material with limited provenance documentation.
+
+## Run the preview locally
+
+Use the Node.js version configured on the Vercel project, currently 24.x. For a fully configured preview, provide the existing Preview environment through your hosting or local secret manager. See [.env.example](../../.env.example) for environment variable names.
+
+```sh
+npm ci
+npm run typecheck
+npm run build
+npm start
+```
+
+`npm run build` includes the existing repository tests and strict dictionary checks. For visual QA with the hosted preview's indexing behavior, run the build and start commands with `VERCEL_ENV=preview`. Local runs without connected services use the application's published static fare matrix and the reviews fallback. The final booking quote requires the configured server-side pricing service.
+
+Preview review stays on a feature branch and the existing protected Vercel Preview environment. Production promotion requires explicit owner approval.

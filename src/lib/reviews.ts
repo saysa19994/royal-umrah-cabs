@@ -88,7 +88,8 @@ export async function getPublishedReviews(options: GetReviewsOptions = {}): Prom
       const statsQuery = await supabase
         .from('reviews')
         .select('rating, is_approved, status')
-        .or('status.eq.published,is_approved.eq.true');
+        .eq('status', 'published')
+        .eq('is_approved', true);
       statsData = statsQuery.data;
       statsError = statsQuery.error;
     } catch (e: any) {
@@ -111,21 +112,23 @@ export async function getPublishedReviews(options: GetReviewsOptions = {}): Prom
 
     let totalPublished = 0;
     let sumRating = 0;
+    let ratedReviews = 0;
     const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
 
     if (!statsError && statsData) {
-      // Double check in code: ONLY include reviews where is_approved is true OR status is published
-      const publishedRows = statsData.filter(r => r.is_approved === true || r.status === 'published');
+      const publishedRows = statsData.filter((row) => row.is_approved === true);
       totalPublished = publishedRows.length;
       publishedRows.forEach(r => {
-        const rating = Math.min(Math.max(Number(r.rating) || 5, 1), 5) as 1 | 2 | 3 | 4 | 5;
-        distribution[rating] = (distribution[rating] || 0) + 1;
+        const rating = Number(r.rating);
+        if (!Number.isInteger(rating) || rating < 1 || rating > 5) return;
+        distribution[rating as keyof typeof distribution] += 1;
         sumRating += rating;
+        ratedReviews += 1;
       });
     }
 
-    const averageRating = totalPublished > 0
-      ? Math.round((sumRating / totalPublished) * 10) / 10
+    const averageRating = ratedReviews > 0
+      ? Math.round((sumRating / ratedReviews) * 10) / 10
       : 0;
 
     // 2. Fetch paginated list of published reviews
@@ -136,7 +139,8 @@ export async function getPublishedReviews(options: GetReviewsOptions = {}): Prom
       let query = supabase
         .from('reviews')
         .select('id, customer_name, country, rating, comment, route, service_type, language, is_verified_booking, created_at')
-        .or('status.eq.published,is_approved.eq.true');
+        .eq('status', 'published')
+        .eq('is_approved', true);
 
       if (route && route !== 'all') {
         query = query.eq('route', route);
@@ -202,7 +206,7 @@ export async function getPublishedReviews(options: GetReviewsOptions = {}): Prom
     if (reviewsError) {
       console.warn('Notice: Error querying reviews from Supabase:', reviewsError.message);
       return {
-        success: true,
+        success: false,
         reviews: [],
         statistics: {
           totalPublished: 0,
@@ -216,18 +220,21 @@ export async function getPublishedReviews(options: GetReviewsOptions = {}): Prom
       };
     }
 
-    const cleanReviews: PublicCustomerReview[] = (reviewsData || []).map((row) => ({
-      id: row.id,
-      customer_name: row.customer_name,
-      country: row.country || 'Saudi Arabia',
-      rating: Number(row.rating) || 5,
-      comment: row.comment,
-      route: row.route || null,
-      service_type: row.service_type || 'airport_transfer',
-      language: row.language || 'en',
-      is_verified_booking: Boolean(row.is_verified_booking),
-      created_at: row.created_at,
-    }));
+    const cleanReviews: PublicCustomerReview[] = (reviewsData || []).map((row) => {
+      const rating = Number(row.rating);
+      return {
+        id: row.id,
+        customer_name: row.customer_name,
+        country: row.country || '',
+        rating: Number.isInteger(rating) && rating >= 1 && rating <= 5 ? rating : 0,
+        comment: row.comment,
+        route: row.route || null,
+        service_type: row.service_type || null,
+        language: row.language || 'en',
+        is_verified_booking: Boolean(row.is_verified_booking),
+        created_at: row.created_at,
+      };
+    });
 
     return {
       success: true,

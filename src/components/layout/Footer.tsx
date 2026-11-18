@@ -19,19 +19,6 @@ import {
   ChevronDown,
 } from 'lucide-react';
 
-const LOCALIZED_PAY_TITLE: Record<string, string> = {
-  ar: 'طريقة الدفع (100% نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل بالريال أو الدولار)',
-  en: 'Payment Method (100% Cash paid to the driver after the journey is completed and the customer reaches the requested destination in SAR or USD)',
-  ms: 'Kaedah Pembayaran (100% Tunai kepada pemandu selepas perjalanan selesai dan tiba di destinasi dalam SAR atau USD)',
-  id: 'Metode Pembayaran (100% Tunai kepada pengemudi setelah perjalanan selesai dan tiba di tujuan dalam SAR atau USD)',
-  ur: 'طریقہ ادائیگی (سفر مکمل ہونے اور منزل پر پہنچنے کے بعد ڈرائیور کو نقد ادائیگی، ریال یا ڈالر)',
-  fr: 'Mode de paiement (100% en espèces au chauffeur une fois le trajet terminé à destination en SAR ou USD)',
-  es: 'Método de pago (100% en efectivo al conductor una vez completado el trayecto en el destino en SAR o USD)',
-  de: 'Zahlungsmethode (100% Barzahlung an den Fahrer nach Abschluss der Fahrt am Zielort in SAR oder USD)',
-  tr: 'Ödeme Yöntemi (Yolculuk varış noktasına ulaştıktan sonra şoföre %100 nakit, SAR veya USD)',
-  hi: 'भुगतान का तरीका (यात्रा पूरी होने और गंतव्य पर पहुंचने के बाद चालक को 100% नकद, SAR या USD)',
-};
-
 const LOCALIZED_PAY_NOTICE: Record<string, string> = {
   ar: 'الدفع نقدًا للسائق بعد وصول العميل إلى وجهته المطلوبة وانتهاء الرحلة بالكامل (ريال سعودي / دولار أمريكي)',
   en: 'Cash paid to the driver after the journey is completed and the customer reaches the requested destination (SAR / USD)',
@@ -353,13 +340,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
   const t = FOOTER_EXTRA_I18N[locale] || FOOTER_EXTRA_I18N.en;
 
   return (
-    <footer className="bg-[var(--footer-bg)] text-[var(--footer-text)] border-t border-[var(--footer-border)] mt-auto pb-12 md:pb-6 relative overflow-hidden transition-colors duration-200">
-      {/* LUXURY AMBIENT BACKGROUND GLOW */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--accent-primary)]/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[var(--accent-primary)]/5 rounded-full blur-3xl pointer-events-none" />
-
-      {/* Keep route destinations as actual text links below: no repeated page-wide photo gallery. */}
-
+    <footer className="royal-immersion-footer bg-[var(--footer-bg)] text-[var(--footer-text)] border-t border-[var(--footer-border)] mt-auto pb-12 md:pb-6 relative overflow-hidden transition-colors duration-200">
       {/* 5-COLUMN MAIN GRID */}
       <div className="container mx-auto px-4 max-w-7xl pt-14 pb-10 md:pt-16 relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 md:gap-8 lg:gap-10 text-start">
@@ -390,7 +371,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-2 rounded-btn bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors shadow-xs focus-visible:ring-2 focus-visible:ring-emerald-400"
-                  aria-label="WhatsApp Operations"
+                  aria-label={t.waMain}
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
                   <span>{t.waMain}</span>
@@ -400,7 +381,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-1.5 min-h-[44px] h-10 px-2 rounded-btn bg-emerald-700/80 hover:bg-emerald-600 text-white text-xs font-semibold transition-colors shadow-xs focus-visible:ring-2 focus-visible:ring-emerald-400"
-                  aria-label="WhatsApp Dispatch"
+                  aria-label={t.waSecond}
                 >
                   <Headphones className="w-3.5 h-3.5" />
                   <span>{t.waSecond}</span>
@@ -434,7 +415,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
               {dict.footer.popularRoutes}
             </h4>
             <ul id="duyuf-footer-group-0"
-              className={`space-y-1 md:space-y-2 text-xs text-[var(--footer-text)] pb-3 md:pb-0 ${expandedFooterGroup===0?'block':'hidden'} md:block`}>
+              className={`space-y-1 md:space-y-2 text-sm text-[var(--footer-text)] pb-3 md:pb-0 ${expandedFooterGroup===0?'block':'hidden'} md:block`}>
               <li>
                 <Link href={`/${locale}/routes/jeddah-airport-to-makkah`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {LOCALIZED_ROUTE_NAMES['jeddah-airport-to-makkah']?.[locale] || 'Jeddah Airport to Makkah'}
@@ -480,15 +461,15 @@ export function Footer({ locale, dict, settings }: FooterProps) {
               {dict.footer.servicesFleet}
             </h4>
             <ul id="duyuf-footer-group-1"
-              className={`space-y-1 md:space-y-2 text-xs text-[var(--footer-text)] pb-3 md:pb-0 ${expandedFooterGroup===1?'block':'hidden'} md:block`}>
+              className={`space-y-1 md:space-y-2 text-sm text-[var(--footer-text)] pb-3 md:pb-0 ${expandedFooterGroup===1?'block':'hidden'} md:block`}>
               <li>
                 <Link href={`/${locale}/fleet/gmc-yukon-xl`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
-                  GMC Yukon XL VIP (7 Seats)
+                  GMC Yukon XL VIP
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/fleet/hyundai-staria`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
-                  Hyundai Staria VIP (7 Seats)
+                  Hyundai Staria VIP
                 </Link>
               </li>
               <li>
@@ -531,7 +512,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
               {t.guidesHeader}
             </h4>
             <ul id="duyuf-footer-group-2"
-              className={`space-y-1 md:space-y-2 text-xs text-[var(--footer-text)] pb-3 md:pb-0 ${expandedFooterGroup===2?'block':'hidden'} md:block`}>
+              className={`space-y-1 md:space-y-2 text-sm text-[var(--footer-text)] pb-3 md:pb-0 ${expandedFooterGroup===2?'block':'hidden'} md:block`}>
               <li>
                 <Link href={`/${locale}/blog`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1 text-[var(--accent-primary)] font-bold">
                   {t.vipBlog}
@@ -587,7 +568,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
               {t.legalHeader}
             </h4>
             <ul id="duyuf-footer-group-3"
-              className={`space-y-1 md:space-y-2 text-xs text-[var(--footer-text)] pb-3 md:pb-0 ${expandedFooterGroup===3?'block':'hidden'} md:block`}>
+              className={`space-y-1 md:space-y-2 text-sm text-[var(--footer-text)] pb-3 md:pb-0 ${expandedFooterGroup===3?'block':'hidden'} md:block`}>
               <li>
                 <Link href={`/${locale}/cancellation`} className="hover:text-[var(--accent-primary)] transition-colors inline-block py-1">
                   {dict.footer.refunds || 'Cancellation & Refunds'}
@@ -631,7 +612,7 @@ export function Footer({ locale, dict, settings }: FooterProps) {
         <div className="mt-12 pt-8 border-t border-[var(--footer-border)] flex flex-wrap items-center justify-between gap-6">
           <div className="flex flex-col gap-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--accent-primary)]">
-              {LOCALIZED_PAY_TITLE[locale] || LOCALIZED_PAY_TITLE.en}
+              {dict.nav.payOnArrival}
             </span>
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-3.5 py-1.5 rounded-lg bg-[var(--accent-soft)] border border-[var(--accent-primary)]/40 text-[var(--accent-primary)] text-xs font-bold inline-flex items-center gap-1.5">

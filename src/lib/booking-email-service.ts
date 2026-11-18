@@ -1,4 +1,5 @@
 import { Locale } from '@/i18n/config';
+import type { FlightArrival } from '@/types/booking';
 
 export interface BookingEmailData {
   reference: string;
@@ -15,6 +16,7 @@ export interface BookingEmailData {
   finalPriceCurrency: number;
   paymentMethod: string;
   flightNumber?: string;
+  flightArrival?: FlightArrival;
   specialRequests?: string;
   status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
   language: Locale;
@@ -469,6 +471,7 @@ export function buildCompanyNotificationHtml(data: BookingEmailData): { subject:
         <p style="margin: 6px 0; font-size: 14px;"><strong>Pickup Date & Time:</strong> ${escapeHtml(data.pickupDateTime)}</p>
         <p style="margin: 6px 0; font-size: 14px;"><strong>Passengers / Luggage:</strong> ${data.passengers} Pax / ${data.luggage} Bags</p>
         ${data.flightNumber ? `<p style="margin: 6px 0; font-size: 14px;"><strong>Flight:</strong> ${escapeHtml(data.flightNumber)}</p>` : ''}
+        ${data.flightArrival ? `<p style="margin: 6px 0; font-size: 14px;"><strong>Flight arrival:</strong> ${escapeHtml(`${data.flightArrival.airport} · ${data.flightArrival.airline} · ${data.flightArrival.arrival_date} ${data.flightArrival.arrival_time} (KSA Time)`)}</p>` : ''}
         ${data.specialRequests ? `<p style="margin: 6px 0; font-size: 14px;"><strong>Notes:</strong> ${escapeHtml(data.specialRequests)}</p>` : ''}
         <p style="margin: 12px 0 0 0; font-size: 18px; color: #2EA043;"><strong>Total Fare:</strong> ${data.finalPriceSAR} SAR</p>
       </div>

@@ -98,6 +98,12 @@ export async function POST(request: Request) {
     }
 
     const { basePriceSAR, multiplier, finalPriceSAR, currency: currKey, finalPriceCurrency } = pricingResult;
+    if (validated.quoted_price_sar !== undefined && validated.quoted_price_sar !== finalPriceSAR) {
+      return NextResponse.json(
+        { success: false, code: 'fare_changed', finalPriceSAR },
+        { status: 409 }
+      );
+    }
 
     // 5. Generate cryptographically secure booking reference (10+ characters with unique retry)
     const serviceClient = createServiceClient();
@@ -145,7 +151,10 @@ export async function POST(request: Request) {
       passengers_count: validated.passengers_count,
       luggage_count: validated.luggage_count,
       flight_number: validated.flight_number || null,
-      add_ons: validated.add_ons,
+      add_ons: {
+        ...validated.add_ons,
+        ...(validated.flight_arrival && { flight_arrival: validated.flight_arrival }),
+      },
       special_notes: validated.special_notes || null,
       base_price_sar: basePriceSAR,
       seasonal_multiplier: multiplier,
@@ -205,6 +214,7 @@ export async function POST(request: Request) {
         finalPriceCurrency,
         paymentMethod: validated.payment_method || 'pay_upon_arrival',
         flightNumber: validated.flight_number || undefined,
+        flightArrival: validated.flight_arrival,
         specialRequests: validated.special_notes || undefined,
         status: 'pending',
         language: lang,
@@ -230,6 +240,10 @@ export async function POST(request: Request) {
       `• Date & Time: ${pickupISO.replace('T', ' ').slice(0, 16)} (KSA Time)`,
       `• Vehicle: ${validated.vehicle_id.toUpperCase()}`,
       `• Passengers: ${validated.passengers_count} | Luggage: ${validated.luggage_count}`,
+      ...(validated.flight_number ? [`• Flight: ${validated.flight_number}`] : []),
+      ...(validated.flight_arrival ? [
+        `• Arrival: ${validated.flight_arrival.airport} · ${validated.flight_arrival.airline} · ${validated.flight_arrival.arrival_date} ${validated.flight_arrival.arrival_time} (KSA Time)`,
+      ] : []),
       `• Fixed Fare: ${currSymbol}${finalPriceCurrency} (${finalPriceSAR} SAR)`,
       'Please confirm driver dispatch. Jazakum Allah Khair.',
     ];
@@ -252,6 +266,8 @@ export async function POST(request: Request) {
         vehicle_id: validated.vehicle_id,
         passengers_count: validated.passengers_count,
         luggage_count: validated.luggage_count,
+        flight_number: validated.flight_number || null,
+        flight_arrival: validated.flight_arrival,
         whatsappUrl,
       },
     });

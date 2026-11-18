@@ -36,6 +36,10 @@ import type { TurnstileWidgetRef } from '@/components/common/TurnstileWidget';
 import { getEstimatedBasePriceSAR, LOCALIZED_ROUTE_NAMES } from '@/lib/pricing-constants';
 import { trackEvent } from '@/lib/analytics';
 import { COUNTRY_DIAL_CODES, countryFlag } from '@/lib/country-dial-codes';
+import { BOOKING_TIME_PATTERN, getArrivalAirport, isBookingDate } from '@/lib/booking-flight';
+import { ARRIVAL_COPY } from './airport-arrival-copy';
+import { BOOKING_FORM_COPY, FARE_CHANGED_COPY } from './booking-form-copy';
+import { FlightArrivalFields, type FlightArrivalDraft } from './FlightArrivalFields';
 
 interface BookingEngineProps {
   locale: Locale;
@@ -138,6 +142,8 @@ const ROUTES: Record<string, { label: string; baseSAR: number }> = {
 
 const TAIF_ROUTE_KEYS = new Set(['makkah-to-taif', 'taif-to-makkah', 'jeddah-to-taif']);
 const RIYADH_ROUTE_KEYS = new Set(['riyadh-airport-transfer', 'riyadh-to-makkah', 'riyadh-to-madinah']);
+const DEFAULT_ROUTE = 'jeddah-airport-to-makkah';
+const EMPTY_FLIGHT: FlightArrivalDraft = { airline: '', number: '', date: '', time: '' };
 
 interface BookingEngineTranslations {
   tabTransfer: string;
@@ -965,23 +971,23 @@ export function BookingEngine({
   hideInternalStepper = false, onStepChange, stepOverride }: BookingEngineProps) {
   const { currency, formatPrice } = useCurrency();
   const t = LOCALIZED_UI[locale] || LOCALIZED_UI.en;
+  const [locationError, scheduleError, vehicleError, quoteError, securityError, phoneError, submissionError, countryLabel, countrySearchLabel, estimateLabel] = BOOKING_FORM_COPY[locale];
+  const arrivalCopy = ARRIVAL_COPY[locale];
   const [summaryExpanded,setSummaryExpanded]=useState(false);
 
   // 4-Step Booking Wizard: 1 = Route, 2 = Vehicle, 3 = Trip Details, 4 = Passenger & Confirmation
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(() => {
+  const [internalStep, setInternalStep] = useState<1 | 2 | 3 | 4>(() => {
     if (stepOverride) return stepOverride;
     if (initialVehicle && (initialVehicle in VEHICLE_SPECS) && (initialRoute || initialPickup)) {
       return 3;
     }
     return 1;
   });
+  const currentStep = stepOverride ?? internalStep;
 
   const changeStep = (s: 1 | 2 | 3 | 4) => {
-    setCurrentStep(s);
+    setInternalStep(s);
     if (onStepChange) onStepChange(s);
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('booking-wizard-step', { detail: { step: s } }));
-    }
   };
 
   React.useEffect(() => {
@@ -994,18 +1000,16 @@ export function BookingEngine({
   const [bookingType, setBookingType] = useState<'transfer' | 'hourly' | 'ziyarat' | 'group_bus'>(initialType);
   const availableRoutes = React.useMemo(() => {
     return Object.entries(ROUTES).filter(([key]) => {
+      if (key === 'riyadh-airport-transfer') return false;
       if (TAIF_ROUTE_KEYS.has(key) && !settings.taif_enabled) return false;
       if (RIYADH_ROUTE_KEYS.has(key) && !settings.riyadh_enabled) return false;
       return true;
     });
   }, [settings.taif_enabled, settings.riyadh_enabled]);
 
-  const initialRouteValid = (initialRoute in ROUTES) && (
-    (!TAIF_ROUTE_KEYS.has(initialRoute) || settings.taif_enabled) &&
-    (!RIYADH_ROUTE_KEYS.has(initialRoute) || settings.riyadh_enabled)
-  );
+  const initialRouteValid = availableRoutes.some(([key]) => key === initialRoute);
 
-  const [routeId, setRouteId] = useState(initialRouteValid ? initialRoute : 'jeddah-airport-to-makkah');
+  const [routeId, setRouteId] = useState(initialRouteValid ? initialRoute : DEFAULT_ROUTE);
   const [vehicleId, setVehicleId] = useState<string | null>(() => {
     if (initialVehicle && initialVehicle in VEHICLE_SPECS) {
       return initialVehicle;
@@ -1013,8 +1017,8 @@ export function BookingEngine({
     return null;
   });
   const [durationHours, setDurationHours] = useState<number>(Number(initialDuration) || 4);
-  const [customPickupLocation, setCustomPickupLocation] = useState(initialPickup || 'Jeddah Airport (KAIA)');
-  const [customDropoffLocation, setCustomDropoffLocation] = useState(initialDropoff || 'Makkah Hotel / Haram');
+  const [customPickupLocation, setCustomPickupLocation] = useState(initialRouteValid || initialType !== 'transfer' ? initialPickup : '');
+  const [customDropoffLocation, setCustomDropoffLocation] = useState(initialRouteValid || initialType !== 'transfer' ? initialDropoff : '');
   // Authoritative KSA Timezone Date (Asia/Riyadh)
   const minDate = React.useMemo(() => {
     try {
@@ -1032,8 +1036,19 @@ export function BookingEngine({
     const parsed = Number(initialLuggage);
     return Number.isInteger(parsed) && parsed >= 0 && parsed <= 20 ? parsed : 2;
   });
-  const [flightNumber, setFlightNumber] = useState('');
+  const [flight, setFlight] = useState(EMPTY_FLIGHT);
+  const [mixedAirportPickup, setMixedAirportPickup] = useState(false);
   const [step1Error, setStep1Error] = useState<string | null>(null);
+  const usesRouteLocations = bookingType === 'transfer' || bookingType === 'group_bus';
+  const [routePickup, routeDropoff] = (LOCALIZED_ROUTE_NAMES[routeId]?.[locale] || ROUTES[routeId].label)
+    .split(/[→←⇄]/).map((location) => location.trim());
+  const pickupLocation = customPickupLocation.trim() || (usesRouteLocations ? routePickup : '');
+  const dropoffLocation = customDropoffLocation.trim() || (usesRouteLocations ? routeDropoff : '');
+  const mixedArrivalRoute = bookingType === 'transfer' && routeId === 'jeddah-to-madinah';
+  const arrivalAirport = bookingType === 'transfer' && (!mixedArrivalRoute || mixedAirportPickup)
+    ? getArrivalAirport(routeId)
+    : undefined;
+  const hasFlightDetails = Boolean(arrivalAirport && Object.values(flight).some((value) => value.trim()));
 
   // Step 3: Passenger Details
   const [customerName, setCustomerName] = useState('');
@@ -1067,22 +1082,64 @@ export function BookingEngine({
     setTurnstileToken('');
   }, []);
   const [confirmedBooking, setConfirmedBooking] = useState<any | null>(null);
+  const [fareQuote, setFareQuote] = useState<{ request: string; total: number | null } | null>(null);
+  const quoteRequest = JSON.stringify({
+    bookingType,
+    routeId: bookingType === 'transfer' ? routeId : null,
+    vehicleId,
+    currency,
+    durationHours: bookingType === 'hourly' ? durationHours : undefined,
+    pickupDate,
+    pickupTime,
+    passengersCount: passengers,
+    luggageCount: luggage,
+  });
+  const activeQuote = fareQuote?.request === quoteRequest ? fareQuote : null;
+  const finalPriceSAR = activeQuote?.total ?? null;
 
+  React.useEffect(() => {
+    if (currentStep !== 4) return;
+    const controller = new AbortController();
+    fetch('/api/bookings/quote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: quoteRequest,
+      signal: controller.signal,
+    }).then(async (response) => {
+      const data = await response.json();
+      const total = response.ok && data.success && Number.isInteger(data.finalPriceSAR) && data.finalPriceSAR > 0
+        ? data.finalPriceSAR : null;
+      if (!controller.signal.aborted) setFareQuote({ request: quoteRequest, total });
+    }).catch(() => {
+      if (!controller.signal.aborted) setFareQuote({ request: quoteRequest, total: null });
+    });
+    return () => controller.abort();
+  }, [currentStep, quoteRequest]);
 
   const handleBookingTypeChange = (type: 'transfer' | 'hourly' | 'ziyarat' | 'group_bus') => {
+    if (type === bookingType) return;
     setBookingType(type);
+    setCustomPickupLocation('');
+    setCustomDropoffLocation('');
+    setStep1Error(null);
+    changeStep(1);
     if (type === 'group_bus' && vehicleId !== 'hiace' && vehicleId !== 'coaster') {
       setVehicleId('coaster');
     }
   };
 
+  const handleRouteChange = (selectedRoute: string) => {
+    if (getArrivalAirport(routeId) !== getArrivalAirport(selectedRoute)) setFlight(EMPTY_FLIGHT);
+    setRouteId(selectedRoute);
+    setCustomPickupLocation('');
+    setCustomDropoffLocation('');
+    setMixedAirportPickup(false);
+    setStep1Error(null);
+  };
+
   const handleSelectVehicle = (id: string) => {
     setVehicleId(id);
-    const spec = VEHICLE_SPECS[id];
-    if (spec) {
-      if (passengers > spec.seats) setPassengers(spec.seats);
-      if (luggage > spec.bags) setLuggage(spec.bags);
-    }
+    setStep1Error(null);
     trackEvent({
       event: 'vehicle_selected',
       vehicle_id: id,
@@ -1111,6 +1168,11 @@ export function BookingEngine({
 
   // Step 1 -> Step 2 (Route -> Vehicle)
   const handleProceedToStep2 = () => {
+    if (pickupLocation.length < 2 || dropoffLocation.length < 2) {
+      setStep1Error(locationError);
+      return;
+    }
+    setStep1Error(null);
     trackEvent({
       event: 'route_selected',
       service_type: bookingType,
@@ -1124,13 +1186,16 @@ export function BookingEngine({
   // Step 2 -> Step 3 (Vehicle -> Schedule & Trip Details)
   const handleProceedToStep3 = () => {
     if (!vehicleId) {
-      setStep1Error(locale === 'ar' ? 'يرجى اختيار مركبة من القائمة للمتابعة' : 'Please select a vehicle from the fleet to proceed.');
+      setStep1Error(vehicleError);
       return;
     }
-    if (bookingType === 'transfer' && currentPriceSAR <= 0) {
-      setStep1Error(locale === 'ar'
-        ? 'تعذر تحديد أجرة صحيحة لهذا المسار والسيارة. يرجى التواصل معنا عبر واتساب لطلب السعر.'
-        : 'A verified fare is unavailable for this route and vehicle. Please request a quote via WhatsApp.');
+    const vehicle = VEHICLE_SPECS[vehicleId];
+    if (passengers > vehicle.seats || luggage > vehicle.bags) {
+      setStep1Error(t.capacityNotice);
+      return;
+    }
+    if (currentPriceSAR <= 0) {
+      setStep1Error(quoteError);
       return;
     }
     setStep1Error(null);
@@ -1147,8 +1212,14 @@ export function BookingEngine({
 
   // Step 3 -> Step 4 (Schedule -> Passenger Details)
   const handleProceedToStep4 = () => {
-    if (!pickupDate) {
-      setStep1Error(t.dateRequiredError);
+    if (!isBookingDate(pickupDate) || !BOOKING_TIME_PATTERN.test(pickupTime)
+      || Date.parse(`${pickupDate}T${pickupTime}:00+03:00`) < Date.now() + 60 * 60 * 1000) {
+      setStep1Error(scheduleError);
+      return;
+    }
+    if (hasFlightDetails && (flight.airline.trim().length < 2 || !flight.number.trim()
+      || !isBookingDate(flight.date) || !BOOKING_TIME_PATTERN.test(flight.time))) {
+      setStep1Error(arrivalCopy[7]);
       return;
     }
     setStep1Error(null);
@@ -1159,10 +1230,12 @@ export function BookingEngine({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
+    if (finalPriceSAR === null) {
+      setErrorMessage(quoteError);
+      return;
+    }
     if (!turnstileToken) {
-      setErrorMessage(locale === 'ar'
-        ? 'يرجى إكمال التحقق الأمني قبل إرسال طلب الحجز.'
-        : 'Please complete the security verification before sending your booking request.');
+      setErrorMessage(securityError);
       return;
     }
 
@@ -1180,21 +1253,12 @@ export function BookingEngine({
     const callingCode = COUNTRY_DIAL_CODES.find((country) => country.iso === phoneCountry)?.dial || '+966';
     const normalizedPhone = callingCode + localDigits;
     if (localDigits.length < 5 || normalizedPhone.replace(/\D/g, '').length < 8 || normalizedPhone.replace(/\D/g, '').length > 15) {
-      setErrorMessage(locale === 'ar' ? 'أدخل رقم جوال صحيحًا بعد اختيار مفتاح الدولة.' : 'Enter a valid phone number after selecting its country code.');
+      setErrorMessage(phoneError);
       return;
     }
 
     setIsSubmitting(true);
     setErrorMessage(null);
-
-    const pickupLocation =
-      bookingType === 'transfer'
-        ? ROUTES[routeId]?.label.split('→')[0].trim() || 'Jeddah Airport (KAIA)'
-        : (customPickupLocation || 'Jeddah Airport (KAIA)');
-    const dropoffLocation =
-      bookingType === 'transfer'
-        ? ROUTES[routeId]?.label.split('→')[1]?.trim() || 'Makkah Hotel'
-        : (customDropoffLocation || 'Makkah Hotel');
 
     const payload = {
       booking_type: bookingType,
@@ -1208,12 +1272,19 @@ export function BookingEngine({
       dropoff_location: dropoffLocation,
       passengers_count: passengers,
       luggage_count: luggage,
-      flight_number: flightNumber || undefined,
+      flight_number: hasFlightDetails ? flight.number.trim() : undefined,
+      flight_arrival: hasFlightDetails && arrivalAirport ? {
+        airport: arrivalAirport,
+        airline: flight.airline.trim(),
+        arrival_date: flight.date,
+        arrival_time: flight.time,
+      } : undefined,
       duration_hours: bookingType === 'hourly' ? durationHours : undefined,
-      add_ons: addOns,
+      add_ons: { ...addOns, flight_tracking: Boolean(arrivalAirport && addOns.flight_tracking) },
       special_notes: specialNotes || undefined,
       payment_method: 'pay_upon_arrival',
       currency: currency,
+      quoted_price_sar: finalPriceSAR,
       language: locale,
       'cf-turnstile-response': turnstileToken,
     };
@@ -1226,16 +1297,20 @@ export function BookingEngine({
       });
 
       const data = await res.json();
-      if (!res.ok || !data.success) {
-        // Turnstile tokens are single-use; request a fresh token on failure.
+      if (res.status === 409 && data.code === 'fare_changed' && Number.isInteger(data.finalPriceSAR) && data.finalPriceSAR > 0) {
+        setFareQuote({ request: quoteRequest, total: data.finalPriceSAR });
         setTurnstileToken('');
         turnstileWidgetRef.current?.reset();
+        setErrorMessage(FARE_CHANGED_COPY[locale]);
+        return;
+      }
+      if (!res.ok || !data.success || !data.booking?.reference) {
         trackEvent({
           event: 'booking_form_validation_failed',
           form: 'booking_engine',
           failed_fields: [data.error || 'submission_failed'],
         });
-        throw new Error(data.error || 'Failed to submit booking');
+        throw new Error(data.error || submissionError);
       }
 
       trackEvent({
@@ -1245,8 +1320,11 @@ export function BookingEngine({
         payment_method: 'pay_upon_arrival',
       });
       setConfirmedBooking(data.booking);
-    } catch (err: any) {
-      setErrorMessage(err.message || 'An unexpected error occurred. Please try again.');
+    } catch {
+      // Turnstile tokens are single-use, including on a failed request.
+      setTurnstileToken('');
+      turnstileWidgetRef.current?.reset();
+      setErrorMessage(submissionError);
     } finally {
       setIsSubmitting(false);
     }
@@ -1342,7 +1420,7 @@ export function BookingEngine({
             type="button"
             onClick={() => {
               setConfirmedBooking(null);
-              setCurrentStep(1);
+              changeStep(1);
             }}
             className="min-h-[48px] h-12 px-6 rounded-btn border border-border-strong text-ink text-xs font-semibold hover:bg-bg-alt transition-colors focus-visible:ring-2 focus-visible:ring-gold"
           >
@@ -1354,10 +1432,9 @@ export function BookingEngine({
   }
 
   // Active labels
-  const activeItinerary =
-    bookingType === 'transfer'
-      ? ROUTES[routeId]?.label || `${customPickupLocation} → ${customDropoffLocation}`
-      : `${customPickupLocation} → ${customDropoffLocation}`;
+  const activeItinerary = pickupLocation && dropoffLocation
+    ? `${pickupLocation} ${locale === 'ar' || locale === 'ur' ? '←' : '→'} ${dropoffLocation}`
+    : t.selectRoute;
 
   return (
     <div className="duyuf-booking-engine grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -1418,7 +1495,7 @@ export function BookingEngine({
           <div className="grid grid-cols-3 gap-2 sm:gap-3 bg-surface p-2 rounded-2xl border border-border shadow-xs">
           <button
             type="button"
-            onClick={() => setCurrentStep(1)}
+            onClick={() => changeStep(1)}
             className={`flex items-center justify-center sm:justify-start gap-2 p-3 rounded-xl border text-xs sm:text-sm font-bold transition-all text-start min-h-[48px] ${
               currentStep === 1
                 ? 'bg-gold text-slate-950 border-gold shadow-xs'
@@ -1438,7 +1515,7 @@ export function BookingEngine({
           <button
             type="button"
             onClick={() => {
-              if (pickupDate) setCurrentStep(2);
+              if (pickupDate) changeStep(2);
             }}
             className={`flex items-center justify-center sm:justify-start gap-2 p-3 rounded-xl border text-xs sm:text-sm font-bold transition-all text-start min-h-[48px] ${
               currentStep === 2
@@ -1459,7 +1536,7 @@ export function BookingEngine({
           <button
             type="button"
             onClick={() => {
-              if (pickupDate) setCurrentStep(3);
+              if (pickupDate) changeStep(3);
             }}
             className={`flex items-center justify-center sm:justify-start gap-2 p-3 rounded-xl border text-xs sm:text-sm font-bold transition-all text-start min-h-[48px] ${
               currentStep === 3
@@ -1493,8 +1570,7 @@ export function BookingEngine({
               </p>
             </div>
 
-            {/* ROUTE SELECTOR (TRANSFER) */}
-            {bookingType === 'transfer' && (
+            {usesRouteLocations && (
               <div className="space-y-4">
                 <div>
                   <label htmlFor="highway-route-select" className="block text-xs font-bold text-ink mb-1.5">
@@ -1503,7 +1579,7 @@ export function BookingEngine({
                   <select
                     id="highway-route-select"
                     value={routeId}
-                    onChange={(e) => setRouteId(e.target.value)}
+                    onChange={(e) => handleRouteChange(e.target.value)}
                     className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-bg-alt text-ink text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
                   >
                     {availableRoutes.map(([rKey, rData]) => {
@@ -1526,7 +1602,8 @@ export function BookingEngine({
                       <input
                         id="custom-pickup-input"
                         type="text"
-                        placeholder="e.g. Terminal 1, Gate 4"
+                        placeholder={routePickup}
+                        maxLength={200}
                         value={customPickupLocation}
                         onChange={(e) => setCustomPickupLocation(e.target.value)}
                         className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
@@ -1543,7 +1620,8 @@ export function BookingEngine({
                       <input
                         id="custom-dropoff-input"
                         type="text"
-                        placeholder="e.g. Fairmont Makkah Clock Royal"
+                        placeholder={routeDropoff}
+                        maxLength={200}
                         value={customDropoffLocation}
                         onChange={(e) => setCustomDropoffLocation(e.target.value)}
                         className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
@@ -1583,7 +1661,8 @@ export function BookingEngine({
                     <input
                       id="hourly-pickup-input"
                       type="text"
-                      placeholder="e.g. Jeddah Hotel / Airport"
+                      placeholder={t.pickupLabel}
+                      maxLength={200}
                       value={customPickupLocation}
                       onChange={(e) => setCustomPickupLocation(e.target.value)}
                       className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
@@ -1596,7 +1675,8 @@ export function BookingEngine({
                     <input
                       id="hourly-dest-input"
                       type="text"
-                      placeholder="e.g. As directed by passenger"
+                      placeholder={t.dropoffLabel}
+                      maxLength={200}
                       value={customDropoffLocation}
                       onChange={(e) => setCustomDropoffLocation(e.target.value)}
                       className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
@@ -1611,12 +1691,13 @@ export function BookingEngine({
               <div className="space-y-4">
                 <div>
                   <label htmlFor="ziyarat-pickup-input" className="block text-xs font-bold text-ink mb-1.5">
-                    {t.pickupLabel} (Hotel / Area) <span className="text-gold-dark">*</span>
+                    {t.pickupLabel} <span className="text-gold-dark">*</span>
                   </label>
                   <input
                     id="ziyarat-pickup-input"
                     type="text"
-                    placeholder="e.g. Makkah Clock Tower or Madinah Central"
+                    placeholder={t.pickupLabel}
+                    maxLength={200}
                     value={customPickupLocation}
                     onChange={(e) => setCustomPickupLocation(e.target.value)}
                     className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
@@ -1624,39 +1705,17 @@ export function BookingEngine({
                 </div>
                 <div>
                   <label htmlFor="ziyarat-dest-input" className="block text-xs font-bold text-ink mb-1.5">
-                    {t.dropoffLabel} (Ziyarat Sites) <span className="text-gold-dark">*</span>
+                    {t.dropoffLabel} <span className="text-gold-dark">*</span>
                   </label>
                   <input
                     id="ziyarat-dest-input"
                     type="text"
-                    placeholder="e.g. Cave Hira, Jabal Thawr, Masjid Quba, Uhud"
+                    placeholder={t.dropoffLabel}
+                    maxLength={200}
                     value={customDropoffLocation}
                     onChange={(e) => setCustomDropoffLocation(e.target.value)}
                     className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
                   />
-                </div>
-              </div>
-            )}
-
-            {/* GROUP BUS & COACH */}
-            {bookingType === 'group_bus' && (
-              <div className="space-y-4">
-                <div>
-                  <label htmlFor="group-route-select" className="block text-xs font-bold text-ink mb-1.5">
-                    {t.routeLabel} <span className="text-gold-dark">*</span>
-                  </label>
-                  <select
-                    id="group-route-select"
-                    value={routeId}
-                    onChange={(e) => setRouteId(e.target.value)}
-                    className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-bg-alt text-ink text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
-                  >
-                    {Object.entries(ROUTES).map(([rKey, rData]) => (
-                      <option key={rKey} value={rKey}>
-                        {rData.label}
-                      </option>
-                    ))}
-                  </select>
                 </div>
               </div>
             )}
@@ -1705,6 +1764,8 @@ export function BookingEngine({
                 </div>
               </div>
             </div>
+
+            {step1Error && <p role="alert" className="text-sm font-semibold text-rose-800">{step1Error}</p>}
 
             {/* ACTION BUTTON */}
             <div className="pt-4 border-t border-border flex justify-end">
@@ -1773,15 +1834,16 @@ export function BookingEngine({
 
                   const isOverSeats = passengers > vData.seats;
                   const isOverBags = luggage > vData.bags;
+                  const unavailable = isOverSeats || isOverBags || vehicleEstimatedFare <= 0;
 
                   return (
                     <div
                       key={vId}
-                      onClick={() => handleSelectVehicle(vId)}
+                      onClick={unavailable ? undefined : () => handleSelectVehicle(vId)}
                       role="group"
                       aria-label={vData.name}
                       data-selected={isSelected ? 'true' : 'false'}
-                      className={`duyuf-booking-vehicle-card rounded-2xl p-4 border-2 transition-all cursor-pointer relative flex flex-col justify-between overflow-hidden ${
+                      className={`duyuf-booking-vehicle-card rounded-2xl p-4 border-2 transition-all relative flex flex-col justify-between overflow-hidden ${unavailable ? '' : 'cursor-pointer'} ${
                         isSelected
                           ? 'border-gold bg-gold-soft/35 shadow-md ring-2 ring-gold/40'
                           : 'border-border bg-surface hover:border-gold-line'
@@ -1846,7 +1908,7 @@ export function BookingEngine({
 
                       <div className="mt-4 pt-3 border-t border-border flex items-center justify-between">
                         <div>
-                          <span className="text-[10px] text-ink-muted uppercase block">{t.authoritativeFare}</span>
+                          <span className="text-[10px] text-ink-muted uppercase block">{estimateLabel}</span>
                           <div className="flex items-baseline gap-1">
                             {vehicleEstimatedFare > 0 ? (
                               <>
@@ -1865,11 +1927,12 @@ export function BookingEngine({
 
                         <button
                           type="button"
+                          disabled={unavailable}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleSelectVehicle(vId);
                           }}
-                          className={`min-h-[40px] px-4 rounded-btn text-xs font-bold transition-all ${
+                          className={`min-h-[44px] px-4 rounded-btn text-xs font-bold transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
                             isSelected
                               ? 'bg-slate-950 text-gold shadow-xs'
                               : 'bg-bg-alt text-ink hover:bg-gold-soft border border-border'
@@ -2058,34 +2121,17 @@ export function BookingEngine({
               </div>
             </div>
 
-            {/* FLIGHT NUMBER (OPTIONAL) */}
-            <div>
-              <label htmlFor="flight-input" className="block text-xs font-bold text-ink mb-1.5">
-                {t.flightLabel}
+            {mixedArrivalRoute && (
+              <label className="flex min-h-12 items-center gap-3 rounded-xl border border-border px-3 text-sm font-semibold text-ink">
+                <input type="checkbox" checked={mixedAirportPickup} className="h-4 w-4"
+                  onChange={(event) => { setMixedAirportPickup(event.target.checked); setStep1Error(null); }} />
+                {arrivalCopy[10]}
               </label>
-              <div className="relative">
-                <input
-                  id="flight-input"
-                  type="text"
-                  autoComplete="off"
-                  dir="ltr"
-                  maxLength={20}
-                  pattern="[A-Za-z0-9 ]{0,20}"
-                  title={locale === 'ar' ? 'أدخل رقم الرحلة بحروف إنجليزية وأرقام فقط' : 'Use letters and digits only for the flight number'}
-                  placeholder={t.flightPlaceholder}
-                  value={flightNumber}
-                  onChange={(e) => setFlightNumber(e.target.value.toUpperCase().replace(/[^A-Z0-9 ]/g, '').slice(0, 20))}
-                  className="w-full min-h-[48px] h-12 pl-10 pr-3 rtl:pr-10 rtl:pl-3 rounded-btn border border-border-strong bg-surface text-ink text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold"
-                />
-                <Plane className="w-4 h-4 text-gold-dark absolute left-3 rtl:left-auto rtl:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
-              {flightNumber && (
-                <p className="mt-2 text-[11px] text-emerald-800 bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>{t.flightNotice}</span>
-                </p>
-              )}
-            </div>
+            )}
+            {arrivalAirport && (
+              <FlightArrivalFields airport={arrivalAirport} locale={locale} value={flight}
+                onChange={(value) => { setFlight(value); setStep1Error(null); }} />
+            )}
 
             {/* COMPLIMENTARY INCLUSIONS (NO Zamzam water per Prompt 11 rule) */}
             <div className="pt-2">
@@ -2103,7 +2149,7 @@ export function BookingEngine({
                   <span className="font-medium text-ink">{t.addOnChildSeat}</span>
                 </label>
 
-                <label className="flex items-center gap-2.5 p-3 min-h-[48px] rounded-xl bg-bg-alt/60 border border-border cursor-pointer hover:border-gold-line transition-colors">
+                {arrivalAirport && <label className="flex items-center gap-2.5 p-3 min-h-[48px] rounded-xl bg-bg-alt/60 border border-border cursor-pointer hover:border-gold-line transition-colors">
                   <input
                     type="checkbox"
                     checked={addOns.flight_tracking}
@@ -2111,7 +2157,7 @@ export function BookingEngine({
                     className="rounded text-gold focus:ring-gold w-4 h-4"
                   />
                   <span className="font-medium text-ink">{t.addOnFlightTracking}</span>
-                </label>
+                </label>}
 
                 <label className="flex items-center gap-2.5 p-3 min-h-[48px] rounded-xl bg-bg-alt/60 border border-border cursor-pointer hover:border-gold-line transition-colors">
                   <input
@@ -2127,7 +2173,7 @@ export function BookingEngine({
 
             {/* ERROR BANNER */}
             {step1Error && (
-              <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-center gap-2">
+              <div role="alert" className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
                 <span>{step1Error}</span>
               </div>
@@ -2177,7 +2223,7 @@ export function BookingEngine({
                   {(vehicleId && VEHICLE_SPECS[vehicleId]?.name) || vehicleId || (locale === 'ar' ? 'بانتظار الاختيار' : 'Pending Selection')}
                 </span>
                 <span className="text-gold-dark font-bold">
-                  {formatPrice(currentPriceSAR)}
+                  {finalPriceSAR === null ? '—' : formatPrice(finalPriceSAR)}
                 </span>
               </div>
               <button
@@ -2200,11 +2246,9 @@ export function BookingEngine({
             </div>
 
             {/* Guest contact details: a dedicated, responsive concierge panel */}
-            <section aria-label={locale === 'ar' ? 'بيانات التواصل مع الضيف' : 'Guest contact details'} className="rounded-3xl border border-border bg-surface p-5 sm:p-7 shadow-sm">
+            <section aria-labelledby="guest-contact-heading" className="rounded-3xl border border-border bg-surface p-5 sm:p-7 shadow-sm">
               <div className="mb-5 border-b border-border pb-4">
-                <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-gold-dark">{locale === 'ar' ? 'بيانات الضيف' : 'GUEST DETAILS'}</p>
-                <h4 className="mt-2 font-display text-xl font-semibold text-ink">{locale === 'ar' ? 'كيف يمكننا التواصل معك؟' : 'How may we reach you?'}</h4>
-                <p className="mt-1 text-sm leading-relaxed text-ink-muted">{locale === 'ar' ? 'سنستخدم بياناتك لإرسال تفاصيل طلب الحجز والتواصل بشأن الرحلة.' : 'We use these details for your booking request and journey updates.'}</p>
+                <h4 id="guest-contact-heading" className="font-display text-xl font-semibold text-ink">{t.passengerInfoTitle}</h4>
               </div>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <div>
@@ -2232,17 +2276,17 @@ export function BookingEngine({
                 </label>
                 <div className="flex min-h-12 items-stretch gap-2" dir="ltr">
                   <div className="flex w-[46%] min-w-[130px] max-w-[210px] flex-col gap-1">
-                    <label htmlFor="phone-country-search" className="sr-only">{locale === 'ar' ? 'ابحث عن الدولة' : 'Search country'}</label>
+                    <label htmlFor="phone-country-search" className="sr-only">{countrySearchLabel}</label>
                     <input
                       id="phone-country-search"
                       type="search"
                       autoComplete="off"
                       value={countrySearch}
                       onChange={(e) => setCountrySearch(e.target.value)}
-                      placeholder={locale === 'ar' ? 'بحث عن دولة...' : 'Search country...'}
+                      placeholder={countrySearchLabel}
                       className="h-8 w-full rounded-lg border border-border-strong bg-surface px-2 text-xs text-ink focus:outline-none focus:ring-2 focus:ring-gold"
                     />
-                    <label htmlFor="phone-country-select" className="sr-only">{locale === 'ar' ? 'اختر مفتاح الدولة' : 'Choose country calling code'}</label>
+                    <label htmlFor="phone-country-select" className="sr-only">{countryLabel}</label>
                     <select
                       id="phone-country-select"
                       value={phoneCountry}
@@ -2309,6 +2353,7 @@ export function BookingEngine({
               <textarea
                 id="customer-notes-input"
                 rows={2}
+                maxLength={1000}
                 placeholder={t.specialNotesPlaceholder}
                 value={specialNotes}
                 onChange={(e) => setSpecialNotes(e.target.value)}
@@ -2353,8 +2398,11 @@ export function BookingEngine({
             </div>
 
             {/* ERROR DISPLAY */}
+            {activeQuote && finalPriceSAR === null && (
+              <p role="alert" className="text-sm font-semibold text-rose-800">{quoteError}</p>
+            )}
             {errorMessage && (
-              <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-center gap-3">
+              <div role="alert" className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-center gap-3">
                 <AlertCircle className="w-5 h-5 shrink-0 text-rose-600" />
                 <span>{errorMessage}</span>
               </div>
@@ -2374,7 +2422,7 @@ export function BookingEngine({
 
               <button
                 type="submit"
-                disabled={isSubmitting || !turnstileToken}
+                disabled={isSubmitting || !turnstileToken || finalPriceSAR === null}
                 className="duyuf-booking-primary-action w-full sm:w-auto min-h-[52px] px-8 rounded-xl bg-[#1C4148] text-white font-semibold transition-colors hover:bg-[#2C535B] disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
@@ -2439,6 +2487,16 @@ export function BookingEngine({
               <span>{pickupDate ? `${pickupDate} • ${pickupTime}` : (locale === 'ar' ? 'بانتظار تحديد الموعد (الخطوة 3)' : 'Schedule: Set in Step 3')}</span>
             </div>
           </div>
+
+          {hasFlightDetails && arrivalAirport && (
+            <div className="duyuf-booking-summary-extra space-y-1 text-sm">
+              <span className="font-semibold text-ink-muted">{arrivalCopy[0]}</span>
+              <div className="flex items-start gap-2 text-ink">
+                <Plane className="mt-0.5 h-4 w-4 shrink-0 text-gold-dark" aria-hidden="true" />
+                <span><bdi>{arrivalAirport}</bdi> · {flight.airline} <bdi>{flight.number}</bdi><br /><bdi>{flight.date} {flight.time}</bdi></span>
+              </div>
+            </div>
+          )}
 
           {/* SELECTED VEHICLE */}
           <div className="duyuf-booking-summary-extra space-y-2 text-xs pt-1 border-t border-border/60">
@@ -2515,9 +2573,18 @@ export function BookingEngine({
           {/* AUTHORITATIVE TOTAL PRICE */}
           <div className="pt-3 border-t border-border">
             <span className="text-[10px] text-ink-muted uppercase block mb-0.5">
-              {t.summaryTotalFare}
+              {currentStep === 4 ? t.summaryTotalFare : estimateLabel}
             </span>
-            {vehicleId && currentPriceSAR > 0 ? (
+            {currentStep === 4 ? (
+              <div className="flex items-baseline gap-2" aria-live="polite">
+                <span className="font-display font-extrabold text-3xl text-ink">
+                  {finalPriceSAR === null ? '—' : formatPrice(finalPriceSAR)}
+                </span>
+                {finalPriceSAR !== null && currency !== 'SAR' && (
+                  <bdi className="text-xs text-ink-muted">{finalPriceSAR} SAR</bdi>
+                )}
+              </div>
+            ) : vehicleId && currentPriceSAR > 0 ? (
               <div className="flex items-baseline gap-2">
                 <span className="font-display font-extrabold text-3xl text-ink">
                   {formatPrice(currentPriceSAR)}

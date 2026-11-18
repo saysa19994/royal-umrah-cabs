@@ -98,12 +98,21 @@ test('Checkout never uses a pretend verification token or hides the security wid
   const widget = read('src/components/common/TurnstileWidget.tsx');
   assert.match(engine, /useState<string>\(''\)/);
   assert.doesNotMatch(engine, /verified_client/);
-  assert.match(engine, /disabled=\{isSubmitting \|\| !turnstileToken\}/);
+  assert.match(engine, /disabled=\{isSubmitting \|\| !turnstileToken \|\| finalPriceSAR === null\}/);
   assert.match(engine, /onExpire=\{handleTurnstileInvalidated\}/);
   assert.match(engine, /turnstileWidgetRef\.current\?\.reset\(\)/);
   assert.match(widget, /isDeployed \? '' : DEV_TEST_SITE_KEY/);
   assert.doesNotMatch(widget, /pointer-events-none fixed -top-\[9999px\]/);
   assert.match(widget, /role="alert"/);
+});
+
+test('Booking review uses the same server calculator as submission and checks a changed fare before inserting', () => {
+  const quote = read('src/app/api/bookings/quote/route.ts');
+  const booking = read('src/app/api/bookings/route.ts');
+  assert.match(quote, /calculateServerPrice\(\{ \.\.\.pricingInput, pickupDatetime \}\)/);
+  assert.doesNotMatch(quote, /\.insert\(/);
+  assert.match(booking, /validated\.quoted_price_sar !== finalPriceSAR/);
+  assert.ok(booking.indexOf("code: 'fare_changed'") < booking.indexOf('.insert([bookingPayload])'));
 });
 
 
@@ -135,14 +144,14 @@ test('Preview homepage uses a new architecture, original video and real pricing;
   const css=read('src/components/home/SignatureJourneyHomepage.module.css');
   const home=read('src/components/home/SignatureJourneyHomepage.tsx');
   const page=read('src/app/[locale]/page.tsx');
-  const next=read('src/components/home/JourneyArchitectHomepage.tsx');
-  const newCss=read('src/components/home/JourneyArchitectHomepage.module.css');
-  assert.match(page,/<JourneyArchitectHomepage/);
-  assert.match(next,/AUTHORITATIVE_TRANSFER_RATES/);
+  const next=read('src/components/fusion/SignatureFusionHomepage.tsx');
+  const newCss=read('src/components/fusion/SignatureFusionHomepage.module.css');
+  assert.match(page,/<SignatureFusionHomepage/);
+  assert.match(page,/getDbPricesCached\(\)/);
   assert.match(next,/APPROVED_5_FLEET/);
-  assert.match(next,/hero-mobile\.webm/);
-  assert.match(newCss,/\.routeAtlas\{/);
-  assert.match(newCss,/\.fleetMuseum\{/);
+  assert.match(next,/hero-mobile\.mp4/);
+  assert.match(newCss,/\.routeAtlas\s*\{/);
+  assert.match(newCss,/\.showroomLayout\s*\{/);
   assert.match(css,/\.heroVideo\{position:absolute;inset:0/);
   assert.match(css,/\.routeExplorer\{display:grid/);
   assert.match(css,/\.fleetShowroom\{display:grid/);

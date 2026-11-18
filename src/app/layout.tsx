@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { cormorant, manrope, amiri, tajawal } from './fonts';
 import './globals.css';
+import '../styles/royal-fonts.css';
 import '../styles/duyuf-premium-final.css';
 
 export const metadata: Metadata = {

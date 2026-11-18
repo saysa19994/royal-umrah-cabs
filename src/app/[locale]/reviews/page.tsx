@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { ReviewsSection } from '@/components/reviews/ReviewsSection';
-import { ChevronRight, Home, Star } from 'lucide-react';
+import { ChevronRight, Home } from 'lucide-react';
 
 interface ReviewsPageProps {
   params: Promise<{
@@ -47,7 +47,6 @@ export default async function ReviewsPage(props: ReviewsPageProps) {
 
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
-  const isAr = locale === 'ar';
 
   const breadcrumbsSchema = {
     '@context': 'https://schema.org',
@@ -56,7 +55,7 @@ export default async function ReviewsPage(props: ReviewsPageProps) {
       {
         '@type': 'ListItem',
         position: 1,
-        name: isAr ? 'الرئيسية' : 'Home',
+        name: dict.nav.home,
         item: `${baseUrl}/${locale}`,
       },
       {
@@ -69,28 +68,26 @@ export default async function ReviewsPage(props: ReviewsPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[#060A14] text-white flex flex-col">
+    <div className="min-h-screen bg-bg text-ink">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
       />
 
       {/* Breadcrumb Navigation Header */}
-      <div className="bg-[#0B1120] border-b border-white/10 py-3.5">
-        <div className="container mx-auto px-4 max-w-7xl flex items-center gap-2 text-xs text-slate-400">
-          <Link href={`/${locale}`} className="hover:text-gold flex items-center gap-1 transition-colors">
-            <Home className="w-3.5 h-3.5" />
-            <span>{isAr ? 'الرئيسية' : 'Home'}</span>
+      <div className="border-b border-border py-3.5">
+        <nav aria-label={dict.reviews.heading} className="container mx-auto px-4 max-w-7xl flex items-center gap-2 text-sm text-ink-muted">
+          <Link href={`/${locale}`} className="hover:underline flex items-center gap-1.5">
+            <Home className="w-3.5 h-3.5" aria-hidden="true" />
+            <span>{dict.nav.home}</span>
           </Link>
-          <ChevronRight className="w-3 h-3 text-slate-600 rtl:rotate-180" />
-          <span className="text-gold font-medium">{dict.reviews.heading}</span>
-        </div>
+          <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180" aria-hidden="true" />
+          <span className="text-ink font-medium" aria-current="page">{dict.reviews.heading}</span>
+        </nav>
       </div>
 
       {/* Main Reviews Section */}
-      <main className="flex-1">
-        <ReviewsSection locale={locale} dict={dict} isStandalone={true} />
-      </main>
+      <ReviewsSection locale={locale} dict={dict} isStandalone />
     </div>
   );
 }

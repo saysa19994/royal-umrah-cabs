@@ -208,8 +208,14 @@ export function HomepageFaqJsonLd({ dict }: { dict: Dictionary }) {
     />
   );
 }
-export function FaqJsonLd({ dict }: { dict: Dictionary }) {
-  const faqList = [
+export function FaqJsonLd({
+  dict,
+  items,
+}: {
+  dict: Dictionary;
+  items?: Array<{ q: string; a: string }>;
+}) {
+  const faqList = (items ?? [
     { q: dict.faq.q1, a: dict.faq.a1 },
     { q: dict.faq.q2, a: dict.faq.a2 },
     { q: dict.faq.q3, a: dict.faq.a3 },
@@ -222,7 +228,7 @@ export function FaqJsonLd({ dict }: { dict: Dictionary }) {
     { q: dict.faq.q10, a: dict.faq.a10 },
     { q: dict.faq.q11, a: dict.faq.a11 },
     { q: dict.faq.q12, a: dict.faq.a12 },
-  ].filter((item) => Boolean(item.q && item.a));
+  ]).filter((item) => Boolean(item.q && item.a));
 
   const faqSchema = {
     '@context': 'https://schema.org',

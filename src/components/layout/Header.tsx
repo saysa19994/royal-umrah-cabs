@@ -174,10 +174,9 @@ export function Header({ locale, dict, settings }: HeaderProps) {
   const primaryNavLinks = [
     { href: locale === 'en' ? '/' : `/${locale}`, label: dict.nav.home },
     { href: `/${locale}/fleet`, label: dict.nav.fleet },
-    { href: `/${locale}/pricing`, label: dict.nav.pricing },
+    { href: `/${locale}/routes`, label: dict.nav.routes },
     { href: `/${locale}/ziyarat`, label: t.ziyarat },
     { href: `/${locale}/services`, label: dict.nav.services },
-    { href: '/' + locale + '/blog', label: t.blog },
     { href: `/${locale}/about`, label: dict.nav.about },
   ];
 
@@ -193,7 +192,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
     { href: `/${locale}/contact`, label: dict.nav.contact },
   ];
 
-  const isRoyalHome = isHomePage && (locale==='ar'||locale==='en');
+  const isRoyalHome = isHomePage;
   const isTransparent = isHomePage && !isScrolled;
 
   const headerBgClass = isRoyalHome && !isScrolled
@@ -215,7 +214,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
     >
       {Boolean(settings?.promo_banner_enabled) && (
         <div className="bg-gradient-to-r from-[#A0783E] via-[#B88B4E] to-[#A0783E] text-white text-[11px] sm:text-xs font-bold py-1 px-3 text-center tracking-wide shadow-xs">
-          <span>{settings?.announcement_translations?.[locale] || settings?.promo_banner_text || ''}</span>
+          <span>{settings?.announcement_translations?.[locale] || (locale === 'en' ? settings?.promo_banner_text : dict.promo_bar.text) || dict.promo_bar.text}</span>
         </div>
       )}
       <div className="container mx-auto px-3 sm:px-4 max-w-7xl flex items-center justify-between">
@@ -263,7 +262,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
         {/* RIGHT CONTROLS: THEME SWITCHER, LANGUAGE, CURRENCY, BOOK ONLINE CTA, MOBILE TOGGLE */}
         <div className="flex items-center gap-1.5 sm:gap-2">
           {/* THEME SWITCHER (ALWAYS VISIBLE — MOBILE & DESKTOP) */}
-          <div className="flex items-center">
+          <div className="hidden items-center sm:flex">
             <ThemeToggle locale={locale} />
           </div>
 
@@ -320,24 +319,24 @@ export function Header({ locale, dict, settings }: HeaderProps) {
           {/* BRONZE BOOK ONLINE CTA (DESKTOP ONLY) */}
           <Link
             href={`/${locale}/booking`}
-            className={`hidden sm:inline-flex items-center gap-1.5 h-8 sm:h-9 px-4 sm:px-5 text-[11px] sm:text-xs font-semibold rounded-full active:scale-[0.98] transition-all shadow-xs focus-visible:ring-2 text-white ${
+            className={`inline-flex items-center gap-1.5 min-h-10 sm:h-9 px-2.5 sm:px-5 text-[11px] sm:text-xs font-semibold rounded-full active:scale-[0.98] transition-all shadow-xs focus-visible:ring-2 text-white ${
               isDark
                 ? 'bg-[#B88B4E] hover:bg-[#CDA062] focus-visible:ring-[#B88B4E]'
                 : 'bg-[#A0783E] hover:bg-[#8A6530] focus-visible:ring-[#A0783E]'
             }`}
           >
-            <span>{t.bookOnline}</span>
-            <ArrowUpRight className="w-3.5 h-3.5 rtl:rotate-[-90deg]" />
+            <span>{dict.nav.bookNow}</span>
+            <ArrowUpRight className="hidden w-3.5 h-3.5 rtl:rotate-[-90deg] sm:block" aria-hidden />
           </Link>
 
           {/* MOBILE HAMBURGER BUTTON (w-10 h-10 touch target compliant) */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            aria-label="Open Navigation Menu"
+            aria-label={t.navigation}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav-fullscreen"
-            className={`lg:hidden w-10 h-10 min-w-[40px] rounded-lg border transition-colors flex items-center justify-center focus-visible:ring-2 backdrop-blur-md ${
+            className={`lg:hidden w-11 h-11 min-w-[44px] rounded-lg border transition-colors flex items-center justify-center focus-visible:ring-2 backdrop-blur-md ${
               isDark
                 ? 'border-[#222E40] bg-[#131C28] text-white focus-visible:ring-[#B88B4E]'
                 : 'border-[#E8E2D6] bg-white text-[#111824] focus-visible:ring-[#A0783E]'
@@ -387,7 +386,7 @@ export function Header({ locale, dict, settings }: HeaderProps) {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              aria-label="Close Navigation Menu"
+              aria-label={t.navigation}
               className={`w-10 h-10 rounded-lg border transition-colors flex items-center justify-center focus-visible:ring-2 ${
                 isDark
                   ? 'border-white/20 bg-white/10 text-white hover:text-[#B88B4E] focus-visible:ring-[#B88B4E]'

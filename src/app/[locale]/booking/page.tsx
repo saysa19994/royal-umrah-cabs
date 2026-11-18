@@ -6,7 +6,6 @@ import type { Metadata } from 'next';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
-import { BookingEngine } from '@/components/booking/BookingEngine';
 import { BookingWizard } from '@/components/booking/BookingWizard';
 import { ShieldCheck, Plane, Banknote } from 'lucide-react';
 import { getDbPricesCached } from '@/lib/pricing-db';
@@ -208,12 +207,12 @@ export default async function BookingPage(props: BookingPageProps) {
 
   // Reframe the journey entrance; booking validation and persistence stay in BookingWizard.
   return (
-    <main className={styles.page} dir={locale==='ar'||locale==='ur'?'rtl':'ltr'}>
+    <div className={styles.page} dir={locale==='ar'||locale==='ur'?'rtl':'ltr'}>
       <header className={styles.intro} aria-labelledby="duyuf-booking-heading">
         <div className={styles.introCopy}>
-          <div className={styles.serial}><span>01 / BOOKING ATRIUM</span><span>{pageText.badge}</span></div>
+          <div className={styles.serial}>{pageText.badge}</div>
           <h1 id="duyuf-booking-heading">{pageText.title}</h1>
-          <p>{pageText.subtitle}</p>
+          <a className={styles.startLink} href="#booking-reservation">{dict.nav.bookNow}</a>
         </div>
         <div className={styles.introMedia}>
           <Image src="/assets/homepage-v2/chauffeur-welcome.jpg" fill
@@ -227,11 +226,8 @@ export default async function BookingPage(props: BookingPageProps) {
         <div><Plane size={20} aria-hidden="true"/><span>{pageText.trust2}</span></div>
         <div><ShieldCheck size={20} aria-hidden="true"/><span>{pageText.trust3}</span></div>
       </div>
-      <section className={'duyuf-booking-page duyuf-booking-editorial '+styles.reservationDesk} aria-label={dict.nav.bookNow}>
+      <section id="booking-reservation" className={'duyuf-booking-page duyuf-booking-editorial '+styles.reservationDesk} aria-label={dict.nav.bookNow}>
         <div className="container mx-auto px-4 max-w-7xl relative z-10">
-          <div className={styles.deskIntro}>
-            <span>02 / JOURNEY REQUEST · 01—04</span><p>{dict.booking_card.noPrepayNotice}</p>
-          </div>
         {draftRestoreFailed && (
           <div role="status" className="mx-auto mb-6 max-w-3xl rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-center text-sm font-medium text-amber-900">
             {({
@@ -270,6 +266,6 @@ export default async function BookingPage(props: BookingPageProps) {
         </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

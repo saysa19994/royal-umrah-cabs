@@ -1,6 +1,4 @@
-/* Booking Atrium: independent entrance design, not another hero + 3 trust cards.
-   The existing verified BookingWizard and BookingEngine remain untouched, including
-   payment policy, flight numbers, search parameters, server price lookup and RLS. */
+/* Reservation introduction and responsive booking workspace. */
 .page{background:#f6f6f0;color:#163b3d;overflow-x:clip}
 .page *{box-sizing:border-box}
 .intro{position:relative;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);min-height:510px;background:#101f2b;color:#fff;overflow:hidden}
@@ -22,9 +20,6 @@
 .operationalLine span{font-size:12px;font-weight:730;color:#294a4d;line-height:1.7}
 .reservationDesk{background:#f6f6f0;padding:50px 0 80px}
 .reservationDesk :global(.duyuf-booking-wizard){scroll-margin-top:92px}
-.deskIntro{max-width:1350px;margin:0 auto 24px;display:flex;gap:30px;align-items:end;justify-content:space-between;color:#17454a}
-.deskIntro>span{font-size:12px;font-weight:820;color:#aa8960;letter-spacing:.07em}
-.deskIntro>p{font-size:12px;line-height:1.8;color:#728780;margin:0;max-width:400px;text-align:end}
 .reservationDesk :global(.duyuf-prototype-booking-desk){box-shadow:none}
 .reservationDesk :global(.duyuf-booking-progress-desktop){border-radius:0}
 .reservationDesk :global(.duyuf-booking-summary){box-shadow:none}
@@ -51,9 +46,6 @@
  .operationalLine svg{width:16px;height:16px}
  .operationalLine span{font-size:10px;line-height:1.6}
  .reservationDesk{padding:22px 0 35px}
- .deskIntro{display:block;margin:0 auto 12px;padding:0 5px}
- .deskIntro>span{font-size:10px}
- .deskIntro>p{font-size:10px;text-align:start;line-height:1.7;margin-top:5px}
 }
 @media(max-width:390px){
  .introCopy{padding:78px 15px 18px}
@@ -67,28 +59,28 @@
 }
 
 
-/* Signature Fusion: booking is a real 4-step verified wizard. Only the surrounding
-   atmosphere changes; the BookingWizard, BookingEngine and server writes remain intact. */
-.page{background:#f9f7f1;color:#1d3b3e;font-family:var(--font-tajawal,Arial),Arial,sans-serif}
+.page{background:#f7f5f0;color:#101827;font-family:var(--font-tajawal,Arial),Arial,sans-serif}
 .page[dir=ltr]{font-family:var(--font-manrope,Arial),Arial,sans-serif}
-.intro{grid-template-columns:minmax(0,1fr) minmax(0,.72fr);min-height:390px;background:#1d3b42}
+.intro{grid-template-columns:minmax(0,1fr) minmax(0,.72fr);min-height:390px;background:#101827}
 .introCopy{padding:55px clamp(30px,6vw,100px)}
 .introCopy h1{font-size:clamp(38px,4.55vw,67px);line-height:1.22}
-.introCopy>p{color:#d3ded8;max-width:580px;line-height:1.85}
+.introCopy>p{color:#e8e6e0;max-width:580px;line-height:1.85;font-size:15px}
 .introMedia{min-height:390px}
 .serial{color:#ddc196}
-.operationalLine{background:#f1f0e9;border-color:#d6ddd5}
+.operationalLine{background:#f7f5f0;border-color:#e8e6e0}
 .operationalLine>div{min-height:71px}
-.operationalLine span{color:#395750}
-.reservationDesk{background:#f9f7f1;padding-top:36px}
-.deskIntro{color:#35534f}
+.operationalLine span{color:#101827;font-size:13px}
+.reservationDesk{background:#f7f5f0;padding-top:36px;scroll-margin-top:92px}
 .reservationDesk :global(.duyuf-booking-wizard){background:transparent}
 .reservationDesk :global(.duyuf-booking-progress-desktop){box-shadow:none}
+.startLink{display:inline-flex;min-height:48px;align-items:center;margin-top:22px;padding:0 22px;border:1px solid #a97b27;background:#f7f5f0;color:#101827;font-size:14px;font-weight:750}
+.startLink:hover{background:#e8e6e0}
+.page[dir=rtl] .serial{letter-spacing:0}
 @media(max-width:767px){
  .intro{display:flex;flex-direction:column;min-height:0}
  .introCopy{padding:60px 18px 21px}
  .introCopy h1{font-size:clamp(31px,7.9vw,43px)}
- .introCopy>p{font-size:11px}
+ .introCopy>p{font-size:14px}
  .introMedia{height:170px;min-height:170px}
  .operationalLine>div{min-height:34px}
  .reservationDesk{padding-top:22px}

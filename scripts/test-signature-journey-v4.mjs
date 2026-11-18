@@ -6,9 +6,10 @@ const page=read('src/app/[locale]/page.tsx');
 const source=read('src/components/home/SignatureJourneyHomepage.tsx');
 const styles=read('src/components/home/SignatureJourneyHomepage.module.css');
 
-test('the new independent architect homepage is mounted; Signature Journey V4 remains a rollback reference',()=>{
-  assert.match(page,/import \{JourneyArchitectHomepage\}/);
-  assert.match(page,/<JourneyArchitectHomepage locale=\{locale\} dict=\{dict\}\/>/);
+test('Royal Immersion is mounted and Signature Journey V4 remains a rollback reference',()=>{
+  assert.match(page,/import SignatureFusionHomepage from '@\/components\/fusion\/SignatureFusionHomepage'/);
+  assert.match(page,/<SignatureFusionHomepage\s+locale=\{locale\}\s+rates=\{rates\}\s+dict=\{dict\}/);
+  assert.doesNotMatch(page,/<JourneyArchitectHomepage/);
   assert.doesNotMatch(page,/<SignatureJourneyHomepage/);
   assert.doesNotMatch(page,/<PrivateJourneyHomepage/);
 });

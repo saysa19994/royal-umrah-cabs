@@ -7,8 +7,9 @@ import {
 } from '@/data/fleet-showcase-data';
 
 function getSupabaseClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://skyhpzdeapmttgmvcoeh.supabase.co';
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
   return createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
@@ -22,6 +23,7 @@ export const getDbVehiclesCached = unstable_cache(
   async (): Promise<FleetShowcaseVehicle[]> => {
     try {
       const supabase = getSupabaseClient();
+      if (!supabase) return FLEET_SHOWCASE_VEHICLES;
       const { data, error } = await supabase
         .from('vehicles')
         .select('*')
@@ -32,22 +34,28 @@ export const getDbVehiclesCached = unstable_cache(
         // Map database records to FleetShowcaseVehicle interface
         const vehicles: FleetShowcaseVehicle[] = data.map((v) => {
           // Look up matching fallback vehicle if available for detailed multilingual descriptions
-          const fallback = FLEET_SHOWCASE_VEHICLES.find((fv) => fv.id === v.id || fv.bookingVehicleId === v.id);
+          const fallback = FLEET_SHOWCASE_VEHICLES.find((vehicle) =>
+            vehicle.id === v.id || vehicle.bookingVehicleId === v.id || vehicle.slug === v.id,
+          );
 
           const photos = v.photos || {};
-          const extPhoto = photos.exterior || '/assets/images/vehicles/toyota-camry/exterior-studio.webp';
-          const intPhoto = photos.interior || '/assets/images/vehicles/toyota-camry/interior.webp';
+          const extPhoto = photos.exterior || fallback?.gallery.find((photo) => photo.type === 'exterior')?.src;
+          const intPhoto = photos.interior || fallback?.gallery.find((photo) => photo.type === 'interior')?.src;
 
-                    // Extract gallery guaranteeing extPhoto is first (type: 'exterior') and intPhoto is second (type: 'interior')
+          // Keep the model-specific exterior and interior first when each is available.
           const additionalPhotos: string[] = Array.isArray(photos.gallery)
-            ? photos.gallery.filter((src: string) => src !== extPhoto && src !== intPhoto)
+            ? photos.gallery.filter((src: unknown): src is string =>
+                typeof src === 'string' && src.length > 0 && src !== extPhoto && src !== intPhoto,
+              )
             : [];
 
-          const rawGallery: string[] = [extPhoto, intPhoto, ...additionalPhotos];
+          const rawGallery = [...new Set([extPhoto, intPhoto, ...additionalPhotos])].filter(
+            (src): src is string => typeof src === 'string' && src.length > 0,
+          );
 
-          const gallery = rawGallery.map((src: string, idx: number) => {
-            const isExterior = src === extPhoto || idx === 0;
-            const isInterior = !isExterior && (src === intPhoto || idx === 1);
+          const gallery = rawGallery.map((src) => {
+            const isExterior = src === extPhoto;
+            const isInterior = !isExterior && src === intPhoto;
             return {
               src,
               alt: {
@@ -106,13 +114,13 @@ export const getDbVehiclesCached = unstable_cache(
 
           return {
             id: v.id,
-            slug: v.id,
+            slug: fallback?.slug || v.id,
             bookingVehicleId: v.id,
             name: nameTranslations,
             category: categoryTranslations,
-            passengers: Number(v.seats) || 4,
-            luggage: Number(v.bags) || 3,
-            startingPriceSAR: fallback?.startingPriceSAR || 200,
+            passengers: v.seats == null ? (fallback?.passengers ?? 0) : Number(v.seats),
+            luggage: v.bags == null ? (fallback?.luggage ?? 0) : Number(v.bags),
+            startingPriceSAR: fallback?.startingPriceSAR ?? 0,
             desc: fallback?.desc || {
               en: `Experience refined comfort with our private ${v.name} for your holy journey.`,
               ar: `تمتع بأرقى درجات الراحة والسكينة مع ${v.translations?.ar?.name || v.name} لرحلتكم المباركة.`,

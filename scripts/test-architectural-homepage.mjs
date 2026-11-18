@@ -5,9 +5,9 @@ const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 const page=read('src/app/[locale]/page.tsx');
 const jsx=read('src/components/home/JourneyArchitectHomepage.tsx');
 const css=read('src/components/home/JourneyArchitectHomepage.module.css');
-test('homepage switches to new isolated architecture, not another old CSS override',()=>{
- assert.match(page,/JourneyArchitectHomepage locale=\{locale\} dict=\{dict\}/);
- assert.doesNotMatch(page,/SignatureJourneyHomepage/);
+test('the current homepage mounts Royal Immersion and retains the architectural rollback component',()=>{
+ assert.match(page,/<SignatureFusionHomepage\s+locale=\{locale\}\s+rates=\{rates\}\s+dict=\{dict\}/);
+ assert.doesNotMatch(page,/<(?:JourneyArchitectHomepage|SignatureJourneyHomepage)/);
  assert.match(page,/<HomepageFaqJsonLd dict=\{dict\}/);
  assert.doesNotMatch(css,/SignatureJourneyHomepage|\\.container/);
  for(const name of ['cinema','ticketZone','routeAtlas','fleetMuseum','travelEssay','truthStrip','questionRoom']) {

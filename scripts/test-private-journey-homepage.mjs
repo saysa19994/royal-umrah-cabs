@@ -9,7 +9,7 @@ const component=read('src/components/home/PrivateJourneyHomepage.tsx');
 const stylesheet=read('src/components/home/PrivateJourneyHomepage.module.css');
 
 test('real route and fare engine are preserved, with booking requests rather than fake checkout',()=>{
-  assert.match(read('src/app/[locale]/page.tsx'),/<JourneyArchitectHomepage/);
+  assert.match(read('src/app/[locale]/page.tsx'),/<SignatureFusionHomepage/);
   assert.match(component,/AUTHORITATIVE_TRANSFER_RATES/);
   assert.match(component,/LOCALIZED_ROUTE_NAMES/);
   assert.match(component,/APPROVED_5_FLEET/);
