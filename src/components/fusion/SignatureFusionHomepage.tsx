@@ -273,7 +273,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
       <ul className={styles.trustLine} aria-label={copy.promiseTitle}>
         {benefits.map(({ Icon, text }) => <li key={text}><Icon size={18} aria-hidden />{text}</li>)}
       </ul>
-      <RoyalBookingSteps locale={locale} />
+      <RoyalBookingSteps locale={locale} dict={dict} />
 
       <section id="fusion-story" className={styles.story} aria-labelledby="fusion-story-title" data-royal-story>
         <div className={styles.storyIntro}><h2 id="fusion-story-title">{copy.journeyTitle}</h2></div>
@@ -302,6 +302,9 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
           <div className={styles.carRail} role="group" aria-label={dict.nav.fleet}>
             {fleet.map((vehicle, index) => (
               <button key={vehicle.id} type="button" aria-pressed={index === carIndex} onClick={() => chooseVehicle(index)}>
+                <span className={styles.fleetThumb} aria-hidden="true">
+                  <Image src={vehicle.exteriorImage} alt="" width={135} height={72} />
+                </span>
                 <strong>{vehicle.name[locale]}</strong>
               </button>
             ))}
@@ -387,6 +390,20 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
           <a href="#fusion-book">{copy.heroBook}<DirectionArrow size={19} aria-hidden /></a>
         </div>
       </section>
+      <div className={styles.filmstrip} aria-hidden="true">
+        <div className={styles.filmstripTrack}>
+          {[
+            '/assets/homepage-v2/chauffeur-welcome.jpg',
+            '/assets/images/vehicles/hyundai-staria/interior.webp',
+            '/assets/images/routes/makkah-to-madinah.jpg',
+            '/assets/images/vehicles/gmc-yukon-xl/exterior-studio.webp',
+            '/assets/homepage-v2/ziyarat-haram.jpg',
+            '/assets/images/vehicles/toyota-camry/interior.webp',
+          ].map((image, index) => (
+            <Image key={image + index} src={image} alt="" width={225} height={124} loading="lazy" />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
