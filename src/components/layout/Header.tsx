@@ -263,7 +263,10 @@ export function Header({ locale, dict, settings }: HeaderProps) {
 
         {/* RIGHT CONTROLS: THEME SWITCHER, LANGUAGE, CURRENCY, BOOK ONLINE CTA, MOBILE TOGGLE */}
         <div className="flex items-center gap-1.5 sm:gap-2">
-          <div className="hidden lg:flex items-center">
+          <div className="hidden lg:flex 2xl:hidden items-center">
+            <ComfortModeToggle locale={locale} compact />
+          </div>
+          <div className="hidden 2xl:flex items-center">
             <ComfortModeToggle locale={locale} />
           </div>
 
