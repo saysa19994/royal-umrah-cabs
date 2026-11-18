@@ -143,17 +143,16 @@ export default async function LocaleLayout(props: LocaleLayoutProps) {
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
+                var theme = 'light';
+                var comfort = 'off';
                 try {
                   var saved = localStorage.getItem('duyuf_theme_preference');
-                  document.documentElement.dataset.comfortMode = localStorage.getItem('duyuf_comfort_mode') === 'on' ? 'on' : 'off';
-                  var theme = (saved === 'dark' || saved === 'light') ? saved : 'light';
-                  document.documentElement.setAttribute('data-theme', theme);
-                  if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                  }
-                } catch (e) {}
+                  if (saved === 'dark' || saved === 'light') theme = saved;
+                  comfort = localStorage.getItem('duyuf_comfort_mode') === 'on' ? 'on' : 'off';
+                } catch (e) { /* Browser may block storage, theme still applies. */ }
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.classList.toggle('dark', theme === 'dark');
+                document.documentElement.dataset.comfortMode = comfort;
               })();
             `,
           }}
