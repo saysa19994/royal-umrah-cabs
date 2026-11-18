@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronDown, CarFront, CalendarCheck2, Handshake, Wallet } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronDown, CarFront, CalendarCheck2, Handshake } from 'lucide-react';
 import { APPROVED_5_FLEET } from '@/data/approved-fleet-homepage';
 import { LOCALE_CONFIG, type Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n/get-dictionary';
@@ -15,7 +15,7 @@ type Props = { locale: Locale };
 type LocalizedProps = Props & { dict: Dictionary };
 const FAQ_QUESTIONS = [1, 4, 5, 6, 3, 2, 9, 10, 7] as const;
 
-export function RoyalBookingSteps({ locale, dict }: Props & { dict?: Dictionary }) {
+export function RoyalBookingSteps({ locale }: Props) {
   const copy = royalEditorial[locale].process;
   const number = new Intl.NumberFormat(locale, { minimumIntegerDigits: 2 });
   const StepIcons = [CarFront, CalendarCheck2, Handshake];
@@ -41,12 +41,6 @@ export function RoyalBookingSteps({ locale, dict }: Props & { dict?: Dictionary 
           );
         })}
       </ol>
-      {dict && (
-        <div className={styles.processPolicy} role="note">
-          <Wallet size={23} strokeWidth={1.5} aria-hidden="true" />
-          <span>{dict.booking_card.payOnArrivalNotice}</span>
-        </div>
-      )}
     </section>
   );
 }
