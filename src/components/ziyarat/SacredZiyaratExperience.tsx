@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { ZIYARAT_VISUALS, ZIYARAT_CARD_TO_SITE, getZiyaratLicenseUrl } from '@/data/ziyarat-visuals';
 import { Locale } from '@/i18n/config';
 import {
   MapPin,
@@ -926,6 +928,52 @@ fallbackLocales.forEach((loc) => {
   }
 });
 
+function ZiyaratSitePhoto({ site, locale }: { site: SiteItem; locale: Locale }) {
+  const [failed, setFailed] = useState(false);
+  const key = ZIYARAT_CARD_TO_SITE[site.id];
+  const image = ZIYARAT_VISUALS[key];
+  const fallback = site.city === 'makkah'
+    ? '/assets/homepage-v2/ziyarat-haram.jpg'
+    : '/assets/homepage-v2/service-madinah.jpg';
+  if (!image) return null;
+  const source = failed ? fallback : image.src;
+  const isArabic = locale === 'ar';
+  return (
+    <figure className="space-y-2">
+      <Link
+        href={`/${locale}/ziyarat/${site.city}/${key}`}
+        aria-label={site.name}
+        className="block relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-bg-alt focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-dark group"
+      >
+        <Image
+          src={source}
+          alt={site.name}
+          fill
+          unoptimized
+          loading="lazy"
+          sizes="(max-width: 768px) 80vw, (max-width: 1200px) 47vw, 520px"
+          className="object-cover transition-transform duration-500 group-hover:scale-[1.035]"
+          onError={() => setFailed(true)}
+        />
+        <span className="absolute inset-0 bg-gradient-to-t from-[#102b32]/40 via-transparent to-transparent pointer-events-none" />
+        {image.representative && <span className="absolute bottom-2 right-2 left-2 text-white text-[10px] font-semibold drop-shadow">
+          {isArabic ? 'صورة توضيحية لمزارع نخيل المدينة' : 'Representative Madinah date farm photo'}
+        </span>}
+      </Link>
+      {!failed && (
+        <figcaption className="text-[10px] leading-5 text-ink-muted">
+          {isArabic ? 'الصورة: ' : 'Photo: '}
+          <a href={image.source} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-ink">{image.author}</a>
+          {' · '}
+          <a href={getZiyaratLicenseUrl(image.license)} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-ink">{image.license}</a>
+          {' · '}
+          {isArabic ? 'مقتصة للعرض' : 'cropped for display'}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
 export default function SacredZiyaratExperience({
   locale,
   initialCity = 'makkah',
@@ -1033,6 +1081,7 @@ export default function SacredZiyaratExperience({
                 className="bg-surface rounded-2xl p-6 border border-border hover:border-gold transition-all flex flex-col justify-between space-y-6 shadow-sm"
               >
                 <div className="space-y-4">
+                  <ZiyaratSitePhoto site={site} locale={locale} />
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <span className="text-[11px] font-bold tracking-wider text-gold-dark uppercase block mb-1">
