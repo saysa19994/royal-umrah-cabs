@@ -341,34 +341,35 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
       {journey && (
         <section className={styles.routeAtlas} id="fusion-routes" aria-labelledby="fusion-routes-title">
           <div className={styles.routesHead}><h2 id="fusion-routes-title">{copy.routeTitle}</h2><p>{copy.routeLead}</p></div>
-          <div className={styles.routesDisplay}>
-            <div className={styles.routePhoto} data-royal-image>
-              <Image key={journey.image} src={journey.image} alt="" fill sizes="(max-width:820px) 100vw, 57vw" className={styles.cover} />
-              <span dir="ltr">
-                <svg viewBox="0 0 58 14" width="58" height="14" fill="none" aria-hidden="true">
-                  <circle cx="3" cy="11" r="2" fill="currentColor" />
-                  <path data-royal-route-path d="M 4 11 C 22 11, 35 3, 54 3" pathLength="1" strokeDasharray="1" stroke="currentColor" />
-                  <circle cx="55" cy="3" r="2" fill="currentColor" />
-                </svg>
-                {journey.code}
-              </span>
-            </div>
-            <div className={styles.routePanel}>
-              <div className={styles.routeList} role="group" aria-label={dict.nav.routes}>
-                {routes.filter((item) => item.featured || item.id === route).map((item) => (
-                  <button type="button" key={item.id} aria-pressed={route === item.id} onClick={() => changeSelection(item.id, guests)}>
-                    <strong>{item.name}</strong><ArrowUpRight size={17} aria-hidden />
-                  </button>
-                ))}
-              </div>
-              <div className={styles.routePrice} aria-live="polite">
-                <small>{copy.vehicleFare} · {car.name[locale]}</small>
-                <strong>{eligible ? formattedFare(fare) : '—'}</strong>
-              </div>
-              <button type="button" disabled={!href} onClick={book} className={styles.routeAction}>
-                {dict.routes_explorer.bookRouteCta}<DirectionArrow size={18} aria-hidden />
+          <div className={styles.routeCurtain} role="group" aria-label={dict.nav.routes}>
+            {routes.filter((item) => item.featured || item.id === route).map((item) => (
+              <button key={item.id} type="button" aria-pressed={route === item.id}
+                className={styles.routeCurtainPanel}
+                onClick={() => changeSelection(item.id, guests)}>
+                <Image src={item.image} alt="" fill sizes="(max-width:760px) 90vw, 25vw" className={styles.cover} />
+                <span className={styles.curtainShade} aria-hidden="true" />
+                <span className={styles.curtainWords}>
+                  <small dir="ltr">{item.code}</small>
+                  <strong>{item.name}</strong>
+                  {route === item.id && <span className={styles.curtainActive}>{copy.routeLead}</span>}
+                </span>
+                <ArrowUpRight className={styles.curtainArrow} size={21} aria-hidden="true" />
               </button>
+            ))}
+          </div>
+          <div className={styles.curtainSummary}>
+            <div>
+              <span className={styles.eyebrow}>{copy.vehicleFare}</span>
+              <h3>{journey.name}</h3>
+              <p>{car.name[locale]} <span aria-hidden="true">·</span> {numbers.format(guests)} {dict.fleet.seatsLabel}</p>
             </div>
+            <div className={styles.curtainFare} aria-live="polite">
+              <strong>{eligible ? formattedFare(fare) : '—'}</strong>
+              {!eligible && <small>{validFare ? copy.overCapacity : copy.unavailable}</small>}
+            </div>
+            <button type="button" disabled={!href} onClick={book} className={styles.routeAction}>
+              {dict.routes_explorer.bookRouteCta}<DirectionArrow size={18} aria-hidden />
+            </button>
           </div>
           <div className={styles.sectionFoot}><Link href={`/${locale}/routes`}>{dict.nav.routes}<ArrowUpRight size={17} aria-hidden /></Link></div>
         </section>
