@@ -73,3 +73,20 @@ test('CMS writes use optimistic locking and read actual previous DB values for a
  assert.match(api,/getCmsPageAdmin\(pageKey, locale\)/);
  assert.match(api,/status: isConflict \? 409/);
 });
+
+test('FAQ administration does not claim success on blind writes, failed reads, or reordered JSONB keys',()=>{
+ const source=r('src/app/admin/faqs/page.tsx');
+ assert.match(source,/const \[faqLoaded, setFaqLoaded\] = useState\(false\)/);
+ assert.match(source,/if \(!res\.ok \|\| !data\.success \|\| !Array\.isArray\(data\.faqs\)\)/);
+ assert.match(source,/const current = await fetchFaqs\(\)/);
+ assert.match(source,/sameTranslations\(saved\.question_translations, editingFaq\.question_translations\)/);
+ assert.match(source,/saved\.status === editingFaq\.status/);
+ assert.match(source,/if \(!faqLoaded \|\| loading\)/);
+ assert.doesNotMatch(source,/FAQ successfully saved & revalidated live!/);
+});
+test('CMS read-back tolerates JSONB object key reorder but checks all fields',()=>{
+ const source=r('src/app/admin/cms/page.tsx');
+ assert.match(source,/const canonicalJson = \(value: unknown\): string =>/);
+ assert.match(source,/canonicalJson\(storedBlocks\) === canonicalJson\(payload\.content_blocks\)/);
+ assert.match(source,/expected_updated_at: existing\?\.updated_at \?\? null/);
+});
