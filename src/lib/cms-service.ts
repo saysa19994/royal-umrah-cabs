@@ -103,7 +103,8 @@ export async function upsertCmsPageAdmin(
       };
     }
   } catch (err) {
-    console.warn('Exception upserting page_content:', err);
+    console.error('Exception persisting page_content:', err);
+    return { success: false, error: 'Database persistence unavailable: CMS edit was not saved.' };
   }
 
   memoryCmsStore[key] = record;
@@ -120,7 +121,10 @@ export async function upsertCmsPageAdmin(
   });
 
   revalidateTag('site_cms');
-  revalidatePath('/[locale]', 'page');
-
+  if (['about','services','contact'].includes(record.page_key)) {
+    revalidatePath('/[locale]/' + record.page_key, 'page');
+  }
+  // 'home' currently has a dedicated text editor and cache. Never pretend
+  // generic CMS JSON edits have changed an unwired public page.
   return { success: true, record };
 }

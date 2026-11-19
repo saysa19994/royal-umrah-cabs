@@ -6,25 +6,31 @@ import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import styles from './about-story.module.css';
 import { getSiteImagesCached } from '@/lib/site-images';
+import { getPublishedPageCopy, mergeCmsTranslatedCopy } from '@/lib/public-page-copy';
 
 interface AboutPageProps { params:Promise<{locale:Locale}> }
 
 export async function generateMetadata({params}:AboutPageProps):Promise<Metadata>{
   const {locale}=await params;
   const dict=getDictionary(locale);
-  return {title:dict.page_about.title,description:dict.page_about.subtitle,alternates:getLocalizedAlternates(locale,'/about')};
+  const cms=await getPublishedPageCopy('about',locale);
+  return {title:cms.seoTitle || dict.page_about.title,
+    description:cms.seoDescription || dict.page_about.subtitle,
+    alternates:getLocalizedAlternates(locale,'/about')};
 }
 
 export default async function AboutPage({params}:AboutPageProps){
  const {locale}=await params;
  const dict=getDictionary(locale);
+ const cms=await getPublishedPageCopy('about',locale);
+ const aboutCopy=mergeCmsTranslatedCopy(dict.page_about,cms);
  const images=await getSiteImagesCached();
  const rtl=locale==='ar'||locale==='ur';
  const Arrow=rtl?ArrowLeft:ArrowRight;
  const values=[
-  {title:dict.page_about.value1Title,desc:dict.page_about.value1Desc,icon:Clock3},
-  {title:dict.page_about.value2Title,desc:dict.page_about.value2Desc,icon:ShieldCheck},
-  {title:dict.page_about.value3Title,desc:dict.page_about.value3Desc,icon:Check},
+  {title:aboutCopy.value1Title,desc:aboutCopy.value1Desc,icon:Clock3},
+  {title:aboutCopy.value2Title,desc:aboutCopy.value2Desc,icon:ShieldCheck},
+  {title:aboutCopy.value3Title,desc:aboutCopy.value3Desc,icon:Check},
  ];
  const labels:Record<Locale,{story:string;what:string;promise:string;direction:string;route:string;journey:string;book:string}>={
   ar:{story:'قصتنا',what:'القيم التي تقود كل رحلة',promise:'كيف نهتم بتفاصيل رحلتك',direction:'من أول استقبال إلى وجهتك',route:'بين الحرمين ومدن المملكة',journey:'رحلة خاصة تستحق العناية',book:'اطلب حجز رحلتك الخاصة'},
@@ -62,8 +68,8 @@ export default async function AboutPage({params}:AboutPageProps){
      <div className={styles.heroCopy}>
        <nav aria-label={dict.nav.about} className={styles.crumb}><Link href={'/'+locale}>{dict.nav.home}</Link><span aria-hidden="true">/</span><span>{dict.nav.about}</span></nav>
        <span className={styles.micro}>DUYUF AL RAHMAN VIP <b> / 01</b></span>
-       <h1>{dict.page_about.title}</h1>
-       <p>{dict.page_about.subtitle}</p>
+       <h1>{cms.h1 || aboutCopy.title}</h1>
+       <p>{aboutCopy.subtitle}</p>
        <Link href={'/'+locale+'/booking'} className={styles.heroCta}>{t.book}<Arrow size={17} aria-hidden="true"/></Link>
        <span className={styles.cornerMark} aria-hidden="true">01 — 04</span>
      </div>
@@ -84,9 +90,9 @@ export default async function AboutPage({params}:AboutPageProps){
            </dl>
          </div>
          <div className={styles.storyContent}>
-           <h2 id="about-story-title">{dict.page_about.storyTitle}</h2>
-           <p className={styles.lead}>{dict.page_about.storyP1}</p>
-           <p>{dict.page_about.storyP2}</p>
+           <h2 id="about-story-title">{aboutCopy.storyTitle}</h2>
+           <p className={styles.lead}>{aboutCopy.storyP1}</p>
+           <p>{aboutCopy.storyP2}</p>
          </div>
        </div>
      </div>

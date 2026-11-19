@@ -134,7 +134,7 @@ export default function AdminCmsPage() {
             Page Content &amp; CMS
           </h1>
           <p className="text-sm text-[#697984] mt-0.5">
-            Manage meta tags, headings, guides, and localized copy across all 10 supported languages.
+            SEO metadata and H1 are connected to About, Services and Contact pages. Other page entries are saved as drafts until their public templates are connected.
           </p>
         </div>
 
@@ -192,6 +192,9 @@ export default function AdminCmsPage() {
                   }`}
                 >
                   <span className="truncate">{p.title}</span>
+                  <span className="ms-2 shrink-0 text-[9px] font-medium text-[#697984]">
+                    {['about','services','contact'].includes(p.id)?'Live CMS':'Draft only'}
+                  </span>
                   <div className="flex items-center gap-1">
                     {hasEn && <span className="w-1.5 h-1.5 rounded-full bg-blue-400" title="English Ready" />}
                     {hasAr && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" title="Arabic Ready" />}
@@ -233,6 +236,46 @@ export default function AdminCmsPage() {
 
           {/* Form */}
           <form onSubmit={handleSave} className="space-y-4">
+          {['about','services','contact'].includes(selectedPage) && (
+            <section className="rounded-xl border border-[#dfc4a2] bg-white p-4">
+              <h3 className="text-sm font-bold text-[#193746]">Editable page text</h3>
+              <p className="mt-1 text-xs text-[#697984]">Only saved non-empty fields override the site's original translation. Use the dedicated homepage editor for homepage copy.</p>
+              <div className="mt-3 grid gap-3">
+                {(selectedPage==='about'?[
+                  ['title','Page title'],['subtitle','Opening paragraph'],
+                  ['storyTitle','Story heading'],['storyP1','Story paragraph 1'],
+                  ['storyP2','Story paragraph 2'],['value1Title','Value 1 heading'],
+                  ['value1Desc','Value 1 description'],['value2Title','Value 2 heading'],
+                  ['value2Desc','Value 2 description'],['value3Title','Value 3 heading'],
+                  ['value3Desc','Value 3 description'],
+                ]:selectedPage==='services'?[
+                  ['title','Page heading'],['subtitle','Page opening description'],
+                ]:[
+                  ['title','Contact heading'],['subtitle','Contact introductory text'],
+                  ['formTitle','Contact form title'],
+                ]).map(([field,label])=>{
+                  let current='';
+                  try{
+                    const parsed=JSON.parse(contentJson||'{}');
+                    if(parsed && typeof parsed[field]==='string')current=parsed[field];
+                  }catch{}
+                  return <label key={field} className="text-xs font-semibold text-[#193746]">
+                    {label}
+                    <textarea rows={field.toLowerCase().includes('title')?2:3}
+                      value={current} onChange={event=>{
+                        try {
+                          const previous=JSON.parse(contentJson||'{}');
+                          setContentJson(JSON.stringify({...previous,[field]:event.target.value},null,2));
+                        } catch {
+                          setFeedback({type:'error',message:'Fix the JSON syntax below before editing fields'});
+                        }
+                      }} className="mt-1 w-full rounded-lg border border-[#d9c5a7] bg-[#fffdf8] p-3 text-sm font-normal text-[#193746]"/>
+                  </label>;
+                })}
+              </div>
+            </section>
+          )}
+
             <div>
               <label className="block text-xs font-semibold text-[#697984] mb-1">
                 SEO Page Title (Title Tag) <span className="text-rose-400">*</span>

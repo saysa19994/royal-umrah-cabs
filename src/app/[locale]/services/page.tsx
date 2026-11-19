@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteImagesCached } from '@/lib/site-images';
+import { getPublishedPageCopy, mergeCmsTranslatedCopy } from '@/lib/public-page-copy';
 import {
   Plane,
   Navigation,
@@ -29,10 +30,11 @@ export async function generateMetadata(props: ServicesPageProps): Promise<Metada
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
+  const cms = await getPublishedPageCopy('services',locale);
 
   return {
-    title: dict.page_services.title,
-    description: dict.page_services.subtitle,
+    title: cms.seoTitle || dict.page_services.title,
+    description: cms.seoDescription || dict.page_services.subtitle,
     alternates: getLocalizedAlternates(locale, '/services'),
   };
 }
@@ -41,6 +43,8 @@ export default async function ServicesPage(props: ServicesPageProps) {
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
+  const cms = await getPublishedPageCopy('services',locale);
+  const serviceCopy = mergeCmsTranslatedCopy(dict.page_services,cms);
   const images = await getSiteImagesCached();
   const isAr = locale === 'ar';
   const isRtl = isAr || locale === 'ur';
@@ -172,10 +176,10 @@ export default async function ServicesPage(props: ServicesPageProps) {
             <span>{isAr ? 'حلول النقل المتكاملة' : 'Comprehensive Transportation Solutions'}</span>
           </div>
           <h1 className="duyuf-services-title font-display font-semibold text-3xl sm:text-5xl text-ink tracking-tight mb-4">
-            {dict.page_services.title}
+            {cms.h1 || serviceCopy.title}
           </h1>
           <p className="text-sm sm:text-base text-ink-muted leading-relaxed font-light">
-            {dict.page_services.subtitle}
+            {serviceCopy.subtitle}
           </p>
           <Link href={`/${locale}/booking`} className="duyuf-services-intro-cta">
             <span>{isAr ? 'ابدأ حجز رحلتك' : 'Plan your private transfer'}</span>
@@ -185,7 +189,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
           <div className="duyuf-services-intro-visual">
             <Image
               src="/assets/homepage-v2/fleet-family.jpg"
-              alt={dict.page_services.title}
+              alt={serviceCopy.title}
               fill
               priority
               sizes="(max-width: 767px) 100vw, 52vw"
