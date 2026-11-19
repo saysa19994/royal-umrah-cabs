@@ -5,7 +5,7 @@ const read=p=>readFileSync(p,'utf8');
 test('live trip pricing is database-first and respects deactivation',()=>{
   const s=read('src/lib/pricing-server.ts');
   assert.match(s,/getPublishedFare/);
-  assert.match(s,/Approved fare|published fare|approved published/i);
+  assert.match(s,/getPublishedFare\(routeId, vehicleId\)/);
   assert.match(s,/getPublishedFare/);
   assert.match(s,/Vehicle is disabled in administration/);
   assert.match(s,/This route is disabled in administration/);
