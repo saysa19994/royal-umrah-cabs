@@ -219,7 +219,7 @@ export default async function BookingPage(props: BookingPageProps) {
           <Image src="/assets/homepage-v2/ziyarat-haram.jpg" fill
             priority sizes="(max-width:767px) 100vw, 48vw"
             alt={locale === 'ar' ? 'المسجد الحرام في مكة المكرمة' : 'The Grand Mosque in Makkah'}/>
-          <div className={styles.heroVehicle} aria-hidden="true">
+          <div className="duyuf-booking-hero-vehicle" aria-hidden="true">
             <Image src="/assets/images/yukon_exterior.webp" fill sizes="(max-width:767px) 160px, 240px" alt="" />
           </div>
           <div className={styles.photoLabel}><span>DUYUF AL RAHMAN VIP</span><span>{dict.nav.bookNow}</span></div>
