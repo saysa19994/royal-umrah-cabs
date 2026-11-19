@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   BookOpen,
   CalendarCheck,
+  Clock,
   Users,
   Car,
   Compass,
@@ -97,6 +98,12 @@ export function AdminSidebar({
           labelEn: 'VIP Bookings Control',
           labelAr: 'جدول الحجوزات والسائقين',
           icon: CalendarCheck,
+        },
+        {
+          href: '/admin/dispatch',
+          labelEn: 'Daily Dispatch',
+          labelAr: 'مركز توزيع الرحلات',
+          icon: Clock,
         },
         {
           href: '/admin/collections',
