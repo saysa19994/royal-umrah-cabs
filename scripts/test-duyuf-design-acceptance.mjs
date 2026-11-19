@@ -49,7 +49,8 @@ test('services replace six repetitive cards with one real interactive chapter an
   assert.match(service,/duyuf-services-intro-visual/);
   assert.match(service,/<ServiceChapterExplorer/);
   assert.match(service,/servicesList\.map\(\(\{icon,\.\.\.data\}\)=>data\)/);
-  assert.match(service,/\{dict\.page_services\.title\}/);
+  assert.match(service,/\{cms\.h1 \|\| serviceCopy\.title\}/);
+  assert.match(service,/getPublishedPageCopy\('services',locale\)/);
   assert.doesNotMatch(service,/duyuf-service-card-content/);
   assert.match(chapter,/role="tablist"/);
   assert.match(chapter,/role="tabpanel"/);

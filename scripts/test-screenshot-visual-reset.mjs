@@ -31,8 +31,8 @@ test('about page is an actual story, not an old three-card template',()=>{
  assert.match(about,/styles\.heroImage/);
  assert.match(about,/styles\.storyGrid/);
  assert.match(about,/styles\.valueList/);
- assert.match(about,/dict\.page_about\.storyP1/);
- assert.match(about,/dict\.page_about\.storyP2/);
+ assert.match(about,/aboutCopy\.storyP1/);
+ assert.match(about,/aboutCopy\.storyP2/);
  assert.match(about,/getLocalizedAlternates\(locale,'\/about'\)/);
  assert.doesNotMatch(about,/grid-cols-1 md:grid-cols-3 gap-8/);
  for(const lang of ['ar','en','ms','id','ur','fr','es','de','tr','hi'])assert.ok(about.includes('  '+lang+':{story:'),'Missing about UI '+lang);
