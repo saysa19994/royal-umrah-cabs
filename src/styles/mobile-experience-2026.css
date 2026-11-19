@@ -87,3 +87,23 @@
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
 }
+
+
+/* The 11px header booking button was too small on 320–430px screens. */
+@media(max-width:760px){
+ header[role="banner"] a[href$="/booking"]{
+   min-height:44px!important;
+   font-size:13px!important;
+   line-height:1.45!important;
+   padding-inline:11px!important;
+   white-space:nowrap;
+ }
+ header[role="banner"] button[aria-label]{
+   min-width:44px;
+   min-height:44px;
+ }
+ header[role="banner"] :is(a,button):focus-visible{
+   outline:3px solid #e6bf7c;
+   outline-offset:2px;
+ }
+}
