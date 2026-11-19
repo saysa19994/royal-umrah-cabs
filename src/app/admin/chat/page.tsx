@@ -92,14 +92,14 @@ export default function AdminChatPage() {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-3xl bg-gradient-to-r from-[#14171C] via-[#1A1F26] to-[#14171C] border border-[#262B33]">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-3xl bg-gradient-to-r from-[#14171C] via-[#1A1F26] to-[#14171C] border border-[#E4D4BE]">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-[#D9A031]/15 border border-[#D9A031]/30 flex items-center justify-center text-[#D9A031]">
+          <div className="w-14 h-14 rounded-2xl bg-[#0A6364]/15 border border-[#C29B65]/30 flex items-center justify-center text-[#92612D]">
             <Bot className="w-8 h-8" />
           </div>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-xl sm:text-2xl font-display font-bold text-[#FAF9F6]">
+              <h1 className="text-xl sm:text-2xl font-display font-bold text-[#193746]">
                 إدارة المساعد الذكي (رفيق AI)
               </h1>
               {settings?.enabled ? (
@@ -112,7 +112,7 @@ export default function AdminChatPage() {
                 </span>
               )}
             </div>
-            <p className="text-xs text-[#A0A6B2] mt-1">
+            <p className="text-xs text-[#697984] mt-1">
               مراقبة المحادثات الحية، رصد التحويل إلى واتساب، وتخصيص هوية المساعد ونبرة الإجابة.
             </p>
           </div>
@@ -123,20 +123,20 @@ export default function AdminChatPage() {
             type="button"
             onClick={fetchData}
             disabled={loading}
-            className="p-2.5 rounded-xl bg-[#20252D] hover:bg-[#262B33] text-[#A0A6B2] hover:text-[#FAF9F6] border border-[#262B33] transition-colors"
+            className="p-2.5 rounded-xl bg-[#F3E7D7] hover:bg-[#F1E5D5] text-[#697984] hover:text-[#193746] border border-[#E4D4BE] transition-colors"
             title="تحديث البيانات"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
 
-          <div className="flex rounded-xl bg-[#0D0F12] p-1 border border-[#262B33]">
+          <div className="flex rounded-xl bg-[#F6ECE0] p-1 border border-[#E4D4BE]">
             <button
               type="button"
               onClick={() => setActiveTab('conversations')}
               className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
                 activeTab === 'conversations'
-                  ? 'bg-[#D9A031] text-[#0D0F12]'
-                  : 'text-[#A0A6B2] hover:text-[#FAF9F6]'
+                  ? 'bg-[#0A6364] text-[#FFFAF2]'
+                  : 'text-[#697984] hover:text-[#193746]'
               }`}
             >
               سجل المحادثات والتحويلات ({sessions.length})
@@ -146,8 +146,8 @@ export default function AdminChatPage() {
               onClick={() => setActiveTab('settings')}
               className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
                 activeTab === 'settings'
-                  ? 'bg-[#D9A031] text-[#0D0F12]'
-                  : 'text-[#A0A6B2] hover:text-[#FAF9F6]'
+                  ? 'bg-[#0A6364] text-[#FFFAF2]'
+                  : 'text-[#697984] hover:text-[#193746]'
               }`}
             >
               إعدادات وتخصيص البوت
@@ -160,8 +160,8 @@ export default function AdminChatPage() {
         <div
           className={`p-4 rounded-2xl flex items-center gap-3 text-xs font-bold ${
             feedback.type === 'success'
-              ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-300'
-              : 'bg-rose-500/15 border border-rose-500/30 text-rose-300'
+              ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-700'
+              : 'bg-rose-500/15 border border-rose-500/30 text-rose-700'
           }`}
         >
           {feedback.type === 'success' ? <CheckCircle2 className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
@@ -174,16 +174,16 @@ export default function AdminChatPage() {
         <div className="space-y-4">
           {/* Quick Metrics */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="p-4 rounded-2xl bg-[#14171C] border border-[#262B33]">
-              <span className="text-xs text-[#A0A6B2]">إجمالي جلسات المحادثة</span>
-              <p className="text-2xl font-bold text-[#FAF9F6] mt-1">{sessions.length}</p>
+            <div className="p-4 rounded-2xl bg-[#FFF9F1] border border-[#E4D4BE]">
+              <span className="text-xs text-[#697984]">إجمالي جلسات المحادثة</span>
+              <p className="text-2xl font-bold text-[#193746] mt-1">{sessions.length}</p>
             </div>
-            <div className="p-4 rounded-2xl bg-[#14171C] border border-[#262B33]">
-              <span className="text-xs text-[#A0A6B2]">تحويل مباشر إلى واتساب المشرف</span>
-              <p className="text-2xl font-bold text-[#D9A031] mt-1">{totalHandoffs}</p>
+            <div className="p-4 rounded-2xl bg-[#FFF9F1] border border-[#E4D4BE]">
+              <span className="text-xs text-[#697984]">تحويل مباشر إلى واتساب المشرف</span>
+              <p className="text-2xl font-bold text-[#92612D] mt-1">{totalHandoffs}</p>
             </div>
-            <div className="p-4 rounded-2xl bg-[#14171C] border border-[#262B33]">
-              <span className="text-xs text-[#A0A6B2]">متوسط التفاعل الذاتي</span>
+            <div className="p-4 rounded-2xl bg-[#FFF9F1] border border-[#E4D4BE]">
+              <span className="text-xs text-[#697984]">متوسط التفاعل الذاتي</span>
               <p className="text-2xl font-bold text-emerald-400 mt-1">
                 {sessions.length > 0 ? `${Math.round(((sessions.length - totalHandoffs) / sessions.length) * 100)}%` : '100%'}
               </p>
@@ -191,15 +191,15 @@ export default function AdminChatPage() {
           </div>
 
           {/* Filters Bar */}
-          <div className="flex flex-col sm:flex-row gap-3 p-4 rounded-2xl bg-[#14171C] border border-[#262B33]">
+          <div className="flex flex-col sm:flex-row gap-3 p-4 rounded-2xl bg-[#FFF9F1] border border-[#E4D4BE]">
             <div className="relative flex-1">
-              <Search className="w-4 h-4 absolute top-3 right-3 text-[#6C7584]" />
+              <Search className="w-4 h-4 absolute top-3 right-3 text-[#79838A]" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="بحث في نصوص المحادثات أو الكود المرجعي..."
-                className="w-full h-10 pr-9 pl-4 rounded-xl bg-[#0D0F12] border border-[#262B33] text-xs text-[#FAF9F6] placeholder-[#6C7584] focus:outline-none focus:border-[#D9A031]"
+                className="w-full h-10 pr-9 pl-4 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-xs text-[#193746] placeholder-[#6C7584] focus:outline-none focus:border-[#C29B65]"
               />
             </div>
             <div className="flex gap-2">
@@ -208,8 +208,8 @@ export default function AdminChatPage() {
                 onClick={() => setSessionFilter('all')}
                 className={`px-3 py-2 rounded-xl text-xs font-bold transition-colors ${
                   sessionFilter === 'all'
-                    ? 'bg-[#20252D] text-[#D9A031] border border-[#D9A031]/40'
-                    : 'bg-[#0D0F12] text-[#A0A6B2] border border-[#262B33]'
+                    ? 'bg-[#F3E7D7] text-[#92612D] border border-[#C29B65]/40'
+                    : 'bg-[#F6ECE0] text-[#697984] border border-[#E4D4BE]'
                 }`}
               >
                 الكل ({sessions.length})
@@ -219,8 +219,8 @@ export default function AdminChatPage() {
                 onClick={() => setSessionFilter('handoffs')}
                 className={`px-3 py-2 rounded-xl text-xs font-bold transition-colors ${
                   sessionFilter === 'handoffs'
-                    ? 'bg-[#20252D] text-[#D9A031] border border-[#D9A031]/40'
-                    : 'bg-[#0D0F12] text-[#A0A6B2] border border-[#262B33]'
+                    ? 'bg-[#F3E7D7] text-[#92612D] border border-[#C29B65]/40'
+                    : 'bg-[#F6ECE0] text-[#697984] border border-[#E4D4BE]'
                 }`}
               >
                 تحويلات واتساب ({totalHandoffs})
@@ -233,16 +233,16 @@ export default function AdminChatPage() {
             {filteredSessions.map((session) => (
               <div
                 key={session.id}
-                className="p-5 rounded-2xl bg-[#14171C] border border-[#262B33] hover:border-[#38404E] transition-all space-y-3"
+                className="p-5 rounded-2xl bg-[#FFF9F1] border border-[#E4D4BE] hover:border-[#38404E] transition-all space-y-3"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#20252D] pb-3">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs font-bold text-[#FAF9F6]">{session.id}</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-[#262B33] text-[#A0A6B2]">
+                    <span className="font-mono text-xs font-bold text-[#193746]">{session.id}</span>
+                    <span className="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-[#F1E5D5] text-[#697984]">
                       {session.locale}
                     </span>
                     {session.ipMasked && (
-                      <span className="text-[10px] text-[#6C7584]">IP: {session.ipMasked}</span>
+                      <span className="text-[10px] text-[#79838A]">IP: {session.ipMasked}</span>
                     )}
                   </div>
 
@@ -257,7 +257,7 @@ export default function AdminChatPage() {
                         مكتمل آلياً
                       </span>
                     )}
-                    <span className="text-[11px] text-[#A0A6B2] flex items-center gap-1">
+                    <span className="text-[11px] text-[#697984] flex items-center gap-1">
                       <Clock className="w-3.5 h-3.5" />
                       {new Date(session.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
@@ -265,23 +265,23 @@ export default function AdminChatPage() {
                 </div>
 
                 <div className="space-y-2 text-xs">
-                  <div className="p-3 rounded-xl bg-[#0D0F12] border border-[#20252D] flex items-start gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-[#D9A031] text-[#0D0F12] flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
+                  <div className="p-3 rounded-xl bg-[#F6ECE0] border border-[#20252D] flex items-start gap-2.5">
+                    <span className="w-5 h-5 rounded-full bg-[#0A6364] text-[#FFFAF2] flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
                       <User className="w-3 h-3" />
                     </span>
                     <div className="flex-1">
-                      <span className="text-[10px] font-bold text-[#A0A6B2] block mb-0.5">استفسار المعتمر:</span>
-                      <p className="text-[#FAF9F6] font-medium leading-relaxed">{session.lastUserMessage}</p>
+                      <span className="text-[10px] font-bold text-[#697984] block mb-0.5">استفسار المعتمر:</span>
+                      <p className="text-[#193746] font-medium leading-relaxed">{session.lastUserMessage}</p>
                     </div>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-[#1A1F26] border border-[#20252D] flex items-start gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-white/10 text-[#D9A031] flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
+                  <div className="p-3 rounded-xl bg-[#F7EBDB] border border-[#20252D] flex items-start gap-2.5">
+                    <span className="w-5 h-5 rounded-full bg-white/10 text-[#92612D] flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
                       <Bot className="w-3 h-3" />
                     </span>
                     <div className="flex-1">
-                      <span className="text-[10px] font-bold text-[#A0A6B2] block mb-0.5">إجابة رفيق AI:</span>
-                      <p className="text-[#D1D5DB] font-light leading-relaxed whitespace-pre-wrap">{session.lastAssistantMessage}</p>
+                      <span className="text-[10px] font-bold text-[#697984] block mb-0.5">إجابة رفيق AI:</span>
+                      <p className="text-[#6C7C85] font-light leading-relaxed whitespace-pre-wrap">{session.lastAssistantMessage}</p>
                     </div>
                   </div>
                 </div>
@@ -293,17 +293,17 @@ export default function AdminChatPage() {
 
       {/* TAB 2: SETTINGS & CUSTOMIZATION */}
       {activeTab === 'settings' && settings && (
-        <div className="space-y-6">
-          <div className="p-6 rounded-3xl bg-[#14171C] border border-[#262B33] space-y-6">
-            <h2 className="text-lg font-bold text-[#FAF9F6] border-b border-[#262B33] pb-3">
+        <div className="vip-internal-editorial space-y-6">
+          <div className="p-6 rounded-3xl bg-[#FFF9F1] border border-[#E4D4BE] space-y-6">
+            <h2 className="text-lg font-bold text-[#193746] border-b border-[#E4D4BE] pb-3">
               التحكم العام وهوية المساعد
             </h2>
 
             {/* Enable / Disable Switch */}
-            <div className="flex items-center justify-between p-4 rounded-2xl bg-[#0D0F12] border border-[#262B33]">
+            <div className="flex items-center justify-between p-4 rounded-2xl bg-[#F6ECE0] border border-[#E4D4BE]">
               <div>
-                <span className="text-sm font-bold text-[#FAF9F6] block">تفعيل المساعد الذكي في الموقع</span>
-                <span className="text-xs text-[#A0A6B2]">
+                <span className="text-sm font-bold text-[#193746] block">تفعيل المساعد الذكي في الموقع</span>
+                <span className="text-xs text-[#697984]">
                   عند التعطيل، يختفي الزر العائم للمساعد الذكي من جميع صفحات الموقع فوراً.
                 </span>
               </div>
@@ -314,28 +314,28 @@ export default function AdminChatPage() {
                   onChange={(e) => setSettings({ ...settings, enabled: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                <div className="w-11 h-6 bg-[#F1E5D5] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
               </label>
             </div>
 
             {/* Bot Name & Persona */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-[#A0A6B2] mb-1.5">اسم المساعد والعلامة التجارية</label>
+                <label className="block text-xs font-bold text-[#697984] mb-1.5">اسم المساعد والعلامة التجارية</label>
                 <input
                   type="text"
                   value={settings.botName}
                   onChange={(e) => setSettings({ ...settings, botName: e.target.value })}
-                  className="w-full h-11 px-4 rounded-xl bg-[#0D0F12] border border-[#262B33] text-sm text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                  className="w-full h-11 px-4 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-sm text-[#193746] focus:border-[#C29B65] outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#A0A6B2] mb-1.5">نبرة الحوار (AI Tone)</label>
+                <label className="block text-xs font-bold text-[#697984] mb-1.5">نبرة الحوار (AI Tone)</label>
                 <select
                   value={settings.tone}
                   onChange={(e) => setSettings({ ...settings, tone: e.target.value as any })}
-                  className="w-full h-11 px-4 rounded-xl bg-[#0D0F12] border border-[#262B33] text-sm text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                  className="w-full h-11 px-4 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-sm text-[#193746] focus:border-[#C29B65] outline-none"
                 >
                   <option value="warm_vip">ضيافة VIP دافئة ومرحبة بضيوف الرحمن (موصى بها)</option>
                   <option value="concise_executive">تنفيذي ومختصر بالأرقام والأسعار</option>
@@ -346,31 +346,31 @@ export default function AdminChatPage() {
 
             {/* Multilingual Greetings */}
             <div className="space-y-4">
-              <h3 className="text-sm font-bold text-[#FAF9F6]">رسائل الترحيب التلقائية</h3>
+              <h3 className="text-sm font-bold text-[#193746]">رسائل الترحيب التلقائية</h3>
               <div>
-                <label className="block text-xs text-[#A0A6B2] mb-1">الترحيب باللغة العربية:</label>
+                <label className="block text-xs text-[#697984] mb-1">الترحيب باللغة العربية:</label>
                 <textarea
                   rows={2}
                   value={settings.greetingAr}
                   onChange={(e) => setSettings({ ...settings, greetingAr: e.target.value })}
-                  className="w-full p-3 rounded-xl bg-[#0D0F12] border border-[#262B33] text-xs text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                  className="w-full p-3 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-xs text-[#193746] focus:border-[#C29B65] outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs text-[#A0A6B2] mb-1">الترحيب باللغة الإنجليزية:</label>
+                <label className="block text-xs text-[#697984] mb-1">الترحيب باللغة الإنجليزية:</label>
                 <textarea
                   rows={2}
                   value={settings.greetingEn}
                   onChange={(e) => setSettings({ ...settings, greetingEn: e.target.value })}
-                  className="w-full p-3 rounded-xl bg-[#0D0F12] border border-[#262B33] text-xs text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                  className="w-full p-3 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-xs text-[#193746] focus:border-[#C29B65] outline-none"
                 />
               </div>
             </div>
 
             {/* Quick Actions Toggles */}
             <div className="space-y-3">
-              <h3 className="text-sm font-bold text-[#FAF9F6]">أزرار الإجراءات السريعة المتاحة في النافذة</h3>
+              <h3 className="text-sm font-bold text-[#193746]">أزرار الإجراءات السريعة المتاحة في النافذة</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                 {[
                   { key: 'getPrice', label: '💰 استعلام الأسعار الفورية' },
@@ -382,9 +382,9 @@ export default function AdminChatPage() {
                 ].map((action) => (
                   <label
                     key={action.key}
-                    className="flex items-center justify-between p-3 rounded-xl bg-[#0D0F12] border border-[#262B33] cursor-pointer hover:border-[#38404E]"
+                    className="flex items-center justify-between p-3 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] cursor-pointer hover:border-[#38404E]"
                   >
-                    <span className="text-xs font-semibold text-[#FAF9F6]">{action.label}</span>
+                    <span className="text-xs font-semibold text-[#193746]">{action.label}</span>
                     <input
                       type="checkbox"
                       checked={(settings.quickActions as any)[action.key]}
@@ -397,7 +397,7 @@ export default function AdminChatPage() {
                           },
                         })
                       }
-                      className="rounded bg-[#262B33] border-[#38404E] text-[#D9A031] focus:ring-0"
+                      className="rounded bg-[#F1E5D5] border-[#38404E] text-[#92612D] focus:ring-0"
                     />
                   </label>
                 ))}
@@ -405,10 +405,10 @@ export default function AdminChatPage() {
             </div>
 
             {/* Cost & Token Limits */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-[#262B33] pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-[#E4D4BE] pt-4">
               <div>
-                <label className="block text-xs font-bold text-[#A0A6B2] mb-1.5 flex items-center gap-1.5">
-                  <Coins className="w-4 h-4 text-[#D9A031]" />
+                <label className="block text-xs font-bold text-[#697984] mb-1.5 flex items-center gap-1.5">
+                  <Coins className="w-4 h-4 text-[#92612D]" />
                   سقف التكلفة الشهري المقدر (USD Monthly Cap)
                 </label>
                 <div className="relative">
@@ -416,17 +416,17 @@ export default function AdminChatPage() {
                     type="number"
                     value={settings.costCapMonthlyUsd}
                     onChange={(e) => setSettings({ ...settings, costCapMonthlyUsd: Number(e.target.value) })}
-                    className="w-full h-11 px-4 rounded-xl bg-[#0D0F12] border border-[#262B33] text-sm text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                    className="w-full h-11 px-4 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-sm text-[#193746] focus:border-[#C29B65] outline-none"
                   />
-                  <span className="absolute left-3 top-3 text-xs text-[#A0A6B2]">USD</span>
+                  <span className="absolute left-3 top-3 text-xs text-[#697984]">USD</span>
                 </div>
-                <span className="text-[10px] text-[#6C7584] mt-1 block">
+                <span className="text-[10px] text-[#79838A] mt-1 block">
                   عند تجاوز السقف يتم التحويل تلقائياً وبأمان إلى محادثة واتساب المباشرة دون انقطاع الخدمة.
                 </span>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#A0A6B2] mb-1.5 flex items-center gap-1.5">
+                <label className="block text-xs font-bold text-[#697984] mb-1.5 flex items-center gap-1.5">
                   <Cpu className="w-4 h-4 text-emerald-400" />
                   الحد الأقصى للرموز في الرد الواحد (Max Tokens)
                 </label>
@@ -434,21 +434,21 @@ export default function AdminChatPage() {
                   type="number"
                   value={settings.maxTokens}
                   onChange={(e) => setSettings({ ...settings, maxTokens: Number(e.target.value) })}
-                  className="w-full h-11 px-4 rounded-xl bg-[#0D0F12] border border-[#262B33] text-sm text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                  className="w-full h-11 px-4 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-sm text-[#193746] focus:border-[#C29B65] outline-none"
                 />
-                <span className="text-[10px] text-[#6C7584] mt-1 block">
+                <span className="text-[10px] text-[#79838A] mt-1 block">
                   الافتراضي: 800 رمز (يمنع الإجابات الطويلة غير الضرورية ويضمن السرعة الفائقة).
                 </span>
               </div>
             </div>
 
             {/* Save Button */}
-            <div className="flex justify-end pt-4 border-t border-[#262B33]">
+            <div className="flex justify-end pt-4 border-t border-[#E4D4BE]">
               <button
                 type="button"
                 onClick={handleSaveSettings}
                 disabled={saving}
-                className="px-6 py-3 rounded-xl bg-[#D9A031] hover:bg-[#E5B24E] text-[#0D0F12] font-bold text-xs flex items-center gap-2 shadow-lg transition-all"
+                className="px-6 py-3 rounded-xl bg-[#0A6364] hover:bg-[#E5B24E] text-[#FFFAF2] font-bold text-xs flex items-center gap-2 shadow-lg transition-all"
               >
                 <Save className="w-4 h-4" />
                 <span>{saving ? 'جاري الحفظ...' : 'حفظ تعديلات المساعد الذكي'}</span>
