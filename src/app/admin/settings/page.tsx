@@ -143,7 +143,7 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <div className="space-y-8 text-start max-w-5xl mx-auto">
+    <div className="vip-internal-editorial space-y-8 text-start max-w-5xl mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -171,21 +171,21 @@ export default function AdminSettingsPage() {
       )}
 
       {errorMsg && (
-        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-bold flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-700 text-xs font-bold flex items-center gap-2">
           <ShieldAlert className="w-4 h-4 shrink-0" />
           <span>{errorMsg}</span>
         </div>
       )}
 
       {!resendConfigured && (
-        <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-start gap-3">
+        <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-800 text-xs flex items-start gap-3">
           <ShieldAlert className="w-5 h-5 shrink-0 text-amber-400 mt-0.5" />
           <div className="space-y-1">
-            <span className="font-bold block text-amber-300">
+            <span className="font-bold block text-amber-800">
               Notice: RESEND_API_KEY environment variable is not configured
             </span>
             <p className="text-amber-200/80 leading-relaxed font-light">
-              Transactional security notifications and alert emails require <code className="bg-[#F7EFE4] px-1.5 py-0.5 rounded text-amber-300 font-mono">RESEND_API_KEY</code> in environment variables.
+              Transactional security notifications and alert emails require <code className="bg-[#F7EFE4] px-1.5 py-0.5 rounded text-amber-800 font-mono">RESEND_API_KEY</code> in environment variables.
             </p>
           </div>
         </div>
