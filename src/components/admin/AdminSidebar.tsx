@@ -164,6 +164,13 @@ export function AdminSidebar({
           adminOnly: true,
         },
         {
+          href: '/admin/asset-library',
+          labelEn: 'All Uploaded Images',
+          labelAr: 'مكتبة صور الموقع',
+          icon: ImageIcon,
+          adminOnly: true,
+        },
+        {
           href: '/admin/home-copy',
           labelEn: 'Homepage Text',
           labelAr: 'نصوص الصفحة الرئيسية',

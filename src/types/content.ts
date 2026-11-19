@@ -38,7 +38,7 @@ export interface MediaItem {
   file_name: string;
   file_size?: number;
   mime_type: string;
-  category: 'fleet' | 'hubs' | 'ziyarat' | 'general';
+  category: 'fleet' | 'hubs' | 'ziyarat' | 'general' | 'blog' | 'site' | 'cms';
   target_id?: string | null;
   alt_translations: LocalizedStringMap;
   display_order: number;

@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     const supabase = createServiceClient();
 
     // Upload directly to Supabase Storage "media" bucket
-    const { data: uploadData, error: uploadError } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
       .from('media')
       .upload(storagePath, buffer, {
         contentType: mime || 'image/webp',
@@ -79,24 +79,8 @@ export async function POST(request: NextRequest) {
 
     const publicUrl = publicUrlData.publicUrl;
 
-    // Also register in media_library table if table exists
-    try {
-      await supabase.from('media_library').insert({
-        url: publicUrl,
-        category,
-        title: originalName,
-        metadata: {
-          size: file.size,
-          mime: file.type,
-          vehicleId: vehicleId || null,
-          storagePath,
-        },
-        is_active: true,
-      });
-    } catch (dbErr) {
-      console.warn('Optional media_library insert notice:', dbErr);
-    }
-
+    // The upload is immediately discoverable through Storage itself.
+    // Do not query a non-existent media_library table or report false failure.
     return NextResponse.json({
       success: true,
       url: publicUrl,
