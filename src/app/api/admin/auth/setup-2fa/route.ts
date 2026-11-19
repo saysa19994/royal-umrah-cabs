@@ -56,45 +56,28 @@ export async function PUT(request: Request) {
     }
 
     const { user } = authResult;
-    const { factorId, code, secret } = await request.json();
-    const cleanCode = (code || '').trim();
-
-    if (!cleanCode || cleanCode.length !== 6) {
-      return NextResponse.json({ error: 'Please enter a valid 6-digit verification code' }, { status: 400 });
+    const body = await request.json().catch(() => null);
+    const factorId = body?.factorId;
+    const code = body?.code;
+    if (typeof factorId !== 'string' || factorId.length < 10 || factorId.length > 128 ||
+        typeof code !== 'string' || !/^\d{6}$/.test(code)) {
+      return NextResponse.json({ error: 'Valid authenticator factor and six-digit code required' }, { status: 400 });
     }
 
-    let verified = false;
-
-    // 1. Verify via RFC 6238 TOTP if secret was provided
-    if (secret && verifyTotp(cleanCode, secret)) {
-      verified = true;
+    const supabase = createClient();
+    const challengeRes = await supabase.auth.mfa.challenge({ factorId });
+    if (challengeRes.error || !challengeRes.data?.id) {
+      return NextResponse.json({ error: 'Authenticator challenge was not accepted' }, { status: 401 });
     }
-
-    // 2. Also try Supabase MFA verify if valid factorId
-    if (!verified && factorId && factorId !== 'totp-factor-owner') {
-      try {
-        const supabase = createClient();
-        const challengeRes = await supabase.auth.mfa.challenge({ factorId });
-        if (challengeRes.data?.id) {
-          const verifyRes = await supabase.auth.mfa.verify({
-            factorId,
-            challengeId: challengeRes.data.id,
-            code: cleanCode,
-          });
-          if (verifyRes.data) {
-            verified = true;
-          }
-        }
-      } catch (mfaErr) {
-        console.warn('Notice from Supabase MFA verify:', mfaErr);
-      }
+    const verifyRes = await supabase.auth.mfa.verify({
+      factorId, challengeId: challengeRes.data.id, code,
+    });
+    if (verifyRes.error || !verifyRes.data) {
+      return NextResponse.json({ error: 'Invalid or expired authenticator code' }, { status: 401 });
     }
-
-    if (!verified) {
-      return NextResponse.json(
-        { error: 'Confirmation code does not match. Please verify the time on your phone and try again.' },
-        { status: 400 }
-      );
+    const { data: assurance, error: assuranceError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (assuranceError || assurance?.currentLevel !== 'aal2') {
+      return NextResponse.json({ error: 'Unable to confirm second-factor authentication' }, { status: 403 });
     }
 
     // Update profile in database if possible
@@ -106,12 +89,13 @@ export async function PUT(request: Request) {
           totp_enabled: true,
           updated_at: new Date().toISOString(),
         })
-        .eq('email', user.email);
+        .eq('id', user.id)
+        .eq('auth_user_id', user.auth_user_id);
     } catch (dbErr) {
       console.warn('Notice updating profile TOTP status:', dbErr);
     }
 
-    await logAuditEvent({
+    if (process.env.VERCEL_ENV !== 'preview') await logAuditEvent({
       userEmail: user.email,
       userRole: user.role,
       action: '2fa_enabled_confirmed',
