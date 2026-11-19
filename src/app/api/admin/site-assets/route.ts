@@ -59,6 +59,7 @@ export async function PATCH(request: NextRequest) {
   if (key.startsWith('about_')) revalidatePath('/[locale]/about','page');
   else if (key.startsWith('booking_')) revalidatePath('/[locale]/booking','page');
   else if (key.startsWith('services_')) revalidatePath('/[locale]/services','page');
+  else if (key.startsWith('route_')) revalidatePath('/[locale]/routes/[slug]','page');
   else revalidatePath('/[locale]', 'page');
   return NextResponse.json({ success: true, key, url: body.url }, { headers: { 'Cache-Control': 'private, no-store' } });
 }

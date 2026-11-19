@@ -356,6 +356,8 @@ export async function upsertRouteWithPricesAdmin(
   revalidateTag('site_prices');
   revalidateTag('site_routes');
   revalidatePath('/[locale]/routes', 'page');
+  revalidatePath('/[locale]/routes/[slug]', 'page');
+  revalidatePath('/[locale]/pricing', 'page');
 
   return { success: true };
 }
