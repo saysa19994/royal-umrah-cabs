@@ -47,5 +47,6 @@ test('owner prototype one booking sidebar uses real booking engine, not HTML moc
  assert.match(wiz,/aria-current=\{isActive \? 'step'/);
  assert.match(bcss,/\.duyuf-prototype-booking-desk/);
  assert.match(bcss,/@media\(max-width:767px\)/);
- assert.match(booking,/initialRates=\{await getDbPricesCached\(\)\}/);
+ assert.match(booking,/initialRates=\{initialRates\}/);
+ assert.match(booking,/getDbPricesCached\(\)/);
 });

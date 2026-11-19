@@ -75,6 +75,7 @@ test('booking remains untouched and cash-only flow is protected',()=>{
  const booking=read('src/app/[locale]/booking/page.tsx');
  assert.match(booking,/<BookingWizard/);
  assert.match(booking,/getBookingDraft/);
- assert.match(booking,/initialRates=\{await getDbPricesCached\(\)\}/);
+ assert.match(booking,/initialRates=\{initialRates\}/);
+ assert.match(booking,/getDbPricesCached\(\)/);
  assert.match(booking,/No deposit|دون عربون/);
 });
