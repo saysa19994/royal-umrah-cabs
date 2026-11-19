@@ -18,7 +18,8 @@ import { royalHomepageEast } from '@/i18n/royal-homepage-copy-east';
 import { royalHomepageWest } from '@/i18n/royal-homepage-copy-west';
 import type { TransferRatesMap } from '@/lib/pricing-db';
 import { RoyalMotion } from '@/components/royal/RoyalMotion';
-import { RoyalServiceChapters } from './RoyalImmersionEditorial';
+import { RoyalCabinChapter } from '@/components/royal/RoyalCabinChapter';
+import { RoyalBookingSteps, RoyalGuestConfidence, RoyalServiceChapters } from './RoyalImmersionEditorial';
 import { getRoyalHomeRoute, ROYAL_HOME_ROUTES } from './royal-home-routes';
 import styles from './SignatureFusionHomepage.module.css';
 const BronzeCircularFleet = dynamic(() => import('./BronzeCircularFleet'), { ssr: false });
@@ -287,6 +288,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
         <p className={styles.bookFine}><Check size={15} aria-hidden />{dict.booking_card.microAllTolls}</p>
       </section>
 
+      <RoyalBookingSteps locale={locale} />
       <ul className={styles.trustLine} aria-label={copy.promiseTitle}>
         {benefits.map(({ Icon, text }) => <li key={text}><Icon size={18} aria-hidden />{text}</li>)}
       </ul>
@@ -309,6 +311,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
         </div>
       </section>
 
+      <RoyalCabinChapter locale={locale} />
       <section className={styles.showroom} id="fusion-fleet" aria-labelledby="fusion-fleet-title">
         <div className={styles.showroomHeading}>
           <h2 id="fusion-fleet-title">{copy.fleetTitle}</h2>
@@ -412,6 +415,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
         <div className={styles.promiseHead}><h2 id="royal-policy-title">{copy.promiseTitle}</h2></div>
         <ul className={styles.promiseList}>{facts.map((fact) => <li key={fact}><Check size={17} aria-hidden /><p>{fact}</p></li>)}</ul>
       </section>
+      <RoyalGuestConfidence locale={locale} dict={dict} />
       <section className={styles.finish} aria-labelledby="royal-close-title">
         <div className={styles.finishImage} data-royal-image>
           <Image src="/assets/images/reference/hero-gmc-saudi.jpg" alt="" fill sizes="(max-width: 760px) 100vw, 57vw" />
