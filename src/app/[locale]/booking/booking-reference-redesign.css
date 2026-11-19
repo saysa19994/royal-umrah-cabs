@@ -684,3 +684,47 @@ html[data-theme] [data-booking-design="luxury-reference"] .duyuf-booking-summary
     scroll-behavior:auto!important;
   }
 }
+
+
+/* Booking form mobile reading hierarchy. Same four wizard states and payload. */
+@media(max-width:767px){
+ html[data-theme] [data-booking-design="luxury-reference"] > header h1{
+   font-size:clamp(1.8rem,7.5vw,2.3rem)!important;
+   line-height:1.42!important;
+ }
+ html[data-theme] [data-booking-design="luxury-reference"] > header > div:first-child{
+   padding:22px 18px 26px!important;
+ }
+ html[data-theme] [data-booking-design="luxury-reference"] > header + div span{
+   font-size:13px!important;line-height:1.65!important;
+ }
+ html[data-theme] [data-booking-design="luxury-reference"] .duyuf-booking-main{
+   padding:13px!important;
+   min-width:0!important;
+ }
+ html[data-theme] [data-booking-design="luxury-reference"] .duyuf-booking-main :is(input:not([type=checkbox]):not([type=radio]),select,textarea){
+   font-size:16px!important;min-height:48px!important;
+ }
+ html[data-theme] [data-booking-design="luxury-reference"] .duyuf-booking-main label{
+   font-size:14px!important;line-height:1.7!important;
+ }
+ html[data-theme] [data-booking-design="luxury-reference"] .duyuf-booking-main :is(h3,h4){
+   line-height:1.48!important;
+ }
+ html[data-theme] [data-booking-design="luxury-reference"] .duyuf-booking-service-tabs>button{
+   font-size:13px!important;min-height:49px!important;
+ }
+ html[data-theme] [data-booking-design="luxury-reference"] .duyuf-booking-featured-route-name{
+   font-size:13px!important;line-height:1.52!important;
+   min-height:62px;
+ }
+ html[data-theme] [data-booking-design="luxury-reference"] .duyuf-booking-vehicle-card h4{
+   font-size:14px!important;min-height:0;
+ }
+ html[data-theme] [data-booking-design="luxury-reference"] .duyuf-booking-summary{
+   padding:19px 15px!important;
+ }
+ html[data-theme] [data-booking-design="luxury-reference"] .duyuf-booking-primary-action{
+   font-size:15px!important;min-height:52px!important;
+ }
+}
