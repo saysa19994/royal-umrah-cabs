@@ -193,7 +193,7 @@ export default function AdminDriversPage() {
   return (
     <div className="vip-internal-editorial space-y-6 text-start">
       {/* 1. EXECUTIVE HEADER BAR */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F1E7] via-[#F9F1E7] to-[#FAF3E7] border border-[#E5D6C0] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
+      <div className="vip-internal-hero relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F1E7] via-[#F9F1E7] to-[#FAF3E7] border border-[#E5D6C0] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
         <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#0B6A69]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
@@ -207,8 +207,8 @@ export default function AdminDriversPage() {
               VIP Chauffeur Operations Directory
             </h1>
 
-            <p className="text-xs sm:text-sm text-[#667681] font-light max-w-2xl leading-relaxed">
-              Vetted Saudi chauffeurs assigned to VIP pilgrim arrivals. Direct WhatsApp dispatch links, vehicle plate registry, multilingual competencies, and real-time duty status.
+            <p className="vip-hero-description text-xs sm:text-sm text-[#667681] font-light max-w-2xl leading-relaxed">
+              Manage your registered chauffeur directory, operational availability flags, assigned vehicle plates and dispatch contact details.
             </p>
           </div>
 
@@ -239,7 +239,7 @@ export default function AdminDriversPage() {
           className={`p-4 rounded-xl border flex items-center justify-between text-xs font-medium animate-fadeIn ${
             feedback.type === 'success'
               ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-700'
-              : 'bg-rose-950/30 border-rose-500/40 text-rose-300'
+              : 'bg-rose-950/30 border-rose-500/40 text-rose-700'
           }`}
         >
           <div className="flex items-center gap-2">
