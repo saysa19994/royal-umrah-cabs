@@ -22,6 +22,7 @@ import { RoyalBookingSteps, RoyalGuestConfidence, RoyalServiceChapters } from '.
 import { getRoyalHomeRoute, ROYAL_HOME_ROUTES } from './royal-home-routes';
 import styles from './SignatureFusionHomepage.module.css';
 import BronzeCircularFleet from './BronzeCircularFleet';
+import ConnectedJourneyLines from './ConnectedJourneyLines';
 
 type Props = {
   locale: Locale;
@@ -347,6 +348,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
       {journey && (
         <section className={styles.routeAtlas} id="fusion-routes" aria-labelledby="fusion-routes-title">
           <div className={styles.routesHead}><h2 id="fusion-routes-title">{copy.routeTitle}</h2><p>{copy.routeLead}</p></div>
+          <ConnectedJourneyLines title={copy.routeTitle} description={copy.routeLead} />
           <div className={styles.routeCurtain} role="group" aria-label={dict.nav.routes}>
             {routes.filter((item) => item.featured || item.id === route).map((item) => (
               <button key={item.id} type="button" aria-pressed={route === item.id}
