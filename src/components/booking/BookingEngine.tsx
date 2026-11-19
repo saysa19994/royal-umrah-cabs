@@ -58,6 +58,8 @@ interface BookingEngineProps {
   initialRates?: Record<string, Record<string, number>>;
   vehicleOverrides?: Record<string, VehicleInfo>;
   routeImages?: Record<string,string>;
+  routeOverrides?: Record<string,{label:string;baseSAR:number}>;
+  disabledRouteIds?: string[];
   hideInternalStepper?: boolean;
   onStepChange?: (step: 1 | 2 | 3 | 4) => void;
   stepOverride?: 1 | 2 | 3 | 4;
@@ -993,6 +995,8 @@ export function BookingEngine({
   initialRates,
   vehicleOverrides,
   routeImages,
+  routeOverrides,
+  disabledRouteIds,
   hideInternalStepper = false, onStepChange, stepOverride }: BookingEngineProps) {
   // Published active vehicles are the only choices offered in booking.
   const vehicleSpecs = React.useMemo<Record<string,VehicleInfo>>(() => {
@@ -1030,18 +1034,19 @@ export function BookingEngine({
 
   // Step 1: Trip & Route Details
   const [bookingType, setBookingType] = useState<'transfer' | 'hourly' | 'ziyarat' | 'group_bus'>(initialType);
+  const routesForBooking=React.useMemo(() => ({...ROUTES,...(routeOverrides||{})}),[routeOverrides]);
   const availableRoutes = React.useMemo(() => {
-    return Object.entries(ROUTES).filter(([key]) => {
-      if (key === 'riyadh-airport-transfer') return false;
+    return Object.entries(routesForBooking).filter(([key]) => {
+      if (key === 'riyadh-airport-transfer' || disabledRouteIds?.includes(key)) return false;
       if (TAIF_ROUTE_KEYS.has(key) && !settings.taif_enabled) return false;
       if (RIYADH_ROUTE_KEYS.has(key) && !settings.riyadh_enabled) return false;
       return true;
     });
-  }, [settings.taif_enabled, settings.riyadh_enabled]);
+  }, [routesForBooking, disabledRouteIds, settings.taif_enabled, settings.riyadh_enabled]);
 
   const initialRouteValid = availableRoutes.some(([key]) => key === initialRoute);
 
-  const [routeId, setRouteId] = useState(initialRouteValid ? initialRoute : DEFAULT_ROUTE);
+  const [routeId, setRouteId] = useState(initialRouteValid ? initialRoute : (availableRoutes[0]?.[0]||DEFAULT_ROUTE));
   const [vehicleId, setVehicleId] = useState<string | null>(() => {
     if (initialVehicle && initialVehicle in vehicleSpecs) {
       return initialVehicle;
@@ -1072,7 +1077,7 @@ export function BookingEngine({
   const [mixedAirportPickup, setMixedAirportPickup] = useState(false);
   const [step1Error, setStep1Error] = useState<string | null>(null);
   const usesRouteLocations = bookingType === 'transfer' || bookingType === 'group_bus';
-  const [routePickup, routeDropoff] = (LOCALIZED_ROUTE_NAMES[routeId]?.[locale] || ROUTES[routeId].label)
+  const [routePickup, routeDropoff] = (routeOverrides?.[routeId]?.label || LOCALIZED_ROUTE_NAMES[routeId]?.[locale] || routesForBooking[routeId]?.label || '')
     .split(/[→←⇄]/).map((location) => location.trim());
   const pickupLocation = customPickupLocation.trim() || (usesRouteLocations ? routePickup : '');
   const dropoffLocation = customDropoffLocation.trim() || (usesRouteLocations ? routeDropoff : '');
@@ -1200,6 +1205,10 @@ export function BookingEngine({
 
   // Step 1 -> Step 2 (Route -> Vehicle)
   const handleProceedToStep2 = () => {
+    if (usesRouteLocations && !availableRoutes.some(([id])=>id===routeId)) {
+      setStep1Error(locationError);
+      return;
+    }
     if (pickupLocation.length < 2 || dropoffLocation.length < 2) {
       setStep1Error(locationError);
       return;
@@ -1616,7 +1625,7 @@ export function BookingEngine({
                     className="w-full min-h-[48px] h-12 px-3 rounded-btn border border-border-strong bg-bg-alt text-ink text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-gold cursor-pointer"
                   >
                     {availableRoutes.map(([rKey, rData]) => {
-                      const localizedName = LOCALIZED_ROUTE_NAMES[rKey]?.[locale] || rData.label;
+                      const localizedName = routeOverrides?.[rKey]?.label || LOCALIZED_ROUTE_NAMES[rKey]?.[locale] || rData.label;
                       return (
                         <option key={rKey} value={rKey}>
                           {localizedName}
@@ -1629,7 +1638,7 @@ export function BookingEngine({
                 {bookingType === 'transfer' && (
                   <div className="duyuf-booking-featured-routes" role="group" aria-label={t.routeLabel}>
                     {FEATURED_BOOKING_ROUTES.filter((item) => availableRoutes.some(([key]) => key === item.id)).map((item) => {
-                      const title = LOCALIZED_ROUTE_NAMES[item.id]?.[locale] || ROUTES[item.id].label;
+                      const title = routeOverrides?.[item.id]?.label || LOCALIZED_ROUTE_NAMES[item.id]?.[locale] || routesForBooking[item.id]?.label || '';
                       return (
                         <button
                           key={item.id}

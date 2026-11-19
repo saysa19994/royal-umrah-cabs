@@ -13,6 +13,7 @@ import { getDbPricesCached } from '@/lib/pricing-db';
 import { getBookingDraft } from '@/lib/booking-draft-store';
 import { getSiteImagesCached, ROUTE_IMAGE_SLOTS } from '@/lib/site-images';
 import { getDbVehiclesCached } from '@/lib/fleet-db';
+import { getPublishedRoutes, getRouteCatalogCached } from '@/lib/public-routes';
 import { getPublishedPageCopy } from '@/lib/public-page-copy';
 
 interface BookingPageProps {
@@ -167,9 +168,19 @@ export default async function BookingPage(props: BookingPageProps) {
   const { locale } = params;
 
   const dict = getDictionary(locale);
-  const [settings, images, activeFleet] = await Promise.all([
+  const [settings, images, activeFleet, initialRates, publishedRoutes, catalog] = await Promise.all([
     getSiteSettings(), getSiteImagesCached(), getDbVehiclesCached(),
+    getDbPricesCached(), getPublishedRoutes(locale), getRouteCatalogCached(),
   ]);
+  const routeOverrides = Object.fromEntries(
+    publishedRoutes.filter(r=>!r.slug.includes('ziyarat') &&
+      Object.values(initialRates[r.slug] || {}).some(n=>Number.isFinite(n)&&n>0))
+      .map(r=>[r.slug,{
+        label:r.titles[locale]||r.titleEn,
+        baseSAR:Math.min(...Object.values(initialRates[r.slug]).filter(n=>Number.isFinite(n)&&n>0)),
+      }]),
+  );
+  const disabledRouteIds=(catalog||[]).filter(r=>!r.is_active).map(r=>r.id);
   const directIds = new Set(['camry','staria','yukon','hiace','coaster']);
   const bookingVehicleOverrides = Object.fromEntries(
     activeFleet.filter(v => directIds.has(v.bookingVehicleId)).map(v => [
@@ -294,7 +305,9 @@ export default async function BookingPage(props: BookingPageProps) {
           initialDuration={resolvedDuration}
           initialPickup={resolvedPickup}
           initialDropoff={resolvedDropoff}
-          initialRates={await getDbPricesCached()}
+          initialRates={initialRates}
+          routeOverrides={routeOverrides}
+          disabledRouteIds={disabledRouteIds}
           vehicleOverrides={bookingVehicleOverrides}
           routeImages={routeImages}
         />
