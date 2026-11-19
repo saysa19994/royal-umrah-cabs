@@ -39,7 +39,24 @@ export async function GET(request: Request) {
       .order('created_at', { ascending: false });
 
     if (statusFilter && statusFilter !== 'all') {
+      const allowedStatuses = BookingStatusEnum.options as readonly string[];
+      if (!allowedStatuses.includes(statusFilter)) {
+        return NextResponse.json({ error: 'Invalid booking status filter' }, { status: 400 });
+      }
       query = query.eq('status', statusFilter);
+    }
+
+    // Server-side search across the complete dataset (not merely the visible page).
+    const rawSearch = searchParams.get('q') || '';
+    const safeSearch = rawSearch.normalize('NFKC').replace(/[^\\p{L}\\p{N} @+_-]/gu, '').trim().slice(0, 80);
+    if (rawSearch && !safeSearch) {
+      return NextResponse.json({ bookings: [], total: 0, limit, offset });
+    }
+    if (safeSearch) {
+      query = query.or(
+        'reference.ilike.%' + safeSearch + '%,customer_name.ilike.%' + safeSearch +
+        '%,customer_phone.ilike.%' + safeSearch + '%,pickup_location.ilike.%' + safeSearch + '%'
+      );
     }
 
     // Server-side Operator Scoping:
@@ -62,7 +79,7 @@ export async function GET(request: Request) {
       );
     }
 
-    return NextResponse.json({ bookings: data || [], total: count ?? (data?.length || 0), limit, offset });
+    return NextResponse.json({ bookings: data || [], total: count ?? (data?.length || 0), limit, offset }, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch (err: any) {
     console.error('Admin bookings GET error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
