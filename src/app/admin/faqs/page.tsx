@@ -30,8 +30,6 @@ const FEATURE_FLAGS_OPTIONS = [
   { key: 'zamzam_water', label: 'Zamzam Water Provision' },
   { key: 'malay_speaking_chauffeur', label: 'Malay-Speaking Chauffeur' },
   { key: 'coaster_enabled', label: 'Toyota Coaster Fleet' },
-  { key: 'online_card_payment_enabled', label: 'Online Card Gateway' },
-  { key: 'bank_transfer_payment_enabled', label: 'Saudi Bank Transfer' },
 ];
 
 export default function AdminFaqsPage() {
@@ -105,15 +103,19 @@ export default function AdminFaqsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to permanently delete this FAQ?')) return;
+    if (!confirm('Hide this FAQ from the website? Its previous content will be retained for recovery.')) return;
     try {
-      const res = await fetch(`/api/admin/faqs?id=${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/admin/faqs?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
       const data = await res.json();
-      if (data.success) {
-        fetchFaqs();
+      if (res.ok && data.success) {
+        setFeedback({type:'success',message:'FAQ hidden and saved successfully'});
+        await fetchFaqs();
+      } else {
+        setFeedback({type:'error',message:data.error || 'Unable to hide FAQ'});
       }
     } catch (e) {
       console.error('Delete FAQ error:', e);
+      setFeedback({type:'error',message:'Network error while hiding FAQ'});
     }
   };
 
