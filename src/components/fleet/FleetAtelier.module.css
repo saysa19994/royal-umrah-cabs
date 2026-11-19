@@ -233,3 +233,372 @@
 @media(prefers-reduced-motion:reduce){
  .exteriorPhoto,.cabinPhoto{animation:none!important}
 }
+
+
+/*
+ * MOBILE RECONSTRUCTION — 2026-11-19
+ * The previous 495px minimum-width comparison table forced guests to pan a
+ * 320–430px phone; the wide carousel made the surrounding document seem clipped.
+ * Under 680px, retain native controls and the same authoritative fare data,
+ * but give the showroom, specification comparison and concierge their own
+ * single-column/mobile-card compositions. No desktop change or JS duplication.
+ */
+.mobileDetailsText{display:none}
+@media (max-width:680px){
+ .page{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  overflow-x:clip;
+ }
+ .page :is(.hero,.heroText,.heroPoster,.atelier,.atelierHead,.collection,
+  .selector,.photoStudio,.specSheet,.indexSection,.indexHead,.tableScroll,
+  .concierge,.conciergeIntro,.conciergeGallery){
+  min-width:0;
+  max-width:100%;
+ }
+ .hero{
+  display:flex;
+  flex-direction:column-reverse;
+  min-height:0;
+  max-height:none;
+  width:100%;
+  overflow:hidden;
+ }
+ .heroText{
+  padding:27px 19px 22px;
+  align-items:stretch;
+  width:100%;
+ }
+ .heroText h1{
+  max-width:100%;
+  font-size:clamp(29px,8vw,39px);
+  line-height:1.33;
+  overflow-wrap:anywhere;
+ }
+ .heroText>p:not(.kicker){
+  max-width:100%;
+  font-size:13px;
+  line-height:1.8;
+  margin:13px 0 18px;
+ }
+ .heroLink{
+  align-self:flex-start;
+  min-height:48px;
+  padding:12px 17px;
+  font-size:13px;
+ }
+ .heroPoster{
+  flex:none;
+  min-height:0;
+  height:clamp(195px,58vw,280px);
+  max-height:none;
+ }
+ .atelier{
+  width:100%;
+  padding:31px 12px 38px;
+ }
+ .atelierHead{
+  width:100%;
+  padding:0 3px;
+  gap:12px;
+  align-items:center;
+  margin-bottom:16px;
+ }
+ .atelierHead>div{min-width:0}
+ .atelierHead h2{
+  font-size:clamp(26px,7vw,34px);
+  line-height:1.35;
+  overflow-wrap:anywhere;
+ }
+ .collectionCount{
+  flex:none;
+  font-size:37px;
+  white-space:nowrap;
+ }
+ .collection{
+  width:100%;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+ }
+ .selector{
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  display:flex;
+  flex-direction:row;
+  flex-wrap:nowrap;
+  align-items:stretch;
+  padding:10px;
+  gap:8px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  overscroll-behavior-inline:contain;
+  scroll-snap-type:x proximity;
+  scrollbar-width:thin;
+  -webkit-overflow-scrolling:touch;
+ }
+ .selector .pick{
+  flex:0 0 min(67vw,228px);
+  min-width:0;
+  width:auto;
+  min-height:62px!important;
+  border:1px solid rgba(255,255,255,.25);
+  padding:10px 12px!important;
+  display:grid;
+  grid-template-columns:24px minmax(0,1fr);
+  column-gap:8px;
+  scroll-snap-align:start;
+  text-align:start;
+ }
+ .selector .pick strong{
+  font-size:12px;
+  line-height:1.45;
+  overflow-wrap:break-word;
+ }
+ .photoStudio{
+  width:100%;
+  padding:0 8px 11px;
+ }
+ .primaryPhoto{
+  position:relative;
+  flex:none;
+  height:clamp(220px,66vw,295px);
+  min-height:0;
+  width:100%;
+ }
+ .primaryPhoto img{max-width:100%}
+ .photoControls{
+  width:100%;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  padding:8px 0 0;
+ }
+ .photoControls button{
+  min-height:46px;
+  font-size:12px;
+  flex:1 1 120px;
+  justify-content:center;
+ }
+ .filmstrip{
+  width:100%;
+  justify-content:flex-start;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+ }
+ .specSheet{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  padding:23px 19px 22px;
+  border-inline-start:0;
+  border-block-start:1px solid #d7dfd5;
+ }
+ .specSheet h3{
+  font-size:clamp(24px,6.5vw,31px);
+  line-height:1.38;
+  max-width:100%;
+ }
+ .specSheet>p:not(.payment){
+  font-size:13px;
+  line-height:1.85;
+  max-width:100%;
+ }
+ .metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .metrics>div{min-width:0}
+ .book{
+  width:100%;
+  min-height:51px;
+  margin-top:15px;
+  font-size:13px;
+ }
+ .readMore{min-height:44px;font-size:13px}
+ .payment{font-size:12px;line-height:1.65}
+ .indexSection{
+  padding:40px 14px 43px;
+  overflow:visible;
+ }
+ .indexHead{
+  width:100%;
+  display:block;
+  margin-bottom:18px;
+ }
+ .indexHead h2{
+  font-size:clamp(27px,7vw,34px);
+  line-height:1.32;
+  overflow-wrap:anywhere;
+ }
+ .indexHead p{font-size:13px;line-height:1.75}
+ /* The five-row desktop ledger becomes five readable standalone vehicle cards. */
+ .tableScroll{
+  display:block;
+  width:100%;
+  max-width:100%;
+  overflow:visible;
+ }
+ .table{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0!important;
+  border:0;
+  border-collapse:separate;
+ }
+ .table thead{display:none}
+ .table tbody{
+  width:100%;
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:12px;
+ }
+ .table tbody tr{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 12px;
+  width:100%;
+  min-width:0;
+  padding:15px;
+  border:1px solid #d9ded5;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 7px 21px rgba(22,53,50,.045);
+ }
+ .table tbody th{
+  display:block;
+  width:100%;
+  min-width:0;
+  grid-column:1 / -1;
+  margin:0 0 11px;
+  padding:0 0 11px;
+  border:0;
+  border-bottom:1px solid #e3e5dd;
+  font-size:15px;
+  line-height:1.55;
+  font-weight:850;
+  overflow-wrap:anywhere;
+  text-align:start;
+ }
+ .table tbody td{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:3px;
+  min-width:0;
+  min-height:60px;
+  padding:7px 0;
+  border:0;
+  color:#244b4f;
+  font-size:15px;
+  font-weight:800;
+  line-height:1.5;
+  text-align:start;
+ }
+ .table tbody td::before{
+  content:attr(data-label);
+  display:block;
+  color:#6a807b;
+  font-size:11px;
+  font-weight:650;
+  line-height:1.5;
+ }
+ .table tbody td:nth-of-type(3){
+  grid-column:1 / -1;
+  display:flex;
+  flex-direction:row;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  border-top:1px solid #e3e5dd;
+  margin-top:6px;
+  padding:12px 0;
+ }
+ .table tbody td:nth-of-type(3)::before{font-size:12px}
+ .table tbody td:last-child{
+  grid-column:1 / -1;
+  min-height:0;
+  padding:0;
+ }
+ .table tbody td:last-child::before{display:none}
+ .table tbody td:last-child a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  width:100%;
+  min-height:46px;
+  padding:10px 14px;
+  border-radius:7px;
+  background:#1d4448;
+  color:#fff;
+  font-size:12px;
+  font-weight:800;
+ }
+ .table tbody td:last-child a svg{color:inherit}
+ .table tbody td:last-child .mobileDetailsText{
+  display:inline;
+ }
+ .table tr:hover td,.table tr:hover th{background:transparent}
+ .concierge{
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  min-height:0;
+  overflow:hidden;
+ }
+ .conciergeIntro{
+  width:100%;
+  padding:37px 19px 27px;
+  min-width:0;
+ }
+ .conciergeIntro h2{
+  font-size:clamp(29px,7.8vw,37px);
+  line-height:1.3;
+  overflow-wrap:anywhere;
+ }
+ .conciergeIntro>p{font-size:13px;line-height:1.8}
+ .conciergeIntro>a{
+  width:100%;
+  min-height:48px;
+  text-align:center;
+ }
+ .conciergeGallery{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  width:100%;
+  height:auto;
+  min-height:0;
+  gap:1px;
+ }
+ .conciergeGallery a{
+  display:block;
+  min-width:0;
+  min-height:0;
+  width:100%;
+  aspect-ratio:1 / 1.08;
+  overflow:hidden;
+ }
+ .conciergeGallery a>span{
+  inset-inline:8px;
+  bottom:8px;
+  padding:9px 5px;
+  font-size:clamp(10px,2.6vw,12px);
+  white-space:normal;
+  overflow-wrap:anywhere;
+ }
+}
+/* Tiny screens and browser 200% zoom: preserve text and tap-target readability. */
+@media(max-width:360px){
+ .heroText{padding-inline:15px}
+ .atelier{padding-inline:9px}
+ .specSheet{padding-inline:15px}
+ .indexSection{padding-inline:10px}
+ .table tbody tr{padding:12px}
+ .conciergeIntro{padding-inline:15px}
+}

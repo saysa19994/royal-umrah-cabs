@@ -112,9 +112,17 @@ export function FleetAtelier({locale,vehicles}:Props){
       <tbody>{APPROVED_5_FLEET.map(v=>{
         const f=AUTHORITATIVE_TRANSFER_RATES[ROUTE]?.[FARE_IDS[v.slug]];
         return <tr key={v.slug}>
-         <th scope="row">{v.name[locale]||v.name.en}</th><td>{v.passengers}</td><td>{v.luggage}</td>
-         <td>{typeof f==='number'?numberFormat.format(f):t.notForRoute}</td>
-         <td><Link href={'/'+locale+'/fleet/'+v.slug}><ArrowUpRight size={18} aria-hidden="true"/><span className={styles.srOnly}>{v.name[locale]||v.name.en}</span></Link></td>
+         <th scope="row">{v.name[locale]||v.name.en}</th>
+         <td data-label={t.passengers}>{v.passengers}</td>
+         <td data-label={t.luggage}>{v.luggage}</td>
+         <td data-label={t.fare+' / SAR'}>{typeof f==='number'?numberFormat.format(f):t.notForRoute}</td>
+         <td data-label={t.more}>
+           <Link href={'/'+locale+'/fleet/'+v.slug}>
+             <span className={styles.mobileDetailsText} aria-hidden="true">{t.more}</span>
+             <ArrowUpRight size={18} aria-hidden="true"/>
+             <span className={styles.srOnly}>{v.name[locale]||v.name.en}</span>
+           </Link>
+         </td>
         </tr>;
       })}</tbody>
     </table>
