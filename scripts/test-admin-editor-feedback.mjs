@@ -38,3 +38,12 @@ test('CMS editor blocks overwrite on failed load and verifies saved record by re
  assert.match(s,/Content Blocks must be a JSON object/);
  assert.doesNotMatch(s,/text-amber-200\/90/);
 });
+
+test('admin CMS registry fails closed when Supabase cannot read saved content',()=>{
+ const s=r('src/lib/cms-service.ts');
+ const registry=s.slice(s.indexOf('export async function getAllCmsPagesAdmin('),s.indexOf('/**\n * Admin mutation:'));
+ assert.match(registry,/if \(error\)/);
+ assert.match(registry,/throw new Error\('CMS registry unavailable'\)/);
+ assert.match(registry,/return \(data \|\| \[\]\) as CmsPageRecord\[\]/);
+ assert.doesNotMatch(registry,/return Object\.values\(memoryCmsStore\)/);
+});
