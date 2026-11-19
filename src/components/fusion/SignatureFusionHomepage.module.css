@@ -747,3 +747,46 @@
   .page[dir="rtl"]:lang(ar) .heroCopy > p { font-size: .92rem; }
   .page[dir="rtl"]:lang(ar) .heroButtons .primary { padding-inline: 16px; }
 }
+
+
+/* Cinematic Connected Journey — preview-only editorial theme */
+.page {
+ --ink:#0a0a0a; --ivory:#141414; --white:#0a0a0a;
+ --bronze:#a78b71; --bronze-text:#e8d5b7;
+ --muted:#a3a3a3; --line:rgba(255,255,255,.12);
+ background:#0a0a0a; color:#fff; color-scheme:dark;
+}
+.page :is(.bookingArea,.story,.showroom,.routeAtlas,.promises,.finish) {
+ background-color:#0a0a0a; color:#fff;
+}
+.page :is(.bookingDesk,.bookingLower,.showroomLayout,.carDetail,.curtainSummary) {
+ background:rgba(255,255,255,.03); color:#fff;
+ border-color:rgba(255,255,255,.12);
+}
+.page :is(.bookingArea,.showroom,.routeAtlas) {
+ background-image:radial-gradient(rgba(255,255,255,.065) .7px,transparent .7px);
+ background-size:32px 32px;
+}
+.page :is(.bookingArea,.showroom,.routeAtlas,.story) h2 {color:#f5eee7}
+.page :is(.bookingArea,.showroom,.routeAtlas,.story) a {color:#e8d5b7}
+.page .showroomLayout {gap:0}
+.page .showroomHeading {border-color:rgba(255,255,255,.15)}
+.page .carDetail {padding:clamp(20px,3vw,48px)}
+.page .carPhoto {background:#151515}
+.page .hero {background:#0a0a0a}
+.page .heroVideo::after {background:linear-gradient(90deg,rgba(10,10,10,.86),rgba(10,10,10,.45) 38%,transparent 72%)}
+.page[dir=rtl] .heroVideo::after {background:linear-gradient(270deg,rgba(10,10,10,.86),rgba(10,10,10,.45) 38%,transparent 72%)}
+.page .bookingDesk :is(input,select) {color:#fff;background:#191919;border-color:rgba(255,255,255,.16)}
+.page .bookingDesk :is(input,select) option {background:#191919;color:#fff}
+.page .bookingDesk :is(input,select):focus-visible {outline-color:#c9b8a0}
+.page .showroom :is(.carFare,.statLine) {border-color:rgba(255,255,255,.16)}
+.page .showroom .eyebrow {color:#c9b8a0}
+.page .showroom .carDetail p {color:#b8b8b8}
+@media(max-width:760px) {
+ .page .heroVideo::after {background:linear-gradient(180deg,rgba(10,10,10,.18),rgba(10,10,10,.58) 65%,rgba(10,10,10,.83))}
+ .page[dir=rtl] .heroVideo::after {background:linear-gradient(180deg,rgba(10,10,10,.18),rgba(10,10,10,.58) 65%,rgba(10,10,10,.83))}
+ .page .showroomLayout {display:block}
+}
+@media(prefers-reduced-motion:reduce) {
+ .page *, .page *::before,.page *::after {scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
