@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ImageIcon, Upload, Save, ExternalLink, ShieldCheck } from 'lucide-react';
+import { Upload, Save, ExternalLink, ShieldCheck } from 'lucide-react';
 
 type SlotInfo = { label: string; fallback: string };
 type ImageRegistry = { slots: Record<string, SlotInfo>; assets: Record<string, string> };
@@ -70,3 +70,4 @@ export default function SiteImageControl() {
       </article>)}
     </div>
   </section>;
+}
