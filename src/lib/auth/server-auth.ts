@@ -73,7 +73,7 @@ export async function requireRole(
         .is('auth_user_id', null)
         .maybeSingle();
 
-      if (unlinkedProfile) {
+      if (unlinkedProfile && process.env.VERCEL_ENV !== 'preview') {
         await serviceClient
           .from('user_profiles')
           .update({
