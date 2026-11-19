@@ -1,6 +1,7 @@
 import { unstable_cache } from 'next/cache';
 import { createClient } from '@supabase/supabase-js';
 import { AUTHORITATIVE_TRANSFER_RATES } from './pricing-constants';
+import { getPublishedFareOverridesCached } from './published-fares';
 
 export type TransferRatesMap = Record<string, Record<string, number>>;
 
@@ -26,8 +27,10 @@ export const getDbPricesCached = unstable_cache(
       if (!error && data && data.length > 0) {
         for (const row of data) {
           const price = Number(row.price_sar);
-          if (!isNaN(price) && price > 0) {
-            // Saved administrator-approved values override initial defaults.
+          if (Number.isFinite(price) && price > 0) {
+            // Legacy seed rows are not owner approvals. Never replace company fares
+            // without a deliberate publish action from the administrator.
+            if (AUTHORITATIVE_TRANSFER_RATES[row.route_id]?.[row.vehicle_id] !== undefined) continue;
             if (!rates[row.route_id]) rates[row.route_id] = {};
             rates[row.route_id][row.vehicle_id] = price;
           }
@@ -35,6 +38,14 @@ export const getDbPricesCached = unstable_cache(
       }
     } catch (err) {
       console.warn('Notice loading DB prices in cache:', err);
+    }
+
+    // Explicit approvals, never the obsolete seed matrix, override official prices.
+    const approved = await getPublishedFareOverridesCached();
+    for (const [route,vehicles] of Object.entries(approved)) {
+      for (const [vehicle,price] of Object.entries(vehicles)) {
+        (rates[route] ??= {})[vehicle] = price;
+      }
     }
 
     // The Riyadh Airport product is inactive, so it must not surface in public fare views.

@@ -1,6 +1,7 @@
 import { createServiceClient } from '@/lib/supabase/service';
 import { CURRENCIES, CurrencyCode } from '@/i18n/config';
 import { getDynamicPriceForRouteVehicle } from './dynamic-pricing-store';
+import { getPublishedFare } from './published-fares';
 import { getMergedSiteSettings } from './dynamic-settings-store';
 import {
   AUTHORITATIVE_HOURLY_RATES_4H,
@@ -160,22 +161,21 @@ export async function calculateServerPrice(params: {
       throw new Error(`Active route '${routeId}' not found in database`);
     }
 
-    // Booking and checkout must use the same editable fare stored by administration.
-    const { data: priceRow, error: priceError } = await serviceClient
-      .from('prices')
-      .select('price_sar')
-      .eq('route_id', routeId)
-      .eq('vehicle_id', vehicleId)
-      .maybeSingle();
-    if (priceError) throw new Error('Current fare could not be verified');
-    if (priceRow) {
-      const saved = Number(priceRow.price_sar);
-      if (!Number.isFinite(saved) || saved <= 0) throw new Error('Route fare is unavailable');
-      basePriceSAR = saved;
+    // Official fares change only after the administrator explicitly publishes
+    // an override. Existing seeded prices may conflict with company fares.
+    const approvedFare = await getPublishedFare(routeId, vehicleId);
+    const originalFare = AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId];
+    if (approvedFare !== null) {
+      basePriceSAR = approvedFare;
+    } else if (originalFare !== undefined) {
+      basePriceSAR = originalFare;
     } else {
-      // Default fare is only used if no editable DB rate has been configured.
-      basePriceSAR = AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId]
-        ?? getDynamicPriceForRouteVehicle(routeId, vehicleId);
+      const { data: priceRow, error: priceError } = await serviceClient
+        .from('prices').select('price_sar')
+        .eq('route_id', routeId).eq('vehicle_id', vehicleId).maybeSingle();
+      if (priceError) throw new Error('Custom route fare could not be verified');
+      basePriceSAR = priceRow ? Number(priceRow.price_sar)
+        : getDynamicPriceForRouteVehicle(routeId, vehicleId);
     }
 
     if (!basePriceSAR || isNaN(basePriceSAR) || basePriceSAR <= 0) {
@@ -214,11 +214,8 @@ export async function calculateServerPrice(params: {
   } else if (bookingType === 'ziyarat') {
     // Check if routeId is given (e.g. makkah-ziyarat, madinah-ziyarat)
     if (routeId && AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId]) {
-      const { data: ziyaratRate, error: ziyaratError } = await serviceClient
-        .from('prices').select('price_sar').eq('route_id', routeId)
-        .eq('vehicle_id', vehicleId).maybeSingle();
-      if (ziyaratError) throw new Error('Ziyarat fare could not be verified');
-      basePriceSAR = ziyaratRate ? Number(ziyaratRate.price_sar) : AUTHORITATIVE_TRANSFER_RATES[routeId][vehicleId];
+      const approved = await getPublishedFare(routeId, vehicleId);
+      basePriceSAR = approved ?? AUTHORITATIVE_TRANSFER_RATES[routeId][vehicleId];
     } else if (AUTHORITATIVE_ZIYARAT_RATES[vehicleId]) {
       basePriceSAR = AUTHORITATIVE_ZIYARAT_RATES[vehicleId];
     } else {

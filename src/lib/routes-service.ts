@@ -3,6 +3,7 @@ import { unstable_cache, revalidateTag, revalidatePath } from 'next/cache';
 import { AdminRouteData } from '@/types/content';
 import { logAuditEvent } from '@/lib/audit';
 import { AUTHORITATIVE_TRANSFER_RATES } from './pricing-constants';
+import { getPublishedFareOverridesCached, publishFares } from './published-fares';
 
 // Initial default routes list with 100% Authoritative Company Fares
 const INITIAL_ROUTES: AdminRouteData[] = [
@@ -231,7 +232,9 @@ export async function getAllAdminRoutesWithPrices(): Promise<AdminRouteData[]> {
       .select('*')
       .order('display_order', { ascending: true });
 
-    const { data: dbPrices, error: pErr } = await supabase.from('prices').select('*');
+    const [{ data: dbPrices, error: pErr }, approved] = await Promise.all([
+      supabase.from('prices').select('*'),getPublishedFareOverridesCached(),
+    ]);
 
     if (!rErr && dbRoutes && dbRoutes.length > 0) {
       const priceMap: Record<string, Record<string, number>> = {};
@@ -242,14 +245,15 @@ export async function getAllAdminRoutesWithPrices(): Promise<AdminRouteData[]> {
 
       return dbRoutes.map((r, idx) => {
         const rPrices = priceMap[r.id] || {};
+        const publicRates = approved[r.id] || {};
         const auth = AUTHORITATIVE_TRANSFER_RATES[r.id];
 
         // Authoritative rates take strict precedence for approved routes
-        const camry = rPrices['camry'] ?? auth?.camry ?? 0;
-        const staria = rPrices['staria'] ?? auth?.staria ?? 0;
-        const yukon = rPrices['yukon'] ?? auth?.yukon ?? 0;
-        const hiace = rPrices['hiace'] ?? auth?.hiace ?? 0;
-        const coaster = rPrices['coaster'] ?? auth?.coaster ?? 0;
+        const camry = publicRates['camry'] ?? auth?.camry ?? rPrices['camry'] ?? 0;
+        const staria = publicRates['staria'] ?? auth?.staria ?? rPrices['staria'] ?? 0;
+        const yukon = publicRates['yukon'] ?? auth?.yukon ?? rPrices['yukon'] ?? 0;
+        const hiace = publicRates['hiace'] ?? auth?.hiace ?? rPrices['hiace'] ?? 0;
+        const coaster = publicRates['coaster'] ?? auth?.coaster ?? rPrices['coaster'] ?? 0;
 
         const sarToUsd = 0.266;
 
@@ -328,6 +332,8 @@ export async function upsertRouteWithPricesAdmin(
       .upsert(priceUpserts, { onConflict: 'route_id,vehicle_id' });
 
     if (priceErr) return { success: false, error: 'Route saved, but prices failed: ' + priceErr.message };
+    // Publish the rates that the owner deliberately saved; never publish legacy seed values.
+    await publishFares(priceUpserts.filter(item=>item.price_sar>0));
   } catch (err) {
     console.warn('Exception persisting route and prices:', err);
     return { success: false, error: 'Unable to persist route prices' };

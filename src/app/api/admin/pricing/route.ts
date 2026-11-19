@@ -6,7 +6,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
 import { getClientIp } from '@/lib/rate-limit';
 import { getAllAdminRoutesWithPrices, upsertRouteWithPricesAdmin, toggleOrDeleteRouteAdmin } from '@/lib/routes-service';
-import { setDynamicTransferRate } from '@/lib/dynamic-pricing-store';
+import { publishFares } from '@/lib/published-fares';
 
 export const dynamic = 'force-dynamic';
 
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     // Route-level upsert (with multi-vehicle prices)
     if (body.route) {
       const result = await upsertRouteWithPricesAdmin(body.route, currentUser.email, currentUser.role, clientIp);
-      return NextResponse.json(result);
+      return NextResponse.json(result, {status:result.success?200:503});
     }
 
     // Single route-vehicle price update
@@ -78,31 +78,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid price value' }, { status: 400 });
     }
 
-    // Persist first: never report success when Supabase rejects the update.
-    let persistedPrice;
+    // One approved-fare row is the sole source of truth for this edit.
+    // No legacy price row is silently promoted or overwritten.
+    if (numericPrice <= 0) return NextResponse.json({ error: 'Published fares must be greater than zero' }, { status: 400 });
     try {
-      const serviceClient = createServiceClient();
-      const { data, error } = await serviceClient.from('prices').upsert(
-        {
-          route_id,
-          vehicle_id,
-          price_sar: numericPrice,
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: 'route_id,vehicle_id' }
-      ).select('route_id,vehicle_id,price_sar').single();
-      if (error || !data) {
-        console.error('Price persistence failed:', error);
-        return NextResponse.json({ error: 'Price was not saved. Please retry.' }, { status: 503 });
-      }
-      persistedPrice = data;
-    } catch (dbErr) {
-      console.error('Price persistence unavailable:', dbErr);
-      return NextResponse.json({ error: 'Price was not saved. Please retry.' }, { status: 503 });
+      await publishFares([{route_id,vehicle_id,price_sar:numericPrice}]);
+    } catch (e) {
+      console.error('Fare publish failed',e);
+      return NextResponse.json({ error: 'Approved price could not be published' }, { status: 503 });
     }
-
-    // Update the local fallback only after the database confirms persistence.
-    setDynamicTransferRate(route_id, vehicle_id, persistedPrice.price_sar);
 
     await logAuditEvent({
       userEmail: currentUser.email,
