@@ -42,3 +42,35 @@
  .copy h2 { font-size:clamp(1.95rem,6.5vw,2.65rem); }
  .copy p { font-size:.93rem; }
 }
+
+:global(html[data-theme="light"]) .chapter {
+  background: #FAF7F2;
+  color: #111827;
+}
+:global(html[data-theme="light"]) .copy h2 {
+  color: #111827;
+}
+:global(html[data-theme="light"]) .copy p {
+  color: #4A5568;
+}
+:global(html[data-theme="light"]) .specs {
+  border-top-color: rgba(0, 0, 0, 0.12);
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+}
+:global(html[data-theme="light"]) .specs span {
+  color: #2D3748;
+}
+:global(html[data-theme="light"]) .specs svg {
+  color: #9B783E;
+}
+:global(html[data-theme="light"]) .copy > a {
+  color: #9B783E;
+  border-bottom-color: rgba(155, 120, 62, 0.5);
+}
+:global(html[data-theme="light"]) .photo {
+  background: #E8E2D6;
+}
+:global(html[data-theme="dark"]) .chapter {
+  background: #101827;
+  color: #F7F5F0;
+}

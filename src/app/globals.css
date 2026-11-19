@@ -654,7 +654,21 @@ header[role="banner"][data-royal-home="true"][data-royal-scrolled="false"] a[ari
   }
 }
 
-.royal-immersion-footer {
+html[data-theme="light"] .royal-immersion-footer {
+  --footer-bg: #F4EFE6;
+  --footer-border: #E2DACB;
+  --footer-text: #4A5568;
+  --footer-heading: #111827;
+  --footer-strip-bg: #EAE3D5;
+  --accent-primary: #9B783E;
+  --accent-soft: rgba(155, 120, 62, 0.08);
+  --bg-surface: #EBE4D6;
+  --border-stone: #D8CEBD;
+  --text-primary: #111827;
+}
+
+html[data-theme="dark"] .royal-immersion-footer,
+:root:not([data-theme="light"]) .royal-immersion-footer {
   --footer-bg: #101827;
   --footer-border: #ffffff24;
   --footer-text: #d5dce5;

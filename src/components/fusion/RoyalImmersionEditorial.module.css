@@ -687,3 +687,24 @@
  .processSteps li{grid-template-columns:48px minmax(0,1fr)!important;gap:2px 9px!important}
  .processNumber b{font-size:1.8rem!important}
 }
+
+:global(html[data-theme="light"]) .chauffeur {
+  background: #EFE9DE;
+  color: #111827;
+}
+:global(html[data-theme="light"]) .chauffeurWords h2 {
+  color: #111827;
+}
+:global(html[data-theme="light"]) .chauffeurWords > p {
+  color: #4A5568;
+}
+:global(html[data-theme="light"]) .chauffeurWords li {
+  color: #2D3748;
+}
+:global(html[data-theme="light"]) .chauffeurWords > a {
+  background: #111827;
+  color: #F4EFE6;
+}
+:global(html[data-theme="dark"]) .chauffeur {
+  background: #0b1421;
+}

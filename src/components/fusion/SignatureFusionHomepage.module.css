@@ -652,6 +652,11 @@
 :global(html[data-theme="dark"]) .routePrice { border-color:#415164; }
 :global(html[data-theme="dark"]) .promises { background:#111e2c; }
 :global(html[data-theme="dark"]) .promiseList,:global(html[data-theme="dark"]) .promiseList li { border-color:#354455; }
+:global(html[data-theme="light"]) .finish { background:#F4EFE6; }
+:global(html[data-theme="light"]) .finishCopy h2 { color:#111827; }
+:global(html[data-theme="light"]) .finishCopy p { color:#4A5568; }
+:global(html[data-theme="light"]) .finishCopy a { background:#111827; color:#F4EFE6; }
+:global(html[data-theme="light"]) .finishCopy a:hover { background:#2D3748; }
 :global(html[data-theme="dark"]) .finish { background:#101827; }
 :global(html[data-theme="dark"]) .finishCopy :is(h2,p) { color:#f1f4f6; }
 :global(html[data-theme="dark"]) .finishCopy a { background:#f4f0e8; color:#101827; }
