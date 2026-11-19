@@ -22,6 +22,7 @@ export default function AdminLoginPage() {
   // Forced First-Time TOTP Enrollment
   const [enrollFactorId, setEnrollFactorId] = useState('');
   const [enrollSecret, setEnrollSecret] = useState('');
+  const [enrollQr, setEnrollQr] = useState('');
 
   const handleCredentialsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,6 +58,7 @@ export default function AdminLoginPage() {
           }
           setEnrollFactorId(enrollData.factorId);
           setEnrollSecret(enrollData.secret);
+          setEnrollQr(typeof enrollData.qrImageUrl === 'string' && enrollData.qrImageUrl.startsWith('data:image/svg+xml;base64,') ? enrollData.qrImageUrl : '');
           setStep('enroll');
         } else {
           setStep('totp');
@@ -231,6 +233,8 @@ export default function AdminLoginPage() {
               <div className="rounded-xl border border-[#cfe3df] bg-[#e9f0ed] p-4 text-sm">
                 <p className="mb-2 flex items-center gap-2 font-bold text-[#145e5d]"><QrCode className="h-4 w-4"/> Mandatory 2FA setup</p>
                 <p className="text-xs leading-6 text-[#61717a]">Add this security key to your authenticator app, then enter its current six-digit code. Do not share the key.</p>
+                {enrollQr && <img src={enrollQr} alt="Scan with your authenticator app"
+                  width={160} height={160} className="mx-auto my-3 rounded-lg bg-white p-2" />}
                 <code className="mt-3 block select-all break-all rounded-lg bg-white px-3 py-2 text-center font-mono text-xs text-[#1c504f]">{enrollSecret}</code>
               </div>
               <label className="block">

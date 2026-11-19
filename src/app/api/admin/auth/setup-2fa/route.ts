@@ -4,7 +4,6 @@ import { logAuditEvent } from '@/lib/audit';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
-import { generateTotpSecret, generateTotpUri, verifyTotp } from '@/lib/auth/totp';
 
 export async function POST(request: Request) {
   try {
@@ -15,58 +14,33 @@ export async function POST(request: Request) {
     }
 
     const { user } = authResult;
-    const rl = await rateLimit(`setup_2fa:${clientIp}:${user.email}`, 10, 300);
+    const rl = await rateLimit(`setup_2fa:${clientIp}:${user.email}`, 5, 300, { failClosed: true });
     if (!rl.success) {
       return NextResponse.json({ error: 'Too many requests. Please wait a moment.' }, { status: 429 });
     }
 
-    let factorId = 'totp-factor-owner';
-    let secret = '';
-    let uri = '';
-
-    // Attempt Supabase MFA enrollment if active session exists
-    try {
-      const supabase = createClient();
-      const enrollRes = await supabase.auth.mfa.enroll({
-        factorType: 'totp',
-        friendlyName: `Duyuf Alrahman VIP (${user.email})`,
-      });
-      if (enrollRes.data?.totp) {
-        factorId = enrollRes.data.id;
-        secret = enrollRes.data.totp.secret;
-        uri = enrollRes.data.totp.uri;
-      }
-    } catch (e) {
-      console.warn('Notice from Supabase MFA enroll:', e);
+    const supabase = createClient();
+    const { data, error } = await supabase.auth.mfa.enroll({
+      factorType: 'totp',
+      friendlyName: 'Duyuf Al Rahman VIP',
+    });
+    if (error || !data?.id || !data?.totp?.secret) {
+      console.error('Authenticator enrollment unavailable:', error?.message);
+      return NextResponse.json({ error: 'Unable to register authenticator. Please retry.' }, { status: 503 });
     }
 
-    // High-entropy standard RFC 6238 fallback
-    if (!secret) {
-      secret = generateTotpSecret(20);
-      uri = generateTotpUri(user.email, secret, 'Duyuf Alrahman VIP');
-    }
-
-    let qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(uri)}`;
-    try {
-      const qrRes = await fetch(qrImageUrl);
-      if (qrRes.ok) {
-        const arrayBuf = await qrRes.arrayBuffer();
-        const base64 = Buffer.from(arrayBuf).toString('base64');
-        qrImageUrl = `data:image/png;base64,${base64}`;
-      }
-    } catch (e) {
-      console.warn('Notice converting QR code to data URI:', e);
-    }
+    // Supabase returns the QR as SVG; encode locally without third-party QR APIs.
+    const qrImageUrl = data.totp.qr_code
+      ? 'data:image/svg+xml;base64,' + Buffer.from(data.totp.qr_code, 'utf8').toString('base64')
+      : null;
 
     return NextResponse.json({
       success: true,
-      factorId,
-      secret,
-      qrPayload: uri,
-      uri,
+      factorId: data.id,
+      secret: data.totp.secret,
       qrImageUrl,
-      instructions: 'Scan the QR code with Google Authenticator or enter the secret key manually, then enter the 6-digit confirmation code.',
-    });
+      instructions: 'Scan with an authenticator app or enter the setup key manually.',
+    }, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch (err: any) {
     console.error('setup-2fa POST error:', err);
     return NextResponse.json({ error: 'Failed to initiate 2FA setup' }, { status: 500 });
@@ -82,62 +56,52 @@ export async function PUT(request: Request) {
     }
 
     const { user } = authResult;
-    const { factorId, code, secret } = await request.json();
-    const cleanCode = (code || '').trim();
-
-    if (!cleanCode || cleanCode.length !== 6) {
-      return NextResponse.json({ error: 'Please enter a valid 6-digit verification code' }, { status: 400 });
+    const rl = await rateLimit('confirm_2fa:' + clientIp + ':' + user.id, 5, 300, { failClosed: true });
+    if (!rl.success) return NextResponse.json({ error: 'Too many verification attempts' }, { status: 429 });
+    const body = await request.json().catch(() => null);
+    const factorId = body?.factorId;
+    const code = body?.code;
+    if (typeof factorId !== 'string' || factorId.length < 10 || factorId.length > 128 ||
+        typeof code !== 'string' || !/^\d{6}$/.test(code)) {
+      return NextResponse.json({ error: 'Valid authenticator factor and six-digit code required' }, { status: 400 });
     }
 
-    let verified = false;
-
-    // 1. Verify via RFC 6238 TOTP if secret was provided
-    if (secret && verifyTotp(cleanCode, secret)) {
-      verified = true;
+    const supabase = createClient();
+    const challengeRes = await supabase.auth.mfa.challenge({ factorId });
+    if (challengeRes.error || !challengeRes.data?.id) {
+      return NextResponse.json({ error: 'Authenticator challenge was not accepted' }, { status: 401 });
     }
-
-    // 2. Also try Supabase MFA verify if valid factorId
-    if (!verified && factorId && factorId !== 'totp-factor-owner') {
-      try {
-        const supabase = createClient();
-        const challengeRes = await supabase.auth.mfa.challenge({ factorId });
-        if (challengeRes.data?.id) {
-          const verifyRes = await supabase.auth.mfa.verify({
-            factorId,
-            challengeId: challengeRes.data.id,
-            code: cleanCode,
-          });
-          if (verifyRes.data) {
-            verified = true;
-          }
-        }
-      } catch (mfaErr) {
-        console.warn('Notice from Supabase MFA verify:', mfaErr);
-      }
+    const verifyRes = await supabase.auth.mfa.verify({
+      factorId, challengeId: challengeRes.data.id, code,
+    });
+    if (verifyRes.error || !verifyRes.data) {
+      return NextResponse.json({ error: 'Invalid or expired authenticator code' }, { status: 401 });
     }
-
-    if (!verified) {
-      return NextResponse.json(
-        { error: 'Confirmation code does not match. Please verify the time on your phone and try again.' },
-        { status: 400 }
-      );
+    const { data: assurance, error: assuranceError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (assuranceError || assurance?.currentLevel !== 'aal2') {
+      return NextResponse.json({ error: 'Unable to confirm second-factor authentication' }, { status: 403 });
     }
 
     // Update profile in database if possible
     try {
       const serviceClient = createServiceClient();
-      await serviceClient
+      const { error: profileError } = await serviceClient
         .from('user_profiles')
         .update({
           totp_enabled: true,
           updated_at: new Date().toISOString(),
         })
-        .eq('email', user.email);
+        .eq('id', user.id)
+        .eq('auth_user_id', user.auth_user_id);
+      if (profileError) {
+        console.error('Authenticator profile sync failed:', profileError.message);
+        return NextResponse.json({ error: 'Authenticator verified, but profile sync failed. Contact your administrator.' }, { status: 503 });
+      }
     } catch (dbErr) {
       console.warn('Notice updating profile TOTP status:', dbErr);
     }
 
-    await logAuditEvent({
+    if (process.env.VERCEL_ENV !== 'preview') await logAuditEvent({
       userEmail: user.email,
       userRole: user.role,
       action: '2fa_enabled_confirmed',
