@@ -17,6 +17,7 @@ import { royalHomepageEast } from '@/i18n/royal-homepage-copy-east';
 import { royalHomepageWest } from '@/i18n/royal-homepage-copy-west';
 import type { TransferRatesMap } from '@/lib/pricing-db';
 import type { SiteImages } from '@/lib/site-images';
+import type { HomeCopyOverrides } from '@/lib/home-copy';
 import type { ApprovedFleetVehicle } from '@/data/approved-fleet-homepage';
 import { RoyalCabinChapter } from '@/components/royal/RoyalCabinChapter';
 import { RoyalMotion } from '@/components/royal/RoyalMotion';
@@ -28,6 +29,7 @@ type Props = {
   locale: Locale;
   rates: TransferRatesMap;
   siteImages: SiteImages;
+  homeCopy: HomeCopyOverrides;
   fleetVehicles: ApprovedFleetVehicle[];
   dict: Dictionary;
   regions: Record<'taif' | 'riyadh', boolean>;
@@ -128,8 +130,8 @@ function ArrivalFilm({ playLabel, pauseLabel, poster }: { playLabel: string; pau
   );
 }
 
-export default function SignatureFusionHomepage({ locale, rates, dict, regions, policies, siteImages, fleetVehicles }: Props) {
-  const copy = COPY[locale];
+export default function SignatureFusionHomepage({ locale, rates, dict, regions, policies, siteImages, fleetVehicles, homeCopy }: Props) {
+  const copy = { ...COPY[locale], ...homeCopy };
   const { dir, dateFormat } = LOCALE_CONFIG[locale];
   const router = useRouter();
   const { currency, convertPrice } = useCurrency();

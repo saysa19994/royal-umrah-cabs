@@ -163,6 +163,13 @@ export function AdminSidebar({
           icon: ImageIcon,
           adminOnly: true,
         },
+        {
+          href: '/admin/home-copy',
+          labelEn: 'Homepage Text',
+          labelAr: 'نصوص الصفحة الرئيسية',
+          icon: Globe,
+          adminOnly: true,
+        },
       ],
     },
     {

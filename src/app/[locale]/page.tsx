@@ -5,6 +5,7 @@ import SignatureFusionHomepage from '@/components/fusion/SignatureFusionHomepage
 import { getDbPricesCached } from '@/lib/pricing-db';
 import { getSiteSettings } from '@/lib/settings';
 import { getSiteImagesCached } from '@/lib/site-images';
+import { getHomeCopyOverridesCached } from '@/lib/home-copy';
 import { getDbVehiclesCached } from '@/lib/fleet-db';
 import { APPROVED_5_FLEET } from '@/data/approved-fleet-homepage';
 
@@ -15,8 +16,8 @@ interface HomePageProps {
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
   const dict = getDictionary(locale);
-  const [rates, settings, siteImages, activeVehicles] = await Promise.all([
-    getDbPricesCached(), getSiteSettings(), getSiteImagesCached(), getDbVehiclesCached(),
+  const [rates, settings, siteImages, activeVehicles, homeCopy] = await Promise.all([
+    getDbPricesCached(), getSiteSettings(), getSiteImagesCached(), getDbVehiclesCached(), getHomeCopyOverridesCached(locale),
   ]);
   const curatedFleet = APPROVED_5_FLEET.filter(item =>
     activeVehicles.some(vehicle => vehicle.bookingVehicleId === ({'toyota-camry':'camry','hyundai-staria':'staria','gmc-yukon-xl':'yukon','toyota-hiace':'hiace','toyota-coaster':'coaster'} as Record<string,string>)[item.slug])
@@ -39,6 +40,7 @@ export default async function HomePage({ params }: HomePageProps) {
         locale={locale}
         rates={rates}
         siteImages={siteImages}
+        homeCopy={homeCopy}
         fleetVehicles={curatedFleet.length ? curatedFleet : APPROVED_5_FLEET}
         dict={dict}
         regions={{ taif: settings.taif_enabled, riyadh: settings.riyadh_enabled }}
