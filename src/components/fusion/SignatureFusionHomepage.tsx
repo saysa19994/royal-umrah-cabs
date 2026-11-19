@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import {
   ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, Check, ChevronDown,
@@ -21,7 +22,7 @@ import { RoyalMotion } from '@/components/royal/RoyalMotion';
 import { RoyalBookingSteps, RoyalGuestConfidence, RoyalServiceChapters } from './RoyalImmersionEditorial';
 import { getRoyalHomeRoute, ROYAL_HOME_ROUTES } from './royal-home-routes';
 import styles from './SignatureFusionHomepage.module.css';
-import BronzeCircularFleet from './BronzeCircularFleet';
+const BronzeCircularFleet = dynamic(() => import('./BronzeCircularFleet'), { ssr: false });
 import ConnectedJourneyLines from './ConnectedJourneyLines';
 
 type Props = {
