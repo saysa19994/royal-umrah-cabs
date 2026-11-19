@@ -103,7 +103,7 @@ export function AdminSidebar({
           labelEn: 'Lead Inquiries',
           labelAr: 'استفسارات المعتمرين',
           icon: Users,
-          badge: { text: '12 New', variant: 'gold' },
+          // Live metrics are shown in the operations console, not hard-coded here.
         },
       ],
     },
@@ -116,7 +116,7 @@ export function AdminSidebar({
           labelEn: 'VIP Fleet Control',
           labelAr: 'إدارة أسطول VIP',
           icon: Car,
-          badge: { text: '6 Models', variant: 'emerald' },
+          // Live metrics are shown in the operations console, not hard-coded here.
           adminOnly: true,
         },
         {
@@ -144,7 +144,7 @@ export function AdminSidebar({
           labelEn: 'Routes & Corridors',
           labelAr: 'مسارات ومواقيت الحرمين',
           icon: Compass,
-          badge: { text: '16 Routes', variant: 'gold' },
+          // Live metrics are shown in the operations console, not hard-coded here.
           adminOnly: true,
         },
         {
@@ -165,7 +165,7 @@ export function AdminSidebar({
           labelEn: 'WhatsApp Routing',
           labelAr: 'توجيه محادثات الواتساب',
           icon: MessageSquare,
-          badge: { text: '2 Lines', variant: 'emerald' },
+          // Live metrics are shown in the operations console, not hard-coded here.
           adminOnly: true,
         },
         {
@@ -196,7 +196,7 @@ export function AdminSidebar({
           labelEn: 'Reviews Moderation',
           labelAr: 'مراجعة آراء المعتمرين',
           icon: Star,
-          badge: { text: '98%', variant: 'gold' },
+          // Live metrics are shown in the operations console, not hard-coded here.
         },
       ],
     },
