@@ -271,7 +271,10 @@ export function Header({ locale, dict, settings }: HeaderProps) {
           </div>
 
           {/* THEME SWITCHER (ALWAYS VISIBLE — MOBILE & DESKTOP) */}
-          <div className="flex items-center">
+          <div className="hidden items-center sm:flex">
+            <ThemeToggle locale={locale} showLabel />
+          </div>
+          <div className="flex items-center sm:hidden">
             <ThemeToggle locale={locale} />
           </div>
 
