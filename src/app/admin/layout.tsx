@@ -112,6 +112,8 @@ export default async function AdminLayout({
 
   if (profile.role !== 'owner' && profile.role !== 'admin') {
     const restrictedPaths = [
+      '/admin/reports',
+      '/admin/collections',
       '/admin/pricing',
       '/admin/fleet',
       '/admin/routes',
