@@ -135,6 +135,13 @@ export function AdminSidebar({
       titleAr: 'الأسطول والوسائط',
       items: [
         {
+          href: '/admin/site-control',
+          labelEn: 'Whole Website Control',
+          labelAr: 'مركز التحكم في صفحات الموقع',
+          icon: Sliders,
+          adminOnly: true,
+        },
+        {
           href: '/admin/fleet',
           labelEn: 'VIP Fleet Control',
           labelAr: 'إدارة أسطول VIP',

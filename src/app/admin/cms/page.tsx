@@ -43,6 +43,15 @@ export default function AdminCmsPage() {
   const [h1, setH1] = useState('');
   const [contentJson, setContentJson] = useState('{}');
 
+  // Navigate from the site-control hub directly to the correct page and language.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get('page');
+    const locale = params.get('locale');
+    if (page && PAGES_LIST.some(item=>item.id===page)) setSelectedPage(page);
+    if (locale && LOCALES.includes(locale as Locale)) setSelectedLocale(locale as Locale);
+  }, []);
+
   const fetchCmsPages = async () => {
     setLoading(true);
     try {
