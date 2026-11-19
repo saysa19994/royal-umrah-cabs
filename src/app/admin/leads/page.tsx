@@ -299,7 +299,7 @@ export default function AdminLeadsPage() {
   return (
     <div className="vip-internal-editorial space-y-6 text-start">
       {/* 1. EXECUTIVE COMMAND HERO BAR */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F1E7] via-[#F9F1E7] to-[#FAF3E7] border border-[#E5D6C0] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
+      <div className="vip-internal-hero relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F1E7] via-[#F9F1E7] to-[#FAF3E7] border border-[#E5D6C0] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
         <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#0B6A69]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
@@ -313,8 +313,8 @@ export default function AdminLeadsPage() {
               Lead Inquiries &amp; WhatsApp Tracking Hub
             </h1>
 
-            <p className="text-xs sm:text-sm text-[#667681] font-light max-w-2xl leading-relaxed">
-              Every customer WhatsApp engagement, booking form draft, and custom fare inquiry logged in real time with high-entropy audit trails and fast-track booking conversion.
+            <p className="vip-hero-description text-xs sm:text-sm text-[#667681] font-light max-w-2xl leading-relaxed">
+              Follow customer inquiries submitted through the website and coordinate booking requests across your assigned WhatsApp channels.
             </p>
           </div>
 
@@ -543,7 +543,7 @@ export default function AdminLeadsPage() {
                             </button>
                           </div>
                           {isUnattended && (
-                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 animate-pulse w-fit font-sans">
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-500/20 text-rose-700 border border-rose-500/30 animate-pulse w-fit font-sans">
                               ⚠️ &gt;15m Unattended
                             </span>
                           )}
@@ -662,7 +662,7 @@ export default function AdminLeadsPage() {
                             }}
                             className={`p-2 rounded-xl border transition-colors cursor-pointer ${
                               lead.notes
-                                ? 'bg-amber-500/15 text-amber-300 border-amber-500/40 hover:bg-amber-500/25'
+                                ? 'bg-amber-500/15 text-amber-800 border-amber-500/40 hover:bg-amber-500/25'
                                 : 'bg-[#FBF4EA] text-[#667681] border-[#DECCB1] hover:text-[#193341]'
                             }`}
                             title={lead.notes ? `Notes: ${lead.notes}` : 'Add Notes'}
