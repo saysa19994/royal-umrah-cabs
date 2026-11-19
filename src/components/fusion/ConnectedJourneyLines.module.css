@@ -5,3 +5,9 @@
 @keyframes flow{to{stroke-dashoffset:-340}}
 @media(max-width:640px){.heading{display:block;padding:20px 20px 0}.heading small{display:block;margin-top:8px}.network{border-radius:18px}.network svg{min-height:200px}}
 @media(prefers-reduced-motion:reduce){.route{animation:none}}
+
+/* Selection matches the real booking route; the graphic is omitted on small screens in favor of swipeable destination cards. */
+.route{opacity:.42;transition:stroke-width .3s,opacity .3s}
+.route[data-active=true]{opacity:1;stroke-width:4;stroke-dasharray:none;animation:none;filter:drop-shadow(0 0 6px rgba(232,213,183,.75))}
+@media(max-width:640px){.network{display:none}}
+@media(prefers-reduced-motion:reduce){.route{transition:none}}
