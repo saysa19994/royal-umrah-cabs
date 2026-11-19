@@ -297,23 +297,23 @@ export default function AdminLeadsPage() {
   };
 
   return (
-    <div className="space-y-6 text-start">
+    <div className="vip-internal-editorial space-y-6 text-start">
       {/* 1. EXECUTIVE COMMAND HERO BAR */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#121724] via-[#0E121B] to-[#0A0D14] border border-[#232B3E] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#D9A031]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F1E7] via-[#F9F1E7] to-[#FAF3E7] border border-[#E5D6C0] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#0B6A69]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9A031]/15 border border-[#D9A031]/30 text-xs font-bold text-[#E5B842]">
-              <Sparkles className="w-3.5 h-3.5 text-[#D9A031]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#086064]/15 border border-[#C49A61]/30 text-xs font-bold text-[#92612E]">
+              <Sparkles className="w-3.5 h-3.5 text-[#93652D]" />
               <span>Duyuf Alrahman VIP • Inquiries CRM &amp; Multi-Channel Routing</span>
             </div>
 
-            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-[#FAF9F6] tracking-tight">
+            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-[#193341] tracking-tight">
               Lead Inquiries &amp; WhatsApp Tracking Hub
             </h1>
 
-            <p className="text-xs sm:text-sm text-[#9DA6B8] font-light max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#667681] font-light max-w-2xl leading-relaxed">
               Every customer WhatsApp engagement, booking form draft, and custom fare inquiry logged in real time with high-entropy audit trails and fast-track booking conversion.
             </p>
           </div>
@@ -322,7 +322,7 @@ export default function AdminLeadsPage() {
             <button
               onClick={fetchLeads}
               disabled={loading}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D9A031] to-[#B8821D] hover:from-[#E5B842] hover:to-[#C69225] text-xs font-bold text-[#0A0D14] transition-all shadow-[0_0_15px_rgba(217,160,49,0.3)] hover:scale-[1.02] disabled:opacity-50 cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#0B6A69] to-[#06474E] hover:from-[#0C7471] hover:to-[#086064] text-xs font-bold text-[#FFF7EA] transition-all shadow-[0_0_15px_rgba(217,160,49,0.3)] hover:scale-[1.02] disabled:opacity-50 cursor-pointer"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh Inquiries</span>
@@ -359,19 +359,19 @@ export default function AdminLeadsPage() {
           onClick={() => setStatusFilter('all')}
           className={`p-5 rounded-2xl border cursor-pointer transition-all ${
             statusFilter === 'all'
-              ? 'bg-[#151C2C] border-[#3B4863] ring-1 ring-[#D9A031]/40 shadow-lg'
-              : 'bg-[#10141E] border-[#1F2737] hover:border-[#2C384E]'
+              ? 'bg-[#F9F0E5] border-[#DFCCB2] ring-1 ring-[#D9A031]/40 shadow-lg'
+              : 'bg-[#FFFBF5] border-[#E4D4BE] hover:border-[#E4D4BD]'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#9DA6B8]">Total Leads</span>
-            <span className="w-7 h-7 rounded-lg bg-[#182030] flex items-center justify-center text-[#9DA6B8]">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#667681]">Total Leads</span>
+            <span className="w-7 h-7 rounded-lg bg-[#FBF4EA] flex items-center justify-center text-[#667681]">
               <Users className="w-3.5 h-3.5" />
             </span>
           </div>
           <div className="flex items-baseline gap-2 mt-3">
-            <span className="font-display text-2xl md:text-3xl font-bold text-[#FAF9F6]">{totalLeads}</span>
-            <span className="text-xs text-[#6C7584]">logged</span>
+            <span className="font-display text-2xl md:text-3xl font-bold text-[#193341]">{totalLeads}</span>
+            <span className="text-xs text-[#76828B]">logged</span>
           </div>
         </div>
 
@@ -380,7 +380,7 @@ export default function AdminLeadsPage() {
           className={`p-5 rounded-2xl border cursor-pointer transition-all ${
             statusFilter === 'new'
               ? 'bg-amber-950/25 border-amber-500/50 ring-1 ring-amber-500/40 shadow-lg'
-              : 'bg-[#10141E] border-[#1F2737] hover:border-amber-500/30'
+              : 'bg-[#FFFBF5] border-[#E4D4BE] hover:border-amber-500/30'
           }`}
         >
           <div className="flex items-center justify-between">
@@ -403,45 +403,45 @@ export default function AdminLeadsPage() {
           className={`p-5 rounded-2xl border cursor-pointer transition-all ${
             statusFilter === 'confirmed'
               ? 'bg-emerald-950/25 border-emerald-500/50 ring-1 ring-emerald-500/40 shadow-lg'
-              : 'bg-[#10141E] border-[#1F2737] hover:border-emerald-500/30'
+              : 'bg-[#FFFBF5] border-[#E4D4BE] hover:border-emerald-500/30'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Confirmed Bookings</span>
-            <span className="w-7 h-7 rounded-lg bg-emerald-500/15 flex items-center justify-center text-emerald-400">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700">Confirmed Bookings</span>
+            <span className="w-7 h-7 rounded-lg bg-emerald-500/15 flex items-center justify-center text-emerald-700">
               <CheckCircle2 className="w-3.5 h-3.5" />
             </span>
           </div>
           <div className="flex items-baseline gap-2 mt-3">
-            <span className="font-display text-2xl md:text-3xl font-bold text-emerald-400">{confirmedLeadsCount}</span>
-            <span className="text-xs text-emerald-400/70">{conversionRate}% conv</span>
+            <span className="font-display text-2xl md:text-3xl font-bold text-emerald-700">{confirmedLeadsCount}</span>
+            <span className="text-xs text-emerald-700/70">{conversionRate}% conv</span>
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#10141E] border border-[#1F2737]">
+        <div className="p-5 rounded-2xl bg-[#FFFBF5] border border-[#E4D4BE]">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#D9A031]">Est. Pipeline Value</span>
-            <span className="w-7 h-7 rounded-lg bg-[#D9A031]/15 flex items-center justify-center text-[#D9A031]">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#93652D]">Est. Pipeline Value</span>
+            <span className="w-7 h-7 rounded-lg bg-[#086064]/15 flex items-center justify-center text-[#93652D]">
               <DollarSign className="w-3.5 h-3.5" />
             </span>
           </div>
           <div className="flex items-baseline gap-2 mt-3">
-            <span className="font-display text-2xl md:text-3xl font-bold text-[#E5B842]">{totalValueSAR.toLocaleString()} SAR</span>
+            <span className="font-display text-2xl md:text-3xl font-bold text-[#92612E]">{totalValueSAR.toLocaleString()} SAR</span>
           </div>
         </div>
       </div>
 
       {/* 4. SEARCH & STATUS FILTER BAR */}
-      <div className="rounded-2xl bg-[#10141E] border border-[#1F2737] p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
+      <div className="rounded-2xl bg-[#FFFBF5] border border-[#E4D4BE] p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
         <div className="relative w-full md:w-80">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search ref code, pilgrim, route, phone..."
-            className="w-full h-10 pl-9 pr-3 text-xs rounded-xl border border-[#1F2737] bg-[#0A0D14] text-[#FAF9F6] focus:border-[#D9A031] outline-none transition-colors placeholder:text-[#5F6B82]"
+            className="w-full h-10 pl-9 pr-3 text-xs rounded-xl border border-[#E4D4BE] bg-[#F6EEE2] text-[#193341] focus:border-[#C49A61] outline-none transition-colors placeholder:text-[#76828B]"
           />
-          <Search className="w-3.5 h-3.5 text-[#5F6B82] absolute left-3 top-3.5 pointer-events-none" />
+          <Search className="w-3.5 h-3.5 text-[#76828B] absolute left-3 top-3.5 pointer-events-none" />
         </div>
 
         <div className="flex flex-wrap items-center gap-1.5 w-full md:w-auto">
@@ -460,8 +460,8 @@ export default function AdminLeadsPage() {
                 onClick={() => setStatusFilter(tab.id)}
                 className={`px-3 py-1.5 text-xs font-bold rounded-xl border transition-all cursor-pointer ${
                   isActive
-                    ? 'bg-gradient-to-r from-[#D9A031] to-[#B8821D] text-[#0A0D14] border-[#D9A031] shadow-[0_0_12px_rgba(217,160,49,0.3)]'
-                    : 'bg-[#0A0D14] text-[#8E99AF] border-[#1F2737] hover:border-[#D9A031]/40 hover:text-white'
+                    ? 'bg-gradient-to-r from-[#0B6A69] to-[#06474E] text-[#FFF7EA] border-[#C49A61] shadow-[0_0_12px_rgba(217,160,49,0.3)]'
+                    : 'bg-[#F6EEE2] text-[#657681] border-[#E4D4BE] hover:border-[#C49A61]/40 hover:text-white'
                 }`}
               >
                 {tab.label}
@@ -472,11 +472,11 @@ export default function AdminLeadsPage() {
       </div>
 
       {/* 5. LEADS TABLE */}
-      <div className="rounded-2xl bg-[#10141E] border border-[#1F2737] overflow-hidden shadow-2xl">
+      <div className="rounded-2xl bg-[#FFFBF5] border border-[#E4D4BE] overflow-hidden shadow-2xl">
         <div className="overflow-x-auto">
           <table className="w-full text-xs text-start border-collapse">
             <thead>
-              <tr className="bg-[#0A0D14] border-b border-[#1F2737] text-[#8E99AF] font-bold text-[10px] uppercase tracking-wider">
+              <tr className="bg-[#F6EEE2] border-b border-[#E4D4BE] text-[#657681] font-bold text-[10px] uppercase tracking-wider">
                 <th className="py-4 px-4 text-start">Lead Ref</th>
                 <th className="py-4 px-4 text-start">Pilgrim / Contact</th>
                 <th className="py-4 px-4 text-start">Corridor &amp; Vehicle</th>
@@ -491,20 +491,20 @@ export default function AdminLeadsPage() {
             <tbody className="divide-y divide-[#1F2737]">
               {loading ? (
                 <tr>
-                  <td colSpan={9} className="py-16 text-center text-[#8E99AF]">
+                  <td colSpan={9} className="py-16 text-center text-[#657681]">
                     <div className="flex flex-col items-center justify-center gap-2">
-                      <RefreshCw className="w-6 h-6 animate-spin text-[#D9A031]" />
+                      <RefreshCw className="w-6 h-6 animate-spin text-[#93652D]" />
                       <span className="text-xs">Loading Leads CRM...</span>
                     </div>
                   </td>
                 </tr>
               ) : filteredLeads.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="py-16 text-center text-[#8E99AF]">
+                  <td colSpan={9} className="py-16 text-center text-[#657681]">
                     <div className="flex flex-col items-center justify-center gap-2">
-                      <Users className="w-8 h-8 text-[#3E495E]" />
-                      <span className="text-sm font-medium text-[#FAF9F6]">No leads found matching current filter</span>
-                      <span className="text-xs text-[#6C7584]">Incoming customer inquiries will appear here automatically.</span>
+                      <Users className="w-8 h-8 text-[#344B58]" />
+                      <span className="text-sm font-medium text-[#193341]">No leads found matching current filter</span>
+                      <span className="text-xs text-[#76828B]">Incoming customer inquiries will appear here automatically.</span>
                     </div>
                   </td>
                 </tr>
@@ -519,7 +519,7 @@ export default function AdminLeadsPage() {
                   return (
                     <tr
                       key={lead.id}
-                      className={`hover:bg-[#141A26] transition-colors ${
+                      className={`hover:bg-[#FCF4E9] transition-colors ${
                         isUnattended ? 'bg-rose-950/10' : ''
                       }`}
                     >
@@ -527,16 +527,16 @@ export default function AdminLeadsPage() {
                       <td className="py-4 px-4">
                         <div className="flex flex-col gap-1">
                           <div className="flex items-center gap-1.5">
-                            <span className="font-mono font-bold text-[#FAF9F6] bg-[#161C2A] px-2 py-0.5 rounded border border-[#232B3E]">
+                            <span className="font-mono font-bold text-[#193341] bg-[#F9F1E6] px-2 py-0.5 rounded border border-[#E5D6C0]">
                               {refString}
                             </span>
                             <button
                               onClick={() => copyToClipboard(refString)}
-                              className="p-1 rounded hover:bg-[#232B3E] text-[#8E99AF] hover:text-[#FAF9F6] cursor-pointer"
+                              className="p-1 rounded hover:bg-[#F2E7D8] text-[#657681] hover:text-[#193341] cursor-pointer"
                               title="Copy Ref Code"
                             >
                               {copiedRef === refString ? (
-                                <Check className="w-3 h-3 text-emerald-400" />
+                                <Check className="w-3 h-3 text-emerald-700" />
                               ) : (
                                 <Copy className="w-3 h-3" />
                               )}
@@ -552,11 +552,11 @@ export default function AdminLeadsPage() {
 
                       {/* Pilgrim / Contact */}
                       <td className="py-4 px-4">
-                        <div className="font-semibold text-[#FAF9F6]">
+                        <div className="font-semibold text-[#193341]">
                           {lead.customer_name || 'Pilgrim Inquiry'}
                         </div>
-                        <div className="text-[11px] font-mono text-[#9DA6B8] flex items-center gap-1 mt-0.5">
-                          <Phone className="w-3 h-3 text-[#D9A031]" />
+                        <div className="text-[11px] font-mono text-[#667681] flex items-center gap-1 mt-0.5">
+                          <Phone className="w-3 h-3 text-[#93652D]" />
                           <span>
                             {lead.customer_phone ||
                               (lead.whatsapp_number ? `Line: +${lead.whatsapp_number}` : 'Web Lead')}
@@ -566,33 +566,33 @@ export default function AdminLeadsPage() {
 
                       {/* Corridor & Vehicle */}
                       <td className="py-4 px-4">
-                        <div className="text-[#FAF9F6] font-medium flex items-center gap-1.5">
-                          <Compass className="w-3 h-3 text-[#D9A031]" />
+                        <div className="text-[#193341] font-medium flex items-center gap-1.5">
+                          <Compass className="w-3 h-3 text-[#93652D]" />
                           <span>{lead.route_id || 'Custom Corridor'}</span>
                         </div>
-                        <div className="text-[11px] text-[#9DA6B8] capitalize flex items-center gap-1 mt-0.5">
-                          <Car className="w-3 h-3 text-[#6C7584]" />
+                        <div className="text-[11px] text-[#667681] capitalize flex items-center gap-1 mt-0.5">
+                          <Car className="w-3 h-3 text-[#76828B]" />
                           <span>{lead.vehicle_id || 'Standard Fleet'}</span>
                         </div>
                       </td>
 
                       {/* Pickup Date */}
                       <td className="py-4 px-4">
-                        <div className="text-[#FAF9F6] flex items-center gap-1">
-                          <Calendar className="w-3 h-3 text-[#6C7584]" />
+                        <div className="text-[#193341] flex items-center gap-1">
+                          <Calendar className="w-3 h-3 text-[#76828B]" />
                           <span>{lead.pickup_date || 'Flexible'}</span>
                         </div>
-                        <div className="text-[11px] text-[#9DA6B8] mt-0.5">
+                        <div className="text-[11px] text-[#667681] mt-0.5">
                           {lead.passengers || 2} Passengers
                         </div>
                       </td>
 
                       {/* Est. Fare */}
-                      <td className="py-4 px-4 font-bold text-[#FAF9F6]">
+                      <td className="py-4 px-4 font-bold text-[#193341]">
                         {lead.price_sar ? (
-                          <span className="text-[#E5B842]">{lead.price_sar} SAR</span>
+                          <span className="text-[#92612E]">{lead.price_sar} SAR</span>
                         ) : (
-                          <span className="px-2 py-0.5 rounded bg-[#182030] text-[#9DA6B8] text-[10px]">
+                          <span className="px-2 py-0.5 rounded bg-[#FBF4EA] text-[#667681] text-[10px]">
                             Custom Quote
                           </span>
                         )}
@@ -603,13 +603,13 @@ export default function AdminLeadsPage() {
                         <select
                           value={lead.status}
                           onChange={(e) => updateLeadStatus(lead.id, e.target.value)}
-                          className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border outline-none cursor-pointer bg-[#0A0D14] transition-colors ${
+                          className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border outline-none cursor-pointer bg-[#F6EEE2] transition-colors ${
                             lead.status === 'new'
                               ? 'text-amber-400 border-amber-400/40'
                               : lead.status === 'replied'
                               ? 'text-blue-400 border-blue-400/40'
                               : lead.status === 'confirmed'
-                              ? 'text-emerald-400 border-emerald-400/40'
+                              ? 'text-emerald-700 border-emerald-400/40'
                               : lead.status === 'completed'
                               ? 'text-purple-400 border-purple-400/40'
                               : 'text-rose-400 border-rose-400/40'
@@ -624,14 +624,14 @@ export default function AdminLeadsPage() {
                       </td>
 
                       {/* Lang */}
-                      <td className="py-4 px-4 font-mono uppercase text-[10px] text-[#9DA6B8]">
-                        <span className="px-1.5 py-0.5 rounded bg-[#161C2A] border border-[#232B3E]">
+                      <td className="py-4 px-4 font-mono uppercase text-[10px] text-[#667681]">
+                        <span className="px-1.5 py-0.5 rounded bg-[#F9F1E6] border border-[#E5D6C0]">
                           {lead.language}
                         </span>
                       </td>
 
                       {/* Logged */}
-                      <td className="py-4 px-4 text-[#6C7584] text-[11px] whitespace-nowrap">
+                      <td className="py-4 px-4 text-[#76828B] text-[11px] whitespace-nowrap">
                         {new Date(lead.created_at).toLocaleString([], {
                           month: 'short',
                           day: 'numeric',
@@ -647,7 +647,7 @@ export default function AdminLeadsPage() {
                           {cleanPhone && (
                             <button
                               onClick={() => setReplyLead(lead)}
-                              className="p-2 rounded-xl bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 border border-emerald-500/30 transition-all hover:scale-105 cursor-pointer"
+                              className="p-2 rounded-xl bg-emerald-500/15 text-emerald-700 hover:bg-emerald-500/25 border border-emerald-500/30 transition-all hover:scale-105 cursor-pointer"
                               title="Fast-Track WhatsApp Response"
                             >
                               <MessageCircle className="w-3.5 h-3.5" />
@@ -663,7 +663,7 @@ export default function AdminLeadsPage() {
                             className={`p-2 rounded-xl border transition-colors cursor-pointer ${
                               lead.notes
                                 ? 'bg-amber-500/15 text-amber-300 border-amber-500/40 hover:bg-amber-500/25'
-                                : 'bg-[#182030] text-[#9DA6B8] border-[#283246] hover:text-[#FAF9F6]'
+                                : 'bg-[#FBF4EA] text-[#667681] border-[#DECCB1] hover:text-[#193341]'
                             }`}
                             title={lead.notes ? `Notes: ${lead.notes}` : 'Add Notes'}
                           >
@@ -674,7 +674,7 @@ export default function AdminLeadsPage() {
                           {lead.status !== 'confirmed' && (
                             <button
                               onClick={() => openConversionModal(lead)}
-                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#D9A031] to-[#B8821D] hover:from-[#E5B842] hover:to-[#C69225] text-[#0A0D14] text-[11px] font-bold transition-all shadow-[0_0_10px_rgba(217,160,49,0.25)] hover:scale-[1.02] cursor-pointer"
+                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#0B6A69] to-[#06474E] hover:from-[#0C7471] hover:to-[#086064] text-[#FFF7EA] text-[11px] font-bold transition-all shadow-[0_0_10px_rgba(217,160,49,0.25)] hover:scale-[1.02] cursor-pointer"
                               title="Convert to Confirmed VIP Booking"
                             >
                               <span>Convert</span>
@@ -695,10 +695,10 @@ export default function AdminLeadsPage() {
       {/* 6. CONVERSION MODAL */}
       {conversionLead && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#0E131F] border border-[#232B3E] rounded-2xl p-6 max-w-xl w-full shadow-2xl text-start animate-scaleUp space-y-4">
-            <div className="flex items-center justify-between border-b border-[#1F2737] pb-3">
-              <h3 className="font-display font-bold text-base text-[#FAF9F6] flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#D9A031]" />
+          <div className="bg-[#0E131F] border border-[#E5D6C0] rounded-2xl p-6 max-w-xl w-full shadow-2xl text-start animate-scaleUp space-y-4">
+            <div className="flex items-center justify-between border-b border-[#E4D4BE] pb-3">
+              <h3 className="font-display font-bold text-base text-[#193341] flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#93652D]" />
                 <span>Convert Lead to Confirmed VIP Booking</span>
               </h3>
               <button
@@ -709,8 +709,8 @@ export default function AdminLeadsPage() {
               </button>
             </div>
 
-            <div className="text-xs text-[#9DA6B8]">
-              Converting Lead Ref: <span className="font-mono text-[#E5B842] font-bold">{conversionLead.ref_code || conversionLead.id.slice(0, 8)}</span>. This will generate a cryptographic booking record in Supabase and enable chauffeur assignment.
+            <div className="text-xs text-[#667681]">
+              Converting Lead Ref: <span className="font-mono text-[#92612E] font-bold">{conversionLead.ref_code || conversionLead.id.slice(0, 8)}</span>. This will generate a cryptographic booking record in Supabase and enable chauffeur assignment.
             </div>
 
             <form onSubmit={executeConversion} className="space-y-4">
@@ -723,7 +723,7 @@ export default function AdminLeadsPage() {
                     value={convertName}
                     onChange={(e) => setConvertName(e.target.value)}
                     placeholder="Pilgrim Full Name"
-                    className="w-full bg-[#161C2A] text-xs text-white px-3 py-2 rounded-lg border border-[#232B3E] focus:outline-none focus:border-[#D9A031]"
+                    className="w-full bg-[#F9F1E6] text-xs text-white px-3 py-2 rounded-lg border border-[#E5D6C0] focus:outline-none focus:border-[#C49A61]"
                   />
                 </div>
 
@@ -735,7 +735,7 @@ export default function AdminLeadsPage() {
                     value={convertPhone}
                     onChange={(e) => setConvertPhone(e.target.value)}
                     placeholder="+9665xxxxxxxx"
-                    className="w-full bg-[#161C2A] text-xs text-white px-3 py-2 rounded-lg border border-[#232B3E] focus:outline-none focus:border-[#D9A031] font-mono"
+                    className="w-full bg-[#F9F1E6] text-xs text-white px-3 py-2 rounded-lg border border-[#E5D6C0] focus:outline-none focus:border-[#C49A61] font-mono"
                   />
                 </div>
               </div>
@@ -745,7 +745,7 @@ export default function AdminLeadsPage() {
                 <select
                   value={convertRoute}
                   onChange={(e) => setConvertRoute(e.target.value)}
-                  className="w-full bg-[#161C2A] text-xs text-white px-3 py-2 rounded-lg border border-[#232B3E] focus:outline-none focus:border-[#D9A031]"
+                  className="w-full bg-[#F9F1E6] text-xs text-white px-3 py-2 rounded-lg border border-[#E5D6C0] focus:outline-none focus:border-[#C49A61]"
                 >
                   {AVAILABLE_ROUTES.map((r) => (
                     <option key={r.id} value={r.id}>
@@ -760,7 +760,7 @@ export default function AdminLeadsPage() {
                 <select
                   value={convertVehicle}
                   onChange={(e) => setConvertVehicle(e.target.value)}
-                  className="w-full bg-[#161C2A] text-xs text-white px-3 py-2 rounded-lg border border-[#232B3E] focus:outline-none focus:border-[#D9A031]"
+                  className="w-full bg-[#F9F1E6] text-xs text-white px-3 py-2 rounded-lg border border-[#E5D6C0] focus:outline-none focus:border-[#C49A61]"
                 >
                   {AVAILABLE_VEHICLES.map((v) => (
                     <option key={v.id} value={v.id}>
@@ -778,7 +778,7 @@ export default function AdminLeadsPage() {
                     required
                     value={convertDate}
                     onChange={(e) => setConvertDate(e.target.value)}
-                    className="w-full bg-[#161C2A] text-xs text-white px-3 py-2 rounded-lg border border-[#232B3E] focus:outline-none focus:border-[#D9A031]"
+                    className="w-full bg-[#F9F1E6] text-xs text-white px-3 py-2 rounded-lg border border-[#E5D6C0] focus:outline-none focus:border-[#C49A61]"
                   />
                 </div>
 
@@ -789,7 +789,7 @@ export default function AdminLeadsPage() {
                     required
                     value={convertTime}
                     onChange={(e) => setConvertTime(e.target.value)}
-                    className="w-full bg-[#161C2A] text-xs text-white px-3 py-2 rounded-lg border border-[#232B3E] focus:outline-none focus:border-[#D9A031]"
+                    className="w-full bg-[#F9F1E6] text-xs text-white px-3 py-2 rounded-lg border border-[#E5D6C0] focus:outline-none focus:border-[#C49A61]"
                   />
                 </div>
 
@@ -801,7 +801,7 @@ export default function AdminLeadsPage() {
                     max="50"
                     value={convertPax}
                     onChange={(e) => setConvertPax(e.target.value)}
-                    className="w-full bg-[#161C2A] text-xs text-white px-3 py-2 rounded-lg border border-[#232B3E] focus:outline-none focus:border-[#D9A031]"
+                    className="w-full bg-[#F9F1E6] text-xs text-white px-3 py-2 rounded-lg border border-[#E5D6C0] focus:outline-none focus:border-[#C49A61]"
                   />
                 </div>
               </div>
@@ -813,16 +813,16 @@ export default function AdminLeadsPage() {
                   value={convertNotes}
                   onChange={(e) => setConvertNotes(e.target.value)}
                   placeholder="e.g. Flight SV1024, Zamzam water requested"
-                  className="w-full bg-[#161C2A] text-xs text-white px-3 py-2 rounded-lg border border-[#232B3E] focus:outline-none focus:border-[#D9A031]"
+                  className="w-full bg-[#F9F1E6] text-xs text-white px-3 py-2 rounded-lg border border-[#E5D6C0] focus:outline-none focus:border-[#C49A61]"
                 />
               </div>
 
-              <div className="p-3 rounded-xl bg-[#141A26] border border-[#1F2737] flex items-center justify-between text-xs">
-                <span className="text-[#8E99AF]">Payment Mode:</span>
-                <span className="font-bold text-[#E5B842]">Cash to Chauffeur at Destination (SAR / USD)</span>
+              <div className="p-3 rounded-xl bg-[#FCF4E9] border border-[#E4D4BE] flex items-center justify-between text-xs">
+                <span className="text-[#657681]">Payment Mode:</span>
+                <span className="font-bold text-[#92612E]">Cash to Chauffeur at Destination (SAR / USD)</span>
               </div>
 
-              <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#1F2737]">
+              <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#E4D4BE]">
                 <button
                   type="button"
                   onClick={() => setConversionLead(null)}
@@ -833,7 +833,7 @@ export default function AdminLeadsPage() {
                 <button
                   type="submit"
                   disabled={converting}
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#D9A031] to-[#B8821D] hover:from-[#E5B842] hover:to-[#C69225] text-[#0A0D14] text-xs font-bold transition-all shadow-md disabled:opacity-50 cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#0B6A69] to-[#06474E] hover:from-[#0C7471] hover:to-[#086064] text-[#FFF7EA] text-xs font-bold transition-all shadow-md disabled:opacity-50 cursor-pointer"
                 >
                   <CheckCircle2 className="w-4 h-4" />
                   <span>{converting ? 'Converting...' : 'Confirm & Generate VIP Booking'}</span>
@@ -847,10 +847,10 @@ export default function AdminLeadsPage() {
       {/* 7. WHATSAPP FAST-TRACK MODAL */}
       {replyLead && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#0E131F] border border-[#232B3E] rounded-2xl p-6 max-w-lg w-full shadow-2xl text-start animate-scaleUp space-y-4">
-            <div className="flex items-center justify-between border-b border-[#1F2737] pb-3">
-              <h3 className="font-display font-bold text-base text-[#FAF9F6] flex items-center gap-2">
-                <MessageCircle className="w-4 h-4 text-emerald-400" />
+          <div className="bg-[#0E131F] border border-[#E5D6C0] rounded-2xl p-6 max-w-lg w-full shadow-2xl text-start animate-scaleUp space-y-4">
+            <div className="flex items-center justify-between border-b border-[#E4D4BE] pb-3">
+              <h3 className="font-display font-bold text-base text-[#193341] flex items-center gap-2">
+                <MessageCircle className="w-4 h-4 text-emerald-700" />
                 <span>Fast-Track WhatsApp Reply</span>
               </h3>
               <button onClick={() => setReplyLead(null)} className="text-gray-400 hover:text-white cursor-pointer">
@@ -858,15 +858,15 @@ export default function AdminLeadsPage() {
               </button>
             </div>
 
-            <div className="text-xs text-[#9DA6B8]">
-              Recipient: <span className="font-mono text-emerald-400 font-bold">{replyLead.customer_phone || replyLead.whatsapp_number}</span> ({replyLead.language.toUpperCase()})
+            <div className="text-xs text-[#667681]">
+              Recipient: <span className="font-mono text-emerald-700 font-bold">{replyLead.customer_phone || replyLead.whatsapp_number}</span> ({replyLead.language.toUpperCase()})
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[#141A26] border border-[#1F2737] font-mono text-xs text-gray-200 whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto">
+            <div className="p-3.5 rounded-xl bg-[#FCF4E9] border border-[#E4D4BE] font-mono text-xs text-gray-200 whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto">
               {buildWhatsAppMessage(replyLead)}
             </div>
 
-            <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#1F2737]">
+            <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#E4D4BE]">
               <button
                 onClick={() => setReplyLead(null)}
                 className="px-4 py-2 rounded-xl text-xs font-bold text-gray-400 hover:text-white cursor-pointer"
@@ -896,10 +896,10 @@ export default function AdminLeadsPage() {
       {/* 8. LUXURY NOTES MODAL */}
       {selectedLead && (
         <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#10141E] border border-[#232B3E] rounded-2xl p-6 max-w-md w-full shadow-2xl text-start animate-in fade-in duration-200">
+          <div className="bg-[#FFFBF5] border border-[#E5D6C0] rounded-2xl p-6 max-w-md w-full shadow-2xl text-start animate-in fade-in duration-200">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="font-display font-bold text-lg text-[#FAF9F6] flex items-center gap-2">
-                <FileEdit className="w-4 h-4 text-[#D9A031]" />
+              <h3 className="font-display font-bold text-lg text-[#193341] flex items-center gap-2">
+                <FileEdit className="w-4 h-4 text-[#93652D]" />
                 <span>Lead Notes: {selectedLead.ref_code || selectedLead.reference}</span>
               </h3>
               <button
@@ -910,7 +910,7 @@ export default function AdminLeadsPage() {
                 ✕
               </button>
             </div>
-            <p className="text-xs text-[#9DA6B8] mb-4">
+            <p className="text-xs text-[#667681] mb-4">
               Add internal operational notes, pilgrim special requests, flight numbers, or dispatch instructions.
             </p>
             <form onSubmit={handleSaveNotes} className="space-y-4">
@@ -919,20 +919,20 @@ export default function AdminLeadsPage() {
                 value={editingNotes}
                 onChange={(e) => setEditingNotes(e.target.value)}
                 placeholder="e.g. Arriving on Qatar Airways flight QR1180, requested child seat, prefers Malay-speaking driver..."
-                className="w-full p-3.5 text-xs rounded-xl bg-[#0A0D14] border border-[#232B3E] text-[#FAF9F6] focus:border-[#D9A031] outline-none resize-none leading-relaxed"
+                className="w-full p-3.5 text-xs rounded-xl bg-[#F6EEE2] border border-[#E5D6C0] text-[#193341] focus:border-[#C49A61] outline-none resize-none leading-relaxed"
               />
               <div className="flex items-center justify-end gap-2.5">
                 <button
                   type="button"
                   onClick={() => setSelectedLead(null)}
-                  className="px-4 py-2 rounded-xl border border-[#232B3E] text-xs text-[#9DA6B8] hover:text-[#FAF9F6] cursor-pointer"
+                  className="px-4 py-2 rounded-xl border border-[#E5D6C0] text-xs text-[#667681] hover:text-[#193341] cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingNotes}
-                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#D9A031] to-[#B8821D] hover:from-[#E5B842] hover:to-[#C69225] text-[#0A0D14] font-bold text-xs transition-all shadow-[0_0_12px_rgba(217,160,49,0.3)] hover:scale-[1.02] cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#0B6A69] to-[#06474E] hover:from-[#0C7471] hover:to-[#086064] text-[#FFF7EA] font-bold text-xs transition-all shadow-[0_0_12px_rgba(217,160,49,0.3)] hover:scale-[1.02] cursor-pointer"
                 >
                   {savingNotes ? 'Saving...' : 'Save Notes'}
                 </button>
