@@ -1,7 +1,7 @@
 import type { Locale } from '@/i18n/config';
 import { getCmsPageCached } from '@/lib/cms-service';
 
-export type PublicPageKey = 'about' | 'services' | 'contact';
+export type PublicPageKey = 'about' | 'services' | 'contact' | 'pricing' | 'routes' | 'fleet' | 'ziyarat';
 export type PublicCmsPage = {
   seoTitle?: string;
   seoDescription?: string;

@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
+import { getPublishedPageCopy } from '@/lib/public-page-copy';
 import { ZIYARAT_SITES, ZIYARAT_TOURS, ZIYARAT_GUIDES } from '@/data/ziyarat';
 import SacredZiyaratExperience from '@/components/ziyarat/SacredZiyaratExperience';
 import {ZiyaratArcGallery} from '@/components/ziyarat/ZiyaratArcGallery';
@@ -47,14 +48,15 @@ const ZIYARAT_HUB_COPY:Record<Locale,{title:string;description:string;prefix:str
 export async function generateMetadata(props: ZiyaratHubPageProps): Promise<Metadata> {
   const {locale}=await props.params;
   const copy=ZIYARAT_HUB_COPY[locale];
+  const cms=await getPublishedPageCopy('ziyarat',locale);
   const baseUrl=process.env.NEXT_PUBLIC_SITE_URL||'https://duyufalrahmanvip.com';
   return {
-    title: copy.title+' | Duyuf Alrahman VIP',
-    description: copy.description,
+    title: cms.seoTitle || copy.title+' | Duyuf Alrahman VIP',
+    description: cms.seoDescription || copy.description,
     alternates:getLocalizedAlternates(locale,'/ziyarat'),
     openGraph:{
-      title:copy.title+' | Duyuf Alrahman VIP',
-      description:copy.description,
+      title:cms.seoTitle || copy.title+' | Duyuf Alrahman VIP',
+      description:cms.seoDescription || copy.description,
       url:baseUrl+'/'+locale+'/ziyarat',
       siteName:'Duyuf Alrahman VIP',
       type:'website'
@@ -66,7 +68,11 @@ export default async function ZiyaratHubPage(props: ZiyaratHubPageProps) {
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
-  const copy = ZIYARAT_HUB_COPY[locale];
+  const cms=await getPublishedPageCopy('ziyarat',locale);
+  const original=ZIYARAT_HUB_COPY[locale];
+  const copy={...original,
+    description:typeof cms.contentBlocks.subtitle==='string' && cms.contentBlocks.subtitle.trim()
+      ?cms.contentBlocks.subtitle:original.description};
   const isAr = locale === 'ar';
   const isRtl = locale === 'ar' || locale === 'ur';
   const guidesList = Object.values(ZIYARAT_GUIDES);
@@ -102,7 +108,7 @@ export default async function ZiyaratHubPage(props: ZiyaratHubPageProps) {
           </div>
 
           <h1 className="font-display font-bold text-3xl sm:text-5xl md:text-6xl text-ink tracking-tight leading-tight max-w-4xl mx-auto mb-4">
-            {copy.prefix}{' '}<span className="text-gold-dark italic font-serif">{copy.em}</span>
+            {cms.h1 ? cms.h1 : <>{copy.prefix}{' '}<span className="text-gold-dark italic font-serif">{copy.em}</span></>}
           </h1>
 
           <p className="mt-4 text-ink-muted text-sm md:text-base leading-relaxed font-light max-w-3xl mx-auto mb-8">{copy.description}</p>

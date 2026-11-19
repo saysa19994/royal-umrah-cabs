@@ -121,7 +121,7 @@ export async function upsertCmsPageAdmin(
   });
 
   revalidateTag('site_cms');
-  if (['about','services','contact'].includes(record.page_key)) {
+  if (['about','services','contact','fleet','pricing','routes','ziyarat'].includes(record.page_key)) {
     revalidatePath('/[locale]/' + record.page_key, 'page');
   }
   // 'home' currently has a dedicated text editor and cache. Never pretend

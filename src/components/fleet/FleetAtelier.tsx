@@ -11,7 +11,7 @@ import {LOCALIZED_ROUTE_NAMES} from '@/lib/pricing-constants';
 import type {TransferRatesMap} from '@/lib/pricing-db';
 import styles from './FleetAtelier.module.css';
 
-type Props={locale:Locale;vehicles:FleetShowcaseVehicle[];rates:TransferRatesMap};
+type Props={locale:Locale;vehicles:FleetShowcaseVehicle[];rates:TransferRatesMap;heading?:string;intro?:string};
 type UI={label:string;title:string;subtitle:string;viewInside:string;viewOutside:string;imageTitle:string;capacity:string;bags:string;price:string;route:string;book:string;details:string;comparison:string;compareIntro:string;vehicle:string;passengers:string;luggage:string;fare:string;more:string;concierge:string;conciergeDesc:string;contact:string;payment:string;index:string;conclusion:string;notForRoute:string};
 const UI_COPY:Record<Locale,UI>={
  ar:{label:'مجموعة المركبات الخاصة',title:'كل رحلة تستحق السيارة المناسبة.',subtitle:'اختر مركبتك وشاهد المساحة الحقيقية المخصصة لك ولعائلتك، ثم اطلب حجزها بالسعر المعتمد للمسار.',viewInside:'المقصورة',viewOutside:'من الخارج',imageTitle:'الصور المتاحة',capacity:'الركاب',bags:'الحقائب',price:'السعر على المسار',route:'مطار جدة إلى مكة',book:'اطلب هذه السيارة',details:'تفاصيل وصور إضافية',comparison:'الأسطول في لمحة.',compareIntro:'كل سيارة تحمل ضيوفها وحقائبهم حسب سعتها؛ الأسعار أدناه لرحلة مطار جدة إلى مكة فقط.',vehicle:'المركبة',passengers:'الركاب',luggage:'الحقائب',fare:'السعر',more:'التفاصيل',concierge:'اختيارات كونسيرج خاصة.',conciergeDesc:'مرسيدس مايباخ وهيونداي H1 متاحتان بالطلب الخاص والتنسيق المسبق فقط، وليستا ضمن الحجز المباشر.',contact:'استفسر عن الكونسيرج',payment:'لا يوجد دفع مسبق؛ الدفع نقدًا للسائق بعد انتهاء الرحلة.',index:'المركبة',conclusion:'اختيار يليق برحلتك.',notForRoute:'استفسر عن السعر'},
@@ -29,7 +29,7 @@ const FARE_IDS:Record<string,string>={'toyota-camry':'camry','hyundai-staria':'s
 const ROUTE='jeddah-airport-to-makkah';
 function VehicleLinkArrow({rtl}:{rtl:boolean}){return rtl?<ArrowLeft size={17} aria-hidden="true"/>:<ArrowRight size={17} aria-hidden="true"/>;}
 
-export function FleetAtelier({locale,vehicles,rates}:Props){
+export function FleetAtelier({locale,vehicles,rates,heading,intro}:Props){
  const t=UI_COPY[locale],rtl=locale==='ar'||locale==='ur';
  const [active,setActive]=useState(0),[interior,setInterior]=useState(false);
  const [galleryPosition,setGalleryPosition]=useState<string|null>(null);
@@ -42,7 +42,7 @@ export function FleetAtelier({locale,vehicles,rates}:Props){
  const approved=visibleFleet[Math.min(active,visibleFleet.length-1)];
  const dbVehicle=useMemo(()=>approved?vehicles.find(v=>v.slug===approved.slug||v.bookingVehicleId===FARE_IDS[approved.slug]):undefined,[vehicles,approved?.slug]);
  if(!approved)return <main dir={rtl?'rtl':'ltr'} className="mx-auto min-h-[60vh] max-w-4xl px-5 py-20 text-center">
-    <h1 className="text-3xl font-bold">{t.title}</h1>
+    <h1 className="text-3xl font-bold">{heading || t.title}</h1>
     <p className="mx-auto mt-6 max-w-xl text-base">{t.notForRoute}</p>
     <Link href={'/'+locale+'/contact'} className="mt-8 inline-block rounded-xl border px-6 py-3">{t.contact}</Link>
  </main>;
@@ -58,8 +58,8 @@ export function FleetAtelier({locale,vehicles,rates}:Props){
    <div className={styles.heroPoster}><Image src="/assets/homepage-v2/fleet-private.jpg" alt="" fill priority sizes="(max-width:700px) 100vw, 49vw" className={styles.heroImage}/><span className={styles.imageIndex}>01 / VEHICLES</span></div>
    <div className={styles.heroText}>
     <p className={styles.kicker}>{t.label} / DUYUF VIP</p>
-    <h1 id="fleet-atelier-heading">{t.title}</h1>
-    <p>{t.subtitle}</p>
+    <h1 id="fleet-atelier-heading">{heading || t.title}</h1>
+    <p>{intro || t.subtitle}</p>
     <a className={styles.heroLink} href="#fleet-atelier-selector">{t.viewOutside}<VehicleLinkArrow rtl={rtl}/></a>
    </div>
   </section>

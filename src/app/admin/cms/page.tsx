@@ -134,7 +134,7 @@ export default function AdminCmsPage() {
             Page Content &amp; CMS
           </h1>
           <p className="text-sm text-[#697984] mt-0.5">
-            SEO metadata and H1 are connected to About, Services and Contact pages. Other page entries are saved as drafts until their public templates are connected.
+            SEO title, H1 and selected body copy are connected across the published page templates. The homepage has a separate visual editor.
           </p>
         </div>
 
@@ -193,7 +193,7 @@ export default function AdminCmsPage() {
                 >
                   <span className="truncate">{p.title}</span>
                   <span className="ms-2 shrink-0 text-[9px] font-medium text-[#697984]">
-                    {['about','services','contact'].includes(p.id)?'Live CMS':'Draft only'}
+                    {['about','services','contact','fleet','pricing','routes','ziyarat'].includes(p.id)?'Live CMS':'Dedicated / planned'}
                   </span>
                   <div className="flex items-center gap-1">
                     {hasEn && <span className="w-1.5 h-1.5 rounded-full bg-blue-400" title="English Ready" />}
@@ -236,7 +236,7 @@ export default function AdminCmsPage() {
 
           {/* Form */}
           <form onSubmit={handleSave} className="space-y-4">
-          {['about','services','contact'].includes(selectedPage) && (
+          {['about','services','contact','fleet','pricing','routes','ziyarat'].includes(selectedPage) && (
             <section className="rounded-xl border border-[#dfc4a2] bg-white p-4">
               <h3 className="text-sm font-bold text-[#193746]">Editable page text</h3>
               <p className="mt-1 text-xs text-[#697984]">Only saved non-empty fields override the site's original translation. Use the dedicated homepage editor for homepage copy.</p>
@@ -250,9 +250,11 @@ export default function AdminCmsPage() {
                   ['value3Desc','Value 3 description'],
                 ]:selectedPage==='services'?[
                   ['title','Page heading'],['subtitle','Page opening description'],
-                ]:[
+                ]:selectedPage==='contact'?[
                   ['title','Contact heading'],['subtitle','Contact introductory text'],
                   ['formTitle','Contact form title'],
+                ]:[
+                  ['subtitle','Page introduction (editable, not the payment policy)'],
                 ]).map(([field,label])=>{
                   let current='';
                   try{

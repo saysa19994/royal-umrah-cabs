@@ -5,6 +5,7 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { FleetAtelier } from '@/components/fleet/FleetAtelier';
 import { getDbVehiclesCached } from '@/lib/fleet-db';
 import { getDbPricesCached } from '@/lib/pricing-db';
+import { getPublishedPageCopy } from '@/lib/public-page-copy';
 
 interface FleetPageProps {
   params: Promise<{
@@ -29,10 +30,11 @@ export async function generateMetadata(props: FleetPageProps): Promise<Metadata>
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
+  const cms=await getPublishedPageCopy('fleet',locale);
 
   return {
-    title: `${dict.nav.fleet} | Duyuf Alrahman VIP`,
-    description: LOCALIZED_DESCRIPTIONS[locale] || LOCALIZED_DESCRIPTIONS.en,
+    title: cms.seoTitle || `${dict.nav.fleet} | Duyuf Alrahman VIP`,
+    description: cms.seoDescription || LOCALIZED_DESCRIPTIONS[locale] || LOCALIZED_DESCRIPTIONS.en,
     alternates: getLocalizedAlternates(locale, '/fleet'),
   };
 }
@@ -41,7 +43,11 @@ export default async function FleetPage(props: FleetPageProps) {
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
-  const [vehicles,rates] = await Promise.all([getDbVehiclesCached(),getDbPricesCached()]);
+  const [vehicles,rates,cms] = await Promise.all([
+    getDbVehiclesCached(),getDbPricesCached(),getPublishedPageCopy('fleet',locale),
+  ]);
+  const intro=typeof cms.contentBlocks.subtitle==='string' && cms.contentBlocks.subtitle.trim()
+    ?cms.contentBlocks.subtitle:undefined;
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
@@ -95,7 +101,7 @@ export default async function FleetPage(props: FleetPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema).replace(/</g, '\\u003c') }}
       />
-      <FleetAtelier vehicles={vehicles} rates={rates} locale={locale} />
+      <FleetAtelier vehicles={vehicles} rates={rates} locale={locale} heading={cms.h1} intro={intro} />
     </main>
   );
 }
