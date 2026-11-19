@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
-const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
+import {readFileSync, existsSync} from 'node:fs';
+const read=p=>existsSync(new URL('../'+p,import.meta.url)) ? readFileSync(new URL('../'+p,import.meta.url),'utf8') : '';
 const matrix=read('docs/design/all-15-video-adaptation-20261117.md');
 test('every one of the actual fifteen reference videos has a functional page mapping or transparent exclusion',()=>{
  for(let i=1;i<=15;i++){

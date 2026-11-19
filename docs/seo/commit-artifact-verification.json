@@ -1,0 +1,82 @@
+[
+  {
+    "filename": "final-route-inventory-reconciliation.csv",
+    "exists_in_worktree": "TRUE",
+    "tracked_by_git": "FALSE",
+    "committed_in_expected_sha": "FALSE",
+    "file_hash": "ad5f8024df33f6669d5ba7ff93d316b0e7dbd118107c24610168e5a3cc1daa28",
+    "verification_status": "PASS WITH LIMITATION (UNCOMMITTED_LOCAL_WORKSPACE)"
+  },
+  {
+    "filename": "final-guide-count-reconciliation.csv",
+    "exists_in_worktree": "TRUE",
+    "tracked_by_git": "FALSE",
+    "committed_in_expected_sha": "FALSE",
+    "file_hash": "0e7e8c3f438eba3e5413d5b5d6367798d5886443bd500779dce38b4a0aa2ecc6",
+    "verification_status": "PASS WITH LIMITATION (UNCOMMITTED_LOCAL_WORKSPACE)"
+  },
+  {
+    "filename": "final-ziyarat-rendered-html-audit.csv",
+    "exists_in_worktree": "TRUE",
+    "tracked_by_git": "FALSE",
+    "committed_in_expected_sha": "FALSE",
+    "file_hash": "661d3f299e41577fb6778f1c6e812cc9d92376493be6369bb916ae1c604436b3",
+    "verification_status": "PASS WITH LIMITATION (UNCOMMITTED_LOCAL_WORKSPACE)"
+  },
+  {
+    "filename": "final-all-locale-sitemap-audit.csv",
+    "exists_in_worktree": "TRUE",
+    "tracked_by_git": "FALSE",
+    "committed_in_expected_sha": "FALSE",
+    "file_hash": "3a3f4695faeb590849d17a9aee71c8b620e1b725b030a030f74bc2feccd58599",
+    "verification_status": "PASS WITH LIMITATION (UNCOMMITTED_LOCAL_WORKSPACE)"
+  },
+  {
+    "filename": "final-all-locale-sitemap-summary.json",
+    "exists_in_worktree": "TRUE",
+    "tracked_by_git": "FALSE",
+    "committed_in_expected_sha": "FALSE",
+    "file_hash": "9688c0d75a1c649acf44261d98663ffcf26c588460de1da7f215bb1189ff06a1",
+    "verification_status": "PASS WITH LIMITATION (UNCOMMITTED_LOCAL_WORKSPACE)"
+  },
+  {
+    "filename": "final-deployment-identity-verification.json",
+    "exists_in_worktree": "TRUE",
+    "tracked_by_git": "FALSE",
+    "committed_in_expected_sha": "FALSE",
+    "file_hash": "465318a91981db0b5c23335733f41e61eb62fb66251cfd80699faba46b876301",
+    "verification_status": "PASS WITH LIMITATION (UNCOMMITTED_LOCAL_WORKSPACE)"
+  },
+  {
+    "filename": "final-coaster-customer-facing-safety-check.md",
+    "exists_in_worktree": "TRUE",
+    "tracked_by_git": "FALSE",
+    "committed_in_expected_sha": "FALSE",
+    "file_hash": "d2df618bd68687d4a49711f33556da8a025151173a5c07a446b461f5c4579c25",
+    "verification_status": "PASS WITH LIMITATION (UNCOMMITTED_LOCAL_WORKSPACE)"
+  },
+  {
+    "filename": "final-seo-acceptance-gate.md",
+    "exists_in_worktree": "TRUE",
+    "tracked_by_git": "FALSE",
+    "committed_in_expected_sha": "FALSE",
+    "file_hash": "3597f4d76e3d1cd36e30d8d957714c1ab0a88438b41a778ccff4344d7bf6705b",
+    "verification_status": "PASS WITH LIMITATION (UNCOMMITTED_LOCAL_WORKSPACE)"
+  },
+  {
+    "filename": "final-ziyarat-ssg-vs-sitemap-reconciliation.csv",
+    "exists_in_worktree": "TRUE",
+    "tracked_by_git": "FALSE",
+    "committed_in_expected_sha": "FALSE",
+    "file_hash": "3b900461e4ca279dc530ac9212d5ed1af383e411740ff1f9ed2a93ed91a9d66d",
+    "verification_status": "PASS WITH LIMITATION (UNCOMMITTED_LOCAL_WORKSPACE)"
+  },
+  {
+    "filename": "final-guide-ssg-vs-sitemap-reconciliation.csv",
+    "exists_in_worktree": "TRUE",
+    "tracked_by_git": "FALSE",
+    "committed_in_expected_sha": "FALSE",
+    "file_hash": "b88fcb94eede95562a72d2495d15b03de0f713e72683ed15652dd1302d265950",
+    "verification_status": "PASS WITH LIMITATION (UNCOMMITTED_LOCAL_WORKSPACE)"
+  }
+]

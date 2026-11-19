@@ -1,0 +1,85 @@
+{
+  "auditTimestamp": "2026-11-10T20:03:27.802Z",
+  "targetCommit": "79eba8f050232e5a3e9d7be34f36c4d95fef0512",
+  "targetDeploymentId": "dpl_Aomk2ayHpwhw1TX1nwfYDHgQYMd2",
+  "totalChildSitemaps": 10,
+  "totalSitemapUrls": 884,
+  "selfCanonicalUrlCount": 884,
+  "nonSelfCanonicalUrlCount": 0,
+  "selfCanonicalPercentage": "100.00%",
+  "canonicalMismatchesDetected": 0,
+  "breakdownByLocale": {
+    "ar": {
+      "totalUrls": 98,
+      "selfCanonicalUrls": 98,
+      "nonSelfCanonicalUrls": 0,
+      "allSelfCanonical": true
+    },
+    "en": {
+      "totalUrls": 98,
+      "selfCanonicalUrls": 98,
+      "nonSelfCanonicalUrls": 0,
+      "allSelfCanonical": true
+    },
+    "ms": {
+      "totalUrls": 86,
+      "selfCanonicalUrls": 86,
+      "nonSelfCanonicalUrls": 0,
+      "allSelfCanonical": true
+    },
+    "fr": {
+      "totalUrls": 86,
+      "selfCanonicalUrls": 86,
+      "nonSelfCanonicalUrls": 0,
+      "allSelfCanonical": true
+    },
+    "es": {
+      "totalUrls": 86,
+      "selfCanonicalUrls": 86,
+      "nonSelfCanonicalUrls": 0,
+      "allSelfCanonical": true
+    },
+    "id": {
+      "totalUrls": 86,
+      "selfCanonicalUrls": 86,
+      "nonSelfCanonicalUrls": 0,
+      "allSelfCanonical": true
+    },
+    "hi": {
+      "totalUrls": 86,
+      "selfCanonicalUrls": 86,
+      "nonSelfCanonicalUrls": 0,
+      "allSelfCanonical": true
+    },
+    "de": {
+      "totalUrls": 86,
+      "selfCanonicalUrls": 86,
+      "nonSelfCanonicalUrls": 0,
+      "allSelfCanonical": true
+    },
+    "ur": {
+      "totalUrls": 86,
+      "selfCanonicalUrls": 86,
+      "nonSelfCanonicalUrls": 0,
+      "allSelfCanonical": true
+    },
+    "tr": {
+      "totalUrls": 86,
+      "selfCanonicalUrls": 86,
+      "nonSelfCanonicalUrls": 0,
+      "allSelfCanonical": true
+    }
+  },
+  "categoryBreakdown": {
+    "homepage": 10,
+    "commercialRoutes": 130,
+    "fleetPages": 60,
+    "blogPages": 140,
+    "ziyaratPages": 200,
+    "pilgrimCountryPages": 150,
+    "coreStaticAndPolicy": 120,
+    "regionalServiceHubs": 20,
+    "guidesInArEn": 28,
+    "guidesInOtherLocales": 26
+  }
+}

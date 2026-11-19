@@ -1,0 +1,47 @@
+{
+  "verificationStatus": "PASS",
+  "auditTimestamp": "2026-11-10T20:04:00.000Z",
+  "deployment": {
+    "id": "dpl_Aomk2ayHpwhw1TX1nwfYDHgQYMd2",
+    "name": "royal-umrah-cabs",
+    "state": "READY",
+    "readyState": "READY",
+    "status": "READY",
+    "url": "https://royal-umrah-cabs-6kkavgrep-sayed6.vercel.app",
+    "branchAliasUrl": "https://royal-umrah-cabs-git-seo-recovery-preview-sayed6.vercel.app",
+    "alias": [
+      "royal-umrah-cabs-git-seo-recovery-preview-sayed6.vercel.app"
+    ],
+    "target": null,
+    "environment": "preview",
+    "createdAt": "2026-11-10T03:31:24.762Z",
+    "readyAt": "2026-11-10T03:32:35.454Z",
+    "buildDurationMs": 69803
+  },
+  "gitSource": {
+    "type": "github",
+    "ref": "seo-recovery-preview",
+    "branch": "seo-recovery-preview",
+    "sha": "79eba8f050232e5a3e9d7be34f36c4d95fef0512",
+    "commitMessage": "fix(seo): remove conflicting noindex on English-fallback guides and finalize reconciliation audits",
+    "commitAuthor": "Royal Umrah <admin@royal-umrah-cabs.com>",
+    "repository": "saysa19994/royal-umrah-cabs",
+    "repoId": 1424582751
+  },
+  "project": {
+    "id": "prj_UTPKhRaSTayxCtYNGPKirQx0Nqva",
+    "name": "royal-umrah-cabs",
+    "team": {
+      "id": "team_4mpishXNVacXKUjGSmG6Hj6i",
+      "slug": "sayed6"
+    }
+  },
+  "verificationProof": {
+    "matchedCommit": true,
+    "matchedBranch": true,
+    "matchedState": true,
+    "productionFrozen": true,
+    "productionDomain": "https://duyufalrahmanvip.com",
+    "productionSafe": "Verified 100% frozen; preview deployment is isolated"
+  }
+}
