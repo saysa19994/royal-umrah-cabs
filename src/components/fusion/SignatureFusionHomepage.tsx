@@ -146,6 +146,8 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
   const [inside, setInside] = useState(false);
   const [chapter, setChapter] = useState(0);
   const [minDate, setMinDate] = useState('');
+  const fleetMountRef = useRef<HTMLDivElement>(null);
+  const [fleetInView, setFleetInView] = useState(false);
 
   const car = fleet[carIndex];
   const journey = routes.find((item) => item.id === route) || routes[0];
@@ -162,6 +164,17 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
   useEffect(() => {
     const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Riyadh', year: 'numeric', month: '2-digit', day: '2-digit' });
     setMinDate(today.format(new Date()));
+  }, []);
+
+  useEffect(() => {
+    const target = fleetMountRef.current;
+    if (!target) return;
+    if (!('IntersectionObserver' in window)) { setFleetInView(true); return; }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { setFleetInView(true); observer.disconnect(); }
+    }, { rootMargin: '300px' });
+    observer.observe(target);
+    return () => observer.disconnect();
   }, []);
 
   function chooseVehicle(index: number) {
@@ -304,18 +317,31 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
           <Link href={`/${locale}/fleet`}>{dict.nav.fleet}<ArrowUpRight size={17} aria-hidden /></Link>
         </div>
         <div className={styles.showroomLayout}>
-          <div style={{ gridColumn: '1 / -1' }}>
-            <BronzeCircularFleet
-              vehicles={fleet.map((vehicle) => ({
-                id: vehicle.id,
-                image: vehicle.exteriorImage,
-                name: vehicle.name[locale],
-                disabled: !(rates[route]?.[FARE_KEYS[vehicle.slug]] > 0) || guests > vehicle.passengers,
-              }))}
-              activeIndex={carIndex}
-              onSelect={chooseVehicle}
-              label={dict.nav.fleet}
-            />
+          <div ref={fleetMountRef} style={{ gridColumn: '1 / -1', minHeight: 300 }}>
+            {fleetInView ? (
+              <BronzeCircularFleet
+                vehicles={fleet.map((vehicle) => ({
+                  id: vehicle.id,
+                  image: vehicle.exteriorImage,
+                  name: vehicle.name[locale],
+                  disabled: !(rates[route]?.[FARE_KEYS[vehicle.slug]] > 0) || guests > vehicle.passengers,
+                }))}
+                activeIndex={carIndex}
+                onSelect={chooseVehicle}
+                label={dict.nav.fleet}
+              />
+            ) : (
+              <div className={styles.fleetPreviewFallback} role="group" aria-label={dict.nav.fleet}>
+                {fleet.map((vehicle, index) => (
+                  <button type="button" key={vehicle.id}
+                    disabled={!(rates[route]?.[FARE_KEYS[vehicle.slug]] > 0) || guests > vehicle.passengers}
+                    aria-pressed={index === carIndex} onClick={() => chooseVehicle(index)}>
+                    <Image src={vehicle.exteriorImage} alt="" width={140} height={85} />
+                    <span>{vehicle.name[locale]}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <div className={styles.carPhoto} data-royal-image>
             <Image key={car.id + String(inside)} src={inside ? car.interiorImage : car.exteriorImage}
