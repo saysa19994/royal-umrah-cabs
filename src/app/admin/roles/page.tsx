@@ -107,24 +107,24 @@ export default function AdminRolesPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="vip-internal-editorial space-y-6">
       {/* Top Banner */}
-      <div className="bg-[#14171C] border border-[#262B33] rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#FFF9F1] border border-[#E4D4BE] rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9A031]/10 border border-[#D9A031]/30 text-xs font-bold text-[#D9A031] uppercase tracking-wider mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A6364]/10 border border-[#C29B65]/30 text-xs font-bold text-[#92612D] uppercase tracking-wider mb-2">
             <Shield className="w-3.5 h-3.5" />
             <span>Role-Based Access Control (RBAC)</span>
           </div>
-          <h1 className="font-display text-2xl font-bold text-[#FAF9F6]">
+          <h1 className="font-display text-2xl font-bold text-[#193746]">
             Granular Permission Matrix
           </h1>
-          <p className="text-xs text-[#A0A6B2] mt-1 font-light">
+          <p className="text-xs text-[#697984] mt-1 font-light">
             Configure resource privileges per role. Changes are stored in PostgreSQL and enforced on both client and API.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="px-3.5 py-1.5 rounded-xl bg-[#D9A031]/15 border border-[#D9A031]/30 text-xs font-bold text-[#D9A031] flex items-center gap-2">
+          <div className="px-3.5 py-1.5 rounded-xl bg-[#0A6364]/15 border border-[#C29B65]/30 text-xs font-bold text-[#92612D] flex items-center gap-2">
             <Lock className="w-3.5 h-3.5" />
             <span>Owner is Permanently Unrestricted</span>
           </div>
@@ -132,22 +132,22 @@ export default function AdminRolesPage() {
       </div>
 
       {successMsg && (
-        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
+        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>{successMsg}</span>
         </div>
       )}
 
       {/* Role Tabs */}
-      <div className="flex flex-wrap gap-2 border-b border-[#262B33] pb-3">
+      <div className="flex flex-wrap gap-2 border-b border-[#E4D4BE] pb-3">
         {ROLES.map((r) => (
           <button
             key={r.id}
             onClick={() => setSelectedRole(r.id)}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
               selectedRole === r.id
-                ? 'bg-[#D9A031] text-[#14171C] shadow-sm'
-                : 'bg-[#14171C] text-[#A0A6B2] hover:text-[#FAF9F6] border border-[#262B33]'
+                ? 'bg-[#0A6364] text-[#14171C] shadow-sm'
+                : 'bg-[#FFF9F1] text-[#697984] hover:text-[#193746] border border-[#E4D4BE]'
             }`}
           >
             {r.label}
@@ -156,14 +156,14 @@ export default function AdminRolesPage() {
       </div>
 
       {/* Permission Table */}
-      <div className="bg-[#14171C] border border-[#262B33] rounded-2xl overflow-hidden shadow-sm">
-        <div className="p-4 border-b border-[#262B33] flex items-center justify-between">
-          <span className="text-xs font-bold text-[#FAF9F6]">
-            Configuring Privileges for Role: <span className="text-[#D9A031] uppercase">{selectedRole}</span>
+      <div className="bg-[#FFF9F1] border border-[#E4D4BE] rounded-2xl overflow-hidden shadow-sm">
+        <div className="p-4 border-b border-[#E4D4BE] flex items-center justify-between">
+          <span className="text-xs font-bold text-[#193746]">
+            Configuring Privileges for Role: <span className="text-[#92612D] uppercase">{selectedRole}</span>
           </span>
           <button
             onClick={fetchPermissions}
-            className="text-xs text-[#A0A6B2] hover:text-[#FAF9F6] flex items-center gap-1.5"
+            className="text-xs text-[#697984] hover:text-[#193746] flex items-center gap-1.5"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
@@ -173,7 +173,7 @@ export default function AdminRolesPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-start text-xs">
             <thead>
-              <tr className="bg-[#1A1E24] text-[#A0A6B2] border-b border-[#262B33]">
+              <tr className="bg-[#F8EFE2] text-[#697984] border-b border-[#E4D4BE]">
                 <th className="py-3 px-4 text-start font-semibold">Resource</th>
                 <th className="py-3 px-4 text-center font-semibold">View</th>
                 <th className="py-3 px-4 text-center font-semibold">Create</th>
@@ -196,10 +196,10 @@ export default function AdminRolesPage() {
                 ];
 
                 return (
-                  <tr key={res.id} className="hover:bg-[#1A1F26] transition-colors">
+                  <tr key={res.id} className="hover:bg-[#F7EBDB] transition-colors">
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-[#FAF9F6]">{res.label}</div>
-                      <div className="text-[11px] text-[#A0A6B2] font-light mt-0.5">{res.desc}</div>
+                      <div className="font-bold text-[#193746]">{res.label}</div>
+                      <div className="text-[11px] text-[#697984] font-light mt-0.5">{res.desc}</div>
                     </td>
 
                     {actions.map((act) => {
@@ -213,7 +213,7 @@ export default function AdminRolesPage() {
                             className={`w-7 h-7 rounded-lg inline-flex items-center justify-center transition-all ${
                               enabled
                                 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/30'
-                                : 'bg-[#20252D] text-[#6C7584] border border-[#2B323D] hover:text-[#A0A6B2]'
+                                : 'bg-[#F3E7D7] text-[#79838A] border border-[#DCC8AA] hover:text-[#697984]'
                             }`}
                           >
                             {isSaving ? (

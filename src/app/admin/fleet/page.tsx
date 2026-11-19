@@ -310,23 +310,23 @@ export default function AdminFleetPage() {
   };
 
   return (
-    <div className="space-y-6 text-start">
+    <div className="vip-internal-editorial space-y-6 text-start">
       {/* 1. EXECUTIVE FLEET COMMAND HEADER */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#101725] via-[#090D15] to-[#141D2C] border border-[#1F2C42] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.65)]">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-[#D6A13A]/10 via-[#A97B27]/5 to-transparent rounded-full blur-3xl pointer-events-none" />
+      <div className="vip-internal-hero relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F2E8] via-[#F9F1E7] to-[#F8EEDF] border border-[#E4D4BE] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.65)]">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-[#0B6A69]/10 via-[#A97B27]/5 to-transparent rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D6A13A]/15 border border-[#D6A13A]/30 text-xs font-bold text-[#D6A13A]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#086064]/15 border border-[#C49A61]/30 text-xs font-bold text-[#93652D]">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Duyuf Alrahman VIP • Executive Chauffeur Fleet Command</span>
             </div>
 
-            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#F4F1E9] tracking-tight">
+            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#193341] tracking-tight">
               VIP Fleet &amp; Specifications Studio
             </h1>
 
-            <p className="text-xs sm:text-sm text-[#A5B0C2] font-light max-w-2xl leading-relaxed">
+            <p className="vip-hero-description text-xs sm:text-sm text-[#63727C] font-light max-w-2xl leading-relaxed">
               Manage the 5 core VIP vehicle models (Camry, Staria VIP, Yukon XL VIP, HiAce, Coaster). Capacities, studio exterior/interior photography, and localized 10-language specifications sync instantly with zero redeployment.
             </p>
           </div>
@@ -335,7 +335,7 @@ export default function AdminFleetPage() {
             <button
               onClick={() => fetchFleet()}
               disabled={loading}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#141D2C] hover:bg-[#1A2538] border border-[#1F2C42] text-xs font-bold text-[#F4F1E9] transition-all disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FFFAF3] hover:bg-[#F2E7D7] border border-[#E4D4BE] text-xs font-bold text-[#193341] transition-all disabled:opacity-50"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh</span>
@@ -343,7 +343,7 @@ export default function AdminFleetPage() {
 
             <button
               onClick={handleOpenCreate}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D6A13A] to-[#A97B27] hover:from-[#E2B755] hover:to-[#B8872D] text-xs font-bold text-[#090D15] transition-all shadow-[0_0_20px_rgba(214,161,58,0.35)] hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#0B6A69] to-[#06474E] hover:from-[#0C7471] hover:to-[#06474E] text-xs font-bold text-[#FFF7EA] transition-all shadow-[0_0_20px_rgba(214,161,58,0.35)] hover:scale-[1.02]"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Add Vehicle</span>
@@ -352,44 +352,44 @@ export default function AdminFleetPage() {
         </div>
 
         {/* 4 FLEET CAPACITY METRIC PODS */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-6 pt-6 border-t border-[#1F2C42]/80">
-          <div className="p-3.5 rounded-xl bg-[#090D15]/80 border border-[#1F2C42]">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#A5B0C2] flex items-center gap-1.5">
-              <Car className="w-3.5 h-3.5 text-[#D6A13A]" />
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-6 pt-6 border-t border-[#E4D4BE]/80">
+          <div className="p-3.5 rounded-xl bg-[#F6EEE2]/80 border border-[#E4D4BE]">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#63727C] flex items-center gap-1.5">
+              <Car className="w-3.5 h-3.5 text-[#93652D]" />
               <span>Total Fleet Models</span>
             </span>
-            <div className="mt-2 text-2xl font-bold font-mono text-[#F4F1E9]">
-              {fleet.length} <span className="text-xs text-[#A5B0C2] font-normal">Vehicles</span>
+            <div className="mt-2 text-2xl font-bold font-mono text-[#193341]">
+              {fleet.length} <span className="text-xs text-[#63727C] font-normal">Vehicles</span>
             </div>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-[#090D15]/80 border border-[#1F2C42]">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-400 flex items-center gap-1.5">
+          <div className="p-3.5 rounded-xl bg-[#F6EEE2]/80 border border-[#E4D4BE]">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-700 flex items-center gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>Published Live</span>
             </span>
-            <div className="mt-2 text-2xl font-bold font-mono text-emerald-400">
-              {fleet.filter((v) => v.is_active).length} <span className="text-xs text-emerald-300/70 font-normal">Active</span>
+            <div className="mt-2 text-2xl font-bold font-mono text-emerald-700">
+              {fleet.filter((v) => v.is_active).length} <span className="text-xs text-emerald-700/70 font-normal">Active</span>
             </div>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-[#090D15]/80 border border-[#1F2C42]">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#D6A13A] flex items-center gap-1.5">
+          <div className="p-3.5 rounded-xl bg-[#F6EEE2]/80 border border-[#E4D4BE]">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#93652D] flex items-center gap-1.5">
               <Users className="w-3.5 h-3.5" />
               <span>Simultaneous Passengers</span>
             </span>
-            <div className="mt-2 text-2xl font-bold font-mono text-[#F4F1E9]">
-              {totalSeats} <span className="text-xs text-[#A5B0C2] font-normal">Pax Capacity</span>
+            <div className="mt-2 text-2xl font-bold font-mono text-[#193341]">
+              {totalSeats} <span className="text-xs text-[#63727C] font-normal">Pax Capacity</span>
             </div>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-[#090D15]/80 border border-[#1F2C42]">
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#A5B0C2] flex items-center gap-1.5">
-              <Luggage className="w-3.5 h-3.5 text-[#D6A13A]" />
+          <div className="p-3.5 rounded-xl bg-[#F6EEE2]/80 border border-[#E4D4BE]">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#63727C] flex items-center gap-1.5">
+              <Luggage className="w-3.5 h-3.5 text-[#93652D]" />
               <span>Total Luggage Hold</span>
             </span>
-            <div className="mt-2 text-2xl font-bold font-mono text-[#F4F1E9]">
-              {totalBags} <span className="text-xs text-[#A5B0C2] font-normal">Large Bags</span>
+            <div className="mt-2 text-2xl font-bold font-mono text-[#193341]">
+              {totalBags} <span className="text-xs text-[#63727C] font-normal">Large Bags</span>
             </div>
           </div>
         </div>
@@ -400,13 +400,13 @@ export default function AdminFleetPage() {
         <div
           className={`p-4 rounded-xl border flex items-center justify-between gap-3 text-xs font-semibold animate-in fade-in duration-200 ${
             feedback.type === 'success'
-              ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-200'
+              ? 'bg-emerald-50 border-emerald-500/40 text-emerald-200'
               : 'bg-rose-950/40 border-rose-500/40 text-rose-200'
           }`}
         >
           <div className="flex items-center gap-2.5">
             {feedback.type === 'success' ? (
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
             ) : (
               <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
             )}
@@ -422,17 +422,17 @@ export default function AdminFleetPage() {
       )}
 
       {/* 3. FILTERS & SEARCH CONTROLS */}
-      <div className="p-4 rounded-2xl bg-[#101725] border border-[#1F2C42] flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between shadow-sm">
+      <div className="p-4 rounded-2xl bg-[#FFFAF2] border border-[#E4D4BE] flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between shadow-sm">
         {/* Status Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl bg-[#090D15] border border-[#1F2C42]">
+        <div className="flex items-center gap-1 p-1 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE]">
           {(['all', 'active', 'inactive'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setStatusFilter(tab)}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-all ${
                 statusFilter === tab
-                  ? 'bg-gradient-to-r from-[#D6A13A] to-[#A97B27] text-[#090D15] shadow-sm'
-                  : 'text-[#A5B0C2] hover:text-[#F4F1E9]'
+                  ? 'bg-gradient-to-r from-[#0B6A69] to-[#06474E] text-[#FFF7EA] shadow-sm'
+                  : 'text-[#63727C] hover:text-[#193341]'
               }`}
             >
               {tab === 'all' ? 'All Vehicles' : tab === 'active' ? 'Published' : 'Hidden'}
@@ -446,7 +446,7 @@ export default function AdminFleetPage() {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="h-9 px-3 rounded-xl bg-[#090D15] border border-[#1F2C42] text-xs text-[#F4F1E9] focus:outline-none focus:border-[#D6A13A] cursor-pointer"
+              className="h-9 px-3 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE] text-xs text-[#193341] focus:outline-none focus:border-[#C49A61] cursor-pointer"
             >
               <option value="all">All Categories</option>
               {categories.map((c) => (
@@ -458,13 +458,13 @@ export default function AdminFleetPage() {
           )}
 
           <div className="relative flex-1 sm:w-72">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#A5B0C2]" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#63727C]" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search model, category, ID..."
-              className="w-full h-9 pl-9 pr-3 rounded-xl bg-[#090D15] border border-[#1F2C42] text-xs text-[#F4F1E9] placeholder-[#55637A] focus:outline-none focus:border-[#D6A13A]"
+              className="w-full h-9 pl-9 pr-3 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE] text-xs text-[#193341] placeholder-[#55637A] focus:outline-none focus:border-[#C49A61]"
             />
           </div>
         </div>
@@ -472,15 +472,15 @@ export default function AdminFleetPage() {
 
       {/* 4. VISUAL VEHICLE CATALOG GRID */}
       {loading ? (
-        <div className="p-16 rounded-2xl bg-[#101725] border border-[#1F2C42] flex flex-col items-center justify-center gap-3 text-center">
-          <RefreshCw className="w-7 h-7 text-[#D6A13A] animate-spin" />
-          <p className="text-xs text-[#A5B0C2]">Loading high-resolution fleet catalog from database...</p>
+        <div className="p-16 rounded-2xl bg-[#FFFAF2] border border-[#E4D4BE] flex flex-col items-center justify-center gap-3 text-center">
+          <RefreshCw className="w-7 h-7 text-[#93652D] animate-spin" />
+          <p className="text-xs text-[#63727C]">Loading high-resolution fleet catalog from database...</p>
         </div>
       ) : filteredFleet.length === 0 ? (
-        <div className="p-16 rounded-2xl bg-[#101725] border border-[#1F2C42] text-center flex flex-col items-center justify-center gap-3">
-          <Car className="w-8 h-8 text-[#D6A13A]" />
-          <h3 className="text-base font-bold text-[#F4F1E9]">No Vehicles Found</h3>
-          <p className="text-xs text-[#A5B0C2] max-w-sm">
+        <div className="p-16 rounded-2xl bg-[#FFFAF2] border border-[#E4D4BE] text-center flex flex-col items-center justify-center gap-3">
+          <Car className="w-8 h-8 text-[#93652D]" />
+          <h3 className="text-base font-bold text-[#193341]">No Vehicles Found</h3>
+          <p className="text-xs text-[#63727C] max-w-sm">
             No vehicle profiles match your search criteria. Try resetting filters or adding a new VIP model.
           </p>
         </div>
@@ -495,12 +495,12 @@ export default function AdminFleetPage() {
             return (
               <div
                 key={vehicle.id}
-                className={`rounded-2xl bg-[#101725] border transition-all duration-200 overflow-hidden flex flex-col shadow-lg group hover:border-[#D6A13A]/50 ${
-                  vehicle.is_active ? 'border-[#1F2C42]' : 'border-rose-900/30 opacity-75'
+                className={`rounded-2xl bg-[#FFFAF2] border transition-all duration-200 overflow-hidden flex flex-col shadow-lg group hover:border-[#C49A61]/50 ${
+                  vehicle.is_active ? 'border-[#E4D4BE]' : 'border-rose-900/30 opacity-75'
                 }`}
               >
                 {/* PHOTO HEADER WITH EXTERIOR/INTERIOR TOGGLE */}
-                <div className="relative h-56 w-full bg-[#090D15] overflow-hidden">
+                <div className="relative h-56 w-full bg-[#F6EEE2] overflow-hidden">
                   <Image
                     src={displayPhoto}
                     alt={vehicle.name}
@@ -511,15 +511,15 @@ export default function AdminFleetPage() {
 
                   {/* Top Status & Category Badges */}
                   <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#090D15]/90 text-[#D6A13A] border border-[#D6A13A]/40 backdrop-blur-md">
+                    <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#F6EEE2]/90 text-[#93652D] border border-[#C49A61]/40 backdrop-blur-md">
                       {vehicle.category}
                     </span>
 
                     <span
                       className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider backdrop-blur-md ${
                         vehicle.is_active
-                          ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/40'
-                          : 'bg-rose-950/80 text-rose-300 border border-rose-500/40'
+                          ? 'bg-emerald-950/80 text-emerald-700 border border-emerald-500/40'
+                          : 'bg-rose-950/80 text-rose-700 border border-rose-500/40'
                       }`}
                     >
                       {vehicle.is_active ? '🟢 معروضة على الموقع' : '🔴 مخفية عن الزوار'}
@@ -527,11 +527,11 @@ export default function AdminFleetPage() {
                   </div>
 
                   {/* Bottom View Switcher (Exterior / Interior) */}
-                  <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1 bg-[#090D15]/90 backdrop-blur-md p-1 rounded-xl border border-[#1F2C42]">
+                  <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1 bg-[#F6EEE2]/90 backdrop-blur-md p-1 rounded-xl border border-[#E4D4BE]">
                     <button
                       onClick={() => setActivePhotoTab({ ...activePhotoTab, [vehicle.id]: 'exterior' })}
                       className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-colors ${
-                        currentTab === 'exterior' ? 'bg-[#D6A13A] text-[#090D15]' : 'text-[#A5B0C2] hover:text-[#F4F1E9]'
+                        currentTab === 'exterior' ? 'bg-[#086064] text-[#FFF7EA]' : 'text-[#63727C] hover:text-[#193341]'
                       }`}
                     >
                       Exterior
@@ -539,7 +539,7 @@ export default function AdminFleetPage() {
                     <button
                       onClick={() => setActivePhotoTab({ ...activePhotoTab, [vehicle.id]: 'interior' })}
                       className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-colors ${
-                        currentTab === 'interior' ? 'bg-[#D6A13A] text-[#090D15]' : 'text-[#A5B0C2] hover:text-[#F4F1E9]'
+                        currentTab === 'interior' ? 'bg-[#086064] text-[#FFF7EA]' : 'text-[#63727C] hover:text-[#193341]'
                       }`}
                     >
                       Interior
@@ -552,35 +552,35 @@ export default function AdminFleetPage() {
                   <div>
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <h3 className="font-display font-extrabold text-lg text-[#F4F1E9]">
+                        <h3 className="font-display font-extrabold text-lg text-[#193341]">
                           {vehicle.name}
                         </h3>
-                        <span className="text-[11px] font-mono text-[#D6A13A]">
+                        <span className="text-[11px] font-mono text-[#93652D]">
                           ID: {vehicle.id}
                         </span>
                       </div>
 
                       {/* Display Order Pill */}
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#141D2C] text-[#A5B0C2] border border-[#1F2C42]">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#FFFAF3] text-[#63727C] border border-[#E4D4BE]">
                         Order #{vehicle.display_order || 0}
                       </span>
                     </div>
 
                     {/* CAPACITY PODS */}
                     <div className="grid grid-cols-2 gap-2 mt-3.5">
-                      <div className="flex items-center gap-2 p-2 rounded-xl bg-[#090D15] border border-[#1F2C42]">
-                        <Users className="w-4 h-4 text-[#D6A13A] shrink-0" />
+                      <div className="flex items-center gap-2 p-2 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE]">
+                        <Users className="w-4 h-4 text-[#93652D] shrink-0" />
                         <div className="flex flex-col">
-                          <span className="text-[9px] uppercase font-bold text-[#A5B0C2]">Capacity</span>
-                          <span className="text-xs font-bold text-[#F4F1E9]">{vehicle.seats} Passengers</span>
+                          <span className="text-[9px] uppercase font-bold text-[#63727C]">Capacity</span>
+                          <span className="text-xs font-bold text-[#193341]">{vehicle.seats} Passengers</span>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2 p-2 rounded-xl bg-[#090D15] border border-[#1F2C42]">
-                        <Luggage className="w-4 h-4 text-[#D6A13A] shrink-0" />
+                      <div className="flex items-center gap-2 p-2 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE]">
+                        <Luggage className="w-4 h-4 text-[#93652D] shrink-0" />
                         <div className="flex flex-col">
-                          <span className="text-[9px] uppercase font-bold text-[#A5B0C2]">Luggage Hold</span>
-                          <span className="text-xs font-bold text-[#F4F1E9]">{vehicle.bags} Large Bags</span>
+                          <span className="text-[9px] uppercase font-bold text-[#63727C]">Luggage Hold</span>
+                          <span className="text-xs font-bold text-[#193341]">{vehicle.bags} Large Bags</span>
                         </div>
                       </div>
                     </div>
@@ -591,13 +591,13 @@ export default function AdminFleetPage() {
                         {vehicle.features.slice(0, 3).map((feat, idx) => (
                           <span
                             key={idx}
-                            className="px-2 py-0.5 rounded-md bg-[#141D2C] border border-[#1F2C42] text-[10px] text-[#A5B0C2]"
+                            className="px-2 py-0.5 rounded-md bg-[#FFFAF3] border border-[#E4D4BE] text-[10px] text-[#63727C]"
                           >
                             ✓ {feat}
                           </span>
                         ))}
                         {vehicle.features.length > 3 && (
-                          <span className="px-1.5 py-0.5 text-[10px] text-[#A5B0C2]">
+                          <span className="px-1.5 py-0.5 text-[10px] text-[#63727C]">
                             +{vehicle.features.length - 3} more
                           </span>
                         )}
@@ -606,13 +606,13 @@ export default function AdminFleetPage() {
                   </div>
 
                   {/* BOTTOM ACTIONS */}
-                  <div className="pt-4 border-t border-[#1F2C42] flex items-center justify-between gap-2">
+                  <div className="pt-4 border-t border-[#E4D4BE] flex items-center justify-between gap-2">
                     <button
                       onClick={() => toggleStatus(vehicle)}
                       className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-colors ${
                         vehicle.is_active
-                          ? 'bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border-rose-500/30'
-                          : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+                          ? 'bg-rose-500/10 hover:bg-rose-500/20 text-rose-700 border-rose-500/30'
+                          : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 border-emerald-500/30'
                       }`}
                     >
                       {vehicle.is_active ? 'إخفاء من الموقع' : 'نشر على الموقع'}
@@ -622,7 +622,7 @@ export default function AdminFleetPage() {
                       <button
                         onClick={() => handleOpenEdit(vehicle)}
                         title="Edit Specifications &amp; Photos"
-                        className="p-2 rounded-xl bg-[#141D2C] hover:bg-[#1A2538] border border-[#1F2C42] text-[#D6A13A] transition-colors"
+                        className="p-2 rounded-xl bg-[#FFFAF3] hover:bg-[#F2E7D7] border border-[#E4D4BE] text-[#93652D] transition-colors"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
                       </button>
@@ -630,7 +630,7 @@ export default function AdminFleetPage() {
                       <button
                         onClick={() => handleDeleteVehicle(vehicle.id, vehicle.name)}
                         title="Delete vehicle"
-                        className="p-2 rounded-xl bg-[#141D2C] hover:bg-rose-950/30 border border-[#1F2C42] hover:border-rose-500/40 text-rose-400 transition-colors"
+                        className="p-2 rounded-xl bg-[#FFFAF3] hover:bg-rose-950/30 border border-[#E4D4BE] hover:border-rose-500/40 text-rose-400 transition-colors"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -650,20 +650,20 @@ export default function AdminFleetPage() {
           onClick={() => setIsEditing(false)}
         >
           <div
-            className="w-full max-w-2xl rounded-2xl bg-[#101725] border border-[#1F2C42] shadow-[0_20px_60px_rgba(0,0,0,0.9)] overflow-hidden my-8"
+            className="w-full max-w-2xl rounded-2xl bg-[#FFFAF2] border border-[#E4D4BE] shadow-[0_20px_60px_rgba(0,0,0,0.9)] overflow-hidden my-8"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#1F2C42] bg-[#090D15]">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#E4D4BE] bg-[#F6EEE2]">
               <div className="flex items-center gap-2">
-                <Car className="w-5 h-5 text-[#D6A13A]" />
-                <h3 className="font-display font-bold text-base text-[#F4F1E9]">
+                <Car className="w-5 h-5 text-[#93652D]" />
+                <h3 className="font-display font-bold text-base text-[#193341]">
                   {isCreating ? 'Register New VIP Fleet Vehicle' : `Edit Vehicle Specifications • ${formData.name}`}
                 </h3>
               </div>
               <button
                 onClick={() => setIsEditing(false)}
-                className="p-1 rounded-lg text-[#A5B0C2] hover:text-[#F4F1E9] transition-colors"
+                className="p-1 rounded-lg text-[#63727C] hover:text-[#193341] transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -674,7 +674,7 @@ export default function AdminFleetPage() {
               {/* ID & Category */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#A5B0C2] mb-1.5">
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#63727C] mb-1.5">
                     Vehicle Slug ID {isCreating ? '(Required, permanent)' : '(Locked)'}
                   </label>
                   <input
@@ -683,19 +683,19 @@ export default function AdminFleetPage() {
                     value={formData.id || ''}
                     onChange={(e) => setFormData({ ...formData, id: e.target.value })}
                     placeholder="e.g. camry, staria, yukon"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090D15] border border-[#1F2C42] text-xs font-mono text-[#F4F1E9] disabled:opacity-50 focus:outline-none focus:border-[#D6A13A]"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE] text-xs font-mono text-[#193341] disabled:opacity-50 focus:outline-none focus:border-[#C49A61]"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#A5B0C2] mb-1.5">
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#63727C] mb-1.5">
                     Category Tier
                   </label>
                   <select
                     value={formData.category || 'Sedan VIP'}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090D15] border border-[#1F2C42] text-xs text-[#F4F1E9] focus:outline-none focus:border-[#D6A13A] cursor-pointer"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE] text-xs text-[#193341] focus:outline-none focus:border-[#C49A61] cursor-pointer"
                   >
                     <option value="Sedan VIP">Sedan VIP (e.g. Camry)</option>
                     <option value="VIP MPV">VIP MPV / Minivan (e.g. Staria VIP)</option>
@@ -709,7 +709,7 @@ export default function AdminFleetPage() {
               {/* Localized Names (EN & AR) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#A5B0C2] mb-1.5">
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#63727C] mb-1.5">
                     English Name
                   </label>
                   <input
@@ -717,13 +717,13 @@ export default function AdminFleetPage() {
                     value={nameEn}
                     onChange={(e) => setNameEn(e.target.value)}
                     placeholder="e.g. Toyota Camry VIP"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090D15] border border-[#1F2C42] text-xs text-[#F4F1E9] focus:outline-none focus:border-[#D6A13A]"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE] text-xs text-[#193341] focus:outline-none focus:border-[#C49A61]"
                     required
                   />
                 </div>
 
                 <div dir="rtl">
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#A5B0C2] mb-1.5 text-right">
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#63727C] mb-1.5 text-right">
                     الاسم باللغة العربية
                   </label>
                   <input
@@ -731,16 +731,16 @@ export default function AdminFleetPage() {
                     value={nameAr}
                     onChange={(e) => setNameAr(e.target.value)}
                     placeholder="مثال: تويوتا كامري VIP"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090D15] border border-[#1F2C42] text-xs text-[#F4F1E9] focus:outline-none focus:border-[#D6A13A] text-right"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE] text-xs text-[#193341] focus:outline-none focus:border-[#C49A61] text-right"
                     required
                   />
                 </div>
               </div>
 
               {/* Capacities */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-xl bg-[#090D15] border border-[#1F2C42]">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE]">
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#D6A13A] mb-1.5 flex items-center gap-1">
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#93652D] mb-1.5 flex items-center gap-1">
                     <Users className="w-3.5 h-3.5" />
                     <span>Passengers (Seats)</span>
                   </label>
@@ -750,13 +750,13 @@ export default function AdminFleetPage() {
                     max="60"
                     value={formData.seats || 4}
                     onChange={(e) => setFormData({ ...formData, seats: Number(e.target.value) })}
-                    className="w-full px-3 py-2 rounded-lg bg-[#141D2C] border border-[#1F2C42] text-xs font-mono font-bold text-[#F4F1E9] focus:outline-none focus:border-[#D6A13A]"
+                    className="w-full px-3 py-2 rounded-lg bg-[#FFFAF3] border border-[#E4D4BE] text-xs font-mono font-bold text-[#193341] focus:outline-none focus:border-[#C49A61]"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#D6A13A] mb-1.5 flex items-center gap-1">
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#93652D] mb-1.5 flex items-center gap-1">
                     <Luggage className="w-3.5 h-3.5" />
                     <span>Luggage (Bags)</span>
                   </label>
@@ -766,13 +766,13 @@ export default function AdminFleetPage() {
                     max="60"
                     value={formData.bags || 3}
                     onChange={(e) => setFormData({ ...formData, bags: Number(e.target.value) })}
-                    className="w-full px-3 py-2 rounded-lg bg-[#141D2C] border border-[#1F2C42] text-xs font-mono font-bold text-[#F4F1E9] focus:outline-none focus:border-[#D6A13A]"
+                    className="w-full px-3 py-2 rounded-lg bg-[#FFFAF3] border border-[#E4D4BE] text-xs font-mono font-bold text-[#193341] focus:outline-none focus:border-[#C49A61]"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#A5B0C2] mb-1.5 flex items-center gap-1">
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#63727C] mb-1.5 flex items-center gap-1">
                     <Sliders className="w-3.5 h-3.5" />
                     <span>Display Order</span>
                   </label>
@@ -780,22 +780,22 @@ export default function AdminFleetPage() {
                     type="number"
                     value={formData.display_order || 10}
                     onChange={(e) => setFormData({ ...formData, display_order: Number(e.target.value) })}
-                    className="w-full px-3 py-2 rounded-lg bg-[#141D2C] border border-[#1F2C42] text-xs font-mono text-[#F4F1E9] focus:outline-none focus:border-[#D6A13A]"
+                    className="w-full px-3 py-2 rounded-lg bg-[#FFFAF3] border border-[#E4D4BE] text-xs font-mono text-[#193341] focus:outline-none focus:border-[#C49A61]"
                   />
                 </div>
               </div>
 
               {/* Visual Interactive Studio Photography Manager */}
-              <div className="space-y-4 p-4 rounded-xl bg-[#090D15] border border-[#1F2C42]">
+              <div className="space-y-4 p-4 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE]">
                 <div className="flex items-center justify-between">
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#D6A13A] flex items-center gap-1.5">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#93652D] flex items-center gap-1.5">
                     <Camera className="w-3.5 h-3.5" />
                     <span>Studio Vehicle Photography (Visual Upload &amp; Preview)</span>
                   </label>
                   <a
                     href="/admin/media"
                     target="_blank"
-                    className="text-[10px] text-slate-400 hover:text-[#E6C773] underline flex items-center gap-1"
+                    className="text-[10px] text-slate-400 hover:text-[#976A31] underline flex items-center gap-1"
                   >
                     <span>Manage Full Gallery in Vault</span>
                     <ExternalLink className="w-3 h-3" />
@@ -806,7 +806,7 @@ export default function AdminFleetPage() {
                   {/* Exterior Studio Photo */}
                   <div className="space-y-2">
                     <span className="text-[10px] font-bold text-slate-300 block">★ Exterior Studio Photo</span>
-                    <div className="relative w-full h-32 rounded-lg bg-[#141D2C] border border-[#1F2C42] overflow-hidden flex items-center justify-center">
+                    <div className="relative w-full h-32 rounded-lg bg-[#FFFAF3] border border-[#E4D4BE] overflow-hidden flex items-center justify-center">
                       {formData.photos?.exterior ? (
                         <Image
                           src={formData.photos.exterior}
@@ -819,8 +819,8 @@ export default function AdminFleetPage() {
                         <span className="text-xs text-slate-500">No exterior photo</span>
                       )}
                     </div>
-                    <label className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-[#141D2C] hover:bg-[#1A2538] border border-[#1F2C42] text-xs font-bold text-white cursor-pointer transition-colors">
-                      <Upload className={`w-3.5 h-3.5 text-[#D6A13A] ${uploadingExt ? 'animate-bounce' : ''}`} />
+                    <label className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-[#FFFAF3] hover:bg-[#F2E7D7] border border-[#E4D4BE] text-xs font-bold text-white cursor-pointer transition-colors">
+                      <Upload className={`w-3.5 h-3.5 text-[#93652D] ${uploadingExt ? 'animate-bounce' : ''}`} />
                       <span>{uploadingExt ? 'Uploading...' : 'Upload Exterior from PC'}</span>
                       <input
                         type="file"
@@ -835,7 +835,7 @@ export default function AdminFleetPage() {
                   {/* Interior Cabin Photo */}
                   <div className="space-y-2">
                     <span className="text-[10px] font-bold text-slate-300 block">Luxury Cabin Interior Photo</span>
-                    <div className="relative w-full h-32 rounded-lg bg-[#141D2C] border border-[#1F2C42] overflow-hidden flex items-center justify-center">
+                    <div className="relative w-full h-32 rounded-lg bg-[#FFFAF3] border border-[#E4D4BE] overflow-hidden flex items-center justify-center">
                       {formData.photos?.interior ? (
                         <Image
                           src={formData.photos.interior}
@@ -848,8 +848,8 @@ export default function AdminFleetPage() {
                         <span className="text-xs text-slate-500">No interior photo</span>
                       )}
                     </div>
-                    <label className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-[#141D2C] hover:bg-[#1A2538] border border-[#1F2C42] text-xs font-bold text-white cursor-pointer transition-colors">
-                      <Upload className={`w-3.5 h-3.5 text-[#D6A13A] ${uploadingInt ? 'animate-bounce' : ''}`} />
+                    <label className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-[#FFFAF3] hover:bg-[#F2E7D7] border border-[#E4D4BE] text-xs font-bold text-white cursor-pointer transition-colors">
+                      <Upload className={`w-3.5 h-3.5 text-[#93652D] ${uploadingInt ? 'animate-bounce' : ''}`} />
                       <span>{uploadingInt ? 'Uploading...' : 'Upload Interior from PC'}</span>
                       <input
                         type="file"
@@ -865,7 +865,7 @@ export default function AdminFleetPage() {
 
               {/* Features List */}
               <div>
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-[#A5B0C2] mb-1.5">
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-[#63727C] mb-1.5">
                   VIP Features Checklist
                 </label>
 
@@ -873,13 +873,13 @@ export default function AdminFleetPage() {
                   {(formData.features || []).map((feat, idx) => (
                     <span
                       key={idx}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#090D15] border border-[#1F2C42] text-xs text-[#F4F1E9]"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#F6EEE2] border border-[#E4D4BE] text-xs text-[#193341]"
                     >
                       <span>✓ {feat}</span>
                       <button
                         type="button"
                         onClick={() => removeFeature(idx)}
-                        className="text-rose-400 hover:text-rose-300 ml-1"
+                        className="text-rose-400 hover:text-rose-700 ml-1"
                       >
                         ×
                       </button>
@@ -899,12 +899,12 @@ export default function AdminFleetPage() {
                       }
                     }}
                     placeholder="Type feature (e.g. Leather VIP Recliners) and press Enter"
-                    className="flex-1 px-3.5 py-2 rounded-xl bg-[#090D15] border border-[#1F2C42] text-xs text-[#F4F1E9] focus:outline-none focus:border-[#D6A13A]"
+                    className="flex-1 px-3.5 py-2 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE] text-xs text-[#193341] focus:outline-none focus:border-[#C49A61]"
                   />
                   <button
                     type="button"
                     onClick={addFeature}
-                    className="px-3.5 py-2 rounded-xl bg-[#141D2C] hover:bg-[#1A2538] border border-[#1F2C42] text-xs font-bold text-[#D6A13A]"
+                    className="px-3.5 py-2 rounded-xl bg-[#FFFAF3] hover:bg-[#F2E7D7] border border-[#E4D4BE] text-xs font-bold text-[#93652D]"
                   >
                     Add
                   </button>
@@ -912,11 +912,11 @@ export default function AdminFleetPage() {
               </div>
 
               {/* Submit Buttons */}
-              <div className="pt-4 border-t border-[#1F2C42] flex items-center justify-end gap-3">
+              <div className="pt-4 border-t border-[#E4D4BE] flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsEditing(false)}
-                  className="px-4 py-2.5 rounded-xl bg-[#141D2C] hover:bg-[#1A2538] border border-[#1F2C42] text-xs font-bold text-[#A5B0C2] transition-colors"
+                  className="px-4 py-2.5 rounded-xl bg-[#FFFAF3] hover:bg-[#F2E7D7] border border-[#E4D4BE] text-xs font-bold text-[#63727C] transition-colors"
                 >
                   Cancel
                 </button>
@@ -924,7 +924,7 @@ export default function AdminFleetPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#D6A13A] to-[#A97B27] hover:from-[#E2B755] hover:to-[#B8872D] text-xs font-bold text-[#090D15] transition-all shadow-[0_0_15px_rgba(214,161,58,0.35)] disabled:opacity-50"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#0B6A69] to-[#06474E] hover:from-[#0C7471] hover:to-[#06474E] text-xs font-bold text-[#FFF7EA] transition-all shadow-[0_0_15px_rgba(214,161,58,0.35)] disabled:opacity-50"
                 >
                   <Save className="w-4 h-4" />
                   <span>{saving ? 'Saving...' : 'Save & Publish Live'}</span>

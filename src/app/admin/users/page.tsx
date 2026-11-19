@@ -199,18 +199,18 @@ export default function AdminUsersPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="vip-internal-editorial space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#14171C] border border-[#262B33] rounded-2xl p-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#FFF9F1] border border-[#E4D4BE] rounded-2xl p-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9A031]/10 border border-[#D9A031]/30 text-xs font-bold text-[#D9A031] uppercase tracking-wider mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A6364]/10 border border-[#C29B65]/30 text-xs font-bold text-[#92612D] uppercase tracking-wider mb-2">
             <Users className="w-3.5 h-3.5" />
             <span>Identity &amp; Role-Based Access Control</span>
           </div>
-          <h1 className="font-display text-2xl font-bold text-[#FAF9F6]">
+          <h1 className="font-display text-2xl font-bold text-[#193746]">
             User &amp; Operator Management
           </h1>
-          <p className="text-xs text-[#A0A6B2] mt-1 font-light">
+          <p className="text-xs text-[#697984] mt-1 font-light">
             Manage authorized staff, configure operator WhatsApp scoping, and manage 2FA security.
           </p>
         </div>
@@ -226,7 +226,7 @@ export default function AdminUsersPage() {
 
           <button
             onClick={() => setShowInviteModal(true)}
-            className="px-4 py-2.5 rounded-xl bg-[#D9A031] text-[#14171C] font-bold text-xs uppercase tracking-wider hover:bg-[#B8821F] hover:text-white transition-all flex items-center gap-2 shadow-sm"
+            className="px-4 py-2.5 rounded-xl bg-[#0A6364] text-[#14171C] font-bold text-xs uppercase tracking-wider hover:bg-[#065059] hover:text-white transition-all flex items-center gap-2 shadow-sm"
           >
             <UserPlus className="w-4 h-4" />
             <span>Invite User</span>
@@ -235,28 +235,28 @@ export default function AdminUsersPage() {
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-700 text-xs flex items-center gap-2">
           <AlertTriangle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
       {success && (
-        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>{success}</span>
         </div>
       )}
 
       {/* Users Table */}
-      <div className="bg-[#14171C] border border-[#262B33] rounded-2xl overflow-hidden shadow-sm">
-        <div className="p-4 border-b border-[#262B33] flex items-center justify-between">
-          <span className="text-xs font-bold text-[#FAF9F6]">
+      <div className="bg-[#FFF9F1] border border-[#E4D4BE] rounded-2xl overflow-hidden shadow-sm">
+        <div className="p-4 border-b border-[#E4D4BE] flex items-center justify-between">
+          <span className="text-xs font-bold text-[#193746]">
             Active Team Members ({users.length})
           </span>
           <button
             onClick={fetchUsers}
-            className="text-xs text-[#A0A6B2] hover:text-[#FAF9F6] flex items-center gap-1.5"
+            className="text-xs text-[#697984] hover:text-[#193746] flex items-center gap-1.5"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
@@ -266,7 +266,7 @@ export default function AdminUsersPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-start text-xs">
             <thead>
-              <tr className="bg-[#1A1E24] text-[#A0A6B2] border-b border-[#262B33]">
+              <tr className="bg-[#F8EFE2] text-[#697984] border-b border-[#E4D4BE]">
                 <th className="py-3 px-4 text-start font-semibold">User Details</th>
                 <th className="py-3 px-4 text-start font-semibold">Assigned Role</th>
                 <th className="py-3 px-4 text-start font-semibold">WhatsApp Scope</th>
@@ -279,24 +279,24 @@ export default function AdminUsersPage() {
               {users.map((u) => {
                 const isOwner = u.role === 'owner';
                 return (
-                  <tr key={u.id} className="hover:bg-[#1A1F26] transition-colors">
+                  <tr key={u.id} className="hover:bg-[#F7EBDB] transition-colors">
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-[#FAF9F6] flex items-center gap-2">
+                      <div className="font-bold text-[#193746] flex items-center gap-2">
                         <span>{u.name}</span>
                         {isOwner && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#D9A031]/20 text-[#D9A031] border border-[#D9A031]/40">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#0A6364]/20 text-[#92612D] border border-[#C29B65]/40">
                             ★ System Owner
                           </span>
                         )}
                       </div>
-                      <div className="text-[11px] text-[#A0A6B2] font-mono mt-0.5">{u.email}</div>
+                      <div className="text-[11px] text-[#697984] font-mono mt-0.5">{u.email}</div>
                     </td>
 
                     <td className="py-3.5 px-4">
                       <span
                         className={`inline-block px-2.5 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider ${
                           u.role === 'owner'
-                            ? 'bg-[#D9A031]/15 text-[#D9A031]'
+                            ? 'bg-[#0A6364]/15 text-[#92612D]'
                             : u.role === 'admin'
                             ? 'bg-blue-500/15 text-blue-400'
                             : u.role === 'operator'
@@ -310,12 +310,12 @@ export default function AdminUsersPage() {
 
                     <td className="py-3.5 px-4">
                       {u.assigned_whatsapp_number ? (
-                        <div className="flex items-center gap-1.5 text-emerald-300 font-mono text-[11px]">
+                        <div className="flex items-center gap-1.5 text-emerald-700 font-mono text-[11px]">
                           <Phone className="w-3.5 h-3.5 text-emerald-400" />
                           <span>+{u.assigned_whatsapp_number}</span>
                         </div>
                       ) : (
-                        <span className="text-[11px] text-[#6C7584]">Global (All Numbers)</span>
+                        <span className="text-[11px] text-[#79838A]">Global (All Numbers)</span>
                       )}
                     </td>
 
@@ -326,7 +326,7 @@ export default function AdminUsersPage() {
                           <span>Active</span>
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-[11px] text-[#6C7584] bg-[#20252D] px-2 py-0.5 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-[11px] text-[#79838A] bg-[#F3E7D7] px-2 py-0.5 rounded-full">
                           <span>Disabled</span>
                         </span>
                       )}
@@ -352,7 +352,7 @@ export default function AdminUsersPage() {
                           onClick={() => handleToggleSuspend(u)}
                           disabled={isOwner}
                           title={isOwner ? 'The Owner cannot be suspended' : 'Suspend / Activate'}
-                          className="px-2.5 py-1 rounded-lg border border-[#2B323D] text-[11px] hover:border-[#D9A031]/50 disabled:opacity-30 disabled:cursor-not-allowed text-[#A0A6B2] hover:text-[#FAF9F6] transition-colors"
+                          className="px-2.5 py-1 rounded-lg border border-[#DCC8AA] text-[11px] hover:border-[#C29B65]/50 disabled:opacity-30 disabled:cursor-not-allowed text-[#697984] hover:text-[#193746] transition-colors"
                         >
                           {u.is_suspended ? 'Reactivate' : 'Suspend'}
                         </button>
@@ -378,45 +378,45 @@ export default function AdminUsersPage() {
       {/* Invite Modal */}
       {showInviteModal && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#14171C] border border-[#262B33] rounded-2xl p-6 max-w-md w-full shadow-2xl">
-            <h3 className="font-display font-bold text-lg text-[#FAF9F6] mb-1">
+          <div className="bg-[#FFF9F1] border border-[#E4D4BE] rounded-2xl p-6 max-w-md w-full shadow-2xl">
+            <h3 className="font-display font-bold text-lg text-[#193746] mb-1">
               Invite Team Member
             </h3>
-            <p className="text-xs text-[#A0A6B2] mb-4">
+            <p className="text-xs text-[#697984] mb-4">
               Create an authorized account and specify role and dispatch scope.
             </p>
 
             <form onSubmit={handleInviteSubmit} className="space-y-4 text-start">
               <div>
-                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">Full Name</label>
+                <label className="block text-xs font-semibold text-[#697984] mb-1">Full Name</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Tariq Al-Ghamdi"
                   value={inviteName}
                   onChange={(e) => setInviteName(e.target.value)}
-                  className="w-full h-10 px-3 text-xs rounded-xl border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                  className="w-full h-10 px-3 text-xs rounded-xl border border-[#E4D4BE] bg-[#F6ECE0] text-[#193746] focus:border-[#C29B65] outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">Email Address</label>
+                <label className="block text-xs font-semibold text-[#697984] mb-1">Email Address</label>
                 <input
                   type="email"
                   required
                   placeholder="name@royalumrahcabs.com"
                   value={inviteEmail}
                   onChange={(e) => setInviteEmail(e.target.value)}
-                  className="w-full h-10 px-3 text-xs rounded-xl border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                  className="w-full h-10 px-3 text-xs rounded-xl border border-[#E4D4BE] bg-[#F6ECE0] text-[#193746] focus:border-[#C29B65] outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">Assign Role</label>
+                <label className="block text-xs font-semibold text-[#697984] mb-1">Assign Role</label>
                 <select
                   value={inviteRole}
                   onChange={(e) => setInviteRole(e.target.value as Role)}
-                  className="w-full h-10 px-3 text-xs rounded-xl border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                  className="w-full h-10 px-3 text-xs rounded-xl border border-[#E4D4BE] bg-[#F6ECE0] text-[#193746] focus:border-[#C29B65] outline-none"
                 >
                   {AVAILABLE_ROLES.map((r) => (
                     <option key={r.role} value={r.role}>
@@ -428,7 +428,7 @@ export default function AdminUsersPage() {
 
               {inviteRole === 'operator' && (
                 <div>
-                  <label className="block text-xs font-semibold text-[#D9A031] mb-1">
+                  <label className="block text-xs font-semibold text-[#92612D] mb-1">
                     Scoped WhatsApp Number (Dispatch Channel)
                   </label>
                   <input
@@ -437,26 +437,26 @@ export default function AdminUsersPage() {
                     placeholder="966505316971"
                     value={inviteScope}
                     onChange={(e) => setInviteScope(e.target.value)}
-                    className="w-full h-10 px-3 text-xs rounded-xl border border-[#D9A031]/50 bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none font-mono"
+                    className="w-full h-10 px-3 text-xs rounded-xl border border-[#C29B65]/50 bg-[#F6ECE0] text-[#193746] focus:border-[#C29B65] outline-none font-mono"
                   />
-                  <p className="text-[11px] text-[#A0A6B2] mt-1 font-light">
+                  <p className="text-[11px] text-[#697984] mt-1 font-light">
                     The operator will exclusively see leads and bookings assigned to this number.
                   </p>
                 </div>
               )}
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#262B33]">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#E4D4BE]">
                 <button
                   type="button"
                   onClick={() => setShowInviteModal(false)}
-                  className="px-4 py-2 text-xs font-bold text-[#A0A6B2] hover:text-[#FAF9F6]"
+                  className="px-4 py-2 text-xs font-bold text-[#697984] hover:text-[#193746]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingInvite}
-                  className="px-5 py-2 rounded-xl bg-[#D9A031] text-[#14171C] font-bold text-xs uppercase tracking-wider hover:bg-[#B8821F] hover:text-white transition-all disabled:opacity-50"
+                  className="px-5 py-2 rounded-xl bg-[#0A6364] text-[#14171C] font-bold text-xs uppercase tracking-wider hover:bg-[#065059] hover:text-white transition-all disabled:opacity-50"
                 >
                   {savingInvite ? 'Sending...' : 'Send Invitation'}
                 </button>
@@ -469,21 +469,21 @@ export default function AdminUsersPage() {
       {/* Transfer Ownership Modal */}
       {showTransferModal && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#14171C] border border-[#262B33] rounded-2xl p-6 max-w-lg w-full shadow-2xl">
+          <div className="bg-[#FFF9F1] border border-[#E4D4BE] rounded-2xl p-6 max-w-lg w-full shadow-2xl">
             <div className="flex items-center gap-2.5 text-amber-400 mb-2">
               <ShieldAlert className="w-5 h-5 shrink-0" />
-              <h3 className="font-display font-bold text-lg text-[#FAF9F6]">
+              <h3 className="font-display font-bold text-lg text-[#193746]">
                 Transfer Super-Admin Ownership
               </h3>
             </div>
-            <p className="text-xs text-[#A0A6B2] leading-relaxed mb-4">
+            <p className="text-xs text-[#697984] leading-relaxed mb-4">
               This two-step confirmation transfers the immutable Owner role to a new verified email. The previous owner will be demoted to Admin. There must be at least one owner at all times.
             </p>
 
             {!transferInitiated ? (
               <form onSubmit={handleInitiateTransfer} className="space-y-4 text-start">
                 <div>
-                  <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+                  <label className="block text-xs font-semibold text-[#697984] mb-1">
                     New Owner Email Address
                   </label>
                   <input
@@ -492,15 +492,15 @@ export default function AdminUsersPage() {
                     placeholder="newowner@royalumrahcabs.com"
                     value={targetEmail}
                     onChange={(e) => setTargetEmail(e.target.value)}
-                    className="w-full h-11 px-3 text-xs rounded-xl border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                    className="w-full h-11 px-3 text-xs rounded-xl border border-[#E4D4BE] bg-[#F6ECE0] text-[#193746] focus:border-[#C29B65] outline-none"
                   />
                 </div>
 
-                <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#262B33]">
+                <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#E4D4BE]">
                   <button
                     type="button"
                     onClick={() => setShowTransferModal(false)}
-                    className="px-4 py-2 text-xs font-bold text-[#A0A6B2] hover:text-[#FAF9F6]"
+                    className="px-4 py-2 text-xs font-bold text-[#697984] hover:text-[#193746]"
                   >
                     Cancel
                   </button>
@@ -526,7 +526,7 @@ export default function AdminUsersPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+                  <label className="block text-xs font-semibold text-[#697984] mb-1">
                     Enter Confirmation Token (from Email)
                   </label>
                   <input
@@ -535,18 +535,18 @@ export default function AdminUsersPage() {
                     placeholder="Paste 64-character token from email"
                     value={transferToken}
                     onChange={(e) => setTransferToken(e.target.value)}
-                    className="w-full h-11 px-3 text-xs rounded-xl border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] outline-none font-mono"
+                    className="w-full h-11 px-3 text-xs rounded-xl border border-[#E4D4BE] bg-[#F6ECE0] text-[#193746] focus:border-[#C29B65] outline-none font-mono"
                   />
                 </div>
 
-                <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#262B33]">
+                <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#E4D4BE]">
                   <button
                     type="button"
                     onClick={() => {
                       setTransferInitiated(false);
                       setShowTransferModal(false);
                     }}
-                    className="px-4 py-2 text-xs font-bold text-[#A0A6B2] hover:text-[#FAF9F6]"
+                    className="px-4 py-2 text-xs font-bold text-[#697984] hover:text-[#193746]"
                   >
                     Cancel
                   </button>

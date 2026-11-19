@@ -191,31 +191,31 @@ export default function AdminDriversPage() {
   const activeCount = drivers.filter((d) => d.is_active).length;
 
   return (
-    <div className="space-y-6 text-start">
+    <div className="vip-internal-editorial space-y-6 text-start">
       {/* 1. EXECUTIVE HEADER BAR */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#121724] via-[#0E121B] to-[#0A0D14] border border-[#232B3E] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#D9A031]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+      <div className="vip-internal-hero relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F1E7] via-[#F9F1E7] to-[#FAF3E7] border border-[#E5D6C0] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#0B6A69]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9A031]/15 border border-[#D9A031]/30 text-xs font-bold text-[#E5B842]">
-              <Sparkles className="w-3.5 h-3.5 text-[#D9A031]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#086064]/15 border border-[#C49A61]/30 text-xs font-bold text-[#92612E]">
+              <Sparkles className="w-3.5 h-3.5 text-[#93652D]" />
               <span>Duyuf Alrahman VIP • Chauffeur Protocol &amp; Dispatch Fleet</span>
             </div>
 
-            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-[#FAF9F6] tracking-tight">
+            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-[#193341] tracking-tight">
               VIP Chauffeur Operations Directory
             </h1>
 
-            <p className="text-xs sm:text-sm text-[#9DA6B8] font-light max-w-2xl leading-relaxed">
-              Vetted Saudi chauffeurs assigned to VIP pilgrim arrivals. Direct WhatsApp dispatch links, vehicle plate registry, multilingual competencies, and real-time duty status.
+            <p className="vip-hero-description text-xs sm:text-sm text-[#667681] font-light max-w-2xl leading-relaxed">
+              Manage your registered chauffeur directory, operational availability flags, assigned vehicle plates and dispatch contact details.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
             <button
               onClick={handleOpenCreate}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D9A031] to-[#B8821D] hover:from-[#E5B842] hover:to-[#C69225] text-xs font-bold text-[#0A0D14] transition-all shadow-[0_0_15px_rgba(217,160,49,0.3)] hover:scale-[1.02] cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#0B6A69] to-[#06474E] hover:from-[#0C7471] hover:to-[#086064] text-xs font-bold text-[#FFF7EA] transition-all shadow-[0_0_15px_rgba(217,160,49,0.3)] hover:scale-[1.02] cursor-pointer"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Register Chauffeur</span>
@@ -224,9 +224,9 @@ export default function AdminDriversPage() {
             <button
               onClick={fetchDrivers}
               disabled={loading}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#171D2B] hover:bg-[#1E2536] text-xs font-bold text-[#D2D8E4] border border-[#283246] transition-all hover:border-[#D9A031]/40 shadow-sm disabled:opacity-50 cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F5EBDC] hover:bg-[#F8EEE0] text-xs font-bold text-[#5E7280] border border-[#DECCB1] transition-all hover:border-[#C49A61]/40 shadow-sm disabled:opacity-50 cursor-pointer"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#D9A031]' : ''}`} />
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#93652D]' : ''}`} />
               <span>Refresh Roster</span>
             </button>
           </div>
@@ -238,13 +238,13 @@ export default function AdminDriversPage() {
         <div
           className={`p-4 rounded-xl border flex items-center justify-between text-xs font-medium animate-fadeIn ${
             feedback.type === 'success'
-              ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300'
-              : 'bg-rose-950/30 border-rose-500/40 text-rose-300'
+              ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-700'
+              : 'bg-rose-950/30 border-rose-500/40 text-rose-700'
           }`}
         >
           <div className="flex items-center gap-2">
             {feedback.type === 'success' ? (
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-700" />
             ) : (
               <AlertTriangle className="w-4 h-4 text-rose-400" />
             )}
@@ -258,45 +258,45 @@ export default function AdminDriversPage() {
 
       {/* 3. METRIC PODS */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-4">
-        <div className="rounded-2xl bg-[#10141E] border border-[#1F2737] p-4 relative overflow-hidden group hover:border-[#D9A031]/40 transition-all shadow-md">
-          <div className="flex items-center justify-between text-[#8E99AF] mb-2 text-xs">
-            <span className="font-semibold text-[11px] uppercase tracking-wider text-[#9DA6B8]">Total Roster</span>
-            <UserCheck className="w-4 h-4 text-[#D9A031]" />
+        <div className="rounded-2xl bg-[#FFFBF5] border border-[#E4D4BE] p-4 relative overflow-hidden group hover:border-[#C49A61]/40 transition-all shadow-md">
+          <div className="flex items-center justify-between text-[#657681] mb-2 text-xs">
+            <span className="font-semibold text-[11px] uppercase tracking-wider text-[#667681]">Total Roster</span>
+            <UserCheck className="w-4 h-4 text-[#93652D]" />
           </div>
-          <div className="text-2xl font-bold font-mono text-[#FAF9F6]">{drivers.length}</div>
-          <div className="mt-1 text-[11px] text-[#7C879B]">Vetted VIP Drivers</div>
+          <div className="text-2xl font-bold font-mono text-[#193341]">{drivers.length}</div>
+          <div className="mt-1 text-[11px] text-[#6F808B]">Vetted VIP Drivers</div>
         </div>
 
-        <div className="rounded-2xl bg-[#10141E] border border-[#1F2737] p-4 relative overflow-hidden group hover:border-emerald-500/40 transition-all shadow-md">
-          <div className="flex items-center justify-between text-[#8E99AF] mb-2 text-xs">
-            <span className="font-semibold text-[11px] uppercase tracking-wider text-emerald-400">Active on Duty</span>
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+        <div className="rounded-2xl bg-[#FFFBF5] border border-[#E4D4BE] p-4 relative overflow-hidden group hover:border-emerald-500/40 transition-all shadow-md">
+          <div className="flex items-center justify-between text-[#657681] mb-2 text-xs">
+            <span className="font-semibold text-[11px] uppercase tracking-wider text-emerald-700">Active on Duty</span>
+            <CheckCircle2 className="w-4 h-4 text-emerald-700" />
           </div>
-          <div className="text-2xl font-bold font-mono text-emerald-400">{activeCount}</div>
-          <div className="mt-1 text-[11px] text-emerald-400/80">Available for Dispatch</div>
+          <div className="text-2xl font-bold font-mono text-emerald-700">{activeCount}</div>
+          <div className="mt-1 text-[11px] text-emerald-700/80">Available for Dispatch</div>
         </div>
 
-        <div className="rounded-2xl bg-[#10141E] border border-[#1F2737] p-4 relative overflow-hidden group hover:border-blue-500/40 transition-all shadow-md">
-          <div className="flex items-center justify-between text-[#8E99AF] mb-2 text-xs">
+        <div className="rounded-2xl bg-[#FFFBF5] border border-[#E4D4BE] p-4 relative overflow-hidden group hover:border-blue-500/40 transition-all shadow-md">
+          <div className="flex items-center justify-between text-[#657681] mb-2 text-xs">
             <span className="font-semibold text-[11px] uppercase tracking-wider text-blue-400">Assigned Fleet</span>
             <Car className="w-4 h-4 text-blue-400" />
           </div>
           <div className="text-2xl font-bold font-mono text-blue-400">{drivers.length}</div>
-          <div className="mt-1 text-[11px] text-[#7C879B]">Sedan &amp; Luxury Vans</div>
+          <div className="mt-1 text-[11px] text-[#6F808B]">Sedan &amp; Luxury Vans</div>
         </div>
 
-        <div className="rounded-2xl bg-[#10141E] border border-[#1F2737] p-4 relative overflow-hidden group hover:border-[#D9A031]/40 transition-all shadow-md">
-          <div className="flex items-center justify-between text-[#8E99AF] mb-2 text-xs">
-            <span className="font-semibold text-[11px] uppercase tracking-wider text-[#D9A031]">Protocol Rating</span>
-            <Award className="w-4 h-4 text-[#D9A031]" />
+        <div className="rounded-2xl bg-[#FFFBF5] border border-[#E4D4BE] p-4 relative overflow-hidden group hover:border-[#C49A61]/40 transition-all shadow-md">
+          <div className="flex items-center justify-between text-[#657681] mb-2 text-xs">
+            <span className="font-semibold text-[11px] uppercase tracking-wider text-[#93652D]">Protocol Rating</span>
+            <Award className="w-4 h-4 text-[#93652D]" />
           </div>
-          <div className="text-2xl font-bold font-mono text-[#FAF9F6]">4.98 ★</div>
-          <div className="mt-1 text-[11px] text-[#7C879B]">Pilgrim Satisfaction</div>
+          <div className="text-2xl font-bold font-mono text-[#193341]">4.98 ★</div>
+          <div className="mt-1 text-[11px] text-[#6F808B]">Pilgrim Satisfaction</div>
         </div>
       </div>
 
       {/* 4. CONTROLS BAR */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#10141E] p-3 sm:p-4 rounded-xl border border-[#1F2737]">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#FFFBF5] p-3 sm:p-4 rounded-xl border border-[#E4D4BE]">
         <div className="relative flex-1">
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
@@ -304,7 +304,7 @@ export default function AdminDriversPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by name, phone, vehicle plate, or model..."
-            className="w-full bg-[#161C2A] text-xs text-[#FAF9F6] pl-9 pr-4 py-2.5 rounded-lg border border-[#232B3E] focus:outline-none focus:border-[#D9A031] transition-colors"
+            className="w-full bg-[#F9F1E6] text-xs text-[#193341] pl-9 pr-4 py-2.5 rounded-lg border border-[#E5D6C0] focus:outline-none focus:border-[#C49A61] transition-colors"
           />
         </div>
 
@@ -315,8 +315,8 @@ export default function AdminDriversPage() {
               onClick={() => setStatusFilter(s)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition-colors ${
                 statusFilter === s
-                  ? 'bg-[#D9A031] text-[#0A0D14]'
-                  : 'bg-[#161C2A] text-[#8E99AF] hover:text-[#FAF9F6] border border-[#232B3E]'
+                  ? 'bg-[#086064] text-[#FFF7EA]'
+                  : 'bg-[#F9F1E6] text-[#657681] hover:text-[#193341] border border-[#E5D6C0]'
               }`}
             >
               {s}
@@ -330,21 +330,21 @@ export default function AdminDriversPage() {
         {filteredDrivers.map((driver) => (
           <div
             key={driver.id}
-            className="rounded-2xl bg-[#10141E] border border-[#1F2737] hover:border-[#D9A031]/40 transition-all p-5 shadow-lg flex flex-col justify-between group"
+            className="rounded-2xl bg-[#FFFBF5] border border-[#E4D4BE] hover:border-[#C49A61]/40 transition-all p-5 shadow-lg flex flex-col justify-between group"
           >
             <div>
               {/* Card Header */}
               <div className="flex items-start justify-between gap-3 mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1C2333] to-[#121724] border border-[#2B354D] flex items-center justify-center text-[#D9A031] font-bold text-lg">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1C2333] to-[#121724] border border-[#DECCB1] flex items-center justify-center text-[#93652D] font-bold text-lg">
                     {driver.name.charAt(0) || 'C'}
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-[#FAF9F6] group-hover:text-[#E5B842] transition-colors">
+                    <h3 className="text-sm font-bold text-[#193341] group-hover:text-[#92612E] transition-colors">
                       {driver.name}
                     </h3>
-                    <div className="text-[11px] text-[#7C879B] flex items-center gap-1 mt-0.5">
-                      <Phone className="w-3 h-3 text-[#D9A031]" />
+                    <div className="text-[11px] text-[#6F808B] flex items-center gap-1 mt-0.5">
+                      <Phone className="w-3 h-3 text-[#93652D]" />
                       <a
                         href={`https://wa.me/${driver.phone.replace(/[^0-9]/g, '')}`}
                         target="_blank"
@@ -360,7 +360,7 @@ export default function AdminDriversPage() {
                 <span
                   className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                     driver.is_active
-                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                      ? 'bg-emerald-500/20 text-emerald-700 border border-emerald-500/30'
                       : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
                   }`}
                 >
@@ -369,14 +369,14 @@ export default function AdminDriversPage() {
               </div>
 
               {/* Vehicle Assignment */}
-              <div className="bg-[#141A26] rounded-xl p-3 border border-[#1F2738] mb-3">
-                <div className="text-[10px] text-[#7C879B] uppercase tracking-wider mb-1">Assigned VIP Vehicle</div>
+              <div className="bg-[#FCF4E9] rounded-xl p-3 border border-[#DECCB1] mb-3">
+                <div className="text-[10px] text-[#6F808B] uppercase tracking-wider mb-1">Assigned VIP Vehicle</div>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#FAF9F6] flex items-center gap-1.5">
-                    <Car className="w-3.5 h-3.5 text-[#D9A031]" />
+                  <span className="text-xs font-bold text-[#193341] flex items-center gap-1.5">
+                    <Car className="w-3.5 h-3.5 text-[#93652D]" />
                     {driver.vehicle_model}
                   </span>
-                  <span className="text-[11px] font-mono font-bold text-[#D9A031] bg-[#D9A031]/10 px-2 py-0.5 rounded border border-[#D9A031]/20">
+                  <span className="text-[11px] font-mono font-bold text-[#93652D] bg-[#086064]/10 px-2 py-0.5 rounded border border-[#C49A61]/20">
                     {driver.vehicle_plate}
                   </span>
                 </div>
@@ -384,7 +384,7 @@ export default function AdminDriversPage() {
 
               {/* Languages */}
               <div className="mb-4">
-                <div className="text-[10px] text-[#7C879B] uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                <div className="text-[10px] text-[#6F808B] uppercase tracking-wider mb-1.5 flex items-center gap-1">
                   <Globe className="w-3 h-3 text-cyan-400" />
                   <span>Languages</span>
                 </div>
@@ -392,7 +392,7 @@ export default function AdminDriversPage() {
                   {(driver.spoken_languages || ['Arabic', 'English']).map((lang) => (
                     <span
                       key={lang}
-                      className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#1B2333] text-gray-300 border border-[#28334A]"
+                      className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#F7EBDD] text-gray-300 border border-[#DECCB1]"
                     >
                       {lang}
                     </span>
@@ -402,14 +402,14 @@ export default function AdminDriversPage() {
             </div>
 
             {/* Actions Footer */}
-            <div className="pt-3 border-t border-[#1C2333] flex items-center justify-between">
+            <div className="pt-3 border-t border-[#E6D7C4] flex items-center justify-between">
               <a
                 href={`https://wa.me/${driver.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
                   `السلام عليكم كابتن ${driver.name}، تحياتنا من إدارة عمليات ضيوف الرحمن VIP.`
                 )}`}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+                className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 hover:text-emerald-700 transition-colors"
               >
                 <span>WhatsApp Chauffeur</span>
               </a>
@@ -417,7 +417,7 @@ export default function AdminDriversPage() {
               <div className="flex items-center gap-1.5">
                 <button
                   onClick={() => handleOpenEdit(driver)}
-                  className="p-1.5 rounded-lg bg-[#161C2A] hover:bg-[#1E2536] text-gray-300 hover:text-[#D9A031] border border-[#232B3E] transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg bg-[#F9F1E6] hover:bg-[#F8EEE0] text-gray-300 hover:text-[#93652D] border border-[#E5D6C0] transition-colors cursor-pointer"
                   title="Edit Chauffeur Profile"
                 >
                   <Edit3 className="w-3.5 h-3.5" />
@@ -436,7 +436,7 @@ export default function AdminDriversPage() {
       </div>
 
       {filteredDrivers.length === 0 && !loading && (
-        <div className="text-center py-12 bg-[#10141E] rounded-2xl border border-[#1F2737] text-gray-400">
+        <div className="text-center py-12 bg-[#FFFBF5] rounded-2xl border border-[#E4D4BE] text-gray-400">
           <UserCheck className="w-8 h-8 text-gray-500 mx-auto mb-2" />
           <p className="text-sm font-medium">No chauffeurs match your filter criteria.</p>
         </div>
@@ -445,10 +445,10 @@ export default function AdminDriversPage() {
       {/* 6. CREATE / EDIT MODAL */}
       {isEditing && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="w-full max-w-lg bg-[#0E131F] border border-[#232B3E] rounded-2xl p-6 shadow-2xl space-y-5 animate-scaleUp">
-            <div className="flex items-center justify-between border-b border-[#1F2737] pb-3">
-              <h2 className="text-base font-bold text-[#FAF9F6] flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#D9A031]" />
+          <div className="w-full max-w-lg bg-[#0E131F] border border-[#E5D6C0] rounded-2xl p-6 shadow-2xl space-y-5 animate-scaleUp">
+            <div className="flex items-center justify-between border-b border-[#E4D4BE] pb-3">
+              <h2 className="text-base font-bold text-[#193341] flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#93652D]" />
                 <span>{isCreating ? 'Register VIP Chauffeur' : 'Edit Chauffeur Profile'}</span>
               </h2>
               <button onClick={handleCloseModal} className="text-gray-400 hover:text-white cursor-pointer">
@@ -465,7 +465,7 @@ export default function AdminDriversPage() {
                   value={formData.name || ''}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="e.g. Captain Ahmad Al-Harbi"
-                  className="w-full bg-[#161C2A] text-xs text-white px-3 py-2 rounded-lg border border-[#232B3E] focus:outline-none focus:border-[#D9A031]"
+                  className="w-full bg-[#F9F1E6] text-xs text-white px-3 py-2 rounded-lg border border-[#E5D6C0] focus:outline-none focus:border-[#C49A61]"
                 />
               </div>
 
@@ -478,7 +478,7 @@ export default function AdminDriversPage() {
                     value={formData.phone || ''}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+9665xxxxxxxx"
-                    className="w-full bg-[#161C2A] text-xs text-white px-3 py-2 rounded-lg border border-[#232B3E] focus:outline-none focus:border-[#D9A031] font-mono"
+                    className="w-full bg-[#F9F1E6] text-xs text-white px-3 py-2 rounded-lg border border-[#E5D6C0] focus:outline-none focus:border-[#C49A61] font-mono"
                   />
                 </div>
 
@@ -490,7 +490,7 @@ export default function AdminDriversPage() {
                     value={formData.vehicle_plate || ''}
                     onChange={(e) => setFormData({ ...formData, vehicle_plate: e.target.value })}
                     placeholder="e.g. KSA 7777 VIP"
-                    className="w-full bg-[#161C2A] text-xs text-white px-3 py-2 rounded-lg border border-[#232B3E] focus:outline-none focus:border-[#D9A031] font-mono uppercase"
+                    className="w-full bg-[#F9F1E6] text-xs text-white px-3 py-2 rounded-lg border border-[#E5D6C0] focus:outline-none focus:border-[#C49A61] font-mono uppercase"
                   />
                 </div>
               </div>
@@ -500,7 +500,7 @@ export default function AdminDriversPage() {
                 <select
                   value={formData.vehicle_model || VEHICLE_OPTIONS[0]}
                   onChange={(e) => setFormData({ ...formData, vehicle_model: e.target.value })}
-                  className="w-full bg-[#161C2A] text-xs text-white px-3 py-2 rounded-lg border border-[#232B3E] focus:outline-none focus:border-[#D9A031]"
+                  className="w-full bg-[#F9F1E6] text-xs text-white px-3 py-2 rounded-lg border border-[#E5D6C0] focus:outline-none focus:border-[#C49A61]"
                 >
                   {VEHICLE_OPTIONS.map((opt) => (
                     <option key={opt} value={opt}>
@@ -522,8 +522,8 @@ export default function AdminDriversPage() {
                         onClick={() => toggleLanguage(lang)}
                         className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
                           selected
-                            ? 'bg-[#D9A031] text-[#0A0D14] font-bold'
-                            : 'bg-[#161C2A] text-gray-400 border border-[#232B3E] hover:text-white'
+                            ? 'bg-[#086064] text-[#FFF7EA] font-bold'
+                            : 'bg-[#F9F1E6] text-gray-400 border border-[#E5D6C0] hover:text-white'
                         }`}
                       >
                         {lang}
@@ -539,25 +539,25 @@ export default function AdminDriversPage() {
                   id="driver_active"
                   checked={formData.is_active !== false}
                   onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                  className="rounded border-[#232B3E] bg-[#161C2A] text-[#D9A031] focus:ring-[#D9A031]"
+                  className="rounded border-[#E5D6C0] bg-[#F9F1E6] text-[#93652D] focus:ring-[#D9A031]"
                 />
                 <label htmlFor="driver_active" className="text-xs text-gray-300 font-medium cursor-pointer">
                   Chauffeur is active and available for passenger assignment
                 </label>
               </div>
 
-              <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-[#1F2737]">
+              <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-[#E4D4BE]">
                 <button
                   type="button"
                   onClick={handleCloseModal}
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-gray-400 hover:text-white hover:bg-[#161C2A] transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-gray-400 hover:text-white hover:bg-[#F9F1E6] transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#D9A031] to-[#B8821D] hover:from-[#E5B842] hover:to-[#C69225] text-xs font-bold text-[#0A0D14] transition-all shadow-md disabled:opacity-50 cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-[#0B6A69] to-[#06474E] hover:from-[#0C7471] hover:to-[#086064] text-xs font-bold text-[#FFF7EA] transition-all shadow-md disabled:opacity-50 cursor-pointer"
                 >
                   <Save className="w-3.5 h-3.5" />
                   <span>{saving ? 'Saving...' : 'Save Chauffeur'}</span>
