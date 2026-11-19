@@ -143,7 +143,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
   const [travelDate, setTravelDate] = useState('');
   const [travelTime, setTravelTime] = useState('');
   const [guests, setGuests] = useState(2);
-  const [inside, setInside] = useState(false);
+  const [inside, setInside] = useState(true);
   const [chapter, setChapter] = useState(0);
   const [minDate, setMinDate] = useState('');
   const fleetMountRef = useRef<HTMLDivElement>(null);
@@ -179,7 +179,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
 
   function chooseVehicle(index: number) {
     setCarIndex(index);
-    setInside(false);
+    setInside(true);
   }
 
   function changeSelection(routeId: string, count: number) {
@@ -318,7 +318,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
           <Link href={`/${locale}/fleet`}>{dict.nav.fleet}<ArrowUpRight size={17} aria-hidden /></Link>
         </div>
         <div className={styles.showroomLayout}>
-          <div ref={fleetMountRef} style={{ gridColumn: '1 / -1', minHeight: 300 }}>
+          <div ref={fleetMountRef} className={styles.galleryWell}>
             {fleetInView ? (
               <BronzeCircularFleet
                 vehicles={fleet.map((vehicle) => ({
