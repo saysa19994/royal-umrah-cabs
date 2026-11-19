@@ -21,6 +21,7 @@ import { RoyalMotion } from '@/components/royal/RoyalMotion';
 import { RoyalBookingSteps, RoyalGuestConfidence, RoyalServiceChapters } from './RoyalImmersionEditorial';
 import { getRoyalHomeRoute, ROYAL_HOME_ROUTES } from './royal-home-routes';
 import styles from './SignatureFusionHomepage.module.css';
+import BronzeCircularFleet from './BronzeCircularFleet';
 
 type Props = {
   locale: Locale;
@@ -301,15 +302,18 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
           <Link href={`/${locale}/fleet`}>{dict.nav.fleet}<ArrowUpRight size={17} aria-hidden /></Link>
         </div>
         <div className={styles.showroomLayout}>
-          <div className={styles.carRail} role="group" aria-label={dict.nav.fleet}>
-            {fleet.map((vehicle, index) => (
-              <button key={vehicle.id} type="button" aria-pressed={index === carIndex} onClick={() => chooseVehicle(index)}>
-                <span className={styles.fleetThumb} aria-hidden="true">
-                  <Image src={vehicle.exteriorImage} alt="" width={135} height={72} />
-                </span>
-                <strong>{vehicle.name[locale]}</strong>
-              </button>
-            ))}
+          <div style={{ gridColumn: '1 / -1' }}>
+            <BronzeCircularFleet
+              vehicles={fleet.map((vehicle) => ({
+                id: vehicle.id,
+                image: vehicle.exteriorImage,
+                name: vehicle.name[locale],
+                disabled: !(rates[route]?.[FARE_KEYS[vehicle.slug]] > 0) || guests > vehicle.passengers,
+              }))}
+              activeIndex={carIndex}
+              onSelect={chooseVehicle}
+              label={dict.nav.fleet}
+            />
           </div>
           <div className={styles.carPhoto} data-royal-image>
             <Image key={car.id + String(inside)} src={inside ? car.interiorImage : car.exteriorImage}
