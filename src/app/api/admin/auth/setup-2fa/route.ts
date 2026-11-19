@@ -4,7 +4,6 @@ import { logAuditEvent } from '@/lib/audit';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
-import { generateTotpSecret, generateTotpUri, verifyTotp } from '@/lib/auth/totp';
 
 export async function POST(request: Request) {
   try {
@@ -20,53 +19,28 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Too many requests. Please wait a moment.' }, { status: 429 });
     }
 
-    let factorId = 'totp-factor-owner';
-    let secret = '';
-    let uri = '';
-
-    // Attempt Supabase MFA enrollment if active session exists
-    try {
-      const supabase = createClient();
-      const enrollRes = await supabase.auth.mfa.enroll({
-        factorType: 'totp',
-        friendlyName: `Duyuf Alrahman VIP (${user.email})`,
-      });
-      if (enrollRes.data?.totp) {
-        factorId = enrollRes.data.id;
-        secret = enrollRes.data.totp.secret;
-        uri = enrollRes.data.totp.uri;
-      }
-    } catch (e) {
-      console.warn('Notice from Supabase MFA enroll:', e);
+    const supabase = createClient();
+    const { data, error } = await supabase.auth.mfa.enroll({
+      factorType: 'totp',
+      friendlyName: 'Duyuf Al Rahman VIP',
+    });
+    if (error || !data?.id || !data?.totp?.secret) {
+      console.error('Authenticator enrollment unavailable:', error?.message);
+      return NextResponse.json({ error: 'Unable to register authenticator. Please retry.' }, { status: 503 });
     }
 
-    // High-entropy standard RFC 6238 fallback
-    if (!secret) {
-      secret = generateTotpSecret(20);
-      uri = generateTotpUri(user.email, secret, 'Duyuf Alrahman VIP');
-    }
-
-    let qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(uri)}`;
-    try {
-      const qrRes = await fetch(qrImageUrl);
-      if (qrRes.ok) {
-        const arrayBuf = await qrRes.arrayBuffer();
-        const base64 = Buffer.from(arrayBuf).toString('base64');
-        qrImageUrl = `data:image/png;base64,${base64}`;
-      }
-    } catch (e) {
-      console.warn('Notice converting QR code to data URI:', e);
-    }
+    // Supabase returns the QR as SVG; encode locally without third-party QR APIs.
+    const qrImageUrl = data.totp.qr_code
+      ? 'data:image/svg+xml;base64,' + Buffer.from(data.totp.qr_code, 'utf8').toString('base64')
+      : null;
 
     return NextResponse.json({
       success: true,
-      factorId,
-      secret,
-      qrPayload: uri,
-      uri,
+      factorId: data.id,
+      secret: data.totp.secret,
       qrImageUrl,
-      instructions: 'Scan the QR code with Google Authenticator or enter the secret key manually, then enter the 6-digit confirmation code.',
-    });
+      instructions: 'Scan with an authenticator app or enter the setup key manually.',
+    }, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch (err: any) {
     console.error('setup-2fa POST error:', err);
     return NextResponse.json({ error: 'Failed to initiate 2FA setup' }, { status: 500 });
