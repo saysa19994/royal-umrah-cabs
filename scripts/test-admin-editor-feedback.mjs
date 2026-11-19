@@ -57,3 +57,19 @@ test('blog admin uses strict database reads while public build has a safe availa
  assert.doesNotMatch(admin,/getManagedBlogOverridesCached\(\)/);
  assert.match(s,/const current=\(await readManagedBlogOverridesFromDb\(\)\)/);
 });
+
+test('CMS writes use optimistic locking and read actual previous DB values for audit',()=>{
+ const service=r('src/lib/cms-service.ts');
+ const api=r('src/app/api/admin/cms/route.ts');
+ const ui=r('src/app/admin/cms/page.tsx');
+ assert.match(service,/export async function getCmsPageAdmin\(/);
+ assert.match(service,/getCmsPageAdmin\(record\.page_key, record\.language\)/);
+ assert.match(service,/\.eq\('updated_at', record\.expected_updated_at!\)/);
+ assert.match(service,/if \(!data\) return \{ success:false, error:conflict \}/);
+ assert.match(service,/error\.code === '23505'/);
+ assert.match(service,/oldValues, newValues: stored/);
+ assert.doesNotMatch(service,/memoryCmsStore/);
+ assert.match(ui,/expected_updated_at: existing\?\.updated_at \?\? null/);
+ assert.match(api,/getCmsPageAdmin\(pageKey, locale\)/);
+ assert.match(api,/status: isConflict \? 409/);
+});
