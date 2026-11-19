@@ -135,8 +135,8 @@ export default function AdminSettingsPage() {
 
   if (loading) {
     return (
-      <div className="py-20 text-center text-[#6C7584]">
-        <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#D9A031]" />
+      <div className="py-20 text-center text-[#76828B]">
+        <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#93652D]" />
         <span>Loading production settings...</span>
       </div>
     );
@@ -147,16 +147,16 @@ export default function AdminSettingsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-2xl md:text-3xl font-bold text-[#FAF9F6]">
+          <h1 className="font-display text-2xl md:text-3xl font-bold text-[#193341]">
             Business &amp; Operations Settings
           </h1>
-          <p className="text-xs text-[#A0A6B2] mt-1 font-light">
+          <p className="text-xs text-[#63727C] mt-1 font-light">
             Dynamic platform configuration for Duyuf Alrahman VIP. Changes update the database, revalidate caches, and propagate globally.
           </p>
         </div>
         <button
           onClick={fetchSettings}
-          className="px-4 py-2 rounded-xl bg-[#121622] border border-[#232A3B] hover:border-[#D9A031]/40 text-[#FAF9F6] text-xs font-semibold flex items-center gap-2 transition-colors"
+          className="px-4 py-2 rounded-xl bg-[#FFFBF6] border border-[#E5D6C0] hover:border-[#C49A61]/40 text-[#193341] text-xs font-semibold flex items-center gap-2 transition-colors"
         >
           <RefreshCw className="w-3.5 h-3.5" />
           <span>Reload</span>
@@ -164,7 +164,7 @@ export default function AdminSettingsPage() {
       </div>
 
       {savedSuccess && (
-        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs font-bold flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>Settings successfully updated and cached globally!</span>
         </div>
@@ -185,25 +185,25 @@ export default function AdminSettingsPage() {
               Notice: RESEND_API_KEY environment variable is not configured
             </span>
             <p className="text-amber-200/80 leading-relaxed font-light">
-              Transactional security notifications and alert emails require <code className="bg-[#0D0F12] px-1.5 py-0.5 rounded text-amber-300 font-mono">RESEND_API_KEY</code> in environment variables.
+              Transactional security notifications and alert emails require <code className="bg-[#F7EFE4] px-1.5 py-0.5 rounded text-amber-300 font-mono">RESEND_API_KEY</code> in environment variables.
             </p>
           </div>
         </div>
       )}
 
-      <form onSubmit={handleSave} className="space-y-6">
+      <form onSubmit={handleSave} className="vip-internal-editorial space-y-6">
         {/* SECTION 1: CORE CONTACT & MULTI-WHATSAPP */}
-        <div className="bg-[#121622] rounded-2xl border border-[#232A3B] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#232A3B]">
-            <Phone className="w-4 h-4 text-[#D9A031]" />
-            <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+        <div className="bg-[#FFFBF6] rounded-2xl border border-[#E5D6C0] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#E5D6C0]">
+            <Phone className="w-4 h-4 text-[#93652D]" />
+            <h2 className="font-display font-bold text-base text-[#193341]">
               Contact Channels &amp; Dual WhatsApp Dispatch
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1.5">
+              <label className="block text-xs font-semibold text-[#63727C] mb-1.5">
                 Primary WhatsApp Number (Line 1 - Operations)
               </label>
               <input
@@ -212,15 +212,15 @@ export default function AdminSettingsPage() {
                 value={settings.whatsapp_number || ''}
                 onChange={(e) => setSettings({ ...settings, whatsapp_number: e.target.value })}
                 placeholder="966567588261"
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-[#193341] outline-none font-mono"
               />
-              <span className="text-[10px] text-[#6C7584] mt-1 block">
+              <span className="text-[10px] text-[#76828B] mt-1 block">
                 Digits only (e.g. 966567588261)
               </span>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1.5">
+              <label className="block text-xs font-semibold text-[#63727C] mb-1.5">
                 Secondary WhatsApp Number (Line 2 - Dispatch)
               </label>
               <input
@@ -229,15 +229,15 @@ export default function AdminSettingsPage() {
                 value={settings.whatsapp_number_secondary || ''}
                 onChange={(e) => setSettings({ ...settings, whatsapp_number_secondary: e.target.value })}
                 placeholder="966505316971"
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-[#193341] outline-none font-mono"
               />
-              <span className="text-[10px] text-[#6C7584] mt-1 block">
+              <span className="text-[10px] text-[#76828B] mt-1 block">
                 Digits only (e.g. 966505316971)
               </span>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1.5">
+              <label className="block text-xs font-semibold text-[#63727C] mb-1.5">
                 Direct Voice Calling Number
               </label>
               <input
@@ -246,15 +246,15 @@ export default function AdminSettingsPage() {
                 value={settings.phone || ''}
                 onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
                 placeholder="+966 50 531 6971"
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-[#193341] outline-none font-mono"
               />
-              <span className="text-[10px] text-[#6C7584] mt-1 block">
+              <span className="text-[10px] text-[#76828B] mt-1 block">
                 Displayed in Contact cards (distinct from WhatsApp Line 1)
               </span>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1.5">
+              <label className="block text-xs font-semibold text-[#63727C] mb-1.5">
                 Official Inquiry Email
               </label>
               <input
@@ -263,24 +263,24 @@ export default function AdminSettingsPage() {
                 value={settings.email || ''}
                 onChange={(e) => setSettings({ ...settings, email: e.target.value })}
                 placeholder="info@duyufalrahmanvip.com"
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-[#193341] outline-none font-mono"
               />
             </div>
           </div>
         </div>
 
         {/* SECTION 2: OPERATIONAL POLICIES & AIRPORT WAITING TIME */}
-        <div className="bg-[#121622] rounded-2xl border border-[#232A3B] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#232A3B]">
-            <Clock className="w-4 h-4 text-[#D9A031]" />
-            <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+        <div className="bg-[#FFFBF6] rounded-2xl border border-[#E5D6C0] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#E5D6C0]">
+            <Clock className="w-4 h-4 text-[#93652D]" />
+            <h2 className="font-display font-bold text-base text-[#193341]">
               Operational Policies &amp; Airport Waiting
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1.5">
+              <label className="block text-xs font-semibold text-[#63727C] mb-1.5">
                 Airport Complimentary Waiting Time (Minutes)
               </label>
               <input
@@ -289,15 +289,15 @@ export default function AdminSettingsPage() {
                 max={180}
                 value={settings.airport_waiting_minutes ?? 60}
                 onChange={(e) => setSettings({ ...settings, airport_waiting_minutes: Number(e.target.value) })}
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-[#193341] outline-none font-mono"
               />
-              <span className="text-[10px] text-[#6C7584] mt-1 block">
+              <span className="text-[10px] text-[#76828B] mt-1 block">
                 Standardised across public site (default 60 minutes)
               </span>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1.5">
+              <label className="block text-xs font-semibold text-[#63727C] mb-1.5">
                 Free Cancellation Deadline (Hours Before Pickup)
               </label>
               <input
@@ -306,9 +306,9 @@ export default function AdminSettingsPage() {
                 max={168}
                 value={settings.free_cancellation_hours ?? 24}
                 onChange={(e) => setSettings({ ...settings, free_cancellation_hours: Number(e.target.value) })}
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-[#193341] outline-none font-mono"
               />
-              <span className="text-[10px] text-[#6C7584] mt-1 block">
+              <span className="text-[10px] text-[#76828B] mt-1 block">
                 Hours allowed before pickup for 100% free cancellation (default 24h)
               </span>
             </div>
@@ -316,21 +316,21 @@ export default function AdminSettingsPage() {
         </div>
 
         {/* SECTION 3: PROMO ANNOUNCEMENT BAR */}
-        <div className="bg-[#121622] rounded-2xl border border-[#232A3B] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#232A3B]">
-            <Bell className="w-4 h-4 text-[#D9A031]" />
-            <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+        <div className="bg-[#FFFBF6] rounded-2xl border border-[#E5D6C0] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#E5D6C0]">
+            <Bell className="w-4 h-4 text-[#93652D]" />
+            <h2 className="font-display font-bold text-base text-[#193341]">
               Top Executive Announcement Bar
             </h2>
           </div>
 
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
+            <div className="flex items-center justify-between p-4 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0]">
               <div>
-                <span className="font-bold text-sm text-[#FAF9F6] block">
+                <span className="font-bold text-sm text-[#193341] block">
                   Enable Announcement Bar
                 </span>
-                <p className="text-xs text-[#A0A6B2] mt-0.5">
+                <p className="text-xs text-[#63727C] mt-0.5">
                   Display the gold announcement ribbon at the top of every page
                 </p>
               </div>
@@ -341,12 +341,12 @@ export default function AdminSettingsPage() {
                   onChange={(e) => setSettings({ ...settings, promo_banner_enabled: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#D9A031]"></div>
+                <div className="w-11 h-6 bg-[#F2E6D7] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#086064]"></div>
               </label>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1.5">
+              <label className="block text-xs font-semibold text-[#63727C] mb-1.5">
                 Announcement Message Text (English / Default)
               </label>
               <input
@@ -354,30 +354,30 @@ export default function AdminSettingsPage() {
                 value={settings.promo_banner_text || ''}
                 onChange={(e) => setSettings({ ...settings, promo_banner_text: e.target.value })}
                 placeholder="Fixed 2026 Umrah Season Rates Available • Free Cancellation up to 24h Before Arrival"
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-[#193341] outline-none"
               />
             </div>
           </div>
         </div>
 
         {/* SECTION 4: FEATURE FLAGS & VERIFIABLE INCLUSIONS */}
-        <div className="bg-[#121622] rounded-2xl border border-[#232A3B] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#232A3B]">
-            <Sliders className="w-4 h-4 text-[#D9A031]" />
-            <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+        <div className="bg-[#FFFBF6] rounded-2xl border border-[#E5D6C0] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#E5D6C0]">
+            <Sliders className="w-4 h-4 text-[#93652D]" />
+            <h2 className="font-display font-bold text-base text-[#193341]">
               Feature Flags &amp; Service Inclusions (Default False)
             </h2>
           </div>
-          <p className="text-xs text-[#A0A6B2]">
+          <p className="text-xs text-[#63727C]">
             Toggle features on or off without touching code. Gated features only appear on the public site when explicitly enabled by the owner.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
             {/* Flight tracking */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0]">
               <div className="pr-3">
-                <span className="font-semibold text-xs text-[#FAF9F6] block">Flight Radar Tracking</span>
-                <span className="text-[10px] text-[#6C7584]">Live arrival delay tracking</span>
+                <span className="font-semibold text-xs text-[#193341] block">Flight Radar Tracking</span>
+                <span className="text-[10px] text-[#76828B]">Live arrival delay tracking</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -386,15 +386,15 @@ export default function AdminSettingsPage() {
                   onChange={(e) => setSettings({ ...settings, flight_tracking_enabled: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-10 h-5 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D9A031]"></div>
+                <div className="w-10 h-5 bg-[#F2E6D7] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#086064]"></div>
               </label>
             </div>
 
             {/* Complimentary Water */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0]">
               <div className="pr-3">
-                <span className="font-semibold text-xs text-[#FAF9F6] block">Complimentary Cold Water</span>
-                <span className="text-[10px] text-[#6C7584]">Free chilled water bottles</span>
+                <span className="font-semibold text-xs text-[#193341] block">Complimentary Cold Water</span>
+                <span className="text-[10px] text-[#76828B]">Free chilled water bottles</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -403,15 +403,15 @@ export default function AdminSettingsPage() {
                   onChange={(e) => setSettings({ ...settings, complimentary_water: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-10 h-5 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D9A031]"></div>
+                <div className="w-10 h-5 bg-[#F2E6D7] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#086064]"></div>
               </label>
             </div>
 
             {/* Zamzam Water */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0]">
               <div className="pr-3">
-                <span className="font-semibold text-xs text-[#FAF9F6] block">Zamzam Water Provision</span>
-                <span className="text-[10px] text-[#6C7584]">Blessed Zamzam onboard</span>
+                <span className="font-semibold text-xs text-[#193341] block">Zamzam Water Provision</span>
+                <span className="text-[10px] text-[#76828B]">Blessed Zamzam onboard</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -420,15 +420,15 @@ export default function AdminSettingsPage() {
                   onChange={(e) => setSettings({ ...settings, zamzam_water: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-10 h-5 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D9A031]"></div>
+                <div className="w-10 h-5 bg-[#F2E6D7] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#086064]"></div>
               </label>
             </div>
 
             {/* Child Seat */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0]">
               <div className="pr-3">
-                <span className="font-semibold text-xs text-[#FAF9F6] block">Complimentary Child Seat</span>
-                <span className="text-[10px] text-[#6C7584]">Free infant/toddler seat</span>
+                <span className="font-semibold text-xs text-[#193341] block">Complimentary Child Seat</span>
+                <span className="text-[10px] text-[#76828B]">Free infant/toddler seat</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -437,15 +437,15 @@ export default function AdminSettingsPage() {
                   onChange={(e) => setSettings({ ...settings, complimentary_child_seat: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-10 h-5 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D9A031]"></div>
+                <div className="w-10 h-5 bg-[#F2E6D7] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#086064]"></div>
               </label>
             </div>
 
             {/* Malay-speaking Chauffeur */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0]">
               <div className="pr-3">
-                <span className="font-semibold text-xs text-[#FAF9F6] block">Malay-Speaking Chauffeur</span>
-                <span className="text-[10px] text-[#6C7584]">Dedicated option for Southeast Asia</span>
+                <span className="font-semibold text-xs text-[#193341] block">Malay-Speaking Chauffeur</span>
+                <span className="text-[10px] text-[#76828B]">Dedicated option for Southeast Asia</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -454,15 +454,15 @@ export default function AdminSettingsPage() {
                   onChange={(e) => setSettings({ ...settings, malay_speaking_chauffeur: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-10 h-5 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D9A031]"></div>
+                <div className="w-10 h-5 bg-[#F2E6D7] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#086064]"></div>
               </label>
             </div>
 
             {/* Free Miqat Stop */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0]">
               <div className="pr-3">
-                <span className="font-semibold text-xs text-[#FAF9F6] block">Free Miqat Stop</span>
-                <span className="text-[10px] text-[#6C7584]">Ihram stop without surcharge</span>
+                <span className="font-semibold text-xs text-[#193341] block">Free Miqat Stop</span>
+                <span className="text-[10px] text-[#76828B]">Ihram stop without surcharge</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -471,15 +471,15 @@ export default function AdminSettingsPage() {
                   onChange={(e) => setSettings({ ...settings, free_miqat_stop: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-10 h-5 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D9A031]"></div>
+                <div className="w-10 h-5 bg-[#F2E6D7] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#086064]"></div>
               </label>
             </div>
 
             {/* Online Card Gateway */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0]">
               <div className="pr-3">
-                <span className="font-semibold text-xs text-[#FAF9F6] block">Online Card Gateway</span>
-                <span className="text-[10px] text-[#6C7584]">Mada / Visa / Mastercard online</span>
+                <span className="font-semibold text-xs text-[#193341] block">Online Card Gateway</span>
+                <span className="text-[10px] text-[#76828B]">Mada / Visa / Mastercard online</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -488,15 +488,15 @@ export default function AdminSettingsPage() {
                   onChange={(e) => setSettings({ ...settings, online_card_payment_enabled: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-10 h-5 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D9A031]"></div>
+                <div className="w-10 h-5 bg-[#F2E6D7] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#086064]"></div>
               </label>
             </div>
 
             {/* Bank Transfer */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0]">
               <div className="pr-3">
-                <span className="font-semibold text-xs text-[#FAF9F6] block">Saudi Bank Transfer</span>
-                <span className="text-[10px] text-[#6C7584]">Direct IBAN wire transfer</span>
+                <span className="font-semibold text-xs text-[#193341] block">Saudi Bank Transfer</span>
+                <span className="text-[10px] text-[#76828B]">Direct IBAN wire transfer</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -505,15 +505,15 @@ export default function AdminSettingsPage() {
                   onChange={(e) => setSettings({ ...settings, bank_transfer_payment_enabled: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-10 h-5 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D9A031]"></div>
+                <div className="w-10 h-5 bg-[#F2E6D7] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#086064]"></div>
               </label>
             </div>
 
             {/* Coaster Fleet */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0]">
               <div className="pr-3">
-                <span className="font-semibold text-xs text-[#FAF9F6] block">Toyota Coaster Fleet</span>
-                <span className="text-[10px] text-[#6C7584]">20-passenger minibus booking</span>
+                <span className="font-semibold text-xs text-[#193341] block">Toyota Coaster Fleet</span>
+                <span className="text-[10px] text-[#76828B]">20-passenger minibus booking</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -522,15 +522,15 @@ export default function AdminSettingsPage() {
                   onChange={(e) => setSettings({ ...settings, coaster_enabled: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-10 h-5 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D9A031]"></div>
+                <div className="w-10 h-5 bg-[#F2E6D7] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#086064]"></div>
               </label>
             </div>
 
             {/* Riyadh Chauffeur Area */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0]">
               <div className="pr-3">
-                <span className="font-semibold text-xs text-[#FAF9F6] block">Riyadh Hub &amp; Routes</span>
-                <span className="text-[10px] text-[#6C7584]">Riyadh airport &amp; intercity routes</span>
+                <span className="font-semibold text-xs text-[#193341] block">Riyadh Hub &amp; Routes</span>
+                <span className="text-[10px] text-[#76828B]">Riyadh airport &amp; intercity routes</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -539,15 +539,15 @@ export default function AdminSettingsPage() {
                   onChange={(e) => setSettings({ ...settings, riyadh_enabled: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-10 h-5 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D9A031]"></div>
+                <div className="w-10 h-5 bg-[#F2E6D7] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#086064]"></div>
               </label>
             </div>
 
             {/* Taif Chauffeur Area */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#0D0F12] border border-[#232A3B]">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0]">
               <div className="pr-3">
-                <span className="font-semibold text-xs text-[#FAF9F6] block">Taif Hub &amp; Routes</span>
-                <span className="text-[10px] text-[#6C7584]">Taif mountain &amp; intercity routes</span>
+                <span className="font-semibold text-xs text-[#193341] block">Taif Hub &amp; Routes</span>
+                <span className="text-[10px] text-[#76828B]">Taif mountain &amp; intercity routes</span>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -556,24 +556,24 @@ export default function AdminSettingsPage() {
                   onChange={(e) => setSettings({ ...settings, taif_enabled: e.target.checked })}
                   className="sr-only peer"
                 />
-                <div className="w-10 h-5 bg-[#262B33] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#D9A031]"></div>
+                <div className="w-10 h-5 bg-[#F2E6D7] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#086064]"></div>
               </label>
             </div>
           </div>
         </div>
 
         {/* SECTION 5: GOOGLE REVIEWS SETTINGS */}
-        <div className="bg-[#121622] rounded-2xl border border-[#232A3B] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#232A3B]">
-            <Star className="w-4 h-4 text-[#D9A031]" />
-            <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+        <div className="bg-[#FFFBF6] rounded-2xl border border-[#E5D6C0] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#E5D6C0]">
+            <Star className="w-4 h-4 text-[#93652D]" />
+            <h2 className="font-display font-bold text-base text-[#193341]">
               Verified Google Reviews Integration
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1.5">
+              <label className="block text-xs font-semibold text-[#63727C] mb-1.5">
                 Official Google Reviews Link
               </label>
               <input
@@ -581,37 +581,37 @@ export default function AdminSettingsPage() {
                 value={settings.google_reviews_link || ''}
                 onChange={(e) => setSettings({ ...settings, google_reviews_link: e.target.value })}
                 placeholder="https://g.page/r/..."
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-[#193341] outline-none"
               />
-              <span className="text-[10px] text-[#6C7584] mt-1 block">
+              <span className="text-[10px] text-[#76828B] mt-1 block">
                 Leave empty to completely hide reviews section until official link is confirmed
               </span>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1.5">
+              <label className="block text-xs font-semibold text-[#63727C] mb-1.5">
                 Approved Reviews Count
               </label>
               <input
                 type="number"
                 value={settings.google_reviews_count ?? 0}
                 onChange={(e) => setSettings({ ...settings, google_reviews_count: Number(e.target.value) })}
-                className="w-full h-11 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#232A3B] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-11 px-3 text-xs rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-[#193341] outline-none font-mono"
               />
             </div>
           </div>
         </div>
 
         {/* SECTION 6: CACHE REVALIDATION & PROPAGATION */}
-        <div className="bg-[#121622] rounded-2xl border border-[#232A3B] p-6 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-[#232A3B]">
+        <div className="bg-[#FFFBF6] rounded-2xl border border-[#E5D6C0] p-6 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-[#E5D6C0]">
             <div className="flex items-center gap-2.5">
-              <RefreshCw className="w-4 h-4 text-[#D9A031] shrink-0" />
+              <RefreshCw className="w-4 h-4 text-[#93652D] shrink-0" />
               <div>
-                <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+                <h2 className="font-display font-bold text-base text-[#193341]">
                   Single Source of Truth &amp; Cache Engine
                 </h2>
-                <p className="text-xs text-[#A0A6B2] mt-0.5">
+                <p className="text-xs text-[#63727C] mt-0.5">
                   Force on-demand revalidation of database tags across all 10 locales and edge ISR within seconds.
                 </p>
               </div>
@@ -620,7 +620,7 @@ export default function AdminSettingsPage() {
               type="button"
               onClick={handlePurgeCache}
               disabled={purgingCache}
-              className="px-4 py-2 rounded-xl bg-[#1A2130] hover:bg-[#252E40] border border-[#D9A031]/40 text-[#E5B842] font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all disabled:opacity-50 self-start sm:self-auto"
+              className="px-4 py-2 rounded-xl bg-[#F4EADC] hover:bg-[#F4E9DC] border border-[#C49A61]/40 text-[#92612E] font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all disabled:opacity-50 self-start sm:self-auto"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${purgingCache ? 'animate-spin' : ''}`} />
               <span>{purgingCache ? 'Purging Cache...' : 'Purge & Resync Stale Cache'}</span>
@@ -631,8 +631,8 @@ export default function AdminSettingsPage() {
             <div
               className={`p-3 rounded-xl border text-xs font-semibold flex items-center gap-2 ${
                 cacheSyncResult.type === 'success'
-                  ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
-                  : 'bg-red-950/40 border-red-500/40 text-red-300'
+                  ? 'bg-emerald-50 border-emerald-500/40 text-emerald-700'
+                  : 'bg-red-50 border-red-500/40 text-red-700'
               }`}
             >
               <CheckCircle2 className="w-4 h-4 shrink-0" />
@@ -646,7 +646,7 @@ export default function AdminSettingsPage() {
           <button
             type="submit"
             disabled={saving}
-            className="px-8 py-3 rounded-xl bg-[#D9A031] hover:bg-[#B8821F] text-[#0D0F12] font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all disabled:opacity-50"
+            className="px-8 py-3 rounded-xl bg-[#086064] hover:bg-[#064D52] text-[#FFF7EA] font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
             <span>{saving ? 'Updating Database...' : 'Save Settings'}</span>
