@@ -39,6 +39,21 @@ export function getPreferredLocale(request: NextRequest): Locale {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Safety gate: preview deployments may share read credentials with production.
+  // Do not allow real writes until an isolated staging database is explicitly configured.
+  const isWrite = !['GET', 'HEAD', 'OPTIONS'].includes(request.method);
+  const previewReadOnly = process.env.VERCEL_ENV === 'preview' &&
+    process.env.ALLOW_PREVIEW_DB_WRITES !== 'true';
+  const isSafeSessionEndpoint = pathname.startsWith('/api/admin/auth/');
+  const isReadOnlyQuote = pathname === '/api/bookings/quote';
+  if (previewReadOnly && pathname.startsWith('/api/') && isWrite &&
+      !isSafeSessionEndpoint && !isReadOnlyQuote) {
+    return NextResponse.json({
+      error: 'Preview is read-only to protect live reservations. A separate staging database is required for write tests.',
+      code: 'PREVIEW_READ_ONLY',
+    }, { status: 403, headers: { 'Cache-Control': 'no-store' } });
+  }
+
   // 0. Canonical domain redirect: disabled by default until custom domain DNS is fully activated
   const host = request.headers.get('host') || '';
   if (process.env.ENFORCE_CANONICAL_REDIRECT === 'true' && host.includes('.vercel.app')) {
@@ -130,5 +145,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|assets|favicon.ico).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|assets|favicon.ico).*)', '/api/:path*'],
 };
