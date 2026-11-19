@@ -71,7 +71,7 @@ export default async function AdminLayout({
       .is('auth_user_id', null)
       .maybeSingle();
 
-    if (unlinked) {
+    if (unlinked && process.env.VERCEL_ENV !== 'preview') {
       await serviceClient
         .from('user_profiles')
         .update({ auth_user_id: authData.user.id, updated_at: new Date().toISOString() })
