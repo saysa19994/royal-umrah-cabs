@@ -40,12 +40,20 @@ export async function POST(request: Request) {
   }, { status: 400 });
   const p = parsed.data;
   const pickup = new Date(p.pickup_local + ':00+03:00');
-  const iso = pickup.toISOString();
-  if (!Number.isFinite(pickup.getTime()) ||
-    new Date(iso).toLocaleDateString('en-CA', { timeZone: 'Asia/Riyadh' }) !== p.pickup_local.slice(0,10) ||
-    pickup.getTime() < Date.now() + 3600000) {
-    return NextResponse.json({ error: 'Pickup must be a valid Saudi date at least one hour ahead' }, { status: 400 });
+  if (!Number.isFinite(pickup.getTime()) || pickup.getTime() < Date.now() + 3600000) {
+    return NextResponse.json({ error: 'Pickup must be at least one hour ahead' }, { status: 400 });
   }
+  const localParts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Riyadh', year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+  }).formatToParts(pickup);
+  const part = (type: string) => localParts.find(x => x.type === type)?.value || '';
+  const normalized = part('year') + '-' + part('month') + '-' + part('day') +
+    'T' + part('hour') + ':' + part('minute');
+  if (normalized !== p.pickup_local) {
+    return NextResponse.json({ error: 'Invalid calendar date or time' }, { status: 400 });
+  }
+  const iso = pickup.toISOString();
   const db = createServiceClient();
   const [routeResult, vehicleResult] = await Promise.all([
     db.from('routes').select('id,origin_city,destination_city,is_active').eq('id', p.route_id).maybeSingle(),
