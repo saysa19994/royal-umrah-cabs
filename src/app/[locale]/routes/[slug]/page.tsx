@@ -314,7 +314,7 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
                 if (!relRoute) return null;
                 if (relId === 'riyadh-airport-transfer') return null;
                 const related = getLocalizedRouteContent(relId, locale, relRoute);
-                const relRates = AUTHORITATIVE_TRANSFER_RATES[relId] || {};
+                const relRates = publishedRates[relId] || {};
                 const relAvailable = Object.values(relRates).filter(
                   (fare): fare is number => typeof fare === 'number' && Number.isFinite(fare) && fare > 0
                 );
