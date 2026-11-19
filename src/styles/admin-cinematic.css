@@ -187,6 +187,9 @@
  .vip-login {grid-template-columns:1fr;}
  .vip-login-photo {min-height:235px;max-height:270px;}
  .vip-login-brand {padding:26px;}
+ .vip-login-brand > div:first-child {margin-bottom:14px !important;}
+ .vip-login-brand > p.mb-4 {display:none;}
+ .vip-login-brand > p.mt-7 {display:none;}
  .vip-login-brand h1 {font-size:32px;line-height:1.16;max-width:510px}
  .vip-login-brand .vip-login-feature-row,.vip-login-brand .vip-login-brand-description {display:none}
  .vip-login-right{padding:0 15px 28px;margin-top:-29px;background:linear-gradient(#f1e2cc,#f9f0e4);}
