@@ -102,8 +102,12 @@ export default function AdminFaqsPage() {
       if (res.ok && data.success) {
         const current = await fetchFaqs();
         const saved = current?.find((item) => item.id === editingFaq.id);
-        if (saved && JSON.stringify(saved.question_translations) === JSON.stringify(editingFaq.question_translations) &&
-            JSON.stringify(saved.answer_translations) === JSON.stringify(editingFaq.answer_translations) &&
+        // Supabase JSONB is allowed to reorder keys; compare localized values,
+        // not the serialization order of the translation object.
+        const sameTranslations = (a: Record<string, string | undefined>, b: Record<string, string | undefined>) =>
+          Object.keys({...a, ...b}).every(key => a[key] === b[key]);
+        if (saved && sameTranslations(saved.question_translations, editingFaq.question_translations) &&
+            sameTranslations(saved.answer_translations, editingFaq.answer_translations) &&
             saved.status === editingFaq.status) {
           setFeedback({type:'success',message:'FAQ saved and verified in the database. Check the public preview to verify cache refresh.'});
           setEditingFaq(null);
