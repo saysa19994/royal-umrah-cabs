@@ -818,3 +818,69 @@
 .fleetPreviewFallback img{width:100%;height:120px;object-fit:contain}
 .fleetPreviewFallback button:disabled{opacity:.4}
 @media(max-width:430px){.fleetPreviewFallback{padding:12px;min-height:250px}.fleetPreviewFallback button{flex-basis:70%;min-height:190px}}
+
+
+/* Layout correction: split-view vehicle atelier and swipe-first mobile route atlas. */
+.page .showroom{padding-block:clamp(45px,5.7vw,78px)}
+.page .showroomHeading{margin-bottom:19px}
+.page .showroomHeading h2{font-size:clamp(2rem,3.2vw,3.8rem)}
+.page .showroomLayout{display:grid;grid-template-columns:minmax(0,1.48fr) minmax(280px,.85fr);gap:0;align-items:stretch}
+.page .galleryWell{grid-column:1;grid-row:1/3;min-height:0;display:grid;align-content:center;background:#101d2c;min-width:0}
+.page .galleryWell>div{min-height:400px;border-radius:0;border:0}
+.page .carPhoto{grid-column:2;grid-row:1;min-height:0;height:clamp(205px,19vw,295px);aspect-ratio:auto}
+.page .carDetail{grid-column:2;grid-row:2;padding:clamp(19px,2.35vw,34px)}
+.page .carDetail h3{font-size:clamp(1.4rem,1.8vw,2.15rem)}
+.page .carDetail p{font-size:.89rem;line-height:1.58}
+.page .carDetail .statLine{padding-block:11px}
+.page .carDetail .carFare{margin-block:12px}
+.page .carDetail .carFare strong{font-size:clamp(1.4rem,1.9vw,2rem)}
+.page .story{padding-block:clamp(46px,5vw,72px);column-gap:clamp(23px,4vw,65px)}
+.page .storyIntro{padding-bottom:0}
+.page .storyIntro h2{font-size:clamp(2rem,3.4vw,3.7rem)}
+.page .storyImage{min-height:0;height:clamp(280px,27vw,410px);aspect-ratio:auto}
+.page .storyRail button{padding-block:12px}
+.page .routeAtlas{padding-block:clamp(46px,5.5vw,78px)}
+.page .routesHead{margin-bottom:15px}
+.page .routesHead h2{font-size:clamp(2rem,3.3vw,3.7rem)}
+.page .routeCurtain{height:clamp(240px,23vw,315px);gap:7px}
+.page .routeCurtainPanel{border-radius:8px}
+.page .routeCurtainPanel[aria-pressed=true]{flex-grow:2.85}
+.page .curtainSummary{border-radius:10px;margin-top:13px;padding:19px 23px}
+.page .promises{padding-block:clamp(42px,4.5vw,65px)}
+.page .promises h2{font-size:clamp(2rem,3.2vw,3.6rem)}
+.page .finish{min-height:0}
+.page .finishImage{min-height:clamp(285px,29vw,420px)}
+.page .finishCopy h2{font-size:clamp(2rem,3.15vw,3.5rem)}
+@media(max-width:900px) {
+ .page .showroomLayout{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ .page .galleryWell{grid-column:1/-1;grid-row:1}
+ .page .galleryWell>div{min-height:315px}
+ .page .carPhoto{grid-column:1;grid-row:2;height:auto;min-height:275px;aspect-ratio:auto}
+ .page .carDetail{grid-column:2;grid-row:2}
+}
+@media(max-width:760px){
+ .page .story{padding-block:38px;gap:19px}
+ .page .storyImage{height:auto;aspect-ratio:16/10;min-height:0}
+ .page .storyRail button{padding:11px 0}
+ .page .showroom{padding-block:42px}
+ .page .showroomLayout{display:block}
+ .page .galleryWell{min-height:0}
+ .page .galleryWell>div{min-height:275px}
+ .page .carPhoto{min-height:0;height:auto;aspect-ratio:16/8;max-height:220px}
+ .page .carDetail{padding:20px}
+ .page .routeAtlas{padding-block:43px}
+ .page .routeCurtain{display:flex;flex-direction:row;height:auto;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-inline:contain;padding-bottom:11px;scrollbar-color:#987a56 #eee7db}
+ .page .routeCurtainPanel,.page .routeCurtainPanel[aria-pressed=true]{flex:0 0 min(79vw,335px);height:218px;min-width:0;scroll-snap-align:center}
+ .page .routeCurtainPanel .curtainWords{bottom:15px;inset-inline:15px;gap:5px}
+ .page .routeCurtainPanel .curtainWords strong{font-size:1.03rem}
+ .page .curtainSummary{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:17px 16px}
+ .page .curtainSummary .routeAction{grid-column:1/-1;width:100%;justify-content:center}
+ .page .promises{padding-block:42px}
+ .page .finishImage{min-height:0;aspect-ratio:16/9}
+ .page .finishCopy{padding:30px 22px 43px}
+}
+@media(max-width:390px){
+ .page .routeCurtainPanel,.page .routeCurtainPanel[aria-pressed=true]{flex-basis:82vw;height:207px}
+ .page .galleryWell>div{min-height:245px}
+ .page .carPhoto{aspect-ratio:16/8}
+}
