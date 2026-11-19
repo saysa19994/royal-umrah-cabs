@@ -749,48 +749,67 @@
 }
 
 
-/* Cinematic Connected Journey — preview-only editorial theme */
-.page {
- --ink:#0a0a0a; --ivory:#141414; --white:#0a0a0a;
- --bronze:#a78b71; --bronze-text:#e8d5b7;
- --muted:#a3a3a3; --line:rgba(255,255,255,.12);
- background:#0a0a0a; color:#fff; color-scheme:dark;
-}
-.page :is(.bookingArea,.story,.showroom,.routeAtlas,.promises,.finish) {
- background-color:#0a0a0a; color:#fff;
-}
-.page :is(.bookingDesk,.bookingLower,.showroomLayout,.carDetail,.curtainSummary) {
- background:rgba(255,255,255,.03); color:#fff;
- border-color:rgba(255,255,255,.12);
-}
-.page :is(.bookingArea,.showroom,.routeAtlas) {
- background-image:radial-gradient(rgba(255,255,255,.065) .7px,transparent .7px);
- background-size:32px 32px;
-}
-.page :is(.bookingArea,.showroom,.routeAtlas,.story) h2 {color:#f5eee7}
-.page :is(.bookingArea,.showroom,.routeAtlas,.story) a {color:#e8d5b7}
-.page .showroomLayout {gap:0}
-.page .showroomHeading {border-color:rgba(255,255,255,.15)}
-.page .carDetail {padding:clamp(20px,3vw,48px)}
-.page .carPhoto {background:#151515}
-.page .hero {background:#0a0a0a}
-.page .heroVideo::after {background:linear-gradient(90deg,rgba(10,10,10,.86),rgba(10,10,10,.45) 38%,transparent 72%)}
-.page[dir=rtl] .heroVideo::after {background:linear-gradient(270deg,rgba(10,10,10,.86),rgba(10,10,10,.45) 38%,transparent 72%)}
-.page .bookingDesk :is(input,select) {color:#fff;background:#191919;border-color:rgba(255,255,255,.16)}
-.page .bookingDesk :is(input,select) option {background:#191919;color:#fff}
-.page .bookingDesk :is(input,select):focus-visible {outline-color:#c9b8a0}
-.page .showroom :is(.carFare,.statLine) {border-color:rgba(255,255,255,.16)}
-.page .showroom .eyebrow {color:#c9b8a0}
-.page .showroom .carDetail p {color:#b8b8b8}
-@media(max-width:760px) {
- .page .heroVideo::after {background:linear-gradient(180deg,rgba(10,10,10,.18),rgba(10,10,10,.58) 65%,rgba(10,10,10,.83))}
- .page[dir=rtl] .heroVideo::after {background:linear-gradient(180deg,rgba(10,10,10,.18),rgba(10,10,10,.58) 65%,rgba(10,10,10,.83))}
- .page .showroomLayout {display:block}
-}
-@media(prefers-reduced-motion:reduce) {
- .page *, .page *::before,.page *::after {scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
-}
 
+/* Unified preview design: cinematic introduction, warm editorial body, navy booking finish.
+   Intentional chapter transitions rather than blanket dark overrides. */
+.page {
+ --ink:#142236; --ivory:#f6f2eb; --white:#fff;
+ --bronze:#987a56; --bronze-text:#765c3d; --muted:#596373;
+ --line:#e6e1d8; background:#f6f2eb; color:#142236; color-scheme:light;
+}
+.page .hero{background:#0b1725;min-height:clamp(540px,83svh,820px)}
+.page .heroVideo::after{background:linear-gradient(90deg,rgba(8,20,33,.9) 0%,rgba(8,20,33,.64) 40%,rgba(8,20,33,.08) 100%)}
+.page[dir=rtl] .heroVideo::after{background:linear-gradient(270deg,rgba(8,20,33,.9) 0%,rgba(8,20,33,.64) 40%,rgba(8,20,33,.08) 100%)}
+.page .heroCopy h1{font-size:clamp(3.3rem,6.5vw,7rem)}
+.page[dir=rtl] .heroCopy h1{font-size:clamp(2.5rem,4.4vw,4.5rem)}
+.page .primary{background:#e5caa0;color:#132238;border-radius:6px}
+.page .primary:hover{background:#f2dcb8}
+.page .bookingArea{background:#fff;border:1px solid #e8e1d7;border-radius:16px;box-shadow:0 20px 70px rgba(13,29,48,.1);margin-top:-48px}
+.page .bookingDesk{background:#f8f7f4;border:1px solid #e6e1d8;border-radius:10px;overflow:hidden}
+.page .bookingDesk label{border-color:#e6e1d8}
+.page .bookingDesk :is(input,select){color:#15263b;background:transparent}
+.page .bookingLower{border-color:#e6e1d8}
+.page .bookCarList button{border-radius:7px;background:#f7f5f0;color:#142236}
+.page .bookCarList button[aria-pressed=true]{background:#152b43;color:#fff;border-color:#152b43}
+.page .trustLine{background:#f6f2eb}
+.page .story{background:#f6f2eb;color:#142236}
+.page .storyImage{box-shadow:16px 16px 0 #e8dfd0}
+.page .showroom{background:#101f30;color:#fff}
+.page .showroomHeading h2,.page .showroomHeading a{color:#fff}
+.page .showroomLayout{background:#15283b;border:1px solid #34475a;border-radius:18px;overflow:hidden}
+.page .carPhoto{background:radial-gradient(ellipse at 50% 90%,#344457,#15283b 70%)}
+.page .carDetail{background:#15283b;color:#fff;padding:clamp(24px,3vw,48px)}
+.page .carDetail :is(h3,p),.page .carDetail .statLine span{color:#f1eee9}
+.page .carFare,.page .statLine{border-color:#435366}
+.page .photoToggle button{background:#22364b;color:#fff;border-color:#40536a}
+.page .photoToggle button[aria-pressed=true]{background:#e5caa0;color:#142236;border-color:#e5caa0}
+.page .routeAtlas{background:#f6f2eb;color:#142236}
+.page .routesHead :is(h2,p){color:#142236}
+.page .curtainSummary{background:#fff;color:#142236;border:1px solid #e8e1d7;border-radius:12px}
+.page .promises{background:#fff;color:#142236}
+.page .finish{background:#0d2034;color:#fff}
+.page .finishCopy :is(h2,p){color:#fff}
+.page .finishCopy a{background:#e5caa0;color:#142236}
+.page .showroom .eyebrow{color:#e5caa0}
+.page :is(.bookingArea,.story,.showroom,.routeAtlas,.promises,.finish){scroll-margin-top:86px}
+@media(max-width:760px){
+ .page .hero{min-height:570px}
+ .page .heroVideo::after,.page[dir=rtl] .heroVideo::after{background:linear-gradient(180deg,rgba(8,20,33,.2) 0%,rgba(8,20,33,.58) 45%,rgba(8,20,33,.95) 100%)}
+ .page .heroCopy,.page[dir=rtl] .heroCopy{padding:30px 20px 84px;width:100%}
+ .page .heroCopy h1,.page[dir=rtl] .heroCopy h1{font-size:clamp(2rem,7.2vw,3rem);line-height:1.24}
+ .page .bookingArea{width:calc(100% - 24px);margin-top:-42px;padding:20px 14px;border-radius:14px}
+ .page .bookingDesk{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ .page .bookingDesk label{border-bottom:1px solid #e6e1d8;padding:12px}
+ .page .bookingDesk label:nth-child(-n+2){grid-column:1/-1}
+ .page .bookingDesk label:last-child{grid-column:1/-1}
+ .page .bookingLower{flex-direction:column;align-items:stretch}
+ .page .bookingTotal{justify-content:space-between;flex-wrap:wrap}
+ .page .showroomLayout{display:block}
+ .page .carDetail{padding:24px 20px}
+ .page .storyImage{box-shadow:8px 8px 0 #e8dfd0}
+}
+@media(max-width:390px){.page .bookingDesk{grid-template-columns:1fr}.page .bookingDesk label{grid-column:1/-1}}
+@media(prefers-reduced-motion:reduce){.page *, .page *::before,.page *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
 /* Low-JS, accessible fleet preview while interactive gallery loads */
 .fleetPreviewFallback{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x proximity;padding:20px;min-height:300px;background:#0a0a0a;align-items:center;scrollbar-color:#a78b71 #141414}
