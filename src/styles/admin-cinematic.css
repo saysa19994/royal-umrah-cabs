@@ -1,0 +1,202 @@
+/* Duyuf Al Rahman VIP — cinematic admin reference system.
+ * Scoped to /admin only; no change to the public booking website. */
+.vip-admin {
+  --vip-navy: #091d2c;
+  --vip-navy-deep: #061722;
+  --vip-teal: #064e52;
+  --vip-teal-2: #08636a;
+  --vip-champagne: #ddb978;
+  --vip-bronze: #ae8243;
+  --vip-ivory: #f9f3e8;
+  --vip-border: #e5d9c7;
+  --vip-ink: #172c37;
+  background: #f5eee3;
+  color: var(--vip-ink);
+  min-height: 100vh;
+}
+.vip-admin ::selection, .vip-login ::selection { background: #e3c586; color: #102935; }
+.vip-admin .vip-admin-main { background: #f5eee3; }
+.vip-admin .vip-admin-topbar {
+  background: #0a2334;
+  border-bottom: 1px solid rgba(218,187,130,.25);
+  color: #faf6ed;
+}
+.vip-admin .vip-admin-sidebar {
+  background: linear-gradient(150deg, #061a29 0%, #0a2a3e 54%, #08243a 100%);
+  border-color: rgba(220,179,98,.4);
+  box-shadow: 8px 0 26px rgba(11,34,49,.18);
+}
+.vip-admin .vip-admin-sidebar::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  bottom: 60px;
+  right: -50%;
+  width: 150%;
+  height: 170px;
+  opacity: .20;
+  border: 1px solid #d8aa68;
+  border-radius: 70% 30% 0 0 / 90% 40% 0 0;
+  background-image:
+    repeating-linear-gradient(45deg, transparent 0 14px, rgba(230,194,123,.45) 15px, transparent 16px 29px),
+    repeating-linear-gradient(-45deg, transparent 0 14px, rgba(230,194,123,.4) 15px, transparent 16px 29px);
+  mask-image: linear-gradient(transparent,black 44%);
+}
+.vip-admin .vip-admin-sidebar > * { position: relative; z-index: 1; }
+.vip-brand-serif { font-family: Georgia, 'Times New Roman', serif; letter-spacing: -.02em; }
+.vip-admin .vip-section {
+  background: #fffaf2;
+  border: 1px solid var(--vip-border);
+  border-radius: 20px;
+  box-shadow: 0 8px 23px rgba(36,41,40,.075);
+}
+.vip-admin .vip-kpi {
+  background: linear-gradient(135deg,#fffaf2,#f5e9da);
+  border: 1px solid #eadfce;
+  border-radius: 19px;
+  box-shadow: 0 7px 23px rgba(44,41,35,.08);
+}
+.vip-admin .vip-section-heading { color: #173241; }
+.vip-admin .vip-icon-tile {
+  display: inline-flex; align-items:center; justify-content:center;
+  border-radius: 14px; width: 42px; height: 42px;
+  color: #8d5e22; background: linear-gradient(135deg,#f8e9ce,#f3ddbb);
+  box-shadow: inset 0 0 0 1px rgba(210,169,100,.25);
+}
+.vip-admin .vip-pill {
+  display:inline-flex; align-items:center; gap:5px; white-space:nowrap;
+  font-size:11px; font-weight:700; padding:5px 10px; border-radius:50px;
+  border:1px solid transparent;
+}
+.vip-admin .vip-pill--new {background:#fff3df;color:#905b1e;border-color:#ead4ac}
+.vip-admin .vip-pill--confirmed {background:#e3f0fb;color:#245e89;border-color:#cfe2f2}
+.vip-admin .vip-pill--driver {background:#f1ecfa;color:#6649a6;border-color:#e6dafa}
+.vip-admin .vip-pill--enroute {background:#e1f5e7;color:#176943;border-color:#cce7d4}
+.vip-admin .vip-pill--complete {background:#e7f4e6;color:#2c7438;border-color:#d3e5ce}
+.vip-admin .vip-pill--cancelled {background:#feeaea;color:#a74641;border-color:#f5d5d3}
+.vip-admin .vip-primary-action {
+  display:inline-flex; justify-content:center; align-items:center; gap:.55rem;
+  background:linear-gradient(120deg,#06575d,#012e33);
+  color:#fff9ee; font-weight:700; border-radius:12px;
+  padding:10px 16px; border:1px solid #af8644;
+  box-shadow:0 7px 16px rgba(12,64,66,.16); transition:.2s;
+}
+.vip-admin .vip-primary-action:hover { background:#075e63; transform:translateY(-1px); }
+.vip-admin .vip-soft-action {
+  display:inline-flex; justify-content:center; align-items:center; gap:.5rem;
+  color:#68431d; font-size:12px; font-weight:700; padding:9px 13px;
+  background:#fff8ed; border:1px solid #cfb187; border-radius:100px;
+}
+.vip-admin .vip-soft-action:hover{background:#f8e8cf}
+.vip-admin .vip-hero {
+  position:relative; overflow:hidden; min-height:204px;
+  border-radius:24px; color:#fff8ed;
+  background:
+    linear-gradient(90deg,#081d2ddb 0%,#0b283cc7 44%,#102c3c30 100%),
+    url('/assets/images/cinematic/home/hero-mercedes-kaaba-ref.jpg') center 57% / cover;
+  border:1px solid rgba(213,171,112,.30);
+  box-shadow:0 14px 30px rgba(19,37,51,.17);
+}
+.vip-admin[dir='rtl'] .vip-hero {
+  background:
+    linear-gradient(270deg,#081d2de9 0%,#0b283cc4 47%,#102c3c30 100%),
+    url('/assets/images/cinematic/home/hero-mercedes-kaaba-ref.jpg') center 57% / cover;
+}
+.vip-admin .vip-hero::before {
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,transparent 75%,rgba(5,27,38,.35));
+}
+.vip-admin .vip-hero-content {position:relative;z-index:1;}
+.vip-admin .vip-route-illustration {
+  background:linear-gradient(145deg,#061e2c,#0d3949);
+  border-radius:16px;min-height:175px;color:#edd3a1;overflow:hidden;position:relative;
+}
+.vip-admin .vip-route-illustration svg { width:100%;height:100%;min-height:170px; }
+.vip-admin .vip-dashboard-table {width:100%;border-collapse:separate;border-spacing:0;font-size:12px}
+.vip-admin .vip-dashboard-table thead th {
+  background:#eee3d4;color:#4b5357;text-align:start;padding:11px 12px;
+  white-space:nowrap;font-size:11px;font-weight:750;
+}
+.vip-admin .vip-dashboard-table thead th:first-child { border-start-start-radius:10px; }
+.vip-admin .vip-dashboard-table thead th:last-child { border-end-start-radius:10px; }
+.vip-admin .vip-dashboard-table tbody td {border-bottom:1px solid #eee4d7;padding:13px 12px;vertical-align:middle;}
+.vip-admin .vip-dashboard-table tbody tr:hover {background:#f9f2e7;}
+.vip-admin .vip-dashboard-table tbody tr:last-child td {border-bottom:0;}
+.vip-admin .vip-admin-footer{background:#f5eee3;border-color:#e4d7c5;color:#63717a}
+.vip-admin .vip-legacy-content > section:not(.vip-command-center) {box-shadow:none;}
+.vip-admin .vip-legacy-content [class*='bg-[#F5F7F8]'],
+.vip-admin .vip-legacy-content [class*='bg-[#F6F8F9]'] { background:#f7f0e6; }
+.vip-login {
+  min-height:100dvh; display:grid; grid-template-columns:minmax(0, 1.16fr) minmax(400px,.94fr);
+  background:#e8d5b8; font-family:var(--font-inter),Arial,sans-serif;color:#17303b;
+}
+.vip-login-photo {
+  min-width:0;overflow:hidden;position:relative;min-height:100dvh;
+  background:
+    linear-gradient(90deg,rgba(5,26,42,.81),rgba(6,27,43,.30)),
+    url('/assets/images/cinematic/home/hero-mercedes-kaaba-ref.jpg') 54% center / cover;
+}
+.vip-login-photo::before {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(3,20,33,.40),transparent 46%,rgba(3,21,34,.22));
+  pointer-events:none;
+}
+.vip-login-brand {position:relative;z-index:2;max-width:770px;padding:clamp(28px,5vw,88px);color:#fff9ed}
+.vip-login-brand h1 {font-family:Georgia,'Times New Roman',serif; font-size:clamp(44px,4.9vw,78px);line-height:1.05;letter-spacing:-.025em;font-weight:600;}
+.vip-login-brand .vip-login-feature {display:flex;align-items:center;gap:11px;font-size:12px;line-height:1.4;font-weight:600;}
+.vip-login-brand .vip-login-feature svg {color:#d5ad72;}
+.vip-login-right {
+  position:relative;display:flex;align-items:center;justify-content:center;
+  padding:50px clamp(22px,4vw,82px);
+  background:linear-gradient(105deg,#dfc194 0%,#f6ead9 13%,#f9f0e4 100%);
+}
+.vip-login-right::before {
+  content:'';position:absolute;left:-47px;top:0;bottom:0;width:56px;
+  background:linear-gradient(90deg,#d4ac76,#ebd1a9 45%,#f6ead9);
+  border-radius:100% 0 0 100% / 50% 0 0 50%;
+}
+.vip-login-card {
+  width:100%;max-width:550px;position:relative;z-index:1;
+  border-radius:30px;
+  padding:clamp(26px,3vw,52px);
+  background:linear-gradient(147deg,rgba(255,255,255,.83),rgba(255,249,241,.88));
+  border:1px solid rgba(255,255,255,.87);
+  box-shadow:0 24px 54px rgba(64,45,31,.17),inset 0 1px rgba(255,255,255,.85);
+}
+.vip-login-label{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:#18303b;margin-bottom:10px}
+.vip-login-field{display:block;width:100%;height:52px;padding:0 15px;border:1px solid #c9c7c0;border-radius:13px;background:rgba(255,255,255,.43);font-size:14px;color:#142935;outline:none;}
+.vip-login-field:focus{border-color:#ad8a54;box-shadow:0 0 0 3px #d4b57d38;}
+.vip-login-submit{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:14px;
+  min-height:56px;border-radius:13px;background:linear-gradient(90deg,#09656a,#05393d);
+  border:1px solid #c59b57;color:#fff9ee;font-weight:800;font-size:15px;
+  transition:.2s;box-shadow:0 8px 22px rgba(5,73,75,.19);
+}
+.vip-login-submit:hover {background:#086369;transform:translateY(-1px)}
+.vip-login-submit:disabled {opacity:.5;cursor:not-allowed;transform:none}
+.vip-login-trust{display:flex;align-items:center;gap:15px;padding:17px;border-radius:17px;background:#e9efeb;border:1px solid #e1e9e4;color:#24434b}
+@media (max-width:1050px) {
+ .vip-login {grid-template-columns:1fr 1fr;}
+ .vip-login-brand {padding:40px;}
+ .vip-login-brand h1 {font-size:clamp(38px,4vw,60px)}
+ .vip-login-brand .vip-login-feature {font-size:11px;}
+ .vip-login-right {padding:36px 22px;}
+ .vip-admin .vip-hero {min-height:188px;}
+}
+@media (max-width:760px) {
+ .vip-login {grid-template-columns:1fr;}
+ .vip-login-photo {min-height:235px;max-height:270px;}
+ .vip-login-brand {padding:26px;}
+ .vip-login-brand h1 {font-size:32px;line-height:1.16;max-width:510px}
+ .vip-login-brand .vip-login-feature-row,.vip-login-brand .vip-login-brand-description {display:none}
+ .vip-login-right{padding:0 15px 28px;margin-top:-29px;background:linear-gradient(#f1e2cc,#f9f0e4);}
+ .vip-login-right::before{display:none}
+ .vip-login-card{border-radius:24px;padding:25px 21px;}
+ .vip-admin .vip-hero {min-height:210px;}
+ .vip-admin .vip-dashboard-table{min-width:690px}
+ .vip-admin .vip-kpi{min-height:112px;}
+}
+@media (prefers-reduced-motion:reduce) {
+ .vip-admin .vip-primary-action,.vip-login-submit {transition:none;}
+ .vip-admin .vip-primary-action:hover,.vip-login-submit:hover{transform:none;}
+}
