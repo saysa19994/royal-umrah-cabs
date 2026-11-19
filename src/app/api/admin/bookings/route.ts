@@ -102,6 +102,15 @@ export async function PATCH(request: Request) {
     const body = await request.json();
     const { id, reference, status, special_notes, driver_name, driver_phone, vehicle_plate } = body;
 
+    // Driver details must always be resolved from the trusted driver registry.
+    if (driver_name !== undefined || driver_phone !== undefined || vehicle_plate !== undefined) {
+      return NextResponse.json({ error: 'Use the verified driver assignment endpoint' }, { status: 400 });
+    }
+    if (special_notes !== undefined &&
+        (typeof special_notes !== 'string' || special_notes.length > 2000)) {
+      return NextResponse.json({ error: 'Notes must be text of 2000 characters or fewer' }, { status: 400 });
+    }
+
     if (!id && !reference) {
       return NextResponse.json(
         { error: 'Booking id or reference is required' },
@@ -120,6 +129,31 @@ export async function PATCH(request: Request) {
     }
 
     const serviceClient = createServiceClient();
+
+    // Re-read the current persisted state; prevent invalid jumps in booking lifecycle.
+    let currentQuery = serviceClient.from('bookings').select('id, status, driver_id, whatsapp_number');
+    currentQuery = id ? currentQuery.eq('id', id) : currentQuery.eq('reference', reference);
+    const { data: currentBooking, error: currentError } = await currentQuery.maybeSingle();
+    if (currentError) return NextResponse.json({ error: 'Unable to verify booking state' }, { status: 500 });
+    if (!currentBooking) return NextResponse.json({ error: 'Booking not found' }, { status: 404 });
+    if (status !== undefined && status !== currentBooking.status) {
+      const transitions: Record<string, string[]> = {
+        new: ['confirmed', 'cancelled'],
+        confirmed: ['cancelled'],
+        driver_assigned: ['en_route', 'cancelled'],
+        en_route: ['completed'],
+        completed: [], cancelled: [],
+      };
+      if (!(transitions[currentBooking.status] || []).includes(status)) {
+        return NextResponse.json({
+          error: 'This status transition is not allowed. Confirm first, then assign a registered driver.',
+        }, { status: 409 });
+      }
+      if (status === 'en_route' && !currentBooking.driver_id) {
+        return NextResponse.json({ error: 'A verified driver must be assigned first' }, { status: 409 });
+      }
+    }
+
 
     // If operator, verify that the booking belongs to their assigned WhatsApp scope and restrict fields
     if (currentUser.role === 'operator') {
@@ -161,20 +195,23 @@ export async function PATCH(request: Request) {
     }
     updateData.updated_at = new Date().toISOString();
 
-    let query = serviceClient.from('bookings').update(updateData);
+    if (Object.keys(updateData).length === 1) {
+      return NextResponse.json({ error: 'No editable fields were supplied' }, { status: 400 });
+    }
+    let query = serviceClient.from('bookings').update(updateData).eq('status', currentBooking.status);
     if (id) {
       query = query.eq('id', id);
     } else if (reference) {
       query = query.eq('reference', reference);
     }
 
-    const { data, error } = await query.select().single();
-    if (error || !data) {
+    const { data, error } = await query.select().maybeSingle();
+    if (error) {
       console.error('Failed to update booking in database:', error);
-      return NextResponse.json(
-        { error: 'Failed to update booking in database' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to update booking in database' }, { status: 500 });
+    }
+    if (!data) {
+      return NextResponse.json({ error: 'Booking changed during the update. Refresh and try again.' }, { status: 409 });
     }
 
     await logAuditEvent({
@@ -183,6 +220,7 @@ export async function PATCH(request: Request) {
       action: 'booking_updated',
       resource: 'bookings',
       resourceId: data.id,
+      oldValues: { status: currentBooking.status },
       newValues: updateData,
       ip: clientIp,
     });
