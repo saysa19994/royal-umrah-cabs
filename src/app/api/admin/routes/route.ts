@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { revalidateTag } from 'next/cache';
+import { revalidateTag, revalidatePath } from 'next/cache';
 import { requireRole } from '@/lib/auth/server-auth';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
@@ -104,6 +104,7 @@ export async function PATCH(request: NextRequest) {
     try {
       revalidateTag('site_routes');
       revalidateTag('site_prices');
+      revalidatePath('/[locale]/routes','page');
     } catch {}
 
     return NextResponse.json({ success: true, route: data });
@@ -187,6 +188,7 @@ export async function POST(request: NextRequest) {
     try {
       revalidateTag('site_routes');
       revalidateTag('site_prices');
+      revalidatePath('/[locale]/routes','page');
     } catch {}
 
     return NextResponse.json({ success: true, route: data }, { status: 201 });

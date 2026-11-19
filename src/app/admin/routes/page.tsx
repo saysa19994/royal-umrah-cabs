@@ -130,6 +130,7 @@ export default function AdminRoutesPage() {
       miqat_stop_allowed: true,
       is_active: true,
       display_order: (routes.length + 1) * 10,
+      translations: {},
     });
     setIsCreating(true);
     setIsEditing(true);
@@ -424,6 +425,32 @@ export default function AdminRoutesPage() {
                   />
                 </div>
               </div>
+
+              <details className="rounded-xl border border-[#dfcdb3] bg-[#fffaf2] p-4">
+                <summary className="cursor-pointer text-sm font-bold text-[#214354]">أسماء بداية ونهاية الرحلة باللغات العشر</summary>
+                <p className="my-2 text-xs text-[#6c7d86]">أدخل ترجمة صحيحة لكل لغة. اللغات غير المكتملة تحتفظ باسم المسار الموجود، والمسارات الجديدة لا تظهر بها حتى تتم ترجمتها.</p>
+                <div className="mt-3 grid gap-4 md:grid-cols-2">
+                  {(['ar','en','ms','id','ur','fr','es','de','tr','hi'] as const).map(lang => (
+                    <fieldset key={lang} className="rounded-xl border border-[#ebdfce] p-3">
+                      <legend className="px-2 text-xs font-bold">{lang.toUpperCase()}</legend>
+                      <label className="block text-xs">من
+                        <input type="text" maxLength={140} value={formData.translations?.[lang]?.origin || ''}
+                          onChange={e => setFormData(previous => ({...previous,translations:{
+                            ...(previous.translations||{}),[lang]:{...(previous.translations?.[lang]||{}),origin:e.target.value},
+                          }}))}
+                          className="mt-1 w-full rounded-lg border border-[#d5c5ae] bg-white px-3 py-2"/>
+                      </label>
+                      <label className="mt-2 block text-xs">إلى
+                        <input type="text" maxLength={140} value={formData.translations?.[lang]?.destination || ''}
+                          onChange={e => setFormData(previous => ({...previous,translations:{
+                            ...(previous.translations||{}),[lang]:{...(previous.translations?.[lang]||{}),destination:e.target.value},
+                          }}))}
+                          className="mt-1 w-full rounded-lg border border-[#d5c5ae] bg-white px-3 py-2"/>
+                      </label>
+                    </fieldset>
+                  ))}
+                </div>
+              </details>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
