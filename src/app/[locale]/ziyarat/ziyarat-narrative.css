@@ -102,3 +102,35 @@
  .duyuf-ziyarat-narrative .duyuf-ziyarat-sites-rail>div{flex-basis:83vw}
  .duyuf-ziyarat-narrative .duyuf-ziyarat-pillars-rail>div{flex-basis:77vw}
 }
+
+
+/* Visitor guide mobile reading pass: preserve all landmarks, prices, and links. */
+@media(max-width:767px){
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-hero{padding:65px 0 0}
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-hero-grid{gap:7px;min-height:0}
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-hero-copy nav{margin-bottom:13px}
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-hero-copy h1{
+   font-size:clamp(28px,7.6vw,36px)!important;
+   line-height:1.44!important;
+   margin:12px 0!important;
+ }
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-hero-copy>p{
+   font-size:15px!important;line-height:1.75!important;
+   margin-bottom:18px!important;
+ }
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-hero-copy>div.inline-flex{font-size:12px!important}
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-hero-arc{min-height:0!important;margin:0!important}
+ .duyuf-ziyarat-narrative :is(.duyuf-ziyarat-guides,.duyuf-ziyarat-process,.duyuf-ziyarat-faq){
+   padding-block:30px!important;
+ }
+ .duyuf-ziyarat-narrative :is(.duyuf-ziyarat-sites-rail,.duyuf-ziyarat-pillars-rail)>div{
+   min-height:0!important;
+ }
+ .duyuf-ziyarat-narrative :is(.duyuf-ziyarat-sites-rail,.duyuf-ziyarat-pillars-rail) :is(p,li,span){
+   font-size:max(13px,.8125rem);
+   line-height:1.7;
+ }
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-steps>div{padding-block:14px!important}
+ .duyuf-ziyarat-narrative .duyuf-ziyarat-answers>div{padding-block:14px!important}
+ .duyuf-ziyarat-narrative :is(input,select){min-height:47px;font-size:16px}
+}
