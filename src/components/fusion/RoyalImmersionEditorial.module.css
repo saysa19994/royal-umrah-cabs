@@ -562,3 +562,83 @@
  .processSteps li { grid-template-columns:58px minmax(0,1fr); }
  .processNumber b { font-size:2.55rem; }
 }
+
+
+/* Connected Journey preview: disciplined editorial rhythm, no oversized repeated panels. */
+.process,.services,.ziyarat,.chauffeur,.reviews,.faq{--navy:#142236;--ivory:#f6f2eb;--bronze:#987a56;color:#142236}
+.process{background:#f6f2eb;padding:clamp(46px,5.2vw,76px) max(22px,calc((100% - 1260px)/2))}
+.processHead{display:flex;align-items:end;justify-content:space-between;text-align:start;gap:32px;margin-bottom:30px;max-width:1260px}
+.processHead h2{font-size:clamp(1.9rem,3vw,3.3rem);letter-spacing:-.025em;max-width:660px}
+.processHead>p{margin:0!important;max-width:410px;font-size:.91rem;line-height:1.7}
+.processSteps{max-width:1260px;gap:clamp(15px,2vw,32px);border-top:1px solid #d8d2c7;padding-top:21px}
+.processSteps li{padding-inline:0;min-width:0}
+.processNumber{min-height:57px;gap:11px}
+.processNumber b{font-size:clamp(2.4rem,3.3vw,3.7rem)}
+.processNumber svg{width:25px;height:25px}
+.processStepLabel{margin:6px 0 4px;font-size:.74rem}
+.processSteps h3{margin:3px 0 7px!important;font-size:clamp(1.1rem,1.4vw,1.45rem)}
+.processSteps p{font-size:.87rem;line-height:1.65}
+.services{width:min(calc(100% - 44px),1260px);min-height:0;margin:26px auto 60px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);background:#f4f0e9;border-radius:13px;overflow:hidden}
+.servicesPhoto{min-height:470px}
+.servicesBody{padding:clamp(22px,3vw,45px)}
+.servicesBody h2{font-size:clamp(2rem,2.7vw,3.1rem)}
+.serviceRows{margin-top:19px}
+.serviceRow{padding-block:7px;min-height:51px}
+.serviceRow h3{font-size:clamp(.91rem,1.1vw,1.09rem)}
+.serviceRow p{line-height:1.5}
+.ziyarat{padding-block:clamp(48px,5vw,72px);background:#fff}
+.ziHead{margin-bottom:23px}
+.ziHead h2{font-size:clamp(2rem,3.15vw,3.55rem)}
+.ziGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:stretch}
+.ziGrid>a,.ziGrid>a:nth-child(2){height:clamp(290px,31vw,415px);min-height:0;margin-top:0;border-radius:11px}
+.ziGrid>a>div{inset-inline:25px;bottom:25px}
+.ziGrid h3{font-size:clamp(1.65rem,2.5vw,2.8rem)}
+.chauffeur{width:min(calc(100% - 44px),1260px);margin:48px auto;min-height:0;border-radius:13px;overflow:hidden;background:#142236}
+.chauffeurPhoto{min-height:390px}
+.chauffeurWords{padding:clamp(26px,4vw,55px)}
+.chauffeurWords h2{font-size:clamp(2rem,3vw,3.4rem)}
+.chauffeurWords>p{margin:15px 0 22px!important;line-height:1.8}
+.reviews{padding-block:clamp(48px,5.5vw,76px);gap:clamp(25px,3vw,55px);background:#f6f2eb}
+.reviews h2,.faq h2{font-size:clamp(2rem,3.1vw,3.4rem)}
+.reviewQuote{padding-top:22px}
+.faq{padding-block:clamp(48px,5.5vw,76px);gap:clamp(25px,4vw,65px)}
+.faqPhoto{height:190px}
+.faqItem button{min-height:60px}
+@media(max-width:760px){
+ .process{padding:38px 19px 43px}
+ .processHead{display:block;text-align:start;margin-bottom:22px}
+ .processHead h2{font-size:clamp(1.7rem,7vw,2.5rem)}
+ .processHead>p{margin:9px 0 0!important;font-size:.86rem}
+ .processSteps{display:grid;grid-template-columns:1fr;gap:0;padding-top:0;border-top:0}
+ .processSteps li{display:grid;grid-template-columns:62px minmax(0,1fr);gap:0 12px;border-top:1px solid #d8d2c7;padding:13px 0}
+ .processNumber{grid-row:1/4;align-items:center;min-height:0}
+ .processNumber b{font-size:2.15rem}
+ .processNumber svg{width:21px;height:21px}
+ .processStepLabel{margin:1px 0 4px}
+ .processSteps h3{font-size:1.06rem}
+ .processSteps p{font-size:.82rem;line-height:1.58}
+ .services{display:flex;flex-direction:column;width:calc(100% - 30px);margin:18px auto 38px;border-radius:12px}
+ .servicesPhoto{height:48vw;min-height:0;max-height:250px}
+ .servicesBody{padding:24px 19px 29px}
+ .serviceRows{margin-top:14px}
+ .serviceRow{min-height:50px}
+ .ziyarat{padding:40px 17px 46px}
+ .ziHead{display:block}
+ .ziGrid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:17px}
+ .ziGrid>a,.ziGrid>a:nth-child(2){height:auto;min-height:0;aspect-ratio:16/10;margin-top:0;max-height:300px}
+ .ziGrid>a>div{bottom:18px;inset-inline:18px}
+ .ziGrid h3{font-size:1.55rem}
+ .ziGrid p{font-size:.75rem;line-height:1.4}
+ .ziGrid strong{margin-top:10px}
+ .chauffeur{display:flex;flex-direction:column;width:calc(100% - 30px);margin:22px auto 42px;border-radius:12px}
+ .chauffeurPhoto{height:55vw;min-height:0;max-height:260px}
+ .chauffeurWords{padding:26px 20px 33px}
+ .reviews{padding:42px 19px;display:block}
+ .reviewQuote{margin-top:19px}
+ .reviewQuote blockquote{font-size:clamp(1.28rem,5.4vw,1.9rem)}
+ .faq{padding:42px 19px;display:block}
+ .faqPhoto{display:none}
+ .faqList{margin-top:19px}
+ .faqItem button{min-height:58px}
+}
+@media(max-width:390px){.ziGrid>a,.ziGrid>a:nth-child(2){aspect-ratio:1.55}.serviceRow p{font-size:.78rem}}
