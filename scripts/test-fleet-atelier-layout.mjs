@@ -6,14 +6,16 @@ const fleet=read('src/components/fleet/FleetAtelier.tsx');
 const css=read('src/components/fleet/FleetAtelier.module.css');
 const page=read('src/app/[locale]/fleet/page.tsx');
 test('fleet direct book contains only five real approved vehicles and route price matrix',()=>{
- assert.match(fleet,/APPROVED_5_FLEET\.map/);
- assert.match(fleet,/AUTHORITATIVE_TRANSFER_RATES\[ROUTE\]/);
+ assert.match(fleet,/APPROVED_5_FLEET\.filter/);
+ assert.match(fleet,/visibleFleet\.map/);
+ assert.match(fleet,/rates\[ROUTE\]/);
  assert.match(fleet,/\/booking\?route='\+ROUTE\+'&vehicle='\+approved\.slug/);
  assert.doesNotMatch(fleet,/startingPriceSAR\}/);
  assert.match(fleet,/\/fleet\/mercedes-maybach/);
  assert.match(fleet,/\/fleet\/hyundai-h1/);
  assert.match(fleet,/\/contact/);
  assert.match(page,/getDbVehiclesCached\(\)/);
+ assert.match(page,/getDbPricesCached\(\)/);
  assert.match(page,/itemListSchema/);
 });
 test('fleet photograph selector and real preview assets are accessible in all ten locales',()=>{

@@ -4,6 +4,7 @@ import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { FleetAtelier } from '@/components/fleet/FleetAtelier';
 import { getDbVehiclesCached } from '@/lib/fleet-db';
+import { getDbPricesCached } from '@/lib/pricing-db';
 
 interface FleetPageProps {
   params: Promise<{
@@ -40,7 +41,7 @@ export default async function FleetPage(props: FleetPageProps) {
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
-  const vehicles = await getDbVehiclesCached();
+  const [vehicles,rates] = await Promise.all([getDbVehiclesCached(),getDbPricesCached()]);
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
@@ -75,7 +76,9 @@ export default async function FleetPage(props: FleetPageProps) {
         serviceType: 'Private driver transportation',
         name: v.name[locale] || v.name.en,
         description: v.desc[locale] || v.desc.en,
-        image: `${baseUrl}${v.gallery?.[0]?.src || `/assets/images/vehicles/${v.slug}/exterior-studio.webp`}`,
+        image: v.gallery?.[0]?.src?.startsWith('https://')
+          ? v.gallery[0].src
+          : `${baseUrl}${v.gallery?.[0]?.src || `/assets/images/vehicles/${v.slug}/exterior-studio.webp`}`,
         url: `${baseUrl}/${locale}/fleet/${v.slug}`,
         provider: { '@type': 'TravelAgency', name: 'Duyuf Al Rahman VIP', url: baseUrl },
       },
@@ -92,7 +95,7 @@ export default async function FleetPage(props: FleetPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema).replace(/</g, '\\u003c') }}
       />
-      <FleetAtelier vehicles={vehicles} locale={locale} />
+      <FleetAtelier vehicles={vehicles} rates={rates} locale={locale} />
     </main>
   );
 }
