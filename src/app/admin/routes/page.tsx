@@ -172,7 +172,7 @@ export default function AdminRoutesPage() {
   return (
     <div className="vip-internal-editorial space-y-6 text-start">
       {/* 1. HERO HEADER */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F2E8] via-[#F9F1E7] to-[#F8EEDF] border border-[#E4D4BE] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.65)]">
+      <div className="vip-internal-hero relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F2E8] via-[#F9F1E7] to-[#F8EEDF] border border-[#E4D4BE] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.65)]">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#086064]/15 border border-[#C49A61]/30 text-xs font-bold text-[#93652D]">
@@ -184,8 +184,8 @@ export default function AdminRoutesPage() {
               Routes &amp; Travel Corridors
             </h1>
 
-            <p className="text-xs sm:text-sm text-[#63727C] font-light max-w-2xl leading-relaxed">
-              Manage all 16 intercity pilgrimage routes across Jeddah KAIA, Makkah Haram, Madinah Nabawi, Taif, Riyadh, and historic Ziyarat sites. Controls Miqat stop allowances, travel distances, and duration buffers.
+            <p className="vip-hero-description text-xs sm:text-sm text-[#63727C] font-light max-w-2xl leading-relaxed">
+              Manage configured transport routes connecting Jeddah, Makkah, Madinah, Taif and Riyadh. Controls Miqat stop allowances, travel distances, and duration buffers.
             </p>
           </div>
 
