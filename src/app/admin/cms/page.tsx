@@ -122,18 +122,18 @@ export default function AdminCmsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="vip-internal-editorial space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="w-2 h-2 rounded-full bg-[#D9A031]" />
-            <span className="text-xs font-bold uppercase tracking-wider text-[#D9A031]">Content &amp; SEO Engine</span>
+            <span className="w-2 h-2 rounded-full bg-[#0A6364]" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#92612D]">Content &amp; SEO Engine</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold font-display text-[#FAF9F6]">
+          <h1 className="text-2xl md:text-3xl font-bold font-display text-[#193746]">
             Page Content &amp; CMS
           </h1>
-          <p className="text-sm text-[#A0A6B2] mt-0.5">
+          <p className="text-sm text-[#697984] mt-0.5">
             Manage meta tags, headings, guides, and localized copy across all 10 supported languages.
           </p>
         </div>
@@ -141,9 +141,9 @@ export default function AdminCmsPage() {
         <button
           onClick={fetchCmsPages}
           disabled={loading}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1A1F26] border border-[#262B33] text-xs font-semibold text-[#FAF9F6] hover:bg-[#20252D] hover:border-[#D9A031]/40 transition-colors self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F7EBDB] border border-[#E4D4BE] text-xs font-semibold text-[#193746] hover:bg-[#F3E7D7] hover:border-[#C29B65]/40 transition-colors self-start sm:self-auto"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#D9A031]' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#92612D]' : ''}`} />
           <span>Refresh</span>
         </button>
       </div>
@@ -152,8 +152,8 @@ export default function AdminCmsPage() {
         <div
           className={`p-4 rounded-xl border flex items-center justify-between gap-3 text-xs font-medium animate-in fade-in duration-200 ${
             feedback.type === 'success'
-              ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
-              : 'bg-red-950/40 border-red-500/40 text-red-300'
+              ? 'bg-emerald-50 border-emerald-500/40 text-emerald-700'
+              : 'bg-red-50 border-red-500/40 text-red-700'
           }`}
         >
           <div className="flex items-center gap-2">
@@ -174,8 +174,8 @@ export default function AdminCmsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Page Selector List */}
         <div className="space-y-2 lg:col-span-1">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#A0A6B2] px-1">Select Page</span>
-          <div className="space-y-1 bg-[#14171C] border border-[#262B33] p-2 rounded-2xl">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#697984] px-1">Select Page</span>
+          <div className="space-y-1 bg-[#FFF9F1] border border-[#E4D4BE] p-2 rounded-2xl">
             {PAGES_LIST.map((p) => {
               const isSelected = selectedPage === p.id;
               const hasEn = pages.some((page) => page.page_key === p.id && page.language === 'en');
@@ -187,8 +187,8 @@ export default function AdminCmsPage() {
                   onClick={() => setSelectedPage(p.id)}
                   className={`w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-between transition-colors ${
                     isSelected
-                      ? 'bg-[#D9A031]/15 text-[#D9A031] border border-[#D9A031]/30 font-bold'
-                      : 'text-[#FAF9F6] hover:bg-[#1A1F26] border border-transparent'
+                      ? 'bg-[#0A6364]/15 text-[#92612D] border border-[#C29B65]/30 font-bold'
+                      : 'text-[#193746] hover:bg-[#F7EBDB] border border-transparent'
                   }`}
                 >
                   <span className="truncate">{p.title}</span>
@@ -203,14 +203,14 @@ export default function AdminCmsPage() {
         </div>
 
         {/* Content Editor Panel */}
-        <div className="lg:col-span-3 space-y-5 bg-[#14171C] border border-[#262B33] p-6 rounded-2xl">
+        <div className="lg:col-span-3 space-y-5 bg-[#FFF9F1] border border-[#E4D4BE] p-6 rounded-2xl">
           {/* Language Tabs */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#A0A6B2]">Language Locale</span>
-              <span className="text-[11px] text-[#D9A031] font-mono">Editing: {LOCALE_CONFIG[selectedLocale].nativeName} ({selectedLocale})</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#697984]">Language Locale</span>
+              <span className="text-[11px] text-[#92612D] font-mono">Editing: {LOCALE_CONFIG[selectedLocale].nativeName} ({selectedLocale})</span>
             </div>
-            <div className="flex flex-wrap items-center gap-1.5 bg-[#0D0F12] p-1.5 rounded-xl border border-[#262B33]">
+            <div className="flex flex-wrap items-center gap-1.5 bg-[#F6ECE0] p-1.5 rounded-xl border border-[#E4D4BE]">
               {LOCALES.map((loc) => {
                 const isActive = selectedLocale === loc;
                 return (
@@ -220,8 +220,8 @@ export default function AdminCmsPage() {
                     onClick={() => setSelectedLocale(loc)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                       isActive
-                        ? 'bg-[#D9A031] text-[#0D0F12] font-bold shadow-sm'
-                        : 'text-[#A0A6B2] hover:text-[#FAF9F6] hover:bg-[#1A1F26]'
+                        ? 'bg-[#0A6364] text-[#FFFAF2] font-bold shadow-sm'
+                        : 'text-[#697984] hover:text-[#193746] hover:bg-[#F7EBDB]'
                     }`}
                   >
                     {LOCALE_CONFIG[loc].nativeName} ({loc.toUpperCase()})
@@ -234,7 +234,7 @@ export default function AdminCmsPage() {
           {/* Form */}
           <form onSubmit={handleSave} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+              <label className="block text-xs font-semibold text-[#697984] mb-1">
                 SEO Page Title (Title Tag) <span className="text-rose-400">*</span>
               </label>
               <input
@@ -243,12 +243,12 @@ export default function AdminCmsPage() {
                 value={seoTitle}
                 onChange={(e) => setSeoTitle(e.target.value)}
                 placeholder="e.g. VIP Umrah Taxi & Chauffeur Services Jeddah to Makkah | Duyuf Alrahman VIP"
-                className="w-full px-4 py-2.5 rounded-xl bg-[#0D0F12] border border-[#262B33] text-xs text-[#FAF9F6] focus:outline-none focus:border-[#D9A031]"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-xs text-[#193746] focus:outline-none focus:border-[#C29B65]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+              <label className="block text-xs font-semibold text-[#697984] mb-1">
                 SEO Meta Description <span className="text-rose-400">*</span>
               </label>
               <textarea
@@ -257,12 +257,12 @@ export default function AdminCmsPage() {
                 value={seoDescription}
                 onChange={(e) => setSeoDescription(e.target.value)}
                 placeholder="Meta description for search engines and social cards..."
-                className="w-full px-4 py-2.5 rounded-xl bg-[#0D0F12] border border-[#262B33] text-xs text-[#FAF9F6] focus:outline-none focus:border-[#D9A031]"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-xs text-[#193746] focus:outline-none focus:border-[#C29B65]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+              <label className="block text-xs font-semibold text-[#697984] mb-1">
                 Primary H1 Heading
               </label>
               <input
@@ -270,19 +270,19 @@ export default function AdminCmsPage() {
                 value={h1}
                 onChange={(e) => setH1(e.target.value)}
                 placeholder="e.g. Premium VIP Chauffeur Transfer for Umrah Pilgrims"
-                className="w-full px-4 py-2.5 rounded-xl bg-[#0D0F12] border border-[#262B33] text-xs text-[#FAF9F6] focus:outline-none focus:border-[#D9A031]"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-xs text-[#193746] focus:outline-none focus:border-[#C29B65]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+              <label className="block text-xs font-semibold text-[#697984] mb-1">
                 Content Blocks (JSON format for structured paragraphs, lists &amp; guides)
               </label>
               <textarea
                 rows={6}
                 value={contentJson}
                 onChange={(e) => setContentJson(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-[#0D0F12] border border-[#262B33] font-mono text-xs text-amber-200/90 focus:outline-none focus:border-[#D9A031]"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] font-mono text-xs text-amber-200/90 focus:outline-none focus:border-[#C29B65]"
               />
             </div>
 
@@ -290,7 +290,7 @@ export default function AdminCmsPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#D9A031] hover:bg-[#B88422] text-[#0D0F12] font-bold text-xs transition-colors shadow-lg shadow-[#D9A031]/10"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0A6364] hover:bg-[#065059] text-[#FFFAF2] font-bold text-xs transition-colors shadow-lg shadow-[#D9A031]/10"
               >
                 <Save className="w-4 h-4" />
                 <span>{saving ? 'Saving...' : 'Save & Publish to Database'}</span>
