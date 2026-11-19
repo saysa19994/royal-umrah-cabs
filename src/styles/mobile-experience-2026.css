@@ -107,3 +107,18 @@
    outline-offset:2px;
  }
 }
+
+
+/* Actual fare labels matter more than decorative section microcopy.
+   Raise mobile pricing/booking chips rendered with Tailwind 9-11px utilities. */
+@media(max-width:760px){
+ .duyuf-pricing-dashboard :is([class*="text-[9px]"],[class*="text-[10px]"],[class*="text-[11px]"]),
+ .duyuf-luxury-booking :is([class*="text-[9px]"],[class*="text-[10px]"],[class*="text-[11px]"]){
+   font-size:12.5px!important;
+   line-height:1.55!important;
+   overflow-wrap:break-word;
+ }
+ .duyuf-pricing-dashboard :is(button,select,input){
+   min-height:44px;
+ }
+}
