@@ -1,4 +1,5 @@
 import React from 'react';
+import '@/styles/admin-cinematic.css';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { AdminLayoutClient } from '@/components/admin/AdminLayoutClient';
@@ -21,7 +22,7 @@ export const metadata = {
 function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" dir="ltr" className={`${inter.variable} ${ibmPlexArabic.variable} ${cairo.variable}`}>
-      <body className="min-h-screen bg-[#0B0F17] text-[#F3F4F6] antialiased selection:bg-[#C9A24B]/20 selection:text-[#E6C773] font-sans">
+      <body className="min-h-screen bg-[#f5eee3] text-[#142d3a] antialiased font-sans">
         {children}
       </body>
     </html>
@@ -71,7 +72,7 @@ export default async function AdminLayout({
       .is('auth_user_id', null)
       .maybeSingle();
 
-    if (unlinked) {
+    if (unlinked && process.env.VERCEL_ENV !== 'preview') {
       await serviceClient
         .from('user_profiles')
         .update({ auth_user_id: authData.user.id, updated_at: new Date().toISOString() })
@@ -112,6 +113,8 @@ export default async function AdminLayout({
 
   if (profile.role !== 'owner' && profile.role !== 'admin') {
     const restrictedPaths = [
+      '/admin/reports',
+      '/admin/collections',
       '/admin/pricing',
       '/admin/fleet',
       '/admin/routes',

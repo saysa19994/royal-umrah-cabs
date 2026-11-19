@@ -46,6 +46,7 @@ export async function POST(request: Request) {
 
     if (authError || !authData?.user) {
       console.error('Supabase auth signIn error:', authError?.message);
+      if (process.env.VERCEL_ENV !== 'preview') {
       await logAuditEvent({
         userEmail: cleanEmail,
         userRole: 'operator',
@@ -55,6 +56,7 @@ export async function POST(request: Request) {
         newValues: { reason: authError?.message || 'Invalid email or password' },
         ip: clientIp,
       });
+      }
 
       return NextResponse.json(
         { error: authError?.message || 'Invalid credentials or user does not exist.' },
@@ -78,7 +80,7 @@ export async function POST(request: Request) {
         .is('auth_user_id', null)
         .maybeSingle();
 
-      if (unlinked) {
+      if (unlinked && process.env.VERCEL_ENV !== 'preview') {
         await serviceClient
           .from('user_profiles')
           .update({
@@ -110,6 +112,7 @@ export async function POST(request: Request) {
     }
 
     // 4. Update last_login
+    if (process.env.VERCEL_ENV !== 'preview') {
     await serviceClient
       .from('user_profiles')
       .update({
@@ -118,6 +121,7 @@ export async function POST(request: Request) {
         auth_user_id: authData.user.id,
       })
       .eq('id', userProfile.id);
+    }
 
     // 5. Enforce 2FA MFA TOTP for Owner and Admin, or any account with totp_enabled
     const isOwnerOrAdmin = userProfile.role === 'owner' || userProfile.role === 'admin';

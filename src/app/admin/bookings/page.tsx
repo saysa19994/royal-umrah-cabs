@@ -1,13 +1,12 @@
-import AdminDashboardPage from '../page';
+import BookingOperationsPage from '@/components/admin/BookingOperationsPage';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 export const metadata = {
-  title: 'VIP Bookings & Chauffeur Dispatch | Duyuf Alrahman VIP',
-  robots: {
-    index: false,
-    follow: false,
-  },
+  title: 'إدارة الحجوزات والرحلات | ضيوف الرحمن VIP',
+  robots: { index: false, follow: false },
 };
 
 export default function AdminBookingsPage() {
-  return <AdminDashboardPage />;
+  return <BookingOperationsPage mode="bookings" />;
 }
