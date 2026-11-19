@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import styles from './booking-atrium.module.css';
 import './booking-editorial.css';
+import './booking-reference-redesign.css';
 import type { Metadata } from 'next';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
@@ -207,17 +208,20 @@ export default async function BookingPage(props: BookingPageProps) {
 
   // Reframe the journey entrance; booking validation and persistence stay in BookingWizard.
   return (
-    <div className={styles.page} dir={locale==='ar'||locale==='ur'?'rtl':'ltr'}>
+    <div className={styles.page} data-booking-design="luxury-reference" dir={locale==='ar'||locale==='ur'?'rtl':'ltr'}>
       <header className={styles.intro} aria-labelledby="duyuf-booking-heading">
         <div className={styles.introCopy}>
           <div className={styles.serial}>{pageText.badge}</div>
-          <h1 id="duyuf-booking-heading">{pageText.title}</h1>
+          <h1 id="duyuf-booking-heading">{locale === 'ar' ? <>احجز <span>رحلتك</span> بسهولة وأمان</> : pageText.title}</h1>
           <a className={styles.startLink} href="#booking-reservation">{dict.nav.bookNow}</a>
         </div>
         <div className={styles.introMedia}>
-          <Image src="/assets/homepage-v2/chauffeur-welcome.jpg" fill
-            priority sizes="(max-width:767px) 100vw, 46vw"
-            alt={dict.services.airportTitle}/>
+          <Image src="/assets/homepage-v2/ziyarat-haram.jpg" fill
+            priority sizes="(max-width:767px) 100vw, 48vw"
+            alt={locale === 'ar' ? 'المسجد الحرام في مكة المكرمة' : 'The Grand Mosque in Makkah'}/>
+          <div className="duyuf-booking-hero-vehicle" aria-hidden="true">
+            <Image src="/assets/images/yukon_exterior.webp" fill sizes="(max-width:767px) 160px, 240px" alt="" />
+          </div>
           <div className={styles.photoLabel}><span>DUYUF AL RAHMAN VIP</span><span>{dict.nav.bookNow}</span></div>
         </div>
       </header>
@@ -226,7 +230,7 @@ export default async function BookingPage(props: BookingPageProps) {
         <div><Plane size={20} aria-hidden="true"/><span>{pageText.trust2}</span></div>
         <div><ShieldCheck size={20} aria-hidden="true"/><span>{pageText.trust3}</span></div>
       </div>
-      <section id="booking-reservation" className={'duyuf-booking-page duyuf-booking-editorial '+styles.reservationDesk} aria-label={dict.nav.bookNow}>
+      <section id="booking-reservation" className={'duyuf-booking-page duyuf-booking-editorial duyuf-luxury-booking '+styles.reservationDesk} aria-label={dict.nav.bookNow}>
         <div className="container mx-auto px-4 max-w-7xl relative z-10">
         {draftRestoreFailed && (
           <div role="status" className="mx-auto mb-6 max-w-3xl rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-center text-sm font-medium text-amber-900">
