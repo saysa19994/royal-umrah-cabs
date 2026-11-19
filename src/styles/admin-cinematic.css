@@ -203,3 +203,60 @@
  .vip-admin .vip-primary-action,.vip-login-submit {transition:none;}
  .vip-admin .vip-primary-action:hover,.vip-login-submit:hover{transform:none;}
 }
+
+
+/* Submodule editorial system: coherent with the photographic command-center
+   while keeping old forms and data controls functional. */
+.vip-admin .vip-internal-editorial { color:#193341; }
+.vip-admin .vip-internal-editorial .vip-internal-hero {
+  background:
+    linear-gradient(90deg,rgba(6,26,43,.96),rgba(8,42,60,.91) 54%,rgba(10,54,65,.60)),
+    url('/assets/images/cinematic/home/hero-mercedes-kaaba-ref.jpg') center 54% / cover !important;
+  border-color:rgba(207,166,99,.72) !important;
+  box-shadow:0 18px 35px rgba(25,45,51,.16) !important;
+}
+.vip-admin .vip-internal-editorial .vip-internal-hero h1 {
+  font-family:Georgia,'Times New Roman',serif !important;
+  color:#fff8eb !important;
+  font-weight:650 !important;
+  letter-spacing:-.02em;
+}
+.vip-admin .vip-internal-editorial .vip-internal-hero .vip-hero-description {
+  color:#dce5e4 !important;
+}
+.vip-admin .vip-internal-editorial .vip-internal-hero .inline-flex.rounded-full {
+  background:rgba(11,69,76,.85);
+  border-color:rgba(214,173,106,.6);
+  color:#f1ce92 !important;
+}
+.vip-admin .vip-internal-editorial input:not([type='checkbox']):not([type='radio']),
+.vip-admin .vip-internal-editorial select,
+.vip-admin .vip-internal-editorial textarea {
+  color:#173543;
+  border-color:#d8cbb8;
+  background-color:#fffdf8;
+}
+.vip-admin .vip-internal-editorial input:focus,
+.vip-admin .vip-internal-editorial select:focus,
+.vip-admin .vip-internal-editorial textarea:focus {
+  outline-color:#227c7d;
+}
+.vip-admin .vip-internal-editorial table thead {
+  background:#f0e4d2;
+  color:#294151;
+}
+.vip-admin .vip-internal-editorial table tbody tr {
+  border-color:#e9dac5;
+}
+.vip-admin .vip-internal-editorial [class*='shadow-[0_12px_40px'] {
+  box-shadow:0 12px 28px rgba(28,50,56,.11);
+}
+.vip-admin .vip-internal-editorial button:focus-visible,
+.vip-admin .vip-internal-editorial a:focus-visible {
+  outline:2px solid #0a7373;
+  outline-offset:2px;
+}
+@media(max-width:640px) {
+  .vip-admin .vip-internal-editorial .vip-internal-hero { background-position:62% center !important; }
+  .vip-admin .vip-internal-editorial .vip-internal-hero h1 { font-size:26px !important;line-height:1.24; }
+}
