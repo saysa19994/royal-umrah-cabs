@@ -134,7 +134,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const result = await toggleOrDeleteRouteAdmin(routeId, action, currentUser.email, currentUser.role, clientIp);
-    return NextResponse.json(result);
+    return NextResponse.json(result, { status: result.success ? 200 : 503 });
   } catch (err: any) {
     console.error('Pricing DELETE error:', err);
     return NextResponse.json({ success: false, error: 'Internal server error managing route' }, { status: 500 });
