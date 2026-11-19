@@ -138,24 +138,24 @@ export default function AdminReviewsPage() {
   };
 
   return (
-    <div className="space-y-6 text-start">
+    <div className="vip-internal-editorial space-y-6 text-start">
       {/* 1. EXECUTIVE COMMAND HERO BAR */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#121724] via-[#0E121B] to-[#0A0D14] border border-[#232B3E] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F1E7] via-[#F9F1E7] to-[#FAF3E7] border border-[#E5D6C0] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
         {/* Subtle decorative champagne gold glow in corner */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#D9A031]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#0B6A69]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9A031]/15 border border-[#D9A031]/30 text-xs font-bold text-[#E5B842]">
-              <Sparkles className="w-3.5 h-3.5 text-[#D9A031]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#086064]/15 border border-[#C49A61]/30 text-xs font-bold text-[#92612E]">
+              <Sparkles className="w-3.5 h-3.5 text-[#93652D]" />
               <span>Duyuf Alrahman VIP • Pilgrim Reputation &amp; Trust Command</span>
             </div>
 
-            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-[#FAF9F6] tracking-tight">
+            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-[#193341] tracking-tight">
               Customer Reviews Moderation
             </h1>
 
-            <p className="text-xs sm:text-sm text-[#9DA6B8] font-light max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#667681] font-light max-w-2xl leading-relaxed">
               Verify and moderate authentic pilgrim reviews. Submissions remain private until approved by an administrator, instantly updating the public website across all 10 locales with zero redeployments.
             </p>
           </div>
@@ -164,7 +164,7 @@ export default function AdminReviewsPage() {
             <button
               onClick={() => fetchReviews()}
               disabled={loading}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D9A031] to-[#B8821D] hover:from-[#E5B842] hover:to-[#C69225] text-xs font-bold text-[#0A0D14] transition-all shadow-[0_0_15px_rgba(217,160,49,0.3)] hover:scale-[1.02] disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#0B6A69] to-[#06474E] hover:from-[#0C7471] hover:to-[#086064] text-xs font-bold text-[#FFF7EA] transition-all shadow-[0_0_15px_rgba(217,160,49,0.3)] hover:scale-[1.02] disabled:opacity-50"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh Reviews</span>
@@ -178,14 +178,14 @@ export default function AdminReviewsPage() {
         <div
           className={`p-4 rounded-2xl border flex items-center justify-between gap-3 text-xs font-medium animate-in fade-in duration-200 shadow-lg ${
             feedback.type === 'success'
-              ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-200 shadow-emerald-950/30'
+              ? 'bg-emerald-50 border-emerald-500/40 text-emerald-200 shadow-emerald-950/30'
               : 'bg-rose-950/40 border-rose-500/40 text-rose-200 shadow-rose-950/30'
           }`}
         >
           <div className="flex items-center gap-3">
             {feedback.type === 'success' ? (
               <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
               </span>
             ) : (
               <span className="w-6 h-6 rounded-full bg-rose-500/20 border border-rose-500/40 flex items-center justify-center shrink-0">
@@ -210,19 +210,19 @@ export default function AdminReviewsPage() {
           onClick={() => { setStatusFilter('all'); setPage(1); }}
           className={`p-5 rounded-2xl border cursor-pointer transition-all ${
             statusFilter === 'all'
-              ? 'bg-[#151C2C] border-[#3B4863] ring-1 ring-[#D9A031]/40 shadow-lg'
-              : 'bg-[#10141E] border-[#1F2737] hover:border-[#2C384E]'
+              ? 'bg-[#F9F0E5] border-[#DFCCB2] ring-1 ring-[#D9A031]/40 shadow-lg'
+              : 'bg-[#FFFBF5] border-[#E4D4BE] hover:border-[#E4D4BD]'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#9DA6B8]">Total Reviews</span>
-            <span className="w-7 h-7 rounded-lg bg-[#182030] flex items-center justify-center text-[#9DA6B8]">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#667681]">Total Reviews</span>
+            <span className="w-7 h-7 rounded-lg bg-[#FBF4EA] flex items-center justify-center text-[#667681]">
               <MessageSquare className="w-3.5 h-3.5" />
             </span>
           </div>
           <div className="flex items-baseline gap-2 mt-3">
-            <span className="font-display text-2xl md:text-3xl font-bold text-[#FAF9F6]">{counts.all}</span>
-            <span className="text-xs text-[#6C7584]">logged</span>
+            <span className="font-display text-2xl md:text-3xl font-bold text-[#193341]">{counts.all}</span>
+            <span className="text-xs text-[#76828B]">logged</span>
           </div>
         </div>
 
@@ -232,7 +232,7 @@ export default function AdminReviewsPage() {
           className={`p-5 rounded-2xl border cursor-pointer transition-all ${
             statusFilter === 'pending'
               ? 'bg-amber-950/25 border-amber-500/50 ring-1 ring-amber-500/40 shadow-lg'
-              : 'bg-[#10141E] border-[#1F2737] hover:border-amber-500/30'
+              : 'bg-[#FFFBF5] border-[#E4D4BE] hover:border-amber-500/30'
           }`}
         >
           <div className="flex items-center justify-between">
@@ -263,19 +263,19 @@ export default function AdminReviewsPage() {
           className={`p-5 rounded-2xl border cursor-pointer transition-all ${
             statusFilter === 'published'
               ? 'bg-emerald-950/25 border-emerald-500/50 ring-1 ring-emerald-500/40 shadow-lg'
-              : 'bg-[#10141E] border-[#1F2737] hover:border-emerald-500/30'
+              : 'bg-[#FFFBF5] border-[#E4D4BE] hover:border-emerald-500/30'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 flex items-center gap-1.5">
               <CheckCircle2 className="w-3 h-3" />
               <span>Published</span>
             </span>
             <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
           </div>
           <div className="flex items-baseline justify-between mt-3">
-            <span className="font-display text-2xl md:text-3xl font-bold text-emerald-400">{counts.published}</span>
-            <span className="text-xs text-emerald-300/80 font-medium">Live on Site</span>
+            <span className="font-display text-2xl md:text-3xl font-bold text-emerald-700">{counts.published}</span>
+            <span className="text-xs text-emerald-700/80 font-medium">Live on Site</span>
           </div>
         </div>
 
@@ -285,7 +285,7 @@ export default function AdminReviewsPage() {
           className={`p-5 rounded-2xl border cursor-pointer transition-all ${
             statusFilter === 'rejected'
               ? 'bg-rose-950/25 border-rose-500/50 ring-1 ring-rose-500/40 shadow-lg'
-              : 'bg-[#10141E] border-[#1F2737] hover:border-rose-500/30'
+              : 'bg-[#FFFBF5] border-[#E4D4BE] hover:border-rose-500/30'
           }`}
         >
           <div className="flex items-center justify-between">
@@ -293,32 +293,32 @@ export default function AdminReviewsPage() {
               <XCircle className="w-3 h-3" />
               <span>Rejected / Spam</span>
             </span>
-            <span className="text-[10px] text-[#6C7584]">Hidden</span>
+            <span className="text-[10px] text-[#76828B]">Hidden</span>
           </div>
           <div className="flex items-baseline justify-between mt-3">
             <span className="font-display text-2xl md:text-3xl font-bold text-rose-400">{counts.rejected}</span>
-            <span className="text-xs text-[#6C7584]">Blocked</span>
+            <span className="text-xs text-[#76828B]">Blocked</span>
           </div>
         </div>
 
         {/* Average Pilgrim Rating */}
-        <div className="p-5 rounded-2xl bg-gradient-to-br from-[#121724] to-[#0A0D14] border border-[#232B3E] col-span-2 md:col-span-1 shadow-md">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-[#D9A031] flex items-center gap-1.5">
+        <div className="p-5 rounded-2xl bg-gradient-to-br from-[#F9F1E7] to-[#FAF3E7] border border-[#E5D6C0] col-span-2 md:col-span-1 shadow-md">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#93652D] flex items-center gap-1.5">
             <Sparkles className="w-3 h-3" />
             <span>Avg Rating</span>
           </span>
           <div className="flex items-baseline gap-2 mt-3">
-            <span className="font-display text-2xl md:text-3xl font-bold text-[#FAF9F6]">
+            <span className="font-display text-2xl md:text-3xl font-bold text-[#193341]">
               {counts.published > 0 ? averageRating.toFixed(1) : '5.0'}
             </span>
-            <div className="flex items-center text-[#D9A031] drop-shadow-[0_0_6px_rgba(217,160,49,0.4)]">
+            <div className="flex items-center text-[#93652D] drop-shadow-[0_0_6px_rgba(217,160,49,0.4)]">
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
                   key={star}
                   className={`w-3.5 h-3.5 ${
                     star <= Math.round(counts.published > 0 ? averageRating : 5)
-                      ? 'fill-[#D9A031] text-[#D9A031]'
-                      : 'text-[#283244]'
+                      ? 'fill-[#D9A031] text-[#93652D]'
+                      : 'text-[#223D4C]'
                   }`}
                 />
               ))}
@@ -328,17 +328,17 @@ export default function AdminReviewsPage() {
       </div>
 
       {/* 4. LUXURY FILTER & SEARCH BAR */}
-      <div className="p-4 rounded-2xl bg-[#10141E] border border-[#1F2737] flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between shadow-sm">
+      <div className="p-4 rounded-2xl bg-[#FFFBF5] border border-[#E4D4BE] flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between shadow-sm">
         {/* Status Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl bg-[#0A0D14] border border-[#1F2737] overflow-x-auto">
+        <div className="flex items-center gap-1 p-1 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE] overflow-x-auto">
           {(['all', 'pending', 'published', 'rejected'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => { setStatusFilter(tab); setPage(1); }}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold capitalize whitespace-nowrap transition-all ${
                 statusFilter === tab
-                  ? 'bg-gradient-to-r from-[#D9A031] to-[#B8821D] text-[#0A0D14] shadow-sm font-bold'
-                  : 'text-[#9DA6B8] hover:text-[#FAF9F6] hover:bg-white/5'
+                  ? 'bg-gradient-to-r from-[#0B6A69] to-[#06474E] text-[#FFF7EA] shadow-sm font-bold'
+                  : 'text-[#667681] hover:text-[#193341] hover:bg-white/5'
               }`}
             >
               {tab === 'all' ? 'All Reviews' : tab} ({counts[tab]})
@@ -352,7 +352,7 @@ export default function AdminReviewsPage() {
             <select
               value={ratingFilter}
               onChange={(e) => { setRatingFilter(e.target.value); setPage(1); }}
-              className="h-9 px-3 rounded-xl bg-[#0A0D14] border border-[#1F2737] text-xs text-[#FAF9F6] focus:outline-none focus:border-[#D9A031] cursor-pointer"
+              className="h-9 px-3 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE] text-xs text-[#193341] focus:outline-none focus:border-[#C49A61] cursor-pointer"
             >
               <option value="all">All Star Ratings</option>
               <option value="5">5 Stars ★★★★★</option>
@@ -364,13 +364,13 @@ export default function AdminReviewsPage() {
           </div>
 
           <div className="relative flex-1 sm:w-72">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#6C7584]" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#76828B]" />
             <input
               type="text"
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(1); }}
               placeholder="Search pilgrim name, route, comments..."
-              className="w-full h-9 pl-9 pr-3 rounded-xl bg-[#0A0D14] border border-[#1F2737] text-xs text-[#FAF9F6] placeholder-[#6C7584] focus:outline-none focus:border-[#D9A031]"
+              className="w-full h-9 pl-9 pr-3 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE] text-xs text-[#193341] placeholder-[#6C7584] focus:outline-none focus:border-[#C49A61]"
             />
           </div>
         </div>
@@ -378,17 +378,17 @@ export default function AdminReviewsPage() {
 
       {/* 5. REVIEWS STREAM */}
       {loading ? (
-        <div className="p-16 rounded-2xl bg-[#10141E] border border-[#1F2737] flex flex-col items-center justify-center gap-3 text-center">
-          <RefreshCw className="w-7 h-7 text-[#D9A031] animate-spin" />
-          <p className="text-xs text-[#9DA6B8]">Retrieving pilgrim testimonials from database...</p>
+        <div className="p-16 rounded-2xl bg-[#FFFBF5] border border-[#E4D4BE] flex flex-col items-center justify-center gap-3 text-center">
+          <RefreshCw className="w-7 h-7 text-[#93652D] animate-spin" />
+          <p className="text-xs text-[#667681]">Retrieving pilgrim testimonials from database...</p>
         </div>
       ) : reviews.length === 0 ? (
-        <div className="p-16 rounded-2xl bg-[#10141E] border border-[#1F2737] text-center flex flex-col items-center justify-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-[#151C2C] border border-[#232B3E] flex items-center justify-center text-[#9DA6B8]">
-            <MessageSquare className="w-6 h-6 text-[#D9A031]" />
+        <div className="p-16 rounded-2xl bg-[#FFFBF5] border border-[#E4D4BE] text-center flex flex-col items-center justify-center gap-3">
+          <div className="w-12 h-12 rounded-2xl bg-[#F9F0E5] border border-[#E5D6C0] flex items-center justify-center text-[#667681]">
+            <MessageSquare className="w-6 h-6 text-[#93652D]" />
           </div>
-          <h3 className="text-base font-bold text-[#FAF9F6]">No Reviews Found</h3>
-          <p className="text-xs text-[#9DA6B8] max-w-sm">
+          <h3 className="text-base font-bold text-[#193341]">No Reviews Found</h3>
+          <p className="text-xs text-[#667681] max-w-sm">
             {statusFilter !== 'all' || ratingFilter !== 'all' || search
               ? 'No reviews match your selected filter criteria. Try adjusting your search query or status filter.'
               : 'There are currently no reviews in the queue. New pilgrim submissions will appear here for review.'}
@@ -411,10 +411,10 @@ export default function AdminReviewsPage() {
                 key={review.id}
                 className={`p-6 rounded-2xl border transition-all duration-200 relative overflow-hidden ${
                   currentStatus === 'published'
-                    ? 'bg-gradient-to-br from-[#10141E] via-[#0E121B] to-[#0A0D14] border-[#1F2737] hover:border-[#2C384E]'
+                    ? 'bg-gradient-to-br from-[#10141E] via-[#F9F1E7] to-[#FAF3E7] border-[#E4D4BE] hover:border-[#E4D4BD]'
                     : currentStatus === 'pending'
-                    ? 'bg-gradient-to-br from-amber-950/20 via-[#131119] to-[#0A0D14] border-amber-500/30 hover:border-amber-500/50'
-                    : 'bg-gradient-to-br from-rose-950/15 via-[#131015] to-[#0A0D14] border-rose-500/25 hover:border-rose-500/40'
+                    ? 'bg-gradient-to-br from-amber-950/20 via-[#131119] to-[#FAF3E7] border-amber-500/30 hover:border-amber-500/50'
+                    : 'bg-gradient-to-br from-rose-950/15 via-[#131015] to-[#FAF3E7] border-rose-500/25 hover:border-rose-500/40'
                 }`}
               >
                 {/* Status indicator bar on the side */}
@@ -434,19 +434,19 @@ export default function AdminReviewsPage() {
                     {/* Header Row */}
                     <div className="flex flex-wrap items-center gap-3">
                       {/* Avatar initials */}
-                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#D9A031]/30 to-[#8C6415]/20 border border-[#D9A031]/40 flex items-center justify-center font-bold text-xs text-[#FAF9F6]">
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#0B6A69]/30 to-[#8C6415]/20 border border-[#C49A61]/40 flex items-center justify-center font-bold text-xs text-[#193341]">
                         {initials}
                       </div>
 
                       <div className="flex flex-col">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-[#FAF9F6] text-sm">
+                          <span className="font-bold text-[#193341] text-sm">
                             {review.customer_name}
                           </span>
 
                           {/* Verified Booking Badge */}
                           {review.is_verified_booking && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-bold text-emerald-400">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-bold text-emerald-700">
                               <ShieldCheck className="w-3 h-3" />
                               <span>Verified Pilgrim {review.booking_reference ? `(${review.booking_reference})` : ''}</span>
                             </span>
@@ -456,21 +456,21 @@ export default function AdminReviewsPage() {
                         {/* Country & Route metadata pills */}
                         <div className="flex flex-wrap items-center gap-2 mt-1">
                           {review.country && (
-                            <span className="inline-flex items-center gap-1 text-[11px] text-[#9DA6B8]">
-                              <MapPin className="w-3 h-3 text-[#D9A031]" />
+                            <span className="inline-flex items-center gap-1 text-[11px] text-[#667681]">
+                              <MapPin className="w-3 h-3 text-[#93652D]" />
                               <span>{review.country}</span>
                             </span>
                           )}
 
                           {review.route && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#161C2A] border border-[#232B3E] text-[10px] font-medium text-[#D9A031]">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#F9F1E6] border border-[#E5D6C0] text-[10px] font-medium text-[#93652D]">
                               <Car className="w-3 h-3" />
                               <span>{review.route}</span>
                             </span>
                           )}
 
                           {review.language && (
-                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-[#151A24] text-[9px] font-mono uppercase text-[#7C879B]">
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-[#F7EDE0] text-[9px] font-mono uppercase text-[#6F808B]">
                               <Globe className="w-2.5 h-2.5" />
                               <span>{review.language}</span>
                             </span>
@@ -479,32 +479,32 @@ export default function AdminReviewsPage() {
                       </div>
 
                       {/* Stars */}
-                      <div className="ml-auto flex items-center gap-1 px-2.5 py-1 rounded-xl bg-[#141926] border border-[#232B3E]">
-                        <div className="flex items-center text-[#D9A031]">
+                      <div className="ml-auto flex items-center gap-1 px-2.5 py-1 rounded-xl bg-[#141926] border border-[#E5D6C0]">
+                        <div className="flex items-center text-[#93652D]">
                           {[1, 2, 3, 4, 5].map((star) => (
                             <Star
                               key={star}
                               className={`w-3.5 h-3.5 ${
-                                star <= review.rating ? 'fill-[#D9A031] text-[#D9A031]' : 'text-[#283244]'
+                                star <= review.rating ? 'fill-[#D9A031] text-[#93652D]' : 'text-[#223D4C]'
                               }`}
                             />
                           ))}
                         </div>
-                        <span className="text-xs font-bold text-[#FAF9F6] ml-1">
+                        <span className="text-xs font-bold text-[#193341] ml-1">
                           {Number(review.rating).toFixed(1)}
                         </span>
                       </div>
                     </div>
 
                     {/* Review Body */}
-                    <div className="relative pl-4 border-l-2 border-[#D9A031]/30 py-1">
-                      <p className="text-sm text-[#F3EEE6] leading-relaxed whitespace-pre-wrap font-light">
+                    <div className="relative pl-4 border-l-2 border-[#C49A61]/30 py-1">
+                      <p className="text-sm text-[#193341] leading-relaxed whitespace-pre-wrap font-light">
                         "{review.comment}"
                       </p>
                     </div>
 
                     {/* Footer Metadata */}
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-[#6C7584]">
+                    <div className="flex flex-wrap items-center gap-4 text-xs text-[#76828B]">
                       <span>Submitted: {new Date(review.created_at).toLocaleDateString()} at {new Date(review.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                       {review.admin_notes && (
                         <span className="text-amber-300/80 italic">Notes: {review.admin_notes}</span>
@@ -513,13 +513,13 @@ export default function AdminReviewsPage() {
                   </div>
 
                   {/* Right: Moderation Actions & Status */}
-                  <div className="flex md:flex-col items-center md:items-end justify-between gap-3 border-t md:border-t-0 pt-3 md:pt-0 border-[#1F2737] shrink-0">
+                  <div className="flex md:flex-col items-center md:items-end justify-between gap-3 border-t md:border-t-0 pt-3 md:pt-0 border-[#E4D4BE] shrink-0">
                     {/* Status Badge */}
                     <div className="flex items-center gap-2">
                       <span
                         className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                           currentStatus === 'published'
-                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-[0_0_12px_rgba(52,211,153,0.2)]'
+                            ? 'bg-emerald-500/20 text-emerald-700 border border-emerald-500/40 shadow-[0_0_12px_rgba(52,211,153,0.2)]'
                             : currentStatus === 'pending'
                             ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
                             : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
@@ -555,7 +555,7 @@ export default function AdminReviewsPage() {
                         <button
                           onClick={() => handleUpdateStatus(review.id, 'rejected')}
                           disabled={isUpdating}
-                          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#1A1F2B] hover:bg-rose-950/60 text-rose-300 hover:text-rose-200 border border-[#283246] hover:border-rose-500/40 text-xs font-semibold transition-all disabled:opacity-50 cursor-pointer"
+                          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#F8F0E5] hover:bg-rose-950/60 text-rose-300 hover:text-rose-200 border border-[#DECCB1] hover:border-rose-500/40 text-xs font-semibold transition-all disabled:opacity-50 cursor-pointer"
                         >
                           <XCircle className="w-3.5 h-3.5 text-rose-400" />
                           <span>Reject / Spam</span>
@@ -566,7 +566,7 @@ export default function AdminReviewsPage() {
                         <button
                           onClick={() => handleUpdateStatus(review.id, 'pending')}
                           disabled={isUpdating}
-                          className="p-2 rounded-xl bg-[#1A1F2B] hover:bg-amber-950/50 text-amber-300 border border-[#283246] hover:border-amber-500/40 text-xs transition-colors disabled:opacity-50 cursor-pointer"
+                          className="p-2 rounded-xl bg-[#F8F0E5] hover:bg-amber-950/50 text-amber-300 border border-[#DECCB1] hover:border-amber-500/40 text-xs transition-colors disabled:opacity-50 cursor-pointer"
                           title="Reset to Pending"
                         >
                           <RotateCcw className="w-3.5 h-3.5" />
@@ -576,7 +576,7 @@ export default function AdminReviewsPage() {
                       <button
                         onClick={() => handleDelete(review.id)}
                         disabled={isUpdating}
-                        className="p-2 rounded-xl bg-[#1A1F2B] hover:bg-rose-950 text-[#8C96A8] hover:text-rose-400 border border-[#283246] hover:border-rose-500/40 text-xs transition-colors disabled:opacity-50 cursor-pointer"
+                        className="p-2 rounded-xl bg-[#F8F0E5] hover:bg-rose-950 text-[#76838B] hover:text-rose-400 border border-[#DECCB1] hover:border-rose-500/40 text-xs transition-colors disabled:opacity-50 cursor-pointer"
                         title="Delete permanently from database"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -590,7 +590,7 @@ export default function AdminReviewsPage() {
 
           {/* Pagination Controls */}
           {total > 20 && (
-            <div className="flex items-center justify-between p-4 rounded-2xl bg-[#10141E] border border-[#1F2737] text-xs text-[#9DA6B8]">
+            <div className="flex items-center justify-between p-4 rounded-2xl bg-[#FFFBF5] border border-[#E4D4BE] text-xs text-[#667681]">
               <span>
                 Showing {(page - 1) * 20 + 1} to {Math.min(page * 20, total)} of {total} reviews
               </span>
@@ -598,7 +598,7 @@ export default function AdminReviewsPage() {
                 <button
                   disabled={page <= 1}
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  className="px-3.5 py-1.5 rounded-lg bg-[#182030] text-[#FAF9F6] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#202A3E] flex items-center gap-1 cursor-pointer"
+                  className="px-3.5 py-1.5 rounded-lg bg-[#FBF4EA] text-[#193341] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#F3E8DA] flex items-center gap-1 cursor-pointer"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                   <span>Previous</span>
@@ -606,7 +606,7 @@ export default function AdminReviewsPage() {
                 <button
                   disabled={page * 20 >= total}
                   onClick={() => setPage((p) => p + 1)}
-                  className="px-3.5 py-1.5 rounded-lg bg-[#182030] text-[#FAF9F6] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#202A3E] flex items-center gap-1 cursor-pointer"
+                  className="px-3.5 py-1.5 rounded-lg bg-[#FBF4EA] text-[#193341] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#F3E8DA] flex items-center gap-1 cursor-pointer"
                 >
                   <span>Next</span>
                   <ChevronRight className="w-3.5 h-3.5" />
