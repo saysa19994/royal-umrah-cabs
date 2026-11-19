@@ -140,6 +140,14 @@ const ROUTES: Record<string, { label: string; baseSAR: number }> = {
   'riyadh-to-madinah': { label: 'Riyadh ⇄ Madinah Hotel (VIP Highway)', baseSAR: 2000 },
 };
 
+/** Visual route shortcuts share the existing route handler and pricing. */
+const FEATURED_BOOKING_ROUTES = [
+  { id: 'jeddah-airport-to-makkah', image: '/assets/homepage-v2/hero-poster.jpg' },
+  { id: 'makkah-to-madinah', image: '/assets/blueprint/routes/makkah-madinah.webp' },
+  { id: 'madinah-airport-to-hotel', image: '/assets/blueprint/routes/madinah-ziyarat.webp' },
+  { id: 'makkah-to-taif', image: '/assets/homepage-v2/ziyarat-haram.jpg' },
+] as const;
+
 const TAIF_ROUTE_KEYS = new Set(['makkah-to-taif', 'taif-to-makkah', 'jeddah-to-taif']);
 const RIYADH_ROUTE_KEYS = new Set(['riyadh-airport-transfer', 'riyadh-to-makkah', 'riyadh-to-madinah']);
 const DEFAULT_ROUTE = 'jeddah-airport-to-makkah';
@@ -1592,6 +1600,29 @@ export function BookingEngine({
                     })}
                   </select>
                 </div>
+
+                {bookingType === 'transfer' && (
+                  <div className="duyuf-booking-featured-routes" role="group" aria-label={t.routeLabel}>
+                    {FEATURED_BOOKING_ROUTES.filter((item) => availableRoutes.some(([key]) => key === item.id)).map((item) => {
+                      const title = LOCALIZED_ROUTE_NAMES[item.id]?.[locale] || ROUTES[item.id].label;
+                      return (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => handleRouteChange(item.id)}
+                          aria-pressed={routeId === item.id}
+                          className="duyuf-booking-featured-route"
+                          title={title}
+                        >
+                          <span className="duyuf-booking-featured-route-photo">
+                            <Image src={item.image} alt="" fill sizes="(max-width:640px) 43vw, 190px" />
+                          </span>
+                          <span className="duyuf-booking-featured-route-name">{title}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
