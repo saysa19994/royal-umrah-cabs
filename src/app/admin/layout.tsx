@@ -1,4 +1,5 @@
 import React from 'react';
+import '@/styles/admin-cinematic.css';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { AdminLayoutClient } from '@/components/admin/AdminLayoutClient';
@@ -21,7 +22,7 @@ export const metadata = {
 function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" dir="ltr" className={`${inter.variable} ${ibmPlexArabic.variable} ${cairo.variable}`}>
-      <body className="min-h-screen bg-[#0B0F17] text-[#F3F4F6] antialiased selection:bg-[#C9A24B]/20 selection:text-[#E6C773] font-sans">
+      <body className="min-h-screen bg-[#f5eee3] text-[#142d3a] antialiased font-sans">
         {children}
       </body>
     </html>
