@@ -160,35 +160,35 @@ export default function AdminWhatsAppPage() {
   };
 
   return (
-    <div className="space-y-8 text-start">
+    <div className="vip-internal-editorial space-y-8 text-start">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-2xl md:text-3xl font-bold text-[#FAF9F6]">
+          <h1 className="font-display text-2xl md:text-3xl font-bold text-[#193746]">
             WhatsApp Dispatch &amp; Operator Routing
           </h1>
-          <p className="text-xs text-[#A0A6B2] mt-1 font-light">
+          <p className="text-xs text-[#697984] mt-1 font-light">
             Manage operational numbers (966567588261 / 966505316971) and automated pilgrim lead distribution rules
           </p>
         </div>
         <button
           onClick={fetchNumbers}
-          className="px-4 py-2 rounded-xl bg-[#14171C] border border-[#262B33] hover:border-[#D9A031]/40 text-[#FAF9F6] text-xs font-semibold flex items-center gap-2 transition-colors"
+          className="px-4 py-2 rounded-xl bg-[#FFF9F1] border border-[#E4D4BE] hover:border-[#C29B65]/40 text-[#193746] text-xs font-semibold flex items-center gap-2 transition-colors"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#D9A031]' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#92612D]' : ''}`} />
           <span>Refresh</span>
         </button>
       </div>
 
       {/* SELECTABLE ROUTING RULES */}
-      <div className="bg-[#14171C] rounded-2xl border border-[#262B33] p-6 shadow-sm">
+      <div className="bg-[#FFF9F1] rounded-2xl border border-[#E4D4BE] p-6 shadow-sm">
         <div className="flex items-center gap-2 mb-4">
-          <Sliders className="w-5 h-5 text-[#D9A031]" />
-          <h2 className="font-display font-bold text-lg text-[#FAF9F6]">
+          <Sliders className="w-5 h-5 text-[#92612D]" />
+          <h2 className="font-display font-bold text-lg text-[#193746]">
             Active Lead Routing Rule
           </h2>
         </div>
-        <p className="text-xs text-[#A0A6B2] mb-6 font-light">
+        <p className="text-xs text-[#697984] mb-6 font-light">
           Choose how leads from the website, pricing cards, and contact form are distributed among your team:
         </p>
 
@@ -222,13 +222,13 @@ export default function AdminWhatsAppPage() {
                 onClick={() => handleUpdateRule(rule.id)}
                 className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
                   isSelected
-                    ? 'border-[#D9A031] bg-[#D9A031]/10 shadow-xs'
-                    : 'border-[#262B33] bg-[#0D0F12] hover:border-[#D9A031]/40'
+                    ? 'border-[#C29B65] bg-[#0A6364]/10 shadow-xs'
+                    : 'border-[#E4D4BE] bg-[#F6ECE0] hover:border-[#C29B65]/40'
                 }`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="font-bold text-sm text-[#FAF9F6]">{rule.title}</span>
+                    <span className="font-bold text-sm text-[#193746]">{rule.title}</span>
                     <input
                       type="radio"
                       checked={isSelected}
@@ -236,10 +236,10 @@ export default function AdminWhatsAppPage() {
                       className="accent-[#D9A031]"
                     />
                   </div>
-                  <p className="text-xs text-[#A0A6B2] leading-relaxed font-light">{rule.desc}</p>
+                  <p className="text-xs text-[#697984] leading-relaxed font-light">{rule.desc}</p>
                 </div>
                 {isSelected && (
-                  <div className="mt-3 pt-2 border-t border-[#D9A031]/20 flex items-center gap-1.5 text-[11px] font-bold text-[#D9A031]">
+                  <div className="mt-3 pt-2 border-t border-[#C29B65]/20 flex items-center gap-1.5 text-[11px] font-bold text-[#92612D]">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>Active Production Rule</span>
                   </div>
@@ -251,19 +251,19 @@ export default function AdminWhatsAppPage() {
       </div>
 
       {/* REGISTERED WHATSAPP NUMBERS TABLE */}
-      <div className="bg-[#14171C] rounded-2xl border border-[#262B33] overflow-hidden">
-        <div className="p-5 border-b border-[#262B33] flex items-center justify-between">
+      <div className="bg-[#FFF9F1] rounded-2xl border border-[#E4D4BE] overflow-hidden">
+        <div className="p-5 border-b border-[#E4D4BE] flex items-center justify-between">
           <div>
-            <h3 className="font-display font-bold text-lg text-[#FAF9F6]">
+            <h3 className="font-display font-bold text-lg text-[#193746]">
               Operator Numbers Directory
             </h3>
-            <p className="text-xs text-[#A0A6B2]">
+            <p className="text-xs text-[#697984]">
               All official numbers in rotation with their priority and language assignments
             </p>
           </div>
           <button
             onClick={() => setShowAddForm(!showAddForm)}
-            className="px-3.5 py-1.5 rounded-xl bg-[#D9A031] text-[#0D0F12] text-xs font-bold hover:bg-[#B8821F] flex items-center gap-1.5 transition-colors"
+            className="px-3.5 py-1.5 rounded-xl bg-[#0A6364] text-[#FFFAF2] text-xs font-bold hover:bg-[#065059] flex items-center gap-1.5 transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add Operator</span>
@@ -272,42 +272,42 @@ export default function AdminWhatsAppPage() {
 
         {/* ADD NUMBER FORM */}
         {showAddForm && (
-          <form onSubmit={handleAddNumber} className="p-5 bg-[#0D0F12] border-b border-[#262B33] space-y-4">
-            <h4 className="text-xs font-bold text-[#FAF9F6] uppercase tracking-wider">
+          <form onSubmit={handleAddNumber} className="p-5 bg-[#F6ECE0] border-b border-[#E4D4BE] space-y-4">
+            <h4 className="text-xs font-bold text-[#193746] uppercase tracking-wider">
               Register New Dispatch Operator
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-[11px] text-[#A0A6B2] mb-1">Operator Label</label>
+                <label className="block text-[11px] text-[#697984] mb-1">Operator Label</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. VIP Night Shift Operator"
                   value={newLabel}
                   onChange={(e) => setNewLabel(e.target.value)}
-                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#14171C] border border-[#262B33] text-[#FAF9F6] outline-none"
+                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#FFF9F1] border border-[#E4D4BE] text-[#193746] outline-none"
                 />
               </div>
               <div>
-                <label className="block text-[11px] text-[#A0A6B2] mb-1">WhatsApp Number (with country code)</label>
+                <label className="block text-[11px] text-[#697984] mb-1">WhatsApp Number (with country code)</label>
                 <input
                   type="text"
                   required
                   placeholder="966501234567"
                   value={newNumber}
                   onChange={(e) => setNewNumber(e.target.value)}
-                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#14171C] border border-[#262B33] text-[#FAF9F6] outline-none"
+                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#FFF9F1] border border-[#E4D4BE] text-[#193746] outline-none"
                 />
               </div>
               <div>
-                <label className="block text-[11px] text-[#A0A6B2] mb-1">Priority Rank (1 = Primary)</label>
+                <label className="block text-[11px] text-[#697984] mb-1">Priority Rank (1 = Primary)</label>
                 <input
                   type="number"
                   min={1}
                   max={10}
                   value={newPriority}
                   onChange={(e) => setNewPriority(Number(e.target.value))}
-                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#14171C] border border-[#262B33] text-[#FAF9F6] outline-none"
+                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#FFF9F1] border border-[#E4D4BE] text-[#193746] outline-none"
                 />
               </div>
             </div>
@@ -315,14 +315,14 @@ export default function AdminWhatsAppPage() {
               <button
                 type="button"
                 onClick={() => setShowAddForm(false)}
-                className="px-4 py-2 rounded-xl text-xs text-[#A0A6B2] hover:text-[#FAF9F6]"
+                className="px-4 py-2 rounded-xl text-xs text-[#697984] hover:text-[#193746]"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={addingNumber}
-                className="px-5 py-2 rounded-xl bg-[#D9A031] text-[#0D0F12] text-xs font-bold hover:bg-[#B8821F]"
+                className="px-5 py-2 rounded-xl bg-[#0A6364] text-[#FFFAF2] text-xs font-bold hover:bg-[#065059]"
               >
                 {addingNumber ? 'Registering...' : 'Save Operator'}
               </button>
@@ -333,7 +333,7 @@ export default function AdminWhatsAppPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-start text-xs">
             <thead>
-              <tr className="border-b border-[#262B33] bg-[#101317] text-[#A0A6B2]">
+              <tr className="border-b border-[#E4D4BE] bg-[#F7EFE3] text-[#697984]">
                 <th className="py-3 px-4 font-semibold">Priority</th>
                 <th className="py-3 px-4 font-semibold">Label</th>
                 <th className="py-3 px-4 font-semibold">Number</th>
@@ -344,14 +344,14 @@ export default function AdminWhatsAppPage() {
             </thead>
             <tbody className="divide-y divide-[#262B33]">
               {numbers.map((n) => (
-                <tr key={n.id} className="hover:bg-[#1A1F26] transition-colors">
-                  <td className="py-3.5 px-4 font-mono font-bold text-[#D9A031]">
+                <tr key={n.id} className="hover:bg-[#F7EBDB] transition-colors">
+                  <td className="py-3.5 px-4 font-mono font-bold text-[#92612D]">
                     #{n.priority}
                   </td>
-                  <td className="py-3.5 px-4 font-semibold text-[#FAF9F6]">
+                  <td className="py-3.5 px-4 font-semibold text-[#193746]">
                     {n.label}
                   </td>
-                  <td className="py-3.5 px-4 font-mono text-[#FAF9F6] dir-ltr">
+                  <td className="py-3.5 px-4 font-mono text-[#193746] dir-ltr">
                     +{n.number}
                   </td>
                   <td className="py-3.5 px-4">
@@ -359,7 +359,7 @@ export default function AdminWhatsAppPage() {
                       {n.assigned_languages?.map((lang) => (
                         <span
                           key={lang}
-                          className="px-2 py-0.5 rounded bg-[#20252D] text-[10px] font-mono uppercase text-[#FAF9F6] border border-[#262B33]"
+                          className="px-2 py-0.5 rounded bg-[#F3E7D7] text-[10px] font-mono uppercase text-[#193746] border border-[#E4D4BE]"
                         >
                           {lang}
                         </span>
@@ -397,18 +397,18 @@ export default function AdminWhatsAppPage() {
       </div>
 
       {/* ROUTING SIMULATOR WIDGET */}
-      <div className="bg-[#14171C] rounded-2xl border border-[#262B33] p-6">
-        <h3 className="font-display font-bold text-lg text-[#FAF9F6] mb-1">
+      <div className="bg-[#FFF9F1] rounded-2xl border border-[#E4D4BE] p-6">
+        <h3 className="font-display font-bold text-lg text-[#193746] mb-1">
           Live Routing Simulation Tester
         </h3>
-        <p className="text-xs text-[#A0A6B2] mb-4">
+        <p className="text-xs text-[#697984] mb-4">
           Test which operator number will receive the visitor given the active rule and selected language:
         </p>
         <div className="flex flex-wrap items-center gap-3">
           <select
             value={testLang}
             onChange={(e) => setTestLang(e.target.value)}
-            className="h-10 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none"
+            className="h-10 px-3 text-xs rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-[#193746] outline-none"
           >
             <option value="ar">Arabic (/ar)</option>
             <option value="en">English (/en)</option>
@@ -419,12 +419,12 @@ export default function AdminWhatsAppPage() {
           </select>
           <button
             onClick={runSimulation}
-            className="px-4 py-2 rounded-xl bg-[#D9A031] text-[#0D0F12] text-xs font-bold hover:bg-[#B8821F] transition-colors"
+            className="px-4 py-2 rounded-xl bg-[#0A6364] text-[#FFFAF2] text-xs font-bold hover:bg-[#065059] transition-colors"
           >
             Simulate Route
           </button>
           {simulatedResult && (
-            <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-2">
+            <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs font-semibold flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 shrink-0" />
               <span>{simulatedResult}</span>
             </div>
