@@ -130,13 +130,16 @@ export default function AdminCmsPage() {
     }
 
     try {
-      const payload: CmsPageRecord = {
+      const existing = pages.find(p => p.page_key === selectedPage && p.language === selectedLocale);
+      const payload: CmsPageRecord & { expected_updated_at: string | null } = {
         page_key: selectedPage,
         language: selectedLocale,
         seo_title: seoTitle.trim(),
         seo_description: seoDescription.trim(),
         h1: h1.trim(),
         content_blocks: parsedBlocks,
+        // Compare-and-swap: reject a save if another admin published new edits.
+        expected_updated_at: existing?.updated_at ?? null,
       };
 
       const res = await fetch('/api/admin/cms', {
@@ -163,7 +166,7 @@ export default function AdminCmsPage() {
           setFeedback({ type: 'success', message: ['about','services','contact','fleet','pricing','routes','ziyarat','booking','faq'].includes(selectedPage) ? 'Saved and verified in the CMS database. Check the public Preview page to confirm cache refresh.' : 'Saved to CMS as a draft. This page is not connected to the public template yet.' });
         }
       } else {
-        setFeedback({ type: 'error', message: data.error || 'Failed to save CMS content' });
+        setFeedback({ type: 'error', message: res.status === 409 ? (data.error || 'Someone else changed this page. Review the latest saved version before trying again.') : (data.error || 'Failed to save CMS content') });
       }
     } catch (err: any) {
       setFeedback({ type: 'error', message: 'Network error saving CMS content' });
