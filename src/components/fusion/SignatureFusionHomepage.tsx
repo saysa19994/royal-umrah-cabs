@@ -375,7 +375,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
       {journey && (
         <section className={styles.routeAtlas} id="fusion-routes" aria-labelledby="fusion-routes-title">
           <div className={styles.routesHead}><h2 id="fusion-routes-title">{copy.routeTitle}</h2><p>{copy.routeLead}</p></div>
-          <ConnectedJourneyLines title={copy.routeTitle} description={copy.routeLead} />
+          <ConnectedJourneyLines title={copy.routeTitle} description={copy.routeLead} locale={locale} enableTaif={regions.taif} enableRiyadh={regions.riyadh} />
           <div className={styles.routeCurtain} role="group" aria-label={dict.nav.routes}>
             {routes.filter((item) => item.featured || item.id === route).map((item) => (
               <button key={item.id} type="button" aria-pressed={route === item.id}
