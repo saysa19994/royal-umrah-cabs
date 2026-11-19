@@ -43,8 +43,8 @@ export default function SiteImageControl() {
   }
   return <section dir="rtl" className="vip-internal-editorial space-y-5 rounded-2xl bg-[#f7efe5] p-4 text-[#193746] sm:p-7">
     <header><p className="text-xs font-bold text-[#17736d]">SITE-WIDE VISUAL CONTENT</p>
-      <h1 className="mt-2 text-2xl font-black">صور الصفحة الرئيسية</h1>
-      <p className="mt-2 text-sm text-[#637784]">غيّر صورة أي قسم معروض هنا ثم احفظ. فيديو الهيرو الأصلي لن يتم تغييره أو حذفه.</p>
+      <h1 className="mt-2 text-2xl font-black">صور جميع صفحات الموقع</h1>
+      <p className="mt-2 text-sm text-[#637784]">غيّر الصورة لأي قسم في الصفحة الرئيسية أو الحجز أو من نحن أو الخدمات، ثم اضغط حفظ. فيديو الهيرو الأصلي ثابت ولن يتغير.</p>
     </header>
     <div className="flex items-center gap-2 rounded-xl bg-[#e4f1ec] p-3 text-sm text-[#1b6857]"><ShieldCheck className="h-5 w-5"/>الصور تحفظ في Supabase Storage، والاختيار يحفظ في إعدادات الموقع.</div>
     {error && <p role="alert" className="rounded-xl bg-rose-50 p-3 text-rose-700">{error}</p>}

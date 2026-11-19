@@ -89,6 +89,10 @@ export default function AdminCmsPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (selectedPage === 'home') {
+      setFeedback({ type:'error', message:'Use Homepage Text in the sidebar to publish homepage changes. The generic CMS home entry does not update the homepage.' });
+      return;
+    }
     setSaving(true);
     setFeedback(null);
 
@@ -119,7 +123,7 @@ export default function AdminCmsPage() {
 
       const data = await res.json();
       if (data.success) {
-        setFeedback({ type: 'success', message: 'CMS Page content successfully saved and revalidated!' });
+        setFeedback({ type: 'success', message: ['about','services','contact','fleet','pricing','routes','ziyarat','booking'].includes(selectedPage) ? 'Saved and the related public page cache was refreshed.' : 'Saved to CMS as a draft. This page is not connected to the public template yet.' });
         fetchCmsPages();
       } else {
         setFeedback({ type: 'error', message: data.error || 'Failed to save CMS content' });
@@ -244,6 +248,11 @@ export default function AdminCmsPage() {
             </div>
           </div>
 
+          {selectedPage === 'home' && (
+            <a href="/admin/home-copy" className="inline-flex rounded-lg bg-[#0a6262] px-4 py-2 text-xs font-bold text-white">
+              Open the connected Homepage Text editor
+            </a>
+          )}
           {/* Form */}
           <form onSubmit={handleSave} className="space-y-4">
           {['about','services','contact','fleet','pricing','routes','ziyarat','booking'].includes(selectedPage) && (

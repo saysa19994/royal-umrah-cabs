@@ -101,7 +101,7 @@ export default function AdminBlogPage() {
   };
 
   const handleDelete = async (slug: string) => {
-    if (!confirm(`Are you sure you want to permanently delete article "${slug}"?`)) return;
+    if (!confirm(`Unpublish article "${slug}"? The public page will become unavailable; you can publish it again by editing the article.`)) return;
 
     try {
       const res = await fetch(`/api/admin/blog?slug=${encodeURIComponent(slug)}`, {
@@ -109,7 +109,7 @@ export default function AdminBlogPage() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        setFeedback({ type: 'success', message: 'Article deleted successfully.' });
+        setFeedback({ type: 'success', message: 'Article unpublished. It is no longer visible on the public blog.' });
         fetchPosts();
       } else {
         setFeedback({ type: 'error', message: data.error || 'Failed to delete article' });
@@ -167,7 +167,7 @@ export default function AdminBlogPage() {
       if (res.ok && data.success) {
         setFeedback({
           type: 'success',
-          message: `Article "${formData.title_en}" saved and published live!`,
+          message: `Article "${formData.title_en}" ${formData.is_published ? 'saved and published' : 'saved as an unpublished draft'}.`,
         });
         setIsEditorOpen(false);
         fetchPosts();
@@ -200,7 +200,7 @@ export default function AdminBlogPage() {
               Content &amp; SEO Engine
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-[#193746]">
             Blog &amp; Pilgrimage Articles Manager
           </h1>
           <p className="text-xs sm:text-sm text-[#697984] mt-0.5">
@@ -212,7 +212,7 @@ export default function AdminBlogPage() {
           <button
             onClick={() => fetchPosts()}
             disabled={loading}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#FFFBF5] hover:bg-[#F7EEE1] border border-[#E3D3BD] text-xs font-bold text-white transition-all disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#FFFBF5] hover:bg-[#F7EEE1] border border-[#E3D3BD] text-xs font-bold text-[#193746] transition-all disabled:opacity-50"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#92612D]' : ''}`} />
             <span>Refresh</span>
@@ -245,7 +245,7 @@ export default function AdminBlogPage() {
             )}
             <span>{feedback.message}</span>
           </div>
-          <button onClick={() => setFeedback(null)} className="text-white/60 hover:text-white">
+          <button onClick={() => setFeedback(null)} className="text-[#647784] hover:text-[#193746]">
             ✕
           </button>
         </div>
@@ -255,19 +255,19 @@ export default function AdminBlogPage() {
       <div className="p-4 rounded-2xl bg-[#FFFBF5] border border-[#E3D3BD] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
         <div className="flex items-center gap-6 text-xs text-[#697984]">
           <div>
-            <span className="block text-[10px] uppercase font-bold text-slate-400">Total Articles</span>
-            <span className="text-lg font-extrabold text-white font-mono">{posts.length}</span>
+            <span className="block text-[10px] uppercase font-bold text-[#647784]">Total Articles</span>
+            <span className="text-lg font-extrabold text-[#193746] font-mono">{posts.length}</span>
           </div>
           <div className="w-px h-8 bg-[#1F2C42]" />
           <div>
-            <span className="block text-[10px] uppercase font-bold text-slate-400">Published Live</span>
+            <span className="block text-[10px] uppercase font-bold text-[#647784]">Published Live</span>
             <span className="text-lg font-extrabold text-emerald-400 font-mono">
               {posts.filter((p) => p.is_published).length}
             </span>
           </div>
           <div className="w-px h-8 bg-[#1F2C42]" />
           <div>
-            <span className="block text-[10px] uppercase font-bold text-slate-400">Drafts</span>
+            <span className="block text-[10px] uppercase font-bold text-[#647784]">Drafts</span>
             <span className="text-lg font-extrabold text-amber-400 font-mono">
               {posts.filter((p) => !p.is_published).length}
             </span>
@@ -275,31 +275,31 @@ export default function AdminBlogPage() {
         </div>
 
         <div className="relative w-full md:w-80">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#647784] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search articles by title, slug, or category..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#C29B65]"
+            className="w-full pl-9 pr-4 py-2 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-[#193746] placeholder-slate-500 focus:outline-none focus:border-[#C29B65]"
           />
         </div>
       </div>
 
       {/* ARTICLES GRID */}
       {loading ? (
-        <div className="py-20 text-center text-slate-400 flex flex-col items-center gap-3">
+        <div className="py-20 text-center text-[#647784] flex flex-col items-center gap-3">
           <RefreshCw className="w-6 h-6 animate-spin text-[#92612D]" />
           <span className="text-xs">Loading articles catalog...</span>
         </div>
       ) : filteredPosts.length === 0 ? (
         <div className="py-16 text-center rounded-2xl bg-[#FFFBF5] border border-[#E3D3BD] p-8">
           <BookOpen className="w-10 h-10 text-[#92612D] mx-auto mb-3 opacity-60" />
-          <h3 className="text-sm font-bold text-white mb-1">No Articles Found</h3>
-          <p className="text-xs text-slate-400 mb-4">No published or draft articles match your search query.</p>
+          <h3 className="text-sm font-bold text-[#193746] mb-1">No Articles Found</h3>
+          <p className="text-xs text-[#647784] mb-4">No published or draft articles match your search query.</p>
           <button
             onClick={handleOpenCreate}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A6364] text-black font-bold text-xs"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A6364] text-white font-bold text-xs"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Write First Article</span>
@@ -327,7 +327,7 @@ export default function AdminBlogPage() {
                   </span>
                   <span
                     className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${
-                      post.is_published ? 'bg-emerald-500/20 text-emerald-700 border border-emerald-500/40' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                      post.is_published ? 'bg-emerald-500/20 text-emerald-700 border border-emerald-500/40' : 'bg-amber-500/20 text-amber-800 border border-amber-500/40'
                     }`}
                   >
                     {post.is_published ? 'Published' : 'Draft'}
@@ -338,10 +338,10 @@ export default function AdminBlogPage() {
               {/* Body */}
               <div className="p-4 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="font-bold text-sm text-white line-clamp-2 leading-snug mb-1 group-hover:text-[#94672E] transition-colors">
+                  <h3 className="font-bold text-sm text-[#193746] line-clamp-2 leading-snug mb-1 group-hover:text-[#94672E] transition-colors">
                     {post.title_en}
                   </h3>
-                  <p className="text-xs font-arabic text-slate-300 line-clamp-1 mb-2" dir="rtl">
+                  <p className="text-xs font-arabic text-[#5b7081] line-clamp-1 mb-2" dir="rtl">
                     {post.title_ar}
                   </p>
                   <p className="text-[11px] text-[#697984] line-clamp-2 leading-relaxed mb-4">
@@ -350,7 +350,7 @@ export default function AdminBlogPage() {
                 </div>
 
                 {/* Footer Metadata */}
-                <div className="pt-3 border-t border-[#E3D3BD] flex items-center justify-between text-[10px] text-slate-400">
+                <div className="pt-3 border-t border-[#E3D3BD] flex items-center justify-between text-[10px] text-[#647784]">
                   <span className="flex items-center gap-1">
                     <Calendar className="w-3 h-3 text-[#92612D]" />
                     <span>{post.published_at}</span>
@@ -368,7 +368,7 @@ export default function AdminBlogPage() {
                   href={`/en/blog/${post.slug}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-400 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-[#647784] hover:text-white transition-colors"
                 >
                   <Eye className="w-3.5 h-3.5" />
                   <span>Preview Live</span>
@@ -377,7 +377,7 @@ export default function AdminBlogPage() {
                 <div className="flex items-center gap-1.5">
                   <button
                     onClick={() => handleOpenEdit(post)}
-                    className="p-1.5 rounded-lg bg-[#F7EEE1] hover:bg-[#1F2C42] text-slate-300 hover:text-white transition-colors"
+                    className="p-1.5 rounded-lg bg-[#F7EEE1] hover:bg-[#1F2C42] text-[#5b7081] hover:text-white transition-colors"
                     title="Edit article"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
@@ -385,7 +385,7 @@ export default function AdminBlogPage() {
                   <button
                     onClick={() => handleDelete(post.slug)}
                     className="p-1.5 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 text-rose-700 transition-colors"
-                    title="Delete article"
+                    title="Unpublish article"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -407,10 +407,10 @@ export default function AdminBlogPage() {
                   <FileText className="w-4 h-4" />
                 </div>
                 <div>
-                  <h2 className="text-base font-bold text-white">
+                  <h2 className="text-base font-bold text-[#193746]">
                     {editingPost ? 'Edit Blog Article' : 'Write New Pilgrimage Guide Article'}
                   </h2>
-                  <span className="text-[10px] text-slate-400">
+                  <span className="text-[10px] text-[#647784]">
                     Saves directly to Supabase and revalidates all 10 locales live.
                   </span>
                 </div>
@@ -418,7 +418,7 @@ export default function AdminBlogPage() {
 
               <button
                 onClick={() => setIsEditorOpen(false)}
-                className="w-8 h-8 rounded-lg bg-[#F7EEE1] hover:bg-[#1F2C42] text-slate-400 hover:text-white flex items-center justify-center transition-colors"
+                className="w-8 h-8 rounded-lg bg-[#F7EEE1] hover:bg-[#1F2C42] text-[#647784] hover:text-white flex items-center justify-center transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -429,7 +429,7 @@ export default function AdminBlogPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* English Title */}
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-bold text-[#5b7081] uppercase tracking-wider mb-1.5">
                     Article Title (English) *
                   </label>
                   <input
@@ -438,13 +438,13 @@ export default function AdminBlogPage() {
                     value={formData.title_en || ''}
                     onChange={(e) => setFormData({ ...formData, title_en: e.target.value })}
                     placeholder="e.g. Complete VIP Umrah Chauffeur Guide from Jeddah to Makkah"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#C29B65]"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-[#193746] placeholder-slate-500 focus:outline-none focus:border-[#C29B65]"
                   />
                 </div>
 
                 {/* Arabic Title */}
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5 text-right">
+                  <label className="block text-[11px] font-bold text-[#5b7081] uppercase tracking-wider mb-1.5 text-right">
                     * عنوان المقال (باللغة العربية)
                   </label>
                   <input
@@ -454,7 +454,7 @@ export default function AdminBlogPage() {
                     value={formData.title_ar || ''}
                     onChange={(e) => setFormData({ ...formData, title_ar: e.target.value })}
                     placeholder="مثال: دليل اختيار سيارة VIP خاصة من مطار جدة إلى مكة المكرمة"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#C29B65] text-right font-arabic"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-[#193746] placeholder-slate-500 focus:outline-none focus:border-[#C29B65] text-right font-arabic"
                   />
                 </div>
               </div>
@@ -462,7 +462,7 @@ export default function AdminBlogPage() {
               {/* Slug & Category */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-bold text-[#5b7081] uppercase tracking-wider mb-1.5">
                     URL Slug (Locked Route) *
                   </label>
                   <input
@@ -476,13 +476,13 @@ export default function AdminBlogPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-bold text-[#5b7081] uppercase tracking-wider mb-1.5">
                     Category Tier
                   </label>
                   <select
                     value={formData.category || 'VIP Umrah Transport'}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-white focus:outline-none focus:border-[#C29B65]"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-[#193746] focus:outline-none focus:border-[#C29B65]"
                   >
                     <option value="VIP Umrah Transport">VIP Umrah Transport</option>
                     <option value="Makkah & Madinah Corridors">Makkah &amp; Madinah Corridors</option>
@@ -493,7 +493,7 @@ export default function AdminBlogPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-bold text-[#5b7081] uppercase tracking-wider mb-1.5">
                     Read Time (Minutes)
                   </label>
                   <input
@@ -502,7 +502,7 @@ export default function AdminBlogPage() {
                     max="60"
                     value={formData.read_time_minutes || 5}
                     onChange={(e) => setFormData({ ...formData, read_time_minutes: parseInt(e.target.value) || 5 })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-white focus:outline-none focus:border-[#C29B65]"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-[#193746] focus:outline-none focus:border-[#C29B65]"
                   />
                 </div>
               </div>
@@ -528,11 +528,11 @@ export default function AdminBlogPage() {
                       value={formData.featured_image || ''}
                       onChange={(e) => setFormData({ ...formData, featured_image: e.target.value })}
                       placeholder="Image URL or upload file below..."
-                      className="w-full px-3 py-2 rounded-lg bg-[#FFFBF5] border border-[#E3D3BD] text-xs text-white placeholder-slate-500 focus:outline-none"
+                      className="w-full px-3 py-2 rounded-lg bg-[#FFFBF5] border border-[#E3D3BD] text-xs text-[#193746] placeholder-slate-500 focus:outline-none"
                     />
 
                     <div className="flex items-center gap-2">
-                      <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F7EEE1] hover:bg-[#1F2C42] border border-[#E3D3BD] text-xs font-bold text-white cursor-pointer transition-colors">
+                      <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F7EEE1] hover:bg-[#1F2C42] border border-[#E3D3BD] text-xs font-bold text-[#193746] cursor-pointer transition-colors">
                         <Upload className={`w-3.5 h-3.5 text-[#92612D] ${uploadingImage ? 'animate-bounce' : ''}`} />
                         <span>{uploadingImage ? 'Uploading Image...' : 'Upload Image from PC'}</span>
                         <input
@@ -543,7 +543,7 @@ export default function AdminBlogPage() {
                           className="hidden"
                         />
                       </label>
-                      <span className="text-[10px] text-slate-400">Supported: WebP, PNG, JPG (up to 15MB)</span>
+                      <span className="text-[10px] text-[#647784]">Supported: WebP, PNG, JPG (up to 15MB)</span>
                     </div>
                   </div>
                 </div>
@@ -552,7 +552,7 @@ export default function AdminBlogPage() {
               {/* Excerpts */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-bold text-[#5b7081] uppercase tracking-wider mb-1.5">
                     Short Excerpt / SEO Description (English)
                   </label>
                   <textarea
@@ -560,12 +560,12 @@ export default function AdminBlogPage() {
                     value={formData.excerpt_en || ''}
                     onChange={(e) => setFormData({ ...formData, excerpt_en: e.target.value })}
                     placeholder="Brief summary shown on Google and preview cards..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#C29B65]"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-[#193746] placeholder-slate-500 focus:outline-none focus:border-[#C29B65]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5 text-right">
+                  <label className="block text-[11px] font-bold text-[#5b7081] uppercase tracking-wider mb-1.5 text-right">
                     موجز المقال ووصف البحث (عربي)
                   </label>
                   <textarea
@@ -574,14 +574,14 @@ export default function AdminBlogPage() {
                     value={formData.excerpt_ar || ''}
                     onChange={(e) => setFormData({ ...formData, excerpt_ar: e.target.value })}
                     placeholder="ملخص قصير يظهر في بطاقة المقال ومحركات البحث..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#C29B65] text-right font-arabic"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-[#193746] placeholder-slate-500 focus:outline-none focus:border-[#C29B65] text-right font-arabic"
                   />
                 </div>
               </div>
 
               {/* Full Article Content */}
               <div>
-                <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                <label className="block text-[11px] font-bold text-[#5b7081] uppercase tracking-wider mb-1.5">
                   Full Article Body (Markdown / HTML Supported)
                 </label>
                 <textarea
@@ -589,7 +589,7 @@ export default function AdminBlogPage() {
                   value={formData.content_en || ''}
                   onChange={(e) => setFormData({ ...formData, content_en: e.target.value })}
                   placeholder="Write complete guide content here. Headings, bullet points, and paragraphs are fully supported..."
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#C29B65] font-mono leading-relaxed"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-[#193746] placeholder-slate-500 focus:outline-none focus:border-[#C29B65] font-mono leading-relaxed"
                 />
               </div>
 
@@ -602,14 +602,14 @@ export default function AdminBlogPage() {
                     onChange={(e) => setFormData({ ...formData, is_published: e.target.checked })}
                     className="w-4 h-4 rounded text-[#92612D] bg-[#F7EFE5] border-[#E3D3BD] focus:ring-0"
                   />
-                  <span className="text-xs font-bold text-white">Publish Article Live Immediately</span>
+                  <span className="text-xs font-bold text-[#193746]">Publish Article Live Immediately</span>
                 </label>
 
                 <div className="flex items-center gap-3">
                   <button
                     type="button"
                     onClick={() => setIsEditorOpen(false)}
-                    className="px-4 py-2 rounded-xl bg-[#F7EEE1] hover:bg-[#1F2C42] text-xs font-bold text-slate-300 hover:text-white transition-colors"
+                    className="px-4 py-2 rounded-xl bg-[#F7EEE1] hover:bg-[#1F2C42] text-xs font-bold text-[#5b7081] hover:text-white transition-colors"
                   >
                     Cancel
                   </button>
