@@ -1,0 +1,7 @@
+.network{position:relative;overflow:hidden;border:1px solid rgba(201,184,160,.2);border-radius:28px;background:radial-gradient(ellipse at 50% 70%,rgba(167,139,113,.13),transparent 65%),#0a0a0a;margin:30px 0;color:#e8d5b7}
+.heading{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:25px 32px 0}.heading span{font-size:clamp(19px,2vw,30px);font-weight:600}.heading small{color:#aaa;font-size:12px}
+.network svg{display:block;width:100%;height:auto;max-height:330px}
+.route{fill:none;stroke-width:1.8;stroke-dasharray:10 7;animation:flow 16s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-340}}
+@media(max-width:640px){.heading{display:block;padding:20px 20px 0}.heading small{display:block;margin-top:8px}.network{border-radius:18px}.network svg{min-height:200px}}
+@media(prefers-reduced-motion:reduce){.route{animation:none}}
