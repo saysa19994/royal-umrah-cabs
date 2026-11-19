@@ -140,7 +140,7 @@ export default function AdminReviewsPage() {
   return (
     <div className="vip-internal-editorial space-y-6 text-start">
       {/* 1. EXECUTIVE COMMAND HERO BAR */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F1E7] via-[#F9F1E7] to-[#FAF3E7] border border-[#E5D6C0] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
+      <div className="vip-internal-hero relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F1E7] via-[#F9F1E7] to-[#FAF3E7] border border-[#E5D6C0] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
         {/* Subtle decorative champagne gold glow in corner */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#0B6A69]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
 
@@ -155,7 +155,7 @@ export default function AdminReviewsPage() {
               Customer Reviews Moderation
             </h1>
 
-            <p className="text-xs sm:text-sm text-[#667681] font-light max-w-2xl leading-relaxed">
+            <p className="vip-hero-description text-xs sm:text-sm text-[#667681] font-light max-w-2xl leading-relaxed">
               Verify and moderate authentic pilgrim reviews. Submissions remain private until approved by an administrator, instantly updating the public website across all 10 locales with zero redeployments.
             </p>
           </div>
@@ -250,7 +250,7 @@ export default function AdminReviewsPage() {
           <div className="flex items-baseline justify-between mt-3">
             <span className="font-display text-2xl md:text-3xl font-bold text-amber-400">{counts.pending}</span>
             {counts.pending > 0 && (
-              <span className="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-300 text-[10px] font-bold">
+              <span className="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-800 text-[10px] font-bold">
                 Action Required
               </span>
             )}
@@ -507,7 +507,7 @@ export default function AdminReviewsPage() {
                     <div className="flex flex-wrap items-center gap-4 text-xs text-[#76828B]">
                       <span>Submitted: {new Date(review.created_at).toLocaleDateString()} at {new Date(review.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                       {review.admin_notes && (
-                        <span className="text-amber-300/80 italic">Notes: {review.admin_notes}</span>
+                        <span className="text-amber-800/80 italic">Notes: {review.admin_notes}</span>
                       )}
                     </div>
                   </div>
@@ -521,8 +521,8 @@ export default function AdminReviewsPage() {
                           currentStatus === 'published'
                             ? 'bg-emerald-500/20 text-emerald-700 border border-emerald-500/40 shadow-[0_0_12px_rgba(52,211,153,0.2)]'
                             : currentStatus === 'pending'
-                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
-                            : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                            ? 'bg-amber-500/20 text-amber-800 border border-amber-500/40 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
+                            : 'bg-rose-500/20 text-rose-700 border border-rose-500/40'
                         }`}
                       >
                         <span
@@ -555,7 +555,7 @@ export default function AdminReviewsPage() {
                         <button
                           onClick={() => handleUpdateStatus(review.id, 'rejected')}
                           disabled={isUpdating}
-                          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#F8F0E5] hover:bg-rose-950/60 text-rose-300 hover:text-rose-200 border border-[#DECCB1] hover:border-rose-500/40 text-xs font-semibold transition-all disabled:opacity-50 cursor-pointer"
+                          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#F8F0E5] hover:bg-rose-950/60 text-rose-700 hover:text-rose-200 border border-[#DECCB1] hover:border-rose-500/40 text-xs font-semibold transition-all disabled:opacity-50 cursor-pointer"
                         >
                           <XCircle className="w-3.5 h-3.5 text-rose-400" />
                           <span>Reject / Spam</span>
@@ -566,7 +566,7 @@ export default function AdminReviewsPage() {
                         <button
                           onClick={() => handleUpdateStatus(review.id, 'pending')}
                           disabled={isUpdating}
-                          className="p-2 rounded-xl bg-[#F8F0E5] hover:bg-amber-950/50 text-amber-300 border border-[#DECCB1] hover:border-amber-500/40 text-xs transition-colors disabled:opacity-50 cursor-pointer"
+                          className="p-2 rounded-xl bg-[#F8F0E5] hover:bg-amber-950/50 text-amber-800 border border-[#DECCB1] hover:border-amber-500/40 text-xs transition-colors disabled:opacity-50 cursor-pointer"
                           title="Reset to Pending"
                         >
                           <RotateCcw className="w-3.5 h-3.5" />
