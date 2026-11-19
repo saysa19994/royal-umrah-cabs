@@ -214,7 +214,7 @@ export default function AdminLoginPage() {
               <label className="block">
                 <span className="vip-login-label"><KeyRound className="h-4 w-4"/> Six-digit authenticator code</span>
                 <input type="text" inputMode="numeric" autoComplete="one-time-code" autoFocus required
-                  maxLength={6} value={totpCode} onChange={e => setTotpCode(e.target.value.replace(/\\D/g,''))}
+                  maxLength={6} value={totpCode} onChange={e => setTotpCode(e.target.value.replace(/\D/g,''))}
                   placeholder="000000" className="vip-login-field text-center font-mono text-xl tracking-[.35em]"/>
               </label>
               <p className="text-xs text-[#657481]">Enter the current code from your authenticator app.</p>
@@ -236,7 +236,7 @@ export default function AdminLoginPage() {
               <label className="block">
                 <span className="vip-login-label"><KeyRound className="h-4 w-4"/> Confirmation code</span>
                 <input type="text" inputMode="numeric" maxLength={6} autoComplete="one-time-code"
-                  required autoFocus value={totpCode} onChange={e => setTotpCode(e.target.value.replace(/\\D/g,''))}
+                  required autoFocus value={totpCode} onChange={e => setTotpCode(e.target.value.replace(/\D/g,''))}
                   placeholder="000000" className="vip-login-field text-center font-mono text-xl tracking-[.35em]"/>
               </label>
               <button type="submit" disabled={loading || totpCode.length !== 6} className="vip-login-submit">
