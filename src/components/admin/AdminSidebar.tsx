@@ -9,6 +9,7 @@ import {
   BookOpen,
   CalendarCheck,
   Clock,
+  BarChart3,
   Users,
   Car,
   Compass,
@@ -104,6 +105,13 @@ export function AdminSidebar({
           labelEn: 'Daily Dispatch',
           labelAr: 'مركز توزيع الرحلات',
           icon: Clock,
+        },
+        {
+          href: '/admin/reports',
+          labelEn: 'Operations Reports',
+          labelAr: 'تقارير الحجوزات والتحصيل',
+          icon: BarChart3,
+          adminOnly: true,
         },
         {
           href: '/admin/collections',
