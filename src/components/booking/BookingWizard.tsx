@@ -49,6 +49,8 @@ interface BookingWizardProps {
   initialPickup?: string;
   initialDropoff?: string;
   initialRates?: Record<string, Record<string, number>>;
+  vehicleOverrides?: Record<string,{name:string;category:string;seats:number;bags:number;img:string}>;
+  routeImages?: Record<string,string>;
   initialStep?: 1 | 2 | 3 | 4;
 }
 
@@ -314,6 +316,8 @@ export function BookingWizard({
   initialPickup,
   initialDropoff,
   initialRates,
+  vehicleOverrides,
+  routeImages,
   initialStep = 1,
 }: BookingWizardProps) {
   const ui = WIZARD_UI[locale] || WIZARD_UI.en;
@@ -507,6 +511,8 @@ export function BookingWizard({
           initialPickup={initialPickup}
           initialDropoff={initialDropoff}
           initialRates={initialRates}
+          vehicleOverrides={vehicleOverrides}
+          routeImages={routeImages}
           hideInternalStepper={true}
           stepOverride={currentStep as 1 | 2 | 3 | 4}
           onStepChange={(s) => goToStep(s)}

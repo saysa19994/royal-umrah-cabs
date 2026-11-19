@@ -11,7 +11,8 @@ import { BookingWizard } from '@/components/booking/BookingWizard';
 import { ShieldCheck, Plane, Banknote } from 'lucide-react';
 import { getDbPricesCached } from '@/lib/pricing-db';
 import { getBookingDraft } from '@/lib/booking-draft-store';
-import { getSiteImagesCached } from '@/lib/site-images';
+import { getSiteImagesCached, ROUTE_IMAGE_SLOTS } from '@/lib/site-images';
+import { getDbVehiclesCached } from '@/lib/fleet-db';
 import { getPublishedPageCopy } from '@/lib/public-page-copy';
 
 interface BookingPageProps {
@@ -166,8 +167,26 @@ export default async function BookingPage(props: BookingPageProps) {
   const { locale } = params;
 
   const dict = getDictionary(locale);
-  const settings = await getSiteSettings();
- const images = await getSiteImagesCached();
+  const [settings, images, activeFleet] = await Promise.all([
+    getSiteSettings(), getSiteImagesCached(), getDbVehiclesCached(),
+  ]);
+  const directIds = new Set(['camry','staria','yukon','hiace','coaster']);
+  const bookingVehicleOverrides = Object.fromEntries(
+    activeFleet.filter(v => directIds.has(v.bookingVehicleId)).map(v => [
+      v.bookingVehicleId,
+      {
+        name: v.name[locale] || v.name.en,
+        category: v.category[locale] || v.category.en,
+        seats: v.passengers,
+        bags: v.luggage,
+        img: v.gallery.find(photo=>photo.type==='exterior')?.src
+          || v.gallery[0]?.src || '/assets/images/staria_exterior.webp',
+      },
+    ]),
+  );
+  const routeImages=Object.fromEntries(
+    Object.entries(ROUTE_IMAGE_SLOTS).map(([slug,key])=>[slug,images[key]]),
+  );
   const cms = await getPublishedPageCopy('booking',locale);
   const defaults = PAGE_TEXT[locale] || PAGE_TEXT.en;
   const pageText = {
@@ -276,6 +295,8 @@ export default async function BookingPage(props: BookingPageProps) {
           initialPickup={resolvedPickup}
           initialDropoff={resolvedDropoff}
           initialRates={await getDbPricesCached()}
+          vehicleOverrides={bookingVehicleOverrides}
+          routeImages={routeImages}
         />
         </div>
         </div>

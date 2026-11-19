@@ -56,6 +56,8 @@ interface BookingEngineProps {
   initialPickup?: string;
   initialDropoff?: string;
   initialRates?: Record<string, Record<string, number>>;
+  vehicleOverrides?: Record<string, VehicleInfo>;
+  routeImages?: Record<string,string>;
   hideInternalStepper?: boolean;
   onStepChange?: (step: 1 | 2 | 3 | 4) => void;
   stepOverride?: 1 | 2 | 3 | 4;
@@ -122,6 +124,19 @@ const CONCIERGE_VEHICLES: Record<string, VehicleInfo> = {
     bags: 6,
     img: '/assets/images/h1_exterior.webp',
   },
+};
+
+const NO_PUBLIC_VEHICLE_COPY: Record<Locale,string> = {
+ ar:'لا توجد سيارات متاحة للحجز المباشر حاليًا. تواصل معنا لترتيب رحلة خاصة.',
+ en:'No vehicles are available for direct booking right now. Contact us for a private arrangement.',
+ ms:'Tiada kenderaan tersedia untuk tempahan terus. Hubungi kami untuk aturan perjalanan peribadi.',
+ id:'Tidak ada kendaraan yang tersedia untuk pemesanan langsung. Hubungi kami untuk pengaturan privat.',
+ ur:'فی الحال براہ راست بکنگ کے لیے گاڑیاں دستیاب نہیں۔ نجی سفر کے لیے ہم سے رابطہ کریں۔',
+ fr:'Aucun véhicule n’est disponible à la réservation directe. Contactez-nous pour un transfert privé.',
+ es:'No hay vehículos disponibles para reserva directa. Contáctenos para un traslado privado.',
+ de:'Derzeit stehen keine Fahrzeuge für eine direkte Buchung zur Verfügung. Kontaktieren Sie uns für eine individuelle Fahrt.',
+ tr:'Şu anda doğrudan rezervasyona açık araç yok. Özel yolculuk için bizimle iletişime geçin.',
+ hi:'अभी सीधे बुकिंग के लिए कोई वाहन उपलब्ध नहीं है। निजी यात्रा के लिए हमसे संपर्क करें।',
 };
 
 const ROUTES: Record<string, { label: string; baseSAR: number }> = {
@@ -976,7 +991,16 @@ export function BookingEngine({
   initialPickup = '',
   initialDropoff = '',
   initialRates,
+  vehicleOverrides,
+  routeImages,
   hideInternalStepper = false, onStepChange, stepOverride }: BookingEngineProps) {
+  // Published active vehicles are the only choices offered in booking.
+  const vehicleSpecs = React.useMemo<Record<string,VehicleInfo>>(() => {
+    if (!vehicleOverrides) return VEHICLE_SPECS;
+    return Object.fromEntries(Object.keys(VEHICLE_SPECS)
+      .filter(id => Object.prototype.hasOwnProperty.call(vehicleOverrides,id))
+      .map(id => [id,vehicleOverrides[id]]));
+  }, [vehicleOverrides]);
   const { currency, formatPrice } = useCurrency();
   const t = LOCALIZED_UI[locale] || LOCALIZED_UI.en;
   const [locationError, scheduleError, vehicleError, quoteError, securityError, phoneError, submissionError, countryLabel, countrySearchLabel, estimateLabel] = BOOKING_FORM_COPY[locale];
@@ -986,7 +1010,7 @@ export function BookingEngine({
   // 4-Step Booking Wizard: 1 = Route, 2 = Vehicle, 3 = Trip Details, 4 = Passenger & Confirmation
   const [internalStep, setInternalStep] = useState<1 | 2 | 3 | 4>(() => {
     if (stepOverride) return stepOverride;
-    if (initialVehicle && (initialVehicle in VEHICLE_SPECS) && (initialRoute || initialPickup)) {
+    if (initialVehicle && (initialVehicle in vehicleSpecs) && (initialRoute || initialPickup)) {
       return 3;
     }
     return 1;
@@ -1019,7 +1043,7 @@ export function BookingEngine({
 
   const [routeId, setRouteId] = useState(initialRouteValid ? initialRoute : DEFAULT_ROUTE);
   const [vehicleId, setVehicleId] = useState<string | null>(() => {
-    if (initialVehicle && initialVehicle in VEHICLE_SPECS) {
+    if (initialVehicle && initialVehicle in vehicleSpecs) {
       return initialVehicle;
     }
     return null;
@@ -1197,7 +1221,8 @@ export function BookingEngine({
       setStep1Error(vehicleError);
       return;
     }
-    const vehicle = VEHICLE_SPECS[vehicleId];
+    const vehicle = vehicleSpecs[vehicleId];
+    if (!vehicle) { setStep1Error(vehicleError); return; }
     if (passengers > vehicle.seats || luggage > vehicle.bags) {
       setStep1Error(t.capacityNotice);
       return;
@@ -1615,7 +1640,7 @@ export function BookingEngine({
                           title={title}
                         >
                           <span className="duyuf-booking-featured-route-photo">
-                            <Image src={item.image} alt="" fill sizes="(max-width:640px) 43vw, 190px" />
+                            <Image src={routeImages?.[item.id] || item.image} alt="" fill sizes="(max-width:640px) 43vw, 190px" />
                           </span>
                           <span className="duyuf-booking-featured-route-name">{title}</span>
                         </button>
@@ -1849,8 +1874,13 @@ export function BookingEngine({
             </div>
 
             {/* Large vehicle portraits; no narrow three-column tiles. */}
+            {!Object.keys(vehicleSpecs).length && (
+              <div role="status" className="rounded-xl border border-border bg-bg-alt p-5 text-sm text-ink-muted">
+                {NO_PUBLIC_VEHICLE_COPY[locale]}
+              </div>
+            )}
             <div className="duyuf-booking-direct-fleet grid grid-cols-1 md:grid-cols-2 gap-5">
-              {Object.entries(VEHICLE_SPECS)
+              {Object.entries(vehicleSpecs)
                 .filter(([vId]) => (bookingType === 'group_bus' ? vId === 'hiace' || vId === 'coaster' : true))
                 .map(([vId, vData]) => {
                   const isSelected = vehicleId === vId;
@@ -2086,7 +2116,7 @@ export function BookingEngine({
                 </span>
                 <span className="text-ink-muted flex items-center gap-1.5">
                   <Car className="w-3.5 h-3.5 text-gold-dark" />
-                  {(vehicleId && VEHICLE_SPECS[vehicleId]?.name) || vehicleId || (locale === 'ar' ? 'بانتظار الاختيار' : 'Pending Selection')}
+                  {(vehicleId && vehicleSpecs[vehicleId]?.name) || vehicleId || (locale === 'ar' ? 'بانتظار الاختيار' : 'Pending Selection')}
                 </span>
                 <span className="text-ink-muted font-bold text-gold-dark">
                   {formatPrice(currentPriceSAR)}
@@ -2251,7 +2281,7 @@ export function BookingEngine({
                 </span>
                 <span className="text-ink-muted flex items-center gap-1.5">
                   <Car className="w-3.5 h-3.5 text-gold-dark" />
-                  {(vehicleId && VEHICLE_SPECS[vehicleId]?.name) || vehicleId || (locale === 'ar' ? 'بانتظار الاختيار' : 'Pending Selection')}
+                  {(vehicleId && vehicleSpecs[vehicleId]?.name) || vehicleId || (locale === 'ar' ? 'بانتظار الاختيار' : 'Pending Selection')}
                 </span>
                 <span className="text-gold-dark font-bold">
                   {finalPriceSAR === null ? '—' : formatPrice(finalPriceSAR)}
@@ -2534,12 +2564,12 @@ export function BookingEngine({
             <span className="text-[10px] font-bold text-ink-muted uppercase block">
               {t.summaryVehicle}
             </span>
-            {vehicleId && VEHICLE_SPECS[vehicleId] ? (
+            {vehicleId && vehicleSpecs[vehicleId] ? (
               <div className="flex items-center gap-3 bg-bg-alt/70 p-2.5 rounded-xl border border-border">
                 <div className="relative w-14 h-10 rounded-lg overflow-hidden bg-surface shrink-0 border border-border">
                   <Image
-                    src={VEHICLE_SPECS[vehicleId]?.img || '/assets/images/staria_exterior.webp'}
-                    alt={VEHICLE_SPECS[vehicleId]?.name || 'Vehicle'}
+                    src={vehicleSpecs[vehicleId]?.img || '/assets/images/staria_exterior.webp'}
+                    alt={vehicleSpecs[vehicleId]?.name || 'Vehicle'}
                     fill
                     sizes="60px"
                     className="object-cover"
@@ -2547,12 +2577,12 @@ export function BookingEngine({
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="font-bold text-ink text-xs truncate">
-                    {VEHICLE_SPECS[vehicleId]?.name}
+                    {vehicleSpecs[vehicleId]?.name}
                   </p>
                   <div className="flex items-center gap-2 text-[10px] text-ink-muted">
-                    <span>{VEHICLE_SPECS[vehicleId]?.seats} {t.seatsLabel}</span>
+                    <span>{vehicleSpecs[vehicleId]?.seats} {t.seatsLabel}</span>
                     <span>•</span>
-                    <span>{VEHICLE_SPECS[vehicleId]?.bags} {t.bagsLabel}</span>
+                    <span>{vehicleSpecs[vehicleId]?.bags} {t.bagsLabel}</span>
                   </div>
                 </div>
               </div>
