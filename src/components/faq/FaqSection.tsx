@@ -24,6 +24,7 @@ export interface FaqSectionProps {
   items?: Array<{ q: string; a: string }>;
   heading?: string;
   subtitle?: string;
+  visualImage?: string;
   id?: string;
   className?: string;
   showCta?: boolean;
@@ -128,6 +129,7 @@ export function FaqSection({
   items,
   heading,
   subtitle,
+  visualImage,
   id = 'faq',
   className = '',
   showCta = true,
@@ -193,7 +195,7 @@ export function FaqSection({
         {/* Video 10: contextual visual guide at the side of the genuine FAQ list. */}
         <div className="duyuf-faq-editorial-layout">
           <aside className="duyuf-faq-editorial-photo" aria-hidden="true">
-            <Image src="/assets/homepage-v2/ziyarat-haram.jpg" alt="" fill
+            <Image src={visualImage || "/assets/homepage-v2/ziyarat-haram.jpg"} alt="" fill
               sizes="(max-width: 780px) 100vw, 36vw" className="object-cover"/>
 
           </aside>

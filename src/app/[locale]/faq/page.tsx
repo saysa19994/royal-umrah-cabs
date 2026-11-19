@@ -6,6 +6,7 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { getPublicFaqsCached } from '@/lib/faq-service';
 import { getPublishedPageCopy } from '@/lib/public-page-copy';
+import { getSiteImagesCached } from '@/lib/site-images';
 import { FaqSection } from '@/components/faq/FaqSection';
 import { FaqJsonLd } from '@/components/seo/JsonLd';
 import { ChevronRight, Home } from 'lucide-react';
@@ -51,10 +52,11 @@ export default async function FaqPage(props: FaqPageProps) {
   const { locale } = params;
 
   const dict = getDictionary(locale);
-  const [settings, dbFaqs, cms] = await Promise.all([
+  const [settings, dbFaqs, cms, siteImages] = await Promise.all([
     getSiteSettings(),
     getPublicFaqsCached(locale).catch(() => undefined),
     getPublishedPageCopy('faq',locale),
+    getSiteImagesCached(),
   ]);
   const heading = cms.h1 || dict.faq.heading;
   const subtitle = typeof cms.contentBlocks.subtitle === 'string' && cms.contentBlocks.subtitle.trim()
@@ -117,6 +119,7 @@ export default async function FaqPage(props: FaqPageProps) {
 
       {/* 4. Full FAQ Component with 12 Localized Questions and Conversion CTA */}
       <FaqSection
+        visualImage={siteImages.faq_visual}
         heading={heading}
         subtitle={subtitle}
         locale={locale}

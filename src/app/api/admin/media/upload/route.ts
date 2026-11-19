@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     const file = formData.get('file') as File | null;
     const category = (formData.get('category') as string) || 'fleet';
     const vehicleId = formData.get('vehicleId') as string | null;
-    if (!['fleet', 'blog', 'site', 'cms'].includes(category) ||
+    if (!['fleet', 'blog', 'site', 'cms', 'general', 'hubs', 'ziyarat'].includes(category) ||
       (vehicleId && !/^[a-z0-9_-]{1,90}$/i.test(vehicleId))) {
       return NextResponse.json({ error: 'Unsupported media category or vehicle' }, { status: 400 });
     }

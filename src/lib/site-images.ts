@@ -12,6 +12,7 @@ export const SITE_IMAGE_SLOTS = {
   about_comfort: { label: 'من نحن — صورة المقصورة', fallback: '/assets/homepage-v2/service-group-interior.jpg' },
   booking_haram: { label: 'الحجز — صورة الحرم', fallback: '/assets/homepage-v2/ziyarat-haram.jpg' },
   booking_vehicle: { label: 'الحجز — صورة السيارة', fallback: '/assets/images/yukon_exterior.webp' },
+  faq_visual: { label: 'الأسئلة الشائعة — صورة القسم الرئيسي', fallback: '/assets/homepage-v2/ziyarat-haram.jpg' },
   services_airport: { label: 'الخدمات — استقبال المطارات', fallback: '/assets/images/routes/jeddah-airport-to-makkah.jpg' },
   services_ziyarat: { label: 'الخدمات — زيارات مكة والمدينة', fallback: '/assets/images/routes/makkah-ziyarat.jpg' },
   services_intercity: { label: 'الخدمات — النقل بين المدن', fallback: '/assets/images/routes/makkah-to-madinah.jpg' },
