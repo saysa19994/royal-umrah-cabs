@@ -79,6 +79,11 @@ export default function BookingOperationsPage({ mode = 'bookings' }: { mode?: 'o
   const [notice, setNotice] = useState('');
 
   useEffect(() => {
+    const requestedReference = new URLSearchParams(window.location.search).get('q');
+    if (requestedReference) setSearch(requestedReference.slice(0, 80));
+  }, []);
+
+  useEffect(() => {
     const id = window.setTimeout(() => { setPage(1); setTerm(search.trim()); }, 300);
     return () => window.clearTimeout(id);
   }, [search]);
