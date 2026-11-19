@@ -4,9 +4,9 @@
 const cspHeader = `
   default-src 'self';
   script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://www.googletagmanager.com https://static.cloudflareinsights.com;
-  style-src 'self' 'unsafe-inline';
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   img-src 'self' data: blob: https://*.supabase.co https://duyufalrahmanvip.com https://www.duyufalrahmanvip.com https://api.qrserver.com https://commons.wikimedia.org https://upload.wikimedia.org https://www.google-analytics.com https://www.googletagmanager.com;
-  font-src 'self' data:;
+  font-src 'self' data: https://fonts.gstatic.com;
   connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com https://www.google-analytics.com https://analytics.google.com https://*.cloudflareinsights.com;
   frame-src 'self' https://challenges.cloudflare.com;
   object-src 'none';

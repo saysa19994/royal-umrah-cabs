@@ -46,7 +46,8 @@
 }
 
 :global([dir="rtl"]) .studio .intro h1 {
-  font-family: var(--font-amiri);
+  font-family: var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 750;
   line-height: 1.22;
 }
 
@@ -174,7 +175,9 @@
 }
 
 :global([dir="rtl"]) .fareIntro h2 {
-  font-family: var(--font-amiri);
+  font-family: var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 750;
+  line-height: 1.25;
 }
 
 .fareList {

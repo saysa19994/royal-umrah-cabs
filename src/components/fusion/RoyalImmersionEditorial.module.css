@@ -2,8 +2,10 @@
 .process,.services,.ziyarat,.chauffeur,.reviews,.faq{--navy:#101827;--ivory:#f7f5f0;--bronze:#a97b27;--quiet:#646a72;color:var(--navy)}
 .process h2,.services h2,.ziyarat h2,.chauffeur h2,.reviews h2,.faq h2{font-family:var(--font-cormorant),serif;font-size:clamp(36px,4.45vw,68px);line-height:1.09;letter-spacing:-.025em;max-width:800px;font-weight:600;text-wrap:balance}
 .process h2:lang(ar),.services h2:lang(ar),.ziyarat h2:lang(ar),.chauffeur h2:lang(ar),.reviews h2:lang(ar),.faq h2:lang(ar){
-  font-family:var(--font-amiri),serif;
-  line-height:1.28;
+  font-family:var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height:1.24;
+  font-weight:750;
+  letter-spacing:0;
 }
 .process h2:lang(ur),.services h2:lang(ur),.ziyarat h2:lang(ur),.chauffeur h2:lang(ur),.reviews h2:lang(ur),.faq h2:lang(ur){
   font-family:var(--font-urdu),serif;
@@ -65,7 +67,7 @@
 .reviewSource{display:flex;flex-direction:column;gap:5px;color:#647078;font-size:12px}
 .reviewSource strong{color:#1b2b39;font-size:15px}
 .reviewEmpty{font-size:17px;line-height:2;color:#58646d;max-width:540px;margin:0!important}
-.reviewQuote blockquote:lang(ar){font-family:var(--font-amiri),serif}
+.reviewQuote blockquote:lang(ar){font-family:var(--font-tajawal), "Cairo", "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.6; font-weight: 550;}
 .reviewQuote blockquote:lang(ur){font-family:var(--font-urdu),serif;line-height:1.75}
 .reviewQuote blockquote:lang(hi){font-family:var(--font-devanagari),sans-serif}
 .reviewActions{
@@ -250,10 +252,16 @@
   letter-spacing: -.043em;
   line-height: 1.17;
 }
-.processHead h2:lang(ar),.processHead h2:lang(ur) {
-  font-family: var(--font-amiri),serif;
+.processHead h2:lang(ar) {
+  font-family: var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 750;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+.processHead h2:lang(ur) {
+  font-family: var(--font-urdu), serif;
   font-weight: 600;
-  line-height: 1.34;
+  line-height: 1.45;
   letter-spacing: 0;
 }
 .processHead h2:lang(hi) {

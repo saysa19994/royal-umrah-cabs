@@ -46,8 +46,9 @@ html[data-theme="dark"] .duyuf-pricing-page[dir="rtl"] .duyuf-pricing-hero-veil{
  text-wrap:balance;color:var(--fare-ink)
 }
 html[dir="rtl"] .duyuf-pricing-page .duyuf-pricing-heading{
- font-family:var(--font-amiri,Georgia),Georgia,serif;
- font-size:clamp(52px,5vw,86px);line-height:1.35;letter-spacing:0
+ font-family:var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+ font-weight:750;
+ font-size:clamp(44px,4.5vw,76px);line-height:1.24;letter-spacing:0
 }
 .duyuf-pricing-page .duyuf-pricing-hero-copy>p{
  color:var(--fare-muted);font-size:14px;line-height:1.9;max-width:530px
@@ -132,7 +133,9 @@ html[data-theme="dark"] .duyuf-pricing-page .duyuf-pricing-route-option.border-g
  letter-spacing:-.03em;max-width:590px
 }
 html[dir="rtl"] .duyuf-pricing-page .duyuf-pricing-selected-content h3{
- font-family:var(--font-amiri,Georgia),Georgia,serif;line-height:1.34;letter-spacing:0
+ font-family:var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+ font-weight:750;
+ line-height:1.24;letter-spacing:0
 }
 .duyuf-pricing-page .duyuf-pricing-selected-content .text-slate-300{color:var(--fare-muted)}
 .duyuf-pricing-page .duyuf-pricing-selected-content svg{color:var(--fare-accent)}

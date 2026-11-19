@@ -25,7 +25,10 @@ html[data-theme=dark] .duyuf-services-editorial{
  color:var(--service-ink);margin:19px 0!important
 }
 html[dir=rtl] .duyuf-services-editorial .duyuf-services-title{
- font-family:var(--font-amiri,Georgia),Georgia,serif;letter-spacing:0;line-height:1.33;
+ font-family:var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+ font-weight:750;
+ letter-spacing:0;
+ line-height:1.24;
 }
 .duyuf-services-editorial .duyuf-services-intro-copy>p{
  color:var(--service-muted);max-width:530px;font-size:14px;line-height:1.9

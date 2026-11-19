@@ -3,7 +3,7 @@
 .chapter *{box-sizing:border-box}
 .copy{padding:clamp(65px,8vw,125px) clamp(24px,6vw,100px);display:flex;flex-direction:column;justify-content:center;align-items:start;min-width:0}
 .copy h2{font-family:var(--font-cormorant),serif;font-size:clamp(38px,4.5vw,73px);line-height:1.08;font-weight:600;letter-spacing:0;max-width:620px;margin:0}
-.copy h2:lang(ar){font-family:var(--font-amiri),serif;line-height:1.28}
+.copy h2:lang(ar){font-family:var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;line-height:1.24;font-weight:750;}
 .copy h2:lang(ur){font-family:var(--font-urdu),serif;line-height:1.55}
 .copy h2:lang(hi){font-family:var(--font-devanagari),sans-serif;line-height:1.25}
 .copy p{margin-top:24px;font-size:14px;line-height:2;color:#cbd0d1;max-width:530px}

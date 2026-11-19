@@ -68,9 +68,10 @@ html[data-theme="dark"] .duyuf-booking-editorial {
   text-wrap: balance;
 }
 html[dir="rtl"] .duyuf-booking-editorial .duyuf-booking-heading {
-  font-family: var(--font-amiri, Georgia), Georgia, serif;
-  font-size: clamp(43px, 5vw, 75px);
-  line-height: 1.35;
+  font-family: var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 750;
+  font-size: clamp(38px, 4.5vw, 68px);
+  line-height: 1.25;
   letter-spacing: 0;
 }
 html[dir="rtl"] .duyuf-booking-editorial .duyuf-booking-eyebrow {
@@ -269,7 +270,9 @@ html[data-theme="dark"] .duyuf-booking-editorial .duyuf-booking-service-tabs { b
   line-height: 1.17;
 }
 html[dir="rtl"] .duyuf-booking-editorial .duyuf-booking-summary :is(h2,h3) {
-  font-family: var(--font-amiri, Georgia), Georgia, serif;
+  font-family: var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 750;
+  line-height: 1.25;
 }
 .duyuf-booking-editorial .duyuf-booking-progress-mobile .duyuf-booking-mobile-rail {
   background: var(--booking-paper);

@@ -137,7 +137,7 @@ export function CinematicTravelHero({ locale, dict }: CinematicTravelHeroProps) 
 
             {/* Headline with Editorial Grandeur */}
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[50px] font-normal tracking-tight text-white leading-[1.2] mb-3 sm:mb-4 break-words">
-              <span className={isAr ? 'font-amiri font-bold text-[#F7F5F0]' : 'font-cormorant font-medium text-[#F7F5F0]'}>
+              <span className={isAr ? 'font-cairo font-bold text-[#F7F5F0]' : 'font-cormorant font-medium text-[#F7F5F0]'}>
                 {t.title || 'Your Journey, Handled With Care.'}
               </span>
             </h1>

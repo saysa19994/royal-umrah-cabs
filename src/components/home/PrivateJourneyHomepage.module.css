@@ -8,7 +8,7 @@
   --ink:#1b3035;--muted:#657476;--teal:#1c3d45;--amber:#c48d36;
   --goldwash:#fcf5e7;--border:#e6e3db;
   --serif:var(--font-cormorant,Georgia),Georgia,serif;
-  --arabic:var(--font-amiri,Georgia),Georgia,serif;
+  --arabic:var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", Arial, sans-serif;
   background:var(--paper)!important;color:var(--ink)!important;overflow-x:clip;
   font-family:var(--font-manrope,Arial),var(--font-ibm-plex-arabic,Arial),Arial,sans-serif;
   color-scheme:light;

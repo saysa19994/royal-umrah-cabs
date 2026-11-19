@@ -132,7 +132,7 @@ export function LayeredPremiumFleetDeck({ locale, dict }: LayeredPremiumFleetDec
 
           {/* Headline */}
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight text-white leading-[1.2] mb-3 sm:mb-4">
-            <span className={isAr ? 'font-amiri font-bold text-[#F7F5F0]' : 'font-cormorant font-medium text-[#F7F5F0]'}>
+            <span className={isAr ? 'font-cairo font-bold text-[#F7F5F0]' : 'font-cormorant font-medium text-[#F7F5F0]'}>
               {t.title || 'Tailored Vehicles for Sacred Journeys'}
             </span>
           </h2>
@@ -217,7 +217,7 @@ export function LayeredPremiumFleetDeck({ locale, dict }: LayeredPremiumFleetDec
 
                 {/* VEHICLE MODEL NAME */}
                 <h3 className="text-2xl font-bold text-[#F7F5F0] tracking-tight mb-1">
-                  <span className={isAr ? 'font-amiri font-bold' : 'font-cormorant font-semibold'}>
+                  <span className={isAr ? 'font-cairo font-bold' : 'font-cormorant font-semibold'}>
                     {vehicleName}
                   </span>
                 </h3>
@@ -390,7 +390,7 @@ export function LayeredPremiumFleetDeck({ locale, dict }: LayeredPremiumFleetDec
 
                 {/* VEHICLE MODEL NAME */}
                 <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#F7F5F0] tracking-tight mb-1">
-                  <span className={isAr ? 'font-amiri font-bold' : 'font-cormorant font-semibold'}>
+                  <span className={isAr ? 'font-cairo font-bold' : 'font-cormorant font-semibold'}>
                     {vehicleName}
                   </span>
                 </h3>

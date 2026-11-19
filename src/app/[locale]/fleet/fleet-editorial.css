@@ -98,7 +98,7 @@ html[dir="rtl"] .duyuf-editorial-fleet .duyuf-fleet-hero h1{letter-spacing:0;lin
   font-size:clamp(46px,4vw,68px);font-weight:600;line-height:1;
   color:var(--fleet-ink);margin:20px 0!important;letter-spacing:-.035em
 }
-html[dir="rtl"] .duyuf-editorial-fleet .duyuf-fleet-spotlight-content h2{font-family:var(--font-amiri,Georgia),Georgia,serif;line-height:1.3;letter-spacing:0}
+html[dir="rtl"] .duyuf-editorial-fleet .duyuf-fleet-spotlight-content h2{font-family:var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;font-weight:750;line-height:1.24;letter-spacing:0}
 .duyuf-editorial-fleet .duyuf-fleet-spotlight-content>p{font-size:14px;line-height:1.82;color:var(--fleet-muted)}
 .duyuf-editorial-fleet .duyuf-fleet-spotlight-specs{
   display:flex;flex-wrap:wrap;gap:25px;margin:27px 0;
@@ -154,7 +154,7 @@ html[dir="rtl"] .duyuf-editorial-fleet .duyuf-fleet-spotlight-content h2{font-fa
   font-family:var(--font-cormorant,Georgia),Georgia,serif;
   font-size:clamp(30px,2.9vw,44px);line-height:1.05;margin:9px 0 14px;color:var(--fleet-ink)
 }
-html[dir="rtl"] .duyuf-editorial-fleet .duyuf-fleet-card-grid .vehicle-card-body h2{font-family:var(--font-amiri,Georgia),Georgia,serif;line-height:1.35}
+html[dir="rtl"] .duyuf-editorial-fleet .duyuf-fleet-card-grid .vehicle-card-body h2{font-family:var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;font-weight:750;line-height:1.24}
 .duyuf-editorial-fleet .duyuf-fleet-card-grid .vehicle-card-body>p{line-height:1.8;color:var(--fleet-muted);font-size:13px}
 .duyuf-editorial-fleet .duyuf-fleet-card-grid .vehicle-card-actions{margin-top:auto;padding-top:22px}
 .duyuf-editorial-fleet .duyuf-fleet-card-grid .btn-dark{background:#1d424a;color:#fff;border-radius:7px}
