@@ -47,3 +47,12 @@ test('admin CMS registry fails closed when Supabase cannot read saved content',(
  assert.match(registry,/return \(data \|\| \[\]\) as CmsPageRecord\[\]/);
  assert.doesNotMatch(registry,/return Object\.values\(memoryCmsStore\)/);
 });
+
+test('blog content fails closed instead of re-publishing withdrawn posts after a database outage',()=>{
+ const s=r('src/lib/blog-service.ts');
+ const start=s.indexOf('export const getManagedBlogOverridesCached');
+ const end=s.indexOf('export async function getManagedBlogPost(');
+ const block=s.slice(start,end);
+ assert.match(block,/throw new Error\('Blog CMS registry unavailable'\)/);
+ assert.doesNotMatch(block,/return \[\];/);
+});
