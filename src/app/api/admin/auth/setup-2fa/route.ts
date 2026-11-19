@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     }
 
     const { user } = authResult;
-    const rl = await rateLimit(`setup_2fa:${clientIp}:${user.email}`, 10, 300);
+    const rl = await rateLimit(`setup_2fa:${clientIp}:${user.email}`, 5, 300, { failClosed: true });
     if (!rl.success) {
       return NextResponse.json({ error: 'Too many requests. Please wait a moment.' }, { status: 429 });
     }
@@ -56,6 +56,8 @@ export async function PUT(request: Request) {
     }
 
     const { user } = authResult;
+    const rl = await rateLimit('confirm_2fa:' + clientIp + ':' + user.id, 5, 300, { failClosed: true });
+    if (!rl.success) return NextResponse.json({ error: 'Too many verification attempts' }, { status: 429 });
     const body = await request.json().catch(() => null);
     const factorId = body?.factorId;
     const code = body?.code;
@@ -83,7 +85,7 @@ export async function PUT(request: Request) {
     // Update profile in database if possible
     try {
       const serviceClient = createServiceClient();
-      await serviceClient
+      const { error: profileError } = await serviceClient
         .from('user_profiles')
         .update({
           totp_enabled: true,
@@ -91,6 +93,10 @@ export async function PUT(request: Request) {
         })
         .eq('id', user.id)
         .eq('auth_user_id', user.auth_user_id);
+      if (profileError) {
+        console.error('Authenticator profile sync failed:', profileError.message);
+        return NextResponse.json({ error: 'Authenticator verified, but profile sync failed. Contact your administrator.' }, { status: 503 });
+      }
     } catch (dbErr) {
       console.warn('Notice updating profile TOTP status:', dbErr);
     }
