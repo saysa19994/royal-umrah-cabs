@@ -85,6 +85,7 @@ export async function POST(request: Request) {
     }
 
     if (!mfaSuccess) {
+      if (process.env.VERCEL_ENV !== 'preview') {
       await logAuditEvent({
         userEmail: sessionEmail,
         userRole,
@@ -94,6 +95,7 @@ export async function POST(request: Request) {
         newValues: { reason: 'Invalid or expired 6-digit MFA token' },
         ip: clientIp,
       });
+      }
 
       return NextResponse.json(
         { error: 'Invalid or expired 2FA code. Please verify the code on your authenticator app.' },
@@ -102,6 +104,7 @@ export async function POST(request: Request) {
     }
 
     // Log success
+    if (process.env.VERCEL_ENV !== 'preview') {
     await logAuditEvent({
       userEmail: sessionEmail,
       userRole,
@@ -111,6 +114,7 @@ export async function POST(request: Request) {
       newValues: { message: '2FA TOTP passed successfully (AAL2 attained)' },
       ip: clientIp,
     });
+    }
 
     return NextResponse.json({
       success: true,
