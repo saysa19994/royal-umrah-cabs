@@ -142,10 +142,10 @@ const ROUTES: Record<string, { label: string; baseSAR: number }> = {
 
 /** Visual route shortcuts share the existing route handler and pricing. */
 const FEATURED_BOOKING_ROUTES = [
-  { id: 'jeddah-airport-to-makkah', image: '/assets/homepage-v2/hero-poster.jpg' },
+  { id: 'jeddah-airport-to-makkah', image: '/assets/homepage-v2/route-jeddah-makkah.jpg' },
   { id: 'makkah-to-madinah', image: '/assets/blueprint/routes/makkah-madinah.webp' },
-  { id: 'madinah-airport-to-hotel', image: '/assets/blueprint/routes/madinah-ziyarat.webp' },
-  { id: 'makkah-to-taif', image: '/assets/homepage-v2/ziyarat-haram.jpg' },
+  { id: 'madinah-airport-to-hotel', image: '/assets/homepage-v2/route-madinah-hotel.jpg' },
+  { id: 'makkah-to-taif', image: '/assets/blueprint/routes/makkah-taif.webp' },
 ] as const;
 
 const TAIF_ROUTE_KEYS = new Set(['makkah-to-taif', 'taif-to-makkah', 'jeddah-to-taif']);
