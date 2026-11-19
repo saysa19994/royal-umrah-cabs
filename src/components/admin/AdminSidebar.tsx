@@ -99,6 +99,13 @@ export function AdminSidebar({
           icon: CalendarCheck,
         },
         {
+          href: '/admin/collections',
+          labelEn: 'Cash Collections',
+          labelAr: 'التحصيل النقدي',
+          icon: DollarSign,
+          adminOnly: true,
+        },
+        {
           href: '/admin/leads',
           labelEn: 'Lead Inquiries',
           labelAr: 'استفسارات المعتمرين',
