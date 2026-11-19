@@ -312,7 +312,7 @@ export default function AdminFleetPage() {
   return (
     <div className="vip-internal-editorial space-y-6 text-start">
       {/* 1. EXECUTIVE FLEET COMMAND HEADER */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F2E8] via-[#F9F1E7] to-[#F8EEDF] border border-[#E4D4BE] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.65)]">
+      <div className="vip-internal-hero relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#F9F2E8] via-[#F9F1E7] to-[#F8EEDF] border border-[#E4D4BE] p-6 sm:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.65)]">
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-[#0B6A69]/10 via-[#A97B27]/5 to-transparent rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
@@ -326,7 +326,7 @@ export default function AdminFleetPage() {
               VIP Fleet &amp; Specifications Studio
             </h1>
 
-            <p className="text-xs sm:text-sm text-[#63727C] font-light max-w-2xl leading-relaxed">
+            <p className="vip-hero-description text-xs sm:text-sm text-[#63727C] font-light max-w-2xl leading-relaxed">
               Manage the 5 core VIP vehicle models (Camry, Staria VIP, Yukon XL VIP, HiAce, Coaster). Capacities, studio exterior/interior photography, and localized 10-language specifications sync instantly with zero redeployment.
             </p>
           </div>
@@ -519,7 +519,7 @@ export default function AdminFleetPage() {
                       className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider backdrop-blur-md ${
                         vehicle.is_active
                           ? 'bg-emerald-950/80 text-emerald-700 border border-emerald-500/40'
-                          : 'bg-rose-950/80 text-rose-300 border border-rose-500/40'
+                          : 'bg-rose-950/80 text-rose-700 border border-rose-500/40'
                       }`}
                     >
                       {vehicle.is_active ? '🟢 معروضة على الموقع' : '🔴 مخفية عن الزوار'}
@@ -611,7 +611,7 @@ export default function AdminFleetPage() {
                       onClick={() => toggleStatus(vehicle)}
                       className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-colors ${
                         vehicle.is_active
-                          ? 'bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border-rose-500/30'
+                          ? 'bg-rose-500/10 hover:bg-rose-500/20 text-rose-700 border-rose-500/30'
                           : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 border-emerald-500/30'
                       }`}
                     >
@@ -879,7 +879,7 @@ export default function AdminFleetPage() {
                       <button
                         type="button"
                         onClick={() => removeFeature(idx)}
-                        className="text-rose-400 hover:text-rose-300 ml-1"
+                        className="text-rose-400 hover:text-rose-700 ml-1"
                       >
                         ×
                       </button>
