@@ -24,6 +24,7 @@ const PAGES_LIST = [
   { id: 'services', title: 'Chauffeur Services (/services)' },
   { id: 'contact', title: 'Contact & Dispatch (/contact)' },
   { id: 'booking', title: 'Booking Request (/booking)' },
+  { id: 'faq', title: 'FAQ (/faq)' },
   { id: 'riyadh', title: 'Riyadh Hub (/riyadh)' },
   { id: 'taif', title: 'Taif Hub (/taif)' },
   { id: 'ziyarat', title: 'Holy Ziyarat Tours (/ziyarat)' },
@@ -123,7 +124,7 @@ export default function AdminCmsPage() {
 
       const data = await res.json();
       if (data.success) {
-        setFeedback({ type: 'success', message: ['about','services','contact','fleet','pricing','routes','ziyarat','booking'].includes(selectedPage) ? 'Saved and the related public page cache was refreshed.' : 'Saved to CMS as a draft. This page is not connected to the public template yet.' });
+        setFeedback({ type: 'success', message: ['about','services','contact','fleet','pricing','routes','ziyarat','booking','faq'].includes(selectedPage) ? 'Saved and the related public page cache was refreshed.' : 'Saved to CMS as a draft. This page is not connected to the public template yet.' });
         fetchCmsPages();
       } else {
         setFeedback({ type: 'error', message: data.error || 'Failed to save CMS content' });
@@ -207,7 +208,7 @@ export default function AdminCmsPage() {
                 >
                   <span className="truncate">{p.title}</span>
                   <span className="ms-2 shrink-0 text-[9px] font-medium text-[#697984]">
-                    {['about','services','contact','fleet','pricing','routes','ziyarat','booking'].includes(p.id)?'Live CMS':'Dedicated / planned'}
+                    {['about','services','contact','fleet','pricing','routes','ziyarat','booking','faq'].includes(p.id)?'Live CMS':'Dedicated / planned'}
                   </span>
                   <div className="flex items-center gap-1">
                     {hasEn && <span className="w-1.5 h-1.5 rounded-full bg-blue-400" title="English Ready" />}
@@ -255,7 +256,7 @@ export default function AdminCmsPage() {
           )}
           {/* Form */}
           <form onSubmit={handleSave} className="space-y-4">
-          {['about','services','contact','fleet','pricing','routes','ziyarat','booking'].includes(selectedPage) && (
+          {['about','services','contact','fleet','pricing','routes','ziyarat','booking','faq'].includes(selectedPage) && (
             <section className="rounded-xl border border-[#dfc4a2] bg-white p-4">
               <h3 className="text-sm font-bold text-[#193746]">Editable page text</h3>
               <p className="mt-1 text-xs text-[#697984]">Only saved non-empty fields override the site's original translation. Use the dedicated homepage editor for homepage copy.</p>
@@ -274,6 +275,8 @@ export default function AdminCmsPage() {
                   ['formTitle','Contact form title'],
                 ]:selectedPage==='booking'?[
                   ['badge','Booking page eyebrow (not booking price or payment terms)'],
+                ]:selectedPage==='faq'?[
+                  ['subtitle','FAQ introduction shown below the heading'],
                 ]:[
                   ['subtitle','Page introduction (editable, not the payment policy)'],
                 ]).map(([field,label])=>{

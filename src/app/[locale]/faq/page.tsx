@@ -5,6 +5,7 @@ import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { getPublicFaqsCached } from '@/lib/faq-service';
+import { getPublishedPageCopy } from '@/lib/public-page-copy';
 import { FaqSection } from '@/components/faq/FaqSection';
 import { FaqJsonLd } from '@/components/seo/JsonLd';
 import { ChevronRight, Home } from 'lucide-react';
@@ -21,8 +22,9 @@ export async function generateMetadata(props: FaqPageProps): Promise<Metadata> {
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
-  const title = `${dict.faq.heading} | ${dict.meta.brand}`;
-  const description = dict.faq.subtitle;
+  const cms=await getPublishedPageCopy('faq',locale);
+  const title=cms.seoTitle || `${dict.faq.heading} | ${dict.meta.brand}`;
+  const description=cms.seoDescription || dict.faq.subtitle;
 
   return {
     title,
@@ -49,10 +51,14 @@ export default async function FaqPage(props: FaqPageProps) {
   const { locale } = params;
 
   const dict = getDictionary(locale);
-  const [settings, dbFaqs] = await Promise.all([
+  const [settings, dbFaqs, cms] = await Promise.all([
     getSiteSettings(),
     getPublicFaqsCached(locale).catch(() => undefined),
+    getPublishedPageCopy('faq',locale),
   ]);
+  const heading = cms.h1 || dict.faq.heading;
+  const subtitle = typeof cms.contentBlocks.subtitle === 'string' && cms.contentBlocks.subtitle.trim()
+    ? cms.contentBlocks.subtitle : dict.faq.subtitle;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   const faqItems = dbFaqs;
   // [] is a valid editorial decision: do not recreate unpublished questions.
@@ -70,7 +76,7 @@ export default async function FaqPage(props: FaqPageProps) {
       {
         '@type': 'ListItem',
         position: 2,
-        name: dict.faq.heading,
+        name: heading,
         item: `${baseUrl}/${locale}/faq`,
       },
     ],
@@ -103,7 +109,7 @@ export default async function FaqPage(props: FaqPageProps) {
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-border-strong rtl:rotate-180" />
             <span className="text-ink font-medium" aria-current="page">
-              {dict.faq.heading}
+              {heading}
             </span>
           </nav>
         </div>
@@ -111,6 +117,8 @@ export default async function FaqPage(props: FaqPageProps) {
 
       {/* 4. Full FAQ Component with 12 Localized Questions and Conversion CTA */}
       <FaqSection
+        heading={heading}
+        subtitle={subtitle}
         locale={locale}
         dict={dict}
         settings={settings}

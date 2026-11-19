@@ -22,6 +22,8 @@ export interface FaqSectionProps {
   dict: Dictionary;
   settings?: SiteSettings;
   items?: Array<{ q: string; a: string }>;
+  heading?: string;
+  subtitle?: string;
   id?: string;
   className?: string;
   showCta?: boolean;
@@ -124,6 +126,8 @@ export function FaqSection({
   dict,
   settings,
   items,
+  heading,
+  subtitle,
   id = 'faq',
   className = '',
   showCta = true,
@@ -178,11 +182,11 @@ export function FaqSection({
             id={`${id}-heading`}
             className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-ink tracking-tight"
           >
-            {dict.faq.heading}
+            {heading || dict.faq.heading}
           </Heading>
 
           <p className="mt-4 text-sm sm:text-base md:text-lg text-ink-muted font-light leading-relaxed">
-            {dict.faq.subtitle}
+            {subtitle || dict.faq.subtitle}
           </p>
         </div>
 

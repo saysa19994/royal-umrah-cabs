@@ -4,7 +4,7 @@ import { CmsPageRecord } from '@/types/content';
 import { Locale, LOCALES } from '@/i18n/config';
 import { logAuditEvent } from '@/lib/audit';
 
-export const EDITABLE_CMS_PAGES = ['home','about','fleet','pricing','routes','services','contact','booking','ziyarat','riyadh','taif'] as const;
+export const EDITABLE_CMS_PAGES = ['home','about','fleet','pricing','routes','services','contact','booking','ziyarat','faq','riyadh','taif'] as const;
 export function isEditableCmsPageKey(key: unknown): key is typeof EDITABLE_CMS_PAGES[number] {
   return typeof key === 'string' && EDITABLE_CMS_PAGES.some(p => p === key);
 }
@@ -135,7 +135,7 @@ export async function upsertCmsPageAdmin(
   });
 
   revalidateTag('site_cms');
-  if (['about','services','contact','fleet','pricing','routes','ziyarat','booking'].includes(record.page_key)) {
+  if (['about','services','contact','fleet','pricing','routes','ziyarat','booking','faq'].includes(record.page_key)) {
     revalidatePath('/[locale]/' + record.page_key, 'page');
   }
   // 'home' currently has a dedicated text editor and cache. Never pretend

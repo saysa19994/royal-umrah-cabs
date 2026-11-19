@@ -24,6 +24,7 @@ const shortcuts:Shortcut[]=[
  {label:'صفحة الحجز',description:'عنوان وتقديم الصفحة وصورها — دون تغيير سياسة الدفع',href:'/admin/cms?page=booking&locale=ar',icon:ClipboardList,kind:'business'},
  {label:'المراجعات',description:'التحقق من التقييمات والموافقة على نشرها',href:'/admin/reviews',icon:MessageSquareText,kind:'operations'},
  {label:'الأسئلة الشائعة',description:'إدارة الإجابات والأسئلة المتكررة',href:'/admin/faqs',icon:FileText,kind:'operations'},
+ {label:'عنوان صفحة الأسئلة',description:'تعديل مقدمة صفحة FAQ وSEO لكل لغة',href:'/admin/cms?page=faq&locale=ar',icon:FileText,kind:'content'},
  {label:'إعدادات الموقع',description:'بيانات التواصل والسياسات والإعدادات المتاحة',href:'/admin/settings',icon:Settings2,kind:'operations'},
  {label:'الحجوزات',description:'حالة الطلب، تعيين السائق والمتابعة التشغيلية',href:'/admin/bookings',icon:ClipboardList,kind:'operations'},
 ];
