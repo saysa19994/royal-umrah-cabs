@@ -10,6 +10,19 @@ import { getHomeCopyOverridesCached } from '@/lib/home-copy';
 import { getDbVehiclesCached } from '@/lib/fleet-db';
 import { APPROVED_5_FLEET } from '@/data/approved-fleet-homepage';
 
+const UNAVAILABLE_FLEET_COPY: Record<Locale,string> = {
+  ar: 'لا تتوفر مركبات للحجز المباشر الآن. تواصل معنا لترتيب رحلتك الخاصة.',
+  en: 'No vehicles are currently available for direct booking. Contact our team for an individual arrangement.',
+  ms: 'Tiada kenderaan tersedia untuk tempahan terus buat masa ini. Hubungi pasukan kami untuk aturan perjalanan peribadi.',
+  id: 'Saat ini tidak ada kendaraan untuk pemesanan langsung. Hubungi tim kami untuk pengaturan perjalanan pribadi.',
+  ur: 'فی الحال براہ راست بکنگ کے لیے کوئی گاڑی دستیاب نہیں۔ نجی سفر کے انتظام کے لیے ہم سے رابطہ کریں۔',
+  fr: 'Aucun véhicule n’est actuellement disponible à la réservation directe. Contactez notre équipe pour organiser votre trajet.',
+  es: 'Actualmente no hay vehículos disponibles para reserva directa. Contacte con nuestro equipo para organizar su traslado.',
+  de: 'Derzeit sind keine Fahrzeuge für eine direkte Buchung verfügbar. Kontaktieren Sie unser Team für eine individuelle Fahrt.',
+  tr: 'Şu anda doğrudan rezervasyona açık araç bulunmuyor. Özel yolculuk düzenlemesi için ekibimizle iletişime geçin.',
+  hi: 'इस समय सीधे बुकिंग के लिए कोई वाहन उपलब्ध नहीं है। अपनी निजी यात्रा की व्यवस्था हेतु हमारी टीम से संपर्क करें।',
+};
+
 interface HomePageProps {
   params: Promise<{ locale: Locale }>;
 }
@@ -42,7 +55,7 @@ export default async function HomePage({ params }: HomePageProps) {
         poster={siteImages.hero_poster}><source src="/assets/homepage-v2/hero.mp4" type="video/mp4"/></video>
       <div className="relative z-10 mx-auto max-w-2xl">
         <h1 className="text-4xl font-semibold">{dict.meta.brand}</h1>
-        <p className="mt-6 text-lg">{locale==='ar'?'لا تتوفر مركبات للحجز المباشر الآن، تواصل معنا لترتيب رحلتك الخاصة.':'No vehicles are currently available for direct booking. Contact our team for an individual arrangement.'}</p>
+        <p className="mt-6 text-lg">{UNAVAILABLE_FLEET_COPY[locale]}</p>
         <Link className="mt-9 inline-block rounded-lg bg-white px-7 py-3 font-bold text-[#092b37]" href={`/${locale}/contact`}>{dict.nav.contact}</Link>
       </div>
     </main>

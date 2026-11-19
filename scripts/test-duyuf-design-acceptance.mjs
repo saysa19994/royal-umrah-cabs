@@ -26,13 +26,14 @@ test('fleet atelier replaces repeat-card catalog while retaining authoritative d
   const fleet=read('src/components/fleet/FleetAtelier.tsx');
   const styles=read('src/components/fleet/FleetAtelier.module.css');
   const page=read('src/app/[locale]/fleet/page.tsx');
-  assert.match(page,/<FleetAtelier vehicles=\{vehicles\} locale=\{locale\}/);
+  assert.match(page,/<FleetAtelier vehicles=\{vehicles\} rates=\{rates\} locale=\{locale\}/);
   assert.match(page,/getDbVehiclesCached/);
   assert.match(page,/getLocalizedAlternates/);
   assert.match(page,/JSON\.stringify\(itemListSchema\)/);
   assert.doesNotMatch(page,/<FleetCatalog/);
   assert.match(fleet,/APPROVED_5_FLEET/);
-  assert.match(fleet,/AUTHORITATIVE_TRANSFER_RATES/);
+  assert.match(fleet,/rates\[ROUTE\]/);
+  assert.match(page,/getDbPricesCached/);
   assert.match(fleet,/vehicles\.find/);
   assert.match(fleet,/galleryPosition/);
   assert.match(fleet,/styles\.concierge/);
