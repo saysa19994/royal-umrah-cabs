@@ -82,3 +82,51 @@
  .serviceOrbit .orbitMiqat dt{font-size:17px}
  .serviceOrbit dd{font-size:8px;line-height:1.45}
 }
+
+
+/* About page: high-contrast typography and legible orbital facts on mobile. */
+@media(max-width:680px){
+ .heroCopy{padding:73px 19px 34px}
+ .crumb{font-size:13px!important;gap:8px;flex-wrap:wrap;margin-bottom:15px!important}
+ .micro,.cornerMark{font-size:12px!important}
+ .heroCopy h1{
+  font-size:clamp(29px,7.8vw,38px)!important;
+  line-height:1.45!important;
+ }
+ .heroCopy>p{font-size:15px!important;line-height:1.8!important}
+ .heroImage{height:clamp(225px,63vw,280px);min-height:0!important}
+ .story,.values{padding-block:38px!important}
+ .storyContent h2,.valuesHeader h2,.finalGrid h2{
+  font-size:clamp(27px,7vw,34px)!important;
+  line-height:1.42!important;
+ }
+ .storyContent p,.valueRow p,.finalGrid p{
+  font-size:14px!important;line-height:1.75!important;
+ }
+ .storyContent p.lead{font-size:16px!important}
+ .valueRow{padding:15px 0!important}
+ .valueRow h3{font-size:19px!important}
+ .valueImage{height:260px;min-height:0}
+ .final{padding:39px 0!important}
+ .finalRule{font-size:12px!important}
+ .serviceOrbit{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;height:auto!important;max-width:100%;
+ }
+ .serviceOrbit>div{
+  position:static;min-width:0;width:auto;height:auto;
+  min-height:115px;padding:13px 10px;border-radius:9px!important;
+ }
+ .serviceOrbit>div:last-child{grid-column:1/-1;min-height:90px}
+ .serviceOrbit dt,.serviceOrbit .orbitSupport dt,.serviceOrbit .orbitMiqat dt{
+  font-size:21px!important;
+  line-height:1.2!important;
+ }
+ .serviceOrbit dd{
+  font-size:12px!important;
+  line-height:1.6!important;
+  max-width:100%;
+  margin-top:5px;
+ }
+ .finalActions{margin-top:18px}
+}
