@@ -155,10 +155,21 @@ export default function AdminCmsPage() {
         const storedPages = await fetchCmsPages();
         const saved = storedPages?.find(p => p.page_key === payload.page_key && p.language === payload.language);
         const storedBlocks = saved?.content_blocks;
+        // JSONB normalizes object key order; canonicalize nested blocks so a
+        // successful real save is not falsely reported as a failed read-back.
+        const canonicalJson = (value: unknown): string => {
+          const normalize = (entry: unknown): unknown => {
+            if (Array.isArray(entry)) return entry.map(normalize);
+            if (entry !== null && typeof entry === 'object') {
+              return Object.fromEntries(Object.entries(entry as Record<string, unknown>)
+                .sort(([a], [b]) => a.localeCompare(b)).map(([key, part]) => [key, normalize(part)]));
+            }
+            return entry;
+          };
+          return JSON.stringify(normalize(value));
+        };
         const blocksMatch = storedBlocks && typeof storedBlocks === 'object' && !Array.isArray(storedBlocks) &&
-          Object.entries(payload.content_blocks || {}).every(
-            ([key, value]) => JSON.stringify((storedBlocks as Record<string, unknown>)[key]) === JSON.stringify(value)
-          );
+          canonicalJson(storedBlocks) === canonicalJson(payload.content_blocks);
         if (!saved || saved.seo_title !== payload.seo_title ||
             saved.seo_description !== payload.seo_description || saved.h1 !== payload.h1 || !blocksMatch) {
           setFeedback({ type: 'error', message: 'Save was accepted, but database read-back did not match. Review the saved record before making more changes.' });
