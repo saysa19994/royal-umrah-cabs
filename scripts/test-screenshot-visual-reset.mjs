@@ -13,7 +13,7 @@ test('route page does not bury its live selector below ten duplicate scenic card
  assert.doesNotMatch(routes,/<ExecutiveRouteCard/);
  assert.doesNotMatch(routes,/<PricingTable/);
  assert.match(routes,/liveRates\[route\.slug\]\?\.camry/);
- assert.match(routes,/\/routes\/'\+route\.slug/);
+ assert.match(routes,/route\.hasDetails\?'\/routes\/':'\/booking\?route='/);
  assert.match(routes,/getLocalizedAlternates\(locale, '\/routes'\)/);
  assert.match(read('src/app/[locale]/routes/routes-overhaul.module.css'),/\.list\{list-style:none/);
 });
