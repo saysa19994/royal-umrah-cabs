@@ -4,7 +4,7 @@ import test from 'node:test';
 const read=p=>readFileSync(p,'utf8');
 test('blog edits persist in page_content, not ephemeral files',()=>{
   const s=read('src/lib/blog-service.ts');
-  assert.match(s,/page_key:'blog_'+slug/);
+  assert.match(s, /page_key:'blog_'\+slug/);
   assert.match(s,/getManagedBlogOverridesCached/);
   assert.doesNotMatch(s,/writeFileSync/);
 });
