@@ -254,11 +254,34 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
         </div>
         <div className={styles.bookingLower}>
           <div className={styles.bookCarList} role="group" aria-label={dict.booking_card.vehicleLabel}>
-            {fleet.map((vehicle, index) => (
-              <button key={vehicle.id} type="button" aria-pressed={index === carIndex}
-                disabled={!(rates[route]?.[FARE_KEYS[vehicle.slug]] > 0) || guests > vehicle.passengers}
-                onClick={() => chooseVehicle(index)}>{vehicle.name[locale]}</button>
-            ))}
+            {fleet.map((vehicle, index) => {
+              const optionFare = rates[route]?.[FARE_KEYS[vehicle.slug]];
+              const hasFare = Number.isFinite(optionFare) && optionFare > 0;
+              const fitsParty = guests <= vehicle.passengers;
+              return (
+                <button
+                  key={vehicle.id}
+                  type="button"
+                  aria-pressed={index === carIndex}
+                  disabled={!hasFare || !fitsParty}
+                  onClick={() => chooseVehicle(index)}
+                  className={styles.vehicleFareCard}
+                >
+                  <span className={styles.vehicleFareImage} aria-hidden="true">
+                    <Image src={vehicle.exteriorImage} alt="" width={220} height={110} sizes="(max-width:760px) 45vw, 210px" />
+                  </span>
+                  <span className={styles.vehicleFareName}>{vehicle.name[locale]}</span>
+                  <span className={styles.vehicleFareCapacity}>
+                    <Users size={13} aria-hidden />{numbers.format(vehicle.passengers)} {dict.fleet.seatsLabel}
+                    <Luggage size={13} aria-hidden />{numbers.format(vehicle.luggage)} {dict.fleet.bagsLabel}
+                  </span>
+                  <span className={styles.vehicleFarePrice}>
+                    {hasFare ? formattedFare(optionFare) : copy.unavailable}
+                  </span>
+                  {index === carIndex && <Check className={styles.vehicleFareCheck} size={18} aria-hidden="true" />}
+                </button>
+              );
+            })}
           </div>
           <div className={styles.bookingTotal}>
             <div aria-live="polite">
@@ -288,7 +311,12 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
         <div className={styles.storyRail}>
           {scenes.map((scene, index) => (
             <button type="button" key={scene.title} aria-pressed={chapter === index} onClick={() => setChapter(index)}>
-              <small>{numbers.format(index + 1)}</small><strong>{scene.title}</strong><ChevronDown size={17} aria-hidden />
+              <span className={styles.storySceneThumb} aria-hidden="true">
+                <Image src={scene.image} alt="" width={78} height={78} sizes="78px" />
+              </span>
+              <small>{numbers.format(index + 1)}</small>
+              <strong>{scene.title}</strong>
+              <ChevronDown size={17} aria-hidden />
               {chapter === index && <span className={styles.sceneDetail}>{scene.description}</span>}
             </button>
           ))}
