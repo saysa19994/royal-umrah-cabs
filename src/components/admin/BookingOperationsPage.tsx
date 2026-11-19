@@ -21,7 +21,7 @@ type Booking = {
   whatsapp_number: string | null; language: string;
 };
 type Driver = { id: string; name: string; phone: string; vehicle_plate: string; vehicle_model: string; is_active: boolean };
-type Totals = Record<'total' | Status | 'today', number>;
+type Totals = Record<'total' | Status | 'today' | 'leads_total' | 'leads_new', number>;
 
 const statusLabels: Record<Status, string> = {
   new: 'حجز جديد', confirmed: 'مؤكد', driver_assigned: 'تم تعيين السائق',
@@ -161,11 +161,12 @@ export default function BookingOperationsPage({ mode = 'bookings' }: { mode?: 'o
         </div>
       </div>
 
-      <div className="mb-7 grid grid-cols-2 gap-3 xl:grid-cols-4">
+      <div className="mb-7 grid grid-cols-2 gap-3 xl:grid-cols-5">
         <Metric title="كل الحجوزات" value={stats?.total} hint="إجمالي مسجل في النظام" icon={<ClipboardList className="h-5 w-5"/>}/>
         <Metric title="تحتاج تأكيد" value={stats?.new} hint="طلبات جديدة" icon={<Clock3 className="h-5 w-5"/>}/>
         <Metric title="رحلات نشطة" value={stats ? stats.driver_assigned + stats.en_route : undefined} hint="مع سائق أو في الطريق" icon={<Activity className="h-5 w-5"/>}/>
         <Metric title="رحلات اليوم" value={stats?.today} hint="حسب توقيت السعودية" icon={<CalendarDays className="h-5 w-5"/>}/>
+        <Metric title="استفسارات جديدة" value={stats?.leads_new} hint="طلبات تواصل تحتاج متابعة" icon={<UserRoundCheck className="h-5 w-5"/>}/>
       </div>
 
       <div className="mb-5 flex flex-wrap gap-2">
