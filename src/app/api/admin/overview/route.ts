@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   if (auth.user.role === 'operator' && !auth.user.assigned_whatsapp_number) {
     return NextResponse.json({
       total: 0, new: 0, confirmed: 0, driver_assigned: 0,
-      en_route: 0, completed: 0, cancelled: 0, today: 0,
+      en_route: 0, completed: 0, cancelled: 0, today: 0, leads_total: 0, leads_new: 0,
     }, { headers: { 'Cache-Control': 'private, no-store' } });
   }
 
@@ -46,5 +46,17 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Failed to load actual booking totals' }, { status: 500 });
   }
   const metrics = Object.fromEntries(keys.map((key, i) => [key, results[i].count ?? 0]));
-  return NextResponse.json(metrics, { headers: { 'Cache-Control': 'private, no-store' } });
+  const scopedLeadCount = (onlyNew: boolean) => {
+    let q = db.from('leads').select('id', { count: 'exact', head: true });
+    if (auth.user.role === 'operator') q = q.eq('whatsapp_number', auth.user.assigned_whatsapp_number!);
+    if (onlyNew) q = q.eq('status', 'new');
+    return q;
+  };
+  const [leadAll, leadNew] = await Promise.all([scopedLeadCount(false), scopedLeadCount(true)]);
+  if (leadAll.error || leadNew.error) {
+    return NextResponse.json({ error: 'Failed to load lead totals' }, { status: 500 });
+  }
+  return NextResponse.json({
+    ...metrics, leads_total: leadAll.count ?? 0, leads_new: leadNew.count ?? 0,
+  }, { headers: { 'Cache-Control': 'private, no-store' } });
 }
