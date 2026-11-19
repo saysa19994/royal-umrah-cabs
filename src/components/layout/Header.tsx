@@ -195,10 +195,10 @@ export function Header({ locale, dict, settings }: HeaderProps) {
 
   const isRoyalHome = isHomePage;
   const isTransparent = isHomePage && !isScrolled;
-  const overHero = isRoyalHome && !isScrolled;
+  const overHero = isRoyalHome && !isScrolled && isDark;
 
   const headerBgClass = isRoyalHome && !isScrolled
-    ? 'bg-[#101827]/10 border-b border-white/15'
+    ? (isDark ? 'bg-[#101827]/95 border-b border-[#dabb81]/20' : 'bg-[#F9F7F2]/95 border-b border-[#ded8cc]')
     : isTransparent
     ? (isDark ? 'bg-[#0B111A]/40 backdrop-blur-md border-b border-white/10' : 'bg-[#FBF9F5]/70 backdrop-blur-md border-b border-black/5')
     : (isDark
@@ -272,6 +272,9 @@ export function Header({ locale, dict, settings }: HeaderProps) {
 
           {/* THEME SWITCHER (ALWAYS VISIBLE — MOBILE & DESKTOP) */}
           <div className="hidden items-center sm:flex">
+            <ThemeToggle locale={locale} showLabel />
+          </div>
+          <div className="flex items-center sm:hidden">
             <ThemeToggle locale={locale} />
           </div>
 

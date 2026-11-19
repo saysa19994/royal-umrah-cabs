@@ -21,6 +21,7 @@ import { RoyalMotion } from '@/components/royal/RoyalMotion';
 import { RoyalBookingSteps, RoyalGuestConfidence, RoyalServiceChapters } from './RoyalImmersionEditorial';
 import { getRoyalHomeRoute, ROYAL_HOME_ROUTES } from './royal-home-routes';
 import styles from './SignatureFusionHomepage.module.css';
+import './HomepageReferenceDayNight.css';
 
 type Props = {
   locale: Locale;
@@ -203,26 +204,26 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
   ].filter(Boolean);
 
   return (
-    <div className={styles.page} dir={dir} lang={locale} data-signature-fusion="true">
+    <div className={styles.page} dir={dir} lang={locale} data-signature-fusion="true" data-home-design="reference-day-night">
       <RoyalMotion />
-      <section className={styles.hero} id="fusion-top" aria-labelledby="royal-hero-title">
+      <section className={styles.hero} data-home-section="hero" id="fusion-top" aria-labelledby="royal-hero-title">
         <ArrivalFilm playLabel={copy.playFilm} pauseLabel={copy.pauseFilm} />
-        <div className={styles.heroCopy}>
+        <div className={styles.heroCopy} data-home-part="hero-copy">
           <span className={styles.heroTag} data-royal-hero-copy>{dict.meta.brand}</span>
           <h1 id="royal-hero-title" data-royal-hero-copy>{copy.heroLine1}{' '}<em>{copy.heroLine2}</em></h1>
           <p data-royal-hero-copy>{copy.heroDescription}</p>
           <div className={styles.heroButtons} data-royal-hero-copy>
             <a className={styles.primary} href="#fusion-book">{copy.heroBook}<DirectionArrow size={18} aria-hidden /></a>
-            <a className={styles.underLink} href="#fusion-story">{copy.heroExplore}<ChevronDown size={17} aria-hidden /></a>
+            <a className={styles.underLink} href="#fusion-fleet">{copy.heroExplore}<ChevronDown size={17} aria-hidden /></a>
           </div>
         </div>
       </section>
 
-      <section className={styles.bookingArea} id="fusion-book" data-booking-form="true" aria-labelledby="fusion-book-title">
+      <section className={styles.bookingArea} data-home-section="booking" id="fusion-book" data-booking-form="true" aria-labelledby="fusion-book-title">
         <div className={styles.bookingHead}>
           <h2 id="fusion-book-title">{copy.bookingTitle}</h2>
         </div>
-        <div className={styles.bookingDesk}>
+        <div className={styles.bookingDesk} data-home-part="booking-fields">
           <label className={styles.routeField}>
             <span><MapPin size={16} aria-hidden />{dict.booking_card.pickupLabel}</span>
             <select value={journey?.origin || ''} onChange={(event) => {
@@ -252,15 +253,15 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
             </select>
           </label>
         </div>
-        <div className={styles.bookingLower}>
-          <div className={styles.bookCarList} role="group" aria-label={dict.booking_card.vehicleLabel}>
+        <div className={styles.bookingLower} data-home-part="booking-lower">
+          <div className={styles.bookCarList} data-home-part="booking-cars" role="group" aria-label={dict.booking_card.vehicleLabel}>
             {fleet.map((vehicle, index) => (
               <button key={vehicle.id} type="button" aria-pressed={index === carIndex}
                 disabled={!(rates[route]?.[FARE_KEYS[vehicle.slug]] > 0) || guests > vehicle.passengers}
                 onClick={() => chooseVehicle(index)}>{vehicle.name[locale]}</button>
             ))}
           </div>
-          <div className={styles.bookingTotal}>
+          <div className={styles.bookingTotal} data-home-part="booking-total">
             <div aria-live="polite">
               <small>{copy.vehicleFare}</small>
               <strong>{eligible ? formattedFare(fare) : '—'}</strong>
@@ -272,12 +273,12 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
         <p className={styles.bookFine}><Check size={15} aria-hidden />{dict.booking_card.microAllTolls}</p>
       </section>
 
-      <ul className={styles.trustLine} aria-label={copy.promiseTitle}>
+      <ul className={styles.trustLine} data-home-section="trust" aria-label={copy.promiseTitle}>
         {benefits.map(({ Icon, text }) => <li key={text}><Icon size={18} aria-hidden />{text}</li>)}
       </ul>
       <RoyalBookingSteps locale={locale} />
 
-      <section id="fusion-story" className={styles.story} aria-labelledby="fusion-story-title" data-royal-story>
+      <section id="fusion-story" data-home-section="story" className={styles.story} aria-labelledby="fusion-story-title" data-royal-story>
         <div className={styles.storyIntro}><h2 id="fusion-story-title">{copy.journeyTitle}</h2></div>
         <div className={styles.storyFrame}>
           <div className={styles.storyImage} data-royal-story-frame>
@@ -295,13 +296,13 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
         </div>
       </section>
 
-      <section className={styles.showroom} id="fusion-fleet" aria-labelledby="fusion-fleet-title">
+      <section className={styles.showroom} data-home-section="fleet" id="fusion-fleet" aria-labelledby="fusion-fleet-title">
         <div className={styles.showroomHeading}>
           <h2 id="fusion-fleet-title">{copy.fleetTitle}</h2>
           <Link href={`/${locale}/fleet`}>{dict.nav.fleet}<ArrowUpRight size={17} aria-hidden /></Link>
         </div>
-        <div className={styles.showroomLayout}>
-          <div className={styles.carRail} role="group" aria-label={dict.nav.fleet}>
+        <div className={styles.showroomLayout} data-home-part="fleet-layout">
+          <div className={styles.carRail} data-home-part="fleet-selector" role="group" aria-label={dict.nav.fleet}>
             {fleet.map((vehicle, index) => (
               <button key={vehicle.id} type="button" aria-pressed={index === carIndex} onClick={() => chooseVehicle(index)}>
                 <span className={styles.fleetThumb} aria-hidden="true">
@@ -311,7 +312,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
               </button>
             ))}
           </div>
-          <div className={styles.carPhoto} data-royal-image>
+          <div className={styles.carPhoto} data-home-part="fleet-photo" data-royal-image>
             <Image key={car.id + String(inside)} src={inside ? car.interiorImage : car.exteriorImage}
               alt={car.name[locale] + ' — ' + (inside ? dict.fleet.viewInterior : dict.fleet.viewExterior)}
               fill sizes="(max-width: 640px) 95vw, (max-width: 900px) 74vw, 66vw"
@@ -321,7 +322,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
               <button type="button" aria-pressed={inside} onClick={() => setInside(true)}>{dict.fleet.viewInterior}</button>
             </div>
           </div>
-          <div className={styles.carDetail}>
+          <div className={styles.carDetail} data-home-part="fleet-copy">
             <span className={styles.eyebrow}>{car.categoryBadge[locale]}</span>
             <h3>{car.name[locale]}</h3>
             {car.summary[locale] && <p>{car.summary[locale]}</p>}
@@ -341,12 +342,12 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
 
       <RoyalCabinChapter locale={locale} />
       {journey && (
-        <section className={styles.routeAtlas} id="fusion-routes" aria-labelledby="fusion-routes-title">
+        <section className={styles.routeAtlas} data-home-section="routes" id="fusion-routes" aria-labelledby="fusion-routes-title">
           <div className={styles.routesHead}><h2 id="fusion-routes-title">{copy.routeTitle}</h2><p>{copy.routeLead}</p></div>
-          <div className={styles.routeCurtain} role="group" aria-label={dict.nav.routes}>
-            {routes.filter((item) => item.featured || item.id === route).map((item) => (
+          <div className={styles.routeCurtain} data-home-part="route-gallery" role="group" aria-label={dict.nav.routes}>
+            {routes.filter((item) => item.featured || item.id === route).slice(0, 4).map((item) => (
               <button key={item.id} type="button" aria-pressed={route === item.id}
-                className={styles.routeCurtainPanel}
+                className={styles.routeCurtainPanel} data-home-part="route-tile"
                 onClick={() => changeSelection(item.id, guests)}>
                 <Image src={item.image} alt="" fill sizes="(max-width:760px) 90vw, 25vw" className={styles.cover} />
                 <span className={styles.curtainShade} aria-hidden="true" />
@@ -359,7 +360,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
               </button>
             ))}
           </div>
-          <div className={styles.curtainSummary}>
+          <div className={styles.curtainSummary} data-home-part="route-summary">
             <div>
               <span className={styles.eyebrow}>{copy.vehicleFare}</span>
               <h3>{journey.name}</h3>
@@ -378,12 +379,12 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
       )}
 
       <RoyalServiceChapters locale={locale} dict={dict} />
-      <section className={styles.promises} aria-labelledby="royal-policy-title">
+      <section className={styles.promises} data-home-section="promises" aria-labelledby="royal-policy-title">
         <div className={styles.promiseHead}><h2 id="royal-policy-title">{copy.promiseTitle}</h2></div>
         <ul className={styles.promiseList}>{facts.map((fact) => <li key={fact}><Check size={17} aria-hidden /><p>{fact}</p></li>)}</ul>
       </section>
       <RoyalGuestConfidence locale={locale} dict={dict} />
-      <section className={styles.finish} aria-labelledby="royal-close-title">
+      <section className={styles.finish} data-home-section="finish" aria-labelledby="royal-close-title">
         <div className={styles.finishImage} data-royal-image>
           <Image src="/assets/images/reference/hero-gmc-saudi.jpg" alt="" fill sizes="(max-width: 760px) 100vw, 57vw" />
         </div>

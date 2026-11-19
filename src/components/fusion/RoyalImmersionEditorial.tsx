@@ -21,7 +21,7 @@ export function RoyalBookingSteps({ locale }: Props) {
   const StepIcons = [CarFront, CalendarCheck2, Handshake];
 
   return (
-    <section className={styles.process} aria-labelledby="royal-process-title">
+    <section className={styles.process} data-home-section="steps" aria-labelledby="royal-process-title">
       <div className={styles.processHead}>
         <h2 id="royal-process-title">{copy.title}</h2>
         <p>{copy.lead}</p>
@@ -88,7 +88,7 @@ export function RoyalServiceChapters({ locale, dict }: LocalizedProps) {
 
   return (
     <>
-      <section className={styles.services} id="royal-services" aria-labelledby="royal-services-title">
+      <section className={styles.services} data-home-section="services-index" id="royal-services" aria-labelledby="royal-services-title">
         <div className={styles.servicesPhoto} data-royal-image>
           <Image key={serviceImages[activeService]} src={serviceImages[activeService]} fill sizes="(max-width:760px) 100vw, 48vw" alt="" />
         </div>
@@ -113,7 +113,7 @@ export function RoyalServiceChapters({ locale, dict }: LocalizedProps) {
         </div>
       </section>
 
-      <section className={styles.ziyarat} id="royal-ziyarat" aria-labelledby="royal-ziyarat-title">
+      <section className={styles.ziyarat} data-home-section="ziyarat-preview" id="royal-ziyarat" aria-labelledby="royal-ziyarat-title">
         <div className={styles.ziHead}>
           <h2 id="royal-ziyarat-title">{destinations.title}</h2>
           <p>{destinations.lead}</p>
@@ -133,7 +133,7 @@ export function RoyalServiceChapters({ locale, dict }: LocalizedProps) {
         </div>
       </section>
 
-      <section className={styles.chauffeur} aria-labelledby="royal-chauffeur-title">
+      <section className={styles.chauffeur} data-home-section="welcome" aria-labelledby="royal-chauffeur-title">
         <div className={styles.chauffeurPhoto} data-royal-image>
           <Image src="/assets/homepage-v2/chauffeur-welcome.jpg" fill sizes="(max-width:760px) 100vw, 53vw" alt="" />
         </div>
@@ -183,7 +183,7 @@ function RealGuestQuote({ locale, dict }: LocalizedProps) {
   }, [locale]);
 
   return (
-    <section className={styles.reviews} aria-labelledby="royal-reviews-title">
+    <section className={styles.reviews} data-home-section="reviews" aria-labelledby="royal-reviews-title">
       <div className={styles.reviewHead}>
         <h2 id="royal-reviews-title">{review ? copy.title : copy.experienceTitle}</h2>
       </div>
@@ -231,7 +231,7 @@ export function RoyalGuestConfidence({ locale, dict }: LocalizedProps) {
     <>
       <RealGuestQuote key={locale} locale={locale} dict={dict} />
 
-      <section className={styles.faq} id="royal-faq" aria-labelledby="royal-faq-title">
+      <section className={styles.faq} data-home-section="faq" id="royal-faq" aria-labelledby="royal-faq-title">
         <div className={styles.faqIntro}>
           <h2 id="royal-faq-title">{dict.faq.heading}</h2>
           <p>{dict.faq.subtitle}</p>
