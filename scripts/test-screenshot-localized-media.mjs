@@ -13,7 +13,7 @@ test('the eight-screenshot localized visual QA removes baked-in English poster a
  assert.doesNotMatch(faq,/service-madinah\.jpg/);
  assert.match(home,/vehicle-interior-cta\.jpg/);
  assert.match(faq,/ziyarat-haram\.jpg/);
- assert.match(booking,/chauffeur-welcome\.jpg/);
+ assert.match(booking,/ziyarat-haram\.jpg/);
  assert.doesNotMatch(services,/Master CTA Banner/);
 });
 test('route, fare and cash payment remain on the real pricing and booking paths',()=>{
