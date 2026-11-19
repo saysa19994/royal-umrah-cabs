@@ -44,7 +44,11 @@ export function middleware(request: NextRequest) {
   const isWrite = !['GET', 'HEAD', 'OPTIONS'].includes(request.method);
   const previewReadOnly = process.env.VERCEL_ENV === 'preview' &&
     process.env.ALLOW_PREVIEW_DB_WRITES !== 'true';
-  const isSafeSessionEndpoint = pathname.startsWith('/api/admin/auth/');
+  const isSafeSessionEndpoint = [
+    '/api/admin/auth/login',
+    '/api/admin/auth/logout',
+    '/api/admin/auth/verify-2fa',
+  ].includes(pathname);
   const isReadOnlyQuote = pathname === '/api/bookings/quote';
   if (previewReadOnly && pathname.startsWith('/api/') && isWrite &&
       !isSafeSessionEndpoint && !isReadOnlyQuote) {
