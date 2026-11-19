@@ -48,7 +48,7 @@ export async function GET(request: Request) {
 
     // Server-side search across the complete dataset (not merely the visible page).
     const rawSearch = searchParams.get('q') || '';
-    const safeSearch = rawSearch.normalize('NFKC').replace(/[^\\p{L}\\p{N} @+_-]/gu, '').trim().slice(0, 80);
+    const safeSearch = rawSearch.normalize('NFKC').replace(/[^\p{L}\p{N} @+_-]/gu, '').trim().slice(0, 80);
     if (rawSearch && !safeSearch) {
       return NextResponse.json({ bookings: [], total: 0, limit, offset });
     }
