@@ -36,8 +36,10 @@ export const getManagedBlogOverridesCached = unstable_cache(async (): Promise<Ad
     .select('page_key,content_blocks').like('page_key', 'blog_%').eq('language', 'en')
     .order('page_key').limit(500);
   if (error) {
+    // Never silently restore hard-coded articles when the persisted registry
+    // is unavailable: that could reveal a deliberately unpublished post.
     console.error('Blog CMS could not read persisted edits:', error.message);
-    return [];
+    throw new Error('Blog CMS registry unavailable');
   }
   return (data || []).filter(row => row.page_key.startsWith('blog_') && row.page_key !== 'blog_post')
     .map(row => {
