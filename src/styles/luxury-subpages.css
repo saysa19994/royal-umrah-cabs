@@ -53,7 +53,7 @@
 .about-hero h1,
 .blog-hero h1 {
   color: var(--ink) !important;
-  font-family: var(--font-cinzel), var(--font-playfair), 'Amiri', serif;
+  font-family: var(--font-cinzel), var(--font-playfair), 'Cairo', serif;
 }
 
 .page-hero h1 em,

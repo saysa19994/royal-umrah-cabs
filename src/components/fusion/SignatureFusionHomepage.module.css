@@ -18,16 +18,25 @@
   overflow-x: clip;
 }
 
-.page:lang(ar) {
-  --display: var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --interface: var(--font-tajawal), "Cairo", "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+.page:lang(ar),
+.page[dir="rtl"] {
+  --display: 'Cairo', var(--font-cairo), 'Tajawal', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --interface: 'Tajawal', 'Cairo', var(--font-tajawal), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--interface);
 }
 .page:lang(ur) { --display: var(--font-urdu); --interface: var(--font-urdu); }
 .page:lang(hi) { --display: var(--font-devanagari); --interface: var(--font-devanagari); }
 .page :is(h1, h2, h3, p) { margin: 0; }
 .page[data-signature-fusion] :is(h1, h2, h3) { font-family: var(--display); text-wrap: balance; }
 .page h2 { font-size: var(--headline); line-height: 1.08; font-weight: 600; }
-.page:lang(ar) h2, .page:lang(ur) h2 { font-family: var(--display); line-height: 1.25; font-weight: 750; }
+.page:lang(ar) :is(h1, h2, h3),
+.page[dir="rtl"] :is(h1, h2, h3) {
+  font-family: 'Cairo', var(--font-cairo), 'Tajawal', sans-serif !important;
+  line-height: 1.25;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+.page:lang(ur) h2 { font-family: var(--display); line-height: 1.25; font-weight: 750; }
 .page a { text-decoration: none; }
 .page button { font: inherit; cursor: pointer; }
 .page button:disabled { cursor: not-allowed; opacity: .48; }

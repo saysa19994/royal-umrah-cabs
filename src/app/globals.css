@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "../styles/royal-fonts.css";
 @import "../styles/homepage-v3.css";
 @import "../styles/luxury-subpages.css";
 @import "../styles/duyuf-completion.css";
@@ -22,22 +23,29 @@
   --font-inter: "Segoe UI", Arial, sans-serif;
   --font-cairo: "Cairo", "Tajawal", "IBM Plex Sans Arabic", -apple-system, BlinkMacSystemFont, "SF Pro Arabic", "Segoe UI", "Noto Sans Arabic", Tahoma, sans-serif;
   --font-tajawal: "Tajawal", "Cairo", "IBM Plex Sans Arabic", -apple-system, BlinkMacSystemFont, "SF Pro Arabic", "Segoe UI", "Noto Sans Arabic", Tahoma, sans-serif;
-  --font-ibm-plex-arabic: "IBM Plex Sans Arabic", "Cairo", "Tajawal", -apple-system, BlinkMacSystemFont, "SF Pro Arabic", "Segoe UI", "Noto Sans Arabic", Tahoma, sans-serif;
+  --font-ibm-plex-arabic: "Cairo", "Tajawal", "IBM Plex Sans Arabic", -apple-system, BlinkMacSystemFont, "SF Pro Arabic", "Segoe UI", "Noto Sans Arabic", Tahoma, sans-serif;
   --font-urdu: "Noto Nastaliq Urdu", "Noto Naskh Arabic", Tahoma, serif;
   --font-devanagari: "Noto Sans Devanagari", "Mangal", sans-serif;
 }
 
-[lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3,
-[lang="ar"] .h1, [lang="ar"] .h2, [lang="ar"] .h3 {
-  font-family: var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans Arabic", Tahoma, sans-serif;
+[lang="ar"],
+[dir="rtl"] {
+  font-family: "Tajawal", "Cairo", var(--font-tajawal), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-arabic-display: "Cairo", "Tajawal", var(--font-cairo), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-arabic-body: "Tajawal", "Cairo", var(--font-tajawal), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+[lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3, [lang="ar"] h4, [lang="ar"] h5, [lang="ar"] h6,
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
+[lang="ar"] .h1, [lang="ar"] .h2, [lang="ar"] .h3,
+[dir="rtl"] .h1, [dir="rtl"] .h2, [dir="rtl"] .h3,
+[lang="ar"] .serif, [dir="rtl"] .serif,
+[lang="ar"] .font-serif, [dir="rtl"] .font-serif,
+[lang="ar"] .font-playfair, [dir="rtl"] .font-playfair {
+  font-family: "Cairo", var(--font-cairo), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
   line-height: 1.25;
   font-weight: 750;
   letter-spacing: 0;
-}
-
-[lang="ar"] {
-  --font-arabic-display: var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans Arabic", Tahoma, sans-serif;
-  --font-arabic-body: var(--font-tajawal), "Cairo", "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans Arabic", Tahoma, sans-serif;
 }
 
 [lang="ur"] h1, [lang="ur"] h2, [lang="ur"] h3 {

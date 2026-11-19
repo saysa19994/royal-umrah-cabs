@@ -74,7 +74,7 @@
 }
 
 .rc-hero-headline {
-  font-family: var(--font-cinzel), 'Amiri', 'Playfair Display', serif;
+  font-family: var(--font-cinzel), 'Cairo', 'Playfair Display', serif;
   font-size: 52px;
   line-height: 1.15;
   font-weight: 500;
@@ -348,7 +348,7 @@
 }
 
 .rc-h2-light {
-  font-family: var(--font-cinzel), 'Amiri', 'Playfair Display', serif;
+  font-family: var(--font-cinzel), 'Cairo', 'Playfair Display', serif;
   font-size: 34px;
   font-weight: 500;
   color: #FFFFFF;
@@ -607,7 +607,7 @@
 }
 
 .rc-h2-dark {
-  font-family: var(--font-cinzel), 'Amiri', 'Playfair Display', serif;
+  font-family: var(--font-cinzel), 'Cairo', 'Playfair Display', serif;
   font-size: 32px;
   font-weight: 600;
   color: #FFFFFF;
@@ -845,7 +845,7 @@
 }
 
 .rc-cta-card-title {
-  font-family: var(--font-cinzel), 'Amiri', 'Playfair Display', serif;
+  font-family: var(--font-cinzel), 'Cairo', 'Playfair Display', serif;
   font-size: 18px;
   font-weight: 600;
   color: #FFFFFF;

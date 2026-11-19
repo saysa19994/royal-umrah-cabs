@@ -1,11 +1,38 @@
 /* Royal Immersion: editorial chapters, self-contained, no global template overrides. */
 .process,.services,.ziyarat,.chauffeur,.reviews,.faq{--navy:#101827;--ivory:#f7f5f0;--bronze:#a97b27;--quiet:#646a72;color:var(--navy)}
 .process h2,.services h2,.ziyarat h2,.chauffeur h2,.reviews h2,.faq h2{font-family:var(--font-cormorant),serif;font-size:clamp(36px,4.45vw,68px);line-height:1.09;letter-spacing:-.025em;max-width:800px;font-weight:600;text-wrap:balance}
-.process h2:lang(ar),.services h2:lang(ar),.ziyarat h2:lang(ar),.chauffeur h2:lang(ar),.reviews h2:lang(ar),.faq h2:lang(ar){
-  font-family:var(--font-cairo), "Cairo", var(--font-tajawal), "SF Pro Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  line-height:1.24;
-  font-weight:750;
-  letter-spacing:0;
+.process h2:lang(ar),.services h2:lang(ar),.ziyarat h2:lang(ar),.chauffeur h2:lang(ar),.reviews h2:lang(ar),.faq h2:lang(ar),
+:global([dir="rtl"]) .process :is(h2, h3),
+:global([dir="rtl"]) .services :is(h2, h3),
+:global([dir="rtl"]) .ziyarat :is(h2, h3),
+:global([dir="rtl"]) .chauffeur :is(h2, h3),
+:global([dir="rtl"]) .reviews :is(h2, h3),
+:global([dir="rtl"]) .faq :is(h2, h3),
+:global([lang="ar"]) .process :is(h2, h3),
+:global([lang="ar"]) .services :is(h2, h3),
+:global([lang="ar"]) .ziyarat :is(h2, h3),
+:global([lang="ar"]) .chauffeur :is(h2, h3),
+:global([lang="ar"]) .reviews :is(h2, h3),
+:global([lang="ar"]) .faq :is(h2, h3) {
+  font-family: 'Cairo', var(--font-cairo), 'Tajawal', sans-serif !important;
+  line-height: 1.28;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+:global([dir="rtl"]) .process p,
+:global([dir="rtl"]) .services p,
+:global([dir="rtl"]) .ziyarat p,
+:global([dir="rtl"]) .chauffeur p,
+:global([dir="rtl"]) .reviews p,
+:global([dir="rtl"]) .faq p,
+:global([lang="ar"]) .process p,
+:global([lang="ar"]) .services p,
+:global([lang="ar"]) .ziyarat p,
+:global([lang="ar"]) .chauffeur p,
+:global([lang="ar"]) .reviews p,
+:global([lang="ar"]) .faq p {
+  font-family: 'Tajawal', 'Cairo', var(--font-tajawal), sans-serif;
+  line-height: 1.8;
 }
 .process h2:lang(ur),.services h2:lang(ur),.ziyarat h2:lang(ur),.chauffeur h2:lang(ur),.reviews h2:lang(ur),.faq h2:lang(ur){
   font-family:var(--font-urdu),serif;

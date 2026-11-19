@@ -25,7 +25,7 @@
 .sh-page-wrapper {
   background-color: var(--sh-bg);
   color: var(--sh-text);
-  font-family: var(--font-ibm-plex-arabic), var(--font-manrope), -apple-system, sans-serif;
+  font-family: 'Tajawal', 'Cairo', var(--font-tajawal), -apple-system, sans-serif;
   overflow-x: hidden;
   width: 100%;
   min-height: 100vh;

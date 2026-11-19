@@ -96,7 +96,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 [dir="rtl"] body,
-[dir="rtl"] main { font-family: var(--font-ibm-plex-arabic), var(--font-cairo), sans-serif; }
+[dir="rtl"] main { font-family: 'Tajawal', 'Cairo', var(--font-tajawal), sans-serif; }
 main { min-width: 0; overflow-x: clip; }
 main h1, main h2, main h3, .serif,
 .font-playfair, .font-serif {
@@ -105,7 +105,7 @@ main h1, main h2, main h3, .serif,
 }
 [dir="rtl"] main h1, [dir="rtl"] main h2, [dir="rtl"] main h3,
 [dir="rtl"] .serif, [dir="rtl"] .font-playfair {
-  font-family: var(--font-ibm-plex-arabic), var(--font-cairo), sans-serif;
+  font-family: 'Cairo', var(--font-cairo), 'Tajawal', sans-serif !important;
   letter-spacing: normal;
 }
 main h1 { font-weight: 750; }

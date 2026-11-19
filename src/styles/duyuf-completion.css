@@ -5,6 +5,25 @@
 .duyuf-pricing-page,
 .duyuf-vehicle-page { background: var(--bg-base); color: var(--text-primary); }
 
+html[dir="rtl"] .duyuf-booking-page,
+html[dir="rtl"] .duyuf-pricing-page,
+html[dir="rtl"] .duyuf-vehicle-page {
+  font-family: 'Tajawal', 'Cairo', var(--font-tajawal), sans-serif;
+}
+
+html[dir="rtl"] .duyuf-booking-page h1,
+html[dir="rtl"] .duyuf-pricing-page h1,
+html[dir="rtl"] .duyuf-vehicle-page h1,
+html[dir="rtl"] .duyuf-booking-page h2,
+html[dir="rtl"] .duyuf-pricing-page h2,
+html[dir="rtl"] .duyuf-vehicle-page h2,
+html[dir="rtl"] .duyuf-booking-page h3,
+html[dir="rtl"] .duyuf-pricing-page h3,
+html[dir="rtl"] .duyuf-vehicle-page h3 {
+  font-family: 'Cairo', var(--font-cairo), sans-serif !important;
+  letter-spacing: 0;
+}
+
 .duyuf-booking-page .duyuf-booking-intro { max-width: 880px; margin-inline: auto; }
 .duyuf-booking-page .duyuf-booking-intro h1 {
   font-family: var(--font-manrope), var(--font-ibm-plex-arabic), sans-serif;
