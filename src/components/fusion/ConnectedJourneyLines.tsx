@@ -4,7 +4,7 @@ import { useId } from 'react';
 import type { Locale } from '@/i18n/config';
 import styles from './ConnectedJourneyLines.module.css';
 
-type Props = { title: string; description: string; locale: Locale; enableTaif: boolean; enableRiyadh: boolean };
+type Props = { title: string; description: string; locale: Locale; routeId: string; enableTaif: boolean; enableRiyadh: boolean };
 type NodeKey = 'jeddah' | 'makkah' | 'madinah' | 'taif' | 'riyadh';
 const NODES: Record<NodeKey, { x: number; y: number; label: Record<string, string> }> = {
   jeddah: { x: 100, y: 110, label: { ar: 'جدة', en: 'Jeddah', fr: 'Djeddah', tr: 'Cidde', ur: 'جدہ', hi: 'जेद्दा', es: 'Yeda', de: 'Dschidda', id: 'Jeddah', ms: 'Jeddah' } },
@@ -23,17 +23,31 @@ const EDGES: { from: NodeKey; to: NodeKey; d: string; region?: 'taif' | 'riyadh'
   { from: 'riyadh', to: 'madinah', d: 'M 835 155 Q 735 40 575 80', region: 'riyadh' },
 ];
 
+const ROUTE_TO_EDGE: Record<string, string> = {
+  'jeddah-airport-to-makkah': 'jeddah:makkah',
+  'makkah-to-jeddah-airport': 'jeddah:makkah',
+  'jeddah-airport-to-madinah': 'jeddah:madinah',
+  'jeddah-to-madinah': 'jeddah:madinah',
+  'makkah-to-madinah': 'makkah:madinah',
+  'madinah-to-makkah': 'makkah:madinah',
+  'makkah-to-taif': 'makkah:taif',
+  'taif-to-makkah': 'makkah:taif',
+  'jeddah-to-taif': 'jeddah:taif',
+  'riyadh-to-makkah': 'riyadh:makkah',
+  'riyadh-to-madinah': 'riyadh:madinah',
+};
+
 /** Schematic only; routes reflect supported service pairs, not geographical distances. */
-export default function ConnectedJourneyLines({ title, description, locale, enableTaif, enableRiyadh }: Props) {
+export default function ConnectedJourneyLines({ title, description, locale, routeId, enableTaif, enableRiyadh }: Props) {
   const id = 'bronzeRoute' + useId().replace(/:/g, '');
   const visible = (key: NodeKey) => (key !== 'taif' || enableTaif) && (key !== 'riyadh' || enableRiyadh);
   const paths = EDGES.filter(edge => visible(edge.from) && visible(edge.to));
+  const currentEdge = ROUTE_TO_EDGE[routeId];
   return (
     <div className={styles.network} role="group" aria-label={title}>
-      <div className={styles.heading}><span>{title}</span><small>{description}</small></div>
       <svg viewBox="0 0 940 330" preserveAspectRatio="xMidYMid meet" role="img" aria-label={description}>
         <defs><linearGradient id={id} x1="0" x2="1"><stop stopColor="#a78b71" stopOpacity=".18"/><stop offset=".5" stopColor="#e8d5b7" stopOpacity=".9"/><stop offset="1" stopColor="#a78b71" stopOpacity=".18"/></linearGradient></defs>
-        {paths.map((edge, index) => <path key={edge.from + edge.to} d={edge.d} className={styles.route} stroke={`url(#${id})`} style={{ animationDelay: `${index * .5}s` }}/>)}
+        {paths.map((edge, index) => <path key={edge.from + edge.to} d={edge.d} className={styles.route} data-active={currentEdge === `${edge.from}:${edge.to}`} stroke={`url(#${id})`} style={{ animationDelay: `${index * .5}s` }}/>)}
         {(Object.entries(NODES) as [NodeKey, typeof NODES[NodeKey]][]).filter(([key]) => visible(key)).map(([key, node]) => (
           <g key={key}><circle cx={node.x} cy={node.y} r="8" fill="#0a0a0a" stroke="#c9b8a0" strokeWidth="2"/><circle cx={node.x} cy={node.y} r="3" fill="#e8d5b7"/><text x={node.x} y={node.y + (key === 'taif' ? 32 : -19)} textAnchor="middle" fill="#e8d5b7" fontSize="16">{node.label[locale] || node.label.en}</text></g>
         ))}
