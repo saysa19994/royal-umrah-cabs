@@ -233,18 +233,18 @@ export default function AdminPricingPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="vip-internal-editorial space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="w-2 h-2 rounded-full bg-[#D9A031]" />
-            <span className="text-xs font-bold uppercase tracking-wider text-[#D9A031]">Pricing &amp; Catalog</span>
+            <span className="w-2 h-2 rounded-full bg-[#086064]" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#93652D]">Pricing &amp; Catalog</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold font-display text-[#FAF9F6]">
+          <h1 className="text-2xl md:text-3xl font-bold font-display text-[#193341]">
             Pricing Matrix &amp; Route Management
           </h1>
-          <p className="text-sm text-[#A0A6B2] mt-0.5">
+          <p className="text-sm text-[#63727C] mt-0.5">
             Database single source of truth for all routes, vehicle classes, SAR/USD rates, and seasonal multipliers.
           </p>
         </div>
@@ -252,14 +252,14 @@ export default function AdminPricingPage() {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={() => setShowUsd(!showUsd)}
-            className="px-3 py-2 rounded-xl bg-[#121622] border border-[#232A3B] text-xs font-semibold text-[#FAF9F6] hover:border-[#D9A031]/40 transition-colors flex items-center gap-1.5"
+            className="px-3 py-2 rounded-xl bg-[#FFFBF6] border border-[#E5D6C0] text-xs font-semibold text-[#193341] hover:border-[#C49A61]/40 transition-colors flex items-center gap-1.5"
           >
-            <DollarSign className="w-3.5 h-3.5 text-[#D9A031]" />
+            <DollarSign className="w-3.5 h-3.5 text-[#93652D]" />
             <span>{showUsd ? 'Show SAR Only' : 'Show SAR & USD'}</span>
           </button>
           <button
             onClick={() => setShowAddRoute(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#D9A031] hover:bg-[#B88422] text-[#0D0F12] text-xs font-bold transition-colors shadow-lg shadow-[#D9A031]/10"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#086064] hover:bg-[#064D52] text-[#FFF7EA] text-xs font-bold transition-colors shadow-lg shadow-[#D9A031]/10"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add Route</span>
@@ -267,33 +267,33 @@ export default function AdminPricingPage() {
           <button
             onClick={fetchRoutes}
             disabled={loading}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1A1F26] border border-[#232A3B] text-xs font-semibold text-[#FAF9F6] hover:bg-[#20252D] hover:border-[#D9A031]/40 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F7ECDC] border border-[#E5D6C0] text-xs font-semibold text-[#193341] hover:bg-[#F3E8D8] hover:border-[#C49A61]/40 transition-colors"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#D9A031]' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#93652D]' : ''}`} />
             <span>Refresh</span>
           </button>
         </div>
       </div>
 
       {saveMessage && (
-        <div className="p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs font-medium flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-500/40 text-emerald-700 text-xs font-medium flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-emerald-700" />
           <span>{saveMessage}</span>
         </div>
       )}
 
       {saveError && (
-        <div className="p-4 rounded-xl bg-red-950/40 border border-red-500/40 text-red-300 text-xs font-medium flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 text-red-400" />
+        <div className="p-4 rounded-xl bg-red-50 border border-red-500/40 text-red-700 text-xs font-medium flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-red-700" />
           <span>{saveError}</span>
         </div>
       )}
 
       {/* Routes & Pricing Table */}
-      <div className="bg-[#121622] border border-[#232A3B] rounded-2xl overflow-hidden shadow-xl">
+      <div className="bg-[#FFFBF6] border border-[#E5D6C0] rounded-2xl overflow-hidden shadow-xl">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-[#FAF9F6]">
-            <thead className="bg-[#0D0F12] border-b border-[#232A3B] text-[11px] uppercase tracking-wider text-[#A0A6B2]">
+          <table className="w-full text-left text-xs text-[#193341]">
+            <thead className="bg-[#F7EFE4] border-b border-[#E5D6C0] text-[11px] uppercase tracking-wider text-[#63727C]">
               <tr>
                 <th className="py-3.5 px-4 font-bold">Route Name &amp; ID</th>
                 <th className="py-3.5 px-3 font-bold text-center">Status</th>
@@ -309,10 +309,10 @@ export default function AdminPricingPage() {
               {routes.map((route) => {
                 const isSaving = savingRouteId === route.id;
                 return (
-                  <tr key={route.id} className={`hover:bg-[#1A1F26]/50 transition-colors ${!route.is_active ? 'opacity-60 bg-red-950/5' : ''}`}>
+                  <tr key={route.id} className={`hover:bg-[#F7ECDC]/50 transition-colors ${!route.is_active ? 'opacity-60 bg-red-950/5' : ''}`}>
                     <td className="py-3 px-4">
-                      <div className="font-bold text-sm text-[#FAF9F6]">{route.title}</div>
-                      <div className="text-[10px] text-[#A0A6B2] font-mono mt-0.5">{route.id}</div>
+                      <div className="font-bold text-sm text-[#193341]">{route.title}</div>
+                      <div className="text-[10px] text-[#63727C] font-mono mt-0.5">{route.id}</div>
                     </td>
 
                     <td className="py-3 px-3 text-center">
@@ -320,8 +320,8 @@ export default function AdminPricingPage() {
                         onClick={() => handleToggleRoute(route.id)}
                         className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase transition-colors ${
                           route.is_active
-                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                            : 'bg-red-500/20 text-red-400 border border-red-500/30'
+                            ? 'bg-emerald-500/20 text-emerald-700 border border-emerald-500/30'
+                            : 'bg-red-500/20 text-red-700 border border-red-500/30'
                         }`}
                       >
                         {route.is_active ? 'Active' : 'Inactive'}
@@ -336,10 +336,10 @@ export default function AdminPricingPage() {
                             min="0"
                             value={route.rates[v] || 0}
                             onChange={(e) => handleRateChange(route.id, v, e.target.value)}
-                            className="w-20 px-2 py-1 rounded-lg bg-[#0D0F12] border border-[#232A3B] text-right text-xs font-bold text-[#FAF9F6] focus:border-[#D9A031] focus:outline-none"
+                            className="w-20 px-2 py-1 rounded-lg bg-[#F7EFE4] border border-[#E5D6C0] text-right text-xs font-bold text-[#193341] focus:border-[#C49A61] focus:outline-none"
                           />
                           {showUsd && (
-                            <span className="text-[10px] text-[#A0A6B2] font-mono">
+                            <span className="text-[10px] text-[#63727C] font-mono">
                               ${route.rates_usd?.[v] || Math.round((route.rates[v] || 0) * SAR_TO_USD)} USD
                             </span>
                           )}
@@ -351,7 +351,7 @@ export default function AdminPricingPage() {
                       <button
                         onClick={() => handleSaveRoute(route)}
                         disabled={isSaving}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#D9A031]/15 hover:bg-[#D9A031] text-[#D9A031] hover:text-[#0D0F12] font-bold text-xs transition-all"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#086064]/15 hover:bg-[#086064] text-[#93652D] hover:text-[#FFF7EA] font-bold text-xs transition-all"
                       >
                         <Save className="w-3.5 h-3.5" />
                         <span>{isSaving ? '...' : 'Save'}</span>
@@ -366,45 +366,45 @@ export default function AdminPricingPage() {
       </div>
 
       {/* Seasonal Multipliers Section */}
-      <div className="bg-[#121622] border border-[#232A3B] rounded-2xl p-6 space-y-4">
-        <div className="flex items-center justify-between border-b border-[#232A3B] pb-3">
+      <div className="bg-[#FFFBF6] border border-[#E5D6C0] rounded-2xl p-6 space-y-4">
+        <div className="flex items-center justify-between border-b border-[#E5D6C0] pb-3">
           <div>
-            <h2 className="text-base font-bold text-[#FAF9F6] flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-[#D9A031]" />
+            <h2 className="text-base font-bold text-[#193341] flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-[#93652D]" />
               <span>Seasonal Multipliers &amp; Demand Surges</span>
             </h2>
-            <p className="text-xs text-[#A0A6B2] mt-0.5">
+            <p className="text-xs text-[#63727C] mt-0.5">
               Seasonal surge multipliers dynamically scale base rates during Ramadan and Hajj peaks.
             </p>
           </div>
           <button
             onClick={() => setShowAddSeason(true)}
-            className="px-3 py-1.5 rounded-xl bg-[#1A1F26] border border-[#232A3B] text-xs font-bold text-[#FAF9F6] hover:border-[#D9A031]/40 transition-colors flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-xl bg-[#F7ECDC] border border-[#E5D6C0] text-xs font-bold text-[#193341] hover:border-[#C49A61]/40 transition-colors flex items-center gap-1.5"
           >
-            <Plus className="w-3.5 h-3.5 text-[#D9A031]" />
+            <Plus className="w-3.5 h-3.5 text-[#93652D]" />
             <span>Add Season</span>
           </button>
         </div>
 
         {seasons.length === 0 ? (
-          <p className="text-xs text-[#A0A6B2] py-4">No active seasonal multipliers configured.</p>
+          <p className="text-xs text-[#63727C] py-4">No active seasonal multipliers configured.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {seasons.map((s) => (
-              <div key={s.id} className="p-4 rounded-xl bg-[#0D0F12] border border-[#232A3B] space-y-2">
+              <div key={s.id} className="p-4 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-xs text-[#FAF9F6]">{s.name}</span>
+                  <span className="font-bold text-xs text-[#193341]">{s.name}</span>
                   <button
                     onClick={() => handleToggleSeason(s.id, s.is_active)}
                     className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                      s.is_active ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'
+                      s.is_active ? 'bg-emerald-500/20 text-emerald-700' : 'bg-red-500/20 text-red-700'
                     }`}
                   >
                     {s.is_active ? 'Active' : 'Disabled'}
                   </button>
                 </div>
-                <div className="text-lg font-bold text-[#D9A031] font-mono">{s.multiplier}x</div>
-                <div className="text-[10px] text-[#A0A6B2]">
+                <div className="text-lg font-bold text-[#93652D] font-mono">{s.multiplier}x</div>
+                <div className="text-[10px] text-[#63727C]">
                   {s.start_date || 'Ongoing'} → {s.end_date || 'Indefinite'}
                 </div>
               </div>
@@ -416,62 +416,62 @@ export default function AdminPricingPage() {
       {/* Add Route Modal */}
       {showAddRoute && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#121622] border border-[#232A3B] max-w-lg w-full rounded-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-[#232A3B] pb-3">
-              <h3 className="font-bold text-sm text-[#FAF9F6]">Add New Route to Catalog</h3>
-              <button onClick={() => setShowAddRoute(false)} className="text-[#A0A6B2] hover:text-white">✕</button>
+          <div className="bg-[#FFFBF6] border border-[#E5D6C0] max-w-lg w-full rounded-2xl p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-[#E5D6C0] pb-3">
+              <h3 className="font-bold text-sm text-[#193341]">Add New Route to Catalog</h3>
+              <button onClick={() => setShowAddRoute(false)} className="text-[#63727C] hover:text-white">✕</button>
             </div>
 
             <form onSubmit={handleAddRouteSubmit} className="space-y-3">
               <div>
-                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">Route Identifier (Slug)</label>
+                <label className="block text-xs font-semibold text-[#63727C] mb-1">Route Identifier (Slug)</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. jeddah-to-yanbu"
                   value={newRouteId}
                   onChange={(e) => setNewRouteId(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none focus:border-[#D9A031]"
+                  className="w-full px-3 py-2 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-xs text-[#193341] focus:outline-none focus:border-[#C49A61]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">Origin City / Station</label>
+                  <label className="block text-xs font-semibold text-[#63727C] mb-1">Origin City / Station</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Jeddah KAIA"
                     value={newOrigin}
                     onChange={(e) => setNewOrigin(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none focus:border-[#D9A031]"
+                    className="w-full px-3 py-2 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-xs text-[#193341] focus:outline-none focus:border-[#C49A61]"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">Destination City / Hotel</label>
+                  <label className="block text-xs font-semibold text-[#63727C] mb-1">Destination City / Hotel</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Yanbu Port"
                     value={newDestination}
                     onChange={(e) => setNewDestination(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none focus:border-[#D9A031]"
+                    className="w-full px-3 py-2 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-xs text-[#193341] focus:outline-none focus:border-[#C49A61]"
                   />
                 </div>
               </div>
 
-              <div className="border-t border-[#232A3B] pt-3">
-                <span className="block text-xs font-bold text-[#D9A031] mb-2">Base Rates in SAR (0 = Inactive / Quote only)</span>
+              <div className="border-t border-[#E5D6C0] pt-3">
+                <span className="block text-xs font-bold text-[#93652D] mb-2">Base Rates in SAR (0 = Inactive / Quote only)</span>
                 <div className="grid grid-cols-5 gap-2">
                   {(['camry', 'staria', 'yukon', 'hiace', 'coaster'] as const).map((v) => (
                     <div key={v}>
-                      <span className="block text-[10px] uppercase font-bold text-[#A0A6B2] mb-1">{v}</span>
+                      <span className="block text-[10px] uppercase font-bold text-[#63727C] mb-1">{v}</span>
                       <input
                         type="number"
                         min="0"
                         value={newRates[v]}
                         onChange={(e) => setNewRates({ ...newRates, [v]: Number(e.target.value) || 0 })}
-                        className="w-full px-2 py-1.5 rounded-lg bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] text-right"
+                        className="w-full px-2 py-1.5 rounded-lg bg-[#F7EFE4] border border-[#E5D6C0] text-xs text-[#193341] text-right"
                       />
                     </div>
                   ))}
@@ -482,13 +482,13 @@ export default function AdminPricingPage() {
                 <button
                   type="button"
                   onClick={() => setShowAddRoute(false)}
-                  className="px-4 py-2 rounded-xl bg-[#1A1F26] text-xs font-semibold text-[#FAF9F6]"
+                  className="px-4 py-2 rounded-xl bg-[#F7ECDC] text-xs font-semibold text-[#193341]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-[#D9A031] text-xs font-bold text-[#0D0F12]"
+                  className="px-5 py-2 rounded-xl bg-[#086064] text-xs font-bold text-[#FFF7EA]"
                 >
                   Create Route
                 </button>
@@ -501,27 +501,27 @@ export default function AdminPricingPage() {
       {/* Add Season Modal */}
       {showAddSeason && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#121622] border border-[#232A3B] max-w-md w-full rounded-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-[#232A3B] pb-3">
-              <h3 className="font-bold text-sm text-[#FAF9F6]">Add Seasonal Multiplier</h3>
-              <button onClick={() => setShowAddSeason(false)} className="text-[#A0A6B2] hover:text-white">✕</button>
+          <div className="bg-[#FFFBF6] border border-[#E5D6C0] max-w-md w-full rounded-2xl p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-[#E5D6C0] pb-3">
+              <h3 className="font-bold text-sm text-[#193341]">Add Seasonal Multiplier</h3>
+              <button onClick={() => setShowAddSeason(false)} className="text-[#63727C] hover:text-white">✕</button>
             </div>
 
             <form onSubmit={handleCreateSeason} className="space-y-3">
               <div>
-                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">Season Name</label>
+                <label className="block text-xs font-semibold text-[#63727C] mb-1">Season Name</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Ramadan Last 10 Days"
                   value={seasonName}
                   onChange={(e) => setSeasonName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none focus:border-[#D9A031]"
+                  className="w-full px-3 py-2 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-xs text-[#193341] focus:outline-none focus:border-[#C49A61]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">Multiplier (e.g. 1.25 = +25%)</label>
+                <label className="block text-xs font-semibold text-[#63727C] mb-1">Multiplier (e.g. 1.25 = +25%)</label>
                 <input
                   type="number"
                   step="0.05"
@@ -530,27 +530,27 @@ export default function AdminPricingPage() {
                   required
                   value={seasonMult}
                   onChange={(e) => setSeasonMult(Number(e.target.value))}
-                  className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none focus:border-[#D9A031]"
+                  className="w-full px-3 py-2 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-xs text-[#193341] focus:outline-none focus:border-[#C49A61]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">Start Date</label>
+                  <label className="block text-xs font-semibold text-[#63727C] mb-1">Start Date</label>
                   <input
                     type="date"
                     value={seasonStart}
                     onChange={(e) => setSeasonStart(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none"
+                    className="w-full px-3 py-2 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-xs text-[#193341] focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">End Date</label>
+                  <label className="block text-xs font-semibold text-[#63727C] mb-1">End Date</label>
                   <input
                     type="date"
                     value={seasonEnd}
                     onChange={(e) => setSeasonEnd(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-[#0D0F12] border border-[#232A3B] text-xs text-[#FAF9F6] focus:outline-none"
+                    className="w-full px-3 py-2 rounded-xl bg-[#F7EFE4] border border-[#E5D6C0] text-xs text-[#193341] focus:outline-none"
                   />
                 </div>
               </div>
@@ -559,14 +559,14 @@ export default function AdminPricingPage() {
                 <button
                   type="button"
                   onClick={() => setShowAddSeason(false)}
-                  className="px-4 py-2 rounded-xl bg-[#1A1F26] text-xs font-semibold text-[#FAF9F6]"
+                  className="px-4 py-2 rounded-xl bg-[#F7ECDC] text-xs font-semibold text-[#193341]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingSeason}
-                  className="px-5 py-2 rounded-xl bg-[#D9A031] text-xs font-bold text-[#0D0F12]"
+                  className="px-5 py-2 rounded-xl bg-[#086064] text-xs font-bold text-[#FFF7EA]"
                 >
                   {savingSeason ? 'Saving...' : 'Save Season'}
                 </button>
