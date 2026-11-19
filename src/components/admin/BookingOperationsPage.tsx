@@ -21,6 +21,7 @@ type Booking = {
   whatsapp_number: string | null; language: string;
 };
 type Driver = { id: string; name: string; phone: string; vehicle_plate: string; vehicle_model: string; is_active: boolean };
+type AuditEvent = { action: string; created_at: string; actor_type: 'staff' | 'customer'; old_status: string | null; new_status: string | null; cash_confirmed: boolean; driver_assigned: boolean };
 type Totals = Record<'total' | Status | 'today' | 'leads_total' | 'leads_new', number>;
 
 const statusLabels: Record<Status, string> = {
@@ -77,6 +78,8 @@ export default function BookingOperationsPage({ mode = 'bookings' }: { mode?: 'o
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
+  const [history, setHistory] = useState<AuditEvent[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
 
   useEffect(() => {
     const requestedReference = new URLSearchParams(window.location.search).get('q');
@@ -118,6 +121,17 @@ export default function BookingOperationsPage({ mode = 'bookings' }: { mode?: 'o
   useEffect(() => { void load(); }, [load]);
 
   const selected = useMemo(() => rows.find(b => b.id === selectedId) || null, [rows, selectedId]);
+  useEffect(() => {
+    if (!selectedId) { setHistory([]); return; }
+    let cancelled = false;
+    setHistoryLoading(true);
+    fetch('/api/admin/bookings/events?id=' + encodeURIComponent(selectedId), { cache: 'no-store' })
+      .then(async r => { if (!r.ok) throw new Error('History unavailable'); return r.json(); })
+      .then(result => { if (!cancelled) setHistory(Array.isArray(result.events) ? result.events : []); })
+      .catch(() => { if (!cancelled) setHistory([]); })
+      .finally(() => { if (!cancelled) setHistoryLoading(false); });
+    return () => { cancelled = true; };
+  }, [selectedId, notice]);
   useEffect(() => {
     setDriverId(selected?.driver_id || '');
     setNotes(selected?.special_notes || '');
@@ -296,6 +310,25 @@ export default function BookingOperationsPage({ mode = 'bookings' }: { mode?: 'o
             }} className={'rounded-lg px-4 py-2.5 text-xs font-bold disabled:opacity-40 ' + (action.danger ? 'bg-rose-50 text-rose-800' : 'bg-[#153E53] text-white')}>{action.label}</button>)}</div> : <p className="text-xs text-[#7D8A96]">لا توجد إجراءات انتقال متاحة لهذه الحالة.</p>}
             {selected.status === 'completed' && <p className="rounded-lg bg-[#F2F6F7] p-3 text-xs text-[#5E7180]">حالة التحصيل: {selected.payment_status === 'paid' ? 'مسجّل كمحصّل' : 'لم يتم تسجيل تحصيل مؤكد'} · الدفع نقدًا للسائق بعد الوصول.</p>}
           </div>
+          <section className="mt-4 rounded-xl border border-[#E1E9ED] bg-white p-4" aria-label="سجل أحداث الحجز">
+            <h3 className="font-extrabold">سجل أحداث الحجز</h3>
+            <p className="mt-1 text-xs text-[#728494]">أحداث موثقة من سجل النظام، دون عرض معلومات حساسة.</p>
+            {historyLoading ? <p className="mt-3 text-xs text-[#7F909D]">جارٍ قراءة الأحداث...</p> :
+              history.length ? <div className="mt-4 space-y-3 border-r-2 border-[#D7E7E1] pr-4">
+                {history.map((ev, i) => <div key={ev.created_at + i} className="relative">
+                  <span className="absolute -right-[23px] top-1.5 h-2.5 w-2.5 rounded-full bg-[#2D806E]"/>
+                  <p className="text-sm font-semibold">
+                    {ev.cash_confirmed ? 'تأكيد تحصيل نقدي' : ev.driver_assigned ? 'إسناد سائق' :
+                      ev.action === 'create' ? 'إنشاء الطلب' : ev.action === 'booking_updated' ? 'تحديث الحجز' : ev.action.replace(/_/g, ' ')}
+                  </p>
+                  {ev.new_status && <p className="mt-1 text-xs text-[#657C8D]">
+                    {ev.old_status ? (statusLabels[ev.old_status as Status] || ev.old_status) + ' ← ' : ''}
+                    {statusLabels[ev.new_status as Status] || ev.new_status}
+                  </p>}
+                  <p className="mt-1 text-[11px] text-[#8493A0]">{ksaTime(ev.created_at)} · {ev.actor_type === 'customer' ? 'العميل' : 'فريق التشغيل'}</p>
+                </div>)}
+              </div> : <p className="mt-4 text-xs text-[#8494A0]">لا توجد أحداث متاحة لهذا الحجز بعد.</p>}
+          </section>
           {saving && <div className="mt-3 flex items-center gap-2 text-xs text-[#44687B]"><Loader2 className="h-4 w-4 animate-spin"/>جارٍ حفظ التغييرات...</div>}
           <div className="mt-auto pt-6"><button type="button" onClick={() => setSelectedId(null)} className="w-full rounded-xl border border-[#D4DEE3] bg-white py-3 text-sm font-semibold">إغلاق</button></div>
         </aside>
