@@ -2,10 +2,11 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import NewManualBooking from './NewManualBooking';
 import {
   Activity, AlertCircle, ArrowUpLeft, CalendarDays, CarFront, CheckCircle2,
   ChevronLeft, ChevronRight, ClipboardList, Clock3, Download, Loader2,
-  Mail, MapPin, Phone, RefreshCw, Search, ShieldCheck, UserRoundCheck, X,
+  Mail, MapPin, Phone, RefreshCw, Search, ShieldCheck, UserRoundCheck, X, Plus,
 } from 'lucide-react';
 
 type Status = 'new' | 'confirmed' | 'driver_assigned' | 'en_route' | 'completed' | 'cancelled';
@@ -80,6 +81,7 @@ export default function BookingOperationsPage({ mode = 'bookings' }: { mode?: 'o
   const [notice, setNotice] = useState('');
   const [history, setHistory] = useState<AuditEvent[]>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
+  const [createOpen, setCreateOpen] = useState(false);
 
   useEffect(() => {
     const requestedReference = new URLSearchParams(window.location.search).get('q');
@@ -175,6 +177,9 @@ export default function BookingOperationsPage({ mode = 'bookings' }: { mode?: 'o
           <p className="mt-2 max-w-2xl text-sm text-[#66778A]">البيانات مرتبطة بقاعدة Supabase الحقيقية. لا توجد حجوزات أو مؤشرات تجريبية.</p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <button type="button" onClick={() => setCreateOpen(true)} className="inline-flex items-center gap-2 rounded-xl bg-[#1C6A59] px-4 py-3 text-sm font-bold text-white hover:bg-[#145444]">
+            <Plus className="h-4 w-4"/> إضافة حجز يدوي
+          </button>
           {mode === 'overview' && <Link href="/admin/bookings" className="inline-flex items-center gap-2 rounded-xl bg-[#143E53] px-4 py-3 text-sm font-bold text-white hover:bg-[#1C536C]">فتح الحجوزات <ArrowUpLeft className="h-4 w-4"/></Link>}
           <button type="button" onClick={() => void load()} disabled={loading || saving} className="inline-flex items-center gap-2 rounded-xl border border-[#DCE3E7] bg-white px-4 py-3 text-sm font-bold text-[#1A3548] disabled:opacity-50"><RefreshCw className={'h-4 w-4 ' + (loading ? 'animate-spin' : '')}/> تحديث البيانات</button>
         </div>
@@ -264,6 +269,11 @@ export default function BookingOperationsPage({ mode = 'bookings' }: { mode?: 'o
       </div>
       <p className="mt-4 text-xs text-[#7A8893]">ملاحظة: تأكيد التحصيل المالي منفصل عن اكتمال الرحلة. لا توجد مدفوعات إلكترونية أو مقدمات حجز.</p>
 
+      {createOpen && <NewManualBooking onClose={() => setCreateOpen(false)} onCreated={(reference) => {
+        setCreateOpen(false);
+        setNotice('تم تسجيل الحجز ' + reference + ' في قاعدة البيانات');
+        void load();
+      }}/>}
       {selected && <div className="fixed inset-0 z-[90] flex justify-end bg-[#10243B]/55 backdrop-blur-[2px]" onClick={() => setSelectedId(null)}>
         <aside role="dialog" aria-modal="true" aria-label="تفاصيل الحجز" onClick={e => e.stopPropagation()} className="flex h-full w-full max-w-2xl flex-col overflow-y-auto bg-[#F8FAFB] p-4 text-[#172A3D] shadow-2xl sm:p-6" dir="rtl">
           <div className="flex items-start justify-between border-b border-[#DEE6E9] pb-5">
