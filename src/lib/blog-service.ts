@@ -30,7 +30,7 @@ function staticPost(post: (typeof BLOG_POSTS)[number]): AdminBlogPost {
   };
 }
 
-export const getManagedBlogOverridesCached = unstable_cache(async (): Promise<AdminBlogPost[]> => {
+async function readManagedBlogOverridesFromDb(): Promise<AdminBlogPost[]> {
   const db = createServiceClient();
   const { data, error } = await db.from('page_content')
     .select('page_key,content_blocks').like('page_key', 'blog_%').eq('language', 'en')
@@ -58,6 +58,17 @@ export const getManagedBlogOverridesCached = unstable_cache(async (): Promise<Ad
         ...b, slug,
       } as AdminBlogPost;
     }).filter((post):post is AdminBlogPost => Boolean(post));
+}
+
+export const getManagedBlogOverridesCached = unstable_cache(async (): Promise<AdminBlogPost[]> => {
+  try {
+    return await readManagedBlogOverridesFromDb();
+  } catch (err) {
+    // Preserve the existing public build fallback when no DB is available.
+    // Admin reads and writes below must NEVER use this cached fallback.
+    console.error('Public blog CMS fallback: persisted edits unavailable', err);
+    return [];
+  }
 }, ['managed_blog_posts_v1'], { tags:['site_blog'], revalidate:86400 });
 
 export async function getManagedBlogPost(slug: string):Promise<AdminBlogPost|null> {
@@ -67,7 +78,9 @@ export async function getManagedBlogPost(slug: string):Promise<AdminBlogPost|nul
 }
 
 export async function getAllBlogPostsAdmin():Promise<AdminBlogPost[]> {
-  const saved = await getManagedBlogOverridesCached();
+  // Always query the real registry: showing static defaults on a failed admin
+  // read could overwrite an unpublished or edited article.
+  const saved = await readManagedBlogOverridesFromDb();
   const known = new Map(BLOG_POSTS.map(p => [p.slug, staticPost(p)]));
   for(const p of saved) known.set(p.slug, p);
   return [...known.values()];
@@ -87,7 +100,7 @@ export async function upsertBlogPostAdmin(raw:AdminBlogPost):Promise<{success:bo
   if(!/^[a-z0-9-]{3,120}$/.test(slug)) return {success:false,error:'Slug must contain 3-120 lowercase letters, numbers or hyphens'};
   if(typeof raw.title_en!=='string'||!raw.title_en.trim()||
      typeof raw.title_ar!=='string'||!raw.title_ar.trim()) return {success:false,error:'Arabic and English titles are required'};
-  const current=await getManagedBlogPost(slug);
+  const current=(await readManagedBlogOverridesFromDb()).find(post=>post.slug===slug) || null;
   const legacy=BLOG_POSTS.some(post=>post.slug===slug);
   if(!legacy && raw.is_published && ((raw.content_en||'').trim().length<300 || (raw.content_ar||'').trim().length<300)) {
     return {success:false,error:'New published articles require at least 300 characters of original content in Arabic and English'};
