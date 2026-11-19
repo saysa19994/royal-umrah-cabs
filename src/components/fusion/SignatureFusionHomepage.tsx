@@ -17,9 +17,8 @@ import { royalHomepageArabic, royalHomepageEnglish } from '@/i18n/royal-homepage
 import { royalHomepageEast } from '@/i18n/royal-homepage-copy-east';
 import { royalHomepageWest } from '@/i18n/royal-homepage-copy-west';
 import type { TransferRatesMap } from '@/lib/pricing-db';
-import { RoyalCabinChapter } from '@/components/royal/RoyalCabinChapter';
 import { RoyalMotion } from '@/components/royal/RoyalMotion';
-import { RoyalBookingSteps, RoyalGuestConfidence, RoyalServiceChapters } from './RoyalImmersionEditorial';
+import { RoyalServiceChapters } from './RoyalImmersionEditorial';
 import { getRoyalHomeRoute, ROYAL_HOME_ROUTES } from './royal-home-routes';
 import styles from './SignatureFusionHomepage.module.css';
 const BronzeCircularFleet = dynamic(() => import('./BronzeCircularFleet'), { ssr: false });
@@ -291,7 +290,6 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
       <ul className={styles.trustLine} aria-label={copy.promiseTitle}>
         {benefits.map(({ Icon, text }) => <li key={text}><Icon size={18} aria-hidden />{text}</li>)}
       </ul>
-      <RoyalBookingSteps locale={locale} />
 
       <section id="fusion-story" className={styles.story} aria-labelledby="fusion-story-title" data-royal-story>
         <div className={styles.storyIntro}><h2 id="fusion-story-title">{copy.journeyTitle}</h2></div>
@@ -371,7 +369,6 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
         </div>
       </section>
 
-      <RoyalCabinChapter locale={locale} />
       {journey && (
         <section className={styles.routeAtlas} id="fusion-routes" aria-labelledby="fusion-routes-title">
           <div className={styles.routesHead}><h2 id="fusion-routes-title">{copy.routeTitle}</h2><p>{copy.routeLead}</p></div>
@@ -415,7 +412,6 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
         <div className={styles.promiseHead}><h2 id="royal-policy-title">{copy.promiseTitle}</h2></div>
         <ul className={styles.promiseList}>{facts.map((fact) => <li key={fact}><Check size={17} aria-hidden /><p>{fact}</p></li>)}</ul>
       </section>
-      <RoyalGuestConfidence locale={locale} dict={dict} />
       <section className={styles.finish} aria-labelledby="royal-close-title">
         <div className={styles.finishImage} data-royal-image>
           <Image src="/assets/images/reference/hero-gmc-saudi.jpg" alt="" fill sizes="(max-width: 760px) 100vw, 57vw" />
