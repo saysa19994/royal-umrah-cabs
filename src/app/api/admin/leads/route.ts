@@ -27,8 +27,19 @@ export async function GET(request: Request) {
       .select('*', { count: 'exact' })
       .order('created_at', { ascending: false });
 
+    const allowedLeadStatuses = ['new', 'replied', 'confirmed', 'completed', 'lost'];
     if (status && status !== 'all') {
+      if (!allowedLeadStatuses.includes(status)) {
+        return NextResponse.json({ error: 'Invalid status filter' }, { status: 400 });
+      }
       query = query.eq('status', status);
+    }
+
+    const search = (searchParams.get('q') || '').normalize('NFKC')
+      .replace(/[^\p{L}\p{N} @+_-]/gu, '').trim().slice(0, 80);
+    if (search) {
+      query = query.or('ref_code.ilike.%' + search + '%,customer_name.ilike.%' + search +
+        '%,customer_phone.ilike.%' + search + '%');
     }
 
     // Scoped operator filter: strictly restrict to assigned WhatsApp number on server
@@ -71,6 +82,22 @@ export async function PATCH(request: Request) {
     }
     const body = await request.json();
     const { id, status, notes, assigned_operator_id } = body;
+    const allowedKeys = ['id', 'status', 'notes', 'assigned_operator_id'];
+    if (Object.keys(body).some(key => !allowedKeys.includes(key))) {
+      return NextResponse.json({ error: 'Unsupported update fields' }, { status: 400 });
+    }
+    if (status !== undefined && !['new', 'replied', 'confirmed', 'completed', 'lost'].includes(status)) {
+      return NextResponse.json({ error: 'Invalid lead status' }, { status: 400 });
+    }
+    if (notes !== undefined && (typeof notes !== 'string' || notes.length > 2000)) {
+      return NextResponse.json({ error: 'Notes must be text with a 2000 character limit' }, { status: 400 });
+    }
+    if (assigned_operator_id !== undefined &&
+      assigned_operator_id !== null &&
+      (typeof assigned_operator_id !== 'string' ||
+       !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(assigned_operator_id))) {
+      return NextResponse.json({ error: 'Invalid operator reference' }, { status: 400 });
+    }
 
     if (!id) {
       return NextResponse.json({ success: false, error: 'Lead ID is required' }, { status: 400 });
@@ -113,17 +140,23 @@ export async function PATCH(request: Request) {
     if (notes !== undefined) updates.notes = notes;
     if (assigned_operator_id !== undefined) updates.assigned_operator_id = assigned_operator_id;
 
+    if (Object.keys(updates).length === 1) {
+      return NextResponse.json({ error: 'No editable fields provided' }, { status: 400 });
+    }
+
     const { data, error } = await serviceClient
       .from('leads')
       .update(updates)
       .eq('id', id)
+      .eq('status', currentLead.status)
       .select()
-      .single();
+      .maybeSingle();
 
-    if (error || !data) {
+    if (error) {
       console.error('Error updating lead:', error);
       return NextResponse.json({ success: false, error: 'Failed to update lead' }, { status: 500 });
     }
+    if (!data) return NextResponse.json({ error: 'Lead changed during update; refresh and retry' }, { status: 409 });
 
     await logAuditEvent({
       userEmail: currentUser.email,
