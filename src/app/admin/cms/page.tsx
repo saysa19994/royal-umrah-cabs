@@ -36,6 +36,10 @@ export default function AdminCmsPage() {
   const [pages, setPages] = useState<CmsPageRecord[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  // Never publish an edit until the current persisted CMS records were loaded.
+  // Otherwise a temporary API failure could turn an existing page into a blank overwrite.
+  const [cmsLoaded, setCmsLoaded] = useState(false);
+  const [cmsLoadError, setCmsLoadError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   // Active editor form state
@@ -53,16 +57,26 @@ export default function AdminCmsPage() {
     if (locale && LOCALES.includes(locale as Locale)) setSelectedLocale(locale as Locale);
   }, []);
 
-  const fetchCmsPages = async () => {
+  const fetchCmsPages = async (): Promise<CmsPageRecord[] | null> => {
     setLoading(true);
+    setCmsLoaded(false);
+    setCmsLoadError(null);
     try {
-      const res = await fetch('/api/admin/cms');
+      const res = await fetch('/api/admin/cms', { cache: 'no-store' });
       const data = await res.json();
-      if (data.success && data.pages) {
-        setPages(data.pages);
+      if (!res.ok || !data.success || !Array.isArray(data.pages)) {
+        throw new Error(typeof data.error === 'string' ? data.error : 'Invalid CMS response');
       }
+      const savedPages = data.pages as CmsPageRecord[];
+      setPages(savedPages);
+      setCmsLoaded(true);
+      return savedPages;
     } catch (err) {
+      const message = err instanceof Error ? err.message : 'Network error';
       console.error('Failed to load CMS pages:', err);
+      setCmsLoadError(message);
+      setFeedback({ type: 'error', message: 'Could not load CMS records. Saving is disabled to protect existing content.' });
+      return null;
     } finally {
       setLoading(false);
     }
@@ -90,6 +104,10 @@ export default function AdminCmsPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!cmsLoaded || loading) {
+      setFeedback({ type: 'error', message: 'Load existing CMS records successfully before saving.' });
+      return;
+    }
     if (selectedPage === 'home') {
       setFeedback({ type:'error', message:'Use Homepage Text in the sidebar to publish homepage changes. The generic CMS home entry does not update the homepage.' });
       return;
@@ -102,6 +120,11 @@ export default function AdminCmsPage() {
       parsedBlocks = JSON.parse(contentJson || '{}');
     } catch {
       setFeedback({ type: 'error', message: 'Invalid JSON syntax in Content Blocks' });
+      setSaving(false);
+      return;
+    }
+    if (!parsedBlocks || typeof parsedBlocks !== 'object' || Array.isArray(parsedBlocks)) {
+      setFeedback({ type: 'error', message: 'Content Blocks must be a JSON object.' });
       setSaving(false);
       return;
     }
@@ -123,9 +146,22 @@ export default function AdminCmsPage() {
       });
 
       const data = await res.json();
-      if (data.success) {
-        setFeedback({ type: 'success', message: ['about','services','contact','fleet','pricing','routes','ziyarat','booking','faq'].includes(selectedPage) ? 'Saved and the related public page cache was refreshed.' : 'Saved to CMS as a draft. This page is not connected to the public template yet.' });
-        fetchCmsPages();
+      if (res.ok && data.success) {
+        // Read back the durable row before claiming success. This does not replace
+        // staging browser acceptance of the public page and its cache.
+        const storedPages = await fetchCmsPages();
+        const saved = storedPages?.find(p => p.page_key === payload.page_key && p.language === payload.language);
+        const storedBlocks = saved?.content_blocks;
+        const blocksMatch = storedBlocks && typeof storedBlocks === 'object' && !Array.isArray(storedBlocks) &&
+          Object.entries(payload.content_blocks || {}).every(
+            ([key, value]) => JSON.stringify((storedBlocks as Record<string, unknown>)[key]) === JSON.stringify(value)
+          );
+        if (!saved || saved.seo_title !== payload.seo_title ||
+            saved.seo_description !== payload.seo_description || saved.h1 !== payload.h1 || !blocksMatch) {
+          setFeedback({ type: 'error', message: 'Save was accepted, but database read-back did not match. Review the saved record before making more changes.' });
+        } else {
+          setFeedback({ type: 'success', message: ['about','services','contact','fleet','pricing','routes','ziyarat','booking','faq'].includes(selectedPage) ? 'Saved and verified in the CMS database. Check the public Preview page to confirm cache refresh.' : 'Saved to CMS as a draft. This page is not connected to the public template yet.' });
+        }
       } else {
         setFeedback({ type: 'error', message: data.error || 'Failed to save CMS content' });
       }
@@ -179,9 +215,15 @@ export default function AdminCmsPage() {
             )}
             <span>{feedback.message}</span>
           </div>
-          <button onClick={() => setFeedback(null)} className="text-white/60 hover:text-white transition-colors">
+          <button onClick={() => setFeedback(null)} className="text-[#697984] hover:text-[#193746] transition-colors" aria-label="Dismiss message">
             ✕
           </button>
+        </div>
+      )}
+
+      {cmsLoadError && (
+        <div role="alert" className="rounded-xl border border-red-300 bg-red-50 p-4 text-sm text-red-800">
+          CMS data could not be loaded ({cmsLoadError}). The form is locked until Refresh succeeds.
         </div>
       )}
 
@@ -351,18 +393,18 @@ export default function AdminCmsPage() {
                 rows={6}
                 value={contentJson}
                 onChange={(e) => setContentJson(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] font-mono text-xs text-amber-200/90 focus:outline-none focus:border-[#C29B65]"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] font-mono text-xs text-[#193746] focus:outline-none focus:border-[#C29B65]"
               />
             </div>
 
             <div className="pt-2 flex justify-end">
               <button
                 type="submit"
-                disabled={saving}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0A6364] hover:bg-[#065059] text-[#FFFAF2] font-bold text-xs transition-colors shadow-lg shadow-[#D9A031]/10"
+                disabled={saving || loading || !cmsLoaded || selectedPage === 'home'}
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0A6364] hover:bg-[#065059] text-[#FFFAF2] font-bold text-xs transition-colors shadow-lg shadow-[#D9A031]/10 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <Save className="w-4 h-4" />
-                <span>{saving ? 'Saving...' : 'Save & Publish to Database'}</span>
+                <span>{saving ? 'Saving...' : selectedPage === 'home' ? 'Use Homepage Text editor' : ['riyadh','taif'].includes(selectedPage) ? 'Save CMS draft (not published)' : 'Save page content'}</span>
               </button>
             </div>
           </form>
