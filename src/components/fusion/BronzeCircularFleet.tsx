@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import Image from 'next/image';
 import styles from './BronzeCircularFleet.module.css';
 
@@ -9,7 +9,7 @@ type Props = { vehicles: Vehicle[]; activeIndex: number; onSelect: (index: numbe
 
 export default function BronzeCircularFleet({ vehicles, activeIndex, onSelect, label }: Props) {
   const start = useRef<number | null>(null);
-  const [dragging, setDragging] = useState(false);
+  const suppressClick = useRef(false);
   const count = vehicles.length;
   const move = (direction: number) => {
     if (!count) return;
@@ -22,15 +22,15 @@ export default function BronzeCircularFleet({ vehicles, activeIndex, onSelect, l
     <div className={styles.shell} aria-label={label}>
       <div className={styles.glow} aria-hidden="true" />
       <div className={styles.stage}
-        onPointerDown={(e) => { start.current = e.clientX; setDragging(true); }}
+        onPointerDown={(e) => { if (e.pointerType === 'mouse' && e.button !== 0) return; start.current = e.clientX; suppressClick.current = false; }}
         onPointerUp={(e) => {
           if (start.current !== null) {
             const distance = e.clientX - start.current;
-            if (Math.abs(distance) > 35) move(distance < 0 ? 1 : -1);
+            if (Math.abs(distance) > 35) { suppressClick.current = true; move(distance < 0 ? 1 : -1); }
           }
-          start.current = null; setDragging(false);
+          start.current = null;
         }}
-        onPointerCancel={() => { start.current = null; setDragging(false); }}
+        onPointerCancel={() => { start.current = null; }}
         onKeyDown={(e) => {
           if (e.key === 'ArrowRight') { e.preventDefault(); move(1); }
           if (e.key === 'ArrowLeft') { e.preventDefault(); move(-1); }
@@ -45,7 +45,7 @@ export default function BronzeCircularFleet({ vehicles, activeIndex, onSelect, l
               className={styles.vehicle}
               aria-pressed={index === activeIndex}
               aria-label={vehicle.name}
-              onClick={() => { if (!dragging) onSelect(index); }}
+              onClick={(event) => { if (suppressClick.current) { event.preventDefault(); suppressClick.current = false; return; } onSelect(index); }}
               style={{
                 transform: `translateX(calc(-50% + ${offset * 65}%)) translateY(${distance * 18}px) scale(${Math.max(0.62, 1 - distance * 0.16)}) rotateY(${-offset * 17}deg)`,
                 zIndex: count - distance, opacity: distance > 2 ? 0 : 1,
