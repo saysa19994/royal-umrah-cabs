@@ -120,3 +120,32 @@
  .vehicles button{flex-basis:67%}
 }
 @media(prefers-reduced-motion:reduce){.desktopRoutes,.vehicles{scroll-behavior:auto!important}}
+
+
+/* Mobile route network readability; existing ten routes and data unchanged. */
+@media(max-width:700px){
+ .network{padding-block:37px 44px}
+ .networkHeading{margin-bottom:16px}
+ .networkHeading h2{font-size:clamp(26px,7vw,33px)!important;line-height:1.4!important}
+ .networkHeading>p{font-size:14px!important;line-height:1.7!important}
+ .networkHeading>div>span{font-size:12px!important}
+ .directoryHead{min-height:50px}
+ .directoryHead :is(span,p){font-size:12px!important}
+ .mobileRoutes>span{font-size:12px!important}
+ .mobileRoutes select{font-size:16px!important;min-height:49px!important}
+ .schematicHead{font-size:12px!important}
+ .routeDrawing{grid-template-columns:44px minmax(0,1fr) 44px;min-height:116px}
+ .routeTitle h3{font-size:clamp(21px,5.7vw,25px)!important;line-height:1.45!important}
+ .routeTitle>p{font-size:13px!important;line-height:1.65!important}
+ .travellingFacts dt{font-size:12px!important}
+ .travellingFacts dd{font-size:15px!important}
+ .vehicles button{min-height:76px!important}
+ .vehicles button :is(strong,span){font-size:12px!important;line-height:1.55!important}
+ .selectedFare>span{font-size:13px!important}
+ .selectedFare strong{font-size:28px!important}
+ .book{font-size:14px!important;min-height:48px}
+ .noBook,.cash{font-size:12px!important;line-height:1.7!important}
+}
+@media(max-width:360px){
+ .routeDrawing{grid-template-columns:37px minmax(0,1fr) 37px}
+}
