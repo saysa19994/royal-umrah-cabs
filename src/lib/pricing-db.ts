@@ -27,35 +27,14 @@ export const getDbPricesCached = unstable_cache(
         for (const row of data) {
           const price = Number(row.price_sar);
           if (!isNaN(price) && price > 0) {
-            // Guard: Never allow obsolete or unapproved DB seed records to overwrite company-approved rates
-            const isApprovedRoute = Boolean(AUTHORITATIVE_TRANSFER_RATES[row.route_id]);
-            const isApprovedVehicle = isApprovedRoute && Boolean(AUTHORITATIVE_TRANSFER_RATES[row.route_id][row.vehicle_id]);
-
-            if (isApprovedRoute && isApprovedVehicle) {
-              // Preserve authoritative commercial fare - strictly inviolable
-              rates[row.route_id][row.vehicle_id] = AUTHORITATIVE_TRANSFER_RATES[row.route_id][row.vehicle_id];
-            } else {
-              // Allow auxiliary custom routes from database
-              if (!rates[row.route_id]) {
-                rates[row.route_id] = {};
-              }
-              rates[row.route_id][row.vehicle_id] = price;
-            }
+            // Saved administrator-approved values override initial defaults.
+            if (!rates[row.route_id]) rates[row.route_id] = {};
+            rates[row.route_id][row.vehicle_id] = price;
           }
         }
       }
     } catch (err) {
       console.warn('Notice loading DB prices in cache:', err);
-    }
-
-    // Secondary enforcement: Guarantee 100% parity with authoritative transfer rates
-    for (const [routeId, vehicleRates] of Object.entries(AUTHORITATIVE_TRANSFER_RATES)) {
-      if (!rates[routeId]) {
-        rates[routeId] = {};
-      }
-      for (const [vehicleId, price] of Object.entries(vehicleRates)) {
-        rates[routeId][vehicleId] = price;
-      }
     }
 
     // The Riyadh Airport product is inactive, so it must not surface in public fare views.

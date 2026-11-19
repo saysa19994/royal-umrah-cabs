@@ -245,11 +245,11 @@ export async function getAllAdminRoutesWithPrices(): Promise<AdminRouteData[]> {
         const auth = AUTHORITATIVE_TRANSFER_RATES[r.id];
 
         // Authoritative rates take strict precedence for approved routes
-        const camry = auth?.camry ?? rPrices['camry'] ?? 0;
-        const staria = auth?.staria ?? rPrices['staria'] ?? 0;
-        const yukon = auth?.yukon ?? rPrices['yukon'] ?? 0;
-        const hiace = auth?.hiace ?? rPrices['hiace'] ?? 0;
-        const coaster = auth?.coaster ?? rPrices['coaster'] ?? 0;
+        const camry = rPrices['camry'] ?? auth?.camry ?? 0;
+        const staria = rPrices['staria'] ?? auth?.staria ?? 0;
+        const yukon = rPrices['yukon'] ?? auth?.yukon ?? 0;
+        const hiace = rPrices['hiace'] ?? auth?.hiace ?? 0;
+        const coaster = rPrices['coaster'] ?? auth?.coaster ?? 0;
 
         const sarToUsd = 0.266;
 
@@ -312,9 +312,7 @@ export async function upsertRouteWithPricesAdmin(
       updated_at: new Date().toISOString(),
     });
 
-    if (routeErr) {
-      console.warn('Notice upserting route in Supabase:', routeErr.message);
-    }
+    if (routeErr) return { success: false, error: 'Route was not saved: ' + routeErr.message };
 
     // 2. Upsert Prices for each vehicle class
     const vehicleIds = ['camry', 'staria', 'yukon', 'hiace', 'coaster'] as const;
@@ -329,11 +327,10 @@ export async function upsertRouteWithPricesAdmin(
       .from('prices')
       .upsert(priceUpserts, { onConflict: 'route_id,vehicle_id' });
 
-    if (priceErr) {
-      console.warn('Notice upserting prices in Supabase:', priceErr.message);
-    }
+    if (priceErr) return { success: false, error: 'Route saved, but prices failed: ' + priceErr.message };
   } catch (err) {
     console.warn('Exception persisting route and prices:', err);
+    return { success: false, error: 'Unable to persist route prices' };
   }
 
   const existingIdx = memoryRoutes.findIndex((r) => r.id === routeData.id);

@@ -16,7 +16,7 @@ const ALLOWED_MIME_TYPES = [
 
 export async function POST(request: NextRequest) {
   try {
-    const authResult = await requireRole(request, ['owner', 'admin', 'operator', 'content_editor']);
+    const authResult = await requireRole(request, ['owner', 'admin', 'content_editor']);
     if (authResult.errorResponse) {
       return authResult.errorResponse;
     }
@@ -25,6 +25,10 @@ export async function POST(request: NextRequest) {
     const file = formData.get('file') as File | null;
     const category = (formData.get('category') as string) || 'fleet';
     const vehicleId = formData.get('vehicleId') as string | null;
+    if (!['fleet', 'blog', 'site', 'cms'].includes(category) ||
+      (vehicleId && !/^[a-z0-9_-]{1,90}$/i.test(vehicleId))) {
+      return NextResponse.json({ error: 'Unsupported media category or vehicle' }, { status: 400 });
+    }
 
     if (!file) {
       return NextResponse.json({ success: false, error: 'No file uploaded' }, { status: 400 });

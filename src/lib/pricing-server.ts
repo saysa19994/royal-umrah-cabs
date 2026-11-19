@@ -84,19 +84,18 @@ export async function calculateServerPrice(params: {
   let activeVehicle: { seats: number; bags: number; is_active: boolean } | null = null;
   const standardSpec = STANDARD_VEHICLE_SPECS[vehicleId];
 
-  if (standardSpec?.is_active) {
+  // Explicit database status beats static defaults, including deactivations.
+  const { data: vehicleData, error: vehicleError } = await serviceClient
+    .from('vehicles')
+    .select('id, is_active, seats, bags')
+    .eq('id', vehicleId)
+    .maybeSingle();
+  if (vehicleError) throw new Error('Vehicle availability could not be verified');
+  if (vehicleData) {
+    if (!vehicleData.is_active) throw new Error('Vehicle is disabled in administration');
+    activeVehicle = vehicleData;
+  } else if (standardSpec?.is_active) {
     activeVehicle = standardSpec;
-  } else {
-    const { data: vehicleData } = await serviceClient
-      .from('vehicles')
-      .select('id, is_active, seats, bags')
-      .eq('id', vehicleId)
-      .eq('is_active', true)
-      .maybeSingle();
-
-    if (vehicleData) {
-      activeVehicle = vehicleData;
-    }
   }
 
   if (!activeVehicle) {
@@ -131,12 +130,13 @@ export async function calculateServerPrice(params: {
 
     // Verify route is active
     let isRouteActive = false;
-    const { data: routeData } = await serviceClient
+    const { data: routeData, error: routeError } = await serviceClient
       .from('routes')
       .select('id, is_active')
       .eq('id', routeId)
-      .eq('is_active', true)
       .maybeSingle();
+    if (routeError) throw new Error('Route status could not be verified');
+    if (routeData && !routeData.is_active) throw new Error('This route is disabled in administration');
 
     if (routeData) {
       isRouteActive = true;
@@ -160,24 +160,22 @@ export async function calculateServerPrice(params: {
       throw new Error(`Active route '${routeId}' not found in database`);
     }
 
-    // Enforce Authoritative Transfer Rates as primary source of truth
-    const authoritativeFare = AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId];
-    if (authoritativeFare !== undefined && authoritativeFare > 0) {
-      basePriceSAR = authoritativeFare;
+    // Booking and checkout must use the same editable fare stored by administration.
+    const { data: priceRow, error: priceError } = await serviceClient
+      .from('prices')
+      .select('price_sar')
+      .eq('route_id', routeId)
+      .eq('vehicle_id', vehicleId)
+      .maybeSingle();
+    if (priceError) throw new Error('Current fare could not be verified');
+    if (priceRow) {
+      const saved = Number(priceRow.price_sar);
+      if (!Number.isFinite(saved) || saved <= 0) throw new Error('Route fare is unavailable');
+      basePriceSAR = saved;
     } else {
-      // Check database or dynamic store for auxiliary custom routes
-      const { data: priceRow } = await serviceClient
-        .from('prices')
-        .select('price_sar')
-        .eq('route_id', routeId)
-        .eq('vehicle_id', vehicleId)
-        .maybeSingle();
-
-      if (priceRow?.price_sar) {
-        basePriceSAR = Number(priceRow.price_sar);
-      } else {
-        basePriceSAR = getDynamicPriceForRouteVehicle(routeId, vehicleId);
-      }
+      // Default fare is only used if no editable DB rate has been configured.
+      basePriceSAR = AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId]
+        ?? getDynamicPriceForRouteVehicle(routeId, vehicleId);
     }
 
     if (!basePriceSAR || isNaN(basePriceSAR) || basePriceSAR <= 0) {
@@ -216,7 +214,11 @@ export async function calculateServerPrice(params: {
   } else if (bookingType === 'ziyarat') {
     // Check if routeId is given (e.g. makkah-ziyarat, madinah-ziyarat)
     if (routeId && AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId]) {
-      basePriceSAR = AUTHORITATIVE_TRANSFER_RATES[routeId][vehicleId];
+      const { data: ziyaratRate, error: ziyaratError } = await serviceClient
+        .from('prices').select('price_sar').eq('route_id', routeId)
+        .eq('vehicle_id', vehicleId).maybeSingle();
+      if (ziyaratError) throw new Error('Ziyarat fare could not be verified');
+      basePriceSAR = ziyaratRate ? Number(ziyaratRate.price_sar) : AUTHORITATIVE_TRANSFER_RATES[routeId][vehicleId];
     } else if (AUTHORITATIVE_ZIYARAT_RATES[vehicleId]) {
       basePriceSAR = AUTHORITATIVE_ZIYARAT_RATES[vehicleId];
     } else {

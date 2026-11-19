@@ -16,6 +16,8 @@ import { royalHomepageArabic, royalHomepageEnglish } from '@/i18n/royal-homepage
 import { royalHomepageEast } from '@/i18n/royal-homepage-copy-east';
 import { royalHomepageWest } from '@/i18n/royal-homepage-copy-west';
 import type { TransferRatesMap } from '@/lib/pricing-db';
+import type { SiteImages } from '@/lib/site-images';
+import type { ApprovedFleetVehicle } from '@/data/approved-fleet-homepage';
 import { RoyalCabinChapter } from '@/components/royal/RoyalCabinChapter';
 import { RoyalMotion } from '@/components/royal/RoyalMotion';
 import { RoyalBookingSteps, RoyalGuestConfidence, RoyalServiceChapters } from './RoyalImmersionEditorial';
@@ -25,6 +27,8 @@ import styles from './SignatureFusionHomepage.module.css';
 type Props = {
   locale: Locale;
   rates: TransferRatesMap;
+  siteImages: SiteImages;
+  fleetVehicles: ApprovedFleetVehicle[];
   dict: Dictionary;
   regions: Record<'taif' | 'riyadh', boolean>;
   policies: { airportWaiting: number; freeCancellation: number };
@@ -40,7 +44,7 @@ const FILM = '/assets/homepage-v2/hero.mp4';
 const MOBILE_FILM = '/assets/homepage-v2/hero-mobile.mp4';
 const POSTER = '/assets/homepage-v2/hero-poster.jpg';
 
-function ArrivalFilm({ playLabel, pauseLabel }: { playLabel: string; pauseLabel: string }) {
+function ArrivalFilm({ playLabel, pauseLabel, poster }: { playLabel: string; pauseLabel: string; poster: string }) {
   const video = useRef<HTMLVideoElement>(null);
   const [source, setSource] = useState('');
   const [playing, setPlaying] = useState(false);
@@ -106,7 +110,7 @@ function ArrivalFilm({ playLabel, pauseLabel }: { playLabel: string; pauseLabel:
       <video
         ref={video}
         src={source || undefined}
-        poster={POSTER}
+        poster={poster || POSTER}
         autoPlay={Boolean(source)}
         muted
         loop
@@ -124,13 +128,13 @@ function ArrivalFilm({ playLabel, pauseLabel }: { playLabel: string; pauseLabel:
   );
 }
 
-export default function SignatureFusionHomepage({ locale, rates, dict, regions, policies }: Props) {
+export default function SignatureFusionHomepage({ locale, rates, dict, regions, policies, siteImages, fleetVehicles }: Props) {
   const copy = COPY[locale];
   const { dir, dateFormat } = LOCALE_CONFIG[locale];
   const router = useRouter();
   const { currency, convertPrice } = useCurrency();
   const DirectionArrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
-  const fleet = APPROVED_5_FLEET;
+  const fleet = fleetVehicles.length ? fleetVehicles : APPROVED_5_FLEET;
   const routes = ROYAL_HOME_ROUTES
     .filter((item) => (!item.region || regions[item.region]) && fleet.some((vehicle) => rates[item.id]?.[FARE_KEYS[vehicle.slug]] > 0))
     .map((item) => getRoyalHomeRoute(item, locale));
@@ -186,9 +190,9 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
   }
 
   const scenes = [
-    { title: copy.arrival, description: copy.arrivalDetail, image: '/assets/homepage-v2/hero-poster.jpg' },
-    { title: copy.cabin, description: copy.cabinDetail, image: '/assets/images/vehicles/hyundai-staria/interior.webp' },
-    { title: copy.destination, description: copy.destinationDetail, image: '/assets/images/routes/makkah-to-madinah.jpg' },
+    { title: copy.arrival, description: copy.arrivalDetail, image: siteImages.arrival_scene },
+    { title: copy.cabin, description: copy.cabinDetail, image: siteImages.cabin_scene },
+    { title: copy.destination, description: copy.destinationDetail, image: siteImages.destination_scene },
   ];
   const benefits = [
     { Icon: Clock3, text: dict.trust_strip.support247 },
@@ -206,7 +210,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
     <div className={styles.page} dir={dir} lang={locale} data-signature-fusion="true">
       <RoyalMotion />
       <section className={styles.hero} id="fusion-top" aria-labelledby="royal-hero-title">
-        <ArrivalFilm playLabel={copy.playFilm} pauseLabel={copy.pauseFilm} />
+        <ArrivalFilm poster={siteImages.hero_poster} playLabel={copy.playFilm} pauseLabel={copy.pauseFilm} />
         <div className={styles.heroCopy}>
           <span className={styles.heroTag} data-royal-hero-copy>{dict.meta.brand}</span>
           <h1 id="royal-hero-title" data-royal-hero-copy>{copy.heroLine1}{' '}<em>{copy.heroLine2}</em></h1>
@@ -385,7 +389,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
       <RoyalGuestConfidence locale={locale} dict={dict} />
       <section className={styles.finish} aria-labelledby="royal-close-title">
         <div className={styles.finishImage} data-royal-image>
-          <Image src="/assets/images/reference/hero-gmc-saudi.jpg" alt="" fill sizes="(max-width: 760px) 100vw, 57vw" />
+          <Image src={siteImages.closing_photo} alt="" fill sizes="(max-width: 760px) 100vw, 57vw" />
         </div>
         <div className={styles.finishCopy}>
           <h2 id="royal-close-title">{copy.closeTitle}</h2>

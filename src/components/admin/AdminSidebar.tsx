@@ -156,6 +156,13 @@ export function AdminSidebar({
           icon: ImageIcon,
           adminOnly: true,
         },
+        {
+          href: '/admin/site-assets',
+          labelEn: 'Website Images',
+          labelAr: 'صور أقسام الموقع',
+          icon: ImageIcon,
+          adminOnly: true,
+        },
       ],
     },
     {
