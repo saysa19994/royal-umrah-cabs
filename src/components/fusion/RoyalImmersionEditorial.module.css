@@ -562,3 +562,128 @@
  .processSteps li { grid-template-columns:58px minmax(0,1fr); }
  .processNumber b { font-size:2.55rem; }
 }
+
+
+/* MOBILE 2026-11-19: fix the real three-step grid placement bug.
+   Before this, description <p> auto-flowed into the 58px icon column and
+   turned a two-line sentence into 256px of vertical, one-word lines. */
+@media(max-width:760px){
+ .process{
+   padding:36px 19px 40px!important;
+ }
+ .processHead{
+   margin-bottom:14px!important;
+   max-width:100%;
+ }
+ .processHead h2{
+   font-size:clamp(1.55rem,6.5vw,2rem)!important;
+   line-height:1.38!important;
+ }
+ .processHead>p{
+   font-size:14px!important;
+   line-height:1.7!important;
+   margin:9px 0 0!important;
+ }
+ .processSteps{
+   grid-template-columns:minmax(0,1fr)!important;
+   gap:0!important;
+   width:100%;
+   max-width:100%;
+ }
+ .processSteps li{
+   display:grid!important;
+   grid-template-columns:54px minmax(0,1fr)!important;
+   grid-template-rows:auto auto auto!important;
+   gap:2px 12px!important;
+   align-items:start;
+   min-width:0;
+   min-height:0;
+   padding:14px 0!important;
+   border-top:1px solid rgba(132,126,109,.25);
+ }
+ .processNumber{
+   grid-column:1!important;
+   grid-row:1/4!important;
+   display:flex!important;
+   flex-direction:column;
+   align-items:flex-start;
+   justify-content:flex-start;
+   margin:0!important;
+   min-height:0!important;
+ }
+ .processNumber b{font-size:2rem!important;line-height:1.1!important}
+ .processNumber svg{width:23px!important;height:23px!important;margin-top:4px}
+ .processStepLabel{
+   grid-column:2!important;
+   grid-row:1!important;
+   min-width:0;
+   margin:0 0 3px!important;
+   font-size:12px!important;
+ }
+ .processSteps h3{
+   grid-column:2!important;
+   grid-row:2!important;
+   min-width:0;
+   font-size:clamp(17px,4.7vw,20px)!important;
+   line-height:1.4!important;
+   margin:0 0 3px!important;
+ }
+ .processSteps li>p{
+   grid-column:2!important;
+   grid-row:3!important;
+   width:100%;
+   min-width:0;
+   max-width:100%;
+   margin:0!important;
+   padding:0!important;
+   font-size:14px!important;
+   line-height:1.75!important;
+ }
+ .processPolicy{
+   margin:12px 0 0!important;
+   padding:15px!important;
+   min-height:0!important;
+   font-size:14px!important;
+   line-height:1.7!important;
+ }
+ .services{
+   width:100%;
+   min-height:0;
+   margin:0 0 36px!important;
+ }
+ .servicesPhoto{aspect-ratio:16/10;height:auto!important;max-height:280px;min-height:0}
+ .servicesBody{padding:25px 19px 28px!important}
+ .services h2,.ziyarat h2,.chauffeur h2,.reviews h2,.faq h2{
+   font-size:clamp(1.65rem,6.4vw,2rem)!important;
+   line-height:1.38!important;
+ }
+ .serviceRows{margin-top:16px!important}
+ .serviceRow{
+   grid-template-columns:minmax(0,1fr) 28px!important;
+   min-height:62px!important;
+   gap:8px!important;
+   padding-block:12px!important;
+ }
+ .serviceRow h3{
+   font-size:15px!important;
+   line-height:1.45!important;
+   margin:0 0 3px!important;
+ }
+ .serviceRow p{font-size:13px!important;line-height:1.65!important}
+ .ziyarat,.reviews,.faq{padding:38px 18px!important}
+ .ziHead{margin-bottom:18px!important}
+ .ziHead>p{font-size:14px!important;line-height:1.7!important}
+ .ziGrid{gap:11px!important}
+ .ziGrid>a,.ziGrid>a:nth-child(2){aspect-ratio:4/5!important;max-height:250px}
+ .ziGrid h3{font-size:clamp(17px,4.5vw,21px)!important;line-height:1.35!important}
+ .ziGrid strong{font-size:12px!important}
+ .chauffeur{margin-bottom:35px!important;min-height:0!important}
+ .chauffeurWords{padding:26px 19px 32px!important}
+ .chauffeurWords>p{font-size:14px!important;line-height:1.8!important}
+ .faqItem button{min-height:54px!important}
+ .faqItem button>strong{font-size:14px!important;line-height:1.65}
+}
+@media(max-width:360px){
+ .processSteps li{grid-template-columns:48px minmax(0,1fr)!important;gap:2px 9px!important}
+ .processNumber b{font-size:1.8rem!important}
+}

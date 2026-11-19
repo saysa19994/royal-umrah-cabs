@@ -3,6 +3,7 @@ import { cormorant, manrope, amiri, tajawal } from './fonts';
 import './globals.css';
 import '../styles/royal-fonts.css';
 import '../styles/duyuf-premium-final.css';
+import '../styles/mobile-experience-2026.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com'),

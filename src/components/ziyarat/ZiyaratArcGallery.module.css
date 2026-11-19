@@ -82,3 +82,18 @@
   color:white;font-size:13px;font-weight:700;line-height:1.8;text-align:center
 }
 @media(max-width:520px){.credit{font-size:9px;padding-inline:12px}}
+
+
+/* Selected-card labels and carousel controls readable on phones. */
+@media(max-width:520px){
+ .header h2{font-size:clamp(21px,5.7vw,25px)!important;line-height:1.42!important}
+ .eyebrow{font-size:12px!important}
+ .description{font-size:13px!important;line-height:1.7!important}
+ .stage{height:248px}
+ .card{top:25px;height:194px}
+ .cardTitle{font-size:12px!important;line-height:1.5!important}
+ .round{width:44px;height:44px;min-height:44px}
+ .details{font-size:13px!important;min-height:46px;padding:10px 13px}
+ .counter{font-size:12px!important}
+ .credit{font-size:11px!important}
+}

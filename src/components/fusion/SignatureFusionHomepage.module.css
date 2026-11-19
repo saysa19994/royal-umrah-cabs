@@ -747,3 +747,211 @@
   .page[dir="rtl"]:lang(ar) .heroCopy > p { font-size: .92rem; }
   .page[dir="rtl"]:lang(ar) .heroButtons .primary { padding-inline: 16px; }
 }
+
+
+/* SITEWIDE MOBILE PASS / HOMEPAGE CHAPTER RHYTHM
+   A genuine one-column layout, not compressed desktop cards.
+   Preserves video, booking selections, real prices, fleet choices and routes. */
+@media(max-width:760px){
+ .page{--headline:clamp(1.65rem,6.2vw,2rem);--chapter-space:34px;min-width:0}
+ .page h2{
+  font-size:clamp(1.65rem,6.5vw,2.1rem)!important;
+  line-height:1.39!important;
+  letter-spacing:0!important;
+  text-wrap:balance;
+ }
+ .hero{min-height:0!important}
+ .heroCopy,.page[dir=rtl] .heroCopy{
+  padding-block:22px 54px!important;
+  padding-inline:19px!important;
+ }
+ .heroCopy h1,.page[dir=rtl] .heroCopy h1{
+  max-width:18ch;
+  font-size:clamp(1.85rem,7.1vw,2.35rem)!important;
+  line-height:1.34!important;
+  letter-spacing:0!important;
+ }
+ .heroCopy>p{
+  font-size:15px!important;
+  line-height:1.75!important;
+  margin-top:11px!important;
+  max-width:38ch;
+ }
+ .heroButtons{margin-top:17px!important;gap:9px!important}
+ .heroButtons .primary,.heroButtons .underLink{
+  min-height:46px!important;
+  font-size:14px!important;
+  line-height:1.4!important;
+  padding:10px 16px!important;
+ }
+ .bookingArea{
+  width:calc(100% - 24px)!important;
+  margin:-26px auto 0!important;
+  padding:18px 14px!important;
+  border-radius:12px!important;
+  min-width:0;
+ }
+ .bookingHead{margin-bottom:14px!important}
+ .bookingHead h2{font-size:1.48rem!important}
+ .bookingHead p{font-size:14px!important}
+ .bookingDesk{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px!important;
+  border:0!important;
+  background:transparent!important;
+ }
+ .bookingDesk label{
+  display:flex;
+  flex-direction:column;
+  min-height:74px!important;
+  grid-column:auto!important;
+  padding:10px 11px!important;
+  border:1px solid var(--line)!important;
+  border-radius:7px;
+  min-width:0;
+ }
+ .bookingDesk .routeField,
+ .bookingDesk .destinationField{
+  grid-column:1/-1!important;
+ }
+ .bookingDesk label>span{font-size:12px!important;line-height:1.4!important}
+ .bookingDesk :is(select,input){
+  width:100%;
+  min-width:0;
+  min-height:42px!important;
+  font-size:16px!important;
+  line-height:1.4;
+ }
+ .bookingDesk label:last-child{grid-column:1/-1!important}
+ .bookingLower{display:flex!important;flex-direction:column!important;gap:12px!important;margin-top:12px!important}
+ .bookCarList{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:7px!important;
+  width:100%;
+  overflow:visible!important;
+  padding:0!important;
+ }
+ .bookCarList button{
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  min-width:0!important;
+  min-height:45px!important;
+  width:100%;
+  padding:8px 9px!important;
+  font-size:12px!important;
+  line-height:1.45!important;
+  text-wrap:pretty;
+ }
+ .bookingTotal{
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  width:100%;
+ }
+ .bookingTotal>div{min-width:0}
+ .bookingTotal button{
+  min-height:50px!important;
+  flex:1;
+  width:auto!important;
+  max-width:none!important;
+  font-size:14px!important;
+ }
+ .bookFine{font-size:12px!important;line-height:1.6!important}
+ .story{
+  padding-block:34px!important;
+  gap:14px!important;
+ }
+ .storyIntro{margin-bottom:0!important;padding:0!important}
+ .storyImage{aspect-ratio:16/9!important;max-height:260px}
+ .storyRail button{min-height:53px;padding:11px!important}
+ .storyRail button strong{font-size:14px!important}
+ .storyRail .sceneDetail{font-size:13px!important;line-height:1.65!important}
+ .showroom{padding-block:35px!important}
+ .showroomHeading{margin-bottom:12px!important}
+ .showroomLayout{grid-template-columns:minmax(0,1fr)!important;gap:10px!important}
+ .carPhoto{aspect-ratio:16/9!important;max-height:290px}
+ .carDetail{padding:18px!important;gap:8px!important}
+ .carDetail h3{font-size:clamp(1.35rem,5.8vw,1.75rem)!important}
+ .carDetail>p{font-size:14px!important;line-height:1.65!important}
+ .carRail{
+  display:flex!important;
+  overflow-x:auto!important;
+  overscroll-behavior-inline:contain;
+  scrollbar-width:thin;
+  scroll-snap-type:x proximity;
+  gap:7px;
+  width:100%;
+ }
+ .carRail button{
+  flex:0 0 min(42%,160px);
+  width:auto!important;
+  min-height:72px!important;
+  padding:7px!important;
+  scroll-snap-align:start;
+ }
+ .carRail strong{font-size:12px!important;line-height:1.35!important}
+ .fleetThumb{height:35px!important}
+ .routeAtlas{padding-block:37px!important}
+ .routesHead{margin-bottom:17px!important}
+ .routesHead p{font-size:14px!important;line-height:1.75!important}
+ .routeCurtain{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  grid-auto-rows:clamp(143px,40vw,183px);
+  gap:9px!important;
+  height:auto!important;
+  min-height:0!important;
+  width:100%;
+ }
+ .routeCurtainPanel,
+ .routeCurtainPanel[aria-pressed=true]{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  flex:none!important;
+  border-radius:8px!important;
+  overflow:hidden;
+ }
+ .routeCurtainPanel .curtainWords{inset-inline:10px!important;bottom:10px!important;gap:3px!important}
+ .routeCurtainPanel .curtainWords strong,
+ .routeCurtainPanel[aria-pressed=true] .curtainWords strong{
+  color:#fff!important;
+  font-size:clamp(13px,3.6vw,16px)!important;
+  line-height:1.5!important;
+ }
+ .routeCurtainPanel .curtainWords small{font-size:11px!important;color:#fff!important}
+ .curtainActive{display:none!important}
+ .curtainSummary{
+  margin-top:13px!important;
+  padding:14px!important;
+  display:flex!important;
+  flex-direction:column;
+  align-items:stretch;
+  gap:10px!important;
+ }
+ .curtainSummary h3{font-size:18px!important;line-height:1.5!important}
+ .curtainSummary p{font-size:14px!important}
+ .curtainFare strong{font-size:22px!important}
+ .routeAction{width:100%;min-height:49px;font-size:14px!important}
+ .sectionFoot{margin-top:11px}
+ .promises{padding-block:36px!important}
+ .promiseList{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+ .promiseList li{min-height:50px!important;padding:8px!important;gap:7px!important;font-size:12px!important}
+ .promiseList li p{font-size:13px!important;line-height:1.55!important}
+ .finish{min-height:0!important}
+ .finishImage{aspect-ratio:16/9!important;max-height:270px}
+ .finishCopy{padding:28px 19px!important;gap:12px!important}
+ .finishCopy h2{font-size:clamp(1.7rem,6.7vw,2.1rem)!important}
+}
+@media(max-width:360px){
+ .bookingArea{width:calc(100% - 18px)!important;padding-inline:10px!important}
+ .routeCurtain{grid-auto-rows:140px}
+ .routeCurtainPanel .curtainWords strong{font-size:13px!important}
+ .bookingTotal{flex-direction:column!important;align-items:stretch!important}
+ .bookingTotal button{width:100%!important}
+}

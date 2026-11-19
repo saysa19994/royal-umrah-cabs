@@ -1,0 +1,109 @@
+/*
+  DUYUF AL RAHMAN VIP — MOBILE TYPOGRAPHY & READING SYSTEM.
+  Presentation-only design layer for narrow screens (320–760px).
+  No JSX, payload, SEO, pricing, localization keys, or business logic changes.
+  Cairo/Tajawal remain self-hosted through royal-fonts.css.
+*/
+@media (max-width: 760px) {
+  html,body{max-width:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{overflow-x:clip}
+  html[lang="ar"] :is(main,footer,[role="banner"]),
+  html[lang="ar"] :is(main,footer,[role="banner"]) :is(button,input,select,textarea),
+  html[lang="ur"] :is(main,footer,[role="banner"]) {
+    font-family:"Tajawal","Cairo",Tahoma,sans-serif;
+  }
+  html[lang="ar"] :is(main,footer) :is(h1,h2,h3,h4),
+  html[lang="ar"] main :is([class*="title"],[class*="Title"]):is(h1,h2,h3,h4),
+  html[lang="ar"] [role="banner"] :is(h1,h2) {
+    font-family:"Cairo","Tajawal",Tahoma,sans-serif!important;
+    font-weight:750;
+    letter-spacing:0!important;
+    line-height:1.36;
+    text-wrap:balance;
+  }
+  html[lang="ur"] main :is(h1,h2,h3) {
+    font-family:"Noto Nastaliq Urdu","Noto Naskh Arabic",Tahoma,serif!important;
+    line-height:1.75!important;
+    letter-spacing:0!important;
+  }
+  html[lang="hi"] main :is(h1,h2,h3) {
+    font-family:"Noto Sans Devanagari","Mangal",sans-serif!important;
+    line-height:1.42!important;
+  }
+  html[dir="ltr"] main :is(h1,h2,h3,h4){
+    font-family:var(--font-manrope),"Segoe UI",Arial,sans-serif;
+    letter-spacing:-.012em;
+    line-height:1.32;
+  }
+  main {min-width:0;max-width:100%}
+  main :is(p,li,dt,dd,label){
+    line-height:1.72;
+    overflow-wrap:break-word;
+  }
+  /* min body size, but respect elements already larger than 14px */
+  main :is(p,li,dt,dd,label):not([class*="kicker"]):not([class*="eyebrow"]){
+    font-size:max(14px,1em);
+  }
+  main :is(input,select,textarea) {
+    font-size:16px;
+    min-height:44px;
+    max-width:100%;
+  }
+  main textarea {min-height:88px}
+  main :is(button,[role="button"]):not([class*="round"]):not([class*="dot"]) {
+    min-height:44px;
+  }
+  main :is(small,[class*="eyebrow"],[class*="Eyebrow"],[class*="kicker"],[class*="Kicker"]) {
+    font-size:max(12px,.75rem);
+    line-height:1.58;
+  }
+  :is(main,.royal-immersion-footer) :is(h1,h2,h3,h4,p,li,a,button,label,small) {
+    overflow-wrap:break-word;
+  }
+  .royal-immersion-footer .duyuf-footer-menu :is(button,a) {
+    font-size:max(13px,.8125rem);
+    line-height:1.65;
+  }
+  .royal-immersion-footer .duyuf-footer-menu>button {
+    min-height:52px;
+    padding-block:11px;
+  }
+  .royal-immersion-footer :is(p,small) {
+    line-height:1.7;
+  }
+  .royal-immersion-footer :is(button,a):focus-visible,
+  main :is(button,a,input,select,textarea):focus-visible {
+    outline:3px solid #c49b59;
+    outline-offset:3px;
+  }
+}
+@media(max-width:430px){
+  .royal-immersion-footer > .container{padding-inline:17px!important}
+  .royal-immersion-footer [class*="grid-cols-2"]{min-width:0}
+}
+@media (max-width:360px){
+  main :is(input,select,textarea){min-width:0}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+}
+
+
+/* The 11px header booking button was too small on 320–430px screens. */
+@media(max-width:760px){
+ header[role="banner"] a[href$="/booking"]{
+   min-height:44px!important;
+   font-size:13px!important;
+   line-height:1.45!important;
+   padding-inline:11px!important;
+   white-space:nowrap;
+ }
+ header[role="banner"] button[aria-label]{
+   min-width:44px;
+   min-height:44px;
+ }
+ header[role="banner"] :is(a,button):focus-visible{
+   outline:3px solid #e6bf7c;
+   outline-offset:2px;
+ }
+}

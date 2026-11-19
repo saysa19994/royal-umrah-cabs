@@ -47,3 +47,28 @@
 @media(max-width:780px){.container{width:calc(100% - 38px)}.hero{padding:64px 0 52px}.heroGrid{display:block}.heroAside{margin-top:37px;border:0;border-top:1px solid #d5ddd4;padding:20px 0 0!important}.destinationLine{font-size:17px}.list{grid-template-columns:1fr}.directory{padding:63px 0 75px}.explorer :global(section){padding-block:48px!important}}
 @media(max-width:460px){.container{width:calc(100% - 30px)}.hero{padding:72px 0 47px}.breadcrumb{margin-bottom:27px}.heroText h1{font-size:36px}.heroText>p{font-size:12px}.heroActions{align-items:stretch}.inkButton,.lineButton{font-size:11px;min-height:46px}.directoryHeader{display:block}.allPrices{margin-top:10px}.item>a{gap:10px;min-height:87px;padding:13px 0}.name strong{font-size:12px}.name small{font-size:10px}.fare strong{font-size:11px}.open{width:26px;height:26px}.directoryFooter{flex-direction:column;align-items:flex-start}}
 @media(prefers-reduced-motion:reduce){.item>a{transition:none}}
+
+
+/* Readable mobile route directory — not tiny desktop labels scaled down. */
+@media(max-width:760px){
+ .hero{padding:56px 0 35px}
+ .breadcrumb{font-size:13px!important;gap:8px;flex-wrap:wrap;margin-bottom:17px}
+ .eyebrow{font-size:12px!important;line-height:1.55!important;margin-bottom:9px}
+ .heroText h1{font-size:clamp(27px,7.7vw,36px)!important;line-height:1.4!important;text-wrap:balance}
+ .heroText>p{font-size:15px!important;line-height:1.8!important;margin:13px 0 20px!important}
+ .inkButton,.lineButton{font-size:14px!important;line-height:1.5!important;min-height:48px;padding:11px 16px}
+ .heroAside{margin-top:20px;padding-top:15px!important}
+ .heroAside>span{font-size:12px!important}
+ .heroAside>p{font-size:13px!important;line-height:1.7!important}
+ .directory{padding:37px 0 45px}
+ .directoryHeader{margin-bottom:15px}
+ .directoryHeader h2{font-size:clamp(26px,6.5vw,31px)!important;line-height:1.45!important}
+ .item>a{min-height:88px;gap:9px;padding:13px 0}
+ .name strong{font-size:14px!important;line-height:1.6!important}
+ .name small{font-size:12px!important;line-height:1.55!important;gap:5px}
+ .fare strong{font-size:15px!important}
+ .fare small{font-size:12px!important}
+ .index{font-size:12px!important}
+ .open{width:34px;height:34px}
+ .directoryFooter p{font-size:13px!important}
+}
