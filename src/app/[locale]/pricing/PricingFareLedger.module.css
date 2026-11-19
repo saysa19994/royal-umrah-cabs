@@ -88,3 +88,37 @@
  .signoff{padding-inline:14px}
 }
 @media(prefers-reduced-motion:reduce){.page :is(a,button){transition:none!important}}
+
+
+/* Pricing mobile: actual SAR/USD quotes remain sourced from the existing data. */
+@media(max-width:767px){
+ .header{padding:61px 17px 34px}
+ .headerTop>span{font-size:12px!important;line-height:1.6}
+ .headerBody>div:first-child{padding-top:19px}
+ .headerBody h1,.page[dir=rtl] .headerBody h1{
+  font-size:clamp(27px,7.7vw,35px)!important;
+  line-height:1.43!important;
+  margin-bottom:12px!important;
+ }
+ .headerBody>div:first-child>p{font-size:15px!important;line-height:1.75!important}
+ .headerAside{margin-top:16px}
+ .headerAside>span{font-size:12px!important}
+ .headerAside>p{font-size:13px!important;line-height:1.75!important}
+ .workspace{padding:32px 13px 42px!important}
+ .workspaceIntro{margin-bottom:15px}
+ .workspaceIntro>span,.workspaceIntro>p{font-size:13px!important;line-height:1.7!important}
+ .policy{padding:36px 18px!important}
+ .policyHeader>span,.policyLines li>span{font-size:12px!important}
+ .policyHeader h2,.signoff h2{
+  font-size:clamp(27px,7vw,34px)!important;
+  line-height:1.42!important;
+ }
+ .policyHeader>p{font-size:14px!important;line-height:1.75!important}
+ .policyLines li{padding:14px 0!important;gap:9px}
+ .policyLines h3{font-size:17px!important;line-height:1.5!important}
+ .policyLines p{font-size:14px!important;line-height:1.75!important}
+ .signoff{padding:35px 18px 43px}
+ .signoff>div:first-child>span{font-size:12px!important}
+ .signoff p{font-size:14px!important;line-height:1.7!important}
+ .signoffLinks a{font-size:14px!important;min-height:49px}
+}
