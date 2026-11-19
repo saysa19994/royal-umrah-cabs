@@ -270,8 +270,8 @@ export default function OwnerAccountPage() {
 
   if (loading) {
     return (
-      <div className="py-20 text-center text-[#6C7584]">
-        <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#D9A031]" />
+      <div className="py-20 text-center text-[#79838A]">
+        <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[#92612D]" />
         <span>Loading owner security credentials...</span>
       </div>
     );
@@ -280,26 +280,26 @@ export default function OwnerAccountPage() {
   return (
     <div className="space-y-8 text-start max-w-5xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#262B33]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#E4D4BE]">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#D9A031]/20 text-[#D9A031] border border-[#D9A031]/30">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#0A6364]/20 text-[#92612D] border border-[#C29B65]/30">
               Root Authority
             </span>
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
               AAL2 MFA Protected
             </span>
           </div>
-          <h1 className="font-display text-2xl md:text-3xl font-bold text-[#FAF9F6]">
+          <h1 className="font-display text-2xl md:text-3xl font-bold text-[#193746]">
             Owner Account &amp; Credential Control
           </h1>
-          <p className="text-xs text-[#A0A6B2] mt-1">
+          <p className="text-xs text-[#697984] mt-1">
             Root access management for Duyuf Alrahman VIP. Credential modifications require current password and 6-digit TOTP challenge verification.
           </p>
         </div>
         <button
           onClick={fetchAccountData}
-          className="px-4 py-2 rounded-xl bg-[#14171C] border border-[#262B33] hover:border-[#D9A031]/40 text-[#FAF9F6] text-xs font-semibold flex items-center gap-2 transition-colors"
+          className="px-4 py-2 rounded-xl bg-[#FFF9F1] border border-[#E4D4BE] hover:border-[#C29B65]/40 text-[#193746] text-xs font-semibold flex items-center gap-2 transition-colors"
         >
           <RefreshCw className="w-3.5 h-3.5" />
           <span>Refresh</span>
@@ -309,33 +309,33 @@ export default function OwnerAccountPage() {
       {/* Grid: Profile & MFA Status */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Profile Card */}
-        <div className="md:col-span-2 bg-[#14171C] rounded-2xl border border-[#262B33] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#262B33]">
-            <UserCheck className="w-4 h-4 text-[#D9A031]" />
-            <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+        <div className="md:col-span-2 bg-[#FFF9F1] rounded-2xl border border-[#E4D4BE] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#E4D4BE]">
+            <UserCheck className="w-4 h-4 text-[#92612D]" />
+            <h2 className="font-display font-bold text-base text-[#193746]">
               Owner Profile Details
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div>
-              <span className="text-[#6C7584] block font-mono text-[10px] uppercase">Full Name</span>
-              <span className="text-[#FAF9F6] font-semibold text-sm">{profile?.name || 'Administrator'}</span>
+              <span className="text-[#79838A] block font-mono text-[10px] uppercase">Full Name</span>
+              <span className="text-[#193746] font-semibold text-sm">{profile?.name || 'Administrator'}</span>
             </div>
             <div>
-              <span className="text-[#6C7584] block font-mono text-[10px] uppercase">Primary Email Address</span>
-              <span className="text-[#FAF9F6] font-semibold text-sm font-mono">{profile?.email}</span>
+              <span className="text-[#79838A] block font-mono text-[10px] uppercase">Primary Email Address</span>
+              <span className="text-[#193746] font-semibold text-sm font-mono">{profile?.email}</span>
             </div>
             <div>
-              <span className="text-[#6C7584] block font-mono text-[10px] uppercase">Access Level</span>
-              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-bold bg-[#D9A031]/20 text-[#D9A031] mt-0.5">
+              <span className="text-[#79838A] block font-mono text-[10px] uppercase">Access Level</span>
+              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-bold bg-[#0A6364]/20 text-[#92612D] mt-0.5">
                 <ShieldCheck className="w-3 h-3" />
                 {profile?.role?.toUpperCase()}
               </span>
             </div>
             <div>
-              <span className="text-[#6C7584] block font-mono text-[10px] uppercase">Account Created</span>
-              <span className="text-[#A0A6B2] font-mono text-[11px]">
+              <span className="text-[#79838A] block font-mono text-[10px] uppercase">Account Created</span>
+              <span className="text-[#697984] font-mono text-[11px]">
                 {profile?.created_at ? new Date(profile.created_at).toLocaleDateString() : 'N/A'}
               </span>
             </div>
@@ -343,45 +343,45 @@ export default function OwnerAccountPage() {
         </div>
 
         {/* MFA Status Card */}
-        <div className="bg-[#14171C] rounded-2xl border border-[#262B33] p-6 space-y-4 flex flex-col justify-between">
+        <div className="bg-[#FFF9F1] rounded-2xl border border-[#E4D4BE] p-6 space-y-4 flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between pb-3 border-b border-[#262B33]">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E4D4BE]">
               <div className="flex items-center gap-2">
                 <Smartphone className="w-4 h-4 text-emerald-400" />
-                <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+                <h2 className="font-display font-bold text-base text-[#193746]">
                   Two-Factor MFA (AAL2)
                 </h2>
               </div>
-              <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${mfaInfo?.totp_enabled ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-[#D9A031]/10 text-[#D9A031] border border-[#D9A031]/30'}`}>
+              <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${mfaInfo?.totp_enabled ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-[#0A6364]/10 text-[#92612D] border border-[#C29B65]/30'}`}>
                 {mfaInfo?.totp_enabled ? 'مفعّل (Active)' : 'متاح للتفعيل'}
               </span>
             </div>
 
             <div className="mt-4 space-y-2">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-[#A0A6B2]">مستوى الحماية:</span>
+                <span className="text-[#697984]">مستوى الحماية:</span>
                 <span className="font-bold text-emerald-400 font-mono">AAL2 Strict</span>
               </div>
               <div className="flex items-center justify-between text-xs">
-                <span className="text-[#A0A6B2]">الأجهزة المربوطة:</span>
-                <span className="font-bold text-[#FAF9F6] font-mono">{mfaInfo?.totp_enabled ? '1 جهاز موثق (Google Authenticator)' : '0 أجهزة'}</span>
+                <span className="text-[#697984]">الأجهزة المربوطة:</span>
+                <span className="font-bold text-[#193746] font-mono">{mfaInfo?.totp_enabled ? '1 جهاز موثق (Google Authenticator)' : '0 أجهزة'}</span>
               </div>
-              <p className="text-[11px] text-[#6C7584] mt-2 leading-relaxed">
+              <p className="text-[11px] text-[#79838A] mt-2 leading-relaxed">
                 يتم التحقق من الرمز المكون من 6 أرقام لحماية حساب المالك من أي دخول غير مصرح به.
               </p>
             </div>
           </div>
 
-          <div className="pt-3 border-t border-[#262B33] space-y-3">
+          <div className="pt-3 border-t border-[#E4D4BE] space-y-3">
             {totpSuccess && (
-              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-2">
+              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs font-semibold flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
                 <span>{totpSuccess}</span>
               </div>
             )}
 
             {totpError && (
-              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold flex items-center gap-2">
+              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-700 text-xs font-semibold flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4 shrink-0" />
                 <span>{totpError}</span>
               </div>
@@ -391,7 +391,7 @@ export default function OwnerAccountPage() {
               type="button"
               onClick={startTotpEnrollment}
               disabled={totpLoading}
-              className="w-full h-10 px-4 rounded-xl bg-[#D9A031] hover:bg-[#B8821F] text-[#0D0F12] font-bold text-xs flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+              className="w-full h-10 px-4 rounded-xl bg-[#0A6364] hover:bg-[#065059] text-[#FFFAF2] font-bold text-xs flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
             >
               {totpLoading ? (
                 <RefreshCw className="w-4 h-4 animate-spin" />
@@ -407,31 +407,31 @@ export default function OwnerAccountPage() {
       {/* MODAL: TOTP 2FA SETUP */}
       {showTotpSetup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-[#14171C] border border-[#262B33] rounded-2xl max-w-md w-full p-6 space-y-5 text-start shadow-2xl">
-            <div className="flex items-center justify-between pb-3 border-b border-[#262B33]">
+          <div className="bg-[#FFF9F1] border border-[#E4D4BE] rounded-2xl max-w-md w-full p-6 space-y-5 text-start shadow-2xl">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E4D4BE]">
               <div className="flex items-center gap-2">
-                <Smartphone className="w-5 h-5 text-[#D9A031]" />
-                <h3 className="font-display font-bold text-base text-[#FAF9F6]">
+                <Smartphone className="w-5 h-5 text-[#92612D]" />
+                <h3 className="font-display font-bold text-base text-[#193746]">
                   تفعيل التحقق بخطوتين (AAL2)
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowTotpSetup(false)}
-                className="text-[#6C7584] hover:text-[#FAF9F6] text-sm"
+                className="text-[#79838A] hover:text-[#193746] text-sm"
               >
                 ✕
               </button>
             </div>
 
-            <div className="space-y-4 text-xs text-[#A0A6B2]">
+            <div className="space-y-4 text-xs text-[#697984]">
               <p className="leading-relaxed text-center">
-                1. افتح تطبيق <span className="font-bold text-[#FAF9F6]">Google Authenticator</span> أو <span className="font-bold text-[#FAF9F6]">1Password</span> على هاتفك.
+                1. افتح تطبيق <span className="font-bold text-[#193746]">Google Authenticator</span> أو <span className="font-bold text-[#193746]">1Password</span> على هاتفك.
               </p>
 
               {totpQrImage && (
                 <div className="flex justify-center py-2">
-                  <div className="bg-white p-3 rounded-2xl shadow-lg border-2 border-[#D9A031]">
+                  <div className="bg-white p-3 rounded-2xl shadow-lg border-2 border-[#C29B65]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={totpQrImage}
@@ -443,17 +443,17 @@ export default function OwnerAccountPage() {
               )}
 
               <div>
-                <p className="mb-1 text-[11px] text-[#6C7584]">
+                <p className="mb-1 text-[11px] text-[#79838A]">
                   أو يمكنك إدخال المفتاح السري يدوياً في التطبيق:
                 </p>
-                <div className="flex items-center gap-2 bg-[#0D0F12] border border-[#262B33] rounded-xl px-3 py-2">
-                  <code className="font-mono text-xs text-[#D9A031] flex-1 tracking-widest break-all">
+                <div className="flex items-center gap-2 bg-[#F6ECE0] border border-[#E4D4BE] rounded-xl px-3 py-2">
+                  <code className="font-mono text-xs text-[#92612D] flex-1 tracking-widest break-all">
                     {totpSecret}
                   </code>
                   <button
                     type="button"
                     onClick={handleCopySecret}
-                    className="p-1.5 rounded-lg bg-[#1F242D] hover:bg-[#2A303C] text-[#FAF9F6] text-xs transition-colors shrink-0 flex items-center gap-1"
+                    className="p-1.5 rounded-lg bg-[#F7ECD9] hover:bg-[#F3E8D9] text-[#193746] text-xs transition-colors shrink-0 flex items-center gap-1"
                   >
                     {copiedSecret ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                     <span>{copiedSecret ? 'تم النسخ' : 'نسخ'}</span>
@@ -462,7 +462,7 @@ export default function OwnerAccountPage() {
               </div>
 
               <form onSubmit={confirmTotpEnrollment} className="space-y-3 pt-2">
-                <label className="block text-xs font-semibold text-[#FAF9F6]">
+                <label className="block text-xs font-semibold text-[#193746]">
                   اكتب الرمز المكون من 6 أرقام الظاهر الآن في التطبيق:
                 </label>
                 <input
@@ -472,11 +472,11 @@ export default function OwnerAccountPage() {
                   value={totpVerifyCode}
                   onChange={(e) => setTotpVerifyCode(e.target.value.replace(/[^0-9]/g, ''))}
                   placeholder="000000"
-                  className="w-full h-12 text-center text-lg tracking-[0.4em] font-mono font-bold rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] focus:border-[#D9A031] outline-none"
+                  className="w-full h-12 text-center text-lg tracking-[0.4em] font-mono font-bold rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-[#193746] focus:border-[#C29B65] outline-none"
                 />
 
                 {totpError && (
-                  <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs">
+                  <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-700 text-xs">
                     {totpError}
                   </div>
                 )}
@@ -485,7 +485,7 @@ export default function OwnerAccountPage() {
                   <button
                     type="submit"
                     disabled={totpLoading || totpVerifyCode.length !== 6}
-                    className="flex-1 h-11 rounded-xl bg-[#D9A031] hover:bg-[#B8821F] text-[#0D0F12] font-bold text-xs flex items-center justify-center gap-1.5 transition-colors disabled:opacity-50"
+                    className="flex-1 h-11 rounded-xl bg-[#0A6364] hover:bg-[#065059] text-[#FFFAF2] font-bold text-xs flex items-center justify-center gap-1.5 transition-colors disabled:opacity-50"
                   >
                     {totpLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
                     <span>تأكيد وتفعيل الحماية (Activate)</span>
@@ -493,7 +493,7 @@ export default function OwnerAccountPage() {
                   <button
                     type="button"
                     onClick={() => setShowTotpSetup(false)}
-                    className="h-11 px-4 rounded-xl border border-[#262B33] hover:bg-[#1F242D] text-[#A0A6B2] text-xs font-semibold"
+                    className="h-11 px-4 rounded-xl border border-[#E4D4BE] hover:bg-[#F7ECD9] text-[#697984] text-xs font-semibold"
                   >
                     إلغاء
                   </button>
@@ -507,23 +507,23 @@ export default function OwnerAccountPage() {
       {/* Grid: Password Change & Email Change */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* CHANGE PASSWORD */}
-        <div className="bg-[#14171C] rounded-2xl border border-[#262B33] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#262B33]">
-            <Key className="w-4 h-4 text-[#D9A031]" />
-            <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+        <div className="bg-[#FFF9F1] rounded-2xl border border-[#E4D4BE] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#E4D4BE]">
+            <Key className="w-4 h-4 text-[#92612D]" />
+            <h2 className="font-display font-bold text-base text-[#193746]">
               Change Owner Password
             </h2>
           </div>
 
           {pwdSuccess && (
-            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs font-semibold flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 shrink-0" />
               <span>{pwdSuccess}</span>
             </div>
           )}
 
           {pwdError && (
-            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-700 text-xs font-semibold flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 shrink-0" />
               <span>{pwdError}</span>
             </div>
@@ -531,7 +531,7 @@ export default function OwnerAccountPage() {
 
           <form onSubmit={handlePasswordChange} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+              <label className="block text-xs font-semibold text-[#697984] mb-1">
                 Current Password
               </label>
               <input
@@ -540,13 +540,13 @@ export default function OwnerAccountPage() {
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full h-10 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-10 px-3 text-xs rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-[#193746] outline-none font-mono"
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+                <label className="block text-xs font-semibold text-[#697984] mb-1">
                   New Password
                 </label>
                 <input
@@ -555,12 +555,12 @@ export default function OwnerAccountPage() {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="Min. 8 characters"
-                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono"
+                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-[#193746] outline-none font-mono"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+                <label className="block text-xs font-semibold text-[#697984] mb-1">
                   Confirm New Password
                 </label>
                 <input
@@ -569,14 +569,14 @@ export default function OwnerAccountPage() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Repeat new password"
-                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono"
+                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-[#193746] outline-none font-mono"
                 />
               </div>
             </div>
 
             {Boolean(mfaInfo?.verified_factors && mfaInfo.verified_factors > 0) && (
               <div>
-                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+                <label className="block text-xs font-semibold text-[#697984] mb-1">
                   Two-Factor TOTP Authenticator Code (6 Digits)
                 </label>
                 <input
@@ -586,7 +586,7 @@ export default function OwnerAccountPage() {
                   value={pwdTotpCode}
                   onChange={(e) => setPwdTotpCode(e.target.value)}
                   placeholder="000000"
-                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono tracking-widest text-center"
+                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-[#193746] outline-none font-mono tracking-widest text-center"
                 />
               </div>
             )}
@@ -594,7 +594,7 @@ export default function OwnerAccountPage() {
             <button
               type="submit"
               disabled={pwdLoading}
-              className="w-full py-2.5 rounded-xl bg-[#D9A031] hover:bg-[#B8821F] text-[#0D0F12] font-bold text-xs uppercase tracking-wider transition-all disabled:opacity-50"
+              className="w-full py-2.5 rounded-xl bg-[#0A6364] hover:bg-[#065059] text-[#FFFAF2] font-bold text-xs uppercase tracking-wider transition-all disabled:opacity-50"
             >
               {pwdLoading ? 'Verifying & Updating...' : 'Update Password'}
             </button>
@@ -602,23 +602,23 @@ export default function OwnerAccountPage() {
         </div>
 
         {/* CHANGE EMAIL */}
-        <div className="bg-[#14171C] rounded-2xl border border-[#262B33] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#262B33]">
-            <Mail className="w-4 h-4 text-[#D9A031]" />
-            <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+        <div className="bg-[#FFF9F1] rounded-2xl border border-[#E4D4BE] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#E4D4BE]">
+            <Mail className="w-4 h-4 text-[#92612D]" />
+            <h2 className="font-display font-bold text-base text-[#193746]">
               Change Owner Email Address
             </h2>
           </div>
 
           {emailSuccess && (
-            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs font-semibold flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 shrink-0" />
               <span>{emailSuccess}</span>
             </div>
           )}
 
           {emailError && (
-            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-700 text-xs font-semibold flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 shrink-0" />
               <span>{emailError}</span>
             </div>
@@ -626,7 +626,7 @@ export default function OwnerAccountPage() {
 
           <form onSubmit={handleEmailChange} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+              <label className="block text-xs font-semibold text-[#697984] mb-1">
                 New Email Address
               </label>
               <input
@@ -635,12 +635,12 @@ export default function OwnerAccountPage() {
                 value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
                 placeholder="owner@duyufalrahmanvip.com"
-                className="w-full h-10 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-10 px-3 text-xs rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-[#193746] outline-none font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+              <label className="block text-xs font-semibold text-[#697984] mb-1">
                 Current Password Confirmation
               </label>
               <input
@@ -649,13 +649,13 @@ export default function OwnerAccountPage() {
                 value={emailPassword}
                 onChange={(e) => setEmailPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full h-10 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono"
+                className="w-full h-10 px-3 text-xs rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-[#193746] outline-none font-mono"
               />
             </div>
 
             {Boolean(mfaInfo?.verified_factors && mfaInfo.verified_factors > 0) && (
               <div>
-                <label className="block text-xs font-semibold text-[#A0A6B2] mb-1">
+                <label className="block text-xs font-semibold text-[#697984] mb-1">
                   Two-Factor TOTP Authenticator Code (6 Digits)
                 </label>
                 <input
@@ -665,7 +665,7 @@ export default function OwnerAccountPage() {
                   value={emailTotpCode}
                   onChange={(e) => setEmailTotpCode(e.target.value)}
                   placeholder="000000"
-                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#0D0F12] border border-[#262B33] text-[#FAF9F6] outline-none font-mono tracking-widest text-center"
+                  className="w-full h-10 px-3 text-xs rounded-xl bg-[#F6ECE0] border border-[#E4D4BE] text-[#193746] outline-none font-mono tracking-widest text-center"
                 />
               </div>
             )}
@@ -673,7 +673,7 @@ export default function OwnerAccountPage() {
             <button
               type="submit"
               disabled={emailLoading}
-              className="w-full py-2.5 rounded-xl bg-[#D9A031] hover:bg-[#B8821F] text-[#0D0F12] font-bold text-xs uppercase tracking-wider transition-all disabled:opacity-50"
+              className="w-full py-2.5 rounded-xl bg-[#0A6364] hover:bg-[#065059] text-[#FFFAF2] font-bold text-xs uppercase tracking-wider transition-all disabled:opacity-50"
             >
               {emailLoading ? 'Verifying & Updating...' : 'Update Owner Email'}
             </button>
@@ -684,27 +684,27 @@ export default function OwnerAccountPage() {
       {/* SESSION MANAGEMENT & AUDIT TRAIL */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Session Card */}
-        <div className="bg-[#14171C] rounded-2xl border border-[#262B33] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#262B33]">
+        <div className="bg-[#FFF9F1] rounded-2xl border border-[#E4D4BE] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#E4D4BE]">
             <LogOut className="w-4 h-4 text-rose-400" />
-            <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+            <h2 className="font-display font-bold text-base text-[#193746]">
               Session Control
             </h2>
           </div>
 
-          <p className="text-xs text-[#A0A6B2] leading-relaxed">
+          <p className="text-xs text-[#697984] leading-relaxed">
             Revoke all other active session tokens and device cookies across any remote browser or mobile device.
           </p>
 
           {sessionSuccess && (
-            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 text-xs font-semibold flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 shrink-0" />
               <span>{sessionSuccess}</span>
             </div>
           )}
 
           {sessionError && (
-            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-700 text-xs font-semibold flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 shrink-0" />
               <span>{sessionError}</span>
             </div>
@@ -714,28 +714,28 @@ export default function OwnerAccountPage() {
             type="button"
             onClick={handleRevokeSessions}
             disabled={sessionLoading}
-            className="w-full py-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 hover:bg-rose-500/20 text-rose-300 font-bold text-xs uppercase tracking-wider transition-all"
+            className="w-full py-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 hover:bg-rose-500/20 text-rose-700 font-bold text-xs uppercase tracking-wider transition-all"
           >
             {sessionLoading ? 'Revoking Sessions...' : 'Sign Out Other Devices'}
           </button>
         </div>
 
         {/* Security Audit Log */}
-        <div className="md:col-span-2 bg-[#14171C] rounded-2xl border border-[#262B33] p-6 space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-[#262B33]">
-            <History className="w-4 h-4 text-[#D9A031]" />
-            <h2 className="font-display font-bold text-base text-[#FAF9F6]">
+        <div className="md:col-span-2 bg-[#FFF9F1] rounded-2xl border border-[#E4D4BE] p-6 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-[#E4D4BE]">
+            <History className="w-4 h-4 text-[#92612D]" />
+            <h2 className="font-display font-bold text-base text-[#193746]">
               Recent Owner Security Log
             </h2>
           </div>
 
           {securityLogs.length === 0 ? (
-            <p className="text-xs text-[#6C7584] py-4 text-center">No recent security events logged.</p>
+            <p className="text-xs text-[#79838A] py-4 text-center">No recent security events logged.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-left">
                 <thead>
-                  <tr className="border-b border-[#262B33] text-[#6C7584] text-[10px] uppercase font-mono">
+                  <tr className="border-b border-[#E4D4BE] text-[#79838A] text-[10px] uppercase font-mono">
                     <th className="pb-2">Action</th>
                     <th className="pb-2">Resource</th>
                     <th className="pb-2">IP Address</th>
@@ -744,11 +744,11 @@ export default function OwnerAccountPage() {
                 </thead>
                 <tbody className="divide-y divide-[#262B33]/50">
                   {securityLogs.map((log) => (
-                    <tr key={log.id} className="hover:bg-[#1A1F26]">
-                      <td className="py-2.5 font-mono text-[#D9A031]">{log.action}</td>
-                      <td className="py-2.5 text-[#A0A6B2]">{log.resource}</td>
-                      <td className="py-2.5 font-mono text-[#6C7584]">{log.ip_address || 'Internal'}</td>
-                      <td className="py-2.5 text-right font-mono text-[#6C7584]">
+                    <tr key={log.id} className="hover:bg-[#F7EBDB]">
+                      <td className="py-2.5 font-mono text-[#92612D]">{log.action}</td>
+                      <td className="py-2.5 text-[#697984]">{log.resource}</td>
+                      <td className="py-2.5 font-mono text-[#79838A]">{log.ip_address || 'Internal'}</td>
+                      <td className="py-2.5 text-right font-mono text-[#79838A]">
                         {new Date(log.created_at).toLocaleString()}
                       </td>
                     </tr>
