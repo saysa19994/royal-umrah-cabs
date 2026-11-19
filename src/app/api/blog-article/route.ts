@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { LOCALES, Locale } from '@/i18n/config';
 import { BLOG_POSTS } from '@/data/blog-posts';
+import { getManagedBlogPost } from '@/lib/blog-service';
 import { getBlogArticleContent } from '@/data/blog-content';
 
 export const dynamic = 'force-dynamic';
@@ -28,15 +29,31 @@ export async function GET(req: NextRequest) {
     );
   }
 
+  const saved=await getManagedBlogPost(slug);
   const postExists = BLOG_POSTS.some((post) => post.slug === slug);
-  if (!postExists) {
+  if((saved && !saved.is_published) || (!postExists && (!saved || (requestedLocale!=='en'&&requestedLocale!=='ar')))) {
     return NextResponse.json(
       { success: false, error: 'Article not found' },
       { status: 404 }
     );
   }
 
-  const content = getBlogArticleContent(slug, requestedLocale);
+  const edited=requestedLocale==='ar'?saved?.content_ar:requestedLocale==='en'?saved?.content_en:null;
+  const isEdited=Boolean(saved && edited && edited.trim().length >= 300);
+  const paragraphs = isEdited ? edited!.split(/\n\s*\n/).filter(Boolean) : [];
+  const content = isEdited ? {
+    intro:{ title:requestedLocale==='ar'?saved!.title_ar:saved!.title_en,
+      paragraphs:[requestedLocale==='ar'?saved!.excerpt_ar:saved!.excerpt_en]},
+    sections:[{title:requestedLocale==='ar'?saved!.title_ar:saved!.title_en,paragraphs}],
+    faqTitle:'',faqSubtitle:'',
+    cta:{
+      title:requestedLocale==='ar'?'احجز رحلتك الخاصة':'Book your private journey',
+      subtitle:requestedLocale==='ar'?'الدفع نقداً للسائق بعد الوصول':'Pay in cash to the driver after arrival',
+      primaryBtn:requestedLocale==='ar'?'اطلب حجزاً':'Request booking',
+      secondaryBtn:requestedLocale==='ar'?'تواصل معنا':'Contact us',
+      badges:[],
+    },
+  } : getBlogArticleContent(slug, requestedLocale);
 
   return NextResponse.json(
     {
@@ -48,7 +65,7 @@ export async function GET(req: NextRequest) {
     {
       status: 200,
       headers: {
-        'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',
+        'Cache-Control': 'public, max-age=0, s-maxage=300, must-revalidate',
         'X-Content-Type-Options': 'nosniff',
       },
     }

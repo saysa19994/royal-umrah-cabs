@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { Locale, getLocalizedAlternates, LOCALES, LOCALE_CONFIG } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { BLOG_POSTS } from '@/data/blog-posts';
+import { getManagedBlogPost } from '@/lib/blog-service';
 import { getBlogArticleContent } from '@/data/blog-content';
 import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
 import { getDbPricesCached } from '@/lib/pricing-db';
@@ -41,10 +42,28 @@ export async function generateMetadata(props: BlogPostPageProps): Promise<Metada
   const params = await props.params;
   const { locale, slug } = params;
 
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
-  if (!post) {
+  const saved=await getManagedBlogPost(slug);
+  const original=BLOG_POSTS.find((p)=>p.slug===slug);
+  if(saved && !saved.is_published) return { title:'Article Unavailable', robots:{index:false,follow:false} };
+  if(!original && (!saved || (locale!=='en' && locale!=='ar'))) {
     return { title: 'Article Not Found' };
   }
+  if(saved && (locale==='en'||locale==='ar') && (!original || (locale==='ar'?saved.title_ar:saved.title_en))) {
+    const title=locale==='ar'?saved.title_ar:saved.title_en;
+    const description=locale==='ar'?saved.excerpt_ar:saved.excerpt_en;
+    const root=process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
+    const alternateLanguages=original?getLocalizedAlternates(locale,`/blog/${slug}`):{
+      canonical:`${root}/${locale}/blog/${slug}`,
+      languages:{en:`${root}/en/blog/${slug}`,ar:`${root}/ar/blog/${slug}`},
+    };
+    return {
+      title:`${title} | Duyuf Alrahman VIP`,description,alternates:alternateLanguages,
+      openGraph:{title,description,type:'article',images:[{url:saved.featured_image,width:1024,height:571,alt:title}]},
+      twitter:{card:'summary_large_image',title,description,images:[saved.featured_image]},
+    };
+  }
+  const post=original!;
+
 
   const title = post.seoTitle[locale] || post.seoTitle.en;
   const description = post.metaDescription[locale] || post.metaDescription.en;
@@ -65,7 +84,7 @@ export async function generateMetadata(props: BlogPostPageProps): Promise<Metada
       authors: ['Duyuf Alrahman VIP Editorial Team'],
       images: [
         {
-          url: post.featuredImage,
+          url: (saved?.featured_image || post.featuredImage),
           width: 1024,
           height: 571,
           alt: post.imageAlt[locale] || post.imageAlt.en,
@@ -76,7 +95,7 @@ export async function generateMetadata(props: BlogPostPageProps): Promise<Metada
       card: 'summary_large_image',
       title,
       description,
-      images: [post.featuredImage],
+      images: [(saved?.featured_image || post.featuredImage)],
     },
   };
 }
@@ -216,11 +235,33 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
   const params = await props.params;
   const { locale, slug } = params;
 
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
-  if (!post) {
-    notFound();
+  const saved=await getManagedBlogPost(slug);
+  const original=BLOG_POSTS.find((p)=>p.slug===slug);
+  if(saved && !saved.is_published) notFound();
+  if(!original && (!saved || (locale!=='en'&&locale!=='ar')))notFound();
+  const editedText=locale==='ar'?saved?.content_ar:locale==='en'?saved?.content_en:null;
+  if(saved && !original && (!editedText || editedText.trim().length<300))notFound();
+  if(saved && editedText && editedText.trim().length>=300 && (locale==='ar'||locale==='en')) {
+    const title=locale==='ar'?saved.title_ar:saved.title_en;
+    const excerpt=locale==='ar'?saved.excerpt_ar:saved.excerpt_en;
+    return <main dir={locale==='ar'?'rtl':'ltr'} className="mx-auto min-h-screen max-w-4xl px-4 py-12 text-ink">
+      <Link href={`/${locale}/blog`} className="mb-7 inline-block text-gold-dark hover:underline">
+        {locale==='ar'?'العودة إلى المدونة':'Back to blog'}
+      </Link>
+      <article>
+        <h1 className="font-display text-4xl font-bold leading-tight">{title}</h1>
+        <p className="mt-4 text-base leading-8 text-ink-muted">{excerpt}</p>
+        <div className="relative my-8 aspect-[1024/571] overflow-hidden rounded-2xl">
+          <Image src={saved.featured_image} alt={title} fill sizes="(max-width: 1024px) 100vw, 1024px" className="object-cover"/>
+        </div>
+        <div className="space-y-5 text-base leading-9 text-ink-muted">
+          {editedText.split(/\n\s*\n/).filter(Boolean).map((paragraph,i)=>
+            <p key={i} className="whitespace-pre-line">{paragraph}</p>)}
+        </div>
+      </article>
+    </main>;
   }
-
+  const post = original!;
   const dict = getDictionary(locale);
   const localeMeta = LOCALE_CONFIG[locale] || LOCALE_CONFIG.en;
   const isRtl = localeMeta.dir === 'rtl';
@@ -722,7 +763,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
 
   const mainWa = '966567588261';
   const greeting = encodeURIComponent(
-    localeMeta.whatsappGreeting + ` ${post.title[locale] || post.title.en}`
+    localeMeta.whatsappGreeting + ` ${((saved && locale === 'ar' ? saved.title_ar : saved && locale === 'en' ? saved.title_en : null) || post.title[locale] || post.title.en)}`
   );
   const waUrl = `https://wa.me/${mainWa}?text=${greeting}`;
 
@@ -734,9 +775,9 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       '@type': 'WebPage',
       '@id': `https://duyufalrahmanvip.com/${locale}/blog/${slug}`,
     },
-    headline: post.title[locale] || post.title.en,
+    headline: ((saved && locale === 'ar' ? saved.title_ar : saved && locale === 'en' ? saved.title_en : null) || post.title[locale] || post.title.en),
     description: post.metaDescription[locale] || post.metaDescription.en,
-    image: [`https://duyufalrahmanvip.com${post.featuredImage}`],
+    image: [`https://duyufalrahmanvip.com${(saved?.featured_image || post.featuredImage)}`],
     datePublished: post.publishedAt,
     dateModified: post.updatedAt,
     author: {
@@ -775,7 +816,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
       {
         '@type': 'ListItem',
         position: 3,
-        name: post.title[locale] || post.title.en,
+        name: ((saved && locale === 'ar' ? saved.title_ar : saved && locale === 'en' ? saved.title_en : null) || post.title[locale] || post.title.en),
         item: `https://duyufalrahmanvip.com/${locale}/blog/${slug}`,
       },
     ],
@@ -847,7 +888,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
           </div>
 
           <h1 className="font-display font-semibold text-2xl sm:text-3xl md:text-5xl text-ink tracking-tight leading-tight">
-            {post.title[locale] || post.title.en}
+            {((saved && locale === 'ar' ? saved.title_ar : saved && locale === 'en' ? saved.title_en : null) || post.title[locale] || post.title.en)}
           </h1>
 
           <p className="mt-4 text-base md:text-lg text-ink-muted font-light leading-relaxed">
@@ -857,7 +898,7 @@ export default async function BlogPostDetailPage(props: BlogPostPageProps) {
           {/* FEATURED IMAGE */}
           <div className="relative w-full aspect-[1024/571] my-8 rounded-2xl overflow-hidden border border-border shadow-md bg-slate-900">
             <Image
-              src={post.featuredImage}
+              src={(saved?.featured_image || post.featuredImage)}
               alt={post.imageAlt[locale] || post.imageAlt.en}
               fill
               priority

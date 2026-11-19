@@ -1,9 +1,6 @@
 import { createServiceClient } from '@/lib/supabase/service';
-import { unstable_cache, revalidateTag, revalidatePath } from 'next/cache';
-import { Locale } from '@/i18n/config';
-import { BLOG_POSTS, BlogPost } from '@/data/blog-posts';
-import fs from 'fs';
-import path from 'path';
+import { revalidateTag, revalidatePath, unstable_cache } from 'next/cache';
+import { BLOG_POSTS } from '@/data/blog-posts';
 
 export interface AdminBlogPost {
   slug: string;
@@ -21,147 +18,109 @@ export interface AdminBlogPost {
   content_ar?: string;
 }
 
-const RUNTIME_BLOG_FILE = path.join(process.cwd(), 'src', 'data', 'runtime-blog-posts.json');
-
-function getInitialAdminPosts(): AdminBlogPost[] {
-  return BLOG_POSTS.map((bp) => ({
-    slug: bp.slug,
-    title_en: bp.title.en,
-    title_ar: bp.title.ar,
-    excerpt_en: bp.excerpt.en,
-    excerpt_ar: bp.excerpt.ar,
-    category: bp.category.en,
-    featured_image: bp.featuredImage,
-    author: bp.author.en,
-    read_time_minutes: parseInt(bp.readTime.en) || 5,
-    published_at: bp.publishedAt,
-    is_published: true,
-    content_en: bp.excerpt.en,
-    content_ar: bp.excerpt.ar,
-  }));
+function staticPost(post: (typeof BLOG_POSTS)[number]): AdminBlogPost {
+  return {
+    slug: post.slug, title_en: post.title.en, title_ar: post.title.ar,
+    excerpt_en: post.excerpt.en, excerpt_ar: post.excerpt.ar,
+    category: post.category.en, featured_image: post.featuredImage,
+    author: post.author.en, read_time_minutes: Number.parseInt(post.readTime.en) || 5,
+    published_at: post.publishedAt, is_published: true,
+    // Never replace an existing long-form article with its short excerpt.
+    content_en: '', content_ar: '',
+  };
 }
 
-function loadPostsFromDisk(): AdminBlogPost[] {
-  try {
-    if (fs.existsSync(RUNTIME_BLOG_FILE)) {
-      const raw = fs.readFileSync(RUNTIME_BLOG_FILE, 'utf8');
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-    }
-  } catch {}
-  return getInitialAdminPosts();
+export const getManagedBlogOverridesCached = unstable_cache(async (): Promise<AdminBlogPost[]> => {
+  const db = createServiceClient();
+  const { data, error } = await db.from('page_content')
+    .select('page_key,content_blocks').like('page_key', 'blog_%').eq('language', 'en')
+    .order('page_key').limit(500);
+  if (error) {
+    console.error('Blog CMS could not read persisted edits:', error.message);
+    return [];
+  }
+  return (data || []).filter(row => row.page_key.startsWith('blog_') && row.page_key !== 'blog_post')
+    .map(row => {
+      const block = row.content_blocks;
+      if (!block || typeof block !== 'object' || Array.isArray(block)) return null;
+      const b = block as Record<string, unknown>;
+      const slug = row.page_key.slice(5);
+      if (!/^[a-z0-9-]{3,120}$/.test(slug)) return null;
+      const baseline = BLOG_POSTS.find(post => post.slug === slug);
+      return {
+        ...(baseline ? staticPost(baseline) : {
+          slug, title_en:'', title_ar:'', excerpt_en:'', excerpt_ar:'',
+          category:'VIP Umrah Transport', featured_image:'', author:'Duyuf Al Rahman VIP',
+          read_time_minutes:5, published_at:'', is_published:false, content_en:'', content_ar:'',
+        }),
+        ...b, slug,
+      } as AdminBlogPost;
+    }).filter((post):post is AdminBlogPost => Boolean(post));
+}, ['managed_blog_posts_v1'], { tags:['site_blog'], revalidate:86400 });
+
+export async function getManagedBlogPost(slug: string):Promise<AdminBlogPost|null> {
+  if (!/^[a-z0-9-]{3,120}$/.test(slug)) return null;
+  const posts = await getManagedBlogOverridesCached();
+  return posts.find(p => p.slug === slug) || null;
 }
 
-function savePostsToDisk(posts: AdminBlogPost[]) {
-  try {
-    fs.writeFileSync(RUNTIME_BLOG_FILE, JSON.stringify(posts, null, 2), 'utf8');
-  } catch (e) {
-    console.warn('Failed saving blog posts to disk:', e);
-  }
+export async function getAllBlogPostsAdmin():Promise<AdminBlogPost[]> {
+  const saved = await getManagedBlogOverridesCached();
+  const known = new Map(BLOG_POSTS.map(p => [p.slug, staticPost(p)]));
+  for(const p of saved) known.set(p.slug, p);
+  return [...known.values()];
 }
 
-let runtimeBlogStore: AdminBlogPost[] = loadPostsFromDisk();
-
-export async function getAllBlogPostsAdmin(): Promise<AdminBlogPost[]> {
+function validImage(url:string) {
+  if(url.startsWith('/assets/') && !url.includes('..')) return true;
   try {
-    const supabase = createServiceClient();
-    const { data, error } = await supabase
-      .from('page_content')
-      .select('*')
-      .eq('page_key', 'blog_post');
-
-    if (!error && data && data.length > 0) {
-      const dbPosts: AdminBlogPost[] = data.map((row) => {
-        const b = row.content_blocks || {};
-        return {
-          slug: b.slug || row.section_key || 'post',
-          title_en: b.title_en || row.h1 || '',
-          title_ar: b.title_ar || row.h1 || '',
-          excerpt_en: b.excerpt_en || row.seo_description || '',
-          excerpt_ar: b.excerpt_ar || row.seo_description || '',
-          category: b.category || 'Umrah VIP Guide',
-          featured_image: b.featured_image || '/assets/images/haram_hero.webp',
-          author: b.author || 'Duyuf Alrahman VIP Editorial Team',
-          read_time_minutes: b.read_time_minutes || 5,
-          published_at: b.published_at || row.updated_at,
-          is_published: b.is_published !== false,
-          content_en: b.content_en || '',
-          content_ar: b.content_ar || '',
-        };
-      });
-
-      if (dbPosts.length > 0) {
-        runtimeBlogStore = dbPosts;
-        savePostsToDisk(dbPosts);
-        return dbPosts;
-      }
-    }
-  } catch (err) {
-    console.warn('Notice querying blog from Supabase:', err);
-  }
-
-  return runtimeBlogStore;
+    const image=new URL(url), dbHost=new URL(process.env.NEXT_PUBLIC_SUPABASE_URL||'').host;
+    return image.protocol==='https:' && image.host===dbHost &&
+      image.pathname.startsWith('/storage/v1/object/public/media/');
+  } catch {return false;}
 }
 
-export async function upsertBlogPostAdmin(post: AdminBlogPost): Promise<{ success: boolean; post?: AdminBlogPost; error?: string }> {
-  try {
-    const supabase = createServiceClient();
-    const { error } = await supabase.from('page_content').upsert(
-      {
-        page_key: `blog_${post.slug}`,
-        language: 'en',
-        seo_title: post.title_en,
-        seo_description: post.excerpt_en,
-        h1: post.title_en,
-        content_blocks: post,
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: 'page_key, language' }
-    );
-    if (error) {
-      console.warn('Error saving blog to Supabase:', error);
-      return { success: false, error: `Database persistence unavailable: ${error.message}` };
-    }
-  } catch (err: any) {
-    console.warn('Error saving blog to Supabase:', err);
-    return { success: false, error: `Database persistence exception: ${err?.message || 'Connection failed'}` };
+export async function upsertBlogPostAdmin(raw:AdminBlogPost):Promise<{success:boolean;post?:AdminBlogPost;error?:string}> {
+  const slug=typeof raw.slug==='string'?raw.slug.trim().toLowerCase():'';
+  if(!/^[a-z0-9-]{3,120}$/.test(slug)) return {success:false,error:'Slug must contain 3-120 lowercase letters, numbers or hyphens'};
+  if(typeof raw.title_en!=='string'||!raw.title_en.trim()||
+     typeof raw.title_ar!=='string'||!raw.title_ar.trim()) return {success:false,error:'Arabic and English titles are required'};
+  const current=await getManagedBlogPost(slug);
+  const legacy=BLOG_POSTS.some(post=>post.slug===slug);
+  if(!legacy && raw.is_published && ((raw.content_en||'').trim().length<300 || (raw.content_ar||'').trim().length<300)) {
+    return {success:false,error:'New published articles require at least 300 characters of original content in Arabic and English'};
   }
-
-  const idx = runtimeBlogStore.findIndex((p) => p.slug === post.slug);
-  if (idx !== -1) {
-    runtimeBlogStore[idx] = { ...post };
-  } else {
-    runtimeBlogStore.unshift(post);
-  }
-  savePostsToDisk(runtimeBlogStore);
-
+  const featured=String(raw.featured_image||'');
+  if(!validImage(featured))return {success:false,error:'Upload a supported featured image from the site media library'};
+  const post:AdminBlogPost={
+    slug,
+    title_en:raw.title_en.slice(0,180),title_ar:raw.title_ar.slice(0,180),
+    excerpt_en:String(raw.excerpt_en||'').slice(0,500),excerpt_ar:String(raw.excerpt_ar||'').slice(0,500),
+    category:String(raw.category||'VIP Umrah Guide').slice(0,120),featured_image:featured,
+    author:String(raw.author||'Duyuf Al Rahman VIP').slice(0,120),
+    read_time_minutes:Math.max(1,Math.min(90,Number(raw.read_time_minutes)||5)),
+    published_at:current?.published_at || String(raw.published_at || new Date().toISOString().slice(0,10)),
+    is_published:raw.is_published===true,
+    content_en:String(raw.content_en||'').slice(0,150000),
+    content_ar:String(raw.content_ar||'').slice(0,150000),
+  };
+  const db=createServiceClient();
+  const {error}=await db.from('page_content').upsert({
+    page_key:'blog_'+slug,language:'en',seo_title:post.title_en,seo_description:post.excerpt_en,
+    h1:post.title_en,content_blocks:post,updated_at:new Date().toISOString(),
+  },{onConflict:'page_key,language'});
+  if(error)return {success:false,error:'Unable to persist article edits: '+error.message};
   revalidateTag('site_blog');
-  revalidatePath('/[locale]/blog', 'page');
-
-  return { success: true, post };
+  revalidatePath('/[locale]/blog','page');
+  revalidatePath('/[locale]/blog/[slug]','page');
+  return {success:true,post};
 }
 
-export async function deleteBlogPostAdmin(slug: string): Promise<{ success: boolean; error?: string }> {
-  try {
-    const supabase = createServiceClient();
-    const { error } = await supabase
-      .from('page_content')
-      .delete()
-      .eq('page_key', `blog_${slug}`);
-    if (error) {
-      console.warn('Error deleting blog from Supabase:', error);
-      return { success: false, error: `Database persistence unavailable: ${error.message}` };
-    }
-  } catch (err: any) {
-    console.warn('Error deleting blog from Supabase:', err);
-    return { success: false, error: `Database persistence exception: ${err?.message || 'Connection failed'}` };
-  }
-
-  runtimeBlogStore = runtimeBlogStore.filter((p) => p.slug !== slug);
-  savePostsToDisk(runtimeBlogStore);
-
-  revalidateTag('site_blog');
-  revalidatePath('/[locale]/blog', 'page');
-
-  return { success: true };
+export async function deleteBlogPostAdmin(slug:string):Promise<{success:boolean;error?:string}> {
+  const post=(await getAllBlogPostsAdmin()).find(p=>p.slug===slug);
+  if(!post) return {success:false,error:'Article not found'};
+  // Unpublish instead of deleting: protects existing SEO links and editorial history.
+  const result=await upsertBlogPostAdmin({...post,is_published:false});
+  if(!result.success)return result;
+  return {success:true};
 }

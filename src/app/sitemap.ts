@@ -3,6 +3,7 @@ import { LOCALES, Locale, getLocalizedAlternates } from '@/i18n/config';
 import { ZIYARAT_SITES, ZIYARAT_TOURS, ZIYARAT_GUIDES } from '@/data/ziyarat';
 import { PILGRIM_COUNTRIES } from '@/data/pilgrims';
 import { BLOG_POSTS } from '@/data/blog-posts';
+import { getManagedBlogOverridesCached } from '@/lib/blog-service';
 import { ROUTES_COMPREHENSIVE_DATA } from '@/data/routes-data';
 import { COMPREHENSIVE_GUIDES } from '@/data/comprehensive-guides';
 
@@ -13,6 +14,11 @@ export async function generateSitemaps() {
 export default async function sitemap({ id }: { id: string }): Promise<MetadataRoute.Sitemap> {
   const locale = (id as Locale) || 'en';
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
+  const managedPosts=await getManagedBlogOverridesCached();
+  const disabledSlugs=new Set(managedPosts.filter(post=>!post.is_published).map(post=>post.slug));
+  const newBlogSlugs=(locale==='ar'||locale==='en')
+    ? managedPosts.filter(post=>post.is_published && !BLOG_POSTS.some(s=>s.slug===post.slug)).map(post=>post.slug)
+    : [];
   // Do not invent a fresh modification date on every sitemap request.
   // Add lastModified only when a real per-page publish/update timestamp is available.
 
@@ -37,7 +43,8 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
     '/cookies',
     '/guides',
     '/blog',
-    ...BLOG_POSTS.map((post) => `/blog/${post.slug}`),
+    ...BLOG_POSTS.filter(post=>!disabledSlugs.has(post.slug)).map((post) => `/blog/${post.slug}`),
+    ...newBlogSlugs.map(slug=>`/blog/${slug}`),
     '/ziyarat',
     '/ziyarat/makkah',
     '/ziyarat/madinah',
@@ -110,6 +117,12 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
     const changeFrequency = isHome ? 'daily' : 'weekly';
 
     const alternates = getLocalizedAlternates(locale, path);
+    if (newBlogSlugs.some(slug => path === '/blog/' + slug)) {
+      alternates.languages = {
+        en: baseUrl + '/en' + path,
+        ar: baseUrl + '/ar' + path,
+      };
+    }
 
     // If path is a comprehensive guide, only include verified localized alternates (ar & en) to protect hreflang integrity
     let alternateLanguages = alternates.languages;

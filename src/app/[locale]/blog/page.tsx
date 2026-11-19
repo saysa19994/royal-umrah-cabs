@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Locale, getLocalizedAlternates, LOCALES, LOCALE_CONFIG } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
-import { getEditorialPosts } from '@/lib/blog-editorial-mapper';
+import { getManagedEditorialPosts } from '@/lib/blog-editorial-mapper';
 import { EditorialBlogExperience } from '@/components/blog/EditorialBlogExperience';
 import { Sparkles } from 'lucide-react';
 
@@ -76,7 +76,7 @@ export default async function BlogIndexPage(props: BlogIndexProps) {
   const { locale } = params;
   const dict = getDictionary(locale);
   const settings = await getSiteSettings();
-  const blogPosts = getEditorialPosts(locale);
+  const blogPosts = await getManagedEditorialPosts(locale);
   const localeMeta = LOCALE_CONFIG[locale] || LOCALE_CONFIG.en;
   const isRtl = localeMeta.dir === 'rtl';
 
