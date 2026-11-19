@@ -181,7 +181,7 @@ export async function upsertFaqAdmin(
     const db = createServiceClient();
     const { data, error } = await db.from('page_content').upsert({
       page_key: FAQ_KEY_PREFIX + faq.id, language: 'all',
-      seo_title: (faq.question_translations.en || faq.question_translations.ar).slice(0,200),
+      seo_title: (faq.question_translations.en || faq.question_translations.ar || '').slice(0,200),
       seo_description: '', h1: '',
       content_blocks: { faq, deleted: false },
       updated_at: new Date().toISOString(),

@@ -33,3 +33,12 @@ test('operational FAQ editing requires manager and never promotes online payment
  assert.doesNotMatch(ui,/Saudi Bank Transfer/);
  assert.match(read('src/lib/faq-service.ts'),/forbiddenFlags/);
 });
+
+test('empty published FAQ registry does not resurrect hard-coded questions',()=>{
+  const page=read('src/app/[locale]/faq/page.tsx');
+  const section=read('src/components/faq/FaqSection.tsx');
+  const seo=read('src/components/seo/JsonLd.tsx');
+  assert.match(page,/const faqItems = dbFaqs;/);
+  assert.match(section,/const faqItems = items \?\? fallbackItems/);
+  assert.match(seo,/if \(faqList\.length === 0\) return null/);
+});

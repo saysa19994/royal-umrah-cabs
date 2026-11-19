@@ -51,10 +51,11 @@ export default async function FaqPage(props: FaqPageProps) {
   const dict = getDictionary(locale);
   const [settings, dbFaqs] = await Promise.all([
     getSiteSettings(),
-    getPublicFaqsCached(locale).catch(() => []),
+    getPublicFaqsCached(locale).catch(() => undefined),
   ]);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
-  const faqItems = dbFaqs.length > 0 ? dbFaqs : undefined;
+  const faqItems = dbFaqs;
+  // [] is a valid editorial decision: do not recreate unpublished questions.
 
   const breadcrumbsSchema = {
     '@context': 'https://schema.org',

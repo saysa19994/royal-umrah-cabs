@@ -156,7 +156,7 @@ export function FaqSection({
     { q: dict.faq.q12, a: dict.faq.a12 },
   ].filter((item) => Boolean(item.q && item.a));
 
-  const faqItems = items && items.length > 0 ? items : fallbackItems;
+  const faqItems = items ?? fallbackItems;
 
   const whatsappNumber = settings?.whatsapp_number || '966567588261';
 
