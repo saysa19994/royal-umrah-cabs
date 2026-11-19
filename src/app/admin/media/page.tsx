@@ -368,20 +368,20 @@ export default function AdminMediaPage() {
   }, [vehicles]);
 
   return (
-    <div className="space-y-6">
+    <div className="vip-internal-editorial space-y-6">
       {/* 1. TOP HEADER */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="w-2 h-2 rounded-full bg-[#C9A24B] animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-wider text-[#C9A24B]">
+            <span className="w-2 h-2 rounded-full bg-[#0A6364] animate-pulse" />
+            <span className="text-xs font-bold uppercase tracking-wider text-[#92612D]">
               إدارة الأسطول والوسائط السحابية
             </span>
           </div>
           <h1 className="text-2xl md:text-3xl font-extrabold text-white">
             التحكم في ظهور السيارات والصور الداخلية والخارجية
           </h1>
-          <p className="text-xs sm:text-sm text-[#8E9CAE] mt-0.5">
+          <p className="text-xs sm:text-sm text-[#697984] mt-0.5">
             تحكم كامل في إظهار أو إخفاء أي سيارة من الموقع الحي، وتعيين الصور الخارجية والمقصورة الداخلية بضغطة زر واحدة.
           </p>
         </div>
@@ -390,9 +390,9 @@ export default function AdminMediaPage() {
           <button
             onClick={() => fetchVehicles()}
             disabled={loading}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#101726] hover:bg-[#151D2C] border border-[#1F2C42] text-xs font-bold text-white transition-all disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#FFFBF5] hover:bg-[#F7EEE1] border border-[#E3D3BD] text-xs font-bold text-white transition-all disabled:opacity-50"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#C9A24B]' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#92612D]' : ''}`} />
             <span>تحديث</span>
           </button>
 
@@ -403,7 +403,7 @@ export default function AdminMediaPage() {
               setSelectedFile(null);
               setIsUploadModalOpen(true);
             }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#C9A24B] to-[#E6C773] hover:brightness-110 text-xs font-extrabold text-[#0B0F17] transition-all shadow-[0_2px_12px_rgba(201,162,75,0.35)]"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#0B6D6E] to-[#E6C773] hover:brightness-110 text-xs font-extrabold text-[#FFFAF2] transition-all shadow-[0_2px_12px_rgba(201,162,75,0.35)]"
           >
             <Upload className="w-4 h-4" />
             <span>رفع صورة جديدة</span>
@@ -413,20 +413,20 @@ export default function AdminMediaPage() {
 
       {/* 2. STATS SUMMARY STRIP */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-3.5 rounded-xl bg-[#101726] border border-[#1F2C42]">
+        <div className="p-3.5 rounded-xl bg-[#FFFBF5] border border-[#E3D3BD]">
           <span className="text-[11px] font-bold text-slate-400 block">إجمالي سيارات الأسطول</span>
           <span className="text-xl font-bold font-mono text-white mt-1 block">{vehicles.length} فئات</span>
         </div>
-        <div className="p-3.5 rounded-xl bg-[#101726] border border-emerald-500/30">
+        <div className="p-3.5 rounded-xl bg-[#FFFBF5] border border-emerald-500/30">
           <span className="text-[11px] font-bold text-emerald-400 block">معروضة في الموقع الحي</span>
           <span className="text-xl font-bold font-mono text-emerald-400 mt-1 block">{activeVehiclesCount} سيارات</span>
         </div>
-        <div className="p-3.5 rounded-xl bg-[#101726] border border-rose-500/30">
+        <div className="p-3.5 rounded-xl bg-[#FFFBF5] border border-rose-500/30">
           <span className="text-[11px] font-bold text-rose-400 block">مخفية عن الزوار</span>
           <span className="text-xl font-bold font-mono text-rose-400 mt-1 block">{vehicles.length - activeVehiclesCount} سيارات</span>
         </div>
-        <div className="p-3.5 rounded-xl bg-[#101726] border border-[#C9A24B]/30">
-          <span className="text-[11px] font-bold text-[#E6C773] block">حالة التخزين السحابي</span>
+        <div className="p-3.5 rounded-xl bg-[#FFFBF5] border border-[#C29B65]/30">
+          <span className="text-[11px] font-bold text-[#94672E] block">حالة التخزين السحابي</span>
           <span className="text-xs font-bold text-white mt-1.5 flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" />
             <span>Supabase Storage متصل</span>
@@ -439,8 +439,8 @@ export default function AdminMediaPage() {
         <div
           className={`p-4 rounded-xl border flex items-center justify-between gap-3 text-xs font-bold animate-in fade-in duration-200 ${
             feedback.type === 'success'
-              ? 'bg-emerald-950/50 border-emerald-500/50 text-emerald-300'
-              : 'bg-rose-950/50 border-rose-500/50 text-rose-300'
+              ? 'bg-emerald-950/50 border-emerald-500/50 text-emerald-700'
+              : 'bg-rose-950/50 border-rose-500/50 text-rose-700'
           }`}
         >
           <div className="flex items-center gap-2">
@@ -463,8 +463,8 @@ export default function AdminMediaPage() {
           onClick={() => setSelectedVehicleId('all')}
           className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
             selectedVehicleId === 'all'
-              ? 'bg-gradient-to-r from-[#C9A24B] to-[#E6C773] text-[#0B0F17] shadow-sm'
-              : 'bg-[#101726] hover:bg-[#151D2C] text-slate-300 border border-[#1F2C42]'
+              ? 'bg-gradient-to-r from-[#0B6D6E] to-[#E6C773] text-[#FFFAF2] shadow-sm'
+              : 'bg-[#FFFBF5] hover:bg-[#F7EEE1] text-slate-300 border border-[#E3D3BD]'
           }`}
         >
           <span>كل سيارات الأسطول</span>
@@ -479,8 +479,8 @@ export default function AdminMediaPage() {
             onClick={() => setSelectedVehicleId(v.id)}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
               selectedVehicleId === v.id
-                ? 'bg-gradient-to-r from-[#C9A24B] to-[#E6C773] text-[#0B0F17] shadow-sm'
-                : 'bg-[#101726] hover:bg-[#151D2C] text-slate-300 border border-[#1F2C42]'
+                ? 'bg-gradient-to-r from-[#0B6D6E] to-[#E6C773] text-[#FFFAF2] shadow-sm'
+                : 'bg-[#FFFBF5] hover:bg-[#F7EEE1] text-slate-300 border border-[#E3D3BD]'
             }`}
           >
             <span
@@ -497,11 +497,11 @@ export default function AdminMediaPage() {
       {/* 5. MAIN VEHICLE MEDIA STATIONS */}
       {loading ? (
         <div className="py-20 text-center text-slate-400 flex flex-col items-center justify-center gap-3">
-          <RefreshCw className="w-7 h-7 animate-spin text-[#C9A24B]" />
+          <RefreshCw className="w-7 h-7 animate-spin text-[#92612D]" />
           <span className="text-xs font-semibold">جارٍ تحميل بيانات وصور الأسطول...</span>
         </div>
       ) : filteredVehicles.length === 0 ? (
-        <div className="py-16 text-center text-slate-400 bg-[#101726] rounded-2xl border border-[#1F2C42]">
+        <div className="py-16 text-center text-slate-400 bg-[#FFFBF5] rounded-2xl border border-[#E3D3BD]">
           <Car className="w-10 h-10 mx-auto mb-2 text-slate-600" />
           <span className="text-sm font-bold text-white block">لا توجد سيارات مطابقة</span>
         </div>
@@ -518,25 +518,25 @@ export default function AdminMediaPage() {
             return (
               <div
                 key={vehicle.id}
-                className={`p-6 rounded-2xl bg-[#101726] border transition-all duration-300 space-y-6 ${
-                  vehicle.is_active ? 'border-[#1F2C42]' : 'border-rose-900/40 opacity-90'
+                className={`p-6 rounded-2xl bg-[#FFFBF5] border transition-all duration-300 space-y-6 ${
+                  vehicle.is_active ? 'border-[#E3D3BD]' : 'border-rose-900/40 opacity-90'
                 }`}
               >
                 {/* VEHICLE CONTROL HEADER */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#1F2C42]">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#E3D3BD]">
                   <div className="flex items-center gap-3.5">
-                    <div className="w-12 h-12 rounded-xl bg-[#0B0F17] border border-[#C9A24B]/40 flex items-center justify-center text-[#E6C773] shrink-0 shadow-inner">
+                    <div className="w-12 h-12 rounded-xl bg-[#F7EFE5] border border-[#C29B65]/40 flex items-center justify-center text-[#94672E] shrink-0 shadow-inner">
                       <Car className="w-6 h-6" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2.5">
                         <h2 className="text-lg font-extrabold text-white">{vehicle.name}</h2>
-                        <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#0B0F17] text-[#E6C773] border border-[#C9A24B]/30 font-extrabold uppercase">
+                        <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#F7EFE5] text-[#94672E] border border-[#C29B65]/30 font-extrabold uppercase">
                           {vehicle.category}
                         </span>
                       </div>
                       <span className="text-xs text-slate-400">
-                        معرف النظام: <code className="text-[#C9A24B] font-mono">{vehicle.id}</code> • {vehicle.seats} ركاب • {vehicle.bags} حقائب
+                        معرف النظام: <code className="text-[#92612D] font-mono">{vehicle.id}</code> • {vehicle.seats} ركاب • {vehicle.bags} حقائب
                       </span>
                     </div>
                   </div>
@@ -549,8 +549,8 @@ export default function AdminMediaPage() {
                       onClick={() => handleToggleActive(vehicle.id, vehicle.is_active)}
                       className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-black border transition-all shadow-sm ${
                         vehicle.is_active
-                          ? 'bg-emerald-950/60 hover:bg-rose-950/50 text-emerald-300 hover:text-rose-300 border-emerald-500/50 hover:border-rose-500/50'
-                          : 'bg-rose-950/60 hover:bg-emerald-950/50 text-rose-300 hover:text-emerald-300 border-rose-500/50 hover:border-emerald-500/50'
+                          ? 'bg-emerald-950/60 hover:bg-rose-950/50 text-emerald-700 hover:text-rose-700 border-emerald-500/50 hover:border-rose-500/50'
+                          : 'bg-rose-950/60 hover:bg-emerald-950/50 text-rose-700 hover:text-emerald-700 border-rose-500/50 hover:border-emerald-500/50'
                       }`}
                       title={vehicle.is_active ? 'انقر لإخفاء السيارة من الموقع' : 'انقر لإظهار السيارة في الموقع'}
                     >
@@ -574,7 +574,7 @@ export default function AdminMediaPage() {
                         setSelectedFile(null);
                         setIsUploadModalOpen(true);
                       }}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#151D2C] hover:bg-[#1F2C42] border border-[#1F2C42] text-xs font-bold text-[#E6C773] transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#F7EEE1] hover:bg-[#1F2C42] border border-[#E3D3BD] text-xs font-bold text-[#94672E] transition-colors"
                     >
                       <Plus className="w-3.5 h-3.5" />
                       <span>إضافة صورة أخرى</span>
@@ -585,18 +585,18 @@ export default function AdminMediaPage() {
                 {/* DUAL SHOWCASE: EXTERIOR AND INTERIOR DIRECT CONTROL */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* CARD 1: MAIN EXTERIOR PHOTO */}
-                  <div className="p-4 rounded-xl bg-[#0B0F17] border-2 border-[#C9A24B]/40 hover:border-[#C9A24B] transition-all space-y-3">
+                  <div className="p-4 rounded-xl bg-[#F7EFE5] border-2 border-[#C29B65]/40 hover:border-[#C29B65] transition-all space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-extrabold text-[#E6C773] flex items-center gap-1.5">
-                        <Star className="w-3.5 h-3.5 fill-[#C9A24B] text-[#C9A24B]" />
+                      <span className="text-xs font-extrabold text-[#94672E] flex items-center gap-1.5">
+                        <Star className="w-3.5 h-3.5 fill-[#C9A24B] text-[#92612D]" />
                         <span>الصورة الخارجية الرئيسية (Exterior Studio)</span>
                       </span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 font-bold">
+                      <span className="text-[10px] px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-700 font-bold">
                         تظهر في كرت السيارة بالرئيسية
                       </span>
                     </div>
 
-                    <div className="relative w-full h-56 rounded-lg bg-[#070A10] overflow-hidden flex items-center justify-center border border-[#1F2C42]">
+                    <div className="relative w-full h-56 rounded-lg bg-[#F8F0E6] overflow-hidden flex items-center justify-center border border-[#E3D3BD]">
                       <Image
                         src={ext}
                         alt={`${vehicle.name} Exterior`}
@@ -617,7 +617,7 @@ export default function AdminMediaPage() {
                       <span className="text-[10px] font-mono text-slate-400 truncate max-w-[180px]">
                         {ext.split('/').pop()}
                       </span>
-                      <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#C9A24B] to-[#E6C773] hover:brightness-110 text-xs font-black text-[#0B0F17] cursor-pointer transition-all shadow-sm">
+                      <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#0B6D6E] to-[#E6C773] hover:brightness-110 text-xs font-black text-[#FFFAF2] cursor-pointer transition-all shadow-sm">
                         <Upload className={`w-3.5 h-3.5 ${isExtUploading ? 'animate-bounce' : ''}`} />
                         <span>{isExtUploading ? 'جارٍ الرفع...' : 'تغيير الصورة الخارجية من PC'}</span>
                         <input
@@ -635,18 +635,18 @@ export default function AdminMediaPage() {
                   </div>
 
                   {/* CARD 2: LUXURY CABIN INTERIOR PHOTO */}
-                  <div className="p-4 rounded-xl bg-[#0B0F17] border-2 border-[#C9A24B]/40 hover:border-[#C9A24B] transition-all space-y-3">
+                  <div className="p-4 rounded-xl bg-[#F7EFE5] border-2 border-[#C29B65]/40 hover:border-[#C29B65] transition-all space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-extrabold text-[#E6C773] flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-[#C9A24B]" />
+                      <span className="text-xs font-extrabold text-[#94672E] flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-[#92612D]" />
                         <span>صورة المقصورة الداخلية (Luxury Cabin Interior)</span>
                       </span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-md bg-[#C9A24B]/20 text-[#E6C773] font-bold">
+                      <span className="text-[10px] px-2 py-0.5 rounded-md bg-[#0A6364]/20 text-[#94672E] font-bold">
                         تظهر في استعراض راحة المقاعد
                       </span>
                     </div>
 
-                    <div className="relative w-full h-56 rounded-lg bg-[#070A10] overflow-hidden flex items-center justify-center border border-[#1F2C42]">
+                    <div className="relative w-full h-56 rounded-lg bg-[#F8F0E6] overflow-hidden flex items-center justify-center border border-[#E3D3BD]">
                       <Image
                         src={int}
                         alt={`${vehicle.name} Interior`}
@@ -667,7 +667,7 @@ export default function AdminMediaPage() {
                       <span className="text-[10px] font-mono text-slate-400 truncate max-w-[180px]">
                         {int.split('/').pop()}
                       </span>
-                      <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#C9A24B] to-[#E6C773] hover:brightness-110 text-xs font-black text-[#0B0F17] cursor-pointer transition-all shadow-sm">
+                      <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#0B6D6E] to-[#E6C773] hover:brightness-110 text-xs font-black text-[#FFFAF2] cursor-pointer transition-all shadow-sm">
                         <Upload className={`w-3.5 h-3.5 ${isIntUploading ? 'animate-bounce' : ''}`} />
                         <span>{isIntUploading ? 'جارٍ الرفع...' : 'تغيير الصورة الداخلية من PC'}</span>
                         <input
@@ -695,9 +695,9 @@ export default function AdminMediaPage() {
                       {gallery.map((imgUrl, gIdx) => (
                         <div
                           key={imgUrl + gIdx}
-                          className="group relative rounded-xl bg-[#0B0F17] border border-[#1F2C42] overflow-hidden flex flex-col justify-between"
+                          className="group relative rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] overflow-hidden flex flex-col justify-between"
                         >
-                          <div className="relative w-full h-32 bg-[#070A10]">
+                          <div className="relative w-full h-32 bg-[#F8F0E6]">
                             <Image
                               src={imgUrl}
                               alt="Gallery Item"
@@ -713,17 +713,17 @@ export default function AdminMediaPage() {
                               <Maximize2 className="w-3 h-3" />
                             </button>
                           </div>
-                          <div className="p-2 space-y-1.5 bg-[#0B0F17] border-t border-[#1F2C42]">
+                          <div className="p-2 space-y-1.5 bg-[#F7EFE5] border-t border-[#E3D3BD]">
                             <div className="grid grid-cols-2 gap-1">
                               <button
                                 onClick={() => handleSetMainPhoto(vehicle.id, imgUrl)}
-                                className="py-1 px-1.5 rounded bg-[#151D2C] hover:bg-[#C9A24B] hover:text-black text-[10px] font-bold text-slate-300 transition-colors"
+                                className="py-1 px-1.5 rounded bg-[#F7EEE1] hover:bg-[#0A6364] hover:text-black text-[10px] font-bold text-slate-300 transition-colors"
                               >
                                 كصورة خارجية
                               </button>
                               <button
                                 onClick={() => handleSetInteriorPhoto(vehicle.id, imgUrl)}
-                                className="py-1 px-1.5 rounded bg-[#151D2C] hover:bg-[#C9A24B] hover:text-black text-[10px] font-bold text-slate-300 transition-colors"
+                                className="py-1 px-1.5 rounded bg-[#F7EEE1] hover:bg-[#0A6364] hover:text-black text-[10px] font-bold text-slate-300 transition-colors"
                               >
                                 كصورة داخلية
                               </button>
@@ -749,10 +749,10 @@ export default function AdminMediaPage() {
       {/* 6. UPLOAD NEW PHOTO MODAL */}
       {isUploadModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-[#101726] border border-[#1F2C42] rounded-2xl max-w-lg w-full p-6 space-y-5 text-start shadow-2xl">
-            <div className="flex items-center justify-between pb-3 border-b border-[#1F2C42]">
+          <div className="bg-[#FFFBF5] border border-[#E3D3BD] rounded-2xl max-w-lg w-full p-6 space-y-5 text-start shadow-2xl">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E3D3BD]">
               <div className="flex items-center gap-2">
-                <Upload className="w-5 h-5 text-[#C9A24B]" />
+                <Upload className="w-5 h-5 text-[#92612D]" />
                 <h3 className="text-base font-extrabold text-white">رفع صورة جديدة وتخصيصها للسيارة</h3>
               </div>
               <button
@@ -770,7 +770,7 @@ export default function AdminMediaPage() {
                 <select
                   value={uploadVehicleTarget}
                   onChange={(e) => setUploadVehicleTarget(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#0B0F17] border border-[#1F2C42] text-xs text-white focus:outline-none focus:border-[#C9A24B]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] text-xs text-white focus:outline-none focus:border-[#C29B65]"
                 >
                   {vehicles.map((v) => (
                     <option key={v.id} value={v.id}>
@@ -788,8 +788,8 @@ export default function AdminMediaPage() {
                     onClick={() => setPhotoRole('exterior')}
                     className={`py-2 px-3 rounded-xl text-xs font-bold border transition-colors ${
                       photoRole === 'exterior'
-                        ? 'bg-[#C9A24B] text-[#0B0F17] border-[#C9A24B]'
-                        : 'bg-[#0B0F17] text-slate-300 border-[#1F2C42]'
+                        ? 'bg-[#0A6364] text-[#FFFAF2] border-[#C29B65]'
+                        : 'bg-[#F7EFE5] text-slate-300 border-[#E3D3BD]'
                     }`}
                   >
                     ★ خارجية رئيسية
@@ -799,8 +799,8 @@ export default function AdminMediaPage() {
                     onClick={() => setPhotoRole('interior')}
                     className={`py-2 px-3 rounded-xl text-xs font-bold border transition-colors ${
                       photoRole === 'interior'
-                        ? 'bg-[#C9A24B] text-[#0B0F17] border-[#C9A24B]'
-                        : 'bg-[#0B0F17] text-slate-300 border-[#1F2C42]'
+                        ? 'bg-[#0A6364] text-[#FFFAF2] border-[#C29B65]'
+                        : 'bg-[#F7EFE5] text-slate-300 border-[#E3D3BD]'
                     }`}
                   >
                     مقصورة داخلية
@@ -810,8 +810,8 @@ export default function AdminMediaPage() {
                     onClick={() => setPhotoRole('gallery')}
                     className={`py-2 px-3 rounded-xl text-xs font-bold border transition-colors ${
                       photoRole === 'gallery'
-                        ? 'bg-[#C9A24B] text-[#0B0F17] border-[#C9A24B]'
-                        : 'bg-[#0B0F17] text-slate-300 border-[#1F2C42]'
+                        ? 'bg-[#0A6364] text-[#FFFAF2] border-[#C29B65]'
+                        : 'bg-[#F7EFE5] text-slate-300 border-[#E3D3BD]'
                     }`}
                   >
                     معرض إضافي
@@ -832,17 +832,17 @@ export default function AdminMediaPage() {
                       setFilePreview(URL.createObjectURL(file));
                     }
                   }}
-                  className="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#151D2C] file:text-[#E6C773] hover:file:bg-[#1F2C42] cursor-pointer"
+                  className="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#F7EEE1] file:text-[#94672E] hover:file:bg-[#1F2C42] cursor-pointer"
                 />
               </div>
 
               {filePreview && (
-                <div className="relative w-full h-40 rounded-xl bg-[#0B0F17] border border-[#1F2C42] overflow-hidden flex items-center justify-center">
+                <div className="relative w-full h-40 rounded-xl bg-[#F7EFE5] border border-[#E3D3BD] overflow-hidden flex items-center justify-center">
                   <Image src={filePreview} alt="Preview" fill unoptimized className="object-contain p-2" />
                 </div>
               )}
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#1F2C42]">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#E3D3BD]">
                 <button
                   type="button"
                   onClick={() => setIsUploadModalOpen(false)}
@@ -853,7 +853,7 @@ export default function AdminMediaPage() {
                 <button
                   type="submit"
                   disabled={!selectedFile || isUploading}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#C9A24B] to-[#E6C773] text-[#0B0F17] font-black text-xs transition-all shadow-md disabled:opacity-50"
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#0B6D6E] to-[#E6C773] text-[#FFFAF2] font-black text-xs transition-all shadow-md disabled:opacity-50"
                 >
                   {isUploading ? 'جارٍ الرفع سحابياً...' : 'رفع وحفظ على الموقع'}
                 </button>
