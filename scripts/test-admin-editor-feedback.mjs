@@ -48,11 +48,12 @@ test('admin CMS registry fails closed when Supabase cannot read saved content',(
  assert.doesNotMatch(registry,/return Object\.values\(memoryCmsStore\)/);
 });
 
-test('blog content fails closed instead of re-publishing withdrawn posts after a database outage',()=>{
+test('blog admin uses strict database reads while public build has a safe availability fallback',()=>{
  const s=r('src/lib/blog-service.ts');
- const start=s.indexOf('export const getManagedBlogOverridesCached');
- const end=s.indexOf('export async function getManagedBlogPost(');
- const block=s.slice(start,end);
- assert.match(block,/throw new Error\('Blog CMS registry unavailable'\)/);
- assert.doesNotMatch(block,/return \[\];/);
+ const reader=s.slice(s.indexOf('async function readManagedBlogOverridesFromDb'),s.indexOf('export const getManagedBlogOverridesCached'));
+ const admin=s.slice(s.indexOf('export async function getAllBlogPostsAdmin'),s.indexOf('function validImage('));
+ assert.match(reader,/throw new Error\('Blog CMS registry unavailable'\)/);
+ assert.match(admin,/readManagedBlogOverridesFromDb\(\)/);
+ assert.doesNotMatch(admin,/getManagedBlogOverridesCached\(\)/);
+ assert.match(s,/const current=\(await readManagedBlogOverridesFromDb\(\)\)/);
 });
