@@ -8,7 +8,7 @@ const styles=read('src/components/home/SignatureJourneyHomepage.module.css');
 
 test('Royal Immersion is mounted and Signature Journey V4 remains a rollback reference',()=>{
   assert.match(page,/import SignatureFusionHomepage from '@\/components\/fusion\/SignatureFusionHomepage'/);
-  assert.match(page,/<SignatureFusionHomepage\s+locale=\{locale\}\s+rates=\{rates\}\s+dict=\{dict\}/);
+  assert.match(page,/<SignatureFusionHomepage[\s\S]*?locale=\{locale\}[\s\S]*?rates=\{rates\}[\s\S]*?dict=\{dict\}/);
   assert.doesNotMatch(page,/<JourneyArchitectHomepage/);
   assert.doesNotMatch(page,/<SignatureJourneyHomepage/);
   assert.doesNotMatch(page,/<PrivateJourneyHomepage/);

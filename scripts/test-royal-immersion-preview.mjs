@@ -37,7 +37,8 @@ test('Royal Immersion uses the original hero film, mobile encode and poster', ()
     assert.ok(homepage.includes(name), `Unused hero media ${name}`);
     assert.ok(statSync(file('public' + name)).size > 0, `Empty hero media ${name}`);
   }
-  assert.match(homepage, /poster=\{POSTER\}/);
+  assert.match(homepage, /poster=\{poster \|\| POSTER\}/);
+  assert.match(app, /getSiteImagesCached/);
   assert.match(homepage, /muted\s+loop\s+playsInline/);
   assert.match(homepage, /requestedMotion\.current\s*\?\?\s*!reduced\.matches/);
   assert.match(homepage, /document\.hidden/);
@@ -139,9 +140,10 @@ test('All ten locales receive Royal Immersion through their existing homepage UR
   }
   assert.equal(new Set(Object.values(copy).map(({ heroLine1 }) => heroLine1)).size, LOCALES.length);
 
-  assert.match(app, /<SignatureFusionHomepage\s+locale=\{locale\}\s+rates=\{rates\}\s+dict=\{dict\}/);
+  assert.match(app, /<SignatureFusionHomepage[\s\S]*?locale=\{locale\}[\s\S]*?rates=\{rates\}[\s\S]*?dict=\{dict\}/);
   assert.doesNotMatch(app, /JourneyArchitectHomepage|locale\s*===/);
   assert.match(homepage, /COPY\[locale\]/);
+  assert.match(homepage, /\.\.\.homeCopy/);
   assert.match(homepage, /dir=\{dir\} lang=\{locale\}/);
 });
 

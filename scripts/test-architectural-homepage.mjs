@@ -6,7 +6,8 @@ const page=read('src/app/[locale]/page.tsx');
 const jsx=read('src/components/home/JourneyArchitectHomepage.tsx');
 const css=read('src/components/home/JourneyArchitectHomepage.module.css');
 test('the current homepage mounts Royal Immersion and retains the architectural rollback component',()=>{
- assert.match(page,/<SignatureFusionHomepage\s+locale=\{locale\}\s+rates=\{rates\}\s+dict=\{dict\}/);
+ assert.match(page,/<SignatureFusionHomepage[\s\S]*?locale=\{locale\}[\s\S]*?rates=\{rates\}[\s\S]*?dict=\{dict\}/);
+ assert.match(page, /siteImages=\{siteImages\}/);
  assert.doesNotMatch(page,/<(?:JourneyArchitectHomepage|SignatureJourneyHomepage)/);
  assert.match(page,/<HomepageFaqJsonLd dict=\{dict\}/);
  assert.doesNotMatch(css,/SignatureJourneyHomepage|\\.container/);
