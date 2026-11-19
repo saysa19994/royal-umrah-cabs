@@ -12,6 +12,7 @@ import { ShieldCheck, Plane, Banknote } from 'lucide-react';
 import { getDbPricesCached } from '@/lib/pricing-db';
 import { getBookingDraft } from '@/lib/booking-draft-store';
 import { getSiteImagesCached } from '@/lib/site-images';
+import { getPublishedPageCopy } from '@/lib/public-page-copy';
 
 interface BookingPageProps {
   params: Promise<{
@@ -133,10 +134,11 @@ export async function generateMetadata(
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
+  const cms = await getPublishedPageCopy('booking',locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   return {
-    title: dict.nav.bookNow,
-    description: PAGE_TEXT[locale]?.subtitle || PAGE_TEXT.en.subtitle,
+    title: cms.seoTitle || dict.nav.bookNow,
+    description: cms.seoDescription || PAGE_TEXT[locale]?.subtitle || PAGE_TEXT.en.subtitle,
     alternates: getLocalizedAlternates(locale, '/booking'),
   };
 }
@@ -166,7 +168,13 @@ export default async function BookingPage(props: BookingPageProps) {
   const dict = getDictionary(locale);
   const settings = await getSiteSettings();
  const images = await getSiteImagesCached();
-  const pageText = PAGE_TEXT[locale] || PAGE_TEXT.en;
+  const cms = await getPublishedPageCopy('booking',locale);
+  const defaults = PAGE_TEXT[locale] || PAGE_TEXT.en;
+  const pageText = {
+    ...defaults,
+    badge: typeof cms.contentBlocks.badge === 'string' && cms.contentBlocks.badge.trim()
+      ? cms.contentBlocks.badge : defaults.badge,
+  };
 
   const initialType = (['transfer', 'hourly', 'ziyarat', 'group_bus'].includes(searchParams.type || '')
     ? searchParams.type
@@ -214,7 +222,7 @@ export default async function BookingPage(props: BookingPageProps) {
       <header className={styles.intro} aria-labelledby="duyuf-booking-heading">
         <div className={styles.introCopy}>
           <div className={styles.serial}>{pageText.badge}</div>
-          <h1 id="duyuf-booking-heading">{locale === 'ar' ? <>احجز <span>رحلتك</span> بسهولة وأمان</> : pageText.title}</h1>
+          <h1 id="duyuf-booking-heading">{cms.h1 || (locale === 'ar' ? <>احجز <span>رحلتك</span> بسهولة وأمان</> : pageText.title)}</h1>
           <a className={styles.startLink} href="#booking-reservation">{dict.nav.bookNow}</a>
         </div>
         <div className={styles.introMedia}>

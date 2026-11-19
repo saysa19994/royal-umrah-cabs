@@ -23,6 +23,7 @@ const PAGES_LIST = [
   { id: 'routes', title: 'VIP Routes (/routes)' },
   { id: 'services', title: 'Chauffeur Services (/services)' },
   { id: 'contact', title: 'Contact & Dispatch (/contact)' },
+  { id: 'booking', title: 'Booking Request (/booking)' },
   { id: 'riyadh', title: 'Riyadh Hub (/riyadh)' },
   { id: 'taif', title: 'Taif Hub (/taif)' },
   { id: 'ziyarat', title: 'Holy Ziyarat Tours (/ziyarat)' },
@@ -134,7 +135,7 @@ export default function AdminCmsPage() {
             Page Content &amp; CMS
           </h1>
           <p className="text-sm text-[#697984] mt-0.5">
-            SEO title, H1 and selected body copy are connected across the published page templates. The homepage has a separate visual editor.
+            SEO title, H1 and selected editorial copy are connected across published pages. Booking fares and cash policy remain protected. Use the dedicated homepage editor for homepage text.
           </p>
         </div>
 
@@ -193,7 +194,7 @@ export default function AdminCmsPage() {
                 >
                   <span className="truncate">{p.title}</span>
                   <span className="ms-2 shrink-0 text-[9px] font-medium text-[#697984]">
-                    {['about','services','contact','fleet','pricing','routes','ziyarat'].includes(p.id)?'Live CMS':'Dedicated / planned'}
+                    {['about','services','contact','fleet','pricing','routes','ziyarat','booking'].includes(p.id)?'Live CMS':'Dedicated / planned'}
                   </span>
                   <div className="flex items-center gap-1">
                     {hasEn && <span className="w-1.5 h-1.5 rounded-full bg-blue-400" title="English Ready" />}
@@ -236,7 +237,7 @@ export default function AdminCmsPage() {
 
           {/* Form */}
           <form onSubmit={handleSave} className="space-y-4">
-          {['about','services','contact','fleet','pricing','routes','ziyarat'].includes(selectedPage) && (
+          {['about','services','contact','fleet','pricing','routes','ziyarat','booking'].includes(selectedPage) && (
             <section className="rounded-xl border border-[#dfc4a2] bg-white p-4">
               <h3 className="text-sm font-bold text-[#193746]">Editable page text</h3>
               <p className="mt-1 text-xs text-[#697984]">Only saved non-empty fields override the site's original translation. Use the dedicated homepage editor for homepage copy.</p>
@@ -253,6 +254,8 @@ export default function AdminCmsPage() {
                 ]:selectedPage==='contact'?[
                   ['title','Contact heading'],['subtitle','Contact introductory text'],
                   ['formTitle','Contact form title'],
+                ]:selectedPage==='booking'?[
+                  ['badge','Booking page eyebrow (not booking price or payment terms)'],
                 ]:[
                   ['subtitle','Page introduction (editable, not the payment policy)'],
                 ]).map(([field,label])=>{

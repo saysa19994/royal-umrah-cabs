@@ -1,8 +1,13 @@
 import { createServiceClient } from '@/lib/supabase/service';
 import { unstable_cache, revalidateTag, revalidatePath } from 'next/cache';
 import { CmsPageRecord } from '@/types/content';
-import { Locale } from '@/i18n/config';
+import { Locale, LOCALES } from '@/i18n/config';
 import { logAuditEvent } from '@/lib/audit';
+
+export const EDITABLE_CMS_PAGES = ['home','about','fleet','pricing','routes','services','contact','booking','ziyarat','riyadh','taif'] as const;
+export function isEditableCmsPageKey(key: unknown): key is typeof EDITABLE_CMS_PAGES[number] {
+  return typeof key === 'string' && EDITABLE_CMS_PAGES.some(p => p === key);
+}
 
 // In-memory fallback in case of transient DB lookup
 const memoryCmsStore: Record<string, CmsPageRecord> = {};
@@ -48,6 +53,7 @@ export async function getAllCmsPagesAdmin(): Promise<CmsPageRecord[]> {
     const { data, error } = await supabase
       .from('page_content')
       .select('*')
+      .in('page_key',[...EDITABLE_CMS_PAGES])
       .order('page_key', { ascending: true });
 
     if (!error && data && data.length > 0) {
@@ -69,8 +75,16 @@ export async function upsertCmsPageAdmin(
   userRole: any,
   ip?: string
 ): Promise<{ success: boolean; record?: CmsPageRecord; error?: string }> {
-  if (!record.page_key || !record.language || !record.seo_title) {
-    return { success: false, error: 'Missing required CMS page fields (page_key, language, seo_title)' };
+  if (!isEditableCmsPageKey(record.page_key) || !LOCALES.includes(record.language)) {
+    return { success:false, error:'Unsupported CMS page or language' };
+  }
+  if (typeof record.seo_title !== 'string' || record.seo_title.trim().length < 3 ||
+      record.seo_title.length > 200 || typeof record.seo_description !== 'string' ||
+      record.seo_description.length > 500 || typeof record.h1 !== 'string' ||
+      record.h1.length > 240 || !record.content_blocks ||
+      typeof record.content_blocks !== 'object' || Array.isArray(record.content_blocks) ||
+      JSON.stringify(record.content_blocks).length > 90000) {
+    return {success:false,error:'Invalid SEO or content fields'};
   }
 
   const key = makeStoreKey(record.page_key, record.language);
@@ -121,7 +135,7 @@ export async function upsertCmsPageAdmin(
   });
 
   revalidateTag('site_cms');
-  if (['about','services','contact','fleet','pricing','routes','ziyarat'].includes(record.page_key)) {
+  if (['about','services','contact','fleet','pricing','routes','ziyarat','booking'].includes(record.page_key)) {
     revalidatePath('/[locale]/' + record.page_key, 'page');
   }
   // 'home' currently has a dedicated text editor and cache. Never pretend

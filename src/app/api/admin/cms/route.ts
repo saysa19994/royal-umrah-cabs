@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireRole } from '@/lib/auth/server-auth';
-import { getAllCmsPagesAdmin, getCmsPageCached, upsertCmsPageAdmin } from '@/lib/cms-service';
+import { getAllCmsPagesAdmin, getCmsPageCached, upsertCmsPageAdmin, isEditableCmsPageKey } from '@/lib/cms-service';
 import { getClientIp } from '@/lib/rate-limit';
-import { Locale } from '@/i18n/config';
+import { Locale, LOCALES } from '@/i18n/config';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,7 +17,10 @@ export async function GET(req: NextRequest) {
     const pageKey = searchParams.get('pageKey');
     const locale = searchParams.get('locale') as Locale | null;
 
-    if (pageKey && locale) {
+    if (pageKey || locale) {
+      if (!isEditableCmsPageKey(pageKey) || !locale || !LOCALES.includes(locale)) {
+        return NextResponse.json({success:false,error:'Unsupported CMS page or locale'},{status:400});
+      }
       const page = await getCmsPageCached(pageKey, locale);
       return NextResponse.json({ success: true, page });
     }
