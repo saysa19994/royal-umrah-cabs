@@ -48,22 +48,20 @@ export const getCmsPageCached = unstable_cache(
  * Admin: List all CMS pages
  */
 export async function getAllCmsPagesAdmin(): Promise<CmsPageRecord[]> {
-  try {
-    const supabase = createServiceClient();
-    const { data, error } = await supabase
-      .from('page_content')
-      .select('*')
-      .in('page_key',[...EDITABLE_CMS_PAGES])
-      .order('page_key', { ascending: true });
+  // An empty real database is valid; a failed database query is NOT an empty
+  // editor. Failing open would let an administrator unknowingly overwrite pages.
+  const supabase = createServiceClient();
+  const { data, error } = await supabase
+    .from('page_content')
+    .select('*')
+    .in('page_key',[...EDITABLE_CMS_PAGES])
+    .order('page_key', { ascending: true });
 
-    if (!error && data && data.length > 0) {
-      return data as CmsPageRecord[];
-    }
-  } catch (err) {
-    console.warn('Notice querying all CMS pages:', err);
+  if (error) {
+    console.error('CMS registry query failed:', error.message);
+    throw new Error('CMS registry unavailable');
   }
-
-  return Object.values(memoryCmsStore);
+  return (data || []) as CmsPageRecord[];
 }
 
 /**
