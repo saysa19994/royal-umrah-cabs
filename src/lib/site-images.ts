@@ -8,6 +8,16 @@ export const SITE_IMAGE_SLOTS = {
   cabin_scene: { label: 'صورة المقصورة في رحلة الضيف', fallback: '/assets/images/vehicles/hyundai-staria/interior.webp' },
   destination_scene: { label: 'صورة فصل الوصول للوجهة', fallback: '/assets/images/routes/makkah-to-madinah.jpg' },
   closing_photo: { label: 'صورة القسم الختامي للصفحة الرئيسية', fallback: '/assets/images/reference/hero-gmc-saudi.jpg' },
+  about_arrival: { label: 'من نحن — صورة الاستقبال', fallback: '/assets/homepage-v2/route-jeddah-makkah.jpg' },
+  about_comfort: { label: 'من نحن — صورة المقصورة', fallback: '/assets/homepage-v2/service-group-interior.jpg' },
+  booking_haram: { label: 'الحجز — صورة الحرم', fallback: '/assets/homepage-v2/ziyarat-haram.jpg' },
+  booking_vehicle: { label: 'الحجز — صورة السيارة', fallback: '/assets/images/yukon_exterior.webp' },
+  services_airport: { label: 'الخدمات — استقبال المطارات', fallback: '/assets/images/routes/jeddah-airport-to-makkah.jpg' },
+  services_ziyarat: { label: 'الخدمات — زيارات مكة والمدينة', fallback: '/assets/images/routes/makkah-ziyarat.jpg' },
+  services_intercity: { label: 'الخدمات — النقل بين المدن', fallback: '/assets/images/routes/makkah-to-madinah.jpg' },
+  services_family: { label: 'الخدمات — رحلات العائلات', fallback: '/assets/images/vip-umrah-transport-jeddah-to-makkah.jpg' },
+  services_group: { label: 'الخدمات — الحافلات', fallback: '/assets/images/studio-2k/toyota-coaster-studio-2k.webp' },
+  services_chauffeur: { label: 'الخدمات — رحلات VIP', fallback: '/assets/images/cinematic/home/hero-mercedes-kaaba-retina.jpg' },
 } as const;
 
 export type SiteImageKey = keyof typeof SITE_IMAGE_SLOTS;

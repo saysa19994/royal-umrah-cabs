@@ -11,6 +11,7 @@ import { BookingWizard } from '@/components/booking/BookingWizard';
 import { ShieldCheck, Plane, Banknote } from 'lucide-react';
 import { getDbPricesCached } from '@/lib/pricing-db';
 import { getBookingDraft } from '@/lib/booking-draft-store';
+import { getSiteImagesCached } from '@/lib/site-images';
 
 interface BookingPageProps {
   params: Promise<{
@@ -164,6 +165,7 @@ export default async function BookingPage(props: BookingPageProps) {
 
   const dict = getDictionary(locale);
   const settings = await getSiteSettings();
+ const images = await getSiteImagesCached();
   const pageText = PAGE_TEXT[locale] || PAGE_TEXT.en;
 
   const initialType = (['transfer', 'hourly', 'ziyarat', 'group_bus'].includes(searchParams.type || '')
@@ -216,11 +218,11 @@ export default async function BookingPage(props: BookingPageProps) {
           <a className={styles.startLink} href="#booking-reservation">{dict.nav.bookNow}</a>
         </div>
         <div className={styles.introMedia}>
-          <Image src="/assets/homepage-v2/ziyarat-haram.jpg" fill
+          <Image src={images.booking_haram} fill
             priority sizes="(max-width:767px) 100vw, 48vw"
             alt={locale === 'ar' ? 'المسجد الحرام في مكة المكرمة' : 'The Grand Mosque in Makkah'}/>
           <div className="duyuf-booking-hero-vehicle" aria-hidden="true">
-            <Image src="/assets/images/yukon_exterior.webp" fill sizes="(max-width:767px) 160px, 240px" alt="" />
+            <Image src={images.booking_vehicle} fill sizes="(max-width:767px) 160px, 240px" alt="" />
           </div>
           <div className={styles.photoLabel}><span>DUYUF AL RAHMAN VIP</span><span>{dict.nav.bookNow}</span></div>
         </div>

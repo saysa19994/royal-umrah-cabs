@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Clock3, MapPin, ShieldCheck
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import styles from './about-story.module.css';
+import { getSiteImagesCached } from '@/lib/site-images';
 
 interface AboutPageProps { params:Promise<{locale:Locale}> }
 
@@ -17,6 +18,7 @@ export async function generateMetadata({params}:AboutPageProps):Promise<Metadata
 export default async function AboutPage({params}:AboutPageProps){
  const {locale}=await params;
  const dict=getDictionary(locale);
+ const images=await getSiteImagesCached();
  const rtl=locale==='ar'||locale==='ur';
  const Arrow=rtl?ArrowLeft:ArrowRight;
  const values=[
@@ -54,7 +56,7 @@ export default async function AboutPage({params}:AboutPageProps){
  <main className={styles.page} dir={rtl?'rtl':'ltr'}>
    <section className={styles.hero}>
      <div className={styles.heroImage}>
-       <Image src="/assets/homepage-v2/route-jeddah-makkah.jpg" fill priority alt={t.direction} sizes="(max-width:780px) 100vw, 48vw"/>
+       <Image src={images.about_arrival} fill priority alt={t.direction} sizes="(max-width:780px) 100vw, 48vw"/>
        <div className={styles.heroImageCaption}><MapPin size={15} aria-hidden="true"/>{t.route}</div>
      </div>
      <div className={styles.heroCopy}>
@@ -98,7 +100,7 @@ export default async function AboutPage({params}:AboutPageProps){
        </div>
        <div className={styles.valueLayout}>
          <div className={styles.valueImage}>
-           <Image src="/assets/homepage-v2/service-group-interior.jpg" fill alt={t.promise} sizes="(max-width:820px) 100vw, 48vw"/>
+           <Image src={images.about_comfort} fill alt={t.promise} sizes="(max-width:820px) 100vw, 48vw"/>
            <span className={styles.imageLabel}>{t.direction}</span>
          </div>
          <div className={styles.valueList}>

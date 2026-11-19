@@ -56,6 +56,9 @@ export async function PATCH(request: NextRequest) {
   });
   revalidateTag('site_media');
   revalidateTag('site_cms');
-  revalidatePath('/[locale]', 'page');
+  if (key.startsWith('about_')) revalidatePath('/[locale]/about','page');
+  else if (key.startsWith('booking_')) revalidatePath('/[locale]/booking','page');
+  else if (key.startsWith('services_')) revalidatePath('/[locale]/services','page');
+  else revalidatePath('/[locale]', 'page');
   return NextResponse.json({ success: true, key, url: body.url }, { headers: { 'Cache-Control': 'private, no-store' } });
 }
