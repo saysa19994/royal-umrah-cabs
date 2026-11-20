@@ -24,7 +24,7 @@ test('every major public route/vehicle discovery page consumes the same cached p
     'src/app/[locale]/pricing/page.tsx',
   ]) assert.match(read(path), /getDbPricesCached/, path);
   assert.match(read('src/components/routes/RouteNetworkDesk.tsx'), /rates\[route\.slug\]/);
-  assert.match(read('src/components/fleet/FleetAtelier.tsx'), /rates\[route\]/);
+  assert.match(read('src/components/fleet/FleetAtelier.tsx'), /rates\[selectedRoute\]/);
 });
 
 test('fleet filters are real, accessible, and localized in ten languages', () => {
