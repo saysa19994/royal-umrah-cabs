@@ -80,7 +80,12 @@ export async function PATCH(request:NextRequest){
     }
 
     const previous=selectedFields(existing?.content_blocks);
-    const merged:HomeCopyOverrides={...previous,...body.values};
+    // Preserve keys owned by other homepage features; the text editor may
+    // only modify its allowlisted fields, not erase unrelated persisted data.
+    const allPrevious=existing?.content_blocks && typeof existing.content_blocks==='object' &&
+      !Array.isArray(existing.content_blocks)
+      ? existing.content_blocks as Record<string,unknown> : {};
+    const merged:Record<string,unknown>={...allPrevious,...body.values};
     const updated_at=new Date().toISOString();
     if(existing){
       // Atomic version check on a single language record.
@@ -118,7 +123,7 @@ export async function PATCH(request:NextRequest){
     revalidateTag('site_home_copy');
     revalidateTag('site_cms');
     revalidatePath('/'+locale,'page');
-    return NextResponse.json({success:true,locale,values:merged,version:updated_at},
+    return NextResponse.json({success:true,locale,values:selectedFields(merged),version:updated_at},
       {headers:noStore});
   }catch(err){
     console.error('Homepage copy persistence error:',err);
