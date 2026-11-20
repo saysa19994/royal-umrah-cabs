@@ -65,162 +65,67 @@ export interface GetReviewsOptions {
  * Strictly guarantees that pending or rejected reviews are never returned.
  */
 export async function getPublishedReviews(options: GetReviewsOptions = {}): Promise<PublicReviewsResponse> {
-  const {
-    sort = 'newest',
-    page = 1,
-    limit = 6,
-    route,
-    language
-  } = options;
-
-  const validPage = Math.max(1, page);
-  const validLimit = Math.min(Math.max(1, limit), 50);
+  const { sort = 'newest', page = 1, limit = 6, route, language } = options;
+  const validPage = Number.isFinite(page) ? Math.max(1, Math.floor(page)) : 1;
+  const validLimit = Number.isFinite(limit) ? Math.min(Math.max(1, Math.floor(limit)), 50) : 6;
   const offset = (validPage - 1) * validLimit;
+  const emptyDistribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+
+  const failure = (): PublicReviewsResponse => ({
+    success: false,
+    reviews: [],
+    statistics: { totalPublished: 0, averageRating: 0, distribution: { ...emptyDistribution } },
+    total: 0,
+    page: validPage,
+    limit: validLimit,
+    hasMore: false,
+    error: 'Unable to retrieve reviews at this time',
+  });
 
   try {
     const supabase = createServiceClient();
 
-    // 1. Fetch total published reviews and statistics
-    let statsData: any[] | null = null;
-    let statsError: any = null;
-
-    try {
-      const statsQuery = await supabase
-        .from('reviews')
-        .select('rating, is_approved, status')
-        .eq('status', 'published')
-        .eq('is_approved', true);
-      statsData = statsQuery.data;
-      statsError = statsQuery.error;
-    } catch (e: any) {
-      statsError = e;
-    }
-
-    // Fallback if status column does not exist yet before migration 004 is applied:
+    // public.reviews in production uses the is_approved boolean, not a status column.
+    // Avoid deliberately failing on missing extended columns before a legacy fallback.
+    // Restrict publication at the database query level, not only in memory.
+    const { data: statsRows, error: statsError } = await supabase
+      .from('reviews')
+      .select('rating')
+      .eq('is_approved', true);
     if (statsError) {
-      try {
-        const fallbackStats = await supabase
-          .from('reviews')
-          .select('rating, is_approved')
-          .eq('is_approved', true);
-        statsData = fallbackStats.data;
-        statsError = fallbackStats.error;
-      } catch (fallbackStatsErr) {
-        // preserve statsError
-      }
+      console.error('Published review statistics query failed:', statsError.message);
+      return failure();
     }
 
-    let totalPublished = 0;
-    let sumRating = 0;
-    let ratedReviews = 0;
-    const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    let query = supabase
+      .from('reviews')
+      .select('id, customer_name, country, rating, comment, route, language, created_at', { count: 'exact' })
+      .eq('is_approved', true);
 
-    if (!statsError && statsData) {
-      const publishedRows = statsData.filter((row) => row.is_approved === true);
-      totalPublished = publishedRows.length;
-      publishedRows.forEach(r => {
-        const rating = Number(r.rating);
-        if (!Number.isInteger(rating) || rating < 1 || rating > 5) return;
-        distribution[rating as keyof typeof distribution] += 1;
-        sumRating += rating;
-        ratedReviews += 1;
-      });
+    if (route && route !== 'all') query = query.eq('route', route);
+    if (language && language !== 'all') query = query.eq('language', language);
+    query = sort === 'highest'
+      ? query.order('rating', { ascending: false }).order('created_at', { ascending: false })
+      : query.order('created_at', { ascending: false });
+
+    const { data, count, error } = await query.range(offset, offset + validLimit - 1);
+    if (error) {
+      console.error('Published review list query failed:', error.message);
+      return failure();
     }
 
-    const averageRating = ratedReviews > 0
-      ? Math.round((sumRating / ratedReviews) * 10) / 10
-      : 0;
-
-    // 2. Fetch paginated list of published reviews
-    let reviewsData: any[] | null = null;
-    let reviewsError: any = null;
-
-    try {
-      let query = supabase
-        .from('reviews')
-        .select('id, customer_name, country, rating, comment, route, service_type, language, is_verified_booking, created_at')
-        .eq('status', 'published')
-        .eq('is_approved', true);
-
-      if (route && route !== 'all') {
-        query = query.eq('route', route);
-      }
-
-      if (language && language !== 'all') {
-        query = query.eq('language', language);
-      }
-
-      if (sort === 'highest') {
-        query = query
-          .order('rating', { ascending: false })
-          .order('created_at', { ascending: false });
-      } else {
-        query = query.order('created_at', { ascending: false });
-      }
-
-      query = query.range(offset, offset + validLimit - 1);
-
-      const res = await query;
-      reviewsData = res.data;
-      reviewsError = res.error;
-    } catch (e: any) {
-      reviewsError = e;
+    const distribution = { ...emptyDistribution };
+    let ratingSum = 0;
+    let ratedCount = 0;
+    for (const row of statsRows || []) {
+      const rating = Number(row.rating);
+      if (!Number.isInteger(rating) || rating < 1 || rating > 5) continue;
+      distribution[rating as keyof typeof distribution]++;
+      ratingSum += rating;
+      ratedCount++;
     }
 
-    // Fallback if extended columns do not exist yet before migration 004 is applied:
-    if (reviewsError) {
-      try {
-        let legacyQuery = supabase
-          .from('reviews')
-          .select('id, customer_name, country, rating, comment, route, language, created_at')
-          .eq('is_approved', true);
-
-        if (route && route !== 'all') {
-          legacyQuery = legacyQuery.eq('route', route);
-        }
-
-        if (language && language !== 'all') {
-          legacyQuery = legacyQuery.eq('language', language);
-        }
-
-        if (sort === 'highest') {
-          legacyQuery = legacyQuery
-            .order('rating', { ascending: false })
-            .order('created_at', { ascending: false });
-        } else {
-          legacyQuery = legacyQuery.order('created_at', { ascending: false });
-        }
-
-        legacyQuery = legacyQuery.range(offset, offset + validLimit - 1);
-
-        const legacyRes = await legacyQuery;
-        if (!legacyRes.error) {
-          reviewsData = legacyRes.data;
-          reviewsError = null;
-        }
-      } catch (legacyErr) {
-        // preserve reviewsError
-      }
-    }
-
-    if (reviewsError) {
-      console.warn('Notice: Error querying reviews from Supabase:', reviewsError.message);
-      return {
-        success: false,
-        reviews: [],
-        statistics: {
-          totalPublished: 0,
-          averageRating: 0,
-          distribution: { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 },
-        },
-        total: 0,
-        page: validPage,
-        limit: validLimit,
-        hasMore: false,
-      };
-    }
-
-    const cleanReviews: PublicCustomerReview[] = (reviewsData || []).map((row) => {
+    const reviews: PublicCustomerReview[] = (data || []).map(row => {
       const rating = Number(row.rating);
       return {
         id: row.id,
@@ -229,41 +134,32 @@ export async function getPublishedReviews(options: GetReviewsOptions = {}): Prom
         rating: Number.isInteger(rating) && rating >= 1 && rating <= 5 ? rating : 0,
         comment: row.comment,
         route: row.route || null,
-        service_type: row.service_type || null,
+        // Legacy production schema has no service_type or booking verification columns.
+        // Never invent verification claims for anonymous visitors.
+        service_type: null,
         language: row.language || 'en',
-        is_verified_booking: Boolean(row.is_verified_booking),
+        is_verified_booking: false,
         created_at: row.created_at,
       };
     });
 
+    const totalPublished = (statsRows || []).length;
+    const filteredTotal = count ?? 0;
     return {
       success: true,
-      reviews: cleanReviews,
+      reviews,
       statistics: {
         totalPublished,
-        averageRating,
+        averageRating: ratedCount ? Math.round((ratingSum / ratedCount) * 10) / 10 : 0,
         distribution,
       },
-      total: totalPublished,
+      total: filteredTotal,
       page: validPage,
       limit: validLimit,
-      hasMore: offset + cleanReviews.length < totalPublished,
+      hasMore: offset + reviews.length < filteredTotal,
     };
-  } catch (err: any) {
-    console.error('Unhandled reviews error:', err);
-    return {
-      success: false,
-      reviews: [],
-      statistics: {
-        totalPublished: 0,
-        averageRating: 0,
-        distribution: { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 },
-      },
-      total: 0,
-      page: validPage,
-      limit: validLimit,
-      hasMore: false,
-      error: 'Unable to retrieve reviews at this time',
-    };
+  } catch (err) {
+    console.error('Unexpected published reviews error:', err);
+    return failure();
   }
 }
