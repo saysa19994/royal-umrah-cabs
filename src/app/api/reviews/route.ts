@@ -27,10 +27,14 @@ export async function GET(req: NextRequest) {
       language,
     });
 
+    // A failed database read is not a valid empty review list. Avoid caching
+    // transient failures as successful responses for visitors and crawlers.
     return NextResponse.json(result, {
-      status: 200,
+      status: result.success ? 200 : 503,
       headers: {
-        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=120',
+        'Cache-Control': result.success
+          ? 'public, s-maxage=30, stale-while-revalidate=120'
+          : 'private, no-store',
       },
     });
   } catch (err: any) {
