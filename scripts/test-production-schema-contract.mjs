@@ -46,3 +46,11 @@ test('preview admin mutations cannot touch production Supabase by default',()=>{
   assert.match(auth,/PREVIEW_DATABASE_ISOLATION_REQUIRED/);
   assert.match(auth,/status: 423/);
 });
+
+test('admin login distinguishes a provider outage from an incorrect password',()=>{
+  const login=read('src/app/api/admin/auth/login/route.ts');
+  assert.match(login,/serviceUnavailable/);
+  assert.match(login,/database error querying schema/);
+  assert.match(login,/status: serviceUnavailable \? 503 : 401/);
+  assert.match(login,/temporarily unavailable/);
+});
