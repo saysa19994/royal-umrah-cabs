@@ -31,3 +31,10 @@ test('homepage CMS admin reads latest DB values and does not disguise missing pe
  assert.match(route,/version:data\?\.updated_at \|\| null/);
  assert.match(route,/revalidateTag\('site_home_copy'\)/);
 });
+
+test('home text saves preserve other JSONB fields managed by separate homepage components',()=>{
+ const route=read('src/app/api/admin/home-copy/route.ts');
+ assert.match(route,/const allPrevious=existing\?\.content_blocks/);
+ assert.match(route,/\.\.\.allPrevious,\.\.\.body\.values/);
+ assert.match(route,/values:selectedFields\(merged\)/);
+});
