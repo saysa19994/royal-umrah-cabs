@@ -7,6 +7,10 @@ import { getManagedBlogOverridesCached } from '@/lib/blog-service';
 import { ROUTES_COMPREHENSIVE_DATA } from '@/data/routes-data';
 import { COMPREHENSIVE_GUIDES } from '@/data/comprehensive-guides';
 
+// Sitemap publication decisions must be read at request time. Never bake an
+// unverified list of articles into build-time XML during a Supabase outage.
+export const dynamic = 'force-dynamic';
+
 export async function generateSitemaps() {
   return LOCALES.map((locale) => ({ id: locale }));
 }
