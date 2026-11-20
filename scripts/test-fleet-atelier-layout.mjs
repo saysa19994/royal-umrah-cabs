@@ -7,7 +7,7 @@ const css=read('src/components/fleet/FleetAtelier.module.css');
 const page=read('src/app/[locale]/fleet/page.tsx');
 test('fleet direct book contains only five real approved vehicles and route price matrix',()=>{
  assert.match(fleet,/APPROVED_5_FLEET\.map/);
- assert.match(fleet,/rates\[route\]\?\.\[FARE_IDS\[approved\.slug\]\]/);
+ assert.match(fleet,/rates\[selectedRoute\]\?\.\[FARE_IDS\[approved\.slug\]\]/);
  assert.match(fleet,/\/booking\?route='\+encodeURIComponent\(route\)\+'&vehicle='\+approved\.slug/);
  assert.doesNotMatch(fleet,/startingPriceSAR\}/);
  assert.match(fleet,/\/fleet\/mercedes-maybach/);
