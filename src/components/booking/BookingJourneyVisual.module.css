@@ -1,0 +1,122 @@
+/* An editorial journey photograph with a real three-stage, keyboard-operable
+   timeline. No duplicated booking summary or fake route data. */
+.visual {
+  display: grid;
+  grid-template-rows: minmax(0,1fr) auto;
+  position:relative;
+  isolation:isolate;
+  height:100%;
+  min-height:0;
+  width:100%;
+  background:#102339;
+  color:#fff;
+  overflow:hidden;
+}
+.imageStage{
+  position:relative;
+  min-width:0;
+  min-height:clamp(340px,38vw,570px);
+  overflow:hidden;
+  isolation:isolate;
+}
+.imageStage>img{
+  object-fit:cover;
+  object-position:center;
+  animation:bookingPhotoReveal .62s cubic-bezier(.16,.72,.26,1) both;
+}
+@keyframes bookingPhotoReveal {
+  from{opacity:.48;transform:scale(1.05);}
+  to{opacity:1;transform:scale(1);}
+}
+.shade{
+  position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(8,19,30,.94),rgba(8,19,30,.16) 65%,rgba(8,19,30,.4));
+  pointer-events:none;
+  z-index:1;
+}
+.topline{
+  position:absolute;inset-block-start:clamp(22px,3vw,39px);
+  inset-inline:clamp(23px,3vw,44px);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;z-index:3;
+  color:#f6e8d0;font-weight:750;letter-spacing:.1em;font-size:clamp(10px,.77vw,12px);
+}
+.topline span:last-child{letter-spacing:.15em;font-variant-numeric:tabular-nums;}
+.caption{
+  position:absolute;z-index:3;
+  inset-inline:clamp(23px,3vw,44px);
+  bottom:clamp(60px,6vw,96px);
+  max-width:min(88%,550px);
+  display:grid;gap:9px;
+}
+.chapterNumber{font-size:.81rem;font-weight:760;letter-spacing:.15em;color:#efd2a4;}
+.caption strong{font-size:clamp(2rem,3.6vw,4.5rem);font-weight:760;line-height:1.24;text-wrap:balance;color:#fff;}
+.caption p{max-width:39ch;line-height:1.72;font-size:clamp(.81rem,.93vw,.99rem);color:#f4efdf;opacity:.95;}
+.carouselControls{
+  display:flex;position:absolute;z-index:4;bottom:20px;inset-inline-end:clamp(20px,3vw,44px);gap:8px;
+}
+.carouselControls button{
+  min-width:43px;min-height:43px;display:grid;place-items:center;
+  border:1px solid #f8f4ea7f;background:#f5f1e822;color:#fff;cursor:pointer;
+  border-radius:50%;transition:background-color .18s ease;
+}
+.carouselControls button:hover{background:#ffffff4a;}
+.carouselControls button:focus-visible,.stageTab:focus-visible{
+  outline:3px solid #f8cc83;outline-offset:3px;
+}
+.stageSelector{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  border-block-start:1px solid #ffffff31;
+  background:#12263a;
+  min-width:0;
+}
+.stageTab{
+  display:grid;grid-template-rows:auto 1fr auto;gap:8px;
+  padding:clamp(14px,1.6vw,22px) clamp(10px,1.8vw,25px) 0;
+  min-width:0;min-height:102px;
+  text-align:start;align-items:start;
+  border:0;border-inline-end:1px solid #ffffff2b;
+  background:transparent;color:#e6e4dc;cursor:pointer;
+  transition:background-color .22s ease;
+}
+.stageTab:last-child{border-inline-end:0;}
+.stageTab:hover{background:#293b4a;}
+.stageTab[aria-pressed="true"]{background:#20384b;color:#fff;}
+.stageTab>span:first-child{font-size:.72rem;color:#d6bc95;font-weight:800;letter-spacing:.12em;}
+.stageTab strong{font-size:clamp(.74rem,.92vw,1.01rem);font-weight:720;line-height:1.5;overflow-wrap:break-word;}
+.stageProgress{
+  display:block;
+  width:100%;height:3px;margin-top:3px;background:transparent;
+}
+.stageTab[aria-pressed="true"] .stageProgress{background:#dcb985;}
+@media(max-width:1100px){
+  .caption{bottom:55px;}
+  .caption strong{font-size:clamp(1.7rem,3.4vw,3rem);}
+  .caption p{font-size:.82rem;}
+  .stageTab{min-height:88px;}
+}
+@media(max-width:767px){
+ .visual{display:block;height:auto;width:100%;overflow:hidden;}
+ .imageStage{min-height:0;aspect-ratio:16/10;}
+ .caption{bottom:12px;inset-inline:17px;gap:4px;max-width:72%;}
+ .caption strong{font-size:clamp(1.25rem,5vw,1.7rem);}
+ .caption p{display:none;}
+ .chapterNumber{font-size:.65rem;}
+ .topline{inset-block-start:14px;inset-inline:16px;font-size:10px;letter-spacing:.06em;}
+ .carouselControls{bottom:12px;inset-inline-end:13px;gap:5px;}
+ .carouselControls button{min-width:35px;min-height:35px;}
+ .stageSelector{grid-template-columns:repeat(3,minmax(0,1fr));}
+ .stageTab{padding:10px 9px 0;min-height:62px;gap:4px;}
+ .stageTab strong{font-size:clamp(.68rem,2.7vw,.85rem);line-height:1.35;}
+ .stageTab>span:first-child{font-size:.62rem;}
+ .stageProgress{height:3px;margin-top:1px;}
+}
+@media(max-width:390px){
+ .imageStage{aspect-ratio:16/10;}
+ .caption strong{font-size:1.2rem;}
+ .stageTab{padding-inline:7px;}
+}
+@media(prefers-reduced-motion:reduce){
+ .imageStage>img{animation:none!important;}
+ .carouselControls button,.stageTab{transition:none!important;}
+}
