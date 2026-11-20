@@ -145,6 +145,9 @@ export async function upsertCmsPageAdmin(
     if (['about','services','contact','fleet','pricing','routes','ziyarat','booking','faq'].includes(record.page_key)) {
       revalidatePath('/[locale]/' + record.page_key, 'page');
     }
+    if (record.page_key === 'riyadh' || record.page_key === 'taif') {
+      revalidatePath('/[locale]/services/' + record.page_key, 'page');
+    }
     return { success:true, record:stored };
   } catch (err) {
     console.error('Exception persisting page_content:', err);
