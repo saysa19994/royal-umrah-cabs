@@ -1048,7 +1048,7 @@
 .storyDeckCard:hover {transform:rotate(0deg) translateY(-4px) scale(1.04);z-index:9;}
 .storyDeckCard:focus-visible {outline:3px solid #a17b4a;outline-offset:5px;z-index:10;}
 .story[data-story-revealed="true"] .storyDeckCard {
-  animation:journeyCardsFan .7s cubic-bezier(.16,.7,.24,1) both;
+  animation:journeyCardsFan .7s cubic-bezier(.16,.7,.24,1);
   animation-delay:calc((var(--story-order,1) - 1) * 80ms);
 }
 .storyDeckCard:nth-child(1) { --story-order:1; }
