@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     const { code, factorId } = await request.json();
     const cleanCode = (code || '').trim();
 
-    if (!cleanCode) {
+    if (!/^\d{6}$/.test(cleanCode)) {
       return NextResponse.json(
         { error: '6-digit code is required.' },
         { status: 400 }
@@ -47,14 +47,18 @@ export async function POST(request: Request) {
     }
 
     const serviceClient = createServiceClient();
-    const { data: profile } = await serviceClient
+    const { data: profile, error: profileError } = await serviceClient
       .from('user_profiles')
-      .select('id, name, role, totp_enabled')
+      .select('id, name, role, totp_enabled, is_suspended')
       .eq('auth_user_id', authData.user.id)
       .maybeSingle();
 
-    const userRole: Role = (profile?.role as Role) || 'admin';
-    const userName = profile?.name || 'Authorized Staff';
+    if (profileError || !profile || profile.is_suspended ||
+        !['owner', 'admin', 'operator'].includes(profile.role)) {
+      return NextResponse.json({ error: 'Administrative account unavailable or suspended' }, { status: 403 });
+    }
+    const userRole = profile.role as Role;
+    const userName = profile.name || 'Authorized Staff';
 
     // Verify 2FA code via Supabase MFA challenge and verify
     let mfaSuccess = false;
@@ -63,7 +67,7 @@ export async function POST(request: Request) {
       // Find active TOTP factor
       const { data: factorsData } = await supabase.auth.mfa.listFactors();
       const targetFactor = factorId
-        ? factorsData?.totp?.find((f) => f.id === factorId)
+        ? factorsData?.totp?.find((f) => f.id === factorId && f.status === 'verified')
         : factorsData?.totp?.find((f) => f.status === 'verified');
 
       if (targetFactor) {
@@ -84,7 +88,13 @@ export async function POST(request: Request) {
       console.error('Supabase MFA verification error:', mfaErr);
     }
 
+    if (mfaSuccess) {
+      const { data: assurance, error: assuranceError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+      mfaSuccess = !assuranceError && assurance?.currentLevel === 'aal2';
+    }
+
     if (!mfaSuccess) {
+      if (process.env.VERCEL_ENV !== 'preview') {
       await logAuditEvent({
         userEmail: sessionEmail,
         userRole,
@@ -94,6 +104,7 @@ export async function POST(request: Request) {
         newValues: { reason: 'Invalid or expired 6-digit MFA token' },
         ip: clientIp,
       });
+      }
 
       return NextResponse.json(
         { error: 'Invalid or expired 2FA code. Please verify the code on your authenticator app.' },
@@ -102,6 +113,7 @@ export async function POST(request: Request) {
     }
 
     // Log success
+    if (process.env.VERCEL_ENV !== 'preview') {
     await logAuditEvent({
       userEmail: sessionEmail,
       userRole,
@@ -111,6 +123,7 @@ export async function POST(request: Request) {
       newValues: { message: '2FA TOTP passed successfully (AAL2 attained)' },
       ip: clientIp,
     });
+    }
 
     return NextResponse.json({
       success: true,

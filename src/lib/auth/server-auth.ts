@@ -135,7 +135,9 @@ export async function requireRole(
 
       currentAal = aalData.currentLevel === 'aal2' ? 'aal2' : 'aal1';
 
-      if (isOwnerOrAdmin && aalData.nextLevel !== 'aal2' && !profile.totp_enabled) {
+      // Trust actual Supabase MFA factors, never a stale profile boolean.
+      // AAL2 remains mandatory except for the first-time enrollment flow.
+      if (isOwnerOrAdmin && aalData.nextLevel !== 'aal2') {
         if (!options.allowEnrollmentFlow) {
           return {
             errorResponse: NextResponse.json(

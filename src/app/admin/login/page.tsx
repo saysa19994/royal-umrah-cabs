@@ -20,6 +20,38 @@ export default function AdminLoginPage() {
   // Forced First-Time TOTP Enrollment
   const [enrollFactorId, setEnrollFactorId] = useState('');
   const [enrollSecret, setEnrollSecret] = useState('');
+  const [enrollQrImageUrl, setEnrollQrImageUrl] = useState<string | null>(null);
+  const [showEnrollmentKey, setShowEnrollmentKey] = useState(false);
+
+  const startFreshEnrollment = async () => {
+    const enrollRes = await fetch('/api/admin/auth/setup-2fa', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store',
+    });
+    const enrollData = await enrollRes.json();
+    if (!enrollRes.ok || !enrollData.success || !enrollData.factorId) {
+      throw new Error(enrollData.error || 'Unable to create a new authenticator');
+    }
+    setEnrollFactorId(enrollData.factorId);
+    setEnrollSecret(enrollData.secret || '');
+    setEnrollQrImageUrl(typeof enrollData.qrImageUrl === 'string' ? enrollData.qrImageUrl : null);
+    setTotpCode('');
+    setShowEnrollmentKey(false);
+    setStep('enroll');
+  };
+
+  const handleRotateEnrollment = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await startFreshEnrollment();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not replace the old setup key');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCredentialsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,17 +77,7 @@ export default function AdminLoginPage() {
 
         if (data.isEnrolled === false) {
           // Trigger first-time enrollment
-          const enrollRes = await fetch('/api/admin/auth/setup-2fa', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-          });
-          const enrollData = await enrollRes.json();
-          if (!enrollRes.ok) {
-            throw new Error(enrollData.error || 'Failed to initiate 2FA setup');
-          }
-          setEnrollFactorId(enrollData.factorId);
-          setEnrollSecret(enrollData.secret);
-          setStep('enroll');
+          await startFreshEnrollment();
         } else {
           setStep('totp');
         }
@@ -270,13 +292,27 @@ export default function AdminLoginPage() {
                 <span className="text-xs font-bold uppercase tracking-wider">Mandatory 2FA Setup</span>
               </div>
               <p className="text-[11px] text-[#A0A6B2] leading-relaxed mb-3">
-                Executive accounts require mandatory Two-Factor Authentication. Add this secret key to your authenticator app (e.g. Google Authenticator):
+                Scan the new QR with Google Authenticator or Microsoft Authenticator. Use a time-based 6-digit code.
+                Keep this QR and secret private. Never share a screenshot of them.
               </p>
-              <div className="p-2.5 rounded-lg bg-[#0D0F12] border border-[#262B33] text-center">
-                <span className="text-xs font-mono font-bold text-[#D9A031] tracking-wider select-all break-all">
-                  {enrollSecret}
-                </span>
-              </div>
+              <button
+                type="button"
+                onClick={() => setShowEnrollmentKey(v => !v)}
+                className="w-full rounded-lg border border-[#D9A031]/40 bg-[#0D0F12] px-3 py-2 text-xs font-semibold text-[#D9A031]"
+              >
+                {showEnrollmentKey ? 'Hide QR and secret' : 'Show private QR and setup key'}
+              </button>
+              {showEnrollmentKey && (
+                <div className="mt-3 space-y-3 rounded-lg bg-[#0D0F12] p-3 text-center">
+                  {enrollQrImageUrl && (
+                    <img src={enrollQrImageUrl} alt="Private authenticator setup QR - never share" className="mx-auto h-44 w-44 rounded-lg bg-white p-2" />
+                  )}
+                  <div className="select-all break-all font-mono text-xs text-[#D9A031]">{enrollSecret}</div>
+                </div>
+              )}
+              <p className="mt-3 text-[11px] text-[#A0A6B2] leading-relaxed">
+                Set your phone clock to automatic date and time. Wait for a fresh code if the current code is about to expire.
+              </p>
             </div>
 
             <div>
@@ -291,6 +327,7 @@ export default function AdminLoginPage() {
                   autoFocus
                   placeholder="6-digit code"
                   value={totpCode}
+                  onFocus={() => setShowEnrollmentKey(false)}
                   onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, ''))}
                   className="w-full h-12 pl-10 pr-3 text-center tracking-[0.3em] font-mono text-base font-bold rounded-xl border border-[#262B33] bg-[#0D0F12] text-[#FAF9F6] focus:border-[#D9A031] focus:ring-1 focus:ring-[#D9A031] outline-none transition-all"
                 />
@@ -315,10 +352,23 @@ export default function AdminLoginPage() {
 
             <button
               type="button"
+              disabled={loading}
+              onClick={() => void handleRotateEnrollment()}
+              className="w-full rounded-lg border border-[#D9A031]/40 py-2 text-xs font-semibold text-[#D9A031] disabled:opacity-50"
+            >
+              Generate a new private QR / replace old setup
+            </button>
+
+            <button
+              type="button"
               onClick={() => {
                 setStep('credentials');
                 setError(null);
                 setTotpCode('');
+                setEnrollFactorId('');
+                setEnrollSecret('');
+                setEnrollQrImageUrl(null);
+                setShowEnrollmentKey(false);
               }}
               className="w-full text-center text-xs text-[#A0A6B2] hover:text-[#FAF9F6] transition-colors pt-2"
             >
