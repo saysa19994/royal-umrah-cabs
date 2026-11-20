@@ -6,7 +6,8 @@ import { getDictionary } from '@/i18n/get-dictionary';
 import { ArrowUpRight, ArrowLeft, ArrowRight, MapPin, Compass, ShieldCheck, Car, Clock3 } from 'lucide-react';
 import { RouteNetworkDesk } from '@/components/routes/RouteNetworkDesk';
 import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
-import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
+import { getDbPricesCached } from '@/lib/pricing-db';
+import { getPublishedRouteStatusCached } from '@/lib/public-route-availability';
 import styles from './routes-overhaul.module.css';
 
 interface RoutesPageProps {
@@ -144,6 +145,7 @@ export async function generateMetadata(props: RoutesPageProps): Promise<Metadata
 export default async function RoutesPage(props: RoutesPageProps) {
   const { locale } = await props.params;
   const dict = getDictionary(locale);
+  const [rates, routeStatus] = await Promise.all([getDbPricesCached(), getPublishedRouteStatusCached()]);
   const rtl = locale === 'ar' || locale === 'ur';
   const header = ROUTES_LOCALIZED_HEADER[locale] || ROUTES_LOCALIZED_HEADER.en;
   const Arrow = rtl ? ArrowLeft : ArrowRight;
@@ -184,7 +186,7 @@ export default async function RoutesPage(props: RoutesPageProps) {
           </div>
         </div>
       </section>
-      <div id="journey-explorer" className={styles.explorer}><RouteNetworkDesk locale={locale} /></div>
+      <div id="journey-explorer" className={styles.explorer}><RouteNetworkDesk locale={locale} rates={rates} routeStatus={routeStatus} /></div>
       <section className={styles.directory} aria-labelledby="routes-all-heading">
         <div className={styles.container}>
           <div className={styles.directoryHeader}>
@@ -192,8 +194,8 @@ export default async function RoutesPage(props: RoutesPageProps) {
             <Link className={styles.allPrices} href={'/'+locale+'/pricing'}>{ui.prices}<ArrowUpRight size={17} aria-hidden="true"/></Link>
           </div>
           <ol className={styles.list}>
-            {EXECUTIVE_ROUTES_DATA.filter(route=>route.slug!=='riyadh-airport-transfer').map((route,i)=>{
-              const price=AUTHORITATIVE_TRANSFER_RATES[route.slug]?.camry;
+            {EXECUTIVE_ROUTES_DATA.filter(route=>route.slug!=='riyadh-airport-transfer'&&routeStatus[route.slug]!==false).map((route,i)=>{
+              const price=rates[route.slug]?.camry;
               const formatted=typeof price==='number'&&Number.isFinite(price)&&price>0
                 ? new Intl.NumberFormat(locale==='ar'?'ar-SA':'en-US').format(price)+' SAR' : null;
               return (

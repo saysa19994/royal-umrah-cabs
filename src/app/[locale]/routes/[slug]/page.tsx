@@ -26,7 +26,7 @@ import {
   Award,
   BadgeCheck,
 } from 'lucide-react';
-import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
+import { getDbPricesCached } from '@/lib/pricing-db';
 import { ROUTES_COMPREHENSIVE_DATA, RouteData } from '@/data/routes-data';
 import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
 import { getSiteSettings } from '@/lib/settings';
@@ -93,8 +93,9 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
   const labels = ROUTE_UI_LABELS[locale] || ROUTE_UI_LABELS.en;
   const contextualLinks = getRouteContextualLinks(slug, locale);
 
-  // Use only the approved public matrix. No arbitrary 200 SAR floor.
-  const routeRates = AUTHORITATIVE_TRANSFER_RATES[slug] || {};
+  // Published admin fares take precedence; approved matrix is only the fallback.
+  const liveRates = await getDbPricesCached();
+  const routeRates = liveRates[slug] || {};
   const configuredFares = Object.values(routeRates).filter(
     (fare): fare is number => typeof fare === 'number' && Number.isFinite(fare) && fare > 0
   );
@@ -307,7 +308,7 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
                 if (!relRoute) return null;
                 if (relId === 'riyadh-airport-transfer') return null;
                 const related = getLocalizedRouteContent(relId, locale, relRoute);
-                const relRates = AUTHORITATIVE_TRANSFER_RATES[relId] || {};
+                const relRates = liveRates[relId] || {};
                 const relAvailable = Object.values(relRates).filter(
                   (fare): fare is number => typeof fare === 'number' && Number.isFinite(fare) && fare > 0
                 );

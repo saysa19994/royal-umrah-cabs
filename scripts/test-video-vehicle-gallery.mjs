@@ -16,5 +16,9 @@ test('videos 06+15 show real next vehicle photos as layered desktop peeks and mo
 test('vehicle page real gallery and booking are preserved',()=>{
  const page=read('src/app/[locale]/fleet/[slug]/page.tsx');
  assert.match(page,/VehicleGallery/);
- assert.match(page,/AUTHORITATIVE_TRANSFER_RATES/);
+ assert.match(page,/getDbVehiclesCached/);
+ assert.match(page,/getDbPricesCached/);
+ assert.match(page,/const price = rates\[routeKey\]\?\.\[v\.bookingVehicleId\]/);
+ assert.match(page,/publishedPhotos/);
+ assert.match(page,/isBespoke = bespokeSlug/);
 });
