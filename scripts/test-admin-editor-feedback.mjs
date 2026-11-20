@@ -48,14 +48,20 @@ test('admin CMS registry fails closed when Supabase cannot read saved content',(
  assert.doesNotMatch(registry,/return Object\.values\(memoryCmsStore\)/);
 });
 
-test('blog admin uses strict database reads while public build has a safe availability fallback',()=>{
+test('blog registry is strict for public and admin; unpublished articles cannot reappear on DB outage',()=>{
  const s=r('src/lib/blog-service.ts');
  const reader=s.slice(s.indexOf('async function readManagedBlogOverridesFromDb'),s.indexOf('export const getManagedBlogOverridesCached'));
  const admin=s.slice(s.indexOf('export async function getAllBlogPostsAdmin'),s.indexOf('function validImage('));
- assert.match(reader,/throw new Error\('Blog CMS registry unavailable'\)/);
+ assert.match(reader,/throw new Error\('Blog CMS registry unavailable or incomplete'\)/);
+ assert.match(reader,/count: 'exact'/);
+ assert.match(reader,/count > \(data\?\.length \|\| 0\)/);
  assert.match(admin,/readManagedBlogOverridesFromDb\(\)/);
  assert.doesNotMatch(admin,/getManagedBlogOverridesCached\(\)/);
  assert.match(s,/const current=\(await readManagedBlogOverridesFromDb\(\)\)/);
+ assert.doesNotMatch(s,/Public blog CMS fallback/);
+ for (const path of ['src/app/[locale]/blog/page.tsx', 'src/app/[locale]/blog/[slug]/page.tsx']) {
+   assert.match(r(path),/export const dynamic = 'force-dynamic'/);
+ }
 });
 
 test('CMS writes use optimistic locking and read actual previous DB values for audit',()=>{
