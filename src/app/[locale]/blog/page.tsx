@@ -8,6 +8,11 @@ import { getManagedEditorialPosts } from '@/lib/blog-editorial-mapper';
 import { EditorialBlogExperience } from '@/components/blog/EditorialBlogExperience';
 import { Sparkles } from 'lucide-react';
 
+// Editorial publication state must be checked against the managed registry
+// on a request, not permanently baked into the static build. If Supabase is
+// unavailable, render an error rather than resurrecting withdrawn articles.
+export const dynamic = 'force-dynamic';
+
 interface BlogIndexProps {
   params: Promise<{
     locale: Locale;
