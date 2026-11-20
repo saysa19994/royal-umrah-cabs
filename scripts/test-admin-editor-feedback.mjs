@@ -96,3 +96,27 @@ test('CMS read-back tolerates JSONB object key reorder but checks all fields',()
  assert.match(source,/canonicalJson\(storedBlocks\) === canonicalJson\(payload\.content_blocks\)/);
  assert.match(source,/expected_updated_at: existing\?\.updated_at \?\? null/);
 });
+
+test('blog publishing and unpublishing reject stale versions and require saved read-back',()=>{
+ const service=r('src/lib/blog-service.ts');
+ const api=r('src/app/api/admin/blog/route.ts');
+ const editor=r('src/app/admin/blog/page.tsx');
+ assert.match(service,/\.eq\('updated_at',raw\.expected_updated_at!\)/);
+ assert.match(service,/if\(!data\)return \{success:false,error:'Article changed by another editor/);
+ assert.match(service,/error\?\.code==='23505'/);
+ assert.match(service,/readManagedBlogOverridesFromDb\(\)/);
+ assert.match(api,/isConflict\?409/);
+ assert.match(api,/expectedParam === 'none' \? null : expectedParam/);
+ assert.match(editor,/expected_updated_at: editingPost\?\.updated_at \?\? null/);
+ assert.match(editor,/const savedPosts = await fetchPosts\(\)/);
+ assert.match(editor,/const stored = await fetchPosts\(\)/);
+ assert.match(editor,/disabled=\{saving \|\| loading \|\| !blogLoaded\}/);
+});
+test('sitemaps and blog pages are dynamic to reflect unpublished status immediately',()=>{
+ for(const path of [
+   'src/app/sitemap.ts',
+   'src/app/[locale]/blog/page.tsx',
+   'src/app/[locale]/blog/[slug]/page.tsx',
+ ]) assert.match(r(path),/export const dynamic = 'force-dynamic'/);
+ assert.doesNotMatch(r('src/lib/blog-service.ts'),/Public blog CMS fallback/);
+});
