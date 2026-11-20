@@ -1,6 +1,7 @@
 import { createServiceClient } from '@/lib/supabase/service';
 import { CURRENCIES, CurrencyCode } from '@/i18n/config';
 import { getDynamicPriceForRouteVehicle } from './dynamic-pricing-store';
+import { hasPublishedFareAudit, type FarePublicationAudit } from './published-pricing';
 import { getMergedSiteSettings } from './dynamic-settings-store';
 import {
   AUTHORITATIVE_HOURLY_RATES_4H,
@@ -121,6 +122,21 @@ export async function calculateServerPrice(params: {
 
   let basePriceSAR: number | null = null;
 
+  // A durable admin audit event must match the currently stored price before
+  // an approved company fare can be overridden. Legacy seed rows have no
+  // publication event and must not silently change customer charges.
+  async function isPublishedFare(route: string, currentPrice: number): Promise<boolean> {
+    const { data: auditRows, error: auditError } = await serviceClient
+      .from('audit_log')
+      .select('action,entity_id,new_values,created_at')
+      .in('action', ['price_published', 'route_prices_published'])
+      .in('entity_id', [`${route}:${vehicleId}`, route])
+      .order('created_at', { ascending: false })
+      .limit(20);
+    if (auditError) throw new Error('Fare publication audit could not be verified');
+    return hasPublishedFareAudit((auditRows || []) as FarePublicationAudit[], route, vehicleId, currentPrice);
+  }
+
   if (bookingType === 'transfer') {
     if (!routeId) {
       throw new Error('route_id is required for transfer bookings');
@@ -182,10 +198,16 @@ export async function calculateServerPrice(params: {
     if (priceError) throw new Error('Published fare could not be verified');
     if (priceRow) {
       const configured = Number(priceRow.price_sar);
-      if (!Number.isFinite(configured) || configured <= 0) {
-        throw new Error('This route and vehicle combination is not available');
+      if (!Number.isFinite(configured) || configured < 0) {
+        throw new Error('Published fare is invalid');
       }
-      basePriceSAR = configured;
+      if (approvedRoute && !(await isPublishedFare(routeId, configured))) {
+        // A legacy DB seed value is not an approved owner price change.
+        basePriceSAR = approvedRoute[vehicleId] ?? null;
+      } else {
+        if (configured === 0) throw new Error('This route and vehicle combination is not available');
+        basePriceSAR = configured;
+      }
     } else if (approvedRoute) {
       basePriceSAR = approvedRoute[vehicleId] ?? null;
     } else {
@@ -239,10 +261,15 @@ export async function calculateServerPrice(params: {
     if (ziyaratError) throw new Error('Published Ziyarat fare could not be verified');
     if (ziyaratRow) {
       const configured = Number(ziyaratRow.price_sar);
-      if (!Number.isFinite(configured) || configured <= 0) {
-        throw new Error('This Ziyarat vehicle is not available');
+      if (!Number.isFinite(configured) || configured < 0) {
+        throw new Error('Published Ziyarat fare is invalid');
       }
-      basePriceSAR = configured;
+      if (approvedZiyaratRoute && !(await isPublishedFare(targetRouteId, configured))) {
+        basePriceSAR = AUTHORITATIVE_TRANSFER_RATES[approvedZiyaratRoute][vehicleId];
+      } else {
+        if (configured === 0) throw new Error('This Ziyarat vehicle is not available');
+        basePriceSAR = configured;
+      }
     } else if (approvedZiyaratRoute) {
       basePriceSAR = AUTHORITATIVE_TRANSFER_RATES[approvedZiyaratRoute][vehicleId];
     } else {
