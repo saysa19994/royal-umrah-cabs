@@ -26,21 +26,17 @@ export const getDbPricesCached = unstable_cache(
       if (!error && data && data.length > 0) {
         for (const row of data) {
           const price = Number(row.price_sar);
-          if (!isNaN(price) && price > 0) {
-            // Guard: Never allow obsolete or unapproved DB seed records to overwrite company-approved rates
-            const isApprovedRoute = Boolean(AUTHORITATIVE_TRANSFER_RATES[row.route_id]);
-            const isApprovedVehicle = isApprovedRoute && Boolean(AUTHORITATIVE_TRANSFER_RATES[row.route_id][row.vehicle_id]);
-
-            if (isApprovedRoute && isApprovedVehicle) {
-              // Preserve authoritative commercial fare - strictly inviolable
-              rates[row.route_id][row.vehicle_id] = AUTHORITATIVE_TRANSFER_RATES[row.route_id][row.vehicle_id];
-            } else {
-              // Allow auxiliary custom routes from database
-              if (!rates[row.route_id]) {
-                rates[row.route_id] = {};
-              }
-              rates[row.route_id][row.vehicle_id] = price;
+          // A stored 0 explicitly makes a route/vehicle combination unavailable.
+          // Only owner/admin endpoints may write these records (RLS + role checks).
+          if (Number.isFinite(price) && price >= 0) {
+            const approvedRoute = AUTHORITATIVE_TRANSFER_RATES[row.route_id];
+            // Reject unknown vehicle IDs on approved routes; new custom routes
+            // may carry their own published, admin-configured vehicle prices.
+            if (approvedRoute && !Object.prototype.hasOwnProperty.call(approvedRoute, row.vehicle_id)) {
+              continue;
             }
+            if (!rates[row.route_id]) rates[row.route_id] = {};
+            rates[row.route_id][row.vehicle_id] = price;
           }
         }
       }
@@ -48,15 +44,9 @@ export const getDbPricesCached = unstable_cache(
       console.warn('Notice loading DB prices in cache:', err);
     }
 
-    // Secondary enforcement: Guarantee 100% parity with authoritative transfer rates
-    for (const [routeId, vehicleRates] of Object.entries(AUTHORITATIVE_TRANSFER_RATES)) {
-      if (!rates[routeId]) {
-        rates[routeId] = {};
-      }
-      for (const [vehicleId, price] of Object.entries(vehicleRates)) {
-        rates[routeId][vehicleId] = price;
-      }
-    }
+    // Approved rates are safe defaults when the database is unavailable or
+    // a particular fare has never been configured; persisted admin edits win.
+    // This avoids showing stale hardcoded fares after an admin update.
 
     // The Riyadh Airport product is inactive, so it must not surface in public fare views.
     delete rates['riyadh-airport-transfer'];
