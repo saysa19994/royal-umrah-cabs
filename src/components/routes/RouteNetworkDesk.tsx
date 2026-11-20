@@ -1,6 +1,7 @@
 'use client';
 import {useState} from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {ArrowLeft,ArrowRight,ArrowUpRight,Clock3,MapPin,ShieldCheck,CarFront,Users,Route as RouteIcon} from 'lucide-react';
 import type {Locale} from '@/i18n/config';
 import {EXECUTIVE_ROUTES_DATA} from '@/data/executive-routes-data';
@@ -17,6 +18,17 @@ const ENDS:Record<string,[string,string]>={
 };
 // The Riyadh airport transfer is inactive in server pricing; never present it as bookable.
 const ACTIVE_ROUTES=EXECUTIVE_ROUTES_DATA.filter(item=>item.slug!=='riyadh-airport-transfer');
+// Use only verified images shipped with the project. Never substitute an unrelated
+// destination photograph when a particular route does not have its own image.
+const ROUTE_PHOTOS:Partial<Record<string,string>>={
+ 'jeddah-airport-to-makkah':'/assets/images/routes/jeddah-airport-to-makkah.jpg',
+ 'makkah-to-madinah':'/assets/images/routes/makkah-to-madinah.jpg',
+ 'jeddah-to-madinah':'/assets/images/routes/jeddah-to-madinah.jpg',
+ 'makkah-ziyarat':'/assets/images/routes/makkah-ziyarat.jpg',
+ 'madinah-airport-to-hotel':'/assets/images/routes/madinah-airport.jpg',
+ 'makkah-to-taif':'/assets/images/routes/makkah-to-taif.jpg',
+ 'riyadh-to-makkah':'/assets/images/routes/riyadh-to-makkah.jpg',
+};
 const FARES:Record<string,string>={'toyota-camry':'camry','hyundai-staria':'staria','gmc-yukon-xl':'yukon','toyota-hiace':'hiace','toyota-coaster':'coaster'};
 type Copy={heading:string;sub:string;choose:string;time:string;distance:string;fare:string;type:string;book:string;detail:string;cash:string;unavailable:string;diagram:string;step:string;routes:string;note:string;vehicle:string};
 const L:Record<Locale,Copy>={
@@ -56,13 +68,19 @@ export function RouteNetworkDesk({locale,rates,routeStatus}:{locale:Locale;rates
      </div>
      <label className={styles.mobileRoutes}><span>{t.choose}</span>
        <select value={effectiveIndex} onChange={e=>{setIndex(Number(e.target.value));setCar(0);}}>
-        {ACTIVE_ROUTES.map((item,i)=><option key={item.slug} value={i}>{item.titles?.[locale]||item.titleEn}</option>)}
+        {visibleRoutes.map((item,i)=><option key={item.slug} value={i}>{item.titles?.[locale]||item.titleEn}</option>)}
        </select>
      </label>
     </div>
     <div className={styles.schematic}>
      <div className={styles.schematicHead}><span>JOURNEY 0{effectiveIndex+1} / {visibleRoutes.length}</span><span><MapPin size={15} aria-hidden="true"/>{t.type}</span></div>
      <div className={styles.routeDrawing} role="img" aria-label={t.diagram+': '+name}>
+       {ROUTE_PHOTOS[route.slug] && (
+         <div className={styles.routePhoto} aria-hidden="true">
+           <Image key={route.slug} src={ROUTE_PHOTOS[route.slug]} alt="" fill
+             sizes="(max-width: 700px) 100vw, (max-width: 950px) 58vw, 35vw" />
+         </div>
+       )}
        <div className={styles.origin}><span>{pair[0]}</span><i/></div>
        <svg viewBox="0 0 500 120" preserveAspectRatio="none" aria-hidden="true">
         <path d="M 5 64 C 135 64 120 16 250 62 S 370 110 495 62" stroke="currentColor" strokeWidth="2" strokeDasharray="6 9" fill="none"/>
