@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Locale, getLocalizedAlternates, LOCALES, LOCALE_CONFIG } from '@/i18n/config';
+import { Locale, LOCALES, LOCALE_CONFIG } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { BLOG_POSTS } from '@/data/blog-posts';
 import { getBlogArticleContent } from '@/data/blog-content';
