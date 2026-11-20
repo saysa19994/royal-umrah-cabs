@@ -33,7 +33,7 @@ test('fleet atelier replaces repeat-card catalog while retaining authoritative d
   assert.match(page,/JSON\.stringify\(itemListSchema\)/);
   assert.doesNotMatch(page,/<FleetCatalog/);
   assert.match(fleet,/APPROVED_5_FLEET/);
-  assert.match(fleet,/rates\[route\]/);
+  assert.match(fleet,/rates\[selectedRoute\]/);
   assert.match(fleet,/vehicles\.find/);
   assert.match(fleet,/galleryPosition/);
   assert.match(fleet,/styles\.concierge/);
