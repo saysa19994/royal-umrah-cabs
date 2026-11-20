@@ -27,6 +27,9 @@ import { SiteSettings } from '@/lib/settings';
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<Partial<SiteSettings>>({});
+  const [savedSettings, setSavedSettings] = useState<Partial<SiteSettings> | null>(null);
+  const [savedVersion, setSavedVersion] = useState<string | null>(null);
+  const [settingsLoaded, setSettingsLoaded] = useState(false);
   const [resendConfigured, setResendConfigured] = useState<boolean>(true);
   const [resendFrom, setResendFrom] = useState<string>('');
   const [loading, setLoading] = useState(true);
@@ -83,20 +86,27 @@ export default function AdminSettingsPage() {
     }
   };
 
-  const fetchSettings = async () => {
+  const fetchSettings = async ():Promise<Partial<SiteSettings> | null> => {
     setLoading(true);
+    setSettingsLoaded(false);
     try {
-      const res = await fetch('/api/admin/settings');
+      const res = await fetch('/api/admin/settings',{cache:'no-store'});
       const data = await res.json();
-      if (data.settings) {
-        setSettings(data.settings);
+      if(!res.ok || !data.success || !data.settings || typeof data.version!=='string') {
+        throw new Error(data.error || 'Saved settings could not be read. Save is locked.');
       }
+      setSettings(data.settings);
+      setSavedSettings(data.settings);
+      setSavedVersion(data.version);
       if (data.system_status) {
         setResendConfigured(Boolean(data.system_status.resend_configured));
         setResendFrom(data.system_status.resend_from || '');
       }
+      setSettingsLoaded(true);
+      return data.settings as Partial<SiteSettings>;
     } catch (err) {
-      console.error('Error fetching settings:', err);
+      setErrorMsg(err instanceof Error ? err.message : 'Failed to retrieve saved settings');
+      return null;
     } finally {
       setLoading(false);
     }
@@ -108,26 +118,40 @@ export default function AdminSettingsPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if(saving || loading || !settingsLoaded || !savedSettings || !savedVersion) {
+      setErrorMsg('Reload current saved settings before editing.');
+      return;
+    }
+    const changes:Record<string,unknown>={};
+    for(const [key,value] of Object.entries(settings)){
+      if(JSON.stringify(value)!==JSON.stringify(
+        (savedSettings as Record<string,unknown>)[key])){
+        changes[key]=value;
+      }
+    }
+    if(!Object.keys(changes).length){
+      setErrorMsg('No settings have changed.');
+      return;
+    }
     setSaving(true);
     setErrorMsg(null);
     setSavedSuccess(false);
-
     try {
       const res = await fetch('/api/admin/settings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settings),
+        body: JSON.stringify({changes,expected_updated_at:savedVersion}),
       });
-
       const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Failed to save settings');
+      if(!res.ok || !data.success) throw new Error(data.error || 'Failed to save settings');
+      const after = await fetchSettings();
+      if(!after || Object.entries(changes).some(([key,value])=>
+        JSON.stringify((after as Record<string,unknown>)[key])!==JSON.stringify(value))){
+        throw new Error('The save response could not be confirmed by reading back the database.');
       }
-
       setSavedSuccess(true);
-      setTimeout(() => setSavedSuccess(false), 4000);
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Error updating settings');
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : 'Error updating settings');
     } finally {
       setSaving(false);
     }
@@ -645,7 +669,7 @@ export default function AdminSettingsPage() {
         <div className="flex items-center justify-end gap-3 pt-2">
           <button
             type="submit"
-            disabled={saving}
+            disabled={saving || loading || !settingsLoaded}
             className="px-8 py-3 rounded-xl bg-[#D9A031] hover:bg-[#B8821F] text-[#0D0F12] font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all disabled:opacity-50"
           >
             <Save className="w-4 h-4" />

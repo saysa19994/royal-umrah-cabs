@@ -1,45 +1,39 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { revalidateTag, revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { requireRole } from '@/lib/auth/server-auth';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
 import { getClientIp } from '@/lib/rate-limit';
-import { getMergedSiteSettings, setDynamicSettingsOverrides } from '@/lib/dynamic-settings-store';
+import { getMergedSiteSettings } from '@/lib/dynamic-settings-store';
+
+export const dynamic = 'force-dynamic';
+const privateHeaders = { 'Cache-Control':'private, no-store' };
 
 export async function GET(request: Request) {
+  const authResult = await requireRole(request,['owner','admin']);
+  if(authResult.errorResponse)return authResult.errorResponse;
   try {
-    const authResult = await requireRole(request, ['owner', 'admin']);
-    if (authResult.errorResponse) {
-      return authResult.errorResponse;
+    const {data,error}=await createServiceClient().from('site_settings')
+      .select('*').eq('lock_id',true).maybeSingle();
+    if(error || !data || !data.updated_at) {
+      console.error('Cannot load saved admin settings:',error?.message || 'No saved settings row');
+      return NextResponse.json({success:false,error:'Unable to load persisted settings. Editing is locked until the database recovers.'},
+        {status:503,headers:privateHeaders});
     }
-
-    let dbSettings: any = null;
-    try {
-      const serviceClient = createServiceClient();
-      const { data } = await serviceClient
-        .from('site_settings')
-        .select('*')
-        .eq('lock_id', true)
-        .maybeSingle();
-      if (data) dbSettings = data;
-    } catch (e) {
-      console.warn('Notice fetching settings from DB:', e);
-    }
-
-    const mergedSettings = getMergedSiteSettings(dbSettings);
-
     return NextResponse.json({
-      success: true,
-      settings: mergedSettings,
+      success:true,
+      version:data.updated_at,
+      settings:getMergedSiteSettings(data),
       system_status: {
-        resend_configured: Boolean(process.env.RESEND_API_KEY && !process.env.RESEND_API_KEY.includes('placeholder')),
-        resend_from: process.env.RESEND_FROM || 'Duyuf Alrahman VIP Security <security@duyufalrahmanvip.com>',
+        resend_configured:Boolean(process.env.RESEND_API_KEY && !process.env.RESEND_API_KEY.includes('placeholder')),
+        resend_from:process.env.RESEND_FROM || '',
       },
-    });
-  } catch (err: any) {
-    console.error('Settings GET error:', err);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    },{headers:privateHeaders});
+  }catch(err){
+    console.error('Admin settings GET failed:',err);
+    return NextResponse.json({success:false,error:'Unable to retrieve current saved settings'},
+      {status:503,headers:privateHeaders});
   }
 }
 
@@ -75,114 +69,110 @@ const SettingsUpdateSchema = z.object({
   promo_banner_text: z.string().max(255).optional(),
 });
 
+// Only columns that actually exist in the current production site_settings
+// table may be edited here. Remaining UI settings require an approved migration
+// or a separate durable CMS store: never pretend they were successfully saved.
+const durableColumns = new Set([
+  'phone','email','whatsapp_number','riyadh_enabled','address_cities',
+  'google_reviews_link','google_reviews_rating','google_reviews_count',
+  'free_cancellation_hours','currency_rates','owner_notification_email',
+  'telegram_chat_id','lead_alert_minutes',
+]);
+
 export async function POST(request: Request) {
+  const authResult = await requireRole(request,['owner']);
+  if(authResult.errorResponse)return authResult.errorResponse;
+  // Preview uses the production Supabase project today; never allow writes to
+  // live settings even when the owner is logged in to the preview.
+  if(process.env.VERCEL_ENV==='preview') {
+    let host='';
+    try{host=new URL(process.env.NEXT_PUBLIC_SUPABASE_URL || '').hostname;}catch{}
+    const isolated=process.env.PREVIEW_DATABASE_ISOLATED==='true' &&
+      host.endsWith('.supabase.co') &&
+      host!=='skyhpzdeapmttgmvcoeh.supabase.co';
+    if(!isolated) {
+      return NextResponse.json({success:false,code:'PREVIEW_DATABASE_ISOLATION_REQUIRED',
+        error:'Preview is read-only until an isolated staging database is connected.'},
+        {status:423,headers:privateHeaders});
+    }
+  }
+
+  const body=await request.json().catch(()=>null);
+  if(!body || typeof body!=='object' || Array.isArray(body) ||
+    !Object.prototype.hasOwnProperty.call(body,'expected_updated_at') ||
+    typeof body.expected_updated_at!=='string' ||
+    Number.isNaN(Date.parse(body.expected_updated_at)) ||
+    !body.changes || typeof body.changes!=='object' || Array.isArray(body.changes)){
+    return NextResponse.json({success:false,error:'Reload saved settings before editing'},
+      {status:400,headers:privateHeaders});
+  }
+  const parsed=SettingsUpdateSchema.strict().safeParse(body.changes);
+  if(!parsed.success) {
+    return NextResponse.json({success:false,error:'Invalid settings submitted',details:parsed.error.flatten().fieldErrors},
+      {status:400,headers:privateHeaders});
+  }
+  const unsupported=Object.keys(parsed.data).filter(key=>!durableColumns.has(key));
+  if(unsupported.length) {
+    return NextResponse.json({success:false,
+      error:'These fields do not yet have persistent database columns: '+unsupported.join(', ')},
+      {status:422,headers:privateHeaders});
+  }
+  if(!Object.keys(parsed.data).length) {
+    return NextResponse.json({success:false,error:'No changed fields to save'},
+      {status:400,headers:privateHeaders});
+  }
+
+  const changes:Record<string,unknown>={...parsed.data};
+  if(typeof changes.whatsapp_number==='string') {
+    changes.whatsapp_number=changes.whatsapp_number.replace(/[^0-9]/g,'');
+  }
+
   try {
-    const clientIp = getClientIp(request);
-    // Owner-only guard for modifying production settings
-    const authResult = await requireRole(request, ['owner']);
-    if (authResult.errorResponse) {
-      return authResult.errorResponse;
+    const db=createServiceClient();
+    const {data:current,error:readError}=await db.from('site_settings')
+      .select('updated_at').eq('lock_id',true).maybeSingle();
+    if(readError || !current) {
+      return NextResponse.json({success:false,error:'Unable to check persisted settings version'},
+        {status:503,headers:privateHeaders});
     }
-
-    const { user: currentUser } = authResult;
-    const body = await request.json();
-    const parseResult = SettingsUpdateSchema.safeParse(body);
-    if (!parseResult.success) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Validation failed',
-          details: parseResult.error.flatten().fieldErrors,
-        },
-        { status: 400 }
-      );
+    if(current.updated_at!==body.expected_updated_at) {
+      return NextResponse.json({success:false,error:'Settings changed in another session. Reload before saving.'},
+        {status:409,headers:privateHeaders});
     }
-
-    const validated = parseResult.data;
-    const serviceClient = createServiceClient();
-    const updates: Record<string, any> = {
-      updated_at: new Date().toISOString(),
-    };
-
-    if (validated.phone !== undefined) updates.phone = validated.phone;
-    if (validated.email !== undefined) updates.email = validated.email;
-    if (validated.whatsapp_number !== undefined) updates.whatsapp_number = validated.whatsapp_number.replace(/[^0-9]/g, '');
-    if (validated.whatsapp_number_secondary !== undefined) updates.whatsapp_number_secondary = validated.whatsapp_number_secondary.replace(/[^0-9]/g, '');
-    if (validated.riyadh_enabled !== undefined) updates.riyadh_enabled = validated.riyadh_enabled;
-    if (validated.taif_enabled !== undefined) updates.taif_enabled = validated.taif_enabled;
-    if (validated.address_cities !== undefined) updates.address_cities = validated.address_cities;
-    if (validated.google_reviews_link !== undefined) updates.google_reviews_link = validated.google_reviews_link;
-    if (validated.google_reviews_rating !== undefined) updates.google_reviews_rating = validated.google_reviews_rating;
-    if (validated.google_reviews_count !== undefined) updates.google_reviews_count = validated.google_reviews_count;
-    if (validated.free_cancellation_hours !== undefined) updates.free_cancellation_hours = validated.free_cancellation_hours;
-    if (validated.currency_rates !== undefined) updates.currency_rates = validated.currency_rates;
-    if (validated.owner_notification_email !== undefined) updates.owner_notification_email = validated.owner_notification_email;
-    if (validated.telegram_chat_id !== undefined) updates.telegram_chat_id = validated.telegram_chat_id;
-    if (validated.lead_alert_minutes !== undefined) updates.lead_alert_minutes = validated.lead_alert_minutes;
-    if (validated.founder_enabled !== undefined) updates.founder_enabled = validated.founder_enabled;
-    // Feature flags
-    if (validated.flight_tracking_enabled !== undefined) updates.flight_tracking_enabled = validated.flight_tracking_enabled;
-    if (validated.complimentary_water !== undefined) updates.complimentary_water = validated.complimentary_water;
-    if (validated.zamzam_water !== undefined) updates.zamzam_water = validated.zamzam_water;
-    if (validated.complimentary_child_seat !== undefined) updates.complimentary_child_seat = validated.complimentary_child_seat;
-    if (validated.malay_speaking_chauffeur !== undefined) updates.malay_speaking_chauffeur = validated.malay_speaking_chauffeur;
-    if (validated.free_miqat_stop !== undefined) updates.free_miqat_stop = validated.free_miqat_stop;
-    if (validated.online_card_payment_enabled !== undefined) updates.online_card_payment_enabled = validated.online_card_payment_enabled;
-    if (validated.bank_transfer_payment_enabled !== undefined) updates.bank_transfer_payment_enabled = validated.bank_transfer_payment_enabled;
-    if (validated.coaster_enabled !== undefined) updates.coaster_enabled = validated.coaster_enabled;
-    if (validated.airport_waiting_minutes !== undefined) updates.airport_waiting_minutes = validated.airport_waiting_minutes;
-    if (validated.promo_banner_enabled !== undefined) updates.promo_banner_enabled = validated.promo_banner_enabled;
-    if (validated.promo_banner_text !== undefined) updates.promo_banner_text = validated.promo_banner_text;
-
-    // 1. Save immediately to dynamic runtime store
-    setDynamicSettingsOverrides(updates);
-
-    // 2. Persist to Supabase if available
-    let dbData: any = null;
-    try {
-      const serviceClient = createServiceClient();
-      const { data } = await serviceClient
-        .from('site_settings')
-        .upsert(
-          {
-            lock_id: true,
-            ...updates,
-          },
-          { onConflict: 'lock_id' }
-        )
-        .select()
-        .maybeSingle();
-
-      if (data) dbData = data;
-    } catch (dbErr) {
-      console.warn('Notice persisting site_settings to DB:', dbErr);
+    const previousTime=Date.parse(current.updated_at);
+    const updated_at=new Date(Math.max(Date.now(),Number.isFinite(previousTime)?previousTime+1:Date.now())).toISOString();
+    const {data:saved,error:writeError}=await db.from('site_settings')
+      .update({...changes,updated_at}).eq('lock_id',true)
+      .eq('updated_at',body.expected_updated_at)
+      .select('*').maybeSingle();
+    if(writeError) {
+      console.error('Admin settings persist error:',writeError.message);
+      return NextResponse.json({success:false,error:'Database rejected the changes; nothing has been confirmed saved'},
+        {status:503,headers:privateHeaders});
     }
-
-    try {
+    if(!saved) {
+      return NextResponse.json({success:false,error:'Settings changed during save; reload before retrying'},
+        {status:409,headers:privateHeaders});
+    }
+    for(const [key,value] of Object.entries(changes)) {
+      if(JSON.stringify(saved[key])!==JSON.stringify(value)) {
+        return NextResponse.json({success:false,error:'Saved settings did not match the expected values'},
+          {status:503,headers:privateHeaders});
+      }
+    }
+    try{
       await logAuditEvent({
-        userEmail: currentUser.email,
-        userRole: currentUser.role,
-        action: 'settings_update',
-        resource: 'settings',
-        resourceId: 'lock_id',
-        newValues: updates,
-        ip: clientIp,
+        userEmail:authResult.user.email,userRole:authResult.user.role,
+        action:'settings_update',resource:'settings',resourceId:'lock_id',
+        newValues:changes,ip:getClientIp(request),
       });
-    } catch (auditErr) {
-      console.warn('Notice logging audit event:', auditErr);
-    }
-
-    // Revalidate cache tags and layouts
-    try {
-      revalidateTag('site_settings');
-
-    } catch (revalErr) {
-      console.warn('Cache revalidation notice:', revalErr);
-    }
-
-    return NextResponse.json({ success: true, settings: getMergedSiteSettings(dbData || updates) });
-  } catch (err: any) {
-    console.error('Settings update error:', err);
-    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
+    }catch(err){console.error('Settings saved but audit logging failed',err);}
+    revalidateTag('site_settings');
+    return NextResponse.json({success:true,version:saved.updated_at,
+      settings:getMergedSiteSettings(saved)},{headers:privateHeaders});
+  } catch(err) {
+    console.error('Admin settings save failed:',err);
+    return NextResponse.json({success:false,error:'Unable to persist settings'},
+      {status:503,headers:privateHeaders});
   }
 }
