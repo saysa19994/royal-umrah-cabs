@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Image from 'next/image';
+import { getRoutePhotoFromTranslations } from '@/lib/route-media';
 import {
   MapPin,
   Compass,
@@ -46,6 +48,8 @@ export default function AdminRoutesPage() {
   const [isCreating, setIsCreating] = useState(false);
   const [formData, setFormData] = useState<Partial<RouteRecord>>({});
   const [saving, setSaving] = useState(false);
+  const [routeImageUrl, setRouteImageUrl] = useState('');
+  const [routeImageFile, setRouteImageFile] = useState<File | null>(null);
 
   const fetchRoutes = async () => {
     setLoading(true);
@@ -114,11 +118,15 @@ export default function AdminRoutesPage() {
 
   const handleOpenEdit = (route: RouteRecord) => {
     setFormData({ ...route });
+    setRouteImageUrl(getRoutePhotoFromTranslations(route.translations) || '');
+    setRouteImageFile(null);
     setIsEditing(true);
     setIsCreating(false);
   };
 
   const handleOpenCreate = () => {
+    setRouteImageUrl('');
+    setRouteImageFile(null);
     setFormData({
       id: '',
       origin_city: '',
@@ -144,11 +152,29 @@ export default function AdminRoutesPage() {
 
     setSaving(true);
     try {
+      let publishedPhoto = routeImageUrl;
+      if (routeImageFile) {
+        if (routeImageFile.size > 15 * 1024 * 1024 ||
+            !['image/jpeg', 'image/png', 'image/webp', 'image/avif'].includes(routeImageFile.type)) {
+          throw new Error('Choose a JPG, PNG, WebP or AVIF image under 15MB.');
+        }
+        const data = new FormData();
+        data.append('file', routeImageFile);
+        data.append('category', 'routes');
+        data.append('vehicleId', formData.id.replace(/[^a-z0-9_-]/gi, '-'));
+        const upload = await fetch('/api/admin/media/upload', { method: 'POST', body: data });
+        const uploaded = await upload.json();
+        if (!upload.ok || !uploaded.url) {
+          throw new Error(uploaded.error || 'Route photo upload failed');
+        }
+        publishedPhoto = uploaded.url;
+      }
+
       const method = isCreating ? 'POST' : 'PATCH';
       const res = await fetch('/api/admin/routes', {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, route_image_url: publishedPhoto }),
       });
 
       const data = await res.json();
@@ -162,8 +188,8 @@ export default function AdminRoutesPage() {
       } else {
         setFeedback({ type: 'error', message: data.error || 'Failed to save route' });
       }
-    } catch {
-      setFeedback({ type: 'error', message: 'Network error saving route' });
+    } catch (error) {
+      setFeedback({ type: 'error', message: error instanceof Error ? error.message : 'Network error saving route' });
     } finally {
       setSaving(false);
     }
@@ -450,6 +476,40 @@ export default function AdminRoutesPage() {
                   />
                 </div>
               </div>
+
+              <section aria-label="Route cover image" className="rounded-xl border border-[#37475A] bg-[#090D15] p-4 space-y-3">
+                <div className="flex items-center justify-between gap-3">
+                  <label htmlFor="route-cover-upload" className="text-xs font-bold text-[#F4F1E9]">
+                    Route cover photo / صورة المسار
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => { setRouteImageUrl(''); setRouteImageFile(null); }}
+                    className="text-xs text-[#F2C18B] underline underline-offset-2"
+                  >
+                    Restore default / استعادة الافتراضية
+                  </button>
+                </div>
+                {routeImageUrl && !routeImageFile && (
+                  <Image
+                    src={routeImageUrl}
+                    width={440}
+                    height={190}
+                    alt="Current route cover"
+                    className="w-full max-h-36 object-cover rounded-md"
+                  />
+                )}
+                <input
+                  id="route-cover-upload"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/avif"
+                  onChange={(event) => setRouteImageFile(event.target.files?.[0] || null)}
+                  className="block w-full text-xs text-[#E3E9E5] file:mr-3 file:rounded-md file:border-0 file:px-3 file:py-2 file:bg-[#D6A13A] file:text-[#101725] file:font-bold"
+                />
+                <p className="text-xs text-[#9FB0BD] leading-relaxed">
+                  {routeImageFile ? `Selected: ${routeImageFile.name}` : 'JPG, PNG, WebP or AVIF up to 15MB. New cover appears on route pages after saving and refreshing. Other translations and pricing stay unchanged.'}
+                </p>
+              </section>
 
               <div className="flex items-center gap-2 p-3 rounded-xl bg-[#090D15] border border-[#1F2C42]">
                 <input
