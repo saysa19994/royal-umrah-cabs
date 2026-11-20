@@ -36,5 +36,5 @@ test('the real five fleet categories are selectable in every locale', () => {
   assert.match(fleet, /const \[category,setCategory\]=useState<FleetCategory>\('all'\)/);
   assert.match(fleet, /VEHICLE_CATEGORY\[item\.slug\]===category/);
   assert.match(fleet, /value=\{category\}/);
-  assert.match(read('src/components/fleet/FleetAtelier.module.css'), /\.filters label\.nth-child\(2\)/);
+  assert.match(read('src/components/fleet/FleetAtelier.module.css'), /\.filters label:nth-child\(2\)/);
 });
