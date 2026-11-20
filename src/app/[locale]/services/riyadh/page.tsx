@@ -203,7 +203,7 @@ export default async function RiyadhServicePage(props: RiyadhServicePageProps) {
             <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-ink-light mb-8">
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bg-alt border border-border">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>{isAr ? 'استقبال شخصي باللوحة الرقمية بمطار RUH' : 'RUH Airport Digital Meet & Greet'}</span>
+                <span>{isAr ? 'خدمة سائق خاص من الرياض' : 'Private Chauffeur Departures from Riyadh'}</span>
               </span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bg-alt border border-border">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
