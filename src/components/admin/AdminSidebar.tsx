@@ -103,7 +103,6 @@ export function AdminSidebar({
           labelEn: 'Lead Inquiries',
           labelAr: 'استفسارات المعتمرين',
           icon: Users,
-          badge: { text: '12 New', variant: 'gold' },
         },
       ],
     },
@@ -116,7 +115,6 @@ export function AdminSidebar({
           labelEn: 'VIP Fleet Control',
           labelAr: 'إدارة أسطول VIP',
           icon: Car,
-          badge: { text: '6 Models', variant: 'emerald' },
           adminOnly: true,
         },
         {
