@@ -16,6 +16,8 @@ export interface AdminBlogPost {
   is_published: boolean;
   content_en?: string;
   content_ar?: string;
+  updated_at?: string | null;
+  expected_updated_at?: string | null;
 }
 
 function staticPost(post: (typeof BLOG_POSTS)[number]): AdminBlogPost {
@@ -26,14 +28,14 @@ function staticPost(post: (typeof BLOG_POSTS)[number]): AdminBlogPost {
     author: post.author.en, read_time_minutes: Number.parseInt(post.readTime.en) || 5,
     published_at: post.publishedAt, is_published: true,
     // Never replace an existing long-form article with its short excerpt.
-    content_en: '', content_ar: '',
+    content_en: '', content_ar: '', updated_at: null,
   };
 }
 
 async function readManagedBlogOverridesFromDb(): Promise<AdminBlogPost[]> {
   const db = createServiceClient();
   const { data, error, count } = await db.from('page_content')
-    .select('page_key,content_blocks', { count: 'exact' })
+    .select('page_key,content_blocks,updated_at', { count: 'exact' })
     .like('page_key', 'blog_%').eq('language', 'en')
     .order('page_key').range(0, 999);
   if (error || count === null || count === undefined || count > (data?.length || 0)) {
@@ -56,7 +58,7 @@ async function readManagedBlogOverridesFromDb(): Promise<AdminBlogPost[]> {
           category:'VIP Umrah Transport', featured_image:'', author:'Duyuf Al Rahman VIP',
           read_time_minutes:5, published_at:'', is_published:false, content_en:'', content_ar:'',
         }),
-        ...b, slug,
+        ...b, slug, updated_at: row.updated_at,
       } as AdminBlogPost;
     }).filter((post):post is AdminBlogPost => Boolean(post));
 }
@@ -92,11 +94,20 @@ function validImage(url:string) {
 }
 
 export async function upsertBlogPostAdmin(raw:AdminBlogPost):Promise<{success:boolean;post?:AdminBlogPost;error?:string}> {
+  if (!raw || typeof raw !== 'object' ||
+      !Object.prototype.hasOwnProperty.call(raw,'expected_updated_at') ||
+      !(raw.expected_updated_at===null ||
+        (typeof raw.expected_updated_at==='string' && !Number.isNaN(Date.parse(raw.expected_updated_at))))) {
+    return {success:false,error:'Article changed by another editor: reload current article version before saving'};
+  }
   const slug=typeof raw.slug==='string'?raw.slug.trim().toLowerCase():'';
   if(!/^[a-z0-9-]{3,120}$/.test(slug)) return {success:false,error:'Slug must contain 3-120 lowercase letters, numbers or hyphens'};
   if(typeof raw.title_en!=='string'||!raw.title_en.trim()||
      typeof raw.title_ar!=='string'||!raw.title_ar.trim()) return {success:false,error:'Arabic and English titles are required'};
   const current=(await readManagedBlogOverridesFromDb()).find(post=>post.slug===slug) || null;
+  if ((current?.updated_at || null)!==raw.expected_updated_at) {
+    return {success:false,error:'Article changed by another editor: reload current article version before saving'};
+  }
   const legacy=BLOG_POSTS.some(post=>post.slug===slug);
   if(!legacy && raw.is_published && ((raw.content_en||'').trim().length<300 || (raw.content_ar||'').trim().length<300)) {
     return {success:false,error:'New published articles require at least 300 characters of original content in Arabic and English'};
@@ -116,22 +127,40 @@ export async function upsertBlogPostAdmin(raw:AdminBlogPost):Promise<{success:bo
     content_ar:String(raw.content_ar||'').slice(0,150000),
   };
   const db=createServiceClient();
-  const {error}=await db.from('page_content').upsert({
+  // A strictly later updated_at prevents a same-millisecond edit from reusing
+  // the previous version token and accidentally accepting another stale write.
+  const now=Date.now();
+  const previousTime=current?.updated_at ? Date.parse(current.updated_at) : 0;
+  const updated_at=new Date(Math.max(now,Number.isFinite(previousTime)?previousTime+1:now)).toISOString();
+  const payload={
     page_key:'blog_'+slug,language:'en',seo_title:post.title_en,seo_description:post.excerpt_en,
-    h1:post.title_en,content_blocks:post,updated_at:new Date().toISOString(),
-  },{onConflict:'page_key,language'});
-  if(error)return {success:false,error:'Unable to persist article edits: '+error.message};
+    h1:post.title_en,content_blocks:post,updated_at,
+  };
+  if(current) {
+    const {data,error}=await db.from('page_content').update(payload)
+      .eq('page_key','blog_'+slug).eq('language','en')
+      .eq('updated_at',raw.expected_updated_at!)
+      .select('updated_at').maybeSingle();
+    if(error)return {success:false,error:'Unable to persist article edits: '+error.message};
+    if(!data)return {success:false,error:'Article changed by another editor: reload current article version before saving'};
+  } else {
+    const {error}=await db.from('page_content').insert(payload);
+    if(error?.code==='23505')return {success:false,error:'Article changed by another editor: reload current article version before saving'};
+    if(error)return {success:false,error:'Unable to persist article edits: '+error.message};
+  }
   revalidateTag('site_blog');
   revalidatePath('/[locale]/blog','page');
   revalidatePath('/[locale]/blog/[slug]','page');
-  return {success:true,post};
+  return {success:true,post:{...post,updated_at}};
 }
 
-export async function deleteBlogPostAdmin(slug:string):Promise<{success:boolean;error?:string}> {
+export async function deleteBlogPostAdmin(
+  slug:string, expected_updated_at:string|null
+):Promise<{success:boolean;error?:string}> {
   const post=(await getAllBlogPostsAdmin()).find(p=>p.slug===slug);
   if(!post) return {success:false,error:'Article not found'};
-  // Unpublish instead of deleting: protects existing SEO links and editorial history.
-  const result=await upsertBlogPostAdmin({...post,is_published:false});
+  // Unpublish instead of deleting: preserve SEO and reject concurrent edits.
+  const result=await upsertBlogPostAdmin({...post,expected_updated_at,is_published:false});
   if(!result.success)return result;
   return {success:true};
 }
