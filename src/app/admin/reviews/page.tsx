@@ -281,7 +281,7 @@ export default function AdminReviewsPage() {
 
         {/* Rejected / Spam */}
         <div
-          onClick={() => { setStatusFilter('rejected'); setPage(1); }}
+          onClick={() => setFeedback({type:'error',message:'Rejected reviews require a reviewed database migration; do not confuse them with pending reviews.'})}
           className={`p-5 rounded-2xl border cursor-pointer transition-all ${
             statusFilter === 'rejected'
               ? 'bg-rose-950/25 border-rose-500/50 ring-1 ring-rose-500/40 shadow-lg'
@@ -291,7 +291,7 @@ export default function AdminReviewsPage() {
           <div className="flex items-center justify-between">
             <span className="text-[11px] font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
               <XCircle className="w-3 h-3" />
-              <span>Rejected / Spam</span>
+              <span>Rejection not enabled</span>
             </span>
             <span className="text-[10px] text-[#76828B]">Hidden</span>
           </div>
@@ -331,7 +331,7 @@ export default function AdminReviewsPage() {
       <div className="p-4 rounded-2xl bg-[#FFFBF5] border border-[#E4D4BE] flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between shadow-sm">
         {/* Status Tabs */}
         <div className="flex items-center gap-1 p-1 rounded-xl bg-[#F6EEE2] border border-[#E4D4BE] overflow-x-auto">
-          {(['all', 'pending', 'published', 'rejected'] as const).map((tab) => (
+          {(['all', 'pending', 'published'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => { setStatusFilter(tab); setPage(1); }}
@@ -551,16 +551,13 @@ export default function AdminReviewsPage() {
                         </button>
                       )}
 
-                      {currentStatus !== 'rejected' && (
-                        <button
-                          onClick={() => handleUpdateStatus(review.id, 'rejected')}
-                          disabled={isUpdating}
-                          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#F8F0E5] hover:bg-rose-950/60 text-rose-700 hover:text-rose-200 border border-[#DECCB1] hover:border-rose-500/40 text-xs font-semibold transition-all disabled:opacity-50 cursor-pointer"
-                        >
-                          <XCircle className="w-3.5 h-3.5 text-rose-400" />
-                          <span>Reject / Spam</span>
-                        </button>
-                      )}
+                      {/* Rejection cannot be persisted until the reviews table has
+                          a separate moderation status. Do not show a fake success. */}
+                      <button type="button" disabled title="Separate rejected status needs an approved database migration"
+                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#DECCB1] bg-[#F8F0E5] text-xs text-[#76838B] opacity-70 cursor-not-allowed">
+                        <XCircle className="h-3.5 w-3.5" />
+                        <span>Reject (not available yet)</span>
+                      </button>
 
                       {currentStatus !== 'pending' && (
                         <button
