@@ -333,7 +333,7 @@ export default function SignatureFusionHomepage({ locale, rates, routeStatus, di
                 title={photo.label}>
                 <Image src={photo.image} alt="" width={220} height={165}
                   sizes="(max-width:760px) 120px, 150px" />
-                <span aria-hidden="true">{numbers.format(index + 1).padStart(2, '0')}</span>
+                <span aria-hidden="true">{numbers.format(index + 1)}</span>
               </button>
             ))}
           </div>
