@@ -48,8 +48,9 @@ export interface PriceCalculationResult {
 }
 
 /**
- * Calculates booking prices strictly server-side with inviolable Authoritative Matrix source of truth.
- * If route, vehicle, duration, or pricing configuration is not found, throws an error (fail closed).
+ * Calculates booking prices on the server from published administrator data.
+ * The approved company matrix is a fallback for routes not yet configured in
+ * the database. Explicitly disabled prices, vehicles and routes fail closed.
  */
 export async function calculateServerPrice(params: {
   bookingType: 'transfer' | 'hourly' | 'ziyarat' | 'group_bus';
@@ -84,19 +85,18 @@ export async function calculateServerPrice(params: {
   let activeVehicle: { seats: number; bags: number; is_active: boolean } | null = null;
   const standardSpec = STANDARD_VEHICLE_SPECS[vehicleId];
 
-  if (standardSpec?.is_active) {
+  // An explicit admin-disabled vehicle must never be bookable just because
+  // an older approved fallback record still exists in the source code.
+  const { data: vehicleData, error: vehicleError } = await serviceClient
+    .from('vehicles')
+    .select('id, is_active, seats, bags')
+    .eq('id', vehicleId)
+    .maybeSingle();
+  if (vehicleError) throw new Error('Vehicle availability could not be verified');
+  if (vehicleData) {
+    activeVehicle = vehicleData.is_active ? vehicleData : null;
+  } else if (standardSpec?.is_active) {
     activeVehicle = standardSpec;
-  } else {
-    const { data: vehicleData } = await serviceClient
-      .from('vehicles')
-      .select('id, is_active, seats, bags')
-      .eq('id', vehicleId)
-      .eq('is_active', true)
-      .maybeSingle();
-
-    if (vehicleData) {
-      activeVehicle = vehicleData;
-    }
   }
 
   if (!activeVehicle) {
@@ -131,14 +131,14 @@ export async function calculateServerPrice(params: {
 
     // Verify route is active
     let isRouteActive = false;
-    const { data: routeData } = await serviceClient
+    const { data: routeData, error: routeError } = await serviceClient
       .from('routes')
       .select('id, is_active')
       .eq('id', routeId)
-      .eq('is_active', true)
       .maybeSingle();
-
+    if (routeError) throw new Error('Route availability could not be verified');
     if (routeData) {
+      if (!routeData.is_active) throw new Error(`Route '${routeId}' is not active`);
       isRouteActive = true;
     } else if (STANDARD_ROUTES[routeId]) {
       isRouteActive = true;
@@ -160,24 +160,29 @@ export async function calculateServerPrice(params: {
       throw new Error(`Active route '${routeId}' not found in database`);
     }
 
-    // Enforce Authoritative Transfer Rates as primary source of truth
-    const authoritativeFare = AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId];
-    if (authoritativeFare !== undefined && authoritativeFare > 0) {
-      basePriceSAR = authoritativeFare;
-    } else {
-      // Check database or dynamic store for auxiliary custom routes
-      const { data: priceRow } = await serviceClient
-        .from('prices')
-        .select('price_sar')
-        .eq('route_id', routeId)
-        .eq('vehicle_id', vehicleId)
-        .maybeSingle();
-
-      if (priceRow?.price_sar) {
-        basePriceSAR = Number(priceRow.price_sar);
-      } else {
-        basePriceSAR = getDynamicPriceForRouteVehicle(routeId, vehicleId);
+    // The published administrator price always wins over fallback defaults.
+    // A persisted zero explicitly disables this route/vehicle combination.
+    const approvedRoute = AUTHORITATIVE_TRANSFER_RATES[routeId];
+    if (approvedRoute && !Object.prototype.hasOwnProperty.call(approvedRoute, vehicleId)) {
+      throw new Error('This vehicle is not offered for the selected route');
+    }
+    const { data: priceRow, error: priceError } = await serviceClient
+      .from('prices')
+      .select('price_sar')
+      .eq('route_id', routeId)
+      .eq('vehicle_id', vehicleId)
+      .maybeSingle();
+    if (priceError) throw new Error('Published fare could not be verified');
+    if (priceRow) {
+      const configured = Number(priceRow.price_sar);
+      if (!Number.isFinite(configured) || configured <= 0) {
+        throw new Error('This route and vehicle combination is not available');
       }
+      basePriceSAR = configured;
+    } else if (approvedRoute) {
+      basePriceSAR = approvedRoute[vehicleId] ?? null;
+    } else {
+      basePriceSAR = getDynamicPriceForRouteVehicle(routeId, vehicleId);
     }
 
     if (!basePriceSAR || isNaN(basePriceSAR) || basePriceSAR <= 0) {
