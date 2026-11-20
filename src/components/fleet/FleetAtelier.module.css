@@ -602,3 +602,58 @@
  .table tbody tr{padding:12px}
  .conciergeIntro{padding-inline:15px}
 }
+
+
+/* Live route and passenger fit filters — DWELLA-inspired, real CMS data. */
+.filters {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) repeat(2, minmax(125px, .6fr));
+  gap: 14px;
+  margin: 0 auto 20px;
+  max-width: 1460px;
+}
+.filters label {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  color: #4f6768;
+  font-weight: 750;
+  font-size: 12px;
+}
+.filters select {
+  width: 100%;
+  min-height: 50px;
+  padding: 8px 14px;
+  border: 1px solid #bfc9c0;
+  border-radius: 4px;
+  background: #fff;
+  color: #173e44;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+}
+.filters select:focus-visible { outline: 3px solid #b78c57; outline-offset: 2px; }
+.noMatches {
+  max-width: 1460px;
+  margin: 0 auto 18px;
+  border-inline-start: 4px solid #b78c57;
+  background: #fef5e8;
+  color: #54442a;
+  padding: 13px 18px;
+  line-height: 1.7;
+}
+.pick:disabled { opacity: .45; cursor: not-allowed; }
+.pick:disabled:hover { background: transparent; }
+@media (max-width: 760px) {
+  .filters { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; padding-inline: 0; }
+  .filters label:first-child { grid-column: 1 / -1; }
+  .filters select { min-height: 49px; font-size: 16px; }
+}
+@media (max-width: 380px) {
+  .filters { gap: 7px; }
+  .filters select { padding-inline: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pick, .exteriorPhoto, .cabinPhoto { animation: none !important; transition: none !important; }
+}
