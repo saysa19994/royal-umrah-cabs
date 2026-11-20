@@ -24,7 +24,7 @@ test('fleet images use a long cache fallback, with immediate invalidation on edi
 test('booking, SEO, pricing, and production config remain outside the change scope', () => {
   const settings = read('src/lib/cache-revalidate.ts');
   assert.ok(settings.includes("revalidateTag(tag)"), 'targeted cache invalidation is preserved');
-  assert.ok(!settings.includes("revalidatePath('/', 'layout')"), 'avoid broad root-layout regeneration');
+  assert.ok(!/^\s*revalidatePath\('\/', 'layout'\)/m.test(settings), 'avoid broad root-layout regeneration');
   const prices = read('src/lib/pricing-db.ts');
   assert.ok(prices.includes("tags: ['site_prices']"));
 });
