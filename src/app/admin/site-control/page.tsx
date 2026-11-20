@@ -17,6 +17,8 @@ const shortcuts:Shortcut[]=[
  {label:'صفحة الخدمات',description:'العنوان والمقدمة وبيانات SEO وصور الأقسام',href:'/admin/cms?page=services&locale=ar',icon:FileText,kind:'content'},
  {label:'صفحة اتصل بنا',description:'العنوان والمقدمة والنموذج وبيانات SEO',href:'/admin/cms?page=contact&locale=ar',icon:MessageSquareText,kind:'content'},
  {label:'صفحة المزارات',description:'عنوان المزارات والمقدمة وبيانات SEO',href:'/admin/cms?page=ziyarat&locale=ar',icon:MapPinned,kind:'content'},
+ {label:'خدمات الرياض',description:'عناوين ومقدمة وSEO باللغات العشر — الأسعار من سجل الرحلات المنشور',href:'/admin/cms?page=riyadh&locale=ar',icon:MapPinned,kind:'content'},
+ {label:'خدمات الطائف',description:'العناوين والمقدمة وSEO باللغات العشر دون تغيير أجور الرحلات',href:'/admin/cms?page=taif&locale=ar',icon:MapPinned,kind:'content'},
  {label:'المدونة والمقالات',description:'الصورة والموضوع والملخص ونشر المقالات',href:'/admin/blog',icon:BookOpen,kind:'content'},
  {label:'الأسطول والسيارات',description:'حالة السيارة والصور والسعة والترجمات',href:'/admin/fleet',icon:CarFront,kind:'business'},
  {label:'المسارات والمدن',description:'إضافة مدن ونقاط انطلاق ووجهات وترجماتها',href:'/admin/routes',icon:MapPinned,kind:'business'},
