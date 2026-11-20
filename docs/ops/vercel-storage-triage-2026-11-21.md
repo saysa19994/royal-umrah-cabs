@@ -75,6 +75,24 @@ These exact head commits have `behind_by=0` when compared with the official prod
 - #2: `feature/royal-immersion-preview-20261118` → `feature/signature-fusion-preview-20261117`
 - #1: `feature/duyuf-private-journey-review-20261116` → `feature/duyuf-vip-final-integration`
 
+## Vercel deployment-level findings (read-only verified)
+
+All 15 production-merged branch names above returned **zero Vercel deployment records** when queried individually. Therefore, retiring those branches is **not a verified immediate way** to recover the current 4.72 GB storage excess.
+
+The following six **older Preview deployments** have **no current aliases** (verified via `list_deployment_aliases`), are **not production**, and are **not rollback candidates**. Their branch source is still in GitHub. They are lowest-risk deployment cleanup candidates if the direct immutable Preview URL is not used by QA:
+
+| Deployment | Branch | State | Risk note |
+| --- | --- | --- | --- |
+| `dpl_3z2vKTuQ6yqwzcADbFcwn5qMU4tp` | `feature/41-reference-adaptation-20261120` | CANCELED | no aliases; superseded |
+| `dpl_3RP2MfzFJjdziSLCwJhiA2APfmiK` | `feature/41-reference-adaptation-20261120` | CANCELED | no aliases; superseded |
+| `dpl_993UeKRWLrV1myUmB4TMWdoVGPFz` | `feature/41-reference-adaptation-20261120` | READY | no aliases; newer Preview exists |
+| `dpl_Z3P71Zv5WxiiaHMm8GAJ2RrKZmFk` | `release/mfa-onboarding-from-live-20261120` | READY | no aliases; newer Preview exists |
+| `dpl_XY8ixx1Uc6WESWCwRAN78wgovMjT` | `release/mfa-onboarding-from-live-20261120` | READY | no aliases; newer Preview exists |
+| `dpl_Fdyo1hdp71fxkZxEa3GqSS9FE56g` | `release/stability-from-live-20261120` | READY | no aliases; same source commit as current Production |
+
+**Do not delete** `dpl_E7ECwA9QHLGaG3NJos8muKJB9xSv` (live Production), `dpl_Crq29nKp4y3tXoPxocL5gS5TWifQ` (former Production rollback), or any other active/aliased/rollback deployment. Non-aliased READY Previews still have immutable generated URLs and may be bookmarked, so inspect their use before removing.
+
+Connected Vercel toolset does not expose a deployment deletion or retention-edit action. No cleanup action was performed remotely; the exact six IDs are recorded so the user can manage them in the official dashboard without guessing.
 ## Clean up safely
 1. Do not touch production deployment, live aliases, source assets, sitemap, booking, Supabase or important rollback candidates.
 2. Verify Vercel Preview aliases for production-merged candidates. Remove only unused branch refs with working deletion capability. This connector does not offer Git branch or Vercel deployment deletion, so do not simulate deletion with force-update.
