@@ -187,6 +187,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
                 alt=""
                 fill
                 priority
+                quality={86}
                 sizes="(max-width: 767px) 78vw, 47vw"
               />
             </div>
