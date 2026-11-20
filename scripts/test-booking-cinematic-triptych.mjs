@@ -43,7 +43,7 @@ test('three stage tabs never create fake reservations or change the booking wiza
 });
 
 test('booking hero is structurally different, mobile-first and accessible',()=>{
- assert.match(layout,/booking-visual-journey/);
+ assert.match(read('src/app/[locale]/booking/page.tsx'),/import '\.\/booking-visual-journey\.css'/);
  assert.match(layout,/grid-template-columns:minmax\(0,\.86fr\) minmax\(0,1\.14fr\)/);
  assert.match(layout,/flex-direction:column!important/);
  assert.match(layout,/@media\(max-width:767px\)/);
