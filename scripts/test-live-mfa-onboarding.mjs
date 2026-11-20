@@ -28,3 +28,26 @@ test('login factor verification does not trust a missing staff profile or unveri
  assert.match(s,/currentLevel === 'aal2'/);
  assert.match(s,/status: 403/);
 });
+
+test('rotating an exposed setup key revokes only unverified TOTP factors before enrollment',()=>{
+ const route=read('src/app/api/admin/auth/setup-2fa/route.ts');
+ assert.match(route,/factors\.data\?\.all/);
+ assert.match(route,/factor\.factor_type !== 'totp' \|\| factor\.status !== 'unverified'/);
+ assert.match(route,/await supabase\.auth\.mfa\.unenroll\(\{ factorId: factor\.id \}\)/);
+ assert.ok(route.indexOf('await supabase.auth.mfa.unenroll(')<route.indexOf('await supabase.auth.mfa.enroll('));
+ assert.match(route,/Unable to revoke the previous unfinished authenticator/);
+ assert.match(route,/startsWith\('<svg'\)/);
+ assert.match(route,/Buffer\.from\(qrCode, 'utf8'\)\.toString\('base64'\)/);
+ assert.doesNotMatch(route,/qrserver\.com|api\.qrserver|https:\/\/quickchart/);
+});
+
+test('login never exposes the MFA seed automatically and supports new private QR rotation',()=>{
+ const ui=read('src/app/admin/login/page.tsx');
+ assert.match(ui,/const \[showEnrollmentKey, setShowEnrollmentKey\] = useState\(false\)/);
+ assert.match(ui,/showEnrollmentKey && \(/);
+ assert.match(ui,/onFocus=\{\(\) => setShowEnrollmentKey\(false\)\}/);
+ assert.match(ui,/setEnrollQrImageUrl\(/);
+ assert.match(ui,/Generate a new private QR \/ replace old setup/);
+ assert.match(ui,/handleRotateEnrollment/);
+ assert.match(ui,/Scan the new QR/);
+});
