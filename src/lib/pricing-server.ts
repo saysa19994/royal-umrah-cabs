@@ -1,6 +1,7 @@
 import { createServiceClient } from '@/lib/supabase/service';
 import { CURRENCIES, CurrencyCode } from '@/i18n/config';
 import { getDynamicPriceForRouteVehicle } from './dynamic-pricing-store';
+import { hasPublishedFareAudit, type FarePublicationAudit } from './published-pricing';
 import { getMergedSiteSettings } from './dynamic-settings-store';
 import {
   AUTHORITATIVE_HOURLY_RATES_4H,
@@ -48,8 +49,9 @@ export interface PriceCalculationResult {
 }
 
 /**
- * Calculates booking prices strictly server-side with inviolable Authoritative Matrix source of truth.
- * If route, vehicle, duration, or pricing configuration is not found, throws an error (fail closed).
+ * Calculates booking prices on the server from published administrator data.
+ * The approved company matrix is a fallback for routes not yet configured in
+ * the database. Explicitly disabled prices, vehicles and routes fail closed.
  */
 export async function calculateServerPrice(params: {
   bookingType: 'transfer' | 'hourly' | 'ziyarat' | 'group_bus';
@@ -84,19 +86,18 @@ export async function calculateServerPrice(params: {
   let activeVehicle: { seats: number; bags: number; is_active: boolean } | null = null;
   const standardSpec = STANDARD_VEHICLE_SPECS[vehicleId];
 
-  if (standardSpec?.is_active) {
+  // An explicit admin-disabled vehicle must never be bookable just because
+  // an older approved fallback record still exists in the source code.
+  const { data: vehicleData, error: vehicleError } = await serviceClient
+    .from('vehicles')
+    .select('id, is_active, seats, bags')
+    .eq('id', vehicleId)
+    .maybeSingle();
+  if (vehicleError) throw new Error('Vehicle availability could not be verified');
+  if (vehicleData) {
+    activeVehicle = vehicleData.is_active ? vehicleData : null;
+  } else if (standardSpec?.is_active) {
     activeVehicle = standardSpec;
-  } else {
-    const { data: vehicleData } = await serviceClient
-      .from('vehicles')
-      .select('id, is_active, seats, bags')
-      .eq('id', vehicleId)
-      .eq('is_active', true)
-      .maybeSingle();
-
-    if (vehicleData) {
-      activeVehicle = vehicleData;
-    }
   }
 
   if (!activeVehicle) {
@@ -121,6 +122,21 @@ export async function calculateServerPrice(params: {
 
   let basePriceSAR: number | null = null;
 
+  // A durable admin audit event must match the currently stored price before
+  // an approved company fare can be overridden. Legacy seed rows have no
+  // publication event and must not silently change customer charges.
+  async function isPublishedFare(route: string, currentPrice: number): Promise<boolean> {
+    const { data: auditRows, error: auditError } = await serviceClient
+      .from('audit_log')
+      .select('action,entity_id,new_values,created_at')
+      .in('action', ['price_published', 'route_prices_published'])
+      .in('entity_id', [`${route}:${vehicleId}`, route])
+      .order('created_at', { ascending: false })
+      .limit(20);
+    if (auditError) throw new Error('Fare publication audit could not be verified');
+    return hasPublishedFareAudit((auditRows || []) as FarePublicationAudit[], route, vehicleId, currentPrice);
+  }
+
   if (bookingType === 'transfer') {
     if (!routeId) {
       throw new Error('route_id is required for transfer bookings');
@@ -128,17 +144,24 @@ export async function calculateServerPrice(params: {
     if (routeId === 'riyadh-airport-transfer') {
       throw new Error('Riyadh Airport transfer service is not active. Request a manual quotation for another service.');
     }
+    // Regional policy applies even if a route is still marked active in DB.
+    if (TAIF_ROUTES[routeId] && !getMergedSiteSettings(null).taif_enabled) {
+      throw new Error('Taif transportation routes are currently disabled');
+    }
+    if (RIYADH_ROUTES[routeId] && !getMergedSiteSettings(null).riyadh_enabled) {
+      throw new Error('Riyadh transportation routes are currently disabled');
+    }
 
     // Verify route is active
     let isRouteActive = false;
-    const { data: routeData } = await serviceClient
+    const { data: routeData, error: routeError } = await serviceClient
       .from('routes')
       .select('id, is_active')
       .eq('id', routeId)
-      .eq('is_active', true)
       .maybeSingle();
-
+    if (routeError) throw new Error('Route availability could not be verified');
     if (routeData) {
+      if (!routeData.is_active) throw new Error(`Route '${routeId}' is not active`);
       isRouteActive = true;
     } else if (STANDARD_ROUTES[routeId]) {
       isRouteActive = true;
@@ -160,24 +183,35 @@ export async function calculateServerPrice(params: {
       throw new Error(`Active route '${routeId}' not found in database`);
     }
 
-    // Enforce Authoritative Transfer Rates as primary source of truth
-    const authoritativeFare = AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId];
-    if (authoritativeFare !== undefined && authoritativeFare > 0) {
-      basePriceSAR = authoritativeFare;
-    } else {
-      // Check database or dynamic store for auxiliary custom routes
-      const { data: priceRow } = await serviceClient
-        .from('prices')
-        .select('price_sar')
-        .eq('route_id', routeId)
-        .eq('vehicle_id', vehicleId)
-        .maybeSingle();
-
-      if (priceRow?.price_sar) {
-        basePriceSAR = Number(priceRow.price_sar);
-      } else {
-        basePriceSAR = getDynamicPriceForRouteVehicle(routeId, vehicleId);
+    // The published administrator price always wins over fallback defaults.
+    // A persisted zero explicitly disables this route/vehicle combination.
+    const approvedRoute = AUTHORITATIVE_TRANSFER_RATES[routeId];
+    if (approvedRoute && !Object.prototype.hasOwnProperty.call(approvedRoute, vehicleId)) {
+      throw new Error('This vehicle is not offered for the selected route');
+    }
+    const { data: priceRow, error: priceError } = await serviceClient
+      .from('prices')
+      .select('price_sar')
+      .eq('route_id', routeId)
+      .eq('vehicle_id', vehicleId)
+      .maybeSingle();
+    if (priceError) throw new Error('Published fare could not be verified');
+    if (priceRow) {
+      const configured = Number(priceRow.price_sar);
+      if (!Number.isFinite(configured) || configured < 0) {
+        throw new Error('Published fare is invalid');
       }
+      if (approvedRoute && !(await isPublishedFare(routeId, configured))) {
+        // A legacy DB seed value is not an approved owner price change.
+        basePriceSAR = approvedRoute[vehicleId] ?? null;
+      } else {
+        if (configured === 0) throw new Error('This route and vehicle combination is not available');
+        basePriceSAR = configured;
+      }
+    } else if (approvedRoute) {
+      basePriceSAR = approvedRoute[vehicleId] ?? null;
+    } else {
+      basePriceSAR = getDynamicPriceForRouteVehicle(routeId, vehicleId);
     }
 
     if (!basePriceSAR || isNaN(basePriceSAR) || basePriceSAR <= 0) {
@@ -214,25 +248,32 @@ export async function calculateServerPrice(params: {
       }
     }
   } else if (bookingType === 'ziyarat') {
-    // Check if routeId is given (e.g. makkah-ziyarat, madinah-ziyarat)
-    if (routeId && AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId]) {
-      basePriceSAR = AUTHORITATIVE_TRANSFER_RATES[routeId][vehicleId];
-    } else if (AUTHORITATIVE_ZIYARAT_RATES[vehicleId]) {
-      basePriceSAR = AUTHORITATIVE_ZIYARAT_RATES[vehicleId];
-    } else {
-      const targetRouteId = 'ziyarat-tour';
-      const { data: priceRow } = await serviceClient
-        .from('prices')
-        .select('price_sar')
-        .eq('route_id', targetRouteId)
-        .eq('vehicle_id', vehicleId)
-        .maybeSingle();
-
-      if (priceRow?.price_sar) {
-        basePriceSAR = Number(priceRow.price_sar);
-      } else {
-        throw new Error(`No configured ziyarat pricing found in database for route '${targetRouteId}' and vehicle '${vehicleId}'`);
+    // Route-specific Ziyarat prices are managed in the same prices table.
+    const approvedZiyaratRoute = routeId && AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId]
+      ? routeId : null;
+    const targetRouteId = approvedZiyaratRoute || 'ziyarat-tour';
+    const { data: ziyaratRow, error: ziyaratError } = await serviceClient
+      .from('prices')
+      .select('price_sar')
+      .eq('route_id', targetRouteId)
+      .eq('vehicle_id', vehicleId)
+      .maybeSingle();
+    if (ziyaratError) throw new Error('Published Ziyarat fare could not be verified');
+    if (ziyaratRow) {
+      const configured = Number(ziyaratRow.price_sar);
+      if (!Number.isFinite(configured) || configured < 0) {
+        throw new Error('Published Ziyarat fare is invalid');
       }
+      if (approvedZiyaratRoute && !(await isPublishedFare(targetRouteId, configured))) {
+        basePriceSAR = AUTHORITATIVE_TRANSFER_RATES[approvedZiyaratRoute][vehicleId];
+      } else {
+        if (configured === 0) throw new Error('This Ziyarat vehicle is not available');
+        basePriceSAR = configured;
+      }
+    } else if (approvedZiyaratRoute) {
+      basePriceSAR = AUTHORITATIVE_TRANSFER_RATES[approvedZiyaratRoute][vehicleId];
+    } else {
+      basePriceSAR = AUTHORITATIVE_ZIYARAT_RATES[vehicleId] ?? null;
     }
   } else if (bookingType === 'group_bus') {
     if (AUTHORITATIVE_GROUP_RATES[vehicleId]) {

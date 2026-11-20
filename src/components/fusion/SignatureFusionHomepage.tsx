@@ -25,6 +25,7 @@ import styles from './SignatureFusionHomepage.module.css';
 type Props = {
   locale: Locale;
   rates: TransferRatesMap;
+  routeStatus: Record<string, boolean>;
   dict: Dictionary;
   regions: Record<'taif' | 'riyadh', boolean>;
   policies: { airportWaiting: number; freeCancellation: number };
@@ -124,7 +125,7 @@ function ArrivalFilm({ playLabel, pauseLabel }: { playLabel: string; pauseLabel:
   );
 }
 
-export default function SignatureFusionHomepage({ locale, rates, dict, regions, policies }: Props) {
+export default function SignatureFusionHomepage({ locale, rates, routeStatus, dict, regions, policies }: Props) {
   const copy = COPY[locale];
   const { dir, dateFormat } = LOCALE_CONFIG[locale];
   const router = useRouter();
@@ -132,7 +133,7 @@ export default function SignatureFusionHomepage({ locale, rates, dict, regions, 
   const DirectionArrow = dir === 'rtl' ? ArrowLeft : ArrowRight;
   const fleet = APPROVED_5_FLEET;
   const routes = ROYAL_HOME_ROUTES
-    .filter((item) => (!item.region || regions[item.region]) && fleet.some((vehicle) => rates[item.id]?.[FARE_KEYS[vehicle.slug]] > 0))
+    .filter((item) => routeStatus[item.id] !== false && (!item.region || regions[item.region]) && fleet.some((vehicle) => rates[item.id]?.[FARE_KEYS[vehicle.slug]] > 0))
     .map((item) => getRoyalHomeRoute(item, locale));
 
   const [route, setRoute] = useState(routes[0]?.id || '');

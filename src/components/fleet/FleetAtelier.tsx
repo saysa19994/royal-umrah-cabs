@@ -7,10 +7,11 @@ import {ArrowLeft,ArrowRight,ArrowUpRight,BriefcaseBusiness,Users,Camera,ShieldC
 import type {Locale} from '@/i18n/config';
 import type {FleetShowcaseVehicle} from '@/data/fleet-showcase-data';
 import {APPROVED_5_FLEET} from '@/data/approved-fleet-homepage';
-import {AUTHORITATIVE_TRANSFER_RATES,LOCALIZED_ROUTE_NAMES} from '@/lib/pricing-constants';
+import type {TransferRatesMap} from '@/lib/pricing-db';
+import {ROYAL_HOME_ROUTES,getRoyalHomeRoute} from '@/components/fusion/royal-home-routes';
 import styles from './FleetAtelier.module.css';
 
-type Props={locale:Locale;vehicles:FleetShowcaseVehicle[]};
+type Props={locale:Locale;vehicles:FleetShowcaseVehicle[];rates:TransferRatesMap;regions:{taif:boolean;riyadh:boolean};routeStatus:Record<string,boolean>};
 type UI={label:string;title:string;subtitle:string;viewInside:string;viewOutside:string;imageTitle:string;capacity:string;bags:string;price:string;route:string;book:string;details:string;comparison:string;compareIntro:string;vehicle:string;passengers:string;luggage:string;fare:string;more:string;concierge:string;conciergeDesc:string;contact:string;payment:string;index:string;conclusion:string;notForRoute:string};
 const UI_COPY:Record<Locale,UI>={
  ar:{label:'مجموعة المركبات الخاصة',title:'كل رحلة تستحق السيارة المناسبة.',subtitle:'اختر مركبتك وشاهد المساحة الحقيقية المخصصة لك ولعائلتك، ثم اطلب حجزها بالسعر المعتمد للمسار.',viewInside:'المقصورة',viewOutside:'من الخارج',imageTitle:'الصور المتاحة',capacity:'الركاب',bags:'الحقائب',price:'السعر على المسار',route:'مطار جدة إلى مكة',book:'اطلب هذه السيارة',details:'تفاصيل وصور إضافية',comparison:'الأسطول في لمحة.',compareIntro:'كل سيارة تحمل ضيوفها وحقائبهم حسب سعتها؛ الأسعار أدناه لرحلة مطار جدة إلى مكة فقط.',vehicle:'المركبة',passengers:'الركاب',luggage:'الحقائب',fare:'السعر',more:'التفاصيل',concierge:'اختيارات كونسيرج خاصة.',conciergeDesc:'مرسيدس مايباخ وهيونداي H1 متاحتان بالطلب الخاص والتنسيق المسبق فقط، وليستا ضمن الحجز المباشر.',contact:'استفسر عن الكونسيرج',payment:'لا يوجد دفع مسبق؛ الدفع نقدًا للسائق بعد انتهاء الرحلة.',index:'المركبة',conclusion:'اختيار يليق برحلتك.',notForRoute:'استفسر عن السعر'},
@@ -25,21 +26,71 @@ const UI_COPY:Record<Locale,UI>={
  hi:{label:'निजी वाहन संग्रह',title:'हर यात्रा के लिए सही वाहन।',subtitle:'वाहन की असली अंदरूनी और बाहरी तस्वीरें देखें, यात्रियों और सामान के अनुसार चुनें।',viewInside:'अंदर',viewOutside:'बाहर',imageTitle:'उपलब्ध फोटो',capacity:'यात्री',bags:'सामान',price:'इस मार्ग का किराया',route:'जेद्दा एयरपोर्ट से मक्का',book:'इस वाहन का अनुरोध',details:'वाहन विवरण',comparison:'सभी वाहन एक नज़र में।',compareIntro:'दिखाए किराए सिर्फ जेद्दा एयरपोर्ट से मक्का मार्ग के लिए हैं।',vehicle:'वाहन',passengers:'यात्री',luggage:'बैग',fare:'किराया',more:'विवरण',concierge:'विशेष कंसीयर्ज सेवा।',conciergeDesc:'मर्सिडीज़-मेबैक और हुंडई H1 केवल विशेष अनुरोध पर उपलब्ध हैं।',contact:'कंसीयर्ज से पूछें',payment:'कोई अग्रिम भुगतान नहीं; यात्रा के बाद नकद भुगतान।',index:'वाहन',conclusion:'अपनी यात्रा के लिए सही विकल्प।',notForRoute:'किराया पूछें'},
 };
 const FARE_IDS:Record<string,string>={'toyota-camry':'camry','hyundai-staria':'staria','gmc-yukon-xl':'yukon','toyota-hiace':'hiace','toyota-coaster':'coaster'};
-const ROUTE='jeddah-airport-to-makkah';
+const INITIAL_ROUTE='jeddah-airport-to-makkah';
+type FleetCategory='all'|'sedan'|'mpv'|'suv'|'van'|'coach';
+const VEHICLE_CATEGORY:Record<string,Exclude<FleetCategory,'all'>>={
+ 'toyota-camry':'sedan','hyundai-staria':'mpv',
+ 'gmc-yukon-xl':'suv','toyota-hiace':'van','toyota-coaster':'coach',
+};
+const CATEGORY_COPY:Record<Locale,{label:string;choices:Record<FleetCategory,string>}>={
+ ar:{label:'فئة السيارة',choices:{all:'كل الفئات',sedan:'سيدان',mpv:'عائلية',suv:'دفع رباعي',van:'فان مجموعات',coach:'حافلة'}},
+ en:{label:'Vehicle type',choices:{all:'All types',sedan:'Sedan',mpv:'Family MPV',suv:'SUV',van:'Group van',coach:'Coach'}},
+ ms:{label:'Jenis kenderaan',choices:{all:'Semua jenis',sedan:'Sedan',mpv:'MPV keluarga',suv:'SUV',van:'Van kumpulan',coach:'Bas'}},
+ id:{label:'Jenis kendaraan',choices:{all:'Semua jenis',sedan:'Sedan',mpv:'MPV keluarga',suv:'SUV',van:'Van grup',coach:'Bus'}},
+ ur:{label:'گاڑی کی قسم',choices:{all:'تمام اقسام',sedan:'سیڈان',mpv:'خاندانی',suv:'ایس یو وی',van:'گروپ وین',coach:'بس'}},
+ fr:{label:'Type de véhicule',choices:{all:'Tous types',sedan:'Berline',mpv:'Monospace',suv:'SUV',van:'Minibus',coach:'Autocar'}},
+ es:{label:'Tipo de vehículo',choices:{all:'Todos',sedan:'Sedán',mpv:'Monovolumen',suv:'SUV',van:'Furgoneta',coach:'Autobús'}},
+ de:{label:'Fahrzeugtyp',choices:{all:'Alle Typen',sedan:'Limousine',mpv:'Familienvan',suv:'SUV',van:'Gruppenbus',coach:'Reisebus'}},
+ tr:{label:'Araç tipi',choices:{all:'Tüm tipler',sedan:'Sedan',mpv:'Aile MPV',suv:'SUV',van:'Grup minibüsü',coach:'Otobüs'}},
+ hi:{label:'वाहन का प्रकार',choices:{all:'सभी प्रकार',sedan:'सेडान',mpv:'फैमिली एमपीवी',suv:'एसयूवी',van:'ग्रुप वैन',coach:'बस'}},
+};
+const FILTER_COPY:Record<Locale,{route:string;party:string;bags:string;none:string}>={
+ ar:{route:'المسار',party:'عدد الركاب',bags:'عدد الحقائب',none:'لا توجد سيارة متاحة لهذا العدد على المسار المختار. غيّر الفلاتر أو المسار.'},
+ en:{route:'Journey',party:'Passengers',bags:'Bags',none:'No vehicle fits this group on the chosen route. Adjust the filters or route.'},
+ ms:{route:'Laluan',party:'Penumpang',bags:'Bagasi',none:'Tiada kenderaan yang sesuai. Tukar laluan atau penapis.'},
+ id:{route:'Rute',party:'Penumpang',bags:'Bagasi',none:'Tidak ada kendaraan cocok. Ubah rute atau filter.'},
+ ur:{route:'راستہ',party:'مسافر',bags:'بیگ',none:'منتخب راستے پر مناسب گاڑی دستیاب نہیں۔ فلٹر تبدیل کریں۔'},
+ fr:{route:'Trajet',party:'Voyageurs',bags:'Bagages',none:'Aucun véhicule adapté sur ce trajet. Ajustez les filtres.'},
+ es:{route:'Ruta',party:'Pasajeros',bags:'Maletas',none:'No hay un vehículo adecuado. Cambia la ruta o los filtros.'},
+ de:{route:'Strecke',party:'Reisende',bags:'Gepäck',none:'Kein geeignetes Fahrzeug auf dieser Strecke. Filter anpassen.'},
+ tr:{route:'Güzergâh',party:'Yolcu',bags:'Bagaj',none:'Uygun araç yok. Güzergâhı veya filtreleri değiştirin.'},
+ hi:{route:'मार्ग',party:'यात्री',bags:'बैग',none:'इस मार्ग पर कोई उपयुक्त वाहन नहीं है। फ़िल्टर बदलें।'},
+};
 function VehicleLinkArrow({rtl}:{rtl:boolean}){return rtl?<ArrowLeft size={17} aria-hidden="true"/>:<ArrowRight size={17} aria-hidden="true"/>;}
 
-export function FleetAtelier({locale,vehicles}:Props){
- const t=UI_COPY[locale],rtl=locale==='ar'||locale==='ur';
+export function FleetAtelier({locale,vehicles,rates,regions,routeStatus}:Props){
+ const t=UI_COPY[locale],filters=FILTER_COPY[locale],rtl=locale==='ar'||locale==='ur';
  const [active,setActive]=useState(0),[interior,setInterior]=useState(false);
  const [galleryPosition,setGalleryPosition]=useState<string|null>(null);
- const approved=APPROVED_5_FLEET[active];
+ const [route,setRoute]=useState(INITIAL_ROUTE);
+ const [minPassengers,setMinPassengers]=useState(1);
+ const [minBags,setMinBags]=useState(0);
+ const [category,setCategory]=useState<FleetCategory>('all');
+ const routeOptions=useMemo(()=>ROYAL_HOME_ROUTES
+  .filter(item=>routeStatus[item.id]!==false&&(!item.region||regions[item.region])&&
+    Object.values(rates[item.id]||{}).some(price=>Number.isFinite(price)&&price>0))
+  .map(item=>getRoyalHomeRoute(item,locale)),[locale,rates,regions.taif,regions.riyadh]);
+ const selectedRoute=routeOptions.some(item=>item.id===route)?route:(routeOptions[0]?.id||route);
+ const availableIndices=APPROVED_5_FLEET.flatMap((item,index)=>{
+  const published=vehicles.find(v=>v.slug===item.slug||v.bookingVehicleId===FARE_IDS[item.slug]);
+  const fare=rates[selectedRoute]?.[FARE_IDS[item.slug]];
+  return published&&(category==='all'||VEHICLE_CATEGORY[item.slug]===category)&&routeStatus[selectedRoute]!==false&&published.passengers>=minPassengers&&published.luggage>=minBags&&
+    typeof fare==='number'&&Number.isFinite(fare)&&fare>0?[index]:[];
+ });
+ const displayIndex=availableIndices.includes(active)?active:(availableIndices[0]??active);
+ const canBook=availableIndices.length>0;
+ const approved=APPROVED_5_FLEET[displayIndex];
  const dbVehicle=useMemo(()=>vehicles.find(v=>v.slug===approved.slug||v.bookingVehicleId===FARE_IDS[approved.slug]),[vehicles,approved.slug]);
+ const displayName=dbVehicle?.name[locale]||approved.name[locale]||approved.name.en;
+ const displayPassengers=dbVehicle?.passengers??approved.passengers;
+ const displayLuggage=dbVehicle?.luggage??approved.luggage;
  const extPhoto=dbVehicle?.gallery?.find(x=>x.type==='exterior')?.src||approved.exteriorImage;
  const cabinPhoto=dbVehicle?.gallery?.find(x=>x.type==='interior')?.src||approved.interiorImage;
  const selectedPhoto=galleryPosition||(interior?cabinPhoto:extPhoto);
- const fare=AUTHORITATIVE_TRANSFER_RATES[ROUTE]?.[FARE_IDS[approved.slug]];
+ const fare=rates[selectedRoute]?.[FARE_IDS[approved.slug]];
+ const routeName=routeOptions.find(item=>item.id===selectedRoute)?.name||t.route;
  const numberFormat=new Intl.NumberFormat(locale==='ar'?'ar-SA':'en-US');
- const select=(i:number)=>{setActive(i);setInterior(false);setGalleryPosition(null);};
+ const select=(i:number)=>{if(!availableIndices.includes(i))return;setActive(i);setInterior(false);setGalleryPosition(null);};
  const morePhotos=dbVehicle?.gallery?.filter(x=>x.src!==selectedPhoto).slice(0,4)||[];
  return <div className={styles.page} dir={rtl?'rtl':'ltr'}>
   <section className={styles.hero} aria-labelledby="fleet-atelier-heading">
@@ -57,11 +108,26 @@ export function FleetAtelier({locale,vehicles}:Props){
      <div><span>02 / THE COLLECTION</span><h2>{t.conclusion}</h2></div>
      <span className={styles.collectionCount}>05 <small>/ 05</small></span>
    </div>
+   <div className={styles.filters} role="group" aria-label={t.label}>
+     <label><span>{filters.route}</span><select value={selectedRoute} onChange={e=>setRoute(e.target.value)}>
+       {routeOptions.map(item=><option key={item.id} value={item.id}>{item.name}</option>)}
+     </select></label>
+     <label><span>{CATEGORY_COPY[locale].label}</span><select value={category} onChange={e=>setCategory(e.target.value as FleetCategory)}>
+       {(Object.keys(CATEGORY_COPY[locale].choices) as FleetCategory[]).map(option=><option key={option} value={option}>{CATEGORY_COPY[locale].choices[option]}</option>)}
+     </select></label>
+     <label><span>{filters.party}</span><select value={minPassengers} onChange={e=>setMinPassengers(Number(e.target.value))}>
+       {Array.from({length:21},(_,i)=>i+1).map(v=><option key={v} value={v}>{v}</option>)}
+     </select></label>
+     <label><span>{filters.bags}</span><select value={minBags} onChange={e=>setMinBags(Number(e.target.value))}>
+       {Array.from({length:21},(_,i)=>i).map(v=><option key={v} value={v}>{v}</option>)}
+     </select></label>
+   </div>
+   {!canBook&&<p className={styles.noMatches} role="status">{filters.none}</p>}
    <div className={styles.collection}>
     <nav className={styles.selector} aria-label={t.vehicle}>
       <span className={styles.railEyebrow}>{t.label}</span>
       {APPROVED_5_FLEET.map((v,i)=><button key={v.id} type="button" className={styles.pick}
-         aria-pressed={active===i} onClick={()=>select(i)}>
+         aria-pressed={displayIndex===i} disabled={!availableIndices.includes(i)} onClick={()=>select(i)}>
         <span>{String(i+1).padStart(2,'0')}</span><strong>{v.name[locale]||v.name.en}</strong>
         <span className={styles.pickDot} aria-hidden="true"/>
       </button>)}
@@ -70,8 +136,8 @@ export function FleetAtelier({locale,vehicles}:Props){
      <div className={styles.primaryPhoto}>
        <Image key={selectedPhoto} src={selectedPhoto} alt={(approved.name[locale]||approved.name.en)+' — '+(galleryPosition?dbVehicle?.gallery?.find(x=>x.src===galleryPosition)?.alt?.[locale]||t.imageTitle:(interior?t.viewInside:t.viewOutside))}
           fill sizes="(max-width:800px) 100vw, 54vw" className={interior||(galleryPosition&&dbVehicle?.gallery?.find(x=>x.src===galleryPosition)?.type!=='exterior')?styles.cabinPhoto:styles.exteriorPhoto}/>
-       <span className={styles.photoEdition}>{String(active+1).padStart(2,'0')} / 05</span>
-       <span className={styles.photoName}>{approved.name[locale]||approved.name.en}</span>
+       <span className={styles.photoEdition}>{String(displayIndex+1).padStart(2,'0')} / 05</span>
+       <span className={styles.photoName}>{displayName}</span>
      </div>
      <div className={styles.photoControls} role="group" aria-label={t.imageTitle}>
       <button type="button" onClick={()=>{setInterior(false);setGalleryPosition(null);}} aria-pressed={!interior&&!galleryPosition}><Camera size={16} aria-hidden="true"/>{t.viewOutside}</button>
@@ -83,21 +149,21 @@ export function FleetAtelier({locale,vehicles}:Props){
      </div>}
     </div>
     <aside className={styles.specSheet}>
-      <div className={styles.specTop}><span>{t.index} / 0{active+1}</span><CarFront size={23} aria-hidden="true"/></div>
+      <div className={styles.specTop}><span>{t.index} / 0{displayIndex+1}</span><CarFront size={23} aria-hidden="true"/></div>
       <span className={styles.category}>{approved.categoryBadge[locale]||approved.categoryBadge.en}</span>
-      <h3>{approved.name[locale]||approved.name.en}</h3>
+      <h3>{displayName}</h3>
       <p>{dbVehicle?.desc?.[locale]||approved.summary[locale]||approved.summary.en||t.subtitle}</p>
       <dl className={styles.metrics}>
-       <div><dt><Users size={16} aria-hidden="true"/>{t.capacity}</dt><dd>{approved.passengers}</dd></div>
-       <div><dt><BriefcaseBusiness size={16} aria-hidden="true"/>{t.bags}</dt><dd>{approved.luggage}</dd></div>
+       <div><dt><Users size={16} aria-hidden="true"/>{t.capacity}</dt><dd>{displayPassengers}</dd></div>
+       <div><dt><BriefcaseBusiness size={16} aria-hidden="true"/>{t.bags}</dt><dd>{displayLuggage}</dd></div>
       </dl>
       <div className={styles.fare}>
-       <small>{t.price} — {t.route}</small>
-       {typeof fare==='number'&&Number.isFinite(fare)?<strong>{numberFormat.format(fare)} <span>SAR</span></strong>:<strong>{t.notForRoute}</strong>}
+       <small>{t.price} — {routeName}</small>
+       {canBook&&typeof fare==='number'&&Number.isFinite(fare)&&fare>0?<strong>{numberFormat.format(fare)} <span>SAR</span></strong>:<strong>{t.notForRoute}</strong>}
       </div>
-      <Link className={styles.book} href={'/'+locale+'/booking?route='+ROUTE+'&vehicle='+approved.slug}>
+      {canBook?<Link className={styles.book} href={'/'+locale+'/booking?route='+encodeURIComponent(selectedRoute)+'&vehicle='+approved.slug+'&passengers='+minPassengers+'&luggage='+minBags}>
         {t.book}<VehicleLinkArrow rtl={rtl}/>
-      </Link>
+      </Link>:<p className={styles.payment} role="status">{filters.none}</p>}
       <Link className={styles.readMore} href={'/'+locale+'/fleet/'+approved.slug}>{t.details}<ArrowUpRight size={16} aria-hidden="true"/></Link>
       <p className={styles.payment}><ShieldCheck size={15} aria-hidden="true"/>{t.payment}</p>
     </aside>
@@ -105,17 +171,18 @@ export function FleetAtelier({locale,vehicles}:Props){
   </section>
 
   <section className={styles.indexSection} aria-labelledby="fleet-index-heading">
-    <div className={styles.indexHead}><span>03 / SPECIFICATION INDEX</span><h2 id="fleet-index-heading">{t.comparison}</h2><p>{t.compareIntro}</p></div>
+    <div className={styles.indexHead}><span>03 / SPECIFICATION INDEX</span><h2 id="fleet-index-heading">{t.comparison}</h2><p>{routeName}</p></div>
     <div className={styles.tableScroll}>
     <table className={styles.table}>
       <thead><tr><th>{t.vehicle}</th><th>{t.passengers}</th><th>{t.luggage}</th><th>{t.fare} / SAR</th><th>{t.more}</th></tr></thead>
       <tbody>{APPROVED_5_FLEET.map(v=>{
-        const f=AUTHORITATIVE_TRANSFER_RATES[ROUTE]?.[FARE_IDS[v.slug]];
+        const published=vehicles.find(item=>item.slug===v.slug||item.bookingVehicleId===FARE_IDS[v.slug]);
+        const f=published?rates[selectedRoute]?.[FARE_IDS[v.slug]]:undefined;
         return <tr key={v.slug}>
          <th scope="row">{v.name[locale]||v.name.en}</th>
-         <td data-label={t.passengers}>{v.passengers}</td>
-         <td data-label={t.luggage}>{v.luggage}</td>
-         <td data-label={t.fare+' / SAR'}>{typeof f==='number'?numberFormat.format(f):t.notForRoute}</td>
+         <td data-label={t.passengers}>{published?.passengers??v.passengers}</td>
+         <td data-label={t.luggage}>{published?.luggage??v.luggage}</td>
+         <td data-label={t.fare+' / SAR'}>{typeof f==='number'&&f>0?numberFormat.format(f):t.notForRoute}</td>
          <td data-label={t.more}>
            <Link href={'/'+locale+'/fleet/'+v.slug}>
              <span className={styles.mobileDetailsText} aria-hidden="true">{t.more}</span>

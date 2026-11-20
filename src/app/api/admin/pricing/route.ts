@@ -107,11 +107,12 @@ export async function POST(request: NextRequest) {
     await logAuditEvent({
       userEmail: currentUser.email,
       userRole: currentUser.role,
-      action: 'price_upsert',
+      action: 'price_published',
       resource: 'pricing',
       resourceId: `${route_id}:${vehicle_id}`,
       newValues: { route_id, vehicle_id, price_sar: numericPrice },
       ip: clientIp,
+      requirePersistent: true,
     });
 
     revalidateTag('site_prices');
