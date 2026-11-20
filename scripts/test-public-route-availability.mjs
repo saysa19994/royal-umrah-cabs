@@ -15,6 +15,8 @@ test('route availability comes from editable Supabase records and revalidates by
   assert.match(routeStatus, /tags: \['site_routes'\]/);
   assert.match(fleetPage, /getPublishedRouteStatusCached\(\)/);
   assert.match(routePage, /getPublishedRouteStatusCached\(\)/);
+  assert.match(read('src/app/[locale]/page.tsx'), /getPublishedRouteStatusCached\(\)/);
+  assert.match(read('src/components/fusion/SignatureFusionHomepage.tsx'), /routeStatus\[item\.id\] !== false/);
   assert.match(read('src/lib/routes-service.ts'), /revalidateTag\('site_routes'\)/);
 });
 
