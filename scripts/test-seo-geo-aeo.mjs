@@ -44,6 +44,32 @@ test('untranslated article versions stay accessible but do not enter search clus
     assert.deepEqual(Object.keys(native.languages).sort(), ['ar', 'en', 'x-default']);
   }
   assert.equal(hasIndexableBlogTranslation('private-transfer-makkah-to-madinah', 'tr'), true);
+  assert.equal(hasIndexableBlogTranslation('new-unreviewed-article', 'en'), false);
+  assert.equal('languages' in getBlogLocalizedAlternates('en', 'new-unreviewed-article'), false);
+});
+
+test('published blog inventory is covered by the editorial policy and actual fallback sources', () => {
+  const { BLOG_NATIVE_ONLY_SLUGS, BLOG_FULLY_LOCALIZED_SLUGS } = loadBlogIndexability();
+  const blogPosts = read('src/data/blog-posts.ts');
+  const published = [...blogPosts.matchAll(/slug:\\s*'([^']+)'/g)].map((m) => m[1]);
+  assert.deepEqual(
+    [...BLOG_NATIVE_ONLY_SLUGS, ...BLOG_FULLY_LOCALIZED_SLUGS].sort(),
+    published.sort(),
+    'Each published article must have explicit translation eligibility'
+  );
+  const sources = {
+    'makkah-to-taif-private-transfer': 'makkah-to-taif',
+    'riyadh-to-makkah-private-transfer': 'riyadh-to-makkah',
+  };
+  for (const folder of Object.values(sources)) {
+    for (const locale of ['ms', 'id', 'ur', 'fr', 'es', 'de', 'tr', 'hi']) {
+      assert.match(
+        read(`src/data/blog-content/${folder}/${locale}.ts`),
+        /\\.\\.\\.[A-Z_]+_CONTENT_EN/,
+        'Fallback content must stay noindex until fully translated'
+      );
+    }
+  }
 });
 
 test('blog page metadata and XML sitemap use identical translation eligibility', () => {
