@@ -27,10 +27,14 @@ export async function GET(req: NextRequest) {
       language,
     });
 
+    // A failed database read is not a valid empty review list. Avoid caching
+    // transient failures as successful responses for visitors and crawlers.
     return NextResponse.json(result, {
-      status: 200,
+      status: result.success ? 200 : 503,
       headers: {
-        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=120',
+        'Cache-Control': result.success
+          ? 'public, s-maxage=30, stale-while-revalidate=120'
+          : 'private, no-store',
       },
     });
   } catch (err: any) {
@@ -106,8 +110,6 @@ export async function POST(req: NextRequest) {
     const sanitizedComment = sanitizeReviewText(data.comment);
     const sanitizedRoute = data.route ? sanitizeReviewText(data.route) : null;
     const sanitizedCountry = data.country ? sanitizeReviewText(data.country) : 'Saudi Arabia';
-    const sanitizedService = data.service_type ? sanitizeReviewText(data.service_type) : 'airport_transfer';
-    const sanitizedRef = data.booking_reference ? sanitizeReviewText(data.booking_reference).toUpperCase() : null;
 
     if (sanitizedName.length < 2 || sanitizedComment.length < 10) {
       return NextResponse.json(
@@ -116,55 +118,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 6. Optional Booking Verification check against existing bookings infrastructure
-    let isVerifiedBooking = false;
+    // 6. Persist using the deployed public.reviews schema directly.
+    // Extended fields (booking_reference, service_type, verified status) require an
+    // independently reviewed migration; we must not claim that they were persisted.
+    // All submissions remain unapproved until a privileged moderator approves them.
     const supabase = createServiceClient();
-
-    if (sanitizedRef) {
-      try {
-        const { data: bookingData } = await supabase
-          .from('bookings')
-          .select('id, ref_code, status')
-          .eq('ref_code', sanitizedRef)
-          .maybeSingle();
-
-        if (bookingData?.id) {
-          isVerifiedBooking = true;
-        }
-      } catch (bookingLookupErr) {
-        // Non-blocking lookup notice
-        console.warn('Booking verification lookup notice:', bookingLookupErr);
-      }
-    }
-
-    // 7. Insert review with STRICT status='pending' and is_approved=false
-    // Client cannot override these fields under any circumstance.
-    const fullPayload: Record<string, any> = {
-      customer_name: sanitizedName,
-      rating: data.rating,
-      comment: sanitizedComment,
-      route: sanitizedRoute,
-      service_type: sanitizedService,
-      country: sanitizedCountry,
-      language: data.language,
-      booking_reference: sanitizedRef,
-      is_verified_booking: isVerifiedBooking,
-      status: 'pending',
-      is_approved: false,
-    };
-
-    let insertedId: string | undefined;
     const { data: insertedData, error: insertError } = await supabase
       .from('reviews')
-      .insert(fullPayload)
-      .select('id')
-      .maybeSingle();
-
-    if (insertError) {
-      console.warn('Initial review insert with extended schema failed, retrying with base schema:', insertError.message);
-
-      // Fallback: Legacy schema fields only (guaranteed backwards compatible)
-      const legacyPayload = {
+      .insert({
         customer_name: sanitizedName,
         rating: data.rating,
         comment: sanitizedComment,
@@ -172,32 +133,19 @@ export async function POST(req: NextRequest) {
         country: sanitizedCountry,
         language: data.language,
         is_approved: false,
-      };
+      })
+      .select('id')
+      .maybeSingle();
 
-      const { data: fallbackData, error: fallbackError } = await supabase
-        .from('reviews')
-        .insert(legacyPayload)
-        .select('id')
-        .maybeSingle();
-
-      if (fallbackError) {
-        console.warn('Legacy review insert error (pending migration 004 execution in Supabase Dashboard):', fallbackError.message);
-        // Never claim success when Supabase did not persist the review.
-        // Clients can retry safely after the schema/service issue is resolved.
-        return NextResponse.json(
-          {
-            success: false,
-            error: 'The review could not be saved. Please try again later.',
-          },
-          { status: 503 }
-        );
-      }
-
-      insertedId = fallbackData?.id;
-    } else {
-      insertedId = insertedData?.id;
+    if (insertError) {
+      console.error('Review insert failed:', insertError.message);
+      return NextResponse.json({
+        success: false,
+        error: 'The review could not be saved. Please try again later.',
+      }, { status: 503 });
     }
 
+    const insertedId = insertedData?.id;
     if (!insertedId) {
       return NextResponse.json({ success: false, error: 'Could not verify that the review was saved.' }, { status: 503 });
     }
