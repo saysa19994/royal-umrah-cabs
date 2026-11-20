@@ -63,3 +63,26 @@ test('admin fare writes persist and trigger targeted cache invalidation', () => 
   assert.match(api, /revalidateTag\('site_prices'\)/);
   assert.match(api, /numericPrice < 0/);
 });
+
+test('legacy seed fares never override commercial approvals without a matching publication audit', () => {
+  const publicRates = read('src/lib/pricing-db.ts');
+  const booking = read('src/lib/pricing-server.ts');
+  const helper = read('src/lib/published-pricing.ts');
+  assert.match(publicRates, /hasPublishedFareAudit\(authorizedEvents/);
+  assert.match(publicRates, /\['price_published', 'route_prices_published'\]/);
+  assert.match(booking, /await isPublishedFare\(routeId, configured\)/);
+  assert.match(booking, /await isPublishedFare\(targetRouteId, configured\)/);
+  assert.match(helper, /event.action === 'price_published'/);
+  assert.match(helper, /event.action === 'route_prices_published'/);
+});
+
+test('only authenticated admin saves create durable fare publication markers', () => {
+  const pricingAdmin = read('src/app/api/admin/pricing/route.ts');
+  const routesAdmin = read('src/lib/routes-service.ts');
+  const audit = read('src/lib/audit.ts');
+  assert.match(pricingAdmin, /action: 'price_published'/);
+  assert.match(pricingAdmin, /requirePersistent: true/);
+  assert.match(routesAdmin, /action: 'route_prices_published'/);
+  assert.match(routesAdmin, /requirePersistent: true/);
+  assert.match(audit, /if \(params.requirePersistent\) throw/);
+});
