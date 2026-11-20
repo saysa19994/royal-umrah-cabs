@@ -4,6 +4,7 @@ import { requireRole } from '@/lib/auth/server-auth';
 import { createServiceClient } from '@/lib/supabase/service';
 import { logAuditEvent } from '@/lib/audit';
 import { getClientIp } from '@/lib/rate-limit';
+import { normalizeRoutePhotoUrl, withRoutePhoto } from '@/lib/route-media';
 
 export const dynamic = 'force-dynamic';
 
@@ -78,7 +79,24 @@ export async function PATCH(request: NextRequest) {
     if (display_order !== undefined) updates.display_order = Number(display_order);
     if (translations !== undefined) updates.translations = translations;
 
+    // The image is a separate editable setting, not a replacement for all
+    // localized translations. Pull the latest row and merge only __media.
+    // Do not accept arbitrary image origins or private storage URLs.
+    const isPhotoEdit = Object.prototype.hasOwnProperty.call(body, 'route_image_url');
+    const photo = isPhotoEdit ? normalizeRoutePhotoUrl(body.route_image_url) : undefined;
+    if (isPhotoEdit && photo === undefined) {
+      return NextResponse.json({ error: 'Upload an image to this site’s route media library first.' }, { status: 400 });
+    }
+
     const serviceClient = createServiceClient();
+    if (isPhotoEdit) {
+      const { data: existing, error: readError } = await serviceClient
+        .from('routes').select('translations').eq('id', id).single();
+      if (readError || !existing) {
+        return NextResponse.json({ error: 'Could not read existing route translations' }, { status: 409 });
+      }
+      updates.translations = withRoutePhoto(existing.translations, photo ?? null);
+    }
     const { data, error } = await serviceClient
       .from('routes')
       .update(updates)
@@ -143,6 +161,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Route ID, origin, and destination are required' }, { status: 400 });
     }
 
+    if (Object.prototype.hasOwnProperty.call(body, 'route_image_url') &&
+        normalizeRoutePhotoUrl(body.route_image_url) === undefined) {
+      return NextResponse.json({ error: 'Invalid route cover URL. Upload to approved storage.' }, { status: 400 });
+    }
+
     const newRoute = {
       id: id.toLowerCase().replace(/[^a-z0-9_-]/g, '-'),
       origin_city: origin_city.trim(),
@@ -154,10 +177,15 @@ export async function POST(request: NextRequest) {
       miqat_stop_allowed: Boolean(miqat_stop_allowed),
       is_active: true,
       display_order: Number(display_order) || 50,
-      translations: translations || {
-        en: { origin: origin_city, destination: destination_city },
-        ar: { origin: origin_city, destination: destination_city },
-      },
+      translations: (() => {
+        const defaults = translations || {
+          en: { origin: origin_city, destination: destination_city },
+          ar: { origin: origin_city, destination: destination_city },
+        };
+        return Object.prototype.hasOwnProperty.call(body, 'route_image_url')
+          ? withRoutePhoto(defaults, normalizeRoutePhotoUrl(body.route_image_url) ?? null)
+          : defaults;
+      })(),
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
