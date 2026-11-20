@@ -6,7 +6,7 @@ const page=read('src/app/[locale]/routes/page.tsx');
 const route=read('src/components/routes/RouteNetworkDesk.tsx');
 const styles=read('src/components/routes/RouteNetworkDesk.module.css');
 test('routes use a genuine schematic and fare desk, not the homepage photographic atlas',()=>{
- assert.match(page,/<RouteNetworkDesk locale=\{locale\} rates=\{rates\}/);
+ assert.match(page,/<RouteNetworkDesk locale=\{locale\} rates=\{rates\} routeStatus=\{routeStatus\} routeImages=\{routeImages\}/);
  assert.doesNotMatch(page,/<RouteSpotlightExplorer/);
  assert.match(route,/EXECUTIVE_ROUTES_DATA/);
  assert.match(route,/rates\[route\.slug\]/);

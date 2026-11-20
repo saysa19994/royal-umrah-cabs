@@ -14,7 +14,7 @@ const contact=read('src/app/[locale]/contact/page.tsx');
 const contactCss=read('src/app/[locale]/contact/contact-editorial.css');
 
 test('sitewide visual adaptations are distributed, not stacked onto the homepage',()=>{
- assert.match(routePage,/<RouteNetworkDesk locale=\{locale\} rates=\{rates\} routeStatus=\{routeStatus\} \/>/);
+ assert.match(routePage,/<RouteNetworkDesk locale=\{locale\} rates=\{rates\} routeStatus=\{routeStatus\} routeImages=\{routeImages\} \/>/);
  assert.match(fleet,/duyuf-fleet-gallery-controls/);
  assert.match(guides,/duyuf-guide-reading-list/);
  assert.match(contact,/duyuf-contact-layout/);

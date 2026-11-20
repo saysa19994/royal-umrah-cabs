@@ -43,7 +43,7 @@ const L:Record<Locale,Copy>={
  tr:{heading:'Size özel yolculuk planı.',sub:'Rota seçin; tahmini süreyi, aracı ve geçerli ücreti görün.',choose:'Rota seçin',time:'Tahmini süre',distance:'Yaklaşık mesafe',fare:'Araç ücreti',type:'Özel transfer',book:'Yolculuk talep et',detail:'Rota ayrıntıları',cash:'Yolculuk sonrası nakit ödeme',unavailable:'Bu rotada yok',diagram:'Şematik çizgi, coğrafi harita değildir',step:'Varış noktası',routes:'Rota rehberi',note:'Süre ve mesafe tahminidir.',vehicle:'Araç'},
  hi:{heading:'अपनी यात्रा का स्पष्ट मार्ग।',sub:'मार्ग चुनें, अनुमानित समय, वाहन और किराया देखें।',choose:'मार्ग चुनें',time:'अनुमानित समय',distance:'लगभग दूरी',fare:'वाहन किराया',type:'निजी ट्रांसफर',book:'यात्रा अनुरोध करें',detail:'मार्ग विवरण',cash:'यात्रा के बाद नकद भुगतान',unavailable:'उपलब्ध नहीं',diagram:'मार्ग का चित्र, भौगोलिक नक्शा नहीं',step:'गंतव्य',routes:'मार्ग सूची',note:'समय और दूरी अनुमानित हैं।',vehicle:'वाहन'},
 };
-export function RouteNetworkDesk({locale,rates,routeStatus}:{locale:Locale;rates:TransferRatesMap;routeStatus:Record<string,boolean>}){
+export function RouteNetworkDesk({locale,rates,routeStatus,routeImages}:{locale:Locale;rates:TransferRatesMap;routeStatus:Record<string,boolean>;routeImages:Record<string,string>}){
  const t=L[locale],rtl=locale==='ar'||locale==='ur';const [index,setIndex]=useState(0),[car,setCar]=useState(0);
  const visibleRoutes=ACTIVE_ROUTES.filter(item=>routeStatus[item.slug]!==false);
  const effectiveIndex=visibleRoutes[index]?index:0;
@@ -51,7 +51,7 @@ export function RouteNetworkDesk({locale,rates,routeStatus}:{locale:Locale;rates
  if(!route)return <section className={styles.network} dir={rtl?'rtl':'ltr'} role="status"><h2>{t.heading}</h2><p>{t.unavailable}</p></section>;
  const pair=ENDS[route.slug]||['START','END'];
  const fare=rates[route.slug]?.[FARES[vehicle.slug]];
- const photoSource=ROUTE_PHOTOS[route.slug];
+ const photoSource=routeImages[route.slug] || ROUTE_PHOTOS[route.slug];
  const name=route.titles?.[locale]||route.titleEn;
  const fmt=new Intl.NumberFormat(locale==='ar'?'ar-SA':'en-US');
  const Arrow=rtl?ArrowLeft:ArrowRight;

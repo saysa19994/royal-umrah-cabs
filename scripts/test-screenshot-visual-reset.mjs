@@ -8,7 +8,7 @@ const about=read('src/app/[locale]/about/page.tsx');
 const pricing=read('src/app/[locale]/pricing/page.tsx');
 const ziyarat=read('src/app/[locale]/ziyarat/page.tsx');
 test('route page does not bury its live selector below ten duplicate scenic cards and a second fare matrix',()=>{
- assert.match(routes,/<RouteNetworkDesk locale=\{locale\} rates=\{rates\} routeStatus=\{routeStatus\}\s*\/>/);
+ assert.match(routes,/<RouteNetworkDesk locale=\{locale\} rates=\{rates\} routeStatus=\{routeStatus\} routeImages=\{routeImages\}\s*\/>/);
  assert.match(routes,/EXECUTIVE_ROUTES_DATA\.filter\(route=>route\.slug!=='riyadh-airport-transfer'&&routeStatus\[route\.slug\]!==false\)\.map/);
  assert.doesNotMatch(routes,/<ExecutiveRouteCard/);
  assert.doesNotMatch(routes,/<PricingTable/);
