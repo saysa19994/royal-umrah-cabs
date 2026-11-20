@@ -1,13 +1,14 @@
 import React from 'react';
-import Image from 'next/image';
 import styles from './booking-atrium.module.css';
 import './booking-editorial.css';
 import './booking-reference-redesign.css';
+import './booking-visual-journey.css';
 import type { Metadata } from 'next';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
 import { BookingWizard } from '@/components/booking/BookingWizard';
+import { BookingJourneyVisual } from '@/components/booking/BookingJourneyVisual';
 import { ShieldCheck, Plane, Banknote } from 'lucide-react';
 import { getDbPricesCached } from '@/lib/pricing-db';
 import { getBookingDraft } from '@/lib/booking-draft-store';
@@ -213,16 +214,11 @@ export default async function BookingPage(props: BookingPageProps) {
         <div className={styles.introCopy}>
           <div className={styles.serial}>{pageText.badge}</div>
           <h1 id="duyuf-booking-heading">{locale === 'ar' ? <>احجز <span>رحلتك</span> بسهولة وأمان</> : pageText.title}</h1>
+          <p>{pageText.subtitle}</p>
           <a className={styles.startLink} href="#booking-reservation">{dict.nav.bookNow}</a>
         </div>
         <div className={styles.introMedia}>
-          <Image src="/assets/homepage-v2/ziyarat-haram.jpg" fill
-            priority sizes="(max-width:767px) 100vw, 48vw"
-            alt={locale === 'ar' ? 'المسجد الحرام في مكة المكرمة' : 'The Grand Mosque in Makkah'}/>
-          <div className="duyuf-booking-hero-vehicle" aria-hidden="true">
-            <Image src="/assets/images/yukon_exterior.webp" fill sizes="(max-width:767px) 160px, 240px" alt="" />
-          </div>
-          <div className={styles.photoLabel}><span>DUYUF AL RAHMAN VIP</span><span>{dict.nav.bookNow}</span></div>
+          <BookingJourneyVisual locale={locale} />
         </div>
       </header>
       <div className={styles.operationalLine} aria-label={pageText.trust1}>
