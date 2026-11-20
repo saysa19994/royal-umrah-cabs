@@ -39,12 +39,18 @@ export function getPreferredLocale(request: NextRequest): Locale {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // 0. Canonical domain redirect: disabled by default until custom domain DNS is fully activated
-  const host = request.headers.get('host') || '';
-  if (process.env.ENFORCE_CANONICAL_REDIRECT === 'true' && host.includes('.vercel.app')) {
+  // 0. Consolidate production aliases onto the one public canonical host.
+  // Preview deployments stay available for QA, without competing in Search.
+  // Only redirect safe read methods so booking/API POST requests are not rewritten.
+  const host = (request.headers.get('host') || '').split(':')[0].toLowerCase();
+  const isSafeRequest = request.method === 'GET' || request.method === 'HEAD';
+  const isAlternateProductionHost =
+    host === 'www.duyufalrahmanvip.com' || host.endsWith('.vercel.app');
+  if (isSafeRequest && process.env.VERCEL_ENV === 'production' && isAlternateProductionHost) {
     const canonicalUrl = new URL(request.nextUrl.pathname + request.nextUrl.search, 'https://duyufalrahmanvip.com');
-    return NextResponse.redirect(canonicalUrl, { status: 301 });
+    return NextResponse.redirect(canonicalUrl, { status: 308 });
   }
+
 
   // Phase-one signature previews, strictly nonindex and outside the public locale resolver.
   if (pathname.startsWith('/signature-lab/')) {
