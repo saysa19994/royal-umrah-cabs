@@ -41,6 +41,21 @@ test('fleet filters are real, accessible, and localized in ten languages', () =>
   assert.match(css, /@media \(max-width: 760px\)/);
 });
 
+test('server booking quotes honor published prices and explicit disabled records', () => {
+  const server = read('src/lib/pricing-server.ts');
+  assert.match(server, /select\('price_sar'\)/);
+  assert.match(server, /if \(priceRow\)/);
+  assert.match(server, /basePriceSAR = configured/);
+  assert.match(server, /configured <= 0/);
+  assert.match(server, /priceError\) throw new Error/);
+  assert.match(server, /if \(vehicleData\)/);
+  assert.match(server, /vehicleData\.is_active \? vehicleData : null/);
+  assert.match(server, /routeData\.is_active/);
+  assert.match(server, /RIYADH_ROUTES\[routeId\]/);
+  assert.match(server, /TAIF_ROUTES\[routeId\]/);
+  assert.match(server, /ziyaratRow/);
+});
+
 test('admin fare writes persist and trigger targeted cache invalidation', () => {
   const api = read('src/app/api/admin/pricing/route.ts');
   assert.match(api, /requireRole\(request, \['owner', 'admin'\]\)/);
