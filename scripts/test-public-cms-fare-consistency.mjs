@@ -46,7 +46,7 @@ test('server booking quotes honor published prices and explicit disabled records
   assert.match(server, /select\('price_sar'\)/);
   assert.match(server, /if \(priceRow\)/);
   assert.match(server, /basePriceSAR = configured/);
-  assert.match(server, /configured <= 0/);
+  assert.match(server, /if \(configured === 0\) throw new Error/);
   assert.match(server, /priceError\) throw new Error/);
   assert.match(server, /if \(vehicleData\)/);
   assert.match(server, /vehicleData\.is_active \? vehicleData : null/);
