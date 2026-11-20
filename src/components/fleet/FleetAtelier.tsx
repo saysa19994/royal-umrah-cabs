@@ -11,7 +11,7 @@ import type {TransferRatesMap} from '@/lib/pricing-db';
 import {ROYAL_HOME_ROUTES,getRoyalHomeRoute} from '@/components/fusion/royal-home-routes';
 import styles from './FleetAtelier.module.css';
 
-type Props={locale:Locale;vehicles:FleetShowcaseVehicle[];rates:TransferRatesMap;regions:{taif:boolean;riyadh:boolean}};
+type Props={locale:Locale;vehicles:FleetShowcaseVehicle[];rates:TransferRatesMap;regions:{taif:boolean;riyadh:boolean};routeStatus:Record<string,boolean>};
 type UI={label:string;title:string;subtitle:string;viewInside:string;viewOutside:string;imageTitle:string;capacity:string;bags:string;price:string;route:string;book:string;details:string;comparison:string;compareIntro:string;vehicle:string;passengers:string;luggage:string;fare:string;more:string;concierge:string;conciergeDesc:string;contact:string;payment:string;index:string;conclusion:string;notForRoute:string};
 const UI_COPY:Record<Locale,UI>={
  ar:{label:'مجموعة المركبات الخاصة',title:'كل رحلة تستحق السيارة المناسبة.',subtitle:'اختر مركبتك وشاهد المساحة الحقيقية المخصصة لك ولعائلتك، ثم اطلب حجزها بالسعر المعتمد للمسار.',viewInside:'المقصورة',viewOutside:'من الخارج',imageTitle:'الصور المتاحة',capacity:'الركاب',bags:'الحقائب',price:'السعر على المسار',route:'مطار جدة إلى مكة',book:'اطلب هذه السيارة',details:'تفاصيل وصور إضافية',comparison:'الأسطول في لمحة.',compareIntro:'كل سيارة تحمل ضيوفها وحقائبهم حسب سعتها؛ الأسعار أدناه لرحلة مطار جدة إلى مكة فقط.',vehicle:'المركبة',passengers:'الركاب',luggage:'الحقائب',fare:'السعر',more:'التفاصيل',concierge:'اختيارات كونسيرج خاصة.',conciergeDesc:'مرسيدس مايباخ وهيونداي H1 متاحتان بالطلب الخاص والتنسيق المسبق فقط، وليستا ضمن الحجز المباشر.',contact:'استفسر عن الكونسيرج',payment:'لا يوجد دفع مسبق؛ الدفع نقدًا للسائق بعد انتهاء الرحلة.',index:'المركبة',conclusion:'اختيار يليق برحلتك.',notForRoute:'استفسر عن السعر'},
@@ -27,6 +27,23 @@ const UI_COPY:Record<Locale,UI>={
 };
 const FARE_IDS:Record<string,string>={'toyota-camry':'camry','hyundai-staria':'staria','gmc-yukon-xl':'yukon','toyota-hiace':'hiace','toyota-coaster':'coaster'};
 const INITIAL_ROUTE='jeddah-airport-to-makkah';
+type FleetCategory='all'|'sedan'|'mpv'|'suv'|'van'|'coach';
+const VEHICLE_CATEGORY:Record<string,Exclude<FleetCategory,'all'>>={
+ 'toyota-camry':'sedan','hyundai-staria':'mpv',
+ 'gmc-yukon-xl':'suv','toyota-hiace':'van','toyota-coaster':'coach',
+};
+const CATEGORY_COPY:Record<Locale,{label:string;choices:Record<FleetCategory,string>}>={
+ ar:{label:'فئة السيارة',choices:{all:'كل الفئات',sedan:'سيدان',mpv:'عائلية',suv:'دفع رباعي',van:'فان مجموعات',coach:'حافلة'}},
+ en:{label:'Vehicle type',choices:{all:'All types',sedan:'Sedan',mpv:'Family MPV',suv:'SUV',van:'Group van',coach:'Coach'}},
+ ms:{label:'Jenis kenderaan',choices:{all:'Semua jenis',sedan:'Sedan',mpv:'MPV keluarga',suv:'SUV',van:'Van kumpulan',coach:'Bas'}},
+ id:{label:'Jenis kendaraan',choices:{all:'Semua jenis',sedan:'Sedan',mpv:'MPV keluarga',suv:'SUV',van:'Van grup',coach:'Bus'}},
+ ur:{label:'گاڑی کی قسم',choices:{all:'تمام اقسام',sedan:'سیڈان',mpv:'خاندانی',suv:'ایس یو وی',van:'گروپ وین',coach:'بس'}},
+ fr:{label:'Type de véhicule',choices:{all:'Tous types',sedan:'Berline',mpv:'Monospace',suv:'SUV',van:'Minibus',coach:'Autocar'}},
+ es:{label:'Tipo de vehículo',choices:{all:'Todos',sedan:'Sedán',mpv:'Monovolumen',suv:'SUV',van:'Furgoneta',coach:'Autobús'}},
+ de:{label:'Fahrzeugtyp',choices:{all:'Alle Typen',sedan:'Limousine',mpv:'Familienvan',suv:'SUV',van:'Gruppenbus',coach:'Reisebus'}},
+ tr:{label:'Araç tipi',choices:{all:'Tüm tipler',sedan:'Sedan',mpv:'Aile MPV',suv:'SUV',van:'Grup minibüsü',coach:'Otobüs'}},
+ hi:{label:'वाहन का प्रकार',choices:{all:'सभी प्रकार',sedan:'सेडान',mpv:'फैमिली एमपीवी',suv:'एसयूवी',van:'ग्रुप वैन',coach:'बस'}},
+};
 const FILTER_COPY:Record<Locale,{route:string;party:string;bags:string;none:string}>={
  ar:{route:'المسار',party:'عدد الركاب',bags:'عدد الحقائب',none:'لا توجد سيارة متاحة لهذا العدد على المسار المختار. غيّر الفلاتر أو المسار.'},
  en:{route:'Journey',party:'Passengers',bags:'Bags',none:'No vehicle fits this group on the chosen route. Adjust the filters or route.'},
@@ -41,21 +58,23 @@ const FILTER_COPY:Record<Locale,{route:string;party:string;bags:string;none:stri
 };
 function VehicleLinkArrow({rtl}:{rtl:boolean}){return rtl?<ArrowLeft size={17} aria-hidden="true"/>:<ArrowRight size={17} aria-hidden="true"/>;}
 
-export function FleetAtelier({locale,vehicles,rates,regions}:Props){
+export function FleetAtelier({locale,vehicles,rates,regions,routeStatus}:Props){
  const t=UI_COPY[locale],filters=FILTER_COPY[locale],rtl=locale==='ar'||locale==='ur';
  const [active,setActive]=useState(0),[interior,setInterior]=useState(false);
  const [galleryPosition,setGalleryPosition]=useState<string|null>(null);
  const [route,setRoute]=useState(INITIAL_ROUTE);
  const [minPassengers,setMinPassengers]=useState(1);
  const [minBags,setMinBags]=useState(0);
+ const [category,setCategory]=useState<FleetCategory>('all');
  const routeOptions=useMemo(()=>ROYAL_HOME_ROUTES
-  .filter(item=>(!item.region||regions[item.region])&&
+  .filter(item=>routeStatus[item.id]!==false&&(!item.region||regions[item.region])&&
     Object.values(rates[item.id]||{}).some(price=>Number.isFinite(price)&&price>0))
   .map(item=>getRoyalHomeRoute(item,locale)),[locale,rates,regions.taif,regions.riyadh]);
+ const selectedRoute=routeOptions.some(item=>item.id===route)?route:(routeOptions[0]?.id||route);
  const availableIndices=APPROVED_5_FLEET.flatMap((item,index)=>{
   const published=vehicles.find(v=>v.slug===item.slug||v.bookingVehicleId===FARE_IDS[item.slug]);
-  const fare=rates[route]?.[FARE_IDS[item.slug]];
-  return published&&published.passengers>=minPassengers&&published.luggage>=minBags&&
+  const fare=rates[selectedRoute]?.[FARE_IDS[item.slug]];
+  return published&&(category==='all'||VEHICLE_CATEGORY[item.slug]===category)&&routeStatus[selectedRoute]!==false&&published.passengers>=minPassengers&&published.luggage>=minBags&&
     typeof fare==='number'&&Number.isFinite(fare)&&fare>0?[index]:[];
  });
  const displayIndex=availableIndices.includes(active)?active:(availableIndices[0]??active);
@@ -68,8 +87,8 @@ export function FleetAtelier({locale,vehicles,rates,regions}:Props){
  const extPhoto=dbVehicle?.gallery?.find(x=>x.type==='exterior')?.src||approved.exteriorImage;
  const cabinPhoto=dbVehicle?.gallery?.find(x=>x.type==='interior')?.src||approved.interiorImage;
  const selectedPhoto=galleryPosition||(interior?cabinPhoto:extPhoto);
- const fare=rates[route]?.[FARE_IDS[approved.slug]];
- const routeName=routeOptions.find(item=>item.id===route)?.name||t.route;
+ const fare=rates[selectedRoute]?.[FARE_IDS[approved.slug]];
+ const routeName=routeOptions.find(item=>item.id===selectedRoute)?.name||t.route;
  const numberFormat=new Intl.NumberFormat(locale==='ar'?'ar-SA':'en-US');
  const select=(i:number)=>{if(!availableIndices.includes(i))return;setActive(i);setInterior(false);setGalleryPosition(null);};
  const morePhotos=dbVehicle?.gallery?.filter(x=>x.src!==selectedPhoto).slice(0,4)||[];
@@ -90,8 +109,11 @@ export function FleetAtelier({locale,vehicles,rates,regions}:Props){
      <span className={styles.collectionCount}>05 <small>/ 05</small></span>
    </div>
    <div className={styles.filters} role="group" aria-label={t.label}>
-     <label><span>{filters.route}</span><select value={route} onChange={e=>setRoute(e.target.value)}>
+     <label><span>{filters.route}</span><select value={selectedRoute} onChange={e=>setRoute(e.target.value)}>
        {routeOptions.map(item=><option key={item.id} value={item.id}>{item.name}</option>)}
+     </select></label>
+     <label><span>{CATEGORY_COPY[locale].label}</span><select value={category} onChange={e=>setCategory(e.target.value as FleetCategory)}>
+       {(Object.keys(CATEGORY_COPY[locale].choices) as FleetCategory[]).map(option=><option key={option} value={option}>{CATEGORY_COPY[locale].choices[option]}</option>)}
      </select></label>
      <label><span>{filters.party}</span><select value={minPassengers} onChange={e=>setMinPassengers(Number(e.target.value))}>
        {Array.from({length:21},(_,i)=>i+1).map(v=><option key={v} value={v}>{v}</option>)}
@@ -139,7 +161,7 @@ export function FleetAtelier({locale,vehicles,rates,regions}:Props){
        <small>{t.price} — {routeName}</small>
        {canBook&&typeof fare==='number'&&Number.isFinite(fare)&&fare>0?<strong>{numberFormat.format(fare)} <span>SAR</span></strong>:<strong>{t.notForRoute}</strong>}
       </div>
-      {canBook?<Link className={styles.book} href={'/'+locale+'/booking?route='+encodeURIComponent(route)+'&vehicle='+approved.slug+'&passengers='+minPassengers+'&luggage='+minBags}>
+      {canBook?<Link className={styles.book} href={'/'+locale+'/booking?route='+encodeURIComponent(selectedRoute)+'&vehicle='+approved.slug+'&passengers='+minPassengers+'&luggage='+minBags}>
         {t.book}<VehicleLinkArrow rtl={rtl}/>
       </Link>:<p className={styles.payment} role="status">{filters.none}</p>}
       <Link className={styles.readMore} href={'/'+locale+'/fleet/'+approved.slug}>{t.details}<ArrowUpRight size={16} aria-hidden="true"/></Link>
@@ -155,7 +177,7 @@ export function FleetAtelier({locale,vehicles,rates,regions}:Props){
       <thead><tr><th>{t.vehicle}</th><th>{t.passengers}</th><th>{t.luggage}</th><th>{t.fare} / SAR</th><th>{t.more}</th></tr></thead>
       <tbody>{APPROVED_5_FLEET.map(v=>{
         const published=vehicles.find(item=>item.slug===v.slug||item.bookingVehicleId===FARE_IDS[v.slug]);
-        const f=published?rates[route]?.[FARE_IDS[v.slug]]:undefined;
+        const f=published?rates[selectedRoute]?.[FARE_IDS[v.slug]]:undefined;
         return <tr key={v.slug}>
          <th scope="row">{v.name[locale]||v.name.en}</th>
          <td data-label={t.passengers}>{published?.passengers??v.passengers}</td>
