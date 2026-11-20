@@ -143,6 +143,8 @@ export default function SignatureFusionHomepage({ locale, rates, routeStatus, di
   const [guests, setGuests] = useState(2);
   const [inside, setInside] = useState(false);
   const [chapter, setChapter] = useState(0);
+  const [storyInView, setStoryInView] = useState(false);
+  const storySection = useRef<HTMLElement>(null);
   const [minDate, setMinDate] = useState('');
 
   const car = fleet[carIndex];
@@ -160,6 +162,23 @@ export default function SignatureFusionHomepage({ locale, rates, routeStatus, di
   useEffect(() => {
     const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Riyadh', year: 'numeric', month: '2-digit', day: '2-digit' });
     setMinDate(today.format(new Date()));
+  }, []);
+
+  // GESSO-inspired one-time picture reveal; photo selection still works
+  // without animation, JavaScript-based scrolling, or hover.
+  useEffect(() => {
+    const section = storySection.current;
+    if (!section || !('IntersectionObserver' in window)) {
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting) {
+        setStoryInView(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
+    observer.observe(section);
+    return () => observer.disconnect();
   }, []);
 
   function chooseVehicle(index: number) {
@@ -190,6 +209,15 @@ export default function SignatureFusionHomepage({ locale, rates, routeStatus, di
     { title: copy.arrival, description: copy.arrivalDetail, image: '/assets/homepage-v2/hero-poster.jpg' },
     { title: copy.cabin, description: copy.cabinDetail, image: '/assets/images/vehicles/hyundai-staria/interior.webp' },
     { title: copy.destination, description: copy.destinationDetail, image: '/assets/images/routes/makkah-to-madinah.jpg' },
+  ];
+  // Five owned/project photographs, curated as an editorial journey deck.
+  // No duplicate section: these control the existing three journey chapters.
+  const journeyDeck = [
+    { image: '/assets/homepage-v2/chauffeur-welcome.jpg', chapter: 0, label: copy.arrival },
+    { image: '/assets/images/vehicles/hyundai-staria/interior.webp', chapter: 1, label: copy.cabin },
+    { image: '/assets/images/routes/makkah-to-madinah.jpg', chapter: 2, label: copy.destination },
+    { image: '/assets/images/vehicles/gmc-yukon-xl/exterior-studio.webp', chapter: 1, label: copy.cabin },
+    { image: '/assets/homepage-v2/ziyarat-haram.jpg', chapter: 2, label: copy.destination },
   ];
   const benefits = [
     { Icon: Clock3, text: dict.trust_strip.support247 },
@@ -278,21 +306,46 @@ export default function SignatureFusionHomepage({ locale, rates, routeStatus, di
       </ul>
       <RoyalBookingSteps locale={locale} />
 
-      <section id="fusion-story" className={styles.story} aria-labelledby="fusion-story-title" data-royal-story>
-        <div className={styles.storyIntro}><h2 id="fusion-story-title">{copy.journeyTitle}</h2></div>
+      <section id="fusion-story" ref={storySection} className={styles.story} aria-labelledby="fusion-story-title"
+        data-royal-story data-story-revealed={storyInView}>
+        <div className={styles.storyIntro}>
+          <span className={styles.storyKicker}>{numbers.format(1)} — {numbers.format(3)} / {copy.heroExplore}</span>
+          <h2 id="fusion-story-title">{copy.journeyTitle}</h2>
+          <div className={styles.storyProgress} aria-hidden="true">
+            {scenes.map((scene, index) => <span key={scene.title} data-active={index === chapter} />)}
+          </div>
+        </div>
         <div className={styles.storyFrame}>
           <div className={styles.storyImage} data-royal-story-frame>
             <Image key={scenes[chapter].image} src={scenes[chapter].image} alt="" fill
-              sizes="(max-width:760px) 100vw, 55vw" className={styles.cover} />
+              sizes="(max-width:760px) 100vw, (max-width:1150px) 54vw, 37vw" className={styles.cover} />
+            <div className={styles.storyImageShade} aria-hidden="true" />
+            <div className={styles.storyImageCaption}>
+              <span>{numbers.format(chapter + 1)} / {numbers.format(3)}</span>
+              <strong>{scenes[chapter].title}</strong>
+            </div>
+          </div>
+          <div className={styles.storyPhotoDeck} role="group" aria-label={copy.journeyTitle}>
+            {journeyDeck.map((photo, index) => (
+              <button key={photo.image} type="button" className={styles.storyDeckCard}
+                aria-label={photo.label + ' — ' + numbers.format(index + 1)}
+                aria-pressed={chapter === photo.chapter} onClick={() => setChapter(photo.chapter)}
+                title={photo.label}>
+                <Image src={photo.image} alt="" width={220} height={165}
+                  sizes="(max-width:760px) 120px, 150px" />
+                <span aria-hidden="true">{numbers.format(index + 1)}</span>
+              </button>
+            ))}
           </div>
         </div>
-        <div className={styles.storyRail}>
+        <div className={styles.storyRail} role="group" aria-label={copy.journeyTitle}>
           {scenes.map((scene, index) => (
             <button type="button" key={scene.title} aria-pressed={chapter === index} onClick={() => setChapter(index)}>
               <small>{numbers.format(index + 1)}</small><strong>{scene.title}</strong><ChevronDown size={17} aria-hidden />
               {chapter === index && <span className={styles.sceneDetail}>{scene.description}</span>}
             </button>
           ))}
+          <a className={styles.storyBookLink} href="#fusion-book">{copy.heroBook}<DirectionArrow size={17} aria-hidden /></a>
         </div>
       </section>
 
@@ -317,6 +370,22 @@ export default function SignatureFusionHomepage({ locale, rates, routeStatus, di
               alt={car.name[locale] + ' — ' + (inside ? dict.fleet.viewInterior : dict.fleet.viewExterior)}
               fill sizes="(max-width: 640px) 95vw, (max-width: 900px) 74vw, 66vw"
               className={inside ? styles.carInterior : styles.carExterior} />
+            <div className={styles.carPhotoCaption} aria-hidden="true">
+              <span>{numbers.format(carIndex + 1)} / {numbers.format(fleet.length)}</span>
+              <strong>{car.name[locale]}</strong>
+            </div>
+            <div className={styles.carPhotoNav} role="group" aria-label={dict.nav.fleet}>
+              <button type="button"
+                aria-label={fleet[(carIndex - 1 + fleet.length) % fleet.length].name[locale]}
+                onClick={() => chooseVehicle((carIndex - 1 + fleet.length) % fleet.length)}>
+                <ArrowLeft size={21} aria-hidden />
+              </button>
+              <button type="button"
+                aria-label={fleet[(carIndex + 1) % fleet.length].name[locale]}
+                onClick={() => chooseVehicle((carIndex + 1) % fleet.length)}>
+                <ArrowRight size={21} aria-hidden />
+              </button>
+            </div>
             <div className={styles.photoToggle} role="group" aria-label={dict.nav.fleet}>
               <button type="button" aria-pressed={!inside} onClick={() => setInside(false)}>{dict.fleet.viewExterior}</button>
               <button type="button" aria-pressed={inside} onClick={() => setInside(true)}>{dict.fleet.viewInterior}</button>
