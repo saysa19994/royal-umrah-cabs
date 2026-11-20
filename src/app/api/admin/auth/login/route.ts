@@ -45,6 +45,10 @@ export async function POST(request: Request) {
     });
 
     if (authError || !authData?.user) {
+      const serviceUnavailable = Boolean(
+        (authError && authError.status >= 500) ||
+        /database error querying schema|unexpected_failure|converting null to string/i.test(authError?.message || '')
+      );
       console.error('Supabase auth signIn error:', authError?.message);
       if (process.env.VERCEL_ENV !== 'preview') {
       await logAuditEvent({
@@ -59,8 +63,10 @@ export async function POST(request: Request) {
       }
 
       return NextResponse.json(
-        { error: authError?.message || 'Invalid credentials or user does not exist.' },
-        { status: 401 }
+        { error: serviceUnavailable
+          ? 'Authentication service is temporarily unavailable. Contact the website administrator; do not keep retrying.'
+          : 'Invalid credentials or user does not exist.' },
+        { status: serviceUnavailable ? 503 : 401, headers: {'Cache-Control':'no-store'} }
       );
     }
 
