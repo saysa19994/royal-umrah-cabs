@@ -370,6 +370,22 @@ export default function SignatureFusionHomepage({ locale, rates, routeStatus, di
               alt={car.name[locale] + ' — ' + (inside ? dict.fleet.viewInterior : dict.fleet.viewExterior)}
               fill sizes="(max-width: 640px) 95vw, (max-width: 900px) 74vw, 66vw"
               className={inside ? styles.carInterior : styles.carExterior} />
+            <div className={styles.carPhotoCaption} aria-hidden="true">
+              <span>{numbers.format(carIndex + 1)} / {numbers.format(fleet.length)}</span>
+              <strong>{car.name[locale]}</strong>
+            </div>
+            <div className={styles.carPhotoNav} role="group" aria-label={dict.nav.fleet}>
+              <button type="button"
+                aria-label={fleet[(carIndex - 1 + fleet.length) % fleet.length].name[locale]}
+                onClick={() => chooseVehicle((carIndex - 1 + fleet.length) % fleet.length)}>
+                <ArrowLeft size={21} aria-hidden />
+              </button>
+              <button type="button"
+                aria-label={fleet[(carIndex + 1) % fleet.length].name[locale]}
+                onClick={() => chooseVehicle((carIndex + 1) % fleet.length)}>
+                <ArrowRight size={21} aria-hidden />
+              </button>
+            </div>
             <div className={styles.photoToggle} role="group" aria-label={dict.nav.fleet}>
               <button type="button" aria-pressed={!inside} onClick={() => setInside(false)}>{dict.fleet.viewExterior}</button>
               <button type="button" aria-pressed={inside} onClick={() => setInside(true)}>{dict.fleet.viewInterior}</button>
