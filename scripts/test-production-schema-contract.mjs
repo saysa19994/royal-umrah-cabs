@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 
 const read = p => readFileSync(p, 'utf8');
 
@@ -53,4 +54,23 @@ test('admin login distinguishes a provider outage from an incorrect password',()
   assert.match(login,/database error querying schema/);
   assert.match(login,/status: serviceUnavailable \? 503 : 401/);
   assert.match(login,/temporarily unavailable/);
+});
+
+test('all admin API routes require staff authorization except isolated login primitives',()=>{
+  const allowedPublicAuth=new Set([
+    'src/app/api/admin/auth/login/route.ts',
+    'src/app/api/admin/auth/logout/route.ts',
+    'src/app/api/admin/auth/verify-2fa/route.ts',
+  ]);
+  function walk(dir){
+    return readdirSync(dir,{withFileTypes:true}).flatMap(entry=>
+      entry.isDirectory()?walk(join(dir,entry.name)):[join(dir,entry.name)]);
+  }
+  const routes=walk('src/app/api/admin').filter(p=>p.endsWith('/route.ts'));
+  for(const path of routes){
+    const source=read(path);
+    if(!/export async function (GET|POST|PUT|PATCH|DELETE)/.test(source))continue;
+    if(allowedPublicAuth.has(path))continue;
+    assert.match(source,/requireRole\(/,`Protected staff authorization missing: ${path}`);
+  }
 });
