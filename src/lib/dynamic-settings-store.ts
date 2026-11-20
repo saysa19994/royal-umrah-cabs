@@ -66,7 +66,9 @@ export function getMergedSiteSettings(baseData?: Partial<SiteSettings> | null): 
   const overrides = getDynamicSettingsOverrides();
   return {
     ...DEFAULT_SETTINGS,
-    ...(baseData || {}),
+    // Legacy /tmp overrides may exist on individual server instances; a
+    // persisted database value must always win over such ephemeral entries.
     ...overrides,
+    ...(baseData || {}),
   };
 }
