@@ -45,3 +45,14 @@ test('photo fan has touch-first mobile, visible focus and reduced motion fallbac
  assert.match(css,/@media \(prefers-reduced-motion:reduce\)/);
  assert.match(css,/\.storyImageCaption/);
 });
+
+test('fleet scene transitions through the five actual cars without changing approved booking details',()=>{
+ assert.match(home,/className=\{styles\.carPhotoNav\}/);
+ assert.match(home,/chooseVehicle\(\(carIndex \+ 1\) % fleet\.length\)/);
+ assert.match(home,/chooseVehicle\(\(carIndex - 1 \+ fleet\.length\) % fleet\.length\)/);
+ assert.match(home,/className=\{styles\.carPhotoCaption\}/);
+ assert.match(home,/className=\{inside \? styles\.carInterior : styles\.carExterior\}/);
+ assert.match(css,/\.carPhotoNav button:focus-visible/);
+ assert.match(css,/@keyframes premiumVehicleSwap/);
+ assert.match(css, /@media\(prefers-reduced-motion:reduce\)/);
+});
