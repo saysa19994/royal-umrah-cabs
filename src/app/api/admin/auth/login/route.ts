@@ -46,7 +46,7 @@ export async function POST(request: Request) {
 
     if (authError || !authData?.user) {
       const serviceUnavailable = Boolean(
-        (authError && authError.status >= 500) ||
+        (authError && typeof authError.status === 'number' && authError.status >= 500) ||
         /database error querying schema|unexpected_failure|converting null to string/i.test(authError?.message || '')
       );
       console.error('Supabase auth signIn error:', authError?.message);
