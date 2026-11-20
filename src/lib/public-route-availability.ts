@@ -1,5 +1,6 @@
 import { unstable_cache } from 'next/cache';
 import { createServiceClient } from '@/lib/supabase/service';
+import { getRoutePhotoFromTranslations } from './route-media';
 
 /**
  * Public route availability overlay from the same route records the admin edits.
@@ -30,5 +31,36 @@ export const getPublishedRouteStatusCached = unstable_cache(
     }
   },
   ['site_public_route_status_v1'],
+  { tags: ['site_routes'], revalidate: 86400 }
+);
+
+
+/**
+ * Editor-controlled route cover photos. The cache shares the same site_routes
+ * invalidation tag as route visibility, so an admin image change appears after
+ * a normal refresh without a full-site cache purge.
+ */
+export const getPublishedRouteImagesCached = unstable_cache(
+  async (): Promise<Record<string, string>> => {
+    try {
+      const { data, error } = await createServiceClient()
+        .from('routes')
+        .select('id,translations');
+      if (error) {
+        console.warn('Route cover lookup failed:', error.message);
+        return {};
+      }
+      const covers: Record<string, string> = {};
+      for (const route of data || []) {
+        const photo = getRoutePhotoFromTranslations(route.translations);
+        if (typeof route.id === 'string' && photo) covers[route.id] = photo;
+      }
+      return covers;
+    } catch (error) {
+      console.warn('Route cover lookup unavailable:', error);
+      return {};
+    }
+  },
+  ['site_public_route_images_v1'],
   { tags: ['site_routes'], revalidate: 86400 }
 );
