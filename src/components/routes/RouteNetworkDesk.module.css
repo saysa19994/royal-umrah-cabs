@@ -149,3 +149,44 @@
 @media(max-width:360px){
  .routeDrawing{grid-template-columns:37px minmax(0,1fr) 37px}
 }
+
+/* Verified route photo scene: an editorial image layer inside the existing
+   schematic, never a second carousel or an invented geographic map. */
+.routeDrawing { isolation:isolate; }
+.routePhoto {
+ position:absolute;
+ inset:-19px -7px;
+ z-index:0;
+ overflow:hidden;
+ border-radius:5px;
+ pointer-events:none;
+ background:#102632;
+}
+.routePhoto img {
+ object-fit:cover;
+ object-position:center;
+ opacity:.40;
+ filter:saturate(.8) brightness(.72);
+ animation:routePhotoReveal .48s ease-out both;
+}
+.routePhoto::after {
+ content:"";
+ position:absolute;
+ inset:0;
+ z-index:1;
+ background:linear-gradient(90deg,rgba(11,32,41,.74),rgba(11,32,41,.22) 50%,rgba(11,32,41,.8));
+ pointer-events:none;
+}
+.routeDrawing>svg{position:relative;z-index:2}
+.routeDrawing>.origin,.routeDrawing>.destination{z-index:3}
+@keyframes routePhotoReveal {
+ from{opacity:0;transform:scale(1.025)}
+ to{opacity:.40;transform:scale(1)}
+}
+@media(max-width:700px){
+ .routePhoto{inset:-7px -4px;border-radius:3px}
+ .routePhoto img{opacity:.28}
+}
+@media(prefers-reduced-motion:reduce){
+ .routePhoto img{animation:none!important;transition:none!important}
+}
