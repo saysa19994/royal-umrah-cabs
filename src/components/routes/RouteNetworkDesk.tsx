@@ -5,7 +5,7 @@ import {ArrowLeft,ArrowRight,ArrowUpRight,Clock3,MapPin,ShieldCheck,CarFront,Use
 import type {Locale} from '@/i18n/config';
 import {EXECUTIVE_ROUTES_DATA} from '@/data/executive-routes-data';
 import {APPROVED_5_FLEET} from '@/data/approved-fleet-homepage';
-import {AUTHORITATIVE_TRANSFER_RATES} from '@/lib/pricing-constants';
+import type {TransferRatesMap} from '@/lib/pricing-db';
 import styles from './RouteNetworkDesk.module.css';
 const ENDS:Record<string,[string,string]>={
  'jeddah-airport-to-makkah':['JED','MKK'],'makkah-to-madinah':['MKK','MED'],
@@ -31,11 +31,11 @@ const L:Record<Locale,Copy>={
  tr:{heading:'Size özel yolculuk planı.',sub:'Rota seçin; tahmini süreyi, aracı ve geçerli ücreti görün.',choose:'Rota seçin',time:'Tahmini süre',distance:'Yaklaşık mesafe',fare:'Araç ücreti',type:'Özel transfer',book:'Yolculuk talep et',detail:'Rota ayrıntıları',cash:'Yolculuk sonrası nakit ödeme',unavailable:'Bu rotada yok',diagram:'Şematik çizgi, coğrafi harita değildir',step:'Varış noktası',routes:'Rota rehberi',note:'Süre ve mesafe tahminidir.',vehicle:'Araç'},
  hi:{heading:'अपनी यात्रा का स्पष्ट मार्ग।',sub:'मार्ग चुनें, अनुमानित समय, वाहन और किराया देखें।',choose:'मार्ग चुनें',time:'अनुमानित समय',distance:'लगभग दूरी',fare:'वाहन किराया',type:'निजी ट्रांसफर',book:'यात्रा अनुरोध करें',detail:'मार्ग विवरण',cash:'यात्रा के बाद नकद भुगतान',unavailable:'उपलब्ध नहीं',diagram:'मार्ग का चित्र, भौगोलिक नक्शा नहीं',step:'गंतव्य',routes:'मार्ग सूची',note:'समय और दूरी अनुमानित हैं।',vehicle:'वाहन'},
 };
-export function RouteNetworkDesk({locale}:{locale:Locale}){
+export function RouteNetworkDesk({locale,rates}:{locale:Locale;rates:TransferRatesMap}){
  const t=L[locale],rtl=locale==='ar'||locale==='ur';const [index,setIndex]=useState(0),[car,setCar]=useState(0);
  const route=ACTIVE_ROUTES[index],vehicle=APPROVED_5_FLEET[car];
  const pair=ENDS[route.slug]||['START','END'];
- const fare=AUTHORITATIVE_TRANSFER_RATES[route.slug]?.[FARES[vehicle.slug]];
+ const fare=rates[route.slug]?.[FARES[vehicle.slug]];
  const name=route.titles?.[locale]||route.titleEn;
  const fmt=new Intl.NumberFormat(locale==='ar'?'ar-SA':'en-US');
  const Arrow=rtl?ArrowLeft:ArrowRight;
@@ -85,7 +85,7 @@ export function RouteNetworkDesk({locale}:{locale:Locale}){
        </button>)}
       </div>
       <div className={styles.selectedFare} aria-live="polite"><span>{t.fare}</span>
-       {typeof fare==='number'&&Number.isFinite(fare)?<strong>{fmt.format(fare)} <small>SAR</small></strong>:<strong className={styles.unavailable}>{t.unavailable}</strong>}
+       {typeof fare==='number'&&Number.isFinite(fare)&&fare>0?<strong>{fmt.format(fare)} <small>SAR</small></strong>:<strong className={styles.unavailable}>{t.unavailable}</strong>}
       </div>
       {typeof fare==='number'&&Number.isFinite(fare)?<Link href={'/'+locale+'/booking?route='+route.slug+'&vehicle='+vehicle.slug+(route.slug.includes('ziyarat')?'&type=ziyarat':'&type=transfer')} className={styles.book}>{t.book}<Arrow size={18} aria-hidden="true"/></Link>:
        <p className={styles.noBook}>{t.unavailable}</p>}
