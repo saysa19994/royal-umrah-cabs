@@ -41,7 +41,7 @@ export function BookingJourneyVisual({ locale }: { locale: Locale }) {
   return (
     <div className={styles.visual} data-booking-journey-visual="true" dir={LOCALE_CONFIG[locale].dir}>
       <div className={styles.imageStage}>
-        <Image key={current.image} src={current.image} fill priority={selected === 0}
+        <Image key={current.image} src={current.image} fill priority={selected === 0} quality={88}
           alt={current.title} sizes="(max-width:767px) 100vw, 56vw" />
         <div className={styles.shade} aria-hidden="true" />
         <div className={styles.topline} aria-hidden="true">
