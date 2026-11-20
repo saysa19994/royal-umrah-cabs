@@ -1161,3 +1161,80 @@
   .carPhoto > img {animation:none!important;}
   .carPhotoNav button {transition:none!important;}
 }
+
+
+/* NOV 21 SCREENSHOT REPAIR — readable route photography atlas.
+   Former 7-way flex accordion made six cards ~100px wide at desktop and
+   placed illegibly small journey titles over aggressive portrait crops.
+   Keep one true live selector; use an editorial 5 x 2 atlas instead. */
+@media(min-width:1101px){
+  .routeCurtain {
+    display:grid!important;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    grid-auto-rows:clamp(188px,15.5vw,222px);
+    gap:12px!important;
+    width:100%;height:auto!important;overflow:visible!important;
+  }
+  .routeCurtainPanel,.routeCurtainPanel[aria-pressed="true"] {
+    flex:none!important;width:100%!important;height:100%!important;
+    min-width:0!important;min-height:0!important;
+    border-radius:4px;
+  }
+  .routeCurtainPanel[aria-pressed="true"] {grid-column:span 2;grid-row:span 2;}
+  .routeCurtainPanel .curtainWords {inset-inline:16px;bottom:15px;gap:5px;}
+  .routeCurtainPanel:not([aria-pressed="true"]) .curtainWords strong{
+    font-size:clamp(.91rem,1.15vw,1.14rem)!important;
+    font-weight:760;line-height:1.45;overflow-wrap:break-word;
+    text-wrap:balance;
+  }
+  .routeCurtainPanel[aria-pressed="true"] .curtainWords strong {
+    font-size:clamp(1.55rem,2.1vw,2.45rem)!important;
+    max-width:24ch;line-height:1.35;text-wrap:balance;
+  }
+}
+@media(min-width:761px) and (max-width:1100px){
+  .routeCurtain {
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-auto-rows:clamp(150px,17vw,195px);
+    gap:10px!important;
+    height:auto!important;overflow:visible!important;
+  }
+  .routeCurtainPanel,.routeCurtainPanel[aria-pressed="true"] {
+    flex:none!important;min-width:0!important;width:100%!important;
+    height:100%!important;border-radius:4px;
+  }
+  .routeCurtainPanel[aria-pressed="true"] {
+    grid-column:span 2;grid-row:span 1;
+  }
+  .routeCurtainPanel .curtainWords {inset-inline:12px;bottom:12px;gap:4px;}
+  .routeCurtainPanel:not([aria-pressed="true"]) .curtainWords strong{font-size:.88rem!important;line-height:1.5;}
+}
+@media(max-width:760px){
+  .routeCurtain{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    grid-auto-rows:minmax(148px,auto);gap:9px!important;height:auto!important;overflow:visible!important;}
+  .routeCurtainPanel,.routeCurtainPanel[aria-pressed="true"] {
+    display:block!important;flex:none!important;width:100%!important;height:100%!important;
+    min-height:148px!important;min-width:0!important;
+    border-radius:7px;
+  }
+  .routeCurtainPanel[aria-pressed="true"]{
+    grid-column:1/-1;grid-row:auto;min-height:clamp(215px,58vw,265px)!important;
+  }
+  .routeCurtainPanel .curtainWords{inset-inline:13px!important;bottom:13px!important;}
+  .routeCurtainPanel:not([aria-pressed="true"]) .curtainWords strong{
+    font-size:clamp(.84rem,3.4vw,1.05rem)!important;line-height:1.45!important;
+  }
+  .routeCurtainPanel[aria-pressed="true"] .curtainWords strong{
+    font-size:clamp(1.12rem,5vw,1.45rem)!important;
+  }
+}
+.routeCurtainPanel:focus-visible {
+  outline:3px solid #b88f56!important;outline-offset:3px;
+  z-index:5;
+}
+.routeCurtainPanel img {object-position:center;filter:saturate(.92);}
+.routeCurtainPanel[aria-pressed="true"] img {filter:saturate(1);}
+@media(prefers-reduced-motion:reduce){
+ .routeCurtainPanel,.routeCurtainPanel img {transition:none!important;transform:none!important;}
+}
