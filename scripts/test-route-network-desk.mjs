@@ -6,10 +6,10 @@ const page=read('src/app/[locale]/routes/page.tsx');
 const route=read('src/components/routes/RouteNetworkDesk.tsx');
 const styles=read('src/components/routes/RouteNetworkDesk.module.css');
 test('routes use a genuine schematic and fare desk, not the homepage photographic atlas',()=>{
- assert.match(page,/<RouteNetworkDesk locale=\{locale\}/);
+ assert.match(page,/<RouteNetworkDesk locale=\{locale\} rates=\{rates\}/);
  assert.doesNotMatch(page,/<RouteSpotlightExplorer/);
  assert.match(route,/EXECUTIVE_ROUTES_DATA/);
- assert.match(route,/AUTHORITATIVE_TRANSFER_RATES/);
+ assert.match(route,/rates\[route\.slug\]/);
  assert.match(route,/APPROVED_5_FLEET/);
  assert.match(route,/aria-label=\{t\.diagram\+'\: '\+name\}/);
  assert.match(route,/role="group" aria-label=\{t\.vehicle\}/);
@@ -18,7 +18,7 @@ test('routes use a genuine schematic and fare desk, not the homepage photographi
 test('route index and SEO metadata remain intact, all eleven source routes keep real detail links',()=>{
  assert.match(page,/EXECUTIVE_ROUTES_DATA\.filter\(route=>route\.slug!=='riyadh-airport-transfer'\)\.map/);
  assert.match(page,/getLocalizedAlternates\(locale, '\/routes'\)/);
- assert.match(page,/AUTHORITATIVE_TRANSFER_RATES/);
+ assert.match(page,/const price=rates\[route\.slug\]\?\.camry/);
  assert.match(route,/route\.times\?\.\[locale\]/);
  assert.match(route,/route\.distances\?\.\[locale\]/);
  assert.match(route,/not a geographical map/);
