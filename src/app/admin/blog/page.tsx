@@ -27,6 +27,7 @@ import { AdminBlogPost } from '@/lib/blog-service';
 export default function AdminBlogPage() {
   const [posts, setPosts] = useState<AdminBlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [blogLoaded, setBlogLoaded] = useState(false);
   const [search, setSearch] = useState('');
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
@@ -53,18 +54,22 @@ export default function AdminBlogPage() {
     content_ar: '',
   });
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (): Promise<AdminBlogPost[] | null> => {
     setLoading(true);
+    setBlogLoaded(false);
     try {
-      const res = await fetch('/api/admin/blog');
+      const res = await fetch('/api/admin/blog', {cache:'no-store'});
       const data = await res.json();
-      if (res.ok && data.posts) {
-        setPosts(data.posts);
-      } else {
-        setFeedback({ type: 'error', message: data.error || 'Failed to fetch blog posts' });
+      if (!res.ok || !data.success || !Array.isArray(data.posts)) {
+        throw new Error(data.error || 'Failed to fetch blog posts');
       }
-    } catch {
-      setFeedback({ type: 'error', message: 'Network error connecting to blog service' });
+      setPosts(data.posts);
+      setBlogLoaded(true);
+      return data.posts as AdminBlogPost[];
+    } catch (err) {
+      setFeedback({type:'error',message: err instanceof Error ? err.message :
+        'Failed to load saved articles. Publishing is locked until a successful refresh.'});
+      return null;
     } finally {
       setLoading(false);
     }
@@ -75,6 +80,10 @@ export default function AdminBlogPage() {
   }, []);
 
   const handleOpenCreate = () => {
+    if (!blogLoaded || loading) {
+      setFeedback({type:'error',message:'Load current articles before creating a new post.'});
+      return;
+    }
     setEditingPost(null);
     setFormData({
       slug: `vip-guide-${Date.now().toString().slice(-4)}`,
@@ -95,22 +104,33 @@ export default function AdminBlogPage() {
   };
 
   const handleOpenEdit = (post: AdminBlogPost) => {
+    if (!blogLoaded || loading) return;
     setEditingPost(post);
     setFormData({ ...post });
     setIsEditorOpen(true);
   };
 
-  const handleDelete = async (slug: string) => {
+  const handleDelete = async (post: AdminBlogPost) => {
+    if (!blogLoaded || loading) {
+      setFeedback({type:'error',message:'Reload articles before changing publication status.'});
+      return;
+    }
+    const slug = post.slug;
     if (!confirm(`Unpublish article "${slug}"? The public page will become unavailable; you can publish it again by editing the article.`)) return;
 
     try {
-      const res = await fetch(`/api/admin/blog?slug=${encodeURIComponent(slug)}`, {
+      const res = await fetch(`/api/admin/blog?slug=${encodeURIComponent(slug)}&expected_updated_at=${encodeURIComponent(post.updated_at || 'none')}`, {
         method: 'DELETE',
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        setFeedback({ type: 'success', message: 'Article unpublished. It is no longer visible on the public blog.' });
-        fetchPosts();
+        const stored = await fetchPosts();
+        const persisted = stored?.find(p => p.slug === slug);
+        if (persisted && !persisted.is_published) {
+          setFeedback({type:'success',message:'Article unpublishing verified in saved registry. Check public preview before release.'});
+        } else {
+          setFeedback({type:'error',message:'Unpublish request completed but latest saved status could not be verified.'});
+        }
       } else {
         setFeedback({ type: 'error', message: data.error || 'Failed to delete article' });
       }
@@ -150,6 +170,10 @@ export default function AdminBlogPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!blogLoaded || loading) {
+      setFeedback({type:'error',message:'Load persisted articles before publishing any edits.'});
+      return;
+    }
     if (!formData.title_en || !formData.title_ar || !formData.slug) {
       setFeedback({ type: 'error', message: 'Title (EN/AR) and Slug are required' });
       return;
@@ -160,17 +184,24 @@ export default function AdminBlogPage() {
       const res = await fetch('/api/admin/blog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({...formData,expected_updated_at: editingPost?.updated_at ?? null}),
       });
 
       const data = await res.json();
       if (res.ok && data.success) {
-        setFeedback({
-          type: 'success',
-          message: `Article "${formData.title_en}" ${formData.is_published ? 'saved and published' : 'saved as an unpublished draft'}.`,
-        });
-        setIsEditorOpen(false);
-        fetchPosts();
+        const savedPosts = await fetchPosts();
+        const saved = savedPosts?.find(p => p.slug === formData.slug);
+        if (saved && saved.title_en === formData.title_en &&
+            saved.title_ar === formData.title_ar &&
+            saved.is_published === (formData.is_published === true) &&
+            saved.featured_image === formData.featured_image &&
+            saved.content_en === (formData.content_en || '') &&
+            saved.content_ar === (formData.content_ar || '')) {
+          setFeedback({type:'success',message:'Article saved and verified in the database. Check public pages and SEO preview.'});
+          setIsEditorOpen(false);
+        } else {
+          setFeedback({type:'error',message:'The save was accepted but database read-back did not match. Review before retrying.'});
+        }
       } else {
         setFeedback({ type: 'error', message: data.error || 'Failed to save article' });
       }
@@ -220,6 +251,7 @@ export default function AdminBlogPage() {
 
           <button
             onClick={handleOpenCreate}
+            disabled={!blogLoaded || loading}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#0B6D6E] to-[#E6C773] hover:brightness-110 text-xs font-extrabold text-[#FFFAF2] transition-all shadow-[0_2px_12px_rgba(201,162,75,0.35)]"
           >
             <Plus className="w-4 h-4" />
@@ -383,7 +415,7 @@ export default function AdminBlogPage() {
                     <Edit3 className="w-3.5 h-3.5" />
                   </button>
                   <button
-                    onClick={() => handleDelete(post.slug)}
+                    onClick={() => handleDelete(post)}
                     className="p-1.5 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 text-rose-700 transition-colors"
                     title="Unpublish article"
                   >
@@ -615,7 +647,7 @@ export default function AdminBlogPage() {
                   </button>
                   <button
                     type="submit"
-                    disabled={saving}
+                    disabled={saving || loading || !blogLoaded}
                     className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r from-[#0B6D6E] to-[#E6C773] hover:brightness-110 text-xs font-extrabold text-[#FFFAF2] transition-all shadow-[0_2px_12px_rgba(201,162,75,0.35)] disabled:opacity-50"
                   >
                     <Save className="w-3.5 h-3.5" />
