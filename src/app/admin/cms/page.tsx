@@ -25,8 +25,8 @@ const PAGES_LIST = [
   { id: 'contact', title: 'Contact & Dispatch (/contact)' },
   { id: 'booking', title: 'Booking Request (/booking)' },
   { id: 'faq', title: 'FAQ (/faq)' },
-  { id: 'riyadh', title: 'Riyadh Hub (/riyadh)' },
-  { id: 'taif', title: 'Taif Hub (/taif)' },
+  { id: 'riyadh', title: 'Riyadh Hub (/services/riyadh)' },
+  { id: 'taif', title: 'Taif Hub (/services/taif)' },
   { id: 'ziyarat', title: 'Holy Ziyarat Tours (/ziyarat)' },
 ];
 
@@ -174,7 +174,7 @@ export default function AdminCmsPage() {
             saved.seo_description !== payload.seo_description || saved.h1 !== payload.h1 || !blocksMatch) {
           setFeedback({ type: 'error', message: 'Save was accepted, but database read-back did not match. Review the saved record before making more changes.' });
         } else {
-          setFeedback({ type: 'success', message: ['about','services','contact','fleet','pricing','routes','ziyarat','booking','faq'].includes(selectedPage) ? 'Saved and verified in the CMS database. Check the public Preview page to confirm cache refresh.' : 'Saved to CMS as a draft. This page is not connected to the public template yet.' });
+          setFeedback({ type: 'success', message: ['about','services','contact','fleet','pricing','routes','ziyarat','booking','faq','riyadh','taif'].includes(selectedPage) ? 'Saved and verified in the CMS database. Check the public Preview page to confirm cache refresh.' : 'Saved to CMS as a draft. This page is not connected to the public template yet.' });
         }
       } else {
         setFeedback({ type: 'error', message: res.status === 409 ? (data.error || 'Someone else changed this page. Review the latest saved version before trying again.') : (data.error || 'Failed to save CMS content') });
@@ -418,7 +418,7 @@ export default function AdminCmsPage() {
                 className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0A6364] hover:bg-[#065059] text-[#FFFAF2] font-bold text-xs transition-colors shadow-lg shadow-[#D9A031]/10 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <Save className="w-4 h-4" />
-                <span>{saving ? 'Saving...' : selectedPage === 'home' ? 'Use Homepage Text editor' : ['riyadh','taif'].includes(selectedPage) ? 'Save CMS draft (not published)' : 'Save page content'}</span>
+                <span>{saving ? 'Saving...' : selectedPage === 'home' ? 'Use Homepage Text editor' : 'Save page content'}</span>
               </button>
             </div>
           </form>
