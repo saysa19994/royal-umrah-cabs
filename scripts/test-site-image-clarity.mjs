@@ -8,6 +8,7 @@ const services=read('src/app/[locale]/services/page.tsx');
 const explorer=read('src/components/services/ServiceChapterExplorer.tsx');
 const explorerStyle=read('src/components/services/ServiceChapterExplorer.module.css');
 const home=read('src/components/fusion/SignatureFusionHomepage.tsx');
+const routeMedia=read('src/components/fusion/royal-home-routes.ts');
 const homeStyle=read('src/components/fusion/SignatureFusionHomepage.module.css');
 const fleet=read('src/components/fleet/FleetAtelier.tsx');
 const booking=read('src/components/booking/BookingJourneyVisual.tsx');
@@ -67,4 +68,22 @@ test('other full-bleed site imagery uses adequate sources and responsive optimiz
  assert.match(fleet,/quality=\{88\}/);
  assert.match(fleet,/quality=\{87\}/);
  assert.match(booking,/quality=\{88\}/);
+});
+
+test('all official homepage route curtains use vetted high-resolution route WebP assets',async()=>{
+ const images=[
+  '/assets/blueprint/routes/jeddah-makkah.webp',
+  '/assets/blueprint/routes/makkah-madinah.webp',
+  '/assets/blueprint/routes/hero-arrival.webp',
+  '/assets/blueprint/routes/makkah-taif.webp',
+  '/assets/blueprint/blog/riyadh-to-makkah-private-transfer.webp'
+ ];
+ for (const file of images) {
+  assert.ok(routeMedia.includes(file),file);
+  const meta=await sharp(new URL('../public'+file,import.meta.url).pathname).metadata();
+  assert.ok(meta.width>=1500&&meta.height>=1000,file+' '+meta.width+'x'+meta.height);
+  assert.equal(meta.format,'webp');
+ }
+ assert.match(routeMedia,/image: sharpEditorialPhotos\[route\.id\] \|\| media \+ route\.image/);
+ assert.match(home,/route === item\.id \? "\(max-width:760px\) 100vw/);
 });
