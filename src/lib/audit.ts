@@ -11,6 +11,7 @@ interface LogAuditParams {
   newValues?: any;
   ip?: string | null;
   userAgent?: string | null;
+  requirePersistent?: boolean;
 }
 
 // In-memory fallback buffer for audit events
@@ -62,9 +63,13 @@ export async function logAuditEvent(params: LogAuditParams): Promise<void> {
     });
 
     if (error) {
+      if (params.requirePersistent) throw error;
       console.warn('Audit log DB insert warning:', error.message);
     }
   } catch (e) {
+    // A published fare without a durable audit marker is unsafe. Do not
+    // report successful publication if its proof could not be persisted.
+    if (params.requirePersistent) throw e;
     console.warn('Audit log fallback to memory:', e);
   }
 

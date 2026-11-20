@@ -313,7 +313,8 @@ export async function upsertRouteWithPricesAdmin(
     });
 
     if (routeErr) {
-      console.warn('Notice upserting route in Supabase:', routeErr.message);
+      console.error('Route publication failed:', routeErr.message);
+      return { success: false, error: 'Route could not be saved.' };
     }
 
     // 2. Upsert Prices for each vehicle class
@@ -330,10 +331,25 @@ export async function upsertRouteWithPricesAdmin(
       .upsert(priceUpserts, { onConflict: 'route_id,vehicle_id' });
 
     if (priceErr) {
-      console.warn('Notice upserting prices in Supabase:', priceErr.message);
+      console.error('Route fare publication failed:', priceErr.message);
+      return { success: false, error: 'Route prices could not be saved.' };
     }
+
+    // One durable marker covers the complete published fare matrix for this
+    // route. Legacy seed rows without this marker retain approved defaults.
+    await logAuditEvent({
+      userEmail,
+      userRole,
+      action: 'route_prices_published',
+      resource: 'pricing',
+      resourceId: routeData.id,
+      newValues: { rates: routeData.rates },
+      ip,
+      requirePersistent: true,
+    });
   } catch (err) {
-    console.warn('Exception persisting route and prices:', err);
+    console.error('Route or fare publication failed:', err);
+    return { success: false, error: 'Route and fare publication could not be verified.' };
   }
 
   const existingIdx = memoryRoutes.findIndex((r) => r.id === routeData.id);

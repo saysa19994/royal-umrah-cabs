@@ -19,11 +19,12 @@ import {
 import { VehicleGallery, GalleryPhoto } from '@/components/fleet/VehicleGallery';
 import AutomotiveShowroomExperience from '@/components/fleet/AutomotiveShowroomExperience';
 import {
-  AUTHORITATIVE_TRANSFER_RATES,
   LOCALIZED_ROUTE_NAMES,
 } from '@/lib/pricing-constants';
 import { FLEET_SHOWCASE_VEHICLES } from '@/data/fleet-showcase-data';
 import { getSiteSettings } from '@/lib/settings';
+import { getDbPricesCached } from '@/lib/pricing-db';
+import { getDbVehiclesCached } from '@/lib/fleet-db';
 import styles from './vehicle-detail.module.css';
 
 interface FleetDetailPageProps {
@@ -398,7 +399,10 @@ export async function generateMetadata(props: FleetDetailPageProps): Promise<Met
   const { locale, slug } = params;
 
   const resolvedSlug = SLUG_ALIASES[slug] || 'hyundai-staria';
-  const showcase = FLEET_SHOWCASE_VEHICLES.find((v) => v.slug === resolvedSlug) || FLEET_SHOWCASE_VEHICLES[2];
+  const published = await getDbVehiclesCached();
+  const showcase = published.find((v) => v.slug === resolvedSlug)
+    || FLEET_SHOWCASE_VEHICLES.find((v) => v.slug === resolvedSlug)
+    || FLEET_SHOWCASE_VEHICLES[2];
   const name = showcase.name[locale] || showcase.name.en;
   const desc = showcase.desc[locale] || showcase.desc.en;
 
@@ -425,16 +429,20 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
     redirect(`/${locale}/fleet/${resolvedSlug}`);
   }
 
-  // Look up unified vehicle
-  const v = FLEET_SHOWCASE_VEHICLES.find((item) => item.slug === resolvedSlug);
-  if (!v) {
-    notFound();
-  }
+  // Published CMS vehicles are the source of truth for names, images and capacity.
+  // Concierge profiles remain enquiry-only when not published in the fleet table.
+  const [publishedVehicles, rates, settings] = await Promise.all([
+    getDbVehiclesCached(), getDbPricesCached(), getSiteSettings(),
+  ]);
+  const bespokeSlug = resolvedSlug === 'mercedes-maybach' || resolvedSlug === 'hyundai-h1';
+  const v = publishedVehicles.find((item) => item.slug === resolvedSlug)
+    || (bespokeSlug ? FLEET_SHOWCASE_VEHICLES.find((item) => item.slug === resolvedSlug) : undefined);
+  if (!v) notFound();
 
   const name = v.name[locale] || v.name.en;
   const category = v.category[locale] || v.category.en;
   const desc = v.desc[locale] || v.desc.en;
-  const isBespoke = v.id === 'maybach' || v.id === 'h1';
+  const isBespoke = bespokeSlug;
 
   const t = (key: string): string => {
     return DETAIL_I18N[key]?.[locale] || DETAIL_I18N[key]?.en || key;
@@ -454,7 +462,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
   };
   const gTag = GALLERY_TAGS_I18N[locale] || GALLERY_TAGS_I18N.en;
 
-  const galleryPhotos: GalleryPhoto[] = [
+  const fallbackPhotos: GalleryPhoto[] = [
     {
       src: `/assets/images/vehicles/${resolvedSlug}/exterior_front.jpg`,
       title: `${name} — ${gTag.front}`,
@@ -489,14 +497,25 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
     },
   ];
 
-  const settings = await getSiteSettings();
+  // Use administrator-published gallery photos wherever they exist.
+  const publishedPhotos: GalleryPhoto[] = (v.gallery || [])
+    .filter(photo => typeof photo.src === 'string' && photo.src.length > 0)
+    .map(photo => ({
+      src: photo.src,
+      title: photo.alt?.[locale] || photo.alt?.en || name,
+      tag: photo.label?.[locale] || photo.label?.en || gTag.front,
+      type: photo.type,
+    }));
+  const galleryPhotos = publishedPhotos.length > 0 ? publishedPhotos : fallbackPhotos;
   const formatNumber = new Intl.NumberFormat(localeConfig.dateFormat);
   const formatFare = new Intl.NumberFormat(localeConfig.dateFormat, {
     style: 'currency', currency: 'SAR', maximumFractionDigits: 0,
   });
   const whatsappMessage = encodeURIComponent(`${localeConfig.whatsappGreeting} ${name}`);
   const whatsappUrl = `https://wa.me/${settings.whatsapp_number.replace(/\D/g, '')}?text=${whatsappMessage}`;
-  const studioImage = `/assets/images/vehicles/${resolvedSlug}/exterior-studio.webp`;
+  const studioImage = galleryPhotos.find(photo => photo.type === 'exterior')?.src
+    || galleryPhotos[0]?.src
+    || `/assets/images/vehicles/${resolvedSlug}/exterior-studio.webp`;
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   const pageUrl = `${baseUrl}/${locale}/fleet/${slug}`;
@@ -534,7 +553,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
     name,
     category,
     description: desc,
-    image: `${baseUrl}${studioImage}`,
+    image: /^https?:\/\//.test(studioImage) ? studioImage : `${baseUrl}${studioImage}`,
     provider: { '@type': 'TravelAgency', name: 'Duyuf Al Rahman VIP', url: baseUrl },
   };
 
@@ -627,7 +646,7 @@ export default async function FleetDetailPage(props: FleetDetailPageProps) {
           ) : (
             <ul className={styles.fareList}>
               {KEY_CORRIDORS.map((routeKey) => {
-                const price = AUTHORITATIVE_TRANSFER_RATES[routeKey]?.[v.bookingVehicleId];
+                const price = rates[routeKey]?.[v.bookingVehicleId];
                 if (!price) return null;
                 const routeName = LOCALIZED_ROUTE_NAMES[routeKey]?.[locale]
                   || LOCALIZED_ROUTE_NAMES[routeKey]?.en

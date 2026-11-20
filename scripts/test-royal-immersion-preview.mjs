@@ -139,7 +139,7 @@ test('All ten locales receive Royal Immersion through their existing homepage UR
   }
   assert.equal(new Set(Object.values(copy).map(({ heroLine1 }) => heroLine1)).size, LOCALES.length);
 
-  assert.match(app, /<SignatureFusionHomepage\s+locale=\{locale\}\s+rates=\{rates\}\s+dict=\{dict\}/);
+  assert.match(app, /<SignatureFusionHomepage\s+locale=\{locale\}\s+rates=\{rates\}\s+routeStatus=\{routeStatus\}\s+dict=\{dict\}/);
   assert.doesNotMatch(app, /JourneyArchitectHomepage|locale\s*===/);
   assert.match(homepage, /COPY\[locale\]/);
   assert.match(homepage, /dir=\{dir\} lang=\{locale\}/);
