@@ -180,15 +180,36 @@ export default async function ServicesPage(props: ServicesPageProps) {
             <ArrowIcon size={18} aria-hidden="true" />
           </Link>
           </div>
-          <div className="duyuf-services-intro-visual">
-            <Image
-              src="/assets/homepage-v2/fleet-family.jpg"
-              alt={dict.page_services.title}
-              fill
-              priority
-              sizes="(max-width: 767px) 100vw, 52vw"
-              className="object-cover"
-            />
+          <div className="duyuf-services-intro-visual" aria-label={dict.page_services.title} role="img" data-service-photo-atlas>
+            <div className="duyuf-services-atlas-main" aria-hidden="true">
+              <Image
+                src="/assets/homepage-v2/fleet-family.jpg"
+                alt=""
+                fill
+                priority
+                sizes="(max-width: 767px) 78vw, 47vw"
+              />
+            </div>
+            <div className="duyuf-services-atlas-arrival" aria-hidden="true">
+              <Image
+                src="/assets/homepage-v2/chauffeur-welcome.jpg"
+                alt=""
+                fill
+                sizes="(max-width: 767px) 36vw, 23vw"
+              />
+            </div>
+            <div className="duyuf-services-atlas-route" aria-hidden="true">
+              <Image
+                src="/assets/images/routes/makkah-to-madinah.jpg"
+                alt=""
+                fill
+                sizes="(max-width: 767px) 32vw, 20vw"
+              />
+            </div>
+            <div className="duyuf-services-atlas-edition" aria-hidden="true">
+              <span>DUYUF AL RAHMAN VIP</span>
+              <span>01 — 06</span>
+            </div>
           </div>
         </div>
 

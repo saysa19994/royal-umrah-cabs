@@ -69,3 +69,109 @@ html[dir=rtl] .duyuf-services-editorial .duyuf-services-title{
 @media(prefers-reduced-motion:reduce){
  .duyuf-services-editorial *{scroll-behavior:auto!important;transition:none!important}
 }
+
+
+/* 2026 editorial atlas: three physically distinct photographic planes.
+   The hero no longer depends on a solitary giant stock-card layout. */
+.duyuf-services-editorial .duyuf-services-intro {
+  grid-template-columns:minmax(0,.84fr) minmax(0,1.16fr);
+  gap:clamp(30px,5vw,76px);
+  min-height:clamp(480px,43vw,610px);
+  margin-bottom:clamp(44px,5vw,77px);
+}
+.duyuf-services-editorial .duyuf-services-intro-copy {padding-block:45px;}
+.duyuf-services-editorial .duyuf-services-intro-visual {
+  height:clamp(440px,40vw,585px);
+  width:100%;
+  position:relative;
+  overflow:visible;
+  isolation:isolate;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.duyuf-services-editorial .duyuf-services-intro-visual>div:not(.duyuf-services-atlas-edition) {
+  position:absolute;isolation:isolate;overflow:hidden;
+  background:#18384a;
+}
+.duyuf-services-editorial .duyuf-services-intro-visual img {
+  object-fit:cover;object-position:center;
+  transition:transform .65s cubic-bezier(.2,.7,.2,1);
+}
+.duyuf-services-editorial .duyuf-services-intro-visual>div:hover img {transform:scale(1.035);}
+.duyuf-services-editorial .duyuf-services-atlas-main{
+  inset-inline-start:0;top:6%;width:79%;height:79%;
+  border-radius:2px;z-index:1;
+  box-shadow:0 22px 48px rgba(20,42,50,.13);
+}
+.duyuf-services-editorial .duyuf-services-atlas-main::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(0deg,rgba(10,28,39,.42),transparent 49%);
+}
+.duyuf-services-editorial .duyuf-services-atlas-arrival{
+  inset-inline-end:0;bottom:0;width:40%;height:51%;
+  border:clamp(5px,.8vw,10px) solid var(--service-bg);
+  z-index:3;
+  box-shadow:0 18px 46px rgba(17,39,50,.2);
+}
+.duyuf-services-editorial .duyuf-services-atlas-route{
+  inset-inline-end:0;top:0;width:38%;height:34%;
+  border:clamp(4px,.7vw,8px) solid var(--service-bg);
+  z-index:2;
+  box-shadow:0 12px 30px rgba(17,39,50,.13);
+}
+.duyuf-services-editorial .duyuf-services-atlas-edition{
+  position:absolute;inset-inline-start:clamp(11px,2vw,26px);
+  bottom:20%;z-index:4;
+  display:flex;flex-direction:column;gap:6px;
+  color:#fff;pointer-events:none;text-shadow:0 2px 9px #0009;
+}
+.duyuf-services-editorial .duyuf-services-atlas-edition span:first-child{
+  font-size:clamp(11px,1vw,14px);font-weight:800;letter-spacing:.11em;
+}
+.duyuf-services-editorial .duyuf-services-atlas-edition span:last-child{
+  font-size:clamp(.72rem,.8vw,.92rem);letter-spacing:.12em;
+}
+.duyuf-services-editorial .duyuf-services-intro-cta{
+  min-height:53px;padding-inline:25px;
+  border-radius:2px;
+  background:#15324a;
+  font-weight:760;
+}
+.duyuf-services-editorial .duyuf-services-intro-cta:hover{background:#284b64;}
+@media(max-width:980px) and (min-width:768px){
+ .duyuf-services-editorial .duyuf-services-intro{gap:20px;min-height:400px;}
+ .duyuf-services-editorial .duyuf-services-intro-visual{height:390px;}
+ .duyuf-services-editorial .duyuf-services-atlas-arrival{width:45%;height:49%;}
+}
+@media(max-width:767px){
+ .duyuf-services-editorial .duyuf-services-intro{
+   display:flex;flex-direction:column;gap:12px;min-height:0;
+   margin-bottom:33px;
+ }
+ .duyuf-services-editorial .duyuf-services-intro-copy{padding:47px 0 5px;}
+ .duyuf-services-editorial .duyuf-services-intro-visual{
+   width:min(100%,540px);height:clamp(262px,69vw,360px);
+   margin:0 auto;
+   border-radius:0;
+ }
+ .duyuf-services-editorial .duyuf-services-atlas-main{
+   top:4%;height:80%;width:78%;
+ }
+ .duyuf-services-editorial .duyuf-services-atlas-arrival{
+   width:38%;height:51%;border-width:5px;
+ }
+ .duyuf-services-editorial .duyuf-services-atlas-route{
+   width:37%;height:34%;border-width:4px;
+ }
+ .duyuf-services-editorial .duyuf-services-atlas-edition{bottom:21%;inset-inline-start:13px;}
+ .duyuf-services-editorial .duyuf-services-atlas-edition span:first-child{font-size:10px;}
+}
+@media(max-width:390px){
+ .duyuf-services-editorial .duyuf-services-intro-visual{height:clamp(245px,68vw,280px);}
+ .duyuf-services-editorial .duyuf-services-atlas-edition{bottom:22%;}
+}
+@media(prefers-reduced-motion:reduce){
+ .duyuf-services-editorial .duyuf-services-intro-visual img{transition:none!important;}
+ .duyuf-services-editorial .duyuf-services-intro-visual>div:hover img{transform:none!important;}
+}

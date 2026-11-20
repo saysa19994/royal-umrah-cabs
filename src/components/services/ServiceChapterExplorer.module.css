@@ -146,3 +146,108 @@
  .mobileScene{height:385px!important}
  .mobileSceneContent{inset-inline:15px}
 }
+
+
+/* EDITORIAL SERVICE ATLAS — real 3-column work surface on desktop:
+   24% service index, 43% immersive scene, 33% useful trip detail.
+   Mobile keeps the proven six native swipe scenes, not a scaled desktop UI. */
+@media(min-width:1120px){
+ .section{padding:clamp(30px,3.5vw,56px) 0 85px;color:#193449;}
+ .heading{grid-template-columns:minmax(0,1.15fr) minmax(270px,.55fr);align-items:end;gap:44px;}
+ .heading h2{font-size:clamp(40px,3.6vw,59px);color:#172e42;max-width:18ch;}
+ .heading>p{font-size:clamp(12px,1vw,15px);color:#5d6e79;max-width:370px;}
+ .shell{
+   grid-template-columns:minmax(215px,.235fr) minmax(0,.765fr);
+   min-height:clamp(650px,51vw,760px);
+   background:#f9f7f0;border:1px solid #dcd9d0;
+   box-shadow:0 16px 50px rgba(18,43,60,.05);
+ }
+ .tabs{background:#142d41;border-inline-end:0;}
+ .tabs button{
+   min-height:calc(100% / 6);
+   grid-template-columns:25px 21px minmax(0,1fr) 16px;
+   padding:20px clamp(13px,1.55vw,24px);
+   gap:clamp(6px,.8vw,12px);
+   border-color:rgba(255,255,255,.13);
+   color:#e1e7e5;
+   font-size:clamp(12px,.98vw,15px);
+   font-weight:710;
+   transition:background-color .23s ease,color .23s ease;
+ }
+ .tabs button:hover{background:#22435b;color:#fff;}
+ .tabs button.selected{
+   background:#f9f7f0;color:#19354b;
+   box-shadow:inset 4px 0 0 #ba9668;
+ }
+ .section[dir=rtl] .tabs button.selected{box-shadow:inset -4px 0 0 #ba9668;}
+ .tabIndex{color:#dbc095;font-size:11px;}
+ .tabs button.selected .tabIndex{color:#8b6a43;}
+ .tabArrow{color:#e3cba8;}
+ .tabs button.selected .tabArrow{color:#86663d;}
+ .stage{
+   display:grid;
+   grid-template-columns:minmax(0,1.08fr) minmax(355px,.92fr);
+   grid-template-rows:minmax(0,1fr);
+   min-height:clamp(650px,51vw,760px);
+   background:#f9f7f0;
+ }
+ .media{min-height:100%;height:100%;background:#1b384d;isolation:isolate;}
+ .media:after{
+   inset:0;
+   background:linear-gradient(180deg,rgba(11,28,42,.48),transparent 31%,rgba(7,26,38,.78));
+ }
+ .photoNum{top:27px;inset-inline-start:27px;background:#f8f3e8;color:#203f4f;}
+ .availability{top:27px;inset-inline-end:22px;background:#203c4d;}
+ .photoCaption{bottom:39px;inset-inline:30px;font-size:clamp(29px,2.4vw,40px);line-height:1.25;}
+ .body{
+   min-height:100%;min-width:0;
+   padding:clamp(26px,3vw,49px) clamp(24px,2.75vw,43px);
+   justify-content:center;
+   background:#f9f7f0;
+ }
+ .small{font-size:11px;color:#997349;}
+ .body h3{font-size:clamp(26px,2.4vw,37px);line-height:1.29;color:#172f43;}
+ .body>p{font-size:clamp(12px,1vw,14px);line-height:1.85;color:#526677;margin-bottom:21px;}
+ .coverage{font-size:13px;color:#536a76;padding:19px 0;}
+ .coverage strong{color:#1b3b4a;}
+ .coverage span{font-size:12px;line-height:1.7;}
+ .details{padding:19px 0;}
+ .details summary{font-size:13px;color:#254654;}
+ .details li{font-size:12px;color:#4b6470;}
+ .links{gap:16px;margin-top:26px;}
+ .primary{min-height:49px;background:#142f43;font-size:13px;border-radius:2px;}
+ .primary:hover{background:#2f5266;}
+ .related a{color:#25566c;font-size:12px;}
+}
+/* Tablet keeps readable stacked content, but changes the route index into a
+   deep-blue editorial rail rather than duplicating desktop at a tiny width. */
+@media(min-width:761px) and (max-width:1119px){
+ .shell{grid-template-columns:minmax(185px,.30fr) minmax(0,.70fr);border-color:#d6dedc;}
+ .tabs{background:#193749;border-inline-end:0;}
+ .tabs button{color:#e6e4dd;border-color:#ffffff22;min-height:89px;}
+ .tabs button:hover{background:#284b5d;color:#fff;}
+ .tabs button.selected{background:#fcfaf4;color:#193c4c;}
+ .tabs .tabIndex{color:#d2b38a;}
+ .tabs button.selected .tabIndex{color:#9a7b53;}
+ .stage{background:#fcfaf4;grid-template-rows:285px auto;}
+ .body{padding:25px 27px;}
+ .media:after{inset:15% 0 0;}
+}
+html[data-theme="dark"] .section{color:#f4ede3;}
+html[data-theme="dark"] .heading h2{color:#f6f1e8;}
+html[data-theme="dark"] .heading>p{color:#bbcacb;}
+html[data-theme="dark"] .shell{border-color:#314a58;}
+html[data-theme="dark"] .stage,html[data-theme="dark"] .body{background:#1a3040;}
+html[data-theme="dark"] .body h3{color:#f3eee6;}
+html[data-theme="dark"] .body>p,html[data-theme="dark"] .coverage,html[data-theme="dark"] .coverage span{color:#bfd0d3;}
+html[data-theme="dark"] .coverage strong,html[data-theme="dark"] .details summary{color:#e7e3d9;}
+html[data-theme="dark"] .coverage,html[data-theme="dark"] .details{border-color:#3c5860;}
+html[data-theme="dark"] .details li{color:#c5d3d5;}
+html[data-theme="dark"] .related a{color:#c1d9df;}
+html[data-theme="dark"] .tabs button.selected{
+ background:#1a3040;color:#f2eadb;box-shadow:inset 4px 0 0 #bf9c6b;
+}
+html[data-theme="dark"] .section[dir=rtl] .tabs button.selected{box-shadow:inset -4px 0 0 #bf9c6b;}
+@media(prefers-reduced-motion:reduce){
+ .tabs button{transition:none!important;}
+}
