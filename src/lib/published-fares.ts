@@ -51,7 +51,9 @@ export async function publishFares(values:{route_id:string;vehicle_id:string;pri
   const stamp=new Date().toISOString();
   const {error}=await createServiceClient().from('page_content').upsert(values.map(v=>({
     page_key:fareKey(v.route_id,v.vehicle_id),language:'all',
-    seo_title:null,seo_description:null,h1:null,
+    // page_content columns are NOT NULL in production: publishing a fare
+    // must not fail or erase a legitimate price by sending NULL metadata.
+    seo_title:'',seo_description:'',h1:'',
     content_blocks:{price_sar:v.price_sar,published_at:stamp},updated_at:stamp,
   })),{onConflict:'page_key,language'});
   if(error)throw new Error('Fare approval could not be saved: '+error.message);

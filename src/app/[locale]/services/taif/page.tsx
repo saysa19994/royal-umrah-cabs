@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { Locale, getLocalizedAlternates, LOCALES } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { TAIF_SERVICE_DATA } from '@/data/services-cities-data';
+import { getPublishedPageCopy, mergeCityHubCmsCopy } from '@/lib/public-page-copy';
+import { getDbPricesCached } from '@/lib/pricing-db';
 import {
   MapPin,
   Clock,
@@ -30,7 +32,8 @@ export function generateStaticParams() {
 
 export async function generateMetadata(props: TaifServicePageProps): Promise<Metadata> {
   const { locale } = await props.params;
-  const content = TAIF_SERVICE_DATA[locale] || TAIF_SERVICE_DATA.en;
+  const cms = await getPublishedPageCopy('taif',locale);
+  const content = mergeCityHubCmsCopy(TAIF_SERVICE_DATA[locale] || TAIF_SERVICE_DATA.en,cms);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
   return {
@@ -57,11 +60,17 @@ export async function generateMetadata(props: TaifServicePageProps): Promise<Met
 
 export default async function TaifServicePage(props: TaifServicePageProps) {
   const { locale } = await props.params;
-  const content = TAIF_SERVICE_DATA[locale] || TAIF_SERVICE_DATA.en;
+  const [cms, liveRates] = await Promise.all([getPublishedPageCopy('taif',locale),getDbPricesCached()]);
+  const content = mergeCityHubCmsCopy(TAIF_SERVICE_DATA[locale] || TAIF_SERVICE_DATA.en,cms);
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
   const isAr = locale === 'ar';
+  const fareFrom = (routeId: string): number | null => {
+    const allowed = Object.values(liveRates[routeId] || {}).filter((v): v is number =>
+      typeof v === 'number' && Number.isFinite(v) && v > 0);
+    return allowed.length ? Math.min(...allowed) : null;
+  };
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -93,7 +102,7 @@ export default async function TaifServicePage(props: TaifServicePageProps) {
               name: r.title,
               description: r.description,
             },
-            price: r.priceFromSAR,
+            price: fareFrom(r.id) ?? undefined,
             priceCurrency: 'SAR',
             position: idx + 1,
           })),
@@ -117,35 +126,39 @@ export default async function TaifServicePage(props: TaifServicePageProps) {
   const FLEET_SHOWCASE = [
     {
       name: 'Toyota Camry Executive',
+      vehicleId: 'camry',
       type: isAr ? 'سيدان تنفيذية' : 'Executive Sedan',
       pax: 4,
       bags: 3,
       img: '/assets/images/camry_exterior.webp',
-      priceSAR: 350,
+
     },
     {
       name: 'Hyundai Staria VIP',
+      vehicleId: 'staria',
       type: isAr ? 'فان عائلي فاخر' : 'VIP Family Van',
       pax: 7,
       bags: 6,
       img: '/assets/images/staria_exterior.webp',
-      priceSAR: 450,
+
     },
     {
       name: 'GMC Yukon XL VIP',
+      vehicleId: 'yukon',
       type: isAr ? 'دفع رباعي فاره' : 'American Luxury SUV',
       pax: 7,
       bags: 8,
       img: '/assets/images/yukon_exterior.webp',
-      priceSAR: 600,
+
     },
     {
       name: 'Toyota HiAce VIP',
+      vehicleId: 'hiace',
       type: isAr ? 'حافلة صغيرة سقف عالي' : 'High-Roof Minibus',
       pax: 10,
       bags: 10,
       img: '/assets/images/hiace_exterior.webp',
-      priceSAR: 550,
+
     },
   ];
 
@@ -277,7 +290,7 @@ export default async function TaifServicePage(props: TaifServicePageProps) {
                       {isAr ? 'السعر يبدأ من' : 'Starting From'}
                     </span>
                     <span className="font-display font-extrabold text-gold-dark text-xl">
-                      {r.priceFromSAR} SAR
+                      {fareFrom(r.id) ? `${fareFrom(r.id)} SAR` : (isAr ? 'راجع الأسعار المعتمدة' : 'View approved fares')}
                     </span>
                   </div>
                   <Link
@@ -333,7 +346,9 @@ export default async function TaifServicePage(props: TaifServicePageProps) {
                 </div>
                 <div className="pt-3 border-t border-border flex items-center justify-between">
                   <span className="font-extrabold text-gold-dark text-base">
-                    {vehicle.priceSAR} SAR
+                    {liveRates['makkah-to-taif']?.[vehicle.vehicleId]
+                      ? `${isAr ? 'مكة ← الطائف من' : 'Makkah → Taif from'} ${liveRates['makkah-to-taif'][vehicle.vehicleId]} SAR`
+                      : (isAr ? 'راجع الأسعار المعتمدة' : 'View approved fares')}
                   </span>
                   <Link
                     href={`/${locale}/booking?route=makkah-to-taif`}

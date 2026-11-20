@@ -8,12 +8,12 @@ const about=read('src/app/[locale]/about/page.tsx');
 const pricing=read('src/app/[locale]/pricing/page.tsx');
 const ziyarat=read('src/app/[locale]/ziyarat/page.tsx');
 test('route page does not bury its live selector below ten duplicate scenic cards and a second fare matrix',()=>{
- assert.match(routes,/<RouteNetworkDesk locale=\{locale\}\s*\/>/);
- assert.match(routes,/EXECUTIVE_ROUTES_DATA\.filter\(route=>route\.slug!=='riyadh-airport-transfer'\)\.map/);
+ assert.match(routes,/<RouteNetworkDesk locale=\{locale\} routes=\{publicRoutes\} rates=\{liveRates\}\s*\/>/);
+ assert.match(routes,/publicRoutes\.map/);
  assert.doesNotMatch(routes,/<ExecutiveRouteCard/);
  assert.doesNotMatch(routes,/<PricingTable/);
- assert.match(routes,/AUTHORITATIVE_TRANSFER_RATES\[route\.slug\]\?\.camry/);
- assert.match(routes,/\/routes\/'\+route\.slug/);
+ assert.match(routes,/liveRates\[route\.slug\]\?\.camry/);
+ assert.match(routes,/route\.hasDetails\?'\/routes\/':'\/booking\?route='/);
  assert.match(routes,/getLocalizedAlternates\(locale, '\/routes'\)/);
  assert.match(read('src/app/[locale]/routes/routes-overhaul.module.css'),/\.list\{list-style:none/);
 });
@@ -31,8 +31,8 @@ test('about page is an actual story, not an old three-card template',()=>{
  assert.match(about,/styles\.heroImage/);
  assert.match(about,/styles\.storyGrid/);
  assert.match(about,/styles\.valueList/);
- assert.match(about,/dict\.page_about\.storyP1/);
- assert.match(about,/dict\.page_about\.storyP2/);
+ assert.match(about,/aboutCopy\.storyP1/);
+ assert.match(about,/aboutCopy\.storyP2/);
  assert.match(about,/getLocalizedAlternates\(locale,'\/about'\)/);
  assert.doesNotMatch(about,/grid-cols-1 md:grid-cols-3 gap-8/);
  for(const lang of ['ar','en','ms','id','ur','fr','es','de','tr','hi'])assert.ok(about.includes('  '+lang+':{story:'),'Missing about UI '+lang);

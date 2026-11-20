@@ -356,6 +356,8 @@ export async function upsertRouteWithPricesAdmin(
   revalidateTag('site_prices');
   revalidateTag('site_routes');
   revalidatePath('/[locale]/routes', 'page');
+  revalidatePath('/[locale]/routes/[slug]', 'page');
+  revalidatePath('/[locale]/pricing', 'page');
 
   return { success: true };
 }
@@ -369,35 +371,52 @@ export async function toggleOrDeleteRouteAdmin(
   userEmail: string,
   userRole: any,
   ip?: string
-): Promise<{ success: boolean; error?: string }> {
-  try {
-    const supabase = createServiceClient();
-    if (action === 'delete') {
-      await supabase.from('prices').delete().eq('route_id', routeId);
-      await supabase.from('routes').delete().eq('id', routeId);
-      memoryRoutes = memoryRoutes.filter((r) => r.id !== routeId);
-    } else {
-      const route = memoryRoutes.find((r) => r.id === routeId);
-      const newActive = route ? !route.is_active : false;
-      await supabase.from('routes').update({ is_active: newActive }).eq('id', routeId);
-      if (route) route.is_active = newActive;
-    }
-  } catch (err) {
-    console.warn('Notice in toggleOrDeleteRouteAdmin:', err);
+): Promise<{ success: boolean; retired?: boolean; is_active?: boolean; error?: string }> {
+  if (!/^[a-z0-9_-]{1,120}$/.test(routeId)) {
+    return { success: false, error: 'Invalid route identifier' };
   }
 
-  await logAuditEvent({
-    userEmail,
-    userRole,
-    action: `route_${action}`,
-    resource: 'pricing',
-    resourceId: routeId,
-    ip,
-  });
+  try {
+    const db = createServiceClient();
+    const { data: existing, error: readError } = await db.from('routes')
+      .select('id,is_active').eq('id',routeId).maybeSingle();
+    if (readError || !existing) {
+      return { success: false, error: 'Route was not found or could not be read' };
+    }
 
-  revalidateTag('site_prices');
-  revalidateTag('site_routes');
-  revalidatePath('/[locale]/routes', 'page');
+    // A route may be referenced by real bookings, prices, locale pages and SEO
+    // links. Treat "delete" as a soft retirement to preserve operational history.
+    const isActive = action === 'delete' ? false : !existing.is_active;
+    const { data: updated, error: updateError } = await db.from('routes')
+      .update({ is_active: isActive, updated_at: new Date().toISOString() })
+      .eq('id',routeId)
+      .select('id,is_active')
+      .single();
 
-  return { success: true };
+    if (updateError || !updated) {
+      return { success: false, error: 'Route status change was not persisted' };
+    }
+
+    const local = memoryRoutes.find(r=>r.id===routeId);
+    if (local) local.is_active = isActive;
+
+    await logAuditEvent({
+      userEmail, userRole,
+      action: action === 'delete' ? 'route_retired' : 'route_status_changed',
+      resource: 'pricing', resourceId: routeId,
+      oldValues: { is_active: existing.is_active },
+      newValues: { is_active: updated.is_active }, ip,
+    });
+
+    revalidateTag('site_prices');
+    revalidateTag('site_routes');
+    revalidatePath('/[locale]/routes', 'page');
+    revalidatePath('/[locale]', 'page');
+    revalidatePath('/[locale]/pricing', 'page');
+
+    return { success: true, retired: action === 'delete', is_active: isActive };
+  } catch (err) {
+    console.error('Failed to change route visibility:', err);
+    return { success: false, error: 'Route status change could not be completed' };
+  }
 }

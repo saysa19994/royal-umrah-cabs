@@ -7,10 +7,11 @@ import {ArrowLeft,ArrowRight,ArrowUpRight,BriefcaseBusiness,Users,Camera,ShieldC
 import type {Locale} from '@/i18n/config';
 import type {FleetShowcaseVehicle} from '@/data/fleet-showcase-data';
 import {APPROVED_5_FLEET} from '@/data/approved-fleet-homepage';
-import {AUTHORITATIVE_TRANSFER_RATES,LOCALIZED_ROUTE_NAMES} from '@/lib/pricing-constants';
+import {LOCALIZED_ROUTE_NAMES} from '@/lib/pricing-constants';
+import type {TransferRatesMap} from '@/lib/pricing-db';
 import styles from './FleetAtelier.module.css';
 
-type Props={locale:Locale;vehicles:FleetShowcaseVehicle[]};
+type Props={locale:Locale;vehicles:FleetShowcaseVehicle[];rates:TransferRatesMap;heading?:string;intro?:string};
 type UI={label:string;title:string;subtitle:string;viewInside:string;viewOutside:string;imageTitle:string;capacity:string;bags:string;price:string;route:string;book:string;details:string;comparison:string;compareIntro:string;vehicle:string;passengers:string;luggage:string;fare:string;more:string;concierge:string;conciergeDesc:string;contact:string;payment:string;index:string;conclusion:string;notForRoute:string};
 const UI_COPY:Record<Locale,UI>={
  ar:{label:'مجموعة المركبات الخاصة',title:'كل رحلة تستحق السيارة المناسبة.',subtitle:'اختر مركبتك وشاهد المساحة الحقيقية المخصصة لك ولعائلتك، ثم اطلب حجزها بالسعر المعتمد للمسار.',viewInside:'المقصورة',viewOutside:'من الخارج',imageTitle:'الصور المتاحة',capacity:'الركاب',bags:'الحقائب',price:'السعر على المسار',route:'مطار جدة إلى مكة',book:'اطلب هذه السيارة',details:'تفاصيل وصور إضافية',comparison:'الأسطول في لمحة.',compareIntro:'كل سيارة تحمل ضيوفها وحقائبهم حسب سعتها؛ الأسعار أدناه لرحلة مطار جدة إلى مكة فقط.',vehicle:'المركبة',passengers:'الركاب',luggage:'الحقائب',fare:'السعر',more:'التفاصيل',concierge:'اختيارات كونسيرج خاصة.',conciergeDesc:'مرسيدس مايباخ وهيونداي H1 متاحتان بالطلب الخاص والتنسيق المسبق فقط، وليستا ضمن الحجز المباشر.',contact:'استفسر عن الكونسيرج',payment:'لا يوجد دفع مسبق؛ الدفع نقدًا للسائق بعد انتهاء الرحلة.',index:'المركبة',conclusion:'اختيار يليق برحلتك.',notForRoute:'استفسر عن السعر'},
@@ -28,16 +29,27 @@ const FARE_IDS:Record<string,string>={'toyota-camry':'camry','hyundai-staria':'s
 const ROUTE='jeddah-airport-to-makkah';
 function VehicleLinkArrow({rtl}:{rtl:boolean}){return rtl?<ArrowLeft size={17} aria-hidden="true"/>:<ArrowRight size={17} aria-hidden="true"/>;}
 
-export function FleetAtelier({locale,vehicles}:Props){
+export function FleetAtelier({locale,vehicles,rates,heading,intro}:Props){
  const t=UI_COPY[locale],rtl=locale==='ar'||locale==='ur';
  const [active,setActive]=useState(0),[interior,setInterior]=useState(false);
  const [galleryPosition,setGalleryPosition]=useState<string|null>(null);
- const approved=APPROVED_5_FLEET[active];
- const dbVehicle=useMemo(()=>vehicles.find(v=>v.slug===approved.slug||v.bookingVehicleId===FARE_IDS[approved.slug]),[vehicles,approved.slug]);
+ const visibleFleet=APPROVED_5_FLEET.filter(v=>
+   vehicles.some(m=>m.bookingVehicleId===FARE_IDS[v.slug]||m.slug===v.slug)
+ ).map(v=>{
+   const record=vehicles.find(m=>m.bookingVehicleId===FARE_IDS[v.slug]||m.slug===v.slug);
+   return {...v,name:record?.name||v.name,passengers:record?.passengers??v.passengers,luggage:record?.luggage??v.luggage};
+ });
+ const approved=visibleFleet[Math.min(active,visibleFleet.length-1)];
+ const dbVehicle=useMemo(()=>approved?vehicles.find(v=>v.slug===approved.slug||v.bookingVehicleId===FARE_IDS[approved.slug]):undefined,[vehicles,approved?.slug]);
+ if(!approved)return <main dir={rtl?'rtl':'ltr'} className="mx-auto min-h-[60vh] max-w-4xl px-5 py-20 text-center">
+    <h1 className="text-3xl font-bold">{heading || t.title}</h1>
+    <p className="mx-auto mt-6 max-w-xl text-base">{t.notForRoute}</p>
+    <Link href={'/'+locale+'/contact'} className="mt-8 inline-block rounded-xl border px-6 py-3">{t.contact}</Link>
+ </main>;
  const extPhoto=dbVehicle?.gallery?.find(x=>x.type==='exterior')?.src||approved.exteriorImage;
  const cabinPhoto=dbVehicle?.gallery?.find(x=>x.type==='interior')?.src||approved.interiorImage;
  const selectedPhoto=galleryPosition||(interior?cabinPhoto:extPhoto);
- const fare=AUTHORITATIVE_TRANSFER_RATES[ROUTE]?.[FARE_IDS[approved.slug]];
+ const fare=rates[ROUTE]?.[FARE_IDS[approved.slug]];
  const numberFormat=new Intl.NumberFormat(locale==='ar'?'ar-SA':'en-US');
  const select=(i:number)=>{setActive(i);setInterior(false);setGalleryPosition(null);};
  const morePhotos=dbVehicle?.gallery?.filter(x=>x.src!==selectedPhoto).slice(0,4)||[];
@@ -46,8 +58,8 @@ export function FleetAtelier({locale,vehicles}:Props){
    <div className={styles.heroPoster}><Image src="/assets/homepage-v2/fleet-private.jpg" alt="" fill priority sizes="(max-width:700px) 100vw, 49vw" className={styles.heroImage}/><span className={styles.imageIndex}>01 / VEHICLES</span></div>
    <div className={styles.heroText}>
     <p className={styles.kicker}>{t.label} / DUYUF VIP</p>
-    <h1 id="fleet-atelier-heading">{t.title}</h1>
-    <p>{t.subtitle}</p>
+    <h1 id="fleet-atelier-heading">{heading || t.title}</h1>
+    <p>{intro || t.subtitle}</p>
     <a className={styles.heroLink} href="#fleet-atelier-selector">{t.viewOutside}<VehicleLinkArrow rtl={rtl}/></a>
    </div>
   </section>
@@ -55,12 +67,12 @@ export function FleetAtelier({locale,vehicles}:Props){
   <section className={styles.atelier} id="fleet-atelier-selector" aria-label={t.label}>
    <div className={styles.atelierHead}>
      <div><span>02 / THE COLLECTION</span><h2>{t.conclusion}</h2></div>
-     <span className={styles.collectionCount}>05 <small>/ 05</small></span>
+     <span className={styles.collectionCount}>{visibleFleet.length} <small>/ 05</small></span>
    </div>
    <div className={styles.collection}>
     <nav className={styles.selector} aria-label={t.vehicle}>
       <span className={styles.railEyebrow}>{t.label}</span>
-      {APPROVED_5_FLEET.map((v,i)=><button key={v.id} type="button" className={styles.pick}
+      {visibleFleet.map((v,i)=><button key={v.id} type="button" className={styles.pick}
          aria-pressed={active===i} onClick={()=>select(i)}>
         <span>{String(i+1).padStart(2,'0')}</span><strong>{v.name[locale]||v.name.en}</strong>
         <span className={styles.pickDot} aria-hidden="true"/>
@@ -109,8 +121,8 @@ export function FleetAtelier({locale,vehicles}:Props){
     <div className={styles.tableScroll}>
     <table className={styles.table}>
       <thead><tr><th>{t.vehicle}</th><th>{t.passengers}</th><th>{t.luggage}</th><th>{t.fare} / SAR</th><th>{t.more}</th></tr></thead>
-      <tbody>{APPROVED_5_FLEET.map(v=>{
-        const f=AUTHORITATIVE_TRANSFER_RATES[ROUTE]?.[FARE_IDS[v.slug]];
+      <tbody>{visibleFleet.map(v=>{
+        const f=rates[ROUTE]?.[FARE_IDS[v.slug]];
         return <tr key={v.slug}>
          <th scope="row">{v.name[locale]||v.name.en}</th>
          <td data-label={t.passengers}>{v.passengers}</td>

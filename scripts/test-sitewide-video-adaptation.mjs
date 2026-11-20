@@ -14,7 +14,7 @@ const contact=read('src/app/[locale]/contact/page.tsx');
 const contactCss=read('src/app/[locale]/contact/contact-editorial.css');
 
 test('sitewide visual adaptations are distributed, not stacked onto the homepage',()=>{
- assert.match(routePage,/<RouteNetworkDesk locale=\{locale\} \/>/);
+ assert.match(routePage,/<RouteNetworkDesk locale=\{locale\} routes=\{publicRoutes\} rates=\{liveRates\} \/>/);
  assert.match(fleet,/duyuf-fleet-gallery-controls/);
  assert.match(guides,/duyuf-guide-reading-list/);
  assert.match(contact,/duyuf-contact-layout/);
@@ -75,6 +75,7 @@ test('booking remains untouched and cash-only flow is protected',()=>{
  const booking=read('src/app/[locale]/booking/page.tsx');
  assert.match(booking,/<BookingWizard/);
  assert.match(booking,/getBookingDraft/);
- assert.match(booking,/initialRates=\{await getDbPricesCached\(\)\}/);
+ assert.match(booking,/initialRates=\{initialRates\}/);
+ assert.match(booking,/getDbPricesCached\(\)/);
  assert.match(booking,/No deposit|دون عربون/);
 });

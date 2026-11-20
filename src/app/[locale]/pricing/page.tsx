@@ -9,6 +9,7 @@ import {RouteBasedPricingExperience} from '@/components/pricing/RouteBasedPricin
 import {getDbPricesCached} from '@/lib/pricing-db';
 import {getMergedSiteSettings} from '@/lib/dynamic-settings-store';
 import {PRICING_PAGE_CONTENT} from '@/data/pricing-page-content';
+import {getPublishedPageCopy} from '@/lib/public-page-copy';
 import {ArrowUpRight,ArrowLeft,ArrowRight,ShieldCheck,ReceiptText} from 'lucide-react';
 
 interface PricingPageProps{params:Promise<{locale:Locale}>}
@@ -27,13 +28,21 @@ const TEXT:Record<Locale,{eyebrow:string;label:string;first:string;second:string
 export async function generateMetadata(props:PricingPageProps):Promise<Metadata>{
  const {locale}=await props.params;
  const content=PRICING_PAGE_CONTENT[locale]||PRICING_PAGE_CONTENT.en;
- return {title:content.heroTitle+' | Duyuf Alrahman VIP',description:content.heroSubtitle,alternates:getLocalizedAlternates(locale,'/pricing')};
+ const cms=await getPublishedPageCopy('pricing',locale);
+ return {title:cms.seoTitle || content.heroTitle+' | Duyuf Alrahman VIP',
+  description:cms.seoDescription || content.heroSubtitle,
+  alternates:getLocalizedAlternates(locale,'/pricing')};
 }
 export default async function PricingPage(props:PricingPageProps){
  const {locale}=await props.params;
  const t=TEXT[locale],rtl=locale==='ar'||locale==='ur';
  const dict=getDictionary(locale);
- const content=PRICING_PAGE_CONTENT[locale]||PRICING_PAGE_CONTENT.en;
+ const baseContent=PRICING_PAGE_CONTENT[locale]||PRICING_PAGE_CONTENT.en;
+ const cms=await getPublishedPageCopy('pricing',locale);
+ const content={...baseContent,
+  heroTitle:cms.h1 || baseContent.heroTitle,
+  heroSubtitle:typeof cms.contentBlocks.subtitle==='string' && cms.contentBlocks.subtitle.trim()
+    ?cms.contentBlocks.subtitle:baseContent.heroSubtitle};
  const [initialRates,settings]=await Promise.all([getDbPricesCached(),Promise.resolve(getMergedSiteSettings())]);
  const Arrow=rtl?ArrowLeft:ArrowRight;
  const policy=[

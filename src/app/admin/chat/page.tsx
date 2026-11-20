@@ -23,6 +23,8 @@ import type { ChatBotSettings, ChatSessionRecord } from '@/lib/chat-settings';
 
 export default function AdminChatPage() {
   const [settings, setSettings] = useState<ChatBotSettings | null>(null);
+  const [savedVersion, setSavedVersion] = useState<string | null>(null);
+  const [settingsLoaded, setSettingsLoaded] = useState(false);
   const [sessions, setSessions] = useState<ChatSessionRecord[]>([]);
   const [activeTab, setActiveTab] = useState<'conversations' | 'settings'>('conversations');
   const [loading, setLoading] = useState(true);
@@ -31,20 +33,24 @@ export default function AdminChatPage() {
   const [sessionFilter, setSessionFilter] = useState<'all' | 'handoffs'>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const fetchData = async () => {
+  const fetchData = async ():Promise<ChatBotSettings | null> => {
     setLoading(true);
+    setSettingsLoaded(false);
     try {
-      const res = await fetch('/api/admin/chat');
+      const res = await fetch('/api/admin/chat',{cache:'no-store'});
       const data = await res.json();
-      if (data.success) {
-        setSettings(data.settings);
-        setSessions(data.sessions || []);
-      }
-    } catch (err) {
-      console.error('Failed to load chat data:', err);
-    } finally {
-      setLoading(false);
-    }
+      if(!res.ok || !data.success || !data.settings)
+        throw new Error(data.error || 'Unable to load persisted chat settings');
+      setSettings(data.settings);
+      setSavedVersion(data.version ?? null);
+      setSessions(Array.isArray(data.sessions)?data.sessions:[]);
+      setSettingsLoaded(true);
+      return data.settings as ChatBotSettings;
+    } catch(err){
+      const error=err instanceof Error?err.message:'Unable to read saved chat settings';
+      setFeedback({type:'error',message:error});
+      return null;
+    } finally { setLoading(false); }
   };
 
   useEffect(() => {
@@ -52,25 +58,25 @@ export default function AdminChatPage() {
   }, []);
 
   const handleSaveSettings = async () => {
-    if (!settings) return;
+    if (!settings || !settingsLoaded || loading || saving) return;
     setSaving(true);
     setFeedback(null);
     try {
       const res = await fetch('/api/admin/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settings),
+        body: JSON.stringify({settings,expected_updated_at:savedVersion}),
       });
       const data = await res.json();
-      if (data.success) {
-        setSettings(data.settings);
-        setFeedback({ type: 'success', message: 'تم حفظ إعدادات المساعد الذكي بنجاح' });
-        setTimeout(() => setFeedback(null), 4000);
-      } else {
-        throw new Error(data.error);
+      if (!res.ok || !data.success) throw new Error(data.error || 'Failed to save chatbot settings');
+      const stored=await fetchData();
+      if(stored && JSON.stringify(stored)===JSON.stringify(settings)){
+        setFeedback({type:'success',message:'تم حفظ الإعدادات في قاعدة البيانات والتحقق منها بعد إعادة القراءة'});
+      }else{
+        setFeedback({type:'error',message:'الحفظ لم يتم التحقق منه. راجع الإعدادات المحفوظة قبل إعادة المحاولة.'});
       }
-    } catch {
-      setFeedback({ type: 'error', message: 'فشل حفظ الإعدادات، يرجى المحاولة لاحقاً' });
+    } catch(err){
+      setFeedback({type:'error',message:err instanceof Error?err.message:'فشل حفظ الإعدادات'});
     } finally {
       setSaving(false);
     }
@@ -113,7 +119,7 @@ export default function AdminChatPage() {
               )}
             </div>
             <p className="text-xs text-[#697984] mt-1">
-              مراقبة المحادثات الحية، رصد التحويل إلى واتساب، وتخصيص هوية المساعد ونبرة الإجابة.
+              تعديل إعدادات المساعد من قاعدة البيانات. سجلات المحادثات الحالية مؤقتة وقد لا تشمل كل السيرفرات؛ لا تُعد إحصاءات مكتملة.
             </p>
           </div>
         </div>
@@ -185,7 +191,7 @@ export default function AdminChatPage() {
             <div className="p-4 rounded-2xl bg-[#FFF9F1] border border-[#E4D4BE]">
               <span className="text-xs text-[#697984]">متوسط التفاعل الذاتي</span>
               <p className="text-2xl font-bold text-emerald-400 mt-1">
-                {sessions.length > 0 ? `${Math.round(((sessions.length - totalHandoffs) / sessions.length) * 100)}%` : '100%'}
+                {sessions.length > 0 ? `${Math.round(((sessions.length - totalHandoffs) / sessions.length) * 100)}%` : '—'}
               </p>
             </div>
           </div>
@@ -447,7 +453,7 @@ export default function AdminChatPage() {
               <button
                 type="button"
                 onClick={handleSaveSettings}
-                disabled={saving}
+                disabled={saving || loading || !settingsLoaded}
                 className="px-6 py-3 rounded-xl bg-[#0A6364] hover:bg-[#E5B24E] text-[#FFFAF2] font-bold text-xs flex items-center gap-2 shadow-lg transition-all"
               >
                 <Save className="w-4 h-4" />

@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Upload, Save, ExternalLink, ShieldCheck } from 'lucide-react';
+import { Upload, Save, ExternalLink, ShieldCheck, RefreshCw } from 'lucide-react';
 
 type SlotInfo = { label: string; fallback: string };
 type ImageRegistry = { slots: Record<string, SlotInfo>; assets: Record<string, string> };
 export default function SiteImageControl() {
   const [data, setData] = useState<ImageRegistry | null>(null);
+  const [savedAssets, setSavedAssets] = useState<Record<string, string> | null>(null);
   const [saving, setSaving] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -14,7 +15,7 @@ export default function SiteImageControl() {
     let cancelled = false;
     fetch('/api/admin/site-assets',{cache:'no-store'}).then(async r => {
       const j = await r.json(); if (!r.ok) throw new Error(j.error || 'Failed to load image settings'); return j;
-    }).then(j => { if (!cancelled) setData(j); }).catch(e => { if (!cancelled) setError(e.message); });
+    }).then(j => { if (!cancelled) { setData(j); setSavedAssets(j.assets); } }).catch(e => { if (!cancelled) setError(e.message); });
     return () => { cancelled = true; };
   }, []);
   async function upload(key: string, file: File) {
@@ -30,21 +31,23 @@ export default function SiteImageControl() {
     finally {setSaving('');}
   }
   async function save(key:string) {
-    if (!data) return;
+    if (!data || !savedAssets) return;
     setSaving(key);setError('');setMessage('');
     try {
       const r = await fetch('/api/admin/site-assets', { method:'PATCH', headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({key,url:data.assets[key]}) });
+        body:JSON.stringify({key,url:data.assets[key],expected_url:savedAssets[key] || data.slots[key]?.fallback}) });
       const j=await r.json();
       if(!r.ok)throw new Error(j.error || 'تعذر حفظ إعداد الصورة');
-      setMessage('تم الحفظ بنجاح. افتح الصفحة العامة وحدّثها لرؤية الصورة الجديدة.');
+      setSavedAssets(old => old ? {...old, [key]: j.url} : old);
+      setMessage('تم التحقق من حفظ اختيار الصورة. حدّث الصفحة العامة للتأكد من ظهورها.');
     } catch (e) { setError(e instanceof Error ? e.message : 'تعذر الحفظ'); }
     finally {setSaving('');}
   }
   return <section dir="rtl" className="vip-internal-editorial space-y-5 rounded-2xl bg-[#f7efe5] p-4 text-[#193746] sm:p-7">
     <header><p className="text-xs font-bold text-[#17736d]">SITE-WIDE VISUAL CONTENT</p>
-      <h1 className="mt-2 text-2xl font-black">صور الصفحة الرئيسية</h1>
-      <p className="mt-2 text-sm text-[#637784]">غيّر صورة أي قسم معروض هنا ثم احفظ. فيديو الهيرو الأصلي لن يتم تغييره أو حذفه.</p>
+      <h1 className="mt-2 text-2xl font-black">صور جميع صفحات الموقع</h1>
+      <button type="button" onClick={() => window.location.reload()} className="mt-3 inline-flex items-center gap-2 rounded-lg border border-[#b9c8c4] px-3 py-2 text-xs font-bold"><RefreshCw className="h-4 w-4"/> تحديث البيانات المحفوظة</button>
+      <p className="mt-2 text-sm text-[#637784]">غيّر الصورة لأي قسم في الصفحة الرئيسية أو الحجز أو من نحن أو الخدمات، ثم اضغط حفظ. فيديو الهيرو الأصلي ثابت ولن يتغير.</p>
     </header>
     <div className="flex items-center gap-2 rounded-xl bg-[#e4f1ec] p-3 text-sm text-[#1b6857]"><ShieldCheck className="h-5 w-5"/>الصور تحفظ في Supabase Storage، والاختيار يحفظ في إعدادات الموقع.</div>
     {error && <p role="alert" className="rounded-xl bg-rose-50 p-3 text-rose-700">{error}</p>}

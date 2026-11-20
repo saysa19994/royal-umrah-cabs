@@ -4,8 +4,6 @@ import { requireRole } from '@/lib/auth/server-auth';
 import { getAllMediaItemsAdmin, upsertMediaItemAdmin, getFleetImagesCached } from '@/lib/media-service';
 import { getClientIp } from '@/lib/rate-limit';
 import { createServiceClient } from '@/lib/supabase/service';
-import fs from 'fs';
-import path from 'path';
 
 export const dynamic = 'force-dynamic';
 
@@ -63,56 +61,58 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const authResult = await requireRole(req, ['owner', 'admin', 'content_editor']);
-    if (authResult.errorResponse) {
-      return authResult.errorResponse;
-    }
+    // Physically deleting media is restricted to an owner/admin and only when
+    // the same image is no longer referenced anywhere in managed site data.
+    const auth = await requireRole(req, ['owner', 'admin']);
+    if (auth.errorResponse) return auth.errorResponse;
 
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get('id');
-    const url = searchParams.get('url');
+    const rawUrl = new URL(req.url).searchParams.get('url');
+    if (!rawUrl) return NextResponse.json({
+      success:false,error:'A Supabase media URL is required. Remove its associations first.',
+    },{status:400});
 
-    if (!id && !url) {
-      return NextResponse.json({ success: false, error: 'Media ID or URL required' }, { status: 400 });
-    }
-
-    // If file is in Supabase storage, delete from storage
-    if (url && url.includes('/storage/v1/object/public/media/')) {
-      try {
-        const supabase = createServiceClient();
-        const storagePath = url.split('/storage/v1/object/public/media/')[1];
-        if (storagePath) {
-          await supabase.storage.from('media').remove([decodeURIComponent(storagePath)]);
-        }
-      } catch (e) {
-        console.warn('Failed removing from Supabase storage:', e);
-      }
-    }
-
-    // If file is in uploads locally, delete from disk
-    if (url && url.startsWith('/assets/images/uploads/')) {
-      const filePath = path.join(process.cwd(), 'public', url.replace(/^\//, '').replace(/\//g, path.sep));
-      if (fs.existsSync(filePath)) {
-        try {
-          fs.unlinkSync(filePath);
-        } catch (e) {
-          console.warn('Failed unlinking file:', e);
-        }
-      }
-    }
-
-    // Delete from Supabase media_library if exists
+    const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    if (!base) return NextResponse.json({success:false,error:'Media storage is not configured'},{status:503});
+    let pathToDelete:string;
     try {
-      const supabase = createServiceClient();
-      if (id) {
-        await supabase.from('media_library').delete().eq('id', id);
-      }
-    } catch {}
+      const expected=new URL(base),image=new URL(rawUrl);
+      const prefix='/storage/v1/object/public/media/';
+      if(image.protocol!=='https:'||image.origin!==expected.origin||
+        !image.pathname.startsWith(prefix)||image.search||image.hash)throw new Error('untrusted media URL');
+      pathToDelete=decodeURIComponent(image.pathname.slice(prefix.length));
+      if(!/^(fleet|blog|site|cms|general|hubs|ziyarat)\/[a-zA-Z0-9_.-]+$/.test(pathToDelete) ||
+        pathToDelete.includes('..'))throw new Error('invalid storage object key');
+    } catch {
+      return NextResponse.json({success:false,error:'Only existing media bucket objects may be deleted'},{status:400});
+    }
 
-    revalidateSite(['site_media', 'site_fleet']);
-    return NextResponse.json({ success: true, deleted: true });
-  } catch (err: any) {
-    console.error('Media DELETE error:', err);
-    return NextResponse.json({ success: false, error: 'Internal server error deleting media' }, { status: 500 });
+    const db=createServiceClient();
+    const [vehicles, content] = await Promise.all([
+      db.from('vehicles').select('id,photos'),
+      db.from('page_content').select('page_key,content_blocks',{count:'exact'}).range(0,999),
+    ]);
+    if(vehicles.error||content.error||content.count===null ||
+      content.count === undefined || (content.count > (content.data?.length||0))) {
+      return NextResponse.json({success:false,error:'Unable to verify image references. File was preserved.'},{status:503});
+    }
+    const referencedByVehicle=(vehicles.data||[]).some(item=>
+      JSON.stringify(item.photos||{}).includes(rawUrl));
+    const referencedByPage=(content.data||[]).some(item=>
+      JSON.stringify(item.content_blocks||{}).includes(rawUrl));
+    if(referencedByVehicle||referencedByPage) {
+      return NextResponse.json({success:false,error:'Image is still referenced in a vehicle or public page. Remove that association before permanent deletion.'},{status:409});
+    }
+
+    const {data,error}=await db.storage.from('media').remove([pathToDelete]);
+    if(error||!data) {
+      console.error('Media object deletion rejected:',error?.message);
+      return NextResponse.json({success:false,error:'Unable to delete the media object'},{status:503});
+    }
+
+    revalidateSite(['site_media','site_fleet']);
+    return NextResponse.json({success:true,deleted:true,objectPath:pathToDelete});
+  } catch (err) {
+    console.error('Media delete error:',err);
+    return NextResponse.json({success:false,error:'Media deletion failed safely'},{status:500});
   }
 }

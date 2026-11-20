@@ -30,8 +30,6 @@ const FEATURE_FLAGS_OPTIONS = [
   { key: 'zamzam_water', label: 'Zamzam Water Provision' },
   { key: 'malay_speaking_chauffeur', label: 'Malay-Speaking Chauffeur' },
   { key: 'coaster_enabled', label: 'Toyota Coaster Fleet' },
-  { key: 'online_card_payment_enabled', label: 'Online Card Gateway' },
-  { key: 'bank_transfer_payment_enabled', label: 'Saudi Bank Transfer' },
 ];
 
 export default function AdminFaqsPage() {
@@ -43,18 +41,29 @@ export default function AdminFaqsPage() {
   const [editingFaq, setEditingFaq] = useState<FaqItem | null>(null);
   const [editorLocale, setEditorLocale] = useState<Locale>('en');
   const [saving, setSaving] = useState(false);
+  const [faqLoaded, setFaqLoaded] = useState(false);
+  const [faqLoadError, setFaqLoadError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
-  const fetchFaqs = async () => {
+  const fetchFaqs = async (): Promise<FaqItem[] | null> => {
     setLoading(true);
+    setFaqLoaded(false);
+    setFaqLoadError(null);
     try {
-      const res = await fetch('/api/admin/faqs');
+      const res = await fetch('/api/admin/faqs', { cache: 'no-store' });
       const data = await res.json();
-      if (data.success && data.faqs) {
-        setFaqs(data.faqs);
+      if (!res.ok || !data.success || !Array.isArray(data.faqs)) {
+        throw new Error(typeof data.error === 'string' ? data.error : 'Invalid FAQ registry response');
       }
+      setFaqs(data.faqs);
+      setFaqLoaded(true);
+      return data.faqs as FaqItem[];
     } catch (err) {
       console.error('Failed to load FAQs:', err);
+      const message = err instanceof Error ? err.message : 'Network error';
+      setFaqLoadError(message);
+      setFeedback({type:'error',message:'Unable to read saved FAQ questions. Editing is disabled to prevent accidental overwrites.'});
+      return null;
     } finally {
       setLoading(false);
     }
@@ -66,7 +75,10 @@ export default function AdminFaqsPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!editingFaq) return;
+    if (!editingFaq || !faqLoaded || loading || saving) {
+      setFeedback({type:'error',message:'Load the FAQ registry before editing or publishing.'});
+      return;
+    }
 
     // Check placeholder
     const raw = JSON.stringify(editingFaq);
@@ -88,12 +100,20 @@ export default function AdminFaqsPage() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        setFeedback({ type: 'success', message: 'FAQ successfully saved & revalidated live!' });
-        fetchFaqs();
-        setTimeout(() => {
+        const current = await fetchFaqs();
+        const saved = current?.find((item) => item.id === editingFaq.id);
+        // Supabase JSONB is allowed to reorder keys; compare localized values,
+        // not the serialization order of the translation object.
+        const sameTranslations = (a: Record<string, string | undefined>, b: Record<string, string | undefined>) =>
+          Object.keys({...a, ...b}).every(key => a[key] === b[key]);
+        if (saved && sameTranslations(saved.question_translations, editingFaq.question_translations) &&
+            sameTranslations(saved.answer_translations, editingFaq.answer_translations) &&
+            saved.status === editingFaq.status) {
+          setFeedback({type:'success',message:'FAQ saved and verified in the database. Check the public preview to verify cache refresh.'});
           setEditingFaq(null);
-          setFeedback(null);
-        }, 1200);
+        } else {
+          setFeedback({type:'error',message:'Save was accepted but the stored question could not be verified. Check the record before further changes.'});
+        }
       } else {
         setFeedback({ type: 'error', message: data.error || 'Failed to save FAQ' });
       }
@@ -105,19 +125,35 @@ export default function AdminFaqsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to permanently delete this FAQ?')) return;
+    if (!faqLoaded || loading) {
+      setFeedback({type:'error',message:'FAQ records must load before hiding questions.'});
+      return;
+    }
+    if (!confirm('Hide this FAQ from the website? Its previous content will be retained for recovery.')) return;
     try {
-      const res = await fetch(`/api/admin/faqs?id=${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/admin/faqs?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
       const data = await res.json();
-      if (data.success) {
-        fetchFaqs();
+      if (res.ok && data.success) {
+        const current = await fetchFaqs();
+        if (current && !current.some(faq => faq.id === id)) {
+          setFeedback({type:'success',message:'FAQ hidden and verified in the database.'});
+        } else {
+          setFeedback({type:'error',message:'Hide request completed but the updated registry was not verified.'});
+        }
+      } else {
+        setFeedback({type:'error',message:data.error || 'Unable to hide FAQ'});
       }
     } catch (e) {
       console.error('Delete FAQ error:', e);
+      setFeedback({type:'error',message:'Network error while hiding FAQ'});
     }
   };
 
   const handleCreateNew = () => {
+    if (!faqLoaded || loading) {
+      setFeedback({type:'error',message:'Load FAQ records before adding a new question.'});
+      return;
+    }
     const newFaq: FaqItem = {
       id: `faq-${Date.now()}`,
       category: 'general',
@@ -170,6 +206,7 @@ export default function AdminFaqsPage() {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={handleCreateNew}
+            disabled={loading || !faqLoaded}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0A6364] hover:bg-[#065059] text-[#FFFAF2] text-xs font-bold transition-colors shadow-lg shadow-[#D9A031]/10"
           >
             <Plus className="w-3.5 h-3.5" />
@@ -202,10 +239,16 @@ export default function AdminFaqsPage() {
             )}
             <span>{feedback.message}</span>
           </div>
-          <button onClick={() => setFeedback(null)} className="text-white/60 hover:text-white transition-colors">
+          <button onClick={() => setFeedback(null)} className="text-[#697984] hover:text-[#193746] transition-colors" aria-label="Dismiss message">
             ✕
           </button>
         </div>
+      )}
+
+      {faqLoadError && (
+        <p role="alert" className="rounded-xl border border-red-300 bg-red-50 p-4 text-sm text-red-800">
+          Saved questions could not be loaded ({faqLoadError}). Editing remains disabled until Refresh succeeds.
+        </p>
       )}
 
       {/* Filter Bar */}
@@ -496,7 +539,7 @@ export default function AdminFaqsPage() {
                 </button>
                 <button
                   type="submit"
-                  disabled={saving}
+                  disabled={saving || loading || !faqLoaded}
                   className="px-5 py-2 rounded-xl bg-[#0A6364] text-xs font-bold text-[#FFFAF2]"
                 >
                   {saving ? 'Saving...' : 'Save & Revalidate'}

@@ -32,6 +32,27 @@ export async function requireRole(
   options: { allowEnrollmentFlow?: boolean } = {}
 ): Promise<{ user: AuthenticatedStaff; errorResponse?: never } | { user?: never; errorResponse: NextResponse }> {
   try {
+    // Preview currently shares the live Supabase project. An authenticated
+    // dashboard request must never mutate that production database by mistake.
+    // Re-enable preview writes only after creating an isolated Supabase project
+    // AND explicitly confirming that isolation in Preview environment settings.
+    const verb = request.method.toUpperCase();
+    if (process.env.VERCEL_ENV === 'preview' &&
+        !['GET', 'HEAD', 'OPTIONS'].includes(verb)) {
+      const configuredHost = (() => {
+        try { return new URL(process.env.NEXT_PUBLIC_SUPABASE_URL || '').hostname; }
+        catch { return ''; }
+      })();
+      const isolated = process.env.PREVIEW_DATABASE_ISOLATED === 'true' &&
+        configuredHost.endsWith('.supabase.co') &&
+        configuredHost !== 'skyhpzdeapmttgmvcoeh.supabase.co';
+      if (!isolated) {
+        return { errorResponse: NextResponse.json({
+          error: 'Preview editing is locked until a separate staging database is configured.',
+          code: 'PREVIEW_DATABASE_ISOLATION_REQUIRED',
+        }, {status: 423, headers: {'Cache-Control': 'no-store'}}) };
+      }
+    }
     const supabase = createClient();
     const { data: authData, error: authError } = await supabase.auth.getUser();
 

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Save, Globe2, ExternalLink, RefreshCw } from 'lucide-react';
 
 type ContentPayload={
-  locale:string;fields:Record<string,string>;defaults:Record<string,string>;values:Record<string,string>;
+  locale:string;fields:Record<string,string>;defaults:Record<string,string>;values:Record<string,string>;version:string|null;
 };
 const locales=['ar','en','ms','id','ur','fr','es','de','tr','hi'];
 export default function HomeCopyEditor(){
@@ -25,14 +25,15 @@ export default function HomeCopyEditor(){
   },[lang]);
   useEffect(()=>{void load();},[load]);
   async function save(){
-    if(!loaded)return;
+    if(!loaded || busy || loaded.locale!==lang)return;
     setBusy(true);setNotice('');setError('');
     try{
       const r=await fetch('/api/admin/home-copy',{method:'PATCH',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({locale:lang,values:draft})});
+        body:JSON.stringify({locale:loaded.locale,values:draft,expected_updated_at:loaded.version})});
       const j=await r.json();
       if(!r.ok)throw new Error(j.error||'تعذر الحفظ');
-      setNotice('تم حفظ النصوص. افتح الصفحة باللغة المختارة وحدّثها لرؤية النتيجة.');
+      setLoaded(previous=>previous && previous.locale===j.locale ? {...previous,version:j.version,values:j.values} : previous);
+      setNotice('تم حفظ النصوص وإرجاع إصدار جديد من قاعدة البيانات. افتح الصفحة العامة للتأكد من ظهورها.');
     }catch(e){setError(e instanceof Error?e.message:'تعذر الحفظ');}
     finally{setBusy(false);}
   }
@@ -45,7 +46,7 @@ export default function HomeCopyEditor(){
     <div className="flex flex-wrap items-center gap-2">
       <Globe2 className="h-5 w-5 text-[#0e6863]"/>
       <label className="text-sm font-bold">لغة الصفحة
-        <select value={lang} onChange={e=>setLang(e.target.value)} className="ms-2 rounded-lg border border-[#cdb896] bg-white px-3 py-2">
+        <select value={lang} disabled={busy} onChange={e=>setLang(e.target.value)} className="ms-2 rounded-lg border border-[#cdb896] bg-white px-3 py-2">
           {locales.map(x=><option key={x} value={x}>{x.toUpperCase()}</option>)}
         </select>
       </label>
@@ -65,7 +66,7 @@ export default function HomeCopyEditor(){
       )}
     </div>
     <div className="flex flex-wrap gap-3">
-      <button type="button" disabled={busy||!loaded} onClick={()=>void save()}
+      <button type="button" disabled={busy||!loaded||loaded.locale!==lang} onClick={()=>void save()}
         className="inline-flex items-center gap-2 rounded-xl bg-[#085d61] px-5 py-3 text-sm font-black text-white disabled:opacity-50">
         <Save className="h-5 w-5"/>{busy?'جارٍ الحفظ...':'حفظ التعديلات'}
       </button>

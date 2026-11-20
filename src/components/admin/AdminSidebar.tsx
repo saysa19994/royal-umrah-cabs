@@ -135,6 +135,13 @@ export function AdminSidebar({
       titleAr: 'الأسطول والوسائط',
       items: [
         {
+          href: '/admin/site-control',
+          labelEn: 'Whole Website Control',
+          labelAr: 'مركز التحكم في صفحات الموقع',
+          icon: Sliders,
+          adminOnly: true,
+        },
+        {
           href: '/admin/fleet',
           labelEn: 'VIP Fleet Control',
           labelAr: 'إدارة أسطول VIP',
@@ -160,6 +167,13 @@ export function AdminSidebar({
           href: '/admin/site-assets',
           labelEn: 'Website Images',
           labelAr: 'صور أقسام الموقع',
+          icon: ImageIcon,
+          adminOnly: true,
+        },
+        {
+          href: '/admin/asset-library',
+          labelEn: 'All Uploaded Images',
+          labelAr: 'مكتبة صور الموقع',
           icon: ImageIcon,
           adminOnly: true,
         },

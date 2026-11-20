@@ -22,6 +22,9 @@ export interface FaqSectionProps {
   dict: Dictionary;
   settings?: SiteSettings;
   items?: Array<{ q: string; a: string }>;
+  heading?: string;
+  subtitle?: string;
+  visualImage?: string;
   id?: string;
   className?: string;
   showCta?: boolean;
@@ -124,6 +127,9 @@ export function FaqSection({
   dict,
   settings,
   items,
+  heading,
+  subtitle,
+  visualImage,
   id = 'faq',
   className = '',
   showCta = true,
@@ -156,7 +162,7 @@ export function FaqSection({
     { q: dict.faq.q12, a: dict.faq.a12 },
   ].filter((item) => Boolean(item.q && item.a));
 
-  const faqItems = items && items.length > 0 ? items : fallbackItems;
+  const faqItems = items ?? fallbackItems;
 
   const whatsappNumber = settings?.whatsapp_number || '966567588261';
 
@@ -178,18 +184,18 @@ export function FaqSection({
             id={`${id}-heading`}
             className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-ink tracking-tight"
           >
-            {dict.faq.heading}
+            {heading || dict.faq.heading}
           </Heading>
 
           <p className="mt-4 text-sm sm:text-base md:text-lg text-ink-muted font-light leading-relaxed">
-            {dict.faq.subtitle}
+            {subtitle || dict.faq.subtitle}
           </p>
         </div>
 
         {/* Video 10: contextual visual guide at the side of the genuine FAQ list. */}
         <div className="duyuf-faq-editorial-layout">
           <aside className="duyuf-faq-editorial-photo" aria-hidden="true">
-            <Image src="/assets/homepage-v2/ziyarat-haram.jpg" alt="" fill
+            <Image src={visualImage || "/assets/homepage-v2/ziyarat-haram.jpg"} alt="" fill
               sizes="(max-width: 780px) 100vw, 36vw" className="object-cover"/>
 
           </aside>

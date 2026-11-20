@@ -46,7 +46,10 @@ export async function POST(request: NextRequest) {
     }
 
     const { user: currentUser } = authResult;
-    const body = await request.json();
+    const body = await request.json().catch(() => null);
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
+      return NextResponse.json({ success: false, error: 'Invalid FAQ request' }, { status: 400 });
+    }
 
     const faqPayload: FaqItem = {
       id: body.id,
@@ -62,9 +65,9 @@ export async function POST(request: NextRequest) {
       feature_flag_key: body.feature_flag_key || null,
       answer_flag_off_translations: body.answer_flag_off_translations || null,
       status: body.status || 'published',
-      sort_order: Number(body.sort_order) || 1,
+      sort_order: body.sort_order !== undefined ? Number(body.sort_order) : 1,
       is_operational: typeof body.is_operational === 'boolean' ? body.is_operational : true,
-      last_verified_date: body.last_verified_date || 'October 2026',
+      last_verified_date: body.last_verified_date || new Date().toISOString().slice(0, 10),
       source: body.source || 'Duyuf Alrahman VIP Charter',
     };
 
@@ -72,6 +75,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'Missing required FAQ fields' }, { status: 400 });
     }
 
+    // Operational claims (payment, safety, Miqat, cancellations) require owner approval.
+    if (faqPayload.is_operational && !['owner', 'admin'].includes(currentUser.role)) {
+      return NextResponse.json({ success: false, error: 'Only management can approve operational FAQs' }, { status: 403 });
+    }
     const result = await upsertFaqAdmin(faqPayload, currentUser.email, currentUser.role, clientIp);
     if (!result.success) {
       const is503 = result.error?.includes('persistence unavailable');

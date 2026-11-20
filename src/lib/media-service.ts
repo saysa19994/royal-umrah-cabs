@@ -168,26 +168,44 @@ export const getFleetImagesCached = unstable_cache(
  * Admin: Get all media library items
  */
 export async function getAllMediaItemsAdmin(category?: string): Promise<MediaItem[]> {
-  try {
-    const supabase = createServiceClient();
-    let query = supabase.from('media_library').select('*').order('created_at', { ascending: false });
-
-    if (category && category !== 'all') {
-      query = query.eq('category', category);
-    }
-
-    const { data, error } = await query;
-    if (!error && data) {
-      return data as MediaItem[];
-    }
-  } catch (err) {
-    console.warn('Notice querying media_library from Supabase:', err);
+  // Uploaded files already exist in Storage, while legacy media_library can be
+  // absent. Storage is the source of truth for browsing and reusing images.
+  const folders = ['fleet', 'blog', 'site', 'cms', 'general', 'hubs', 'ziyarat'] as const;
+  const requested = category && category !== 'all' ? [category] : [...folders];
+  if (requested.some(folder => !folders.includes(folder as typeof folders[number]))) {
+    throw new Error('Unsupported media category');
   }
+  const supabase = createServiceClient();
+  const all: MediaItem[] = [];
 
-  if (category && category !== 'all') {
-    return memoryMediaItems.filter((m) => m.category === category);
+  for (const folder of requested) {
+    const { data, error } = await supabase.storage.from('media')
+      .list(folder, { limit: 200, sortBy: { column: 'created_at', order: 'desc' } });
+    if (error) {
+      console.error('Storage media listing failed for:', folder, error.message);
+      throw new Error('Unable to list saved media');
+    }
+    for (const file of data || []) {
+      // Folder placeholders have null IDs and no metadata.
+      if (!file.id || !file.name || file.name.includes('/')) continue;
+      const fullPath = folder + '/' + file.name;
+      const url = supabase.storage.from('media').getPublicUrl(fullPath).data.publicUrl;
+      all.push({
+        id: 'storage:' + fullPath,
+        file_url: url,
+        file_name: file.name,
+        file_size: Number(file.metadata?.size || 0),
+        mime_type: String(file.metadata?.mimetype || 'image/jpeg'),
+        category: folder as MediaItem['category'],
+        target_id: null,
+        alt_translations: {},
+        display_order: 0,
+        created_at: file.created_at || undefined,
+        updated_at: file.updated_at || undefined,
+      });
+    }
   }
-  return memoryMediaItems;
+  return all.sort((a, b) => (b.created_at || '').localeCompare(a.created_at || ''));
 }
 
 /**

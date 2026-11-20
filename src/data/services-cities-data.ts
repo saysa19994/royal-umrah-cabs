@@ -1890,6 +1890,11 @@ export const RIYADH_SERVICE_DATA: Record<Locale, CityServiceContent> = Object.fr
       heroSubtitle: clean.description,
       overviewParagraphs: [clean.description, ...source.overviewParagraphs.filter((_, i) => i !== 1)],
       routesSubtitle: clean.description,
+      // Inactive RUH airport service and unapproved hourly corporate products
+      // must not be marketed from stale source descriptions. Keep only the
+      // approved intercity travel and cash-only payment benefits.
+      features: source.features.filter((_, idx) => idx === 1 || idx === 2)
+        .map((feature, idx) => idx === 1 ? { ...feature, desc: clean.payment } : feature),
       routes: source.routes
         .filter((route) => route.id !== 'riyadh-airport-transfer')
         .map((route) => {

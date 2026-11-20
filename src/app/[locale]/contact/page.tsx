@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { getSiteSettings } from '@/lib/settings';
+import { getPublishedPageCopy, mergeCmsTranslatedCopy } from '@/lib/public-page-copy';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { MessageCircle, Phone, Mail, Clock, Headphones } from 'lucide-react';
 
@@ -17,10 +18,11 @@ export async function generateMetadata(props: ContactPageProps): Promise<Metadat
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
+  const cms = await getPublishedPageCopy('contact',locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   return {
-    title: `${dict.page_contact.title} | Duyuf Alrahman VIP`,
-    description: dict.page_contact.subtitle,
+    title: cms.seoTitle || `${dict.page_contact.title} | Duyuf Alrahman VIP`,
+    description: cms.seoDescription || dict.page_contact.subtitle,
     alternates: getLocalizedAlternates(locale, '/contact'),
   };
 }
@@ -30,6 +32,8 @@ export default async function ContactPage(props: ContactPageProps) {
   const { locale } = params;
 
   const dict = getDictionary(locale);
+  const cms = await getPublishedPageCopy('contact',locale);
+  const contactCopy = mergeCmsTranslatedCopy(dict.page_contact,cms);
   const settings = await getSiteSettings();
 
   const mainWa = settings.whatsapp_number || '966567588261';
@@ -45,10 +49,10 @@ export default async function ContactPage(props: ContactPageProps) {
             <span>{dict.nav.contact}</span>
           </div>
           <h1 className="font-display font-semibold text-3xl md:text-5xl text-ink tracking-tight">
-            {dict.page_contact.title}
+            {cms.h1 || contactCopy.title}
           </h1>
           <p className="mt-4 text-ink-muted text-base md:text-lg leading-relaxed font-light">
-            {dict.page_contact.subtitle}
+            {contactCopy.subtitle}
           </p>
         </div>
 
@@ -173,10 +177,10 @@ export default async function ContactPage(props: ContactPageProps) {
           {/* Form Side */}
           <div className="duyuf-contact-form-panel bg-surface rounded-3xl p-8 md:p-10 border border-border shadow-sm text-start">
             <h2 className="font-display font-semibold text-2xl text-ink mb-2">
-              {dict.page_contact.formTitle}
+              {contactCopy.formTitle}
             </h2>
             <p className="text-sm text-ink-muted font-light mb-8">
-              {dict.page_contact.subtitle}
+              {contactCopy.subtitle}
             </p>
             <ContactForm locale={locale} dict={dict} />
           </div>

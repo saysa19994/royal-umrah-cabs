@@ -242,7 +242,7 @@ export default function AdminMediaPage() {
     const vehicle = vehicles.find((v) => v.id === vehicleId);
     if (!vehicle) return;
 
-    if (!confirm(`هل أنت متأكد من حذف هذه الصورة من ${vehicle.name}؟`)) return;
+    if (!confirm(`هل تريد إزالة ارتباط هذه الصورة بالسيارة ${vehicle.name}؟ ستظل الصورة الأصلية محفوظة في المكتبة.`)) return;
 
     const currentPhotos = vehicle.photos || {};
     const updatedGallery = (currentPhotos.gallery || []).filter((u) => u !== photoUrl);
@@ -271,11 +271,13 @@ export default function AdminMediaPage() {
       });
 
       if (res.ok) {
-        fetch(`/api/admin/media?url=${encodeURIComponent(photoUrl)}`, { method: 'DELETE' }).catch(() => {});
+        // Only unlink the photo from this vehicle. Keep the uploaded original
+        // in Storage: it may also be used by a blog post or another page.
+        // Permanent deletion is a separate, owner-authorized operation.
 
         setFeedback({
           type: 'success',
-          message: `✓ تم حذف الصورة بنجاح وتحديث الموقع الحي فوراً.`,
+          message: `✓ تمت إزالة الصورة من السيارة وحفظ التعديل. الملف الأصلي ما زال محفوظًا في مكتبة الصور.`,
         });
         fetchVehicles();
       } else {

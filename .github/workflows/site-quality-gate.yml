@@ -1,0 +1,50 @@
+name: Duyuf Site Quality Gate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - fix/site-controls-preview-ready-20261119
+
+permissions:
+  contents: read
+
+concurrency:
+  group: duyuf-qa-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-build:
+    name: Typecheck, schema contracts, locales and Next build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CI: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+      # An intentionally non-production URL. CI NEVER receives Supabase
+      # service-role credentials or connects to the customer database.
+      NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-non-secret-placeholder
+      SUPABASE_SERVICE_ROLE_KEY: ci-non-secret-placeholder
+      NEXT_PUBLIC_SITE_URL: https://duyufalrahmanvip.com
+    steps:
+      - name: Checkout reviewed commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Set up Node.js 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install exact locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: TypeScript contract
+        run: npm run typecheck
+      - name: Database compatibility and business rules
+        run: npm test
+      - name: Validate ten locales
+        run: npm run check-i18n
+      - name: Next.js production build
+        run: npx next build

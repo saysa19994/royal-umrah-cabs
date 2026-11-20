@@ -6,6 +6,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
+import { getSiteImagesCached } from '@/lib/site-images';
+import { getPublishedPageCopy, mergeCmsTranslatedCopy } from '@/lib/public-page-copy';
 import {
   Plane,
   Navigation,
@@ -28,10 +30,11 @@ export async function generateMetadata(props: ServicesPageProps): Promise<Metada
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
+  const cms = await getPublishedPageCopy('services',locale);
 
   return {
-    title: dict.page_services.title,
-    description: dict.page_services.subtitle,
+    title: cms.seoTitle || dict.page_services.title,
+    description: cms.seoDescription || dict.page_services.subtitle,
     alternates: getLocalizedAlternates(locale, '/services'),
   };
 }
@@ -40,6 +43,9 @@ export default async function ServicesPage(props: ServicesPageProps) {
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
+  const cms = await getPublishedPageCopy('services',locale);
+  const serviceCopy = mergeCmsTranslatedCopy(dict.page_services,cms);
+  const images = await getSiteImagesCached();
   const isAr = locale === 'ar';
   const isRtl = isAr || locale === 'ur';
 
@@ -50,7 +56,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
       id: 'airport-transfer',
       title: isAr ? 'استقبال وتوصيل المطارات' : 'Airport Transfers',
       desc: isAr ? 'من مطار جدة والمدينة إلى فنادق مكة والمدينة مع تتبع الرحلات' : 'From Jeddah & Madinah to Makkah & Madinah with flight tracking',
-      image: '/assets/images/routes/jeddah-airport-to-makkah.jpg',
+      image: images.services_airport,
       icon: Plane,
       badge: isAr ? 'الأكثر طلباً' : 'Bestseller',
       locations: isAr ? 'مطار جدة (KAIA)، مطار المدينة (MED)، فنادق مكة والمدينة' : 'Jeddah Airport (KAIA), Madinah Airport (MED), Holy Mosques',
@@ -69,7 +75,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
       id: 'ziyarat-tour',
       title: isAr ? 'جولات المزارات والمعالم' : 'Ziyarat Trips',
       desc: isAr ? 'استكشاف الأماكن التاريخية والمشاعر المقدسة بصحبة سائق خبير' : 'Explore the Holy Sites & historic landmarks in Makkah & Madinah',
-      image: '/assets/images/routes/makkah-ziyarat.jpg',
+      image: images.services_ziyarat,
       icon: Landmark,
       badge: isAr ? 'روحاني' : 'Spiritual',
       locations: isAr ? 'غار حراء، ثور، عرفات، مسجد قباء، جبل أحد' : 'Ghar Hira, Thawr, Arafat, Quba Mosque, Mount Uhud',
@@ -87,7 +93,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
       id: 'intercity-travel',
       title: isAr ? 'التنقل بين المدن' : 'Intercity Travel',
       desc: isAr ? 'رحلات مريحة وآمنة بين مكة، المدينة، وجدة عبر الطرق السريعة' : 'Across Saudi Arabia: Makkah, Madinah, and Jeddah expressways',
-      image: '/assets/images/routes/makkah-to-madinah.jpg',
+      image: images.services_intercity,
       icon: Navigation,
       badge: isAr ? 'مميز' : 'Popular',
       locations: isAr ? 'طريق الهجرة، قطار الحرمين، محطات الميقات' : 'Hijrah Highway, Haramain Corridors, Miqat Points',
@@ -106,7 +112,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
       id: 'hotel-transfers',
       title: isAr ? 'التوصيل الفندقي المباشر' : 'Hotel Transfers',
       desc: isAr ? 'تنقل سلس ومريح بين الفنادق والحرمين الشريفين والأسواق' : 'Comfortable & reliable transfers between hotels, Haram, and malls',
-      image: '/assets/images/vip-umrah-transport-jeddah-to-makkah.jpg',
+      image: images.services_family,
       icon: Building2,
       badge: isAr ? 'مريح' : 'Comfortable',
       locations: isAr ? 'أبراج البيت، جبل عمر، فنادق المنطقة المركزية' : 'Abraj Al Bait, Jabal Omar, Central District Hotels',
@@ -124,7 +130,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
       id: 'group-travel',
       title: isAr ? 'رحلات المجموعات والعائلات' : 'Group Travel',
       desc: isAr ? 'حافلات وفانات سياحية واسعة للعائلات الكبيرة وحملات العمرة' : 'For families & groups: spacious vans, Hiaces, and luxury buses',
-      image: '/assets/images/studio-2k/toyota-coaster-studio-2k.webp',
+      image: images.services_group,
       icon: Users,
       badge: isAr ? 'للعائلات' : 'For Groups',
       locations: isAr ? 'كافة مطارات ومحطات ومزارات المنطقة الغربية' : 'All Western Region Airports, Stations & Sacred Sites',
@@ -143,7 +149,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
       id: '24-7-support',
       title: isAr ? 'دعم ومتابعة على مدار الساعة' : '24/7 Support',
       desc: isAr ? 'فريق عمليات وخدمة عملاء دائم لمتابعة رحلتك في أي لحظة' : 'Always here: round-the-clock operations and customer assistance',
-      image: '/assets/images/cinematic/home/hero-mercedes-kaaba-retina.jpg',
+      image: images.services_chauffeur,
       icon: Headphones,
       badge: isAr ? 'دائم' : 'Always Here',
       locations: isAr ? 'غرفة عمليات مركزية - مكة وجدة والمدينة' : 'Central Dispatch Operations - Makkah, Madinah, Jeddah',
@@ -170,10 +176,10 @@ export default async function ServicesPage(props: ServicesPageProps) {
             <span>{isAr ? 'حلول النقل المتكاملة' : 'Comprehensive Transportation Solutions'}</span>
           </div>
           <h1 className="duyuf-services-title font-display font-semibold text-3xl sm:text-5xl text-ink tracking-tight mb-4">
-            {dict.page_services.title}
+            {cms.h1 || serviceCopy.title}
           </h1>
           <p className="text-sm sm:text-base text-ink-muted leading-relaxed font-light">
-            {dict.page_services.subtitle}
+            {serviceCopy.subtitle}
           </p>
           <Link href={`/${locale}/booking`} className="duyuf-services-intro-cta">
             <span>{isAr ? 'ابدأ حجز رحلتك' : 'Plan your private transfer'}</span>
@@ -183,7 +189,7 @@ export default async function ServicesPage(props: ServicesPageProps) {
           <div className="duyuf-services-intro-visual">
             <Image
               src="/assets/homepage-v2/fleet-family.jpg"
-              alt={dict.page_services.title}
+              alt={serviceCopy.title}
               fill
               priority
               sizes="(max-width: 767px) 100vw, 52vw"

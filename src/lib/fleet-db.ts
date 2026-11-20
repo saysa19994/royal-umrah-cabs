@@ -30,6 +30,9 @@ export const getDbVehiclesCached = unstable_cache(
         .eq('is_active', true)
         .order('display_order', { ascending: true });
 
+      // An empty successful result means the owner has disabled all vehicles.
+      // Never reintroduce inactive vehicles from static fallback content.
+      if (!error && data && data.length === 0) return [];
       if (!error && data && data.length > 0) {
         // Map database records to FleetShowcaseVehicle interface
         const vehicles: FleetShowcaseVehicle[] = data.map((v) => {
@@ -89,27 +92,27 @@ export const getDbVehiclesCached = unstable_cache(
           const nameTranslations: Record<Locale, string> = {
             en: v.translations?.en?.name || v.name,
             ar: v.translations?.ar?.name || v.name,
-            ms: fallback?.name.ms || v.name,
-            id: fallback?.name.id || v.name,
-            ur: fallback?.name.ur || v.name,
-            fr: fallback?.name.fr || v.name,
-            es: fallback?.name.es || v.name,
-            de: fallback?.name.de || v.name,
-            tr: fallback?.name.tr || v.name,
-            hi: fallback?.name.hi || v.name,
+            ms: v.translations?.ms?.name || fallback?.name.ms || v.name,
+            id: v.translations?.id?.name || fallback?.name.id || v.name,
+            ur: v.translations?.ur?.name || fallback?.name.ur || v.name,
+            fr: v.translations?.fr?.name || fallback?.name.fr || v.name,
+            es: v.translations?.es?.name || fallback?.name.es || v.name,
+            de: v.translations?.de?.name || fallback?.name.de || v.name,
+            tr: v.translations?.tr?.name || fallback?.name.tr || v.name,
+            hi: v.translations?.hi?.name || fallback?.name.hi || v.name,
           };
 
           const categoryTranslations: Record<Locale, string> = {
             en: v.translations?.en?.category || v.category || 'VIP Transport',
             ar: v.translations?.ar?.category || v.category || 'نقل كبار الشخصيات',
-            ms: fallback?.category.ms || v.category || 'VIP Transport',
-            id: fallback?.category.id || v.category || 'VIP Transport',
-            ur: fallback?.category.ur || v.category || 'VIP Transport',
-            fr: fallback?.category.fr || v.category || 'VIP Transport',
-            es: fallback?.category.es || v.category || 'VIP Transport',
-            de: fallback?.category.de || v.category || 'VIP Transport',
-            tr: fallback?.category.tr || v.category || 'VIP Transport',
-            hi: fallback?.category.hi || v.category || 'VIP Transport',
+            ms: v.translations?.ms?.category || fallback?.category.ms || v.category || 'VIP Transport',
+            id: v.translations?.id?.category || fallback?.category.id || v.category || 'VIP Transport',
+            ur: v.translations?.ur?.category || fallback?.category.ur || v.category || 'VIP Transport',
+            fr: v.translations?.fr?.category || fallback?.category.fr || v.category || 'VIP Transport',
+            es: v.translations?.es?.category || fallback?.category.es || v.category || 'VIP Transport',
+            de: v.translations?.de?.category || fallback?.category.de || v.category || 'VIP Transport',
+            tr: v.translations?.tr?.category || fallback?.category.tr || v.category || 'VIP Transport',
+            hi: v.translations?.hi?.category || fallback?.category.hi || v.category || 'VIP Transport',
           };
 
           return {

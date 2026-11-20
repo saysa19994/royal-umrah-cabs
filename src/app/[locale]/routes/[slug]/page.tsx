@@ -26,7 +26,8 @@ import {
   Award,
   BadgeCheck,
 } from 'lucide-react';
-import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
+import { getDbPricesCached } from '@/lib/pricing-db';
+import { getSiteImagesCached, ROUTE_IMAGE_SLOTS } from '@/lib/site-images';
 import { ROUTES_COMPREHENSIVE_DATA, RouteData } from '@/data/routes-data';
 import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
 import { getSiteSettings } from '@/lib/settings';
@@ -93,15 +94,21 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
   const labels = ROUTE_UI_LABELS[locale] || ROUTE_UI_LABELS.en;
   const contextualLinks = getRouteContextualLinks(slug, locale);
 
-  // Use only the approved public matrix. No arbitrary 200 SAR floor.
-  const routeRates = AUTHORITATIVE_TRANSFER_RATES[slug] || {};
+  // The displayed detail fare must be the same approved, published amount
+  // used by the pricing page and by server-side booking calculations.
+  const [publishedRates, siteImages] = await Promise.all([
+    getDbPricesCached(), getSiteImagesCached(),
+  ]);
+  const routeRates = publishedRates[slug] || {};
   const configuredFares = Object.values(routeRates).filter(
     (fare): fare is number => typeof fare === 'number' && Number.isFinite(fare) && fare > 0
   );
   const minPriceSAR = configuredFares.length > 0 ? Math.min(...configuredFares) : undefined;
 
-  const heroImage = EXECUTIVE_ROUTES_DATA.find((entry) => entry.slug === slug)?.image
-    || '/assets/blueprint/routes/planning.webp';
+  const routeImageKey = ROUTE_IMAGE_SLOTS[slug];
+  const heroImage = routeImageKey ? siteImages[routeImageKey]
+    : EXECUTIVE_ROUTES_DATA.find((entry) => entry.slug === slug)?.image
+      || '/assets/blueprint/routes/planning.webp';
   const distance = new Intl.NumberFormat(localeConfig.dateFormat, { style: 'unit', unit: 'kilometer' });
   const duration = new Intl.NumberFormat(localeConfig.dateFormat, { style: 'unit', unit: 'minute' });
   const fares = new Intl.NumberFormat(localeConfig.dateFormat, {
@@ -307,7 +314,7 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
                 if (!relRoute) return null;
                 if (relId === 'riyadh-airport-transfer') return null;
                 const related = getLocalizedRouteContent(relId, locale, relRoute);
-                const relRates = AUTHORITATIVE_TRANSFER_RATES[relId] || {};
+                const relRates = publishedRates[relId] || {};
                 const relAvailable = Object.values(relRates).filter(
                   (fare): fare is number => typeof fare === 'number' && Number.isFinite(fare) && fare > 0
                 );

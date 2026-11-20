@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { Locale, getLocalizedAlternates, LOCALES } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { RIYADH_SERVICE_DATA } from '@/data/services-cities-data';
+import { getPublishedPageCopy, mergeCityHubCmsCopy } from '@/lib/public-page-copy';
+import { getDbPricesCached } from '@/lib/pricing-db';
 import {
   MapPin,
   Clock,
@@ -31,7 +33,8 @@ export function generateStaticParams() {
 
 export async function generateMetadata(props: RiyadhServicePageProps): Promise<Metadata> {
   const { locale } = await props.params;
-  const content = RIYADH_SERVICE_DATA[locale] || RIYADH_SERVICE_DATA.en;
+  const cms = await getPublishedPageCopy('riyadh',locale);
+  const content = mergeCityHubCmsCopy(RIYADH_SERVICE_DATA[locale] || RIYADH_SERVICE_DATA.en,cms);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
   return {
@@ -58,11 +61,17 @@ export async function generateMetadata(props: RiyadhServicePageProps): Promise<M
 
 export default async function RiyadhServicePage(props: RiyadhServicePageProps) {
   const { locale } = await props.params;
-  const content = RIYADH_SERVICE_DATA[locale] || RIYADH_SERVICE_DATA.en;
+  const [cms, liveRates] = await Promise.all([getPublishedPageCopy('riyadh',locale),getDbPricesCached()]);
+  const content = mergeCityHubCmsCopy(RIYADH_SERVICE_DATA[locale] || RIYADH_SERVICE_DATA.en,cms);
   const dict = getDictionary(locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
   const isAr = locale === 'ar';
+  const fareFrom = (routeId: string): number | null => {
+    const allowed = Object.values(liveRates[routeId] || {}).filter((v): v is number =>
+      typeof v === 'number' && Number.isFinite(v) && v > 0);
+    return allowed.length ? Math.min(...allowed) : null;
+  };
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -93,7 +102,7 @@ export default async function RiyadhServicePage(props: RiyadhServicePageProps) {
               name: r.title,
               description: r.description,
             },
-            price: r.priceFromSAR,
+            price: fareFrom(r.id) ?? undefined,
             priceCurrency: 'SAR',
             position: idx + 1,
           })),
@@ -117,35 +126,39 @@ export default async function RiyadhServicePage(props: RiyadhServicePageProps) {
   const FLEET_SHOWCASE = [
     {
       name: 'Toyota Camry Executive',
+      vehicleId: 'camry',
       type: isAr ? 'سيدان تنفيذية' : 'Executive Sedan',
       pax: 4,
       bags: 3,
       img: '/assets/images/camry_exterior.webp',
-      priceSAR: 200,
+
     },
     {
       name: 'Hyundai Staria VIP',
+      vehicleId: 'staria',
       type: isAr ? 'فان تنفيذي كابتن' : 'VIP Captain Van',
       pax: 7,
       bags: 6,
       img: '/assets/images/staria_exterior.webp',
-      priceSAR: 280,
+
     },
     {
       name: 'GMC Yukon XL VIP',
+      vehicleId: 'yukon',
       type: isAr ? 'دفع رباعي فاره ممتد' : 'Extended Luxury SUV',
       pax: 7,
       bags: 8,
       img: '/assets/images/yukon_exterior.webp',
-      priceSAR: 450,
+
     },
     {
       name: 'Toyota HiAce VIP',
+      vehicleId: 'hiace',
       type: isAr ? 'حافلة رجال أعمال' : 'Executive Minibus',
       pax: 10,
       bags: 10,
       img: '/assets/images/hiace_exterior.webp',
-      priceSAR: 400,
+
     },
   ];
 
@@ -190,7 +203,7 @@ export default async function RiyadhServicePage(props: RiyadhServicePageProps) {
             <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-ink-light mb-8">
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bg-alt border border-border">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>{isAr ? 'استقبال شخصي باللوحة الرقمية بمطار RUH' : 'RUH Airport Digital Meet & Greet'}</span>
+                <span>{isAr ? 'خدمة سائق خاص من الرياض' : 'Private Chauffeur Departures from Riyadh'}</span>
               </span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bg-alt border border-border">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
@@ -204,7 +217,7 @@ export default async function RiyadhServicePage(props: RiyadhServicePageProps) {
 
             <div className="flex flex-wrap items-center gap-4">
               <Link
-                href={`/${locale}/booking?route=riyadh-airport-transfer`}
+                href={`/${locale}/booking?route=riyadh-to-makkah`}
                 className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-gold text-slate-950 font-bold text-sm shadow-md hover:bg-gold-light transition-all"
               >
                 <span>{content.ctaBtn}</span>
@@ -277,7 +290,7 @@ export default async function RiyadhServicePage(props: RiyadhServicePageProps) {
                       {isAr ? 'السعر يبدأ من' : 'Starting From'}
                     </span>
                     <span className="font-display font-extrabold text-gold-dark text-xl">
-                      {r.priceFromSAR} SAR
+                      {fareFrom(r.id) ? `${fareFrom(r.id)} SAR` : (isAr ? 'راجع الأسعار المعتمدة' : 'View approved fares')}
                     </span>
                   </div>
                   <Link
@@ -333,10 +346,12 @@ export default async function RiyadhServicePage(props: RiyadhServicePageProps) {
                 </div>
                 <div className="pt-3 border-t border-border flex items-center justify-between">
                   <span className="font-extrabold text-gold-dark text-base">
-                    {vehicle.priceSAR} SAR
+                    {liveRates['riyadh-to-makkah']?.[vehicle.vehicleId]
+                      ? `${isAr ? 'الرياض ← مكة من' : 'Riyadh → Makkah from'} ${liveRates['riyadh-to-makkah'][vehicle.vehicleId]} SAR`
+                      : (isAr ? 'راجع الأسعار المعتمدة' : 'View approved fares')}
                   </span>
                   <Link
-                    href={`/${locale}/booking?route=riyadh-airport-transfer`}
+                    href={`/${locale}/booking?route=riyadh-to-makkah`}
                     className="text-xs font-bold text-gold-dark hover:underline"
                   >
                     {isAr ? 'احجز الآن' : 'Select'}
@@ -405,7 +420,7 @@ export default async function RiyadhServicePage(props: RiyadhServicePageProps) {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
-              href={`/${locale}/booking?route=riyadh-airport-transfer`}
+              href={`/${locale}/booking?route=riyadh-to-makkah`}
               className="px-8 py-3.5 rounded-xl bg-gold text-slate-950 font-bold text-sm shadow-md hover:bg-gold-light transition-all"
             >
               {content.ctaBtn}

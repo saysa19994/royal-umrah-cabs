@@ -12,7 +12,7 @@ export const runtime = 'nodejs';
 export async function POST(request: Request) {
   try {
     const clientIp = getClientIp(request);
-    const chatSettings = getChatSettings();
+    const chatSettings = await getChatSettings();
     if (!chatSettings.enabled) {
       return NextResponse.json(
         { error: 'AI Assistant is currently offline. Please contact via WhatsApp.' },

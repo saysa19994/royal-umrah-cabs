@@ -4,7 +4,8 @@ import test from 'node:test';
 const read=p=>readFileSync(p,'utf8');
 test('live trip pricing is database-first and respects deactivation',()=>{
   const s=read('src/lib/pricing-server.ts');
-  assert.match(s,/Booking and checkout must use the same editable fare/);
+  assert.match(s,/getPublishedFare/);
+  assert.match(s,/getPublishedFare\(routeId, vehicleId\)/);
   assert.match(s,/getPublishedFare/);
   assert.match(s,/Vehicle is disabled in administration/);
   assert.match(s,/This route is disabled in administration/);
@@ -31,4 +32,11 @@ test('only a deliberate administrator save publishes company-approved fares',()=
   const f=read('src/lib/published-fares.ts');
   assert.match(f,/published_fare_/);
   assert.match(f,/page_content/);
+});
+
+test('published fares never send NULL into mandatory page_content SEO fields',()=>{
+ const s=read('src/lib/published-fares.ts');
+ assert.match(s,/seo_title:'',seo_description:'',h1:''/);
+ assert.doesNotMatch(s,/seo_title:null|seo_description:null|h1:null/);
+ assert.match(s,/if\(error\)throw new Error\('Fare approval could not be saved:/);
 });

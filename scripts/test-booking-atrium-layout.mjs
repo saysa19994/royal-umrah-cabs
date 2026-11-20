@@ -17,7 +17,8 @@ test('booking engine receives all live prefilled fields and data without fake ch
  for(const name of ['resolvedRoute','resolvedVehicle','resolvedDate','resolvedTime','resolvedPassengers','resolvedLuggage','resolvedType','resolvedPickup','resolvedDropoff']){
   assert.ok(page.includes('initial'+name.slice(8)+'={'+name+'}'),name);
  }
- assert.match(page,/initialRates=\{await getDbPricesCached\(\)\}/);
+ assert.match(page,/initialRates=\{initialRates\}/);
+ assert.match(page,/getDbPricesCached\(\)/);
  assert.match(page,/getBookingDraft\(searchParams\.draft\)/);
  assert.match(page,/role="status"/);
  assert.match(page,/getLocalizedAlternates\(locale, '\/booking'\)/);

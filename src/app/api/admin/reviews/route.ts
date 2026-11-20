@@ -23,8 +23,14 @@ export async function GET(req: NextRequest) {
     const status = searchParams.get('status');
     const search = searchParams.get('search');
     const rating = searchParams.get('rating');
-    const page = Math.max(parseInt(searchParams.get('page') || '1', 10), 1);
-    const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '50', 10), 1), 100);
+    const requestedPage = Number(searchParams.get('page') || '1');
+    const requestedLimit = Number(searchParams.get('limit') || '50');
+    if (!Number.isSafeInteger(requestedPage) || requestedPage < 1 ||
+        !Number.isSafeInteger(requestedLimit) || requestedLimit < 1 || requestedLimit > 100) {
+      return NextResponse.json({success:false,error:'Invalid review pagination'}, {status:400});
+    }
+    const page = requestedPage;
+    const limit = requestedLimit;
     const offset = (page - 1) * limit;
 
     const supabase = createServiceClient();
@@ -33,6 +39,12 @@ export async function GET(req: NextRequest) {
     const { data: allRows, error: countsErr } = await supabase
       .from('reviews')
       .select('is_approved, rating');
+
+    if (countsErr || !Array.isArray(allRows)) {
+      console.error('Admin reviews statistics query failed:', countsErr?.message || 'Incomplete review data');
+      return NextResponse.json({success:false,error:'Unable to load saved review statistics'},
+        {status:503,headers:{'Cache-Control':'no-store'}});
+    }
 
     const counts = {
       all: 0,
@@ -57,7 +69,7 @@ export async function GET(req: NextRequest) {
 
     const averageRating = publishedCount > 0
       ? Math.round((totalRatingSum / publishedCount) * 10) / 10
-      : 5.0;
+      : 0;
 
     // 2. Query paginated list with filters
     let query = supabase
@@ -96,8 +108,8 @@ export async function GET(req: NextRequest) {
 
     const { data: reviews, count, error } = await query;
 
-    if (error) {
-      console.error('Admin reviews query error:', error);
+    if (error || count === null || count === undefined) {
+      console.error('Admin reviews query error:', error?.message || 'Missing pagination count');
       return NextResponse.json(
         { success: false, error: 'Failed to retrieve reviews from database' },
         { status: 500 }
@@ -139,8 +151,18 @@ export async function PATCH(req: NextRequest) {
     const body = await req.json();
     const { id, status, is_approved, customer_name, comment, route } = body;
 
-    if (!id) {
-      return NextResponse.json({ success: false, error: 'Review ID is required' }, { status: 400 });
+    if (!id || typeof id !== 'string' || !/^[0-9a-f-]{36}$/i.test(id)) {
+      return NextResponse.json({ success: false, error: 'Valid review ID is required' }, { status: 400 });
+    }
+    // Production schema only persists is_approved, not a rejected status.
+    // Never report a rejection as saved when it will silently appear pending.
+    if (status === 'rejected') {
+      return NextResponse.json({
+        success:false,error:'Separate rejected review status is not supported by the current database. Keep pending or unpublish instead.',
+      }, {status:422});
+    }
+    if (status && status !== 'pending' && status !== 'published') {
+      return NextResponse.json({success:false,error:'Invalid review status'}, {status:400});
     }
 
     const updates: Record<string, any> = {};
@@ -172,12 +194,14 @@ export async function PATCH(req: NextRequest) {
       }, { status: 500 });
     }
 
-    const normalizedReview = updatedData
-      ? {
-          ...updatedData,
-          status: updatedData.status || (updatedData.is_approved ? 'published' : 'pending'),
-        }
-      : updatedData;
+    if (!updatedData) {
+      return NextResponse.json({success:false,error:'Review was not found; no update was saved'},
+        {status:404});
+    }
+    const normalizedReview = {
+      ...updatedData,
+      status: updatedData.is_approved ? 'published' : 'pending',
+    };
 
     // Instant multi-locale cache invalidation
     try {

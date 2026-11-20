@@ -11,6 +11,10 @@ import { BookingWizard } from '@/components/booking/BookingWizard';
 import { ShieldCheck, Plane, Banknote } from 'lucide-react';
 import { getDbPricesCached } from '@/lib/pricing-db';
 import { getBookingDraft } from '@/lib/booking-draft-store';
+import { getSiteImagesCached, ROUTE_IMAGE_SLOTS } from '@/lib/site-images';
+import { getDbVehiclesCached } from '@/lib/fleet-db';
+import { getPublishedRoutes, getRouteCatalogCached } from '@/lib/public-routes';
+import { getPublishedPageCopy } from '@/lib/public-page-copy';
 
 interface BookingPageProps {
   params: Promise<{
@@ -132,10 +136,11 @@ export async function generateMetadata(
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
+  const cms = await getPublishedPageCopy('booking',locale);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
   return {
-    title: dict.nav.bookNow,
-    description: PAGE_TEXT[locale]?.subtitle || PAGE_TEXT.en.subtitle,
+    title: cms.seoTitle || dict.nav.bookNow,
+    description: cms.seoDescription || PAGE_TEXT[locale]?.subtitle || PAGE_TEXT.en.subtitle,
     alternates: getLocalizedAlternates(locale, '/booking'),
   };
 }
@@ -163,8 +168,43 @@ export default async function BookingPage(props: BookingPageProps) {
   const { locale } = params;
 
   const dict = getDictionary(locale);
-  const settings = await getSiteSettings();
-  const pageText = PAGE_TEXT[locale] || PAGE_TEXT.en;
+  const [settings, images, activeFleet, initialRates, publishedRoutes, catalog] = await Promise.all([
+    getSiteSettings(), getSiteImagesCached(), getDbVehiclesCached(),
+    getDbPricesCached(), getPublishedRoutes(locale), getRouteCatalogCached(),
+  ]);
+  const routeOverrides = Object.fromEntries(
+    publishedRoutes.filter(r=>!r.slug.includes('ziyarat') &&
+      Object.values(initialRates[r.slug] || {}).some(n=>Number.isFinite(n)&&n>0))
+      .map(r=>[r.slug,{
+        label:r.titles[locale]||r.titleEn,
+        baseSAR:Math.min(...Object.values(initialRates[r.slug]).filter(n=>Number.isFinite(n)&&n>0)),
+      }]),
+  );
+  const disabledRouteIds=(catalog||[]).filter(r=>!r.is_active).map(r=>r.id);
+  const directIds = new Set(['camry','staria','yukon','hiace','coaster']);
+  const bookingVehicleOverrides = Object.fromEntries(
+    activeFleet.filter(v => directIds.has(v.bookingVehicleId)).map(v => [
+      v.bookingVehicleId,
+      {
+        name: v.name[locale] || v.name.en,
+        category: v.category[locale] || v.category.en,
+        seats: v.passengers,
+        bags: v.luggage,
+        img: v.gallery.find(photo=>photo.type==='exterior')?.src
+          || v.gallery[0]?.src || '/assets/images/staria_exterior.webp',
+      },
+    ]),
+  );
+  const routeImages=Object.fromEntries(
+    Object.entries(ROUTE_IMAGE_SLOTS).map(([slug,key])=>[slug,images[key]]),
+  );
+  const cms = await getPublishedPageCopy('booking',locale);
+  const defaults = PAGE_TEXT[locale] || PAGE_TEXT.en;
+  const pageText = {
+    ...defaults,
+    badge: typeof cms.contentBlocks.badge === 'string' && cms.contentBlocks.badge.trim()
+      ? cms.contentBlocks.badge : defaults.badge,
+  };
 
   const initialType = (['transfer', 'hourly', 'ziyarat', 'group_bus'].includes(searchParams.type || '')
     ? searchParams.type
@@ -212,15 +252,15 @@ export default async function BookingPage(props: BookingPageProps) {
       <header className={styles.intro} aria-labelledby="duyuf-booking-heading">
         <div className={styles.introCopy}>
           <div className={styles.serial}>{pageText.badge}</div>
-          <h1 id="duyuf-booking-heading">{locale === 'ar' ? <>احجز <span>رحلتك</span> بسهولة وأمان</> : pageText.title}</h1>
+          <h1 id="duyuf-booking-heading">{cms.h1 || (locale === 'ar' ? <>احجز <span>رحلتك</span> بسهولة وأمان</> : pageText.title)}</h1>
           <a className={styles.startLink} href="#booking-reservation">{dict.nav.bookNow}</a>
         </div>
         <div className={styles.introMedia}>
-          <Image src="/assets/homepage-v2/ziyarat-haram.jpg" fill
+          <Image src={images.booking_haram} fill
             priority sizes="(max-width:767px) 100vw, 48vw"
             alt={locale === 'ar' ? 'المسجد الحرام في مكة المكرمة' : 'The Grand Mosque in Makkah'}/>
           <div className="duyuf-booking-hero-vehicle" aria-hidden="true">
-            <Image src="/assets/images/yukon_exterior.webp" fill sizes="(max-width:767px) 160px, 240px" alt="" />
+            <Image src={images.booking_vehicle} fill sizes="(max-width:767px) 160px, 240px" alt="" />
           </div>
           <div className={styles.photoLabel}><span>DUYUF AL RAHMAN VIP</span><span>{dict.nav.bookNow}</span></div>
         </div>
@@ -265,7 +305,11 @@ export default async function BookingPage(props: BookingPageProps) {
           initialDuration={resolvedDuration}
           initialPickup={resolvedPickup}
           initialDropoff={resolvedDropoff}
-          initialRates={await getDbPricesCached()}
+          initialRates={initialRates}
+          routeOverrides={routeOverrides}
+          disabledRouteIds={disabledRouteIds}
+          vehicleOverrides={bookingVehicleOverrides}
+          routeImages={routeImages}
         />
         </div>
         </div>

@@ -7,6 +7,7 @@ import { ArrowUpRight, ArrowLeft, ArrowRight, MapPin, Compass, ShieldCheck, Car,
 import { RouteNetworkDesk } from '@/components/routes/RouteNetworkDesk';
 import { getPublishedRoutes } from '@/lib/public-routes';
 import { getDbPricesCached } from '@/lib/pricing-db';
+import { getPublishedPageCopy } from '@/lib/public-page-copy';
 import styles from './routes-overhaul.module.css';
 
 interface RoutesPageProps {
@@ -133,10 +134,11 @@ export async function generateMetadata(props: RoutesPageProps): Promise<Metadata
   const params = await props.params;
   const { locale } = params;
   const meta = ROUTES_LOCALIZED_HEADER[locale] || ROUTES_LOCALIZED_HEADER.en;
+  const cms=await getPublishedPageCopy('routes',locale);
 
   return {
-    title: `${meta.title} | Duyuf Alrahman VIP`,
-    description: meta.subtitle,
+    title: cms.seoTitle || `${meta.title} | Duyuf Alrahman VIP`,
+    description: cms.seoDescription || meta.subtitle,
     alternates: getLocalizedAlternates(locale, '/routes'),
   };
 }
@@ -146,7 +148,12 @@ export default async function RoutesPage(props: RoutesPageProps) {
   const dict = getDictionary(locale);
   const [publicRoutes, liveRates] = await Promise.all([getPublishedRoutes(locale),getDbPricesCached()]);
   const rtl = locale === 'ar' || locale === 'ur';
-  const header = ROUTES_LOCALIZED_HEADER[locale] || ROUTES_LOCALIZED_HEADER.en;
+  const defaults=ROUTES_LOCALIZED_HEADER[locale] || ROUTES_LOCALIZED_HEADER.en;
+  const cms=await getPublishedPageCopy('routes',locale);
+  const header={...defaults,
+    title:cms.h1 || defaults.title,
+    subtitle:typeof cms.contentBlocks.subtitle==='string' && cms.contentBlocks.subtitle.trim()
+      ?cms.contentBlocks.subtitle:defaults.subtitle};
   const Arrow = rtl ? ArrowLeft : ArrowRight;
   const ui = {
     ar: { index:'دليل جميع المسارات', explore:'استكشف مساراتنا المعتمدة', full:'تفاصيل الرحلة', prices:'جدول الأسعار الكامل', book:'ابدأ طلب الحجز', fare:'سعر كامري لهذا المسار', cash:'الدفع نقدًا للسائق بعد الوصول', desk:'وجهات نخدمها', overline:'THE JOURNEY DIRECTORY' },

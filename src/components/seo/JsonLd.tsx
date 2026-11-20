@@ -230,6 +230,8 @@ export function FaqJsonLd({
     { q: dict.faq.q12, a: dict.faq.a12 },
   ]).filter((item) => Boolean(item.q && item.a));
 
+  if (faqList.length === 0) return null;
+
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
