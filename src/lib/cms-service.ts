@@ -36,7 +36,9 @@ export const getCmsPageCached = unstable_cache(
     return memoryCmsStore[key] || null;
   },
   ['site_cms_page'],
-  { tags: ['site_cms'], revalidate: 300 }
+  // Daily fallback refresh; admin writes invalidate site_cms immediately via revalidateTag.
+  // Avoid rewriting ten-language ISR caches every five minutes when nothing changed.
+  { tags: ['site_cms'], revalidate: 86400 }
 );
 
 /**
