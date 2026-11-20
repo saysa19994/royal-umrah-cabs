@@ -161,7 +161,9 @@ export const getFleetImagesCached = unstable_cache(
     return memoryFleetImages.filter((img) => img.is_active);
   },
   ['site_fleet_images'],
-  { tags: ['site_media', 'site_fleet'], revalidate: 300 }
+  // Daily fallback refresh; media/fleet admin writes invalidate the tags immediately.
+  // Uploaded files stay in Supabase Storage and no image URLs are changed here.
+  { tags: ['site_media', 'site_fleet'], revalidate: 86400 }
 );
 
 /**
