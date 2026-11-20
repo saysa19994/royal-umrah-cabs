@@ -94,7 +94,7 @@ export function FleetAtelier({locale,vehicles,rates,regions,routeStatus}:Props){
  const morePhotos=dbVehicle?.gallery?.filter(x=>x.src!==selectedPhoto).slice(0,4)||[];
  return <div className={styles.page} dir={rtl?'rtl':'ltr'}>
   <section className={styles.hero} aria-labelledby="fleet-atelier-heading">
-   <div className={styles.heroPoster}><Image src="/assets/homepage-v2/fleet-private.jpg" alt="" fill priority sizes="(max-width:700px) 100vw, 49vw" className={styles.heroImage}/><span className={styles.imageIndex}>01 / VEHICLES</span></div>
+   <div className={styles.heroPoster}><Image src="/assets/homepage-v2/fleet-private.jpg" alt="" fill priority quality={88} sizes="(max-width:700px) 100vw, 49vw" className={styles.heroImage}/><span className={styles.imageIndex}>01 / VEHICLES</span></div>
    <div className={styles.heroText}>
     <p className={styles.kicker}>{t.label} / DUYUF VIP</p>
     <h1 id="fleet-atelier-heading">{t.title}</h1>
@@ -134,7 +134,7 @@ export function FleetAtelier({locale,vehicles,rates,regions,routeStatus}:Props){
     </nav>
     <div className={styles.photoStudio}>
      <div className={styles.primaryPhoto}>
-       <Image key={selectedPhoto} src={selectedPhoto} alt={(approved.name[locale]||approved.name.en)+' — '+(galleryPosition?dbVehicle?.gallery?.find(x=>x.src===galleryPosition)?.alt?.[locale]||t.imageTitle:(interior?t.viewInside:t.viewOutside))}
+       <Image key={selectedPhoto} src={selectedPhoto} quality={87} alt={(approved.name[locale]||approved.name.en)+' — '+(galleryPosition?dbVehicle?.gallery?.find(x=>x.src===galleryPosition)?.alt?.[locale]||t.imageTitle:(interior?t.viewInside:t.viewOutside))}
           fill sizes="(max-width:800px) 100vw, 54vw" className={interior||(galleryPosition&&dbVehicle?.gallery?.find(x=>x.src===galleryPosition)?.type!=='exterior')?styles.cabinPhoto:styles.exteriorPhoto}/>
        <span className={styles.photoEdition}>{String(displayIndex+1).padStart(2,'0')} / 05</span>
        <span className={styles.photoName}>{displayName}</span>
