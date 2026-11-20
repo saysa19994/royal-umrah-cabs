@@ -128,6 +128,13 @@ export async function calculateServerPrice(params: {
     if (routeId === 'riyadh-airport-transfer') {
       throw new Error('Riyadh Airport transfer service is not active. Request a manual quotation for another service.');
     }
+    // Regional policy applies even if a route is still marked active in DB.
+    if (TAIF_ROUTES[routeId] && !getMergedSiteSettings(null).taif_enabled) {
+      throw new Error('Taif transportation routes are currently disabled');
+    }
+    if (RIYADH_ROUTES[routeId] && !getMergedSiteSettings(null).riyadh_enabled) {
+      throw new Error('Riyadh transportation routes are currently disabled');
+    }
 
     // Verify route is active
     let isRouteActive = false;
@@ -219,25 +226,27 @@ export async function calculateServerPrice(params: {
       }
     }
   } else if (bookingType === 'ziyarat') {
-    // Check if routeId is given (e.g. makkah-ziyarat, madinah-ziyarat)
-    if (routeId && AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId]) {
-      basePriceSAR = AUTHORITATIVE_TRANSFER_RATES[routeId][vehicleId];
-    } else if (AUTHORITATIVE_ZIYARAT_RATES[vehicleId]) {
-      basePriceSAR = AUTHORITATIVE_ZIYARAT_RATES[vehicleId];
-    } else {
-      const targetRouteId = 'ziyarat-tour';
-      const { data: priceRow } = await serviceClient
-        .from('prices')
-        .select('price_sar')
-        .eq('route_id', targetRouteId)
-        .eq('vehicle_id', vehicleId)
-        .maybeSingle();
-
-      if (priceRow?.price_sar) {
-        basePriceSAR = Number(priceRow.price_sar);
-      } else {
-        throw new Error(`No configured ziyarat pricing found in database for route '${targetRouteId}' and vehicle '${vehicleId}'`);
+    // Route-specific Ziyarat prices are managed in the same prices table.
+    const approvedZiyaratRoute = routeId && AUTHORITATIVE_TRANSFER_RATES[routeId]?.[vehicleId]
+      ? routeId : null;
+    const targetRouteId = approvedZiyaratRoute || 'ziyarat-tour';
+    const { data: ziyaratRow, error: ziyaratError } = await serviceClient
+      .from('prices')
+      .select('price_sar')
+      .eq('route_id', targetRouteId)
+      .eq('vehicle_id', vehicleId)
+      .maybeSingle();
+    if (ziyaratError) throw new Error('Published Ziyarat fare could not be verified');
+    if (ziyaratRow) {
+      const configured = Number(ziyaratRow.price_sar);
+      if (!Number.isFinite(configured) || configured <= 0) {
+        throw new Error('This Ziyarat vehicle is not available');
       }
+      basePriceSAR = configured;
+    } else if (approvedZiyaratRoute) {
+      basePriceSAR = AUTHORITATIVE_TRANSFER_RATES[approvedZiyaratRoute][vehicleId];
+    } else {
+      basePriceSAR = AUTHORITATIVE_ZIYARAT_RATES[vehicleId] ?? null;
     }
   } else if (bookingType === 'group_bus') {
     if (AUTHORITATIVE_GROUP_RATES[vehicleId]) {
