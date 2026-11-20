@@ -27,6 +27,7 @@ import {
   BadgeCheck,
 } from 'lucide-react';
 import { getDbPricesCached } from '@/lib/pricing-db';
+import { getPublishedRouteImagesCached } from '@/lib/public-route-availability';
 import { ROUTES_COMPREHENSIVE_DATA, RouteData } from '@/data/routes-data';
 import { EXECUTIVE_ROUTES_DATA } from '@/data/executive-routes-data';
 import { getSiteSettings } from '@/lib/settings';
@@ -62,6 +63,7 @@ export async function generateMetadata(props: RouteDetailPageProps): Promise<Met
   }
 
   const content = getLocalizedRouteContent(slug, locale, route);
+  const editorialCover = (await getPublishedRouteImagesCached())[slug];
 
   return {
     title: content.seoTitle,
@@ -74,6 +76,7 @@ export async function generateMetadata(props: RouteDetailPageProps): Promise<Met
       url: `${baseUrl}/${locale}/routes/${slug}`,
       siteName: 'Duyuf Alrahman VIP',
       type: 'website',
+      ...(editorialCover ? { images: [{ url: editorialCover, alt: content.h1 }] } : {}),
     },
   };
 }
@@ -94,14 +97,14 @@ export default async function RouteDetailPage(props: RouteDetailPageProps) {
   const contextualLinks = getRouteContextualLinks(slug, locale);
 
   // Published admin fares take precedence; approved matrix is only the fallback.
-  const liveRates = await getDbPricesCached();
+  const [liveRates, publishedCovers] = await Promise.all([getDbPricesCached(), getPublishedRouteImagesCached()]);
   const routeRates = liveRates[slug] || {};
   const configuredFares = Object.values(routeRates).filter(
     (fare): fare is number => typeof fare === 'number' && Number.isFinite(fare) && fare > 0
   );
   const minPriceSAR = configuredFares.length > 0 ? Math.min(...configuredFares) : undefined;
 
-  const heroImage = EXECUTIVE_ROUTES_DATA.find((entry) => entry.slug === slug)?.image
+  const heroImage = publishedCovers[slug] || EXECUTIVE_ROUTES_DATA.find((entry) => entry.slug === slug)?.image
     || '/assets/blueprint/routes/planning.webp';
   const distance = new Intl.NumberFormat(localeConfig.dateFormat, { style: 'unit', unit: 'kilometer' });
   const duration = new Intl.NumberFormat(localeConfig.dateFormat, { style: 'unit', unit: 'minute' });
