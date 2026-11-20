@@ -111,7 +111,7 @@ export async function PATCH(request:NextRequest){
       await logAuditEvent({
         userEmail:auth.user.email,userRole:auth.user.role,action:'homepage_copy_updated',
         resource:'content',resourceId:'home_copy:'+locale,
-        oldValues:Object.fromEntries(keys.map(k=>[k,previous[k]||null])),
+        oldValues:Object.fromEntries(keys.map(k=>[k,(previous as Record<string,string|undefined>)[k]||null])),
         newValues:body.values,ip:getClientIp(request),
       });
     }catch(err){console.error('Homepage copy saved but audit log failed:',err);}
