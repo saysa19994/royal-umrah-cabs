@@ -7,6 +7,7 @@ import { Locale, getLocalizedAlternates, LOCALES, LOCALE_CONFIG } from '@/i18n/c
 import { getDictionary } from '@/i18n/get-dictionary';
 import { BLOG_POSTS } from '@/data/blog-posts';
 import { getBlogArticleContent } from '@/data/blog-content';
+import { getBlogLocalizedAlternates, hasIndexableBlogTranslation } from '@/lib/seo/blog-indexability';
 import { AUTHORITATIVE_TRANSFER_RATES } from '@/lib/pricing-constants';
 import { getDbPricesCached } from '@/lib/pricing-db';
 import {
@@ -48,13 +49,14 @@ export async function generateMetadata(props: BlogPostPageProps): Promise<Metada
 
   const title = post.seoTitle[locale] || post.seoTitle.en;
   const description = post.metaDescription[locale] || post.metaDescription.en;
-  const alternates = getLocalizedAlternates(locale, `/blog/${slug}`);
+  const alternates = getBlogLocalizedAlternates(locale, slug);
 
   return {
     title: `${title} | Duyuf Alrahman VIP`,
     description,
     keywords: post.supportingKeywords[locale] || post.supportingKeywords.en,
     alternates,
+    robots: { index: hasIndexableBlogTranslation(slug, locale), follow: true },
     openGraph: {
       title,
       description,
