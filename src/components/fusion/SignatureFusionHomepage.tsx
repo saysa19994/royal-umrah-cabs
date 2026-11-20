@@ -418,7 +418,9 @@ export default function SignatureFusionHomepage({ locale, rates, routeStatus, di
               <button key={item.id} type="button" aria-pressed={route === item.id}
                 className={styles.routeCurtainPanel}
                 onClick={() => changeSelection(item.id, guests)}>
-                <Image src={item.image} alt="" fill sizes="(max-width:760px) 90vw, 25vw" className={styles.cover} />
+                <Image src={item.image} alt="" fill quality={86}
+                   sizes={route === item.id ? "(max-width:760px) 100vw, (max-width:1100px) 60vw, 40vw" : "(max-width:760px) 50vw, (max-width:1100px) 34vw, 20vw"}
+                   className={styles.cover} />
                 <span className={styles.curtainShade} aria-hidden="true" />
                 <span className={styles.curtainWords}>
                   <small dir="ltr">{item.code}</small>
