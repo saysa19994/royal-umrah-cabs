@@ -29,10 +29,17 @@ export async function GET(req: NextRequest) {
     const supabase = createServiceClient();
     const [settingsRes, faqsRes, pricesRes] = await Promise.all([
       supabase.from('site_settings').select('id, updated_at').limit(1).maybeSingle(),
-      supabase.from('faqs').select('id', { count: 'exact', head: true }),
+      // The live schema stores FAQ items in page_content, not a faqs table.
+      supabase.from('page_content').select('page_key', { count: 'exact', head: true }).like('page_key','faq_item_%'),
       supabase.from('prices').select('id', { count: 'exact', head: true }),
     ]);
 
+    if(settingsRes.error || faqsRes.error || pricesRes.error ||
+       faqsRes.count === null || pricesRes.count === null){
+      console.error('Admin sync health error:',settingsRes.error?.message || faqsRes.error?.message || pricesRes.error?.message);
+      return NextResponse.json({success:false,status:'degraded',
+        error:'Unable to verify live cache and database health'}, {status:503});
+    }
     return NextResponse.json({
       success: true,
       status: 'operational',
@@ -62,6 +69,18 @@ export async function POST(req: NextRequest) {
       return authResult.errorResponse;
     }
     const { user: currentUser } = authResult;
+    if(process.env.VERCEL_ENV==='preview') {
+      let host='';
+      try{host=new URL(process.env.NEXT_PUBLIC_SUPABASE_URL || '').hostname;}catch{}
+      const isolated=process.env.PREVIEW_DATABASE_ISOLATED==='true' &&
+        host.endsWith('.supabase.co') &&
+        host!=='skyhpzdeapmttgmvcoeh.supabase.co';
+      if(!isolated) {
+        return NextResponse.json({success:false,code:'PREVIEW_DATABASE_ISOLATION_REQUIRED',
+          error:'Preview cache administration is locked until a separate staging database is configured.'},
+          {status:423});
+      }
+    }
 
     const body = await req.json().catch(() => ({}));
     const requestedTags = Array.isArray(body?.tags) && body.tags.length > 0
