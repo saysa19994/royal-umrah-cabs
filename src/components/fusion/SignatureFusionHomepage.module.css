@@ -1110,3 +1110,54 @@
   .storyImage > img,.story[data-story-revealed="true"] .storyDeckCard {animation:none!important;}
   .storyDeckCard,.storyProgress span {transition:none!important;transform:none!important;}
 }
+
+
+/* CINEMATIC FLEET PHOTO CHAPTER / MANGO x NORDA.
+   Navigation uses the real five booking vehicle classes and existing assets. */
+.carPhoto { isolation:isolate; }
+.carPhoto > img {
+  animation:premiumVehicleSwap .52s cubic-bezier(.2,.72,.24,1) both;
+  transform-origin:center 60%;
+}
+@keyframes premiumVehicleSwap {
+  from {opacity:.46;transform:translateY(12px) scale(.985);}
+  to {opacity:1;transform:translateY(0) scale(1);}
+}
+.carPhotoCaption {
+  position:absolute;z-index:3;top:clamp(12px,1.7vw,26px);
+  inset-inline-start:clamp(12px,1.8vw,29px);
+  display:grid;gap:4px;padding:10px 13px;
+  min-width:105px;max-width:45%;
+  color:#1c2e40;background:#fdfbf4db;
+  backdrop-filter:blur(6px);border:1px solid #ffffffaf;
+  box-shadow:0 8px 24px #12223412;
+  pointer-events:none;
+}
+.carPhotoCaption span {font-size:.68rem;letter-spacing:.13em;font-weight:800;color:#8d6d42;}
+.carPhotoCaption strong {font-size:clamp(.78rem,1.07vw,1.04rem);line-height:1.4;font-weight:720;}
+.carPhotoNav {
+  position:absolute;z-index:3;top:clamp(12px,1.7vw,26px);
+  inset-inline-end:clamp(12px,1.8vw,29px);
+  display:flex;gap:7px;
+}
+.carPhotoNav button {
+  width:clamp(42px,3.55vw,49px);height:clamp(42px,3.55vw,49px);
+  border:1px solid #bfbcb4;border-radius:50%;
+  display:grid;place-items:center;
+  background:#fdfcf8ed;color:#17293b;cursor:pointer;
+  transition:background-color .2s ease,transform .2s ease;
+}
+.carPhotoNav button:hover {background:#17293b;color:white;transform:translateY(-2px);}
+.carPhotoNav button:focus-visible {outline:3px solid #b38b4a;outline-offset:3px;}
+:global(html[data-theme="dark"]) .carPhotoCaption {background:#172a3ce8;color:#f6eee1;border-color:#485465;}
+:global(html[data-theme="dark"]) .carPhotoNav button {background:#233749;color:#f7f2e9;border-color:#75808d;}
+@media(max-width:760px){
+  .carPhotoCaption {top:11px;inset-inline-start:11px;padding:6px 9px;max-width:41%;}
+  .carPhotoNav {top:11px;inset-inline-end:11px;gap:6px;}
+  .carPhotoNav button {width:40px;height:40px;}
+  .carPhotoNav svg {width:18px;height:18px;}
+}
+@media(prefers-reduced-motion:reduce) {
+  .carPhoto > img {animation:none!important;}
+  .carPhotoNav button {transition:none!important;}
+}
