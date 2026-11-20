@@ -90,7 +90,6 @@ export function AdminSidebar({
           labelEn: 'Dashboard & Dispatch',
           labelAr: 'لوحة التحكم والعمليات',
           icon: LayoutDashboard,
-          badge: { text: 'Live', variant: 'emerald' },
         },
         {
           href: '/admin/bookings',
@@ -142,7 +141,6 @@ export function AdminSidebar({
           labelEn: 'Routes & Corridors',
           labelAr: 'مسارات ومواقيت الحرمين',
           icon: Compass,
-          badge: { text: '16 Routes', variant: 'gold' },
           adminOnly: true,
         },
         {
@@ -163,7 +161,6 @@ export function AdminSidebar({
           labelEn: 'WhatsApp Routing',
           labelAr: 'توجيه محادثات الواتساب',
           icon: MessageSquare,
-          badge: { text: '2 Lines', variant: 'emerald' },
           adminOnly: true,
         },
         {
@@ -194,7 +191,6 @@ export function AdminSidebar({
           labelEn: 'Reviews Moderation',
           labelAr: 'مراجعة آراء المعتمرين',
           icon: Star,
-          badge: { text: '98%', variant: 'gold' },
         },
       ],
     },
