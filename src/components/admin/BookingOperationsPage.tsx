@@ -84,8 +84,16 @@ export default function BookingOperationsPage({ mode = 'bookings' }: { mode?: 'o
   const [createOpen, setCreateOpen] = useState(false);
 
   useEffect(() => {
-    const requestedReference = new URLSearchParams(window.location.search).get('q');
+    const params = new URLSearchParams(window.location.search);
+    const requestedReference = params.get('q');
     if (requestedReference) setSearch(requestedReference.slice(0, 80));
+    // The operations workspace links to real booking stages. Only accept a
+    // known status value; never pass arbitrary filters to the backend.
+    const requestedStatus = params.get('status');
+    if (requestedStatus && statuses.includes(requestedStatus as Status)) {
+      setStatus(requestedStatus as Status);
+      setPage(1);
+    }
   }, []);
 
   useEffect(() => {

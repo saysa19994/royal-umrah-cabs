@@ -25,6 +25,15 @@ const statusNames: Record<Status, string> = {
   new: 'جديد', confirmed: 'مؤكد', driver_assigned: 'سائق مُعيّن',
   en_route: 'في الطريق', completed: 'مكتمل', cancelled: 'ملغي',
 };
+const operationStages: Array<{status: Status; caption: string; sequence: string}> = [
+  {status:'new',caption:'تحتاج مراجعة الطلب',sequence:'01'},
+  {status:'confirmed',caption:'جاهزة للتنسيق',sequence:'02'},
+  {status:'driver_assigned',caption:'تم تكليف السائق',sequence:'03'},
+  {status:'en_route',caption:'قيد التنفيذ الآن',sequence:'04'},
+  {status:'completed',caption:'رحلات منتهية',sequence:'05'},
+  {status:'cancelled',caption:'للمراجعة والأرشفة',sequence:'06'},
+];
+
 const statusClass: Record<Status,string> = {
   new:'vip-pill--new', confirmed:'vip-pill--confirmed', driver_assigned:'vip-pill--driver',
   en_route:'vip-pill--enroute', completed:'vip-pill--complete', cancelled:'vip-pill--cancelled',
@@ -115,6 +124,12 @@ export default function AdminCommandCenter() {
         ? drivers.value.drivers.filter((driver:Driver) => driver.is_active).length
         : null);
     } catch(e) {
+      // On network/permission failure do not leave yesterday's figures styled
+      // as a fresh live operations snapshot.
+      setMetrics(null);
+      setDispatch(null);
+      setReport(null);
+      setActiveDrivers(null);
       setError(e instanceof Error ? e.message : 'تعذر تحديث البيانات');
     } finally {setLoading(false);}
   }, []);
@@ -130,24 +145,34 @@ export default function AdminCommandCenter() {
   const active = metrics ? metrics.driver_assigned + metrics.en_route : undefined;
 
   return <section dir="rtl" className="vip-command-center space-y-5 pb-6">
-    <div className="vip-hero">
-      <div className="vip-hero-content flex min-h-[204px] flex-col justify-center p-5 sm:p-7 lg:p-9">
-        <p className="mb-3 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[.14em] text-[#efd29b]">
-          <span className="h-[2px] w-9 bg-[#deb572]"/> VIP OPERATIONS PORTAL
+    <header className="vip-ops-workspace">
+      <div className="min-w-0 flex-1">
+        <div className="vip-workspace-eyebrow"><span className="vip-status-beacon" aria-hidden="true"/> DUYUF VIP · OPERATIONS</div>
+        <h1 className="vip-brand-serif mt-2 text-[clamp(27px,3.1vw,45px)] font-bold leading-tight text-[#122f39]">مكتب تشغيل الرحلات</h1>
+        <p className="mt-2 max-w-2xl text-xs leading-6 text-[#62737b] sm:text-sm">
+          متابعة الحجوزات والسائقين والتحصيل النقدي في مساحة واحدة، بالأرقام المسجلة فعليًا.
         </p>
-        <h1 className="vip-brand-serif max-w-[650px] text-[clamp(31px,3.3vw,56px)] font-bold leading-[1.12] text-[#fff7e9]">
-          مركز قيادة العمليات
-        </h1>
-        <p className="mt-2 max-w-lg text-xs text-[#e6e9e6] sm:text-sm">
-          إدارة الحجوزات والسائقين والأسطول وخدمات ضيوف الرحمن VIP
-        </p>
-        <div className="mt-5 inline-flex w-fit flex-wrap items-center gap-2 rounded-full border border-[#ddb775]/45 bg-[#071e30]/70 px-3 py-2 text-[11px] text-[#f2e3c8]">
-          <CalendarDays className="h-4 w-4 text-[#e9c483]"/>
-          <span>{dateLabel || '—'}</span><span className="mx-1 h-4 w-px bg-[#dfbc81]/40"/>
-          <ShieldCheck className="h-4 w-4 text-[#a3dfba]"/> لوحة الإدارة
-        </div>
       </div>
-    </div>
+      <div className="flex shrink-0 flex-wrap items-center gap-2">
+        <span className="vip-workspace-date"><CalendarDays className="h-4 w-4"/>{dateLabel || '—'}</span>
+        <button type="button" onClick={() => void load()} disabled={loading}
+          className="vip-workspace-refresh" aria-label="تحديث بيانات لوحة العمليات">
+          <RefreshCw className={'h-4 w-4 '+(loading?'animate-spin':'')}/><span>تحديث مباشر</span>
+        </button>
+      </div>
+    </header>
+
+    <nav aria-label="التنقل السريع بين أعمال الإدارة" className="vip-workspace-shortcuts">
+      <Link href="/admin/bookings" className="vip-workspace-shortcut">
+        <ClipboardList className="h-[18px] w-[18px]"/><span>إدارة الحجوزات</span><ArrowUpLeft className="ms-auto h-4 w-4"/>
+      </Link>
+      <Link href="/admin/dispatch" className="vip-workspace-shortcut">
+        <Navigation2 className="h-[18px] w-[18px]"/><span>توزيع الرحلات</span><ArrowUpLeft className="ms-auto h-4 w-4"/>
+      </Link>
+      <Link href="/admin/leads" className="vip-workspace-shortcut">
+        <UsersRound className="h-[18px] w-[18px]"/><span>الاستفسارات</span><ArrowUpLeft className="ms-auto h-4 w-4"/>
+      </Link>
+    </nav>
 
     {error && <div role="alert" className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800">{error} — <button onClick={() => void load()} className="underline">إعادة المحاولة</button></div>}
 
@@ -158,6 +183,39 @@ export default function AdminCommandCenter() {
       <Kpi title="تنتظر التحصيل" value={report ? money(report.awaitingCashSAR) + ' ر.س' : '—'} hint="رحلات مكتملة بحجوزات آخر 30 يومًا" icon={<Banknote className="h-5 w-5"/>}/>
       <Kpi title="استفسارات جديدة" value={metrics ? money(metrics.leads_new) : '—'} hint="عملاء يحتاجون ردًا من الفريق" icon={<UsersRound className="h-5 w-5"/>}/>
     </div>
+
+    <section className="vip-ops-board" aria-label="مراحل الحجوزات المسجلة">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="vip-workspace-eyebrow">BOOKING FLOW · حالة الحجوزات</p>
+          <h2 className="vip-brand-serif mt-1 text-[21px] font-bold text-[#172f3a] sm:text-[25px]">رحلة الحجز من الطلب إلى الوصول</h2>
+          <p className="mt-1 text-xs text-[#71818a]">اضغط أي مرحلة لعرض الحجوزات الخاصة بها. الأعداد مأخوذة من قاعدة البيانات وليست بيانات تجريبية.</p>
+        </div>
+        <Link href="/admin/bookings" className="vip-soft-action">عرض كل الحجوزات <ArrowUpLeft className="h-4 w-4"/></Link>
+      </div>
+      <div className="vip-stage-grid">
+        {operationStages.map(({status, caption, sequence}) => {
+          const count=metrics?.[status];
+          const share=count === undefined || !metrics?.total
+            ? 0 : Math.min(100,Math.max(0,Math.round((count/metrics.total)*100)));
+          return <Link key={status} href={'/admin/bookings?status='+encodeURIComponent(status)}
+            className="group vip-stage" aria-label={statusNames[status]+': '+(count===undefined?'غير متاح':count)+' حجز'}>
+            <div className="flex items-center justify-between gap-2">
+              <span className="vip-stage-sequence">{sequence}</span>
+              <ArrowUpLeft className="h-4 w-4 text-[#87969a] transition-transform group-hover:-translate-x-0.5"/>
+            </div>
+            <strong className="mt-4 block text-[27px] font-extrabold leading-none tabular-nums text-[#102e3a]">
+              {count === undefined ? '—' : money(count)}
+            </strong>
+            <span className="mt-2 block text-[12px] font-bold text-[#234955]">{statusNames[status]}</span>
+            <span className="mt-1 block min-h-[30px] text-[10px] leading-4 text-[#7d898b]">{caption}</span>
+            <div className="vip-stage-track" aria-hidden="true">
+              <div className={'vip-stage-bar vip-stage-bar--'+status} style={{width:share+'%'}}/>
+            </div>
+          </Link>;
+        })}
+      </div>
+    </section>
 
     <div className="grid gap-4 xl:grid-cols-[minmax(0,1.55fr)_minmax(340px,.9fr)]">
       <section className="vip-section min-w-0 p-4 sm:p-5">
