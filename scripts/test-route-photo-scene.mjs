@@ -16,7 +16,7 @@ test('route atlas uses only existing exact-route licensed project image assets',
   assert.ok(existsSync(new URL('../public/assets/images/routes/'+photo,import.meta.url)),photo);
   assert.ok(source.includes('/assets/images/routes/'+photo),photo);
  }
- assert.match(source,/ROUTE_PHOTOS\[route\.slug\] &&/);
+ assert.match(source,/photoSource &&/);
  assert.match(source,/alt="" fill/);
  assert.match(source,/key=\{route\.slug\}/);
 });
