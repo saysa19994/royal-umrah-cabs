@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Locale, getLocalizedAlternates } from '@/i18n/config';
+import { Locale } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { Car, Train, Bus, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 import { IntercityRouteExperience } from '@/components/routes/IntercityRouteExperience';
@@ -24,7 +24,9 @@ export async function generateMetadata(props: GuidePageProps): Promise<Metadata>
   return {
     title: dict.guides_section.guide3Title,
     description: dict.guides_section.guide3Desc,
-    alternates: getLocalizedAlternates(locale, '/guides/makkah-to-madinah-transport-comparison'),
+    // This guide is currently written in English; localized titles alone are not translations.
+    alternates: { canonical: `${baseUrl}/${locale}/guides/makkah-to-madinah-transport-comparison` },
+    robots: { index: locale === 'en', follow: true },
   };
 }
 
@@ -52,6 +54,32 @@ export default async function MakkahMadinahComparisonGuidePage(props: GuidePageP
           </p>
         </div>
 
+        {/* Answer-first summary makes the main travel decision clear to readers and answer engines. */}
+        <section aria-labelledby="transport-quick-answer" className="mb-8 rounded-2xl border border-border bg-surface p-6 md:p-8">
+          <h2 id="transport-quick-answer" className="font-display text-xl font-bold text-ink mb-3">
+            Quick answer: Haramain train or private car?
+          </h2>
+          <p className="text-sm md:text-base text-ink-light leading-relaxed">
+            Choose the Haramain high-speed train if you want a fast station-to-station journey and can
+            travel with your permitted luggage. Choose a private chauffeur if hotel-to-hotel pickup,
+            flexible departure, a planned Miqat stop or a confirmed vehicle with room for your family
+            and luggage matters more. Compare the total cost for all passengers, including transport
+            to and from the train stations, before deciding.
+          </p>
+          <p className="mt-3 text-xs md:text-sm text-ink-muted">
+            Train schedules, fares and baggage policies can change. Verify them with the{' '}
+            <a
+              href="https://sar.hhr.sa/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2"
+            >
+              official Haramain High Speed Railway
+            </a>{' '}
+            before your journey.
+          </p>
+        </section>
+
         <div className="bg-surface rounded-2xl p-8 md:p-12 border border-border shadow-xs space-y-6 text-sm text-ink-light leading-relaxed font-light mb-12">
           <section className="space-y-2">
             <h2 className="font-display text-xl font-bold text-ink">1. Door-to-Door Convenience</h2>
@@ -63,21 +91,21 @@ export default async function MakkahMadinahComparisonGuidePage(props: GuidePageP
           <section className="space-y-2">
             <h2 className="font-display text-xl font-bold text-ink">2. Luggage Restrictions Comparison</h2>
             <p>
-              The Haramain train strictly enforces a limit of 1 large piece of luggage per passenger (max 25 kg) plus one small hand carry. Families with extra shopping, stroller, or 5-liter Zamzam boxes often face strict baggage surcharges or rejection at the train scanner. With a private chauffeur in a Hyundai Staria VIP or Toyota HiAce, all your luggage travels securely with you without extra bag fees.
+              The Haramain train has published baggage size and weight limits, including a 25 kg limit on the larger suitcase. Check the latest railway rules before travel, especially if carrying strollers or additional bags. With a private Hyundai Staria or Toyota HiAce, book a vehicle whose confirmed luggage capacity fits your entire group.
             </p>
           </section>
 
           <section className="space-y-2">
             <h2 className="font-display text-xl font-bold text-ink">3. Flexible Stopping at Miqat Bir Ali</h2>
             <p>
-              When travelling from Madinah to Makkah to perform Umrah, a private chauffeur stops directly at Masjid Miqat Dhu al-Hulayfah (Bir Ali), granting your family all the time needed to shower, assume Ihram, and pray without stress. Trains bypass the Miqat station without passenger disembarkation.
+              When travelling from Madinah to Makkah to perform Umrah, a private chauffeur stops directly at Masjid Miqat Dhu al-Hulayfah (Bir Ali), with a complimentary planned stop of approximately 30–45 minutes for Ihram preparations and prayer, subject to the confirmed itinerary. The Haramain train does not make a passenger stop at this Miqat.
             </p>
           </section>
 
           <section className="space-y-2">
             <h2 className="font-display text-xl font-bold text-ink">4. Cost Comparison for Families</h2>
             <p>
-              For a family of 4 to 6 passengers, buying individual train tickets plus 2 station taxi rides on both ends frequently exceeds the cost of a private VIP Hyundai Staria van, while a private chauffeur offers complete privacy and flexibility.
+              For a family of four to six, compare the combined price of all rail tickets plus transfers to both stations with the quoted fare of a private Hyundai Staria. Depending on travel dates and party size, either option may cost less; a private transfer also provides hotel-to-hotel convenience.
             </p>
           </section>
         </div>

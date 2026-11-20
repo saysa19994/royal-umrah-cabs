@@ -5,12 +5,10 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
-  const lastmod = new Date().toISOString().slice(0, 10);
 
   const sitemapsXml = LOCALES.map(
     (locale) => `  <sitemap>
     <loc>${baseUrl}/sitemap/${locale}.xml</loc>
-    <lastmod>${lastmod}</lastmod>
   </sitemap>`
   ).join('\n');
 
