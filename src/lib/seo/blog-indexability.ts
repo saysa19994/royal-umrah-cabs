@@ -17,13 +17,35 @@ export const BLOG_NATIVE_ONLY_SLUGS = [
 
 const nativeOnly = new Set<string>(BLOG_NATIVE_ONLY_SLUGS);
 
+/**
+ * The following eleven articles have full native-language editorial source
+ * files for all ten site languages. New articles are not automatically
+ * indexable until their individual language versions are reviewed.
+ */
+export const BLOG_FULLY_LOCALIZED_SLUGS = [
+  'vip-umrah-transport-jeddah-to-makkah',
+  'private-transfer-makkah-to-madinah',
+  'makkah-to-jeddah-airport-transfer',
+  'vip-car-with-driver-saudi-arabia',
+  'vehicle-capacity-passengers-luggage',
+  'transport-planning-makkah-madinah-jeddah',
+  'jeddah-airport-pickup-umrah',
+  'hourly-vs-point-to-point-car-booking',
+  'umrah-car-booking-checklist',
+  'madinah-ziyarat-private-car-guide',
+  'elderly-friendly-umrah-transport',
+] as const;
+
+const fullyLocalized = new Set<string>(BLOG_FULLY_LOCALIZED_SLUGS);
+
 export function hasIndexableBlogTranslation(slug: string, locale: Locale): boolean {
-  return !nativeOnly.has(slug) || locale === 'ar' || locale === 'en';
+  if (fullyLocalized.has(slug)) return true;
+  return nativeOnly.has(slug) && (locale === 'ar' || locale === 'en');
 }
 
 export function getBlogLocalizedAlternates(locale: Locale, slug: string) {
   const path = `/blog/${slug}`;
-  if (!nativeOnly.has(slug)) {
+  if (fullyLocalized.has(slug)) {
     return getLocalizedAlternates(locale, path);
   }
 
