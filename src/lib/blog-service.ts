@@ -32,14 +32,15 @@ function staticPost(post: (typeof BLOG_POSTS)[number]): AdminBlogPost {
 
 async function readManagedBlogOverridesFromDb(): Promise<AdminBlogPost[]> {
   const db = createServiceClient();
-  const { data, error } = await db.from('page_content')
-    .select('page_key,content_blocks').like('page_key', 'blog_%').eq('language', 'en')
-    .order('page_key').limit(500);
-  if (error) {
-    // Never silently restore hard-coded articles when the persisted registry
-    // is unavailable: that could reveal a deliberately unpublished post.
-    console.error('Blog CMS could not read persisted edits:', error.message);
-    throw new Error('Blog CMS registry unavailable');
+  const { data, error, count } = await db.from('page_content')
+    .select('page_key,content_blocks', { count: 'exact' })
+    .like('page_key', 'blog_%').eq('language', 'en')
+    .order('page_key').range(0, 999);
+  if (error || count === null || count === undefined || count > (data?.length || 0)) {
+    // A partial or unavailable registry could cause unpublished default posts to
+    // reappear or make an administrator unintentionally overwrite saved content.
+    console.error('Blog CMS registry read failed:', error?.message || 'Incomplete registry');
+    throw new Error('Blog CMS registry unavailable or incomplete');
   }
   return (data || []).filter(row => row.page_key.startsWith('blog_') && row.page_key !== 'blog_post')
     .map(row => {
@@ -60,16 +61,11 @@ async function readManagedBlogOverridesFromDb(): Promise<AdminBlogPost[]> {
     }).filter((post):post is AdminBlogPost => Boolean(post));
 }
 
-export const getManagedBlogOverridesCached = unstable_cache(async (): Promise<AdminBlogPost[]> => {
-  try {
-    return await readManagedBlogOverridesFromDb();
-  } catch (err) {
-    // Preserve the existing public build fallback when no DB is available.
-    // Admin reads and writes below must NEVER use this cached fallback.
-    console.error('Public blog CMS fallback: persisted edits unavailable', err);
-    return [];
-  }
-}, ['managed_blog_posts_v1'], { tags:['site_blog'], revalidate:86400 });
+export const getManagedBlogOverridesCached = unstable_cache(
+  async (): Promise<AdminBlogPost[]> => readManagedBlogOverridesFromDb(),
+  ['managed_blog_posts_v2'],
+  { tags:['site_blog'], revalidate:86400 }
+);
 
 export async function getManagedBlogPost(slug: string):Promise<AdminBlogPost|null> {
   if (!/^[a-z0-9-]{3,120}$/.test(slug)) return null;
