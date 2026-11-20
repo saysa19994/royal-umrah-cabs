@@ -124,6 +124,12 @@ export default function AdminCommandCenter() {
         ? drivers.value.drivers.filter((driver:Driver) => driver.is_active).length
         : null);
     } catch(e) {
+      // On network/permission failure do not leave yesterday's figures styled
+      // as a fresh live operations snapshot.
+      setMetrics(null);
+      setDispatch(null);
+      setReport(null);
+      setActiveDrivers(null);
       setError(e instanceof Error ? e.message : 'تعذر تحديث البيانات');
     } finally {setLoading(false);}
   }, []);
@@ -193,7 +199,7 @@ export default function AdminCommandCenter() {
           const share=count === undefined || !metrics?.total
             ? 0 : Math.min(100,Math.max(0,Math.round((count/metrics.total)*100)));
           return <Link key={status} href={'/admin/bookings?status='+encodeURIComponent(status)}
-            className="vip-stage" aria-label={statusNames[status]+': '+(count===undefined?'غير متاح':count)+' حجز'}>
+            className="group vip-stage" aria-label={statusNames[status]+': '+(count===undefined?'غير متاح':count)+' حجز'}>
             <div className="flex items-center justify-between gap-2">
               <span className="vip-stage-sequence">{sequence}</span>
               <ArrowUpLeft className="h-4 w-4 text-[#87969a] transition-transform group-hover:-translate-x-0.5"/>
