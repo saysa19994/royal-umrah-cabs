@@ -16,7 +16,7 @@ test('routes use a genuine schematic and fare desk, not the homepage photographi
  assert.match(route,/\/booking\?route='\+route\.slug\+'&vehicle='\+vehicle\.slug/);
 });
 test('route index and SEO metadata remain intact, all eleven source routes keep real detail links',()=>{
- assert.match(page,/EXECUTIVE_ROUTES_DATA\.filter\(route=>route\.slug!=='riyadh-airport-transfer'\)\.map/);
+ assert.match(page,/EXECUTIVE_ROUTES_DATA\.filter\(route=>route\.slug!=='riyadh-airport-transfer'&&routeStatus\[route\.slug\]!==false\)\.map/);
  assert.match(page,/getLocalizedAlternates\(locale, '\/routes'\)/);
  assert.match(page,/const price=rates\[route\.slug\]\?\.camry/);
  assert.match(route,/route\.times\?\.\[locale\]/);
