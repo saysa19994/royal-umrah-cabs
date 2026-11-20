@@ -51,7 +51,7 @@ test('untranslated article versions stay accessible but do not enter search clus
 test('published blog inventory is covered by the editorial policy and actual fallback sources', () => {
   const { BLOG_NATIVE_ONLY_SLUGS, BLOG_FULLY_LOCALIZED_SLUGS } = loadBlogIndexability();
   const blogPosts = read('src/data/blog-posts.ts');
-  const published = [...blogPosts.matchAll(/slug:\\s*'([^']+)'/g)].map((m) => m[1]);
+  const published = [...blogPosts.matchAll(/slug:\s*'([^']+)'/g)].map((m) => m[1]);
   assert.deepEqual(
     [...BLOG_NATIVE_ONLY_SLUGS, ...BLOG_FULLY_LOCALIZED_SLUGS].sort(),
     published.sort(),
@@ -65,7 +65,7 @@ test('published blog inventory is covered by the editorial policy and actual fal
     for (const locale of ['ms', 'id', 'ur', 'fr', 'es', 'de', 'tr', 'hi']) {
       assert.match(
         read(`src/data/blog-content/${folder}/${locale}.ts`),
-        /\\.\\.\\.[A-Z_]+_CONTENT_EN/,
+        /\.\.\.[A-Z_]+_CONTENT_EN/,
         'Fallback content must stay noindex until fully translated'
       );
     }
