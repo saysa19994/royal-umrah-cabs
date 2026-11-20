@@ -4,6 +4,8 @@ import { Locale, getLocalizedAlternates } from '@/i18n/config';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { FleetAtelier } from '@/components/fleet/FleetAtelier';
 import { getDbVehiclesCached } from '@/lib/fleet-db';
+import { getDbPricesCached } from '@/lib/pricing-db';
+import { getSiteSettings } from '@/lib/settings';
 
 interface FleetPageProps {
   params: Promise<{
@@ -40,7 +42,11 @@ export default async function FleetPage(props: FleetPageProps) {
   const params = await props.params;
   const { locale } = params;
   const dict = getDictionary(locale);
-  const vehicles = await getDbVehiclesCached();
+  const [vehicles, rates, settings] = await Promise.all([
+    getDbVehiclesCached(),
+    getDbPricesCached(),
+    getSiteSettings(),
+  ]);
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://duyufalrahmanvip.com';
 
@@ -92,7 +98,12 @@ export default async function FleetPage(props: FleetPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema).replace(/</g, '\\u003c') }}
       />
-      <FleetAtelier vehicles={vehicles} locale={locale} />
+      <FleetAtelier
+        vehicles={vehicles}
+        rates={rates}
+        regions={{ taif: settings.taif_enabled, riyadh: settings.riyadh_enabled }}
+        locale={locale}
+      />
     </main>
   );
 }
