@@ -31,34 +31,37 @@ const L:Record<Locale,Copy>={
  tr:{heading:'Size özel yolculuk planı.',sub:'Rota seçin; tahmini süreyi, aracı ve geçerli ücreti görün.',choose:'Rota seçin',time:'Tahmini süre',distance:'Yaklaşık mesafe',fare:'Araç ücreti',type:'Özel transfer',book:'Yolculuk talep et',detail:'Rota ayrıntıları',cash:'Yolculuk sonrası nakit ödeme',unavailable:'Bu rotada yok',diagram:'Şematik çizgi, coğrafi harita değildir',step:'Varış noktası',routes:'Rota rehberi',note:'Süre ve mesafe tahminidir.',vehicle:'Araç'},
  hi:{heading:'अपनी यात्रा का स्पष्ट मार्ग।',sub:'मार्ग चुनें, अनुमानित समय, वाहन और किराया देखें।',choose:'मार्ग चुनें',time:'अनुमानित समय',distance:'लगभग दूरी',fare:'वाहन किराया',type:'निजी ट्रांसफर',book:'यात्रा अनुरोध करें',detail:'मार्ग विवरण',cash:'यात्रा के बाद नकद भुगतान',unavailable:'उपलब्ध नहीं',diagram:'मार्ग का चित्र, भौगोलिक नक्शा नहीं',step:'गंतव्य',routes:'मार्ग सूची',note:'समय और दूरी अनुमानित हैं।',vehicle:'वाहन'},
 };
-export function RouteNetworkDesk({locale,rates}:{locale:Locale;rates:TransferRatesMap}){
+export function RouteNetworkDesk({locale,rates,routeStatus}:{locale:Locale;rates:TransferRatesMap;routeStatus:Record<string,boolean>}){
  const t=L[locale],rtl=locale==='ar'||locale==='ur';const [index,setIndex]=useState(0),[car,setCar]=useState(0);
- const route=ACTIVE_ROUTES[index],vehicle=APPROVED_5_FLEET[car];
+ const visibleRoutes=ACTIVE_ROUTES.filter(item=>routeStatus[item.slug]!==false);
+ const effectiveIndex=visibleRoutes[index]?index:0;
+ const route=visibleRoutes[effectiveIndex],vehicle=APPROVED_5_FLEET[car];
+ if(!route)return <section className={styles.network} dir={rtl?'rtl':'ltr'} role="status"><h2>{t.heading}</h2><p>{t.unavailable}</p></section>;
  const pair=ENDS[route.slug]||['START','END'];
  const fare=rates[route.slug]?.[FARES[vehicle.slug]];
  const name=route.titles?.[locale]||route.titleEn;
  const fmt=new Intl.NumberFormat(locale==='ar'?'ar-SA':'en-US');
  const Arrow=rtl?ArrowLeft:ArrowRight;
  return <section className={styles.network} aria-label={t.heading} dir={rtl?'rtl':'ltr'}>
-   <div className={styles.networkHeading}><div><span>ROUTE CONTROL / 01—10</span><h2>{t.heading}</h2></div><p>{t.sub}</p></div>
+   <div className={styles.networkHeading}><div><span>ROUTE CONTROL / 01—{visibleRoutes.length}</span><h2>{t.heading}</h2></div><p>{t.sub}</p></div>
    <div className={styles.layout}>
     <div className={styles.directory}>
      <div className={styles.directoryHead}><span>{t.routes}</span><RouteIcon size={20} aria-hidden="true"/></div>
      <div className={styles.desktopRoutes} role="group" aria-label={t.choose}>
-       {ACTIVE_ROUTES.map((item,i)=><button type="button" key={item.slug}
-         aria-pressed={i===index} onClick={()=>{setIndex(i);setCar(0);}}>
+       {visibleRoutes.map((item,i)=><button type="button" key={item.slug}
+         aria-pressed={i===effectiveIndex} onClick={()=>{setIndex(i);setCar(0);}}>
          <span>{String(i+1).padStart(2,'0')}</span>
          <strong>{item.titles?.[locale]||item.titleEn}</strong>
        </button>)}
      </div>
      <label className={styles.mobileRoutes}><span>{t.choose}</span>
-       <select value={index} onChange={e=>{setIndex(Number(e.target.value));setCar(0);}}>
+       <select value={effectiveIndex} onChange={e=>{setIndex(Number(e.target.value));setCar(0);}}>
         {ACTIVE_ROUTES.map((item,i)=><option key={item.slug} value={i}>{item.titles?.[locale]||item.titleEn}</option>)}
        </select>
      </label>
     </div>
     <div className={styles.schematic}>
-     <div className={styles.schematicHead}><span>JOURNEY 0{index+1} / {ACTIVE_ROUTES.length}</span><span><MapPin size={15} aria-hidden="true"/>{t.type}</span></div>
+     <div className={styles.schematicHead}><span>JOURNEY 0{effectiveIndex+1} / {visibleRoutes.length}</span><span><MapPin size={15} aria-hidden="true"/>{t.type}</span></div>
      <div className={styles.routeDrawing} role="img" aria-label={t.diagram+': '+name}>
        <div className={styles.origin}><span>{pair[0]}</span><i/></div>
        <svg viewBox="0 0 500 120" preserveAspectRatio="none" aria-hidden="true">
@@ -67,7 +70,7 @@ export function RouteNetworkDesk({locale,rates}:{locale:Locale;rates:TransferRat
        </svg>
        <div className={styles.destination}><i/><span>{pair[1]}</span></div>
      </div>
-     <div className={styles.routeTitle}><span>{t.step} / 0{index+1}</span><h3>{name}</h3><p>{t.note}</p></div>
+     <div className={styles.routeTitle}><span>{t.step} / 0{effectiveIndex+1}</span><h3>{name}</h3><p>{t.note}</p></div>
      <dl className={styles.travellingFacts}>
        <div><dt><Clock3 size={15} aria-hidden="true"/>{t.time}</dt><dd>{route.times?.[locale]||route.timeEn}</dd></div>
        <div><dt><MapPin size={15} aria-hidden="true"/>{t.distance}</dt><dd>{route.distances?.[locale]||route.distanceEn}</dd></div>
