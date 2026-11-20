@@ -42,3 +42,13 @@ test('marketing CMS does not allow editing fares, approved operational terms, or
  assert.doesNotMatch(block,/['"]routes['"]|['"]faqs['"]|['"]ctaSubtitle['"]|['"]features['"]/);
  assert.match(helper,/heroTitle: cms\.h1 \|\| defaults\.heroTitle/);
 });
+
+test('Riyadh public hub never advertises inactive airport or unapproved payments',()=>{
+ const page=read('src/app/[locale]/services/riyadh/page.tsx');
+ const data=read('src/data/services-cities-data.ts');
+ const builder=data.slice(data.indexOf('export const RIYADH_SERVICE_DATA:'));
+ assert.match(builder,/features: source\.features\.filter\(\(_, idx\) => idx === 1 \|\| idx === 2\)/);
+ assert.match(builder,/\{ \.\.\.feature, desc: clean\.payment \}/);
+ assert.match(builder,/\.filter\(\(route\) => route\.id !== 'riyadh-airport-transfer'\)/);
+ assert.doesNotMatch(page,/RUH Airport Digital Meet & Greet|riyadh-airport-transfer/);
+});
