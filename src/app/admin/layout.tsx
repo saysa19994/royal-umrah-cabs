@@ -1,4 +1,5 @@
 import React from 'react';
+import '@/styles/admin-cinematic.css';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { AdminLayoutClient } from '@/components/admin/AdminLayoutClient';
