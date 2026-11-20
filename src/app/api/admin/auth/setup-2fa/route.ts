@@ -25,8 +25,22 @@ export async function POST(request: Request) {
     const supabase = createClient();
     const factors = await supabase.auth.mfa.listFactors();
     if (factors.error) return NextResponse.json({ error: 'Unable to verify current MFA enrollment' }, { status: 503, headers: noStore });
-    if (factors.data?.totp?.some(f => f.status === 'verified')) {
+    if (factors.data?.all?.some(f => f.factor_type === 'totp' && f.status === 'verified')) {
       return NextResponse.json({ error: 'A verified authenticator is already enrolled' }, { status: 409, headers: noStore });
+    }
+
+    // A TOTP setup key can be exposed or entered incorrectly. Always revoke
+    // unfinished TOTP factors in the signed-in account before generating a new
+    // one. Never attempt to unenroll verified factors at AAL1.
+    for (const factor of factors.data?.all || []) {
+      if (factor.factor_type !== 'totp' || factor.status !== 'unverified') continue;
+      const { error: removeError } = await supabase.auth.mfa.unenroll({ factorId: factor.id });
+      if (removeError) {
+        console.error('Unable to revoke unfinished MFA enrollment:', removeError.message);
+        return NextResponse.json({
+          error: 'Unable to revoke the previous unfinished authenticator. Contact the administrator.',
+        }, { status: 503, headers: noStore });
+      }
     }
 
     const enrolled = await supabase.auth.mfa.enroll({
@@ -38,14 +52,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Secure authenticator enrollment unavailable' }, { status: 503, headers: noStore });
     }
 
+    // Supabase returns the QR itself as SVG. Render it locally through an
+    // image data URI; never transmit the TOTP URI to an external QR service.
+    const qrCode = enrolled.data.totp.qr_code;
+    const qrImageUrl = typeof qrCode === 'string' && qrCode.startsWith('<svg')
+      ? 'data:image/svg+xml;base64,' + Buffer.from(qrCode, 'utf8').toString('base64')
+      : (typeof qrCode === 'string' && qrCode.startsWith('data:image/svg+xml;')
+        ? qrCode : null);
     return NextResponse.json({
       success: true,
       factorId: enrolled.data.id,
       secret: enrolled.data.totp.secret,
-      uri: enrolled.data.totp.uri,
-      qrPayload: enrolled.data.totp.uri,
-      qrImageUrl: null,
-      instructions: 'Enter this secret manually in your authenticator app, then confirm its six-digit code.',
+      qrImageUrl,
+      instructions: 'Scan the new QR in an authenticator app, use its current time-based six-digit code, and never share your QR or setup key.',
     }, { headers: noStore });
   } catch (err) {
     console.error('Supabase MFA enroll failed:', err);
@@ -76,7 +95,10 @@ export async function PUT(request: Request) {
     }
     const verification = await supabase.auth.mfa.verify({ factorId, challengeId: challenge.data.id, code });
     if (verification.error || !verification.data) {
-      return NextResponse.json({ error: 'Authenticator code could not be verified' }, { status: 400, headers: noStore });
+      // Do not log the code or the TOTP seed; expose a useful but generic error.
+      return NextResponse.json({
+        error: 'Code was rejected. Use the newest authenticator entry, check automatic phone date/time and enter a fresh six-digit code.',
+      }, { status: 400, headers: noStore });
     }
     const assurance = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
     if (assurance.error || assurance.data?.currentLevel !== 'aal2') {
