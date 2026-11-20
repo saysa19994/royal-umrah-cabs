@@ -87,7 +87,7 @@ export function RouteNetworkDesk({locale,rates}:{locale:Locale;rates:TransferRat
       <div className={styles.selectedFare} aria-live="polite"><span>{t.fare}</span>
        {typeof fare==='number'&&Number.isFinite(fare)&&fare>0?<strong>{fmt.format(fare)} <small>SAR</small></strong>:<strong className={styles.unavailable}>{t.unavailable}</strong>}
       </div>
-      {typeof fare==='number'&&Number.isFinite(fare)?<Link href={'/'+locale+'/booking?route='+route.slug+'&vehicle='+vehicle.slug+(route.slug.includes('ziyarat')?'&type=ziyarat':'&type=transfer')} className={styles.book}>{t.book}<Arrow size={18} aria-hidden="true"/></Link>:
+      {typeof fare==='number'&&Number.isFinite(fare)&&fare>0?<Link href={'/'+locale+'/booking?route='+route.slug+'&vehicle='+vehicle.slug+(route.slug.includes('ziyarat')?'&type=ziyarat':'&type=transfer')} className={styles.book}>{t.book}<Arrow size={18} aria-hidden="true"/></Link>:
        <p className={styles.noBook}>{t.unavailable}</p>}
       <p className={styles.cash}><ShieldCheck size={15} aria-hidden="true"/>{t.cash}</p>
     </aside>
