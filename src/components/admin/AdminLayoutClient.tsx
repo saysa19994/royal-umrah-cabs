@@ -82,7 +82,7 @@ export function AdminLayoutClient({ currentUser, children }: AdminLayoutClientPr
   return (
     <div
       dir={isRtl ? 'rtl' : 'ltr'}
-      className={`min-h-screen bg-[#0B0F17] text-[#F3F4F6] flex flex-col selection:bg-[#C9A24B]/20 selection:text-[#E6C773] antialiased ${
+      className={`vip-admin min-h-screen flex flex-col antialiased ${
         isRtl ? 'font-arabic' : 'font-sans'
       }`}
       style={{
@@ -119,14 +119,15 @@ export function AdminLayoutClient({ currentUser, children }: AdminLayoutClientPr
         />
 
         {/* PAGE CONTENT CONTAINER */}
-        <main className="flex-1 p-4 md:p-8 max-w-[1680px] w-full mx-auto">
+        <main className="vip-admin-main flex-1 w-full max-w-[1780px] mx-auto p-3 sm:p-5 lg:p-7"><div className="vip-legacy-content">
           {children}
+          </div>
         </main>
 
         {/* LUXURY EDITORIAL ENTERPRISE FOOTER */}
-        <footer className="border-t border-[#E3DFD5] py-4 px-6 md:px-8 bg-[#EFECE5] text-xs text-[#5C6B64] flex flex-col sm:flex-row items-center justify-between gap-3">
+        <footer className="vip-admin-footer border-t py-4 px-6 md:px-8 text-xs flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <span className="w-2 h-2 rounded-full bg-[#173D35] shadow-[0_0_8px_rgba(23,61,53,0.4)]" />
+            <span className="w-2 h-2 rounded-full bg-[#147b75]" />
             <span className="font-semibold text-[#173D35]">
               {lang === 'ar'
                 ? 'لوحة تحكم ضيوف الرحمن VIP • وصول آمن ومشفر'
