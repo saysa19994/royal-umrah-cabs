@@ -206,9 +206,9 @@ export default function SignatureFusionHomepage({ locale, rates, routeStatus, di
   }
 
   const scenes = [
-    { title: copy.arrival, description: copy.arrivalDetail, image: '/assets/homepage-v2/hero-poster.jpg' },
+    { title: copy.arrival, description: copy.arrivalDetail, image: '/assets/blueprint/routes/hero-arrival.webp' },
     { title: copy.cabin, description: copy.cabinDetail, image: '/assets/images/vehicles/hyundai-staria/interior.webp' },
-    { title: copy.destination, description: copy.destinationDetail, image: '/assets/images/routes/makkah-to-madinah.jpg' },
+    { title: copy.destination, description: copy.destinationDetail, image: '/assets/blueprint/routes/madinah-ziyarat.webp' },
   ];
   // Five owned/project photographs, curated as an editorial journey deck.
   // No duplicate section: these control the existing three journey chapters.
@@ -317,7 +317,7 @@ export default function SignatureFusionHomepage({ locale, rates, routeStatus, di
         </div>
         <div className={styles.storyFrame}>
           <div className={styles.storyImage} data-royal-story-frame>
-            <Image key={scenes[chapter].image} src={scenes[chapter].image} alt="" fill
+            <Image key={scenes[chapter].image} src={scenes[chapter].image} alt="" fill quality={87}
               sizes="(max-width:760px) 100vw, (max-width:1150px) 54vw, 37vw" className={styles.cover} />
             <div className={styles.storyImageShade} aria-hidden="true" />
             <div className={styles.storyImageCaption}>
@@ -457,7 +457,7 @@ export default function SignatureFusionHomepage({ locale, rates, routeStatus, di
       <RoyalGuestConfidence locale={locale} dict={dict} />
       <section className={styles.finish} aria-labelledby="royal-close-title">
         <div className={styles.finishImage} data-royal-image>
-          <Image src="/assets/images/reference/hero-gmc-saudi.jpg" alt="" fill sizes="(max-width: 760px) 100vw, 57vw" />
+          <Image src="/assets/images/cinematic/fleet/yukon-dark-studio.jpg" alt="" fill quality={88} sizes="(max-width: 760px) 100vw, 57vw" />
         </div>
         <div className={styles.finishCopy}>
           <h2 id="royal-close-title">{copy.closeTitle}</h2>
