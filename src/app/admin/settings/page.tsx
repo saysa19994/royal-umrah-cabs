@@ -669,7 +669,7 @@ export default function AdminSettingsPage() {
         <div className="flex items-center justify-end gap-3 pt-2">
           <button
             type="submit"
-            disabled={saving}
+            disabled={saving || loading || !settingsLoaded}
             className="px-8 py-3 rounded-xl bg-[#D9A031] hover:bg-[#B8821F] text-[#0D0F12] font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
