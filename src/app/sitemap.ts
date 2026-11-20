@@ -3,6 +3,7 @@ import { LOCALES, Locale, getLocalizedAlternates } from '@/i18n/config';
 import { ZIYARAT_SITES, ZIYARAT_TOURS, ZIYARAT_GUIDES } from '@/data/ziyarat';
 import { PILGRIM_COUNTRIES } from '@/data/pilgrims';
 import { BLOG_POSTS } from '@/data/blog-posts';
+import { getBlogLocalizedAlternates, hasIndexableBlogTranslation } from '@/lib/seo/blog-indexability';
 import { ROUTES_COMPREHENSIVE_DATA } from '@/data/routes-data';
 import { COMPREHENSIVE_GUIDES } from '@/data/comprehensive-guides';
 
@@ -37,7 +38,8 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
     '/cookies',
     '/guides',
     '/blog',
-    ...BLOG_POSTS.map((post) => `/blog/${post.slug}`),
+    ...BLOG_POSTS.filter((post) => hasIndexableBlogTranslation(post.slug, locale))
+      .map((post) => `/blog/${post.slug}`),
     '/ziyarat',
     '/ziyarat/makkah',
     '/ziyarat/madinah',
@@ -64,7 +66,8 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
   const eligibleGuides = nativeLongForm
     ? [...COMPREHENSIVE_GUIDES.map((g) => `/guides/${g.slug}`),
        '/guides/jeddah-airport-arrival-guide',
-       '/guides/malaysia-umrah-transport']
+       '/guides/malaysia-umrah-transport',
+       ...(locale === 'en' ? ['/guides/makkah-to-madinah-transport-comparison'] : [])]
     : [];
 
   // Dynamic Ziyarat Sites
@@ -126,6 +129,23 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
         en: `${baseUrl}/en${path}`,
         'x-default': `${baseUrl}/en${path}`,
       };
+    }
+
+    // The comparison guide currently has an English-only body, not an Arabic translation.
+    if (path === '/guides/makkah-to-madinah-transport-comparison') {
+      alternateLanguages = {
+        en: `${baseUrl}/en${path}`,
+        'x-default': `${baseUrl}/en${path}`,
+      };
+    }
+
+    // English-body fallback articles only participate in native AR/EN clusters.
+    if (path.startsWith('/blog/')) {
+      const slug = path.slice('/blog/'.length);
+      const blogAlternates = getBlogLocalizedAlternates(locale, slug);
+      if ('languages' in blogAlternates && blogAlternates.languages) {
+        alternateLanguages = blogAlternates.languages;
+      }
     }
 
     // Only link country pages that are actually published in each language.
