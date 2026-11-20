@@ -8,11 +8,11 @@ const about=read('src/app/[locale]/about/page.tsx');
 const pricing=read('src/app/[locale]/pricing/page.tsx');
 const ziyarat=read('src/app/[locale]/ziyarat/page.tsx');
 test('route page does not bury its live selector below ten duplicate scenic cards and a second fare matrix',()=>{
- assert.match(routes,/<RouteNetworkDesk locale=\{locale\}\s*\/>/);
+ assert.match(routes,/<RouteNetworkDesk locale=\{locale\} rates=\{rates\}\s*\/>/);
  assert.match(routes,/EXECUTIVE_ROUTES_DATA\.filter\(route=>route\.slug!=='riyadh-airport-transfer'\)\.map/);
  assert.doesNotMatch(routes,/<ExecutiveRouteCard/);
  assert.doesNotMatch(routes,/<PricingTable/);
- assert.match(routes,/AUTHORITATIVE_TRANSFER_RATES\[route\.slug\]\?\.camry/);
+ assert.match(routes,/rates\[route\.slug\]\?\.camry/);
  assert.match(routes,/\/routes\/'\+route\.slug/);
  assert.match(routes,/getLocalizedAlternates\(locale, '\/routes'\)/);
  assert.match(read('src/app/[locale]/routes/routes-overhaul.module.css'),/\.list\{list-style:none/);
