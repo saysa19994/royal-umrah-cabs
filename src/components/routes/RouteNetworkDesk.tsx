@@ -51,6 +51,7 @@ export function RouteNetworkDesk({locale,rates,routeStatus}:{locale:Locale;rates
  if(!route)return <section className={styles.network} dir={rtl?'rtl':'ltr'} role="status"><h2>{t.heading}</h2><p>{t.unavailable}</p></section>;
  const pair=ENDS[route.slug]||['START','END'];
  const fare=rates[route.slug]?.[FARES[vehicle.slug]];
+ const photoSource=ROUTE_PHOTOS[route.slug];
  const name=route.titles?.[locale]||route.titleEn;
  const fmt=new Intl.NumberFormat(locale==='ar'?'ar-SA':'en-US');
  const Arrow=rtl?ArrowLeft:ArrowRight;
@@ -75,9 +76,9 @@ export function RouteNetworkDesk({locale,rates,routeStatus}:{locale:Locale;rates
     <div className={styles.schematic}>
      <div className={styles.schematicHead}><span>JOURNEY 0{effectiveIndex+1} / {visibleRoutes.length}</span><span><MapPin size={15} aria-hidden="true"/>{t.type}</span></div>
      <div className={styles.routeDrawing} role="img" aria-label={t.diagram+': '+name}>
-       {ROUTE_PHOTOS[route.slug] && (
+       {photoSource && (
          <div className={styles.routePhoto} aria-hidden="true">
-           <Image key={route.slug} src={ROUTE_PHOTOS[route.slug]} alt="" fill
+           <Image key={route.slug} src={photoSource} alt="" fill
              sizes="(max-width: 700px) 100vw, (max-width: 950px) 58vw, 35vw" />
          </div>
        )}
