@@ -87,3 +87,13 @@ test('all official homepage route curtains use vetted high-resolution route WebP
  assert.match(routeMedia,/image: sharpEditorialPhotos\[route\.id\] \|\| media \+ route\.image/);
  assert.match(home,/route === item\.id \? "\(max-width:760px\) 100vw/);
 });
+
+test('all executive route gallery file paths exist, including GMC Yukon XL',()=>{
+ const routeData=read('src/data/executive-routes-data.ts');
+ assert.doesNotMatch(routeData,/\/assets\/images\/vehicles\/gmc-yukon\//);
+ const assetPaths=[...routeData.matchAll(/['"]((?:\/assets\/)[^'"]+?\.(?:webp|jpg|jpeg|png|avif))['"]/g)].map(x=>x[1]);
+ for(const file of [...new Set(assetPaths)]) {
+  assert.ok(existsSync(new URL('../public'+file,import.meta.url)),file);
+ }
+ assert.ok(assetPaths.some(x=>x.includes('gmc-yukon-xl/')));
+});
