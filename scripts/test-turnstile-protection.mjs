@@ -214,3 +214,19 @@ test('Real Turnstile helper blocks public dummy keys in deployed environments', 
     }
   }
 });
+
+test('Turnstile fallback links to localized reservations for all 10 supported languages', async () => {
+  const { readFileSync } = await import('node:fs');
+  const widget = readFileSync(new URL('../src/components/common/TurnstileWidget.tsx', import.meta.url), 'utf8');
+  const locales = ['ar', 'en', 'ms', 'id', 'ur', 'fr', 'es', 'de', 'tr', 'hi'];
+
+  for (const name of ['UNAVAILABLE_MESSAGES', 'CONTACT_RESERVATIONS_LABELS']) {
+    const section = widget.match(new RegExp(`const ${name}: Record<Locale, string> = \\{([\\s\\S]*?)\\n\\};`));
+    assert.ok(section, `${name} fallback messages must be defined`);
+    for (const locale of locales) {
+      assert.match(section[1], new RegExp(`(?:^|\\n)\\s*${locale}:\\s*'`), `${name} must include ${locale}`);
+    }
+  }
+  assert.match(widget, /href=\\{\`\\/\\$\\{.*\\}\\/contact\`\\}/);
+  assert.match(widget, /role="alert"/);
+});
