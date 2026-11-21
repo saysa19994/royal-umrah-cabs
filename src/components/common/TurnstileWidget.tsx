@@ -68,6 +68,34 @@ const ERROR_MESSAGES: Record<Locale, string> = {
   hi: 'सुरक्षा सत्यापन विफल रहा। कृपया पुन: प्रयास करें।',
 };
 
+// Keep visitors able to reach reservations when Turnstile is not configured.
+// This link uses the existing localized contact page and its current WhatsApp routing.
+const UNAVAILABLE_MESSAGES: Record<Locale, string> = {
+  ar: 'خدمة التحقق الأمني غير متاحة حاليًا، ولذلك لا يمكن إرسال طلب الحجز من النموذج الآن.',
+  en: 'Security verification is temporarily unavailable, so this booking form cannot be submitted right now.',
+  ms: 'Pengesahan keselamatan tidak tersedia buat sementara waktu. Borang tempahan ini belum boleh dihantar.',
+  id: 'Verifikasi keamanan untuk sementara tidak tersedia. Formulir pemesanan belum dapat dikirim.',
+  ur: 'سیکیورٹی تصدیق عارضی طور پر دستیاب نہیں ہے، اس لیے ابھی بکنگ فارم نہیں بھیجا جا سکتا۔',
+  fr: 'La vérification de sécurité est temporairement indisponible. Ce formulaire ne peut pas être envoyé pour le moment.',
+  es: 'La verificación de seguridad no está disponible temporalmente. No se puede enviar este formulario ahora.',
+  de: 'Die Sicherheitsprüfung ist vorübergehend nicht verfügbar. Das Buchungsformular kann derzeit nicht gesendet werden.',
+  tr: 'Güvenlik doğrulaması geçici olarak kullanılamıyor. Rezervasyon formu şu anda gönderilemiyor.',
+  hi: 'सुरक्षा सत्यापन अस्थायी रूप से उपलब्ध नहीं है, इसलिए अभी यह बुकिंग फ़ॉर्म भेजा नहीं जा सकता।',
+};
+
+const CONTACT_RESERVATIONS_LABELS: Record<Locale, string> = {
+  ar: 'تواصل مع فريق الحجوزات',
+  en: 'Contact reservations',
+  ms: 'Hubungi pasukan tempahan',
+  id: 'Hubungi tim reservasi',
+  ur: 'بکنگ ٹیم سے رابطہ کریں',
+  fr: 'Contacter les réservations',
+  es: 'Contactar con reservas',
+  de: 'Reservierungsteam kontaktieren',
+  tr: 'Rezervasyon ekibiyle iletişime geçin',
+  hi: 'बुकिंग टीम से संपर्क करें',
+};
+
 export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetProps>(
   ({ onSuccess, onVerify, onExpire, onError, locale = 'en', theme = 'auto', className = '' }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -221,11 +249,17 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetRef, TurnstileWidgetPro
         {siteKey ? (
           <div ref={containerRef} />
         ) : (
-          <p role="alert" className="max-w-md text-center text-sm text-rose-700">
-            {locale === 'ar'
-              ? 'خدمة التحقق الأمني غير متاحة حاليًا. يرجى التواصل مع فريق الحجوزات عبر واتساب.'
-              : 'Security verification is temporarily unavailable. Please contact our reservations team on WhatsApp.'}
-          </p>
+          <div role="alert" className="flex w-full max-w-md flex-col items-center gap-3 text-center">
+            <p className="text-sm text-rose-700">
+              {UNAVAILABLE_MESSAGES[locale as Locale] || UNAVAILABLE_MESSAGES.en}
+            </p>
+            <a
+              href={`/${Object.prototype.hasOwnProperty.call(CONTACT_RESERVATIONS_LABELS, locale) ? locale : 'en'}/contact`}
+              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[#1C4148] px-5 py-3 text-sm font-semibold text-white hover:bg-[#2C535B] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C4148]"
+            >
+              {CONTACT_RESERVATIONS_LABELS[locale as Locale] || CONTACT_RESERVATIONS_LABELS.en}
+            </a>
+          </div>
         )}
         {statusMessage && (
           <p role="alert" aria-live="polite" className="max-w-md text-center text-xs text-rose-700">
