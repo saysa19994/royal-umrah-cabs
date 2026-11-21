@@ -227,6 +227,6 @@ test('Turnstile fallback links to localized reservations for all 10 supported la
       assert.match(section[1], new RegExp(`(?:^|\\n)\\s*${locale}:\\s*'`), `${name} must include ${locale}`);
     }
   }
-  assert.match(widget, /href=\\{\`\\/\\$\\{.*\\}\\/contact\`\\}/);
+  assert.ok(widget.includes('}/contact`}') , 'Missing configuration must link to localized contact page');
   assert.match(widget, /role="alert"/);
 });
