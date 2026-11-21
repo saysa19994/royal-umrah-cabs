@@ -251,3 +251,34 @@ html[data-theme="dark"] .section[dir=rtl] .tabs button.selected{box-shadow:inset
 @media(prefers-reduced-motion:reduce){
  .tabs button{transition:none!important;}
 }
+
+
+/* Screenshot-driven media clarity fixes (2026-11-21):
+   Portrait scenes are sourced from 1600px+ originals; do not enlarge
+   the tiny horizontal Mercedes photo into a portrait support panel. */
+.media[data-service-id="group-travel"] {
+  background:linear-gradient(145deg,#e6ecea,#c7d4d1);
+}
+.media[data-service-id="group-travel"] .photo {
+  object-fit:contain;
+  object-position:center;
+}
+.mobileScene[data-service-id="group-travel"] {
+  background:linear-gradient(150deg,#d9e3df,#aabfba);
+}
+.mobileScene[data-service-id="group-travel"] .mobileScenePhoto {
+  object-fit:contain;
+  object-position:center;
+}
+.media[data-service-id="24-7-support"] .photo,
+.mobileScene[data-service-id="24-7-support"] .mobileScenePhoto {
+  object-position:center 38%;
+}
+.media[data-service-id="airport-transfer"] .photo,
+.mobileScene[data-service-id="airport-transfer"] .mobileScenePhoto {
+  object-position:center 42%;
+}
+/* Do not zoom in already-cropped compositions on image change. */
+@media(prefers-reduced-motion:reduce) {
+  .photo,.mobileScenePhoto{animation:none!important;transform:none!important;}
+}

@@ -3,6 +3,24 @@ import { LOCALIZED_ROUTE_NAMES } from '@/lib/pricing-constants';
 
 const media = '/assets/images/routes/';
 
+// 1600px responsive WebP editorial scenes selected from approved, existing
+// project route photography. Images support, but never replace, live route
+// identifiers, fares or administrator-controlled availability.
+const sharpEditorialPhotos: Record<string, string> = {
+  'jeddah-airport-to-makkah': '/assets/blueprint/routes/jeddah-makkah.webp',
+  'makkah-to-madinah': '/assets/blueprint/routes/makkah-madinah.webp',
+  'jeddah-airport-to-madinah': '/assets/blueprint/routes/hero-arrival.webp',
+  'makkah-to-taif': '/assets/blueprint/routes/makkah-taif.webp',
+  'riyadh-to-makkah': '/assets/blueprint/blog/riyadh-to-makkah-private-transfer.webp',
+  'riyadh-to-madinah': '/assets/blueprint/routes/makkah-madinah.webp',
+  'madinah-airport-to-hotel': '/assets/blueprint/routes/hero-arrival.webp',
+  'jeddah-to-madinah': '/assets/blueprint/routes/makkah-madinah.webp',
+  'jeddah-to-taif': '/assets/blueprint/routes/makkah-taif.webp',
+  'makkah-to-jeddah-airport': '/assets/blueprint/routes/jeddah-makkah.webp',
+  'madinah-to-makkah': '/assets/blueprint/routes/makkah-madinah.webp',
+  'taif-to-makkah': '/assets/blueprint/routes/makkah-taif.webp',
+};
+
 export const ROYAL_HOME_ROUTES = [
   { id: 'jeddah-airport-to-makkah', origin: 'jed-airport', image: 'jeddah-airport-to-makkah.jpg', code: 'JED / MKK', featured: true },
   { id: 'makkah-to-madinah', origin: 'makkah', image: 'makkah-to-madinah.jpg', code: 'MKK / MED', featured: true },
@@ -34,7 +52,7 @@ export function getRoyalHomeRoute(route: (typeof ROYAL_HOME_ROUTES)[number], loc
     ...route,
     pickup,
     destination,
-    image: media + route.image,
+    image: sharpEditorialPhotos[route.id] || media + route.image,
     name: pickup + (locale === 'ar' || locale === 'ur' ? ' ← ' : ' → ') + destination,
   };
 }

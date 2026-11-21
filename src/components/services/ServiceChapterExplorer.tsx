@@ -66,8 +66,8 @@ export function ServiceChapterExplorer({locale,services}:{locale:Locale;services
     {services.map((item,index)=>{
       const Arrow=rtl?ArrowLeft:ArrowRight;
       const SceneIcon=ICONS[index]||Plane;
-      return <article className={styles.mobileScene} key={item.id} aria-label={t.names[index]}>
-        <Image src={item.image} fill sizes="(max-width:760px) 90vw, 1px"
+      return <article className={styles.mobileScene} data-service-id={item.id} key={item.id} aria-label={t.names[index]}>
+        <Image src={item.image} fill sizes="(max-width:760px) 90vw, 1px" quality={87}
           alt="" className={styles.mobileScenePhoto}/>
         <div className={styles.mobileSceneTint} aria-hidden="true"/>
         <div className={styles.mobileSceneTop}>
@@ -105,9 +105,9 @@ export function ServiceChapterExplorer({locale,services}:{locale:Locale;services
    </div>
    <article className={styles.stage} id="service-chapter-panel" role="tabpanel"
     aria-labelledby={'service-tab-'+active} tabIndex={0}>
-    <div className={styles.media}>
-     <Image key={service.image} src={service.image} alt={t.names[active]}
-      fill sizes="(max-width:800px) 100vw, (max-width:1150px) 55vw, 710px" className={styles.photo}/>
+    <div className={styles.media} data-service-id={service.id}>
+     <Image key={service.image} src={service.image} alt={t.names[active]} quality={88}
+      fill sizes="(max-width:760px) 90vw, (max-width:1119px) 60vw, 35vw" className={styles.photo}/>
      <span className={styles.photoNum}>{String(active+1).padStart(2,'0')} / 06</span>
      <span className={styles.availability}>24/7</span>
      <span className={styles.photoCaption}><Icon size={16} aria-hidden="true"/>{t.names[active]}</span>
